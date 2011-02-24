@@ -35,14 +35,9 @@ import account.Account;
  *
  * @author Eugene Stahov 
  */
-public class StaticData {
-    
-    
-    
-    private static StaticData sd;
-    
-    public Roster roster = null;
-    
+public class StaticData {    
+    private static StaticData sd;    
+    public Roster roster;    
     public Account account;
 
 //#ifdef AUTOTASK
@@ -50,31 +45,37 @@ public class StaticData {
 //#endif
     
 //#ifdef FILE_IO
-    public String previousPath="";
+    public String previousPath = "";
 //#endif
-    
    
-    public long traffic = 0;
-    
+    public long traffic = 0;    
     private long trafficOut;
     private long trafficIn;
 
-    public void updateTrafficIn() { 
-        trafficIn=System.currentTimeMillis();
-    }
-    public long getTrafficIn() { return trafficIn; }
-    public void updateTrafficOut() { 
-        trafficOut=System.currentTimeMillis();
-    }
-    public long getTrafficOut() { return trafficOut; }
+    private StaticData() {
     
-    /** Creates a new instance of StaticData */
-    private StaticData() { }
+    }
     
-    public static StaticData getInstance(){
-        if (sd==null) 
-            sd=new StaticData();
+    public static StaticData getInstance() {
+        if (sd == null) 
+            sd = new StaticData();
         return sd;
+    }
+    
+    public void updateTrafficIn() { 
+        trafficIn = System.currentTimeMillis();
+    }
+
+    public long getTrafficIn() {
+        return trafficIn;
+    }
+
+    public void updateTrafficOut() { 
+        trafficOut = System.currentTimeMillis();
+    }
+
+    public long getTrafficOut() {
+        return trafficOut;
     }
 
 //#ifdef PLUGINS

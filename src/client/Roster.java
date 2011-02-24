@@ -209,7 +209,9 @@ public class Roster
     private static MessageEdit altmessageEdit;
     private static ActiveContacts activeContacts = null;
     private static RosterItemActions userActions = null;
-    public static SelectPEP selectPEP = null;
+//#ifdef PEP  
+//#     public static SelectPEP selectPEP = null;
+//#endif  
     
     public void showUserActions(Displayable pView, Object obj, int index){
         userActions.showActions(pView,obj, index);
@@ -276,7 +278,9 @@ public class Roster
         message.MessageParser.restart();
         if(activeContacts == null) activeContacts = new ActiveContacts(display, this);
         if(userActions == null) userActions = new RosterItemActions(display, this);
-        if(selectPEP == null) selectPEP = new SelectPEP(display); 
+//#ifdef PEP
+//#         if(selectPEP == null) selectPEP = new SelectPEP(display);
+//#endif
 
         midlet.BombusQD.getInstance().s.setExit(display, this);
 //#ifdef AUTOSTATUS
@@ -1916,102 +1920,102 @@ public class Roster
     
 
 
-//#if FILE_IO && HISTORY
-//#     public void cashePhoto(VCard vcard,Contact c){
-//#        if(vcard.getPhoto()==null) return;
-//#         StringBuffer nickDate=new StringBuffer(0);
-//#         if (c instanceof MucContact){
-//#            nickDate.append("muc_"+c.getNick());
-//#         }else{
-//#            nickDate.append("roster_"+c.bareJid);           
-//#         }
-//#        String filename = StringUtils.replaceBadChars(nickDate.toString());
-//#        nickDate=null;
-//#        OutputStream os;
-//#         try {
-//#             FileIO file=FileIO.createConnection(midlet.BombusQD.cf.msgAvatarPath+filename+vcard.getFileType());
-//#             os = file.openOutputStream(0);
-//#             os.write(vcard.getPhoto());
-//#             os.close();
-//#             os.flush();
-//#             file.close();
-//#             file=null;
-//#         } catch (IOException ex) { }       
-//#     }
-//#     
-//#     private synchronized void loadAvatar(String from, boolean mucContactItem) {
-//#         /*
-//#          1.check avaliable image formats
-//#          2.resize loaded image
-//#          3.apply image to selected contact
-//#          */
-//#         Contact c = getContact(from, true);
-//#         if(c.hasPhoto) return;
-//#         
-//#         Image photoImg;
-//#         FileIO f;
-//#         String filename;
-//#         StringBuffer buffer;
-//#         byte[] b;
-//#         int len = -1;
-//#         
-//#         
-//#         buffer = new StringBuffer(0);
-//#         if (mucContactItem) {
-//#             buffer.append("muc_");
-//#             buffer.append(c.getNick());
-//#         } else {
-//#             buffer.append("roster_");
-//#             buffer.append(c.bareJid);
-//#         }
-//#         filename = StringUtils.replaceBadChars(buffer.toString());
-//#         try {   
-//#             f = FileIO.createConnection(midlet.BombusQD.cf.msgAvatarPath + filename + ".jpg");
-//#             b = f.fileRead();
-//#             len = b.length;
-//#             //errorLog("AVATAR " + filename + ".jpg MUC:" + mucContactItem); //send to self-contact
-//#         } catch (Exception ex) {
-//#             try {
-//#                  f = FileIO.createConnection(midlet.BombusQD.cf.msgAvatarPath + filename + ".png");
-//#                  b = f.fileRead();
-//#                  len = b.length;
-//#                  //errorLog("AVATAR " + filename + ".png MUC:" + mucContactItem);
-//#             } catch (Exception expng) { 
-//#                try {
-//#                  f = FileIO.createConnection(midlet.BombusQD.cf.msgAvatarPath + filename + ".gif");
-//#                  b = f.fileRead();
-//#                  len = b.length;
-//#                  //errorLog("AVATAR " + filename + ".gif MUC:" + mucContactItem);
-//#                } catch (Exception exgif) { f = null; }
-//#             }
-//#         }
-//#         
-//#         if(null == f) return;
-//#           try {
-//#               b = f.fileRead();
-//#               len = b.length;
-//#               photoImg=Image.createImage(b, 0, len);
-//#               int newW=photoImg.getWidth();
-//#               int newH=photoImg.getHeight();
-//#                 while(newW > midlet.BombusQD.cf.maxAvatarWidth || newH > midlet.BombusQD.cf.maxAvatarHeight){
-//#                   newW -= (newW*10)/100;
-//#                   newH -= (newH*10)/100;
-//#                 } 
-//#               c.img_vcard = resizeImage(photoImg,newW,newH);
-//#               c.avatar_width=newW;
-//#               c.avatar_height=newH;
-//#               //errorLog("AVATAR APPLY: " + photoImg + "(" + c.img_vcard + ")");
-//#               f.close();
-//#               f = null;
-//#           } catch(OutOfMemoryError eom) {
-//#               errorLog("AVATAR OutOfMemoryError " + filename);
-//#           } catch (Exception e) {
-//#               errorLog("AVATAR Exception " + filename);
-//#           }
-//#         
-//#         photoImg = null;
-//#         buffer = new StringBuffer(0);
-//#     }
+//#if FILE_IO
+    public void cashePhoto(VCard vcard,Contact c){
+       if(vcard.getPhoto()==null) return;
+        StringBuffer nickDate=new StringBuffer(0);
+        if (c instanceof MucContact){
+           nickDate.append("muc_"+c.getNick());
+        }else{
+           nickDate.append("roster_"+c.bareJid);           
+        }
+       String filename = StringUtils.replaceBadChars(nickDate.toString());
+       nickDate=null;
+       OutputStream os;
+        try {
+            FileIO file=FileIO.createConnection(midlet.BombusQD.cf.msgAvatarPath+filename+vcard.getFileType());
+            os = file.openOutputStream(0);
+            os.write(vcard.getPhoto());
+            os.close();
+            os.flush();
+            file.close();
+            file=null;
+        } catch (IOException ex) { }       
+    }
+    
+    private synchronized void loadAvatar(String from, boolean mucContactItem) {
+        /*
+         1.check avaliable image formats
+         2.resize loaded image
+         3.apply image to selected contact
+         */
+        Contact c = getContact(from, true);
+        if(c.hasPhoto) return;
+        
+        Image photoImg;
+        FileIO f;
+        String filename;
+        StringBuffer buffer;
+        byte[] b;
+        int len = -1;
+        
+        
+        buffer = new StringBuffer(0);
+        if (mucContactItem) {
+            buffer.append("muc_");
+            buffer.append(c.getNick());
+        } else {
+            buffer.append("roster_");
+            buffer.append(c.bareJid);
+        }
+        filename = StringUtils.replaceBadChars(buffer.toString());
+        try {   
+            f = FileIO.createConnection(midlet.BombusQD.cf.msgAvatarPath + filename + ".jpg");
+            b = f.fileRead();
+            len = b.length;
+            //errorLog("AVATAR " + filename + ".jpg MUC:" + mucContactItem); //send to self-contact
+        } catch (Exception ex) {
+            try {
+                 f = FileIO.createConnection(midlet.BombusQD.cf.msgAvatarPath + filename + ".png");
+                 b = f.fileRead();
+                 len = b.length;
+                 //errorLog("AVATAR " + filename + ".png MUC:" + mucContactItem);
+            } catch (Exception expng) { 
+               try {
+                 f = FileIO.createConnection(midlet.BombusQD.cf.msgAvatarPath + filename + ".gif");
+                 b = f.fileRead();
+                 len = b.length;
+                 //errorLog("AVATAR " + filename + ".gif MUC:" + mucContactItem);
+               } catch (Exception exgif) { f = null; }
+            }
+        }
+        
+        if(null == f) return;
+          try {
+              b = f.fileRead();
+              len = b.length;
+              photoImg=Image.createImage(b, 0, len);
+              int newW=photoImg.getWidth();
+              int newH=photoImg.getHeight();
+                while(newW > midlet.BombusQD.cf.maxAvatarWidth || newH > midlet.BombusQD.cf.maxAvatarHeight){
+                  newW -= (newW*10)/100;
+                  newH -= (newH*10)/100;
+                } 
+              c.img_vcard = resizeImage(photoImg,newW,newH);
+              c.avatar_width=newW;
+              c.avatar_height=newH;
+              //errorLog("AVATAR APPLY: " + photoImg + "(" + c.img_vcard + ")");
+              f.close();
+              f = null;
+          } catch(OutOfMemoryError eom) {
+              errorLog("AVATAR OutOfMemoryError " + filename);
+          } catch (Exception e) {
+              errorLog("AVATAR Exception " + filename);
+          }
+        
+        photoImg = null;
+        buffer = new StringBuffer(0);
+    }
 //#endif      
     
     
@@ -2129,10 +2133,10 @@ public class Roster
 //#if METACONTACTS
 //#endif
                                 if(c==null) c=getContact(data.getAttribute("from"), true);
-//#if FILE_IO && HISTORY
-//#                                 if(midlet.BombusQD.cf.autoSaveVcard) {
-//#                                     cashePhoto(vc,c);
-//#                                 }
+//#if FILE_IO
+                                if(midlet.BombusQD.cf.autoSaveVcard) {
+                                    cashePhoto(vc,c);
+                                }
 //#endif  
                                 c.hasPhoto=true;
                                 setImageAvatar(c,photoImg);
@@ -3819,8 +3823,10 @@ public class Roster
             VirtualList.fullscreen=midlet.BombusQD.cf.fullscreen;
             midlet.BombusQD.sd.roster.setFullScreenMode(midlet.BombusQD.cf.fullscreen);
         }
+//#ifdef SERVICE_DISCOVERY
         else if (keyCode==KEY_NUM7 && isLoggedIn())
-	    new ServiceDiscovery(display, null, null, false);
+            new ServiceDiscovery(display, null, null, false);
+//#endif
         else if (keyCode==KEY_NUM9) {
             if (midlet.BombusQD.cf.allowMinimize)
                 BombusQD.getInstance().hideApp(true,null);

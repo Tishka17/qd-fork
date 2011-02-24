@@ -533,7 +533,9 @@ public class ServiceDiscovery
             redraw();
         }
         } catch (Exception ex) { 
-            midlet.BombusQD.debug.add("ServiceDiscovery exception(" + ex.getMessage() + ")",10);
+//#ifdef CONSOLE
+//#             midlet.BombusQD.debug.add("ServiceDiscovery exception(" + ex.getMessage() + ")",10);
+//#endif
         }
     }
     
@@ -666,9 +668,11 @@ public class ServiceDiscovery
                     case MenuIcons.ICON_USER_SEARCH:
                         new DiscoSearchForm(display, view , null , -1);
                         break;
+//#ifdef PRIVACY
                     case MenuIcons.ICON_PRIVACY:
                         new privacy.PrivacySelect(display, view);
                         break;
+//#endif
                     case MenuIcons.ICON_FT:
                         new io.file.transfer.TransferManager(display);
                         break;

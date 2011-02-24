@@ -126,10 +126,12 @@ public class StatusSelect
     
     private boolean selectAdvancedStatus() {
        ExtendedStatus ex = (ExtendedStatus)getFocusedObject();
-       if(-1 != ex.getName().indexOf("pep")) {
-          midlet.BombusQD.sd.roster.selectPEP.show(this, ex.usermood);
-          return true;
-       }
+//#ifdef PEP
+//#        if(-1 != ex.getName().indexOf("pep")) {
+//#           midlet.BombusQD.sd.roster.selectPEP.show(this, ex.usermood);
+//#           return true;
+//#        }
+//#endif
        return false;
     }
     

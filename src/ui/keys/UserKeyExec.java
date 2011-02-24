@@ -40,9 +40,9 @@
 //#endif
 //#ifdef SERVICE_DISCOVERY
 //# import disco.ServiceDiscovery;
+//#endif
 //#ifdef STATS
 //# import stats.StatsWindow;
-//#endif
 //#endif
 //# import java.util.Enumeration;
 //# import java.util.Vector;

@@ -278,11 +278,13 @@ public final class Bookmarks
         if (keyCode==KEY_NUM6){
             pageRight();
         }
-        if (keyCode==KEY_POUND){
-           new ServiceDiscovery(display, ((BookmarkItem)getFocusedObject()).getJid() , null, false);
-        } else{
-           super.keyPressed(keyCode);
+//#ifdef SERVICE_DISCOVERY
+        if (keyCode==KEY_POUND) {
+            new ServiceDiscovery(display, ((BookmarkItem)getFocusedObject()).getJid() , null, false);
+            return;
         }
+//#endif
+        super.keyPressed(keyCode);
     }
     
     protected void keyClear(){

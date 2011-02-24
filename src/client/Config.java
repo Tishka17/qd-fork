@@ -45,7 +45,9 @@ import ui.Time;
 import ui.VirtualList;
 import io.NvStorage;
 import menu.MenuListener;
-import stats.Stats;
+//#ifdef STATS
+//# import stats.Stats;
+//#endif
 
 /**
  *
@@ -541,9 +543,13 @@ public class Config {
             useBoldFont=inputStream.readBoolean();
             
             IQNotify=inputStream.readBoolean(); //IRC_LIKE
-            sndrcvmood=inputStream.readBoolean(); 
+//#ifdef PEP
+//#             sndrcvmood=inputStream.readBoolean();
+//#endif
             useClipBoard=inputStream.readBoolean();
-            rcvtune=inputStream.readBoolean();  
+//#ifdef PEP
+//#             rcvtune=inputStream.readBoolean();
+//#endif
             autoDeTranslit=inputStream.readBoolean();
             showClientIcon=inputStream.readBoolean();
             executeByNum=inputStream.readBoolean();
@@ -570,7 +576,9 @@ public class Config {
     protected void loadBoolean_(){
         DataInputStream inputStream=NvStorage.ReadFileRecord("confBoolean_", 0);
 	try {
-            rcvactivity=inputStream.readBoolean();
+//#ifdef PEP
+//#             rcvactivity=inputStream.readBoolean();
+//#endif
             oldSE=inputStream.readBoolean();
             showTimeTraffic=inputStream.readBoolean();
             useLowMemory_msgedit=inputStream.readBoolean();
@@ -793,9 +801,13 @@ public class Config {
             outputStream.writeBoolean(useBoldFont);//40
             
             outputStream.writeBoolean(IQNotify); //IRC_LIKE
-            outputStream.writeBoolean(sndrcvmood); 
+//#ifdef PEP
+//#             outputStream.writeBoolean(sndrcvmood); 
+//#endif
             outputStream.writeBoolean(useClipBoard);
-            outputStream.writeBoolean(rcvtune);  
+//#ifdef PEP
+//#             outputStream.writeBoolean(rcvtune);
+//#endif
             outputStream.writeBoolean(autoDeTranslit);
             outputStream.writeBoolean(showClientIcon);
             outputStream.writeBoolean(executeByNum);
@@ -815,7 +827,9 @@ public class Config {
    public boolean saveBoolean_(){
        	DataOutputStream outputStream=NvStorage.CreateDataOutputStream();
 	try {
-            outputStream.writeBoolean(rcvactivity);
+//#ifdef PEP
+//#             outputStream.writeBoolean(rcvactivity);
+//#endif
             outputStream.writeBoolean(oldSE);
             outputStream.writeBoolean(showTimeTraffic);
             outputStream.writeBoolean(useLowMemory_msgedit);
@@ -989,7 +1003,7 @@ public class Config {
     public static String platformName;
     public byte phoneManufacturer=NOT_DETECTED;
     
-    private final void getPhoneManufacturer() {
+    private void getPhoneManufacturer() {
         if (phoneManufacturer==NOT_DETECTED) {
             platformName();
             //String platform=getPlatformName();

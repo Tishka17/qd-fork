@@ -147,13 +147,15 @@ public class InfoWindow
            };
            itemsList.addElement(name);
         }
-        
-        name = new LinkString(SR.get(SR.MS_STATS)){ 
-             public void doAction() { 
-                 new stats.StatsWindow(midlet.BombusQD.getInstance().display);
-             }
-        };
-        itemsList.addElement(name);
+
+//#ifdef STATS
+//#         name = new LinkString(SR.get(SR.MS_STATS)){ 
+//#              public void doAction() { 
+//#                  new stats.StatsWindow(midlet.BombusQD.getInstance().display);
+//#              }
+//#         };
+//#         itemsList.addElement(name);
+//#endif
 
         /*
         itemsList.addElement(new LinkString("Create NullPointer") { 

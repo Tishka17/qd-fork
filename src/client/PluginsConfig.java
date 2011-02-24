@@ -573,9 +573,11 @@ public class PluginsConfig extends DefForm implements MenuListener
           //String type = touchLeftCommand();
           String type=getFocusedObject().toString();
           if(touchLeftCommand()=="") return;
-          if(type==SR.get(SR.MS_hotkeysStr)){
-           display.setCurrent(new ui.keys.UserKeysList(display));
-          }
+//#ifdef USER_KEYS
+//#           if(type==SR.get(SR.MS_hotkeysStr)){
+//#            display.setCurrent(new ui.keys.UserKeysList(display));
+//#           }
+//#endif
           else if(type==SR.get(SR.MS_COLOR_TUNE)){
            display.setCurrent(new colors.ColorConfigForm(display, this));
           }         
@@ -752,8 +754,10 @@ public class PluginsConfig extends DefForm implements MenuListener
                    if(midlet.BombusQD.cf.userAppLevel == 1) {
 //#ifdef FILE_TRANSFER
                      itemsList.addElement(fileTransfer);
-//#endif                         
-                     itemsList.addElement(adhoc);
+//#endif
+//#ifdef ADHOC
+//#                      itemsList.addElement(adhoc);
+//#endif
                    }
 
          } 
@@ -978,7 +982,11 @@ public class PluginsConfig extends DefForm implements MenuListener
 //#ifdef FILE_TRANSFER
             if(null != fileTransfer) cf.fileTransfer=fileTransfer.getValue();
 //#endif
-            if(null != adhoc) cf.adhoc=adhoc.getValue(); 
+//#ifdef ADHOC
+//#             if(null != adhoc) {
+//#                 cf.adhoc=adhoc.getValue();
+//#             }
+//#endif
             EntityCaps.initCaps();
             
          } 

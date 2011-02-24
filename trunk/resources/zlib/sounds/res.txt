@@ -1,0 +1,7 @@
+//type	path	desc
+tone		tone sequence
+none		none
+audio/midi	/sounds/chat.mid	chat.mid
+audio/midi	/sounds/tuk.mid	tuk.mid
+audio/midi	/sounds/message.mid	message.mid
+audio/midi	/sounds/online.mid	online.mid

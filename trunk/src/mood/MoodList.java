@@ -1,0 +1,6 @@
+package mood;
+
+/*
+ * MoodList.java
+ * 
+ */

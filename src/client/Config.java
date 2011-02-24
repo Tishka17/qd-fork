@@ -289,7 +289,7 @@ public class Config {
     public boolean isStatusFirst=false;
     
     public boolean dont_loadMC=false;
-    public static boolean animatedSmiles=true;
+    public boolean animatedSmiles=true;
     
     public int msgEditType=0;
     public boolean runningMessage=false;

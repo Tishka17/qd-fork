@@ -25,13 +25,11 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-
 package account;
+
 import client.Config;
-import client.StaticData;
 import info.Version;
 import com.alsutton.jabber.JabberStream;
-import com.alsutton.jabber.datablocks.Presence;
 import font.FontCache;
 import javax.microedition.lcdui.Font;
 import images.MenuIcons;
@@ -41,247 +39,323 @@ import java.io.IOException;
 import ui.IconTextElement;
 import io.NvStorage;
 import client.Constants;
+import client.StaticData;
 
-public class Account extends IconTextElement{
-    
-    private String userName="";
-    private String password="";
-    private String server="";
-    private String email="";
-    private String hostAddr="";
-    private int port=5222;
+public class Account extends IconTextElement {
+    public static final int TYPE_YA_RU = 0x91;
+    public static final int TYPE_GMAIL = 0x92;
+    public static final int TYPE_LIVEJOURNAL = 0x93;
+    public static final int TYPE_QIP = 0x94;
+    public static final int TYPE_OTHER = 0x90;
+
+    private String username = "";
+    private String password = "";
+    private String server = "";
+    private String email = "";
+    private String host = "";
+    private int port = 5222;
     private int accountType = 0;
     private boolean active;
     private boolean useSSL;
-    private boolean compression=true;
+    private boolean compression = true;
     private boolean plainAuth;
-    private boolean mucOnly=false;
-    
-    private String nick="";
-    private String resource="";
-    
+    private boolean mucOnly = false;
+    private String nick = "";
+    private String resource = "";
     private boolean enableProxy;
-    private String proxyHostAddr="";
+    private String proxyHost = "";
     private int proxyPort;
-	
-    private int keepAlivePeriod=120;
-    private int keepAliveType=1;
-    
-    private boolean dnsResolver=false;
-    
+    private int keepAlivePeriod = 120;
+    private int keepAliveType = 1;
+    private boolean dnsResolver = false;
 
     public Account() {
         super(MenuIcons.getInstance());
     }
-    
-    public static void loadAccount(boolean launch, int accountIndex,int status){
-	Account a=midlet.BombusQD.sd.account=Account.createFromStorage(accountIndex);
-	if (a!=null && midlet.BombusQD.sd.roster!=null) {
-            if (midlet.BombusQD.sd.roster.isLoggedIn())
-                midlet.BombusQD.sd.roster.logoff(null);
-	    midlet.BombusQD.sd.roster.resetRoster();
+
+    public static void loadAccount(boolean launch, int accountIndex, int status) {
+        StaticData sd = StaticData.getInstance();
+        Account a = sd.account = Account.createFromStorage(accountIndex);
+        if (a != null && sd.roster != null) {
+            if (sd.roster.isLoggedIn()) {
+                sd.roster.logoff(null);
+            }
+            sd.roster.resetRoster();
             if (launch) {
-                int loginstatus=Config.getInstance().loginstatus;
-                if (loginstatus>=Constants.PRESENCE_OFFLINE) {
-                    midlet.BombusQD.sd.roster.sendPresence(Constants.PRESENCE_INVISIBLE, null);    
+                int loginstatus = Config.getInstance().loginstatus;
+                if (loginstatus >= Constants.PRESENCE_OFFLINE) {
+                    sd.roster.sendPresence(Constants.PRESENCE_INVISIBLE, null);
                 } else {
-                    if(status==-1){
-                      midlet.BombusQD.sd.roster.sendPresence(loginstatus, null);
-                    }else{
-                      //System.out.println(status);
-                      midlet.BombusQD.sd.roster.sendPresence(status, null);
+                    if (status == -1) {
+                        sd.roster.sendPresence(loginstatus, null);
+                    } else {
+                        sd.roster.sendPresence(status, null);
                     }
                 }
             }
         }
     }
 
-    private StringBuffer sbuf = new StringBuffer(0);
     public String toString() {
-        sbuf = new StringBuffer(0);
-        if (nick.length()!=0)
-            sbuf.append(nick);
-        else {
-            sbuf.append(userName).append('@').append(server);
+        StringBuffer buf = new StringBuffer();
+        if (nick.length() != 0) {
+            buf.append(nick);
+        } else {
+            buf.append(username).append('@').append(server);
         }
-        if(resource.indexOf(Version.NAME) == -1) sbuf.append('/').append(resource);
-        return sbuf.toString();
+        if (resource.indexOf(Version.NAME) == -1) {
+            buf.append('/').append(resource);
+        }
+        return buf.toString();
     }
 
-    public String getJid(){
-        return userName+'@'+server+'/'+resource;
+    public String getJid() {
+        return username + '@' + server + '/' + resource;
     }
-    
-    public String getBareJid(){
-        return userName+'@'+server;
+
+    public String getBareJid() {
+        return username + '@' + server;
     }
-    
+
     public static Account createFromStorage(int index) {
-        Account a=null;
-        DataInputStream is=NvStorage.ReadFileRecord("accnt_db", 0); //storage
-        if (is==null) return null;
+        DataInputStream is = NvStorage.ReadFileRecord("accnt_db", 0);
+        if (is == null) {
+            return null;
+        }
         try {
+            Account a;
+
             do {
-                if (is.available()==0) {a=null; break;}
-                a=createFromDataInputStream(is);
+                if (is.available() == 0) {
+                    a = null;
+                    break;
+                }
+                a = createFromDataInputStream(is);
                 index--;
-            } while (index>-1);
+            } while (index > - 1);
             is.close();
-            is=null;
-        } catch (Exception e) { /*e.printStackTrace();*/ }
-        return a;
+
+            return a;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
-    public void setIconElement(){
-        if(server.indexOf("ya.ru")>-1) accountType = 0x91;
-        else if(server.indexOf("gmail.com")>-1) accountType = 0x92;
-        else if(server.indexOf("livejournal.com")>-1) accountType = 0x93;
-        else if(server.indexOf("qip.ru")>-1) accountType = 0x94;
-        else accountType = 0x90;
+    public void setIconElement() {
+        if (server.indexOf("ya.ru") > -1) {
+            accountType = TYPE_YA_RU;
+        } else if (server.indexOf("gmail.com") > -1) {
+            accountType = TYPE_GMAIL;
+        } else if (server.indexOf("livejournal.com") > -1) {
+            accountType = TYPE_LIVEJOURNAL;
+        } else if (server.indexOf("qip.ru") > -1) {
+            accountType = TYPE_QIP;
+        } else {
+            accountType = TYPE_OTHER;
+        }
     }
-    
-    public static Account createFromDataInputStream(DataInputStream inputStream){
-        int version=0;
-        Account a=new Account();
+
+    public static Account createFromDataInputStream(DataInputStream inputStream) {
+        Account a = new Account();
         try {
-            version    = inputStream.readByte();
-            a.userName = inputStream.readUTF();
+            inputStream.readByte(); // skip
+            a.username = inputStream.readUTF();
             a.password = inputStream.readUTF();
-            a.server   = inputStream.readUTF();
+            a.server = inputStream.readUTF();
             a.setIconElement();
-            a.email   = inputStream.readUTF();            
-            a.hostAddr = inputStream.readUTF();
-            a.port     = inputStream.readInt();
+            a.email = inputStream.readUTF();
+            a.host = inputStream.readUTF();
+            a.port = inputStream.readInt();
 
-            a.nick     = inputStream.readUTF();
+            a.nick = inputStream.readUTF();
             a.resource = inputStream.readUTF();
-	    
-            a.useSSL=inputStream.readBoolean();
-            a.plainAuth=inputStream.readBoolean();
-            
-	    a.mucOnly=inputStream.readBoolean();
-            
+
+            a.useSSL = inputStream.readBoolean();
+            a.plainAuth = inputStream.readBoolean();
+
+            a.mucOnly = inputStream.readBoolean();
+
             a.setEnableProxy(inputStream.readBoolean());
             a.setProxyHostAddr(inputStream.readUTF());
             a.setProxyPort(inputStream.readInt());
 
-            a.compression=inputStream.readBoolean();
+            a.compression = inputStream.readBoolean();
 
-            a.keepAliveType=inputStream.readInt()%4;
-            a.keepAlivePeriod=inputStream.readInt();
-            
-            a.dnsResolver=inputStream.readBoolean(); //firstrun
-        } catch (IOException e) { /*e.printStackTrace();*/ }
-            
-        return (a.userName==null)?null:a;
+            a.keepAliveType = inputStream.readInt() % 4;
+            a.keepAlivePeriod = inputStream.readInt();
+
+            a.dnsResolver = inputStream.readBoolean(); //firstrun
+        } catch (IOException e) {
+        }
+        return (a.username == null) ? null : a;
     }
 
-    public void saveToDataOutputStream(DataOutputStream outputStream){
-        
-        if (hostAddr==null) hostAddr="";
-        if (proxyHostAddr==null) proxyHostAddr="";
-        
+    public void saveToDataOutputStream(DataOutputStream outputStream) {
+        if (host == null) {
+            host = "";
+        }
+        if (proxyHost == null) {
+            proxyHost = "";
+        }
+
         try {
             outputStream.writeByte(7);
-            outputStream.writeUTF(userName);
+            outputStream.writeUTF(username);
             outputStream.writeUTF(password);
             outputStream.writeUTF(server);
             outputStream.writeUTF(email);
-            
-            outputStream.writeUTF(hostAddr);
+
+            outputStream.writeUTF(host);
             outputStream.writeInt(port);
-            
+
             outputStream.writeUTF(nick);
             outputStream.writeUTF(resource);
 
             outputStream.writeBoolean(useSSL);
             outputStream.writeBoolean(plainAuth);
-	    
-	    outputStream.writeBoolean(mucOnly);
-            
+
+            outputStream.writeBoolean(mucOnly);
+
             outputStream.writeBoolean(enableProxy);
-            outputStream.writeUTF(proxyHostAddr);
+            outputStream.writeUTF(proxyHost);
             outputStream.writeInt(proxyPort);
-            
+
             outputStream.writeBoolean(compression);
-			
+
             outputStream.writeInt(keepAliveType);
             outputStream.writeInt(keepAlivePeriod);
-            
-            outputStream.writeBoolean(dnsResolver);  
+
+            outputStream.writeBoolean(dnsResolver);
         } catch (IOException e) {
             //e.printStackTrace();
         }
-        
     }
-    
+
     public Font getFont() {
-        if(active) return FontCache.getFont( true , Font.SIZE_LARGE);
-        return FontCache.getFont( getFontIndex(), FontCache.roster);
-    }    
-    
-    public int getImageIndex() { 
+        if (active) {
+            return FontCache.getFont(true, Font.SIZE_LARGE);
+        }
+        return FontCache.getFont(getFontIndex(), FontCache.roster);
+    }
+
+    public int getImageIndex() {
         return accountType;
     }
 
-    public String getUserName() { return userName;  }
-    public void setUserName(String userName) { this.userName = userName;  }
+    public String getUserName() {
+        return username;
+    }
 
-    public String getPassword() {  return password;  }
-    public void setPassword(String password) { this.password = password;    }
+    public void setUserName(String userName) {
+        this.username = userName;
+    }
 
-    public String getServer() { return server; }
-    public String getHostAddr() { return hostAddr; }
-    
-    public void setServer(String server) { this.server = server; }
+    public String getPassword() {
+        return password;
+    }
 
-    public void setHostAddr(String hostAddr) { this.hostAddr = hostAddr; }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-    public int getPort() { return port; }
-    public void setPort(int port) { this.port = port; }
-    
-    public boolean getUseSSL() { return useSSL; }
-    public void setUseSSL(boolean ssl) { this.useSSL = ssl; }
+    public String getServer() {
+        return server;
+    }
 
-    public boolean getPlainAuth() { return plainAuth; }
-    public void setPlainAuth(boolean plain) { this.plainAuth = plain; }
-    
-    public boolean getDnsResolver() { return dnsResolver; }
-    public void setDnsResolver(boolean dnsResolver) { this.dnsResolver = dnsResolver; }
-    
-    public String getResource() { return resource;  }
-    public void setResource(String resource) { this.resource = resource;  }
+    public String getHostAddr() {
+        return host;
+    }
 
-    public String getNickName() { return (nick==null || nick.length()==0)?userName:nick;  }
-    public String getNick() { return (nick==null || nick.length()==0)? null:nick;  }
-    public void setNick(String nick) { this.nick = nick;  }
+    public void setServer(String server) {
+        this.server = server;
+    }
 
-    public boolean isMucOnly() { return mucOnly; }
-    public void setMucOnly(boolean mucOnly) {  this.mucOnly = mucOnly; }
-    
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
-    
-    public JabberStream openJabberStream() throws java.io.IOException{
-        String proxy=null;
-        String host=this.server;
-        int tempPort=port;
-        
-        if (hostAddr!=null && hostAddr.length()>0) {
-                host=hostAddr;
-        } 
+    public void setHostAddr(String hostAddr) {
+        this.host = hostAddr;
+    }
 
-        StringBuffer url=new StringBuffer(host).append(':').append(tempPort);
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    public boolean getUseSSL() {
+        return useSSL;
+    }
+
+    public void setUseSSL(boolean ssl) {
+        this.useSSL = ssl;
+    }
+
+    public boolean getPlainAuth() {
+        return plainAuth;
+    }
+
+    public void setPlainAuth(boolean plain) {
+        this.plainAuth = plain;
+    }
+
+    public boolean getDnsResolver() {
+        return dnsResolver;
+    }
+
+    public void setDnsResolver(boolean dnsResolver) {
+        this.dnsResolver = dnsResolver;
+    }
+
+    public String getResource() {
+        return resource;
+    }
+
+    public void setResource(String resource) {
+        this.resource = resource;
+    }
+
+    public String getNickName() {
+        return (nick == null || nick.length() == 0) ? username : nick;
+    }
+
+    public String getNick() {
+        return (nick == null || nick.length() == 0) ? null : nick;
+    }
+
+    public void setNick(String nick) {
+        this.nick = nick;
+    }
+
+    public boolean isMucOnly() {
+        return mucOnly;
+    }
+
+    public void setMucOnly(boolean mucOnly) {
+        this.mucOnly = mucOnly;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public JabberStream openJabberStream() throws java.io.IOException {
+        String proxy = null;
+
+        StringBuffer url = new StringBuffer(server).append(':').append(port);
         if (!isEnableProxy()) {
-	    url.insert(0, (useSSL)?"ssl://":"socket://");
+            url.insert(0, (useSSL) ? "ssl://" : "socket://");
         } else {
 //#if HTTPPOLL
-//#             proxy=getProxyHostAddr();
+//#             proxy = getProxyHostAddr();
 //#elif HTTPCONNECT
-//#             proxy="socket://" + getProxyHostAddr() + ':' + getProxyPort();
-//#endif  
+//#             proxy = "socket://" + getProxyHostAddr() + ':' + getProxyPort();
+//#endif
         }
-        return new JabberStream( getServer(), url.toString(), proxy);
+        return new JabberStream(getServer(), url.toString(), proxy);
     }
 
     public boolean isEnableProxy() {
@@ -293,11 +367,11 @@ public class Account extends IconTextElement{
     }
 
     public String getProxyHostAddr() {
-        return proxyHostAddr;
+        return proxyHost;
     }
 
     public void setProxyHostAddr(String proxyHostAddr) {
-        this.proxyHostAddr = proxyHostAddr;
+        this.proxyHost = proxyHostAddr;
     }
 
     public int getProxyPort() {
@@ -307,30 +381,36 @@ public class Account extends IconTextElement{
     public void setProxyPort(int proxyPort) {
         this.proxyPort = proxyPort;
     }
- 
-    public boolean useCompression() { return compression; }
-    
+
+    public boolean useCompression() {
+        return compression;
+    }
+
     public void setUseCompression(boolean value) {
         this.compression = value;
     }
-    
+
     public boolean isGmail() {
         return server.startsWith("gmail.com");
     }
-    
-    public String getTipString() { return getJid(); }
-    
+
+    public String getTipString() {
+        return getJid();
+    }
+
     public boolean useGoogleToken() {
-        if (useSSL) return false;
+        if (useSSL) {
+            return false;
+        }
         return isGmail();
     }
 
     public void setActive(boolean b) {
-        active=b;
+        active = b;
     }
 
     public int getKeepAliveType() {
-        return keepAliveType; 
+        return keepAliveType;
     }
 
     public int getKeepAlivePeriod() {
@@ -338,10 +418,10 @@ public class Account extends IconTextElement{
     }
 
     public void setKeepAlivePeriod(int i) {
-        keepAlivePeriod=i;
+        keepAlivePeriod = i;
     }
 
     public void setKeepAliveType(int i) {
-        keepAliveType=i;
+        keepAliveType = i;
     }
 }

@@ -181,6 +181,7 @@ public class PluginsConfig extends DefForm implements MenuListener
     private NumberInput reconnectTime;
     private NumberInput fieldGmt; 
     private NumberInput scrollWidth; 
+	private NumberInput minItemHeight;
     private DropChoiceBox textWrap;
     private DropChoiceBox langFiles;
     private DropChoiceBox bgnd_image;    
@@ -346,6 +347,7 @@ public class PluginsConfig extends DefForm implements MenuListener
           if ( reconnectTime != null ) reconnectTime = null;
           if ( fieldGmt != null ) fieldGmt = null; 
           if ( scrollWidth != null ) scrollWidth = null; 
+		  if ( minItemHeight != null ) minItemHeight = null;
   
 //#ifdef AUTOSTATUS
 //#           if ( autoAwayType != null ) autoAwayType = null;
@@ -657,6 +659,7 @@ public class PluginsConfig extends DefForm implements MenuListener
              itemsList.addElement(autoFocus);
              itemsList.addElement(ignore);
              itemsList.addElement(rosterStatus);
+			 itemsList.addElement(minItemHeight);
           } else {
              itemsList.addElement(showOfflineContacts);
              itemsList.addElement(showTransports);
@@ -795,7 +798,9 @@ public class PluginsConfig extends DefForm implements MenuListener
            
            itemsList.addElement(new SpacerItem(3));                   
 	   scrollWidth=new NumberInput(display, SR.get(SR.MS_SCROLL_WIDTH), Integer.toString(cf.scrollWidth), 3, 25); 
-           itemsList.addElement(scrollWidth);   
+           itemsList.addElement(scrollWidth);  
+			minItemHeight = new NumberInput(display, "Min item height", Integer.toString(cf.minItemHeight), 0, 100);
+			itemsList.addElement(minItemHeight);
            itemsList.addElement(new SpacerItem(3));      
            
            if(midlet.BombusQD.cf.userAppLevel == 1) {
@@ -991,6 +996,7 @@ public class PluginsConfig extends DefForm implements MenuListener
            if(null != graphicsMenuPosition) cf.graphicsMenuPosition=graphicsMenuPosition.getSelectedIndex();
            if(null != bgnd_image) cf.bgnd_image=bgnd_image.getSelectedIndex();
            if(null != scrollWidth) cf.scrollWidth=Integer.parseInt(scrollWidth.getValue());
+		   if(null != minItemHeight) cf.minItemHeight = Integer.parseInt(minItemHeight.getValue());
            if(null != useLowMemory_userotator) cf.useLowMemory_userotator=useLowMemory_userotator.getValue();
            if(null != shadowBar) cf.shadowBar=shadowBar.getValue();
            if(null != gradient_cursor) cf.gradient_cursor=gradient_cursor.getValue();

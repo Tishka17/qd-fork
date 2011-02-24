@@ -79,6 +79,8 @@ public class PluginBox extends IconTextElement {
     
     public int getVHeight(){ 
         itemHeight=(ilImageSize>font.getHeight())?ilImageSize:font.getHeight();
+		if (itemHeight < midlet.BombusQD.cf.minItemHeight)
+			itemHeight = midlet.BombusQD.cf.minItemHeight;
         return itemHeight;
     }    
     

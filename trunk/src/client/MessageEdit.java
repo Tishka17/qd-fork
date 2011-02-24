@@ -384,7 +384,7 @@ public final class MessageEdit
             }
             return;
         }
-//#if TEMPLATES
+//#if TEMPLATES && ARCHIVE
 //#         if (c==cmdTemplate) {
 //#             try {
 //#                 if(null != to) to.msgSuspended=body; 

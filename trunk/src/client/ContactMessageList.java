@@ -367,7 +367,7 @@ public final class ContactMessageList extends VirtualList implements MenuListene
             } catch (Exception e) {/*no messages*/}
         }
 //#endif
-//#if TEMPLATES
+//#if TEMPLATES && ARCHIVE
 //#         if (c==midlet.BombusQD.commands.cmdTemplate) {
 //#             try {
 //#                 Msg msg = getMessage(cursor);

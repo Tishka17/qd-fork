@@ -234,6 +234,7 @@ public class Config {
     public boolean savePos=true;  
     public boolean boldNicks=true;  
     public int scrollWidth=5;
+	public int minItemHeight = rosterFont*3;
     public boolean drawScrollBgnd = false;
     public int[] cursorPos = {
                             1,  //RosterToolsMenu 0
@@ -553,7 +554,8 @@ public class Config {
             shadowBar=inputStream.readBoolean();
             autoLoadTransports=inputStream.readBoolean();
             simpleContacts=inputStream.readBoolean();
-            
+            minItemHeight=inputStream.readInt();
+			
 	    inputStream.close();
             inputStream=null;
 	} catch (Exception e) {
@@ -804,6 +806,7 @@ public class Config {
             outputStream.writeBoolean(shadowBar);
             outputStream.writeBoolean(autoLoadTransports);
             outputStream.writeBoolean(simpleContacts);
+			outputStream.writeInt(minItemHeight);
             
 	} catch (Exception e) { }
 	return NvStorage.writeFileRecord(outputStream, "confBoolean", 0, true);      

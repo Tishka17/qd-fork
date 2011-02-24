@@ -176,6 +176,8 @@ public class CheckBox
         }
 	if (h<il.getHeight()) h=il.getHeight();
 	if (h<8) h=8; //TODO: min height!!!
+	if (h < midlet.BombusQD.cf.minItemHeight)
+		h = midlet.BombusQD.cf.minItemHeight;
 	return h;
     }
 

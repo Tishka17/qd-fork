@@ -275,6 +275,8 @@ public class GMenu extends Canvas {
         size = drawCommands.length-1;
         int hitem = 0;        
         int maxHeight=drawCommands.length;
+		if (fh < midlet.BombusQD.cf.minItemHeight)
+			fh = midlet.BombusQD.cf.minItemHeight;
 
         maxwidth=0;
         int len_str=0;

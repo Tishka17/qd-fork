@@ -557,6 +557,9 @@ public class Contact extends IconTextElement{
              }
           }             
         }
+		if (itemVHeight < midlet.BombusQD.cf.minItemHeight)
+		itemVHeight = midlet.BombusQD.cf.minItemHeight;
+		
         return itemVHeight;
     }    
     

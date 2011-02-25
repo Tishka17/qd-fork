@@ -63,7 +63,7 @@ public class ClassicChat extends CustomItem implements ItemCommandListener
     public void commandAction(Command c, Item i) { }
   
   
-    int line_count = Config.getInstance().line_count;
+    int line_count = Config.getInstance().lineCount;
   
     boolean up, down;
     int firstScreenMsg = 0;   
@@ -137,7 +137,7 @@ public class ClassicChat extends CustomItem implements ItemCommandListener
                 }
         }
         else if(midlet.BombusQD.cf.bgnd_image==2){ 
-                if(!Config.getInstance().use_phone_theme) {
+                if(!Config.getInstance().usePhoneTheme) {
                   fon=new Gradient(1, 1, w - 1, h - 1,
                         ColorTheme.getColor(ColorTheme.GRADIENT_BGND_LEFT),ColorTheme.getColor(ColorTheme.GRADIENT_BGND_RIGHT), true);
                   fon.paint(g);

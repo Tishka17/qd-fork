@@ -260,9 +260,9 @@ public class Config {
     //public boolean useClassicChat=false;
 
     //classic chat
-    public int classic_chat_height=140;
-    public int line_count=300;    
-    public boolean use_phone_theme=false;
+    public int classicChatHeight=140;
+    public int lineCount=300;    
+    public boolean usePhoneTheme=false;
     public boolean gradient_cursor=false;
 
     public boolean bredoGen=false;
@@ -595,7 +595,7 @@ public class Config {
             isLegal=inputStream.readBoolean();
             iconsLeft=inputStream.readBoolean();
             //useClassicChat=inputStream.readBoolean();
-            use_phone_theme=inputStream.readBoolean();
+            usePhoneTheme=inputStream.readBoolean();
             gradient_cursor=inputStream.readBoolean();
             autoSaveVcard=inputStream.readBoolean();
             showAvatarRect=inputStream.readBoolean();         
@@ -678,8 +678,8 @@ public class Config {
             maxAvatarHeight=inputStream.readInt();
             bgnd_image=inputStream.readInt();
             scrollWidth=inputStream.readInt();
-            classic_chat_height=inputStream.readInt();
-            line_count=inputStream.readInt(); 
+            classicChatHeight=inputStream.readInt();
+            lineCount=inputStream.readInt(); 
             argb_bgnd=inputStream.readInt();
             gmenu_bgnd=inputStream.readInt();
             popup_bgnd=inputStream.readInt();
@@ -846,7 +846,7 @@ public class Config {
             outputStream.writeBoolean(isLegal);
             outputStream.writeBoolean(iconsLeft);
             //outputStream.writeBoolean(useClassicChat);
-            outputStream.writeBoolean(use_phone_theme);
+            outputStream.writeBoolean(usePhoneTheme);
             outputStream.writeBoolean(gradient_cursor);
             outputStream.writeBoolean(autoSaveVcard);
             outputStream.writeBoolean(showAvatarRect);         
@@ -922,8 +922,8 @@ public class Config {
             outputStream.writeInt(maxAvatarHeight);
             outputStream.writeInt(bgnd_image);
             outputStream.writeInt(scrollWidth);
-            outputStream.writeInt(classic_chat_height);
-            outputStream.writeInt(line_count); 
+            outputStream.writeInt(classicChatHeight);
+            outputStream.writeInt(lineCount); 
             outputStream.writeInt(argb_bgnd);
             outputStream.writeInt(gmenu_bgnd);
             outputStream.writeInt(popup_bgnd);

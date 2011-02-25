@@ -125,6 +125,10 @@ public class DefForm
         itemsList.removeAllElements();
 	if (display!=null) display.setCurrent(parentView);
     }
+    
+    public final void addControl(Object obj) {
+        itemsList.addElement(obj);
+    }
 
     public void cmdCancel() {
         destroyView();

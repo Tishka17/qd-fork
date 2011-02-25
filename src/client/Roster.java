@@ -204,7 +204,7 @@ public class Roster
 //#endif    
     static String hashcheck = StringUtils.calcHash();
 
-    public PluginsConfig pluginsConfig;
+    //public ConfigForm pluginsConfig;
     private static MessageEdit messageEdit;
     private static MessageEdit altmessageEdit;
     private static ActiveContacts activeContacts = null;
@@ -594,8 +594,7 @@ public class Roster
 //#ifdef GRAPHICS_MENU   
 //#          if (c==cmdActions) { cmdActions(); }
 //#            else if(c==cmdOptions){ 
-//#               pluginsConfig = new PluginsConfig(display, this);
-//#               display.setCurrent(pluginsConfig);
+//#               display.setCurrent(new ConfigForm(display, this));
 //#            }
 //#         /*
 //#            else if(c==cmdVcard){ 
@@ -3814,8 +3813,7 @@ public class Roster
 //#endif
        	//else if (keyCode==KEY_NUM3) new ActiveContacts(display, this, null);
        	else if (keyCode==KEY_NUM4) {
-              pluginsConfig = new PluginsConfig(display, this);
-              display.setCurrent(pluginsConfig);
+              display.setCurrent(new ConfigForm(display, this));
         }
         else if (keyCode==KEY_NUM6) {
             midlet.BombusQD.cf.fullscreen=!midlet.BombusQD.cf.fullscreen;

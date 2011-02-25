@@ -71,7 +71,7 @@ public class SimpleItemChat implements CommandListener {
     int height = form.getHeight();
     
     msgTF = new TextField(null, null, 1024, 0);
-    scroller = new ClassicChat(null, width , Config.getInstance().classic_chat_height , contact);
+    scroller = new ClassicChat(null, width, Config.getInstance().classicChatHeight , contact);
     
     Config.getInstance().width_classic=width;
     

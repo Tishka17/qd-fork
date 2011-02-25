@@ -111,16 +111,16 @@ public class ColorConfigForm
 			    itemsList.addElement(str);
 			    if(midlet.BombusQD.cf.path_skin.indexOf((String)files[1].elementAt(i))>-1) ind = i;
 			}
-			skinFiles = new TrackItem(ind, skins.size() - 1, skins, false);
+			skinFiles = new TrackItem(ind, skins.size() - 1, skins);
 			itemsList.addElement(skinFiles);
 		}
             }
         } catch (Exception e) {}
         
-       argb_bgnd = new TrackItem(midlet.BombusQD.cf.argb_bgnd/10, 25, null, false);
-       gmenu_bgnd = new TrackItem(midlet.BombusQD.cf.gmenu_bgnd/10, 25, null, false);
-       popup_bgnd = new TrackItem(midlet.BombusQD.cf.popup_bgnd/10, 25, null, false);
-       cursor_bgnd = new TrackItem(midlet.BombusQD.cf.cursor_bgnd/10, 25, null, false);
+       argb_bgnd = new TrackItem(midlet.BombusQD.cf.argb_bgnd/10, 25);
+       gmenu_bgnd = new TrackItem(midlet.BombusQD.cf.gmenu_bgnd/10, 25);
+       popup_bgnd = new TrackItem(midlet.BombusQD.cf.popup_bgnd/10, 25);
+       cursor_bgnd = new TrackItem(midlet.BombusQD.cf.cursor_bgnd/10, 25);
         itemsList.addElement(new SimpleString(SR.get(SR.MS_TRANSPARENT), true));
         itemsList.addElement(new SpacerItem(2));
         itemsList.addElement(new SimpleString(SR.get(SR.MS_BGND_MIDLET), true));

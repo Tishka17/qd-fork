@@ -720,7 +720,6 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
                 if (!config.lang.equals(lang)) {
                     config.lang= lang;
                     SR.changeLocale();
-                    Commands.initCommands();
 //#ifdef COLOR_TUNE
 //#                     ColorTheme.reInitNames();
 //#endif

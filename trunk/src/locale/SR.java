@@ -28,8 +28,7 @@
 package locale; 
 
 import client.Config;
-import java.util.Vector;
-import java.util.Hashtable;
+import midlet.Commands;
 import util.StringLoader;
 
 public class SR {
@@ -1546,8 +1545,7 @@ public class SR {
 	"Attention sound",
 
         "Shadow bar"
-    };  
-
+    };
 
     private SR() { }
 
@@ -1556,34 +1554,43 @@ public class SR {
     }
 
     public static String getPresence(String presenceName) {
-        if (presenceName.equals("online"))       return get(MS_ONLINE);
-   else if (presenceName.equals("chat"))         return get(MS_CHAT);
-   else if (presenceName.equals("away"))         return get(MS_AWAY);
-   else if (presenceName.equals("xa"))           return get(MS_XA);
-   else if (presenceName.equals("invisible"))    return get(MS_INVISIBLE);
-   else if (presenceName.equals("dnd"))          return get(MS_DND);
-   else if (presenceName.equals("unavailable"))  return get(MS_OFFLINE);
+        if (presenceName.equals("online")) {
+            return get(MS_ONLINE);
+        } else if (presenceName.equals("chat")) {
+            return get(MS_CHAT);
+        } else if (presenceName.equals("away")) {
+            return get(MS_AWAY);
+        } else if (presenceName.equals("xa")) {
+            return get(MS_XA);
+        } else if (presenceName.equals("invisible")) {
+            return get(MS_INVISIBLE);
+        } else if (presenceName.equals("dnd")) {
+            return get(MS_DND);
+        } else if (presenceName.equals("unavailable")) {
+            return get(MS_OFFLINE);
+        }
         return null;
     }
-    
-    private static StringLoader stringLoader = new StringLoader();
+
     public final static short  MS_XMLLANG = 0;
     public final static short  MS_IFACELANG = 1;
-    
-    
-    private static void resetLang(){
-            int size = localeItems.length;
-              if(localeItemsDefault.length == 0) {
-                localeItemsDefault = new String[localeItems.length];
-                for(int i=0; i<size;++i) localeItemsDefault[i] = localeItems[i];//en==const
-              }
-            
-            size = localeItemsDefault.length;
-            for(int i=0; i<size;++i) localeItems[i] = localeItemsDefault[i];
-            localeItems[0] = "en";
-            localeItems[1] = "en";        
-    }
-    
+
+    private static void resetLang() {
+        int size = localeItems.length;
+        if (localeItemsDefault.length == 0) {
+            localeItemsDefault = new String[localeItems.length];
+            for (int i = 0; i < size; ++i) {
+                localeItemsDefault[i] = localeItems[i];//en==const
+            }
+        }
+
+        size = localeItemsDefault.length;
+        for (int i = 0; i < size; ++i) {
+            localeItems[i] = localeItemsDefault[i];
+        }
+        localeItems[0] = "en";
+        localeItems[1] = "en";
+    }   
     
     public static void changeLocale() {
         String langFile = Config.getInstance().langFileName();
@@ -1591,32 +1598,14 @@ public class SR {
 //#         System.out.print("   Loading locale -> " + langFile + "\n"); /* lang/ru.txt */
 //#endif
         resetLang();
-        if (langFile==null){ //en
+        if (langFile == null){ //en
            return;
         }
         int index = langFile.indexOf('.');
-        String langName = langFile.substring(6, index);
-            localeItems[0] = langName;
-            localeItems[1] = langName;
-        localeItems  = stringLoader.arrayLoader(langFile, localeItems);
-        midlet.BombusQD.commands.initCommands();
+        String langName = Config.getInstance().lang;
+        localeItems[0] = langName;
+        localeItems[1] = langName;
+        localeItems  = new StringLoader().arrayLoader(langFile, localeItems);
+        Commands.initCommands();
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }

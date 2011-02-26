@@ -38,15 +38,28 @@ abstract public class IconTextElement implements VirtualElement {
     protected int ilImageSize=0;
     
     public IconTextElement(ImageList il) {
-        //super();
-        this.il=il;
-	if (il!=null) ilImageSize=il.getHeight();
+        this.il = il;
+        if (il != null) {
+            ilImageSize = il.getHeight();
+        }
     }
-    
-    public boolean isSelectable() { return true; }  
-    public boolean handleEvent(int keyCode) { return false; }
-    public int getImageIndex() { return -1; };
-    public boolean getFontIndex() { return false; }
+
+    public boolean isSelectable() {
+        return true;
+    }
+
+    public boolean handleEvent(int keyCode) {
+        return false;
+    }
+
+    public int getImageIndex() {
+        return -1;
+    }
+
+    ;
+    public boolean getFontIndex() {
+        return false;
+    }
     
     public Font getFont() {
         return FontCache.getFont(getFontIndex(),FontCache.roster);
@@ -68,6 +81,7 @@ abstract public class IconTextElement implements VirtualElement {
                 xOffset += ilImageSize;
             }
        }
+       g.clipRect(xOffset, 0, g.getClipWidth(), itemHeight);
        if (null != str) {
            int yOffset = getFont().getHeight();
            g.drawString(str, xOffset - ofs, (itemHeight - yOffset) / 2, Graphics.TOP | Graphics.LEFT);

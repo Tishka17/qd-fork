@@ -31,27 +31,15 @@ import client.Contact;
 import client.Group;
 import client.Groups;
 import client.Jid;
-import client.Roster;
-import com.alsutton.jabber.datablocks.Presence;
 import images.RosterIcons;
-import xmpp.XmppError;
 import client.Constants;
 
 /**
  *
  * @author EvgS
  */
-public final class ConferenceGroup extends Group{
-    
-    /** Creates a new instance of ConferenceGroup */
-    public ConferenceGroup(String name, String label) {
-        super(name);
-        this.label = label;
-        imageExpandedIndex = RosterIcons.ICON_GCJOIN_INDEX;
-        imageCollapsedIndex = RosterIcons.ICON_GCCOLLAPSED_INDEX; 
-        this.type = Groups.TYPE_MUC;
-    }
 
+public final class ConferenceGroup extends Group{
     public boolean inRoom=true;
     
     public MucContact selfContact;
@@ -61,8 +49,18 @@ public final class ConferenceGroup extends Group{
     public String label;
     public String desc;
     
-    public int getOnlines(){ return Math.max(onlines - 1, 0); }
-    public int getNContacts(){ return Math.max(super.getNContacts() - 1, 0); }
+    public ConferenceGroup(String name, String label) {
+        super(name, Groups.TYPE_MUC);
+        this.label = label;
+    }
+    
+    public int getOnlines() {
+        return Math.max(onlines - 1, 0);
+    }
+
+    public int getNContacts() {
+        return Math.max(super.getNContacts() - 1, 0);
+    }
     
     public void leaveRoom() {
         confContact.commonPresence = false; //disable reenter after reconnect
@@ -80,19 +78,12 @@ public final class ConferenceGroup extends Group{
     public long conferenceJoinTime;
     public void destroy() {
         super.destroy();
-        
-        if (null != password) password = null;
-        if (null != label) label = null;
-        if (null != desc) desc = null;
-        
-        //System.out.println("    confgrp remove " + selfContact + " / " + confContact);
+
         if (null != selfContact) {
             selfContact.destroy();
-            selfContact = null;
         }
         if (null != confContact) {
             confContact.destroy();
-            confContact = null;
         }
     }
     
@@ -115,10 +106,10 @@ public final class ConferenceGroup extends Group{
     public MucContact getSelfContact(String jid) {
         // check for existing entry - it may be our old self-contact
         // or another contact whose nick we pretend
-        MucContact selfContact = findMucContact( new Jid(jid) );
-        if (null == selfContact) {
+        MucContact self = findMucContact(new Jid(jid));
+        if (null == self) {
             // old self-contact
-            selfContact = this.selfContact;
+            self = this.selfContact;
         }
         String nick = jid.substring(jid.indexOf('/') + 1);
         // create self-contact if no any candidates found
@@ -130,17 +121,16 @@ public final class ConferenceGroup extends Group{
         if (Constants.PRESENCE_OFFLINE <= selfContact.status) {
             selfContact.setNick(nick);
             selfContact.jid.setJid(jid);
-            //selfContact.setBareJid(jid);
         }
 
         selfContact.setGroup(this);
         selfContact.origin = Constants.ORIGIN_GC_MYSELF;
         selfContact.setNick(selfContact.getNick());
         
-        this.selfContact = selfContact;
-        nick = null;
+        this.selfContact = self;
         return selfContact;
     }
+
     public MucContact getConfContact() {
         if (null == confContact) {
             MucContact mucContact = findMucContact(new Jid(getName()));
@@ -154,24 +144,20 @@ public final class ConferenceGroup extends Group{
             mucContact.origin = Constants.ORIGIN_GROUPCHAT;
             mucContact.setNick(mucContact.getNick());
             confContact = mucContact;
-            mucContact = null;
         }
         return confContact;
     }
     
     public MucContact getContact(String jid) {
-        Jid j = new Jid(jid);
-        MucContact c = findMucContact( j );
+        MucContact c = findMucContact(new Jid(jid));
         if (null == c) {
             String nick = jid.substring(jid.indexOf('/') + 1);
             c = new MucContact(nick, jid);
             c.origin = Constants.ORIGIN_GC_MEMBER;
             c.setNick(c.getNick());
             midlet.BombusQD.sd.roster.addContact(c);
-            nick = null;
         }
         c.setGroup(this);
-        j = null;
         return c;
     }
 }

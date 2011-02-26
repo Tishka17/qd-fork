@@ -70,7 +70,12 @@ public class ImageList {
         }
     }
 
-    public void drawImage(Graphics g, int index, int x, int y){
+    public void drawInCenter(Graphics g, int index, int x, int y) {
+        
+        drawImage(g, index, x - width / 2, y - height / 2);
+    }
+
+    public void drawImage(Graphics g, int index, int x, int y) {
         int ho=g.getClipHeight();
         int wo=g.getClipWidth();
         int xo=g.getClipX();
@@ -80,10 +85,10 @@ public class ImageList {
         int ix=x-width*(index&0x0f);
         g.clipRect(x,y, width,height);
         try {
-            g.drawImage(resImage,ix,iy,Graphics.TOP|Graphics.LEFT);
+            g.drawImage(resImage,ix,iy,Graphics.TOP | Graphics.LEFT);
         } catch (Exception e) {}
         g.setClip(xo,yo, wo, ho);
-    };
+    }
     
     public int getHeight() {return height;}
     

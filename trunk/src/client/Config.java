@@ -85,6 +85,7 @@ public class Config {
     public final static byte SAMSUNG=14;
     public final static byte LG=15;
     public final static byte JBED=16;
+    public final static byte MICROEMU = 17;
     public final static byte WTK=50;
     public final static byte OTHER=99;
     public final static byte NOKIA_5800=44;
@@ -1069,6 +1070,8 @@ public class Config {
                 try { FileIO f=FileIO.createConnection(""); } catch (Exception ex) { }
 //#endif
                 return;
+              } else if (platformName.indexOf("Android") > 0) {
+                phoneManufacturer=MICROEMU;
             }else {
                 phoneManufacturer=OTHER;
             }
@@ -1084,7 +1087,13 @@ public class Config {
             
             String device=System.getProperty("device.model");
             String firmware=System.getProperty("device.software.version");
-            
+            String manufacturer=System.getProperty("device.manufacturer");
+            String id=System.getProperty("device.id");
+            if (platformName.startsWith("microemu")) {
+                if (device != null) {
+                    platformName=manufacturer+" "+device+"/"+firmware+"/"+id;
+                }
+            }
             if (platformName==null) platformName="Motorola";
             
              if (platformName.startsWith("j2me")) {
@@ -1149,8 +1158,8 @@ public class Config {
                 }
             }
         }
-      if(platformName.indexOf("/")>-1){
-          platformName = platformName.substring(0,platformName.indexOf("/"));  
+      if(platformName.indexOf("///")>-1){
+          platformName = platformName.substring(0,platformName.indexOf("///"));  
       }
     }
     

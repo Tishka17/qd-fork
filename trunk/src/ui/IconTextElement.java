@@ -34,13 +34,14 @@ abstract public class IconTextElement implements VirtualElement {
     protected int itemHeight;
     protected int imageYOfs;
     protected int fontYOfs;
+
     protected ImageList il;
-    protected int ilImageSize=0;
+    protected int imgHeight=0;
     
     public IconTextElement(ImageList il) {
         this.il = il;
         if (il != null) {
-            ilImageSize = il.getHeight();
+            imgHeight = il.getHeight();
         }
     }
 
@@ -56,44 +57,43 @@ abstract public class IconTextElement implements VirtualElement {
         return -1;
     }
 
-    ;
     public boolean getFontIndex() {
         return false;
     }
-    
+
     public Font getFont() {
         return FontCache.getFont(getFontIndex(),FontCache.roster);
     }
 
     public void drawItem(VirtualList view, Graphics g, int ofs, boolean sel, boolean inCommand) {      
-        drawItem(view, g, 4 + (inCommand ? ilImageSize : 0), sel);
-    }
-    
-    public void drawItem(VirtualList view, Graphics g, int ofs, boolean sel){
-       g.setFont(getFont());
+        g.setFont(getFont());
 
-       String str = toString();
-       int xOffset = getOffset();
-       if (null != il) {
+        String str = toString();
+        int xOffset = getOffset();
+        if (null != il) {
             if (getImageIndex() != -1) {
                 int yOffset = il.getHeight();
                 il.drawImage(g, getImageIndex(), xOffset , (itemHeight - yOffset) / 2);
-                xOffset += ilImageSize;
+                xOffset += imgHeight;
             }
-       }
-       g.clipRect(xOffset, 0, g.getClipWidth(), itemHeight);
-       if (null != str) {
-           int yOffset = getFont().getHeight();
-           g.drawString(str, xOffset - ofs, (itemHeight - yOffset) / 2, Graphics.TOP | Graphics.LEFT);
-       }
+        }
+        g.clipRect(xOffset, 0, g.getClipWidth(), itemHeight);
+        if (null != str) {
+            int yOffset = getFont().getHeight();
+            g.drawString(str, xOffset - ofs, (itemHeight - yOffset) / 2, Graphics.TOP | Graphics.LEFT);
+        }
+    }
+    
+    public void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {
+         this.drawItem(view, g, ofs, sel, false);
     }
     
     public int getOffset() {
         return 4;
     }
 
-    public int getVWidth(){ 
-        return getFont().stringWidth(toString())+ilImageSize+4;
+    public int getVWidth() {
+        return getFont().stringWidth(toString()) + imgHeight + 4;
     }
 
     public int getVHeight() {
@@ -118,10 +118,6 @@ abstract public class IconTextElement implements VirtualElement {
         return ColorTheme.getColor(ColorTheme.LIST_INK);
     }
 
-    public void onSelect(VirtualList view) {
-    }
-
-    ;
     public String getTipString() {
         return null;
     }

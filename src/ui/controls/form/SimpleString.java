@@ -24,10 +24,8 @@
  * along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package ui.controls.form;
 
-import client.Config;
 import font.FontCache;
 import javax.microedition.lcdui.Font;
 import ui.IconTextElement;
@@ -36,38 +34,44 @@ import ui.IconTextElement;
  *
  * @author ad
  */
-public class SimpleString 
-        extends IconTextElement {
 
+public class SimpleString extends IconTextElement {
     private String text;
     private boolean bold;
     private boolean isSelectable = false;
-    private Font font=null;
-    
-    /**
-     * Creates a new instance of SimpleString
-     */
+
     public SimpleString(String text) {
-        super(null);
-        this.text=text;
-        this.bold=bold;
-        this.font=FontCache.getFont(true, Font.SIZE_MEDIUM);
+        this(text, false);
     }
+
     public SimpleString(String text, boolean bold) {
         super(null);
-        this.text=text;
-        this.bold=bold;
-        this.font=FontCache.getFont(true, FontCache.msg);
+        this.text = text;
+        this.bold = bold;
     }
-    public int getVWidth(){ 
+    
+    //public SimpleString()
+
+    public int getVWidth() {
         return -1;
     }
+
     public String toString() {
-        if(text.equals(locale.SR.get(locale.SR.MS_USER_APP_LEVEL))) isSelectable = true;
+        if (text.equals(locale.SR.get(locale.SR.MS_USER_APP_LEVEL))) {
+            isSelectable = true;
+        }
         return text;
     }
+
+    public boolean isSelectable() {
+        return isSelectable;
+    }
     
-    public boolean isSelectable() { return isSelectable; }
-    
-    public Font getFont() { return font; }
+    public void setSelectable(boolean value) {
+        isSelectable = value;
+    }
+
+    public Font getFont() {
+        return FontCache.getFont(bold, FontCache.msg);
+    }
 }

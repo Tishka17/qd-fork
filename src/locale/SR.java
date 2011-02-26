@@ -139,7 +139,7 @@ public class SR {
      public final static short MS_REENTER  = 105; //Re-Enter Room
      public final static short MS_NEW_MESSAGE  = 106; //New Message
      public final static short MS_ADD  = 107; //Add
-     public final static short MS_LOGON  = 108; //Logon
+     public final static short MS_LOGIN  = 108; //Logon
      public final static short MS_STANZAS  = 109; //Stanzas
      public final static short MS_AT_HOST  = 110; //at Host
      public final static short MS_AUTO_CONFERENCES  = 111; //join conferences

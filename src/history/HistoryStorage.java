@@ -31,13 +31,9 @@ import client.Msg;
 import client.CommandForm;
 import java.io.*;
 import ui.controls.form.CheckBox;
-import java.util.Vector;
 import java.util.Timer;
 import java.util.TimerTask;
-import javax.microedition.lcdui.*;
 import javax.microedition.rms.RecordStore;
-import javax.microedition.rms.RecordEnumeration;
-import javax.microedition.rms.RecordFilter;
 //#if FILE_IO
 import io.file.FileIO;
 import java.io.IOException;
@@ -47,6 +43,8 @@ import util.Strconv;
 import util.DeTranslit;
 import util.StringUtils;
 import client.ContactMessageList;
+import ui.controls.form.MultiLine;
+import ui.controls.form.SimpleString;
 /**
  *
  * @author aqent
@@ -302,7 +300,6 @@ public class HistoryStorage {
     private static class LoadMessages extends TimerTask {
       int posRecord;
       RecordStore recordStore;
-      CheckBox addCheckBox;
       Contact c;
       long timeS,timeE;
       
@@ -328,13 +325,11 @@ public class HistoryStorage {
                     msgData = recordStore.getRecord(posRecord);
                           bais = new ByteArrayInputStream(msgData, 1, msgData.length - 1);
                           dis = new DataInputStream(bais);
-                          sb = new StringBuffer(0);
-                          sb.append(dis.readUTF());
-                          sb.append(':');
-                          sb.append('%');
-                          sb.append(dis.readUTF());
-                    addCheckBox = new CheckBox( sb.toString(), true, true, true);
-                    cmd.addObject(addCheckBox, posRecord, size);
+
+                          MultiLine item = new MultiLine(dis.readUTF(), dis.readUTF(), cmd.superWidth);
+                          item.selectable = true;
+
+                          cmd.addControl(item);
                    }
                    msgData = null;
               } catch (Exception e) {
@@ -346,33 +341,13 @@ public class HistoryStorage {
                 if(posRecord == size) {
                    timeE = System.currentTimeMillis();
                    stopTimer();
-                   try{
-                     sb = new StringBuffer(0);
-                     if(size == 0) {
-                        sb.append("RMS record empty.");
-                        posRecord = -1;
-                     }
-                     else {
-                      sb.append("RMS: ")
-                       .append(recordStore.getName())
-                       .append("%Stats:\nSize->")
-                       .append(recordStore.getSize())
-                       .append(" bytes")
-                       .append("\nSizeAvailable->")
-                       .append(recordStore.getSizeAvailable())
-                       .append(" bytes\nRecords->")
-                       .append(recordStore.getNumRecords())
-                       .append("\nLoad Time-> ")
-                       .append(Long.toString(timeE - timeS))
-                       .append(" msec");
-                     }
-                     addCheckBox = new CheckBox( sb.toString() , true, true, true);
-                     cmd.addObject(addCheckBox, posRecord, size);
-                     cmd.addObject(c.bareJid, 0, 0);
-                     
-                     sb = new StringBuffer(0);
-                   } catch (Exception e) { }
-                  addCheckBox = null;
+                   if (size == 0) {
+                       SimpleString item = new SimpleString("Empty history!");
+                       item.setSelectable(true);
+                       
+                       cmd.addControl(item);
+                   }
+
                   if (recordStore != null) {
                     messageList.getRmsData(CLOSE_RMS_STORE, recordStore);
                     recordStore = null;

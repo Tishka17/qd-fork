@@ -105,6 +105,10 @@ abstract public class IconTextElement implements VirtualElement {
 			itemHeight = midlet.BombusQD.cf.minItemHeight;
         return itemHeight;
     }
+    
+    public void onSelect(VirtualList view) {
+        
+    } 
 
     public int getItemHeight(){ 
         return itemHeight;

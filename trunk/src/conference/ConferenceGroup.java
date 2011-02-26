@@ -76,16 +76,6 @@ public final class ConferenceGroup extends Group{
     }
 
     public long conferenceJoinTime;
-    public void destroy() {
-        super.destroy();
-
-        if (null != selfContact) {
-            selfContact.destroy();
-        }
-        if (null != confContact) {
-            confContact.destroy();
-        }
-    }
     
     public void updateDinamicInfo() {
         toStringValue = mainbar((null == desc) ? label : desc);
@@ -106,10 +96,10 @@ public final class ConferenceGroup extends Group{
     public MucContact getSelfContact(String jid) {
         // check for existing entry - it may be our old self-contact
         // or another contact whose nick we pretend
-        MucContact self = findMucContact(new Jid(jid));
-        if (null == self) {
+        MucContact selfContact = findMucContact( new Jid(jid) );
+        if (null == selfContact) {
             // old self-contact
-            self = this.selfContact;
+            selfContact = this.selfContact;
         }
         String nick = jid.substring(jid.indexOf('/') + 1);
         // create self-contact if no any candidates found
@@ -121,16 +111,16 @@ public final class ConferenceGroup extends Group{
         if (Constants.PRESENCE_OFFLINE <= selfContact.status) {
             selfContact.setNick(nick);
             selfContact.jid.setJid(jid);
+            //selfContact.setBareJid(jid);
         }
 
         selfContact.setGroup(this);
         selfContact.origin = Constants.ORIGIN_GC_MYSELF;
         selfContact.setNick(selfContact.getNick());
         
-        this.selfContact = self;
+        this.selfContact = selfContact;
         return selfContact;
     }
-
     public MucContact getConfContact() {
         if (null == confContact) {
             MucContact mucContact = findMucContact(new Jid(getName()));

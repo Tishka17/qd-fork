@@ -53,25 +53,6 @@ public class Group extends IconTextElement {
         sortKey = name.toLowerCase();
     }
 
-    public void destroy() {
-        if (contacts.isEmpty()) {
-            return;
-        }
-
-        visibleContacts.removeAllElements();
-        visibleContacts = null;
-
-        contacts.removeAllElements();
-        contacts = null;
-
-        if (null != name) {
-            name = null;
-        }
-        if (null != sortKey) {
-            sortKey = null;
-        }
-    }
-
     public boolean addContact(Contact c) {
         if (!contacts.contains(c)) {
             contacts.addElement(c);

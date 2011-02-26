@@ -973,7 +973,6 @@ public class Roster
                  }
                 if (removeGroup) {
                     //System.out.println("DestroyGrp: " + g.name);
-                    g.destroy();
                     contactList.removeGroup(g);
                     setModified();
                 }

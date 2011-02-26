@@ -40,7 +40,6 @@ import javax.microedition.io.HttpConnection;
 //# import javax.microedition.lcdui.CommandListener;
 //# import javax.microedition.lcdui.Command;
 //#else
-import menu.MenuListener;
 import menu.Command;
 //#endif
 import javax.microedition.lcdui.Display;
@@ -53,6 +52,7 @@ import ui.controls.form.DefForm;
 //#ifdef GRAPHICS_MENU        
 //# import ui.GMenu;
 //# import ui.GMenuConfig;
+//# import ui.controls.form.SimpleString;
 //#endif 
 /**
  *
@@ -121,8 +121,7 @@ public class GetFileServer
     public void run() {
         wait=true;
         rePaint();        
-        String result="";
-        StringBuffer b = new StringBuffer();
+
         try {
             c = (HttpConnection) Connector.open(update_url);
             is = c.openInputStream();
@@ -132,10 +131,16 @@ public class GetFileServer
                 if (versions[0].elementAt(i)==null) continue;
                 String name=(String)versions[0].elementAt(i);
                 if(i==0){
-                   itemsList.addElement(new CheckBox(name.concat(Version.getVersionNumber()), true, true, false)); 
+                    SimpleString item = new SimpleString(name.concat(Version.getVersionNumber()));
+                    item.setSelectable(true);
+                    
+                    addControl(item); 
                 }else{
                   if(name.startsWith("*")){
-                   itemsList.addElement(new CheckBox(name, true, true, false));
+                    SimpleString item = new SimpleString(name);
+                    item.setSelectable(true);
+                    
+                    addControl(item);
                   }
                   else if(name.startsWith("#")){
                      icq.addElement(name.substring(1,name.length()));

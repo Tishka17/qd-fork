@@ -144,7 +144,7 @@ public final class RosterItemActions extends Menu implements MIDPTextBox.TextBox
 
         // if(contact.bareJid.equals(StaticData.HELPER_CONTACT)==false){            
 	    if (grType==Groups.TYPE_TRANSP) {
-		addItem(SR.get(SR.MS_LOGON),5, menuIcons.ICON_ON);
+		addItem(SR.get(SR.MS_LOGIN),5, menuIcons.ICON_ON);
 		addItem(SR.get(SR.MS_LOGOFF),6, menuIcons.ICON_OFF);
                 addItem(SR.get(SR.MS_RESOLVE_NICKNAMES), 7, menuIcons.ICON_NICK_RESOLVE);
 //#if CHANGE_TRANSPORT

@@ -39,17 +39,12 @@ import java.util.Vector;
 //# import javax.microedition.lcdui.CommandListener;
 //# import javax.microedition.lcdui.Command;
 //#else
-import menu.MenuListener;
-import menu.Command;
-import menu.MyMenu;
 //#endif
 import ui.MainBar;
+import ui.controls.form.MultiLine;
 //#ifdef GRAPHICS_MENU        
-//# import ui.GMenu;
-//# import ui.GMenuConfig;
 //#endif
 //#ifdef CLIPBOARD
-//# import util.ClipBoard;
 //#endif
 
 public final class CommandForm extends DefForm
@@ -73,21 +68,6 @@ public final class CommandForm extends DefForm
     private static final int HISTORY_ITEM=6;
     
     public CommandForm(){};
-    
-    public void destroy(){
-        int size = itemsList.size();
-        int i;
-        CheckBox cb;
-         for (i = 0; i < size; ++i) {
-          cb = (CheckBox)itemsList.elementAt(i);
-          cb.destroy();
-         }
-        itemsList.removeAllElements();
-        sb = new StringBuffer(0);
-        cb = null;
-        if(obj != null) obj = null;  
-        if(res != null) res = null;
-    }
     
     public void addObject(Object res, int current, int size){
         sb = new StringBuffer(0);
@@ -142,10 +122,7 @@ public final class CommandForm extends DefForm
                 break;
             }    
             case _CHANGE_PASS_RMS:{
-                StringBuffer info = new StringBuffer();
-                info.append((String)obj);
-                info.append(SR.get(SR.MS_NEW_PASSWORD)+":%"+(String)res);
-                itemsList.addElement(new CheckBox(info.toString(), true, true, false));
+                itemsList.addElement(new MultiLine(SR.get(SR.MS_NEW_PASSWORD), (String)res, super.superWidth));
                 itemsList.addElement(new SimpleString(SR.get(SR.MS_COPY)+"?", true));
                 itemsList.addElement(new SimpleString(SR.get(SR.MS_EDIT_ACCOUNT_MSG), true));                
                 break;

@@ -137,6 +137,7 @@ import Menu.RosterToolsMenu;
 //# import xmpp.extensions.JuickModule;
 //#endif
 import colors.ColorTheme;
+import ui.controls.form.MultiLine;
 
 public class Roster
         extends VirtualList
@@ -2228,14 +2229,13 @@ public class Roster
                                  int size=get_query.getChildBlocks().size();
                                  CommandForm cmd = new CommandForm(midlet.BombusQD.getInstance().display, this , 5 , "" , null, null);
                                  cmd.setParentView(server_name,this);
-                                 CheckBox addCheckBox;
+
                                  JabberDataBlock value;
                                   try {
                                       int pos = 1;
                                       for (int i=0;i<size;i++){
-                                          value = (JabberDataBlock)get_query.getChildBlocks().elementAt(i);
-                                          addCheckBox = new CheckBox(value.getAttribute("name") + ":%" + value.getAttribute("value"), true, true, false);
-                                          cmd.addObject(addCheckBox, pos , size);
+                                          value = (JabberDataBlock)get_query.getChildBlocks().elementAt(i);                                     
+                                          cmd.addControl(new MultiLine(value.getAttribute("name"), value.getAttribute("value"), cmd.superWidth));
                                           pos++;
                                       }
                                  } catch (Exception e) {} 

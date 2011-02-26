@@ -105,7 +105,7 @@ public class CheckBox
         return scroll?-1:width;
     }
     
-    public void drawItem(VirtualList view, Graphics g, int ofs, boolean sel){
+/*    public void drawItem(VirtualList view, Graphics g, int ofs, boolean sel){
        Font f = getFont();
        g.setFont(f);
        int scrollW = midlet.BombusQD.cf.scrollWidth;
@@ -156,9 +156,9 @@ public class CheckBox
               }
          }         
        }       
-    }    
+    }*/    
 
-    public int getVHeight(){ 
+    /*public int getVHeight(){ 
         int h=0;
         Vector str=(Vector)checkBox.elementAt(0);
         if(state){
@@ -180,6 +180,7 @@ public class CheckBox
 		h = midlet.BombusQD.cf.minItemHeight;
 	return h;
     }
+    */
 
     public boolean getValue() { return state; }
     public boolean isSelectable() { return selectable; }

@@ -74,11 +74,9 @@ public class Groups implements JabberBlockListener{
         addGroup(SR.get(SR.MS_VIP_GROUP), TYPE_VIP);
         addGroup(Groups.COMMON_GROUP, TYPE_NO_GROUP);
     }
+
     public void destroy() {
-        for (int i = 0; i < getCount(); ++i) {
-            ((Group)groups.elementAt(i)).destroy();
-        }
-        spetialGroup = null;
+
     }
 
     public Group getGroup(int type) {

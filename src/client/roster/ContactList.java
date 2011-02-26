@@ -34,8 +34,7 @@ public final class ContactList {
             ((Contact)contacts.elementAt(i)).destroy();
         }
         contacts = new Vector(0);
-        groups.destroy();
-        groups=new Groups();
+        groups = new Groups();
     }
     public int getNewMessageCount() {
         int m=0;
@@ -144,7 +143,6 @@ public final class ContactList {
     
     public void removeGroup(Group group) {
         groups.removeGroup(group);
-        group.destroy();
     }
     
     public Group getGroup(String name) {

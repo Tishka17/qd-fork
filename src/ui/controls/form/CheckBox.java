@@ -112,7 +112,7 @@ public class CheckBox
        int offset=4;
        if (il!=null && otherWindow==false) {
             if (getImageIndex()!=-1) {
-                offset+=ilImageSize;
+                offset+=imgHeight;
                 il.drawImage(g, getImageIndex(), 2, imageYOfs);
             }
        }

@@ -48,10 +48,10 @@ import ui.*;
 import com.alsutton.jabber.*;
 import com.alsutton.jabber.datablocks.*;
 import client.*;
-import conference.Bookmarks;
 import io.NvStorage;
 import java.io.DataInputStream;
 import java.io.EOFException;
+import midlet.BombusQD;
 import ui.controls.AlertBox;
 import xmpp.XmppError;
 import vcard.*;
@@ -660,7 +660,8 @@ public class ServiceDiscovery
                         VCard.request(cs.bareJid, cs.getJid());
                         break;
                     case MenuIcons.ICON_CONFERENCE:
-                        new Bookmarks(display, view, null);
+                        //new Bookmarks(display, view, null);
+                        BombusQD.sd.roster.cmdConference();
                         break;
                     case MenuIcons.ICON_ADD_CONTACT:
                         new ContactEdit(display, view, null);

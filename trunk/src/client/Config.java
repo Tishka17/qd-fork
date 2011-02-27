@@ -1087,11 +1087,10 @@ public class Config {
             
             String device=System.getProperty("device.model");
             String firmware=System.getProperty("device.software.version");
-            String manufacturer=System.getProperty("device.manufacturer");
             String id=System.getProperty("device.id");
             if (platformName.startsWith("microemu")) {
                 if (device != null) {
-                    platformName=manufacturer+" "+device+"/"+firmware+"/"+id;
+                    platformName=device+"|Android OS "+firmware+"|build "+id;
                 }
             }
             if (platformName==null) platformName="Motorola";
@@ -1158,8 +1157,9 @@ public class Config {
                 }
             }
         }
-      if(platformName.indexOf("///")>-1){
-          platformName = platformName.substring(0,platformName.indexOf("///"));  
+         int index = platformName.lastIndexOf('/');
+            if (index != -1) {
+            platformName = platformName.substring(0, index);
       }
     }
     

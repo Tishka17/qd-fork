@@ -36,12 +36,14 @@ abstract public class IconTextElement implements VirtualElement {
     protected int fontYOfs;
 
     protected ImageList il;
-    protected int imgHeight=0;
+    protected int imgHeight = 0;
+    protected int imgWidth = 0;
     
     public IconTextElement(ImageList il) {
         this.il = il;
         if (il != null) {
             imgHeight = il.getHeight();
+            imgWidth = il.getWidth();
         }
     }
 
@@ -72,8 +74,7 @@ abstract public class IconTextElement implements VirtualElement {
         int xOffset = getOffset();
         if (null != il) {
             if (getImageIndex() != -1) {
-                int yOffset = il.getHeight();
-                il.drawImage(g, getImageIndex(), xOffset , (itemHeight - yOffset) / 2);
+                il.drawImage(g, getImageIndex(), xOffset , (itemHeight - imgHeight) / 2);
                 xOffset += imgHeight;
             }
         }

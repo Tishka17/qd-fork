@@ -29,6 +29,7 @@ package client;
 import images.RosterIcons;
 import java.util.*;
 import colors.ColorTheme;
+import javax.microedition.lcdui.Graphics;
 import ui.*;
 
 /**
@@ -40,7 +41,6 @@ public class Group extends IconTextElement {
     public byte type; // group index
     public boolean visible = true;
     protected int onlines;
-
     private Vector contacts = new Vector(0);
     public Vector visibleContacts = new Vector(0);
     private boolean hasUnreadMessages = false;
@@ -95,38 +95,13 @@ public class Group extends IconTextElement {
         return collapsed ? RosterIcons.ICON_COLLAPSED_INDEX : RosterIcons.ICON_EXPANDED_INDEX;
     }
 
-    /*    public final void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {
-    int w=g.getClipWidth();
-    int h=g.getClipHeight();
-    int xo=g.getClipX();
-    int yo=g.getClipY();
-    
-    if (collapsed && hasNewMsgs()) {
-    w -= il.getWidth();
-    il.drawImage(g, RosterIcons.ICON_MESSAGE_INDEX, w,0);
+    public final void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {
+        if (collapsed && hasNewMsgs()) {
+            il.drawImage(g, RosterIcons.ICON_MESSAGE_INDEX, g.getClipWidth() - imgWidth, (itemHeight - imgHeight) / 2);
+        }
+        super.drawItem(view, g, ofs, sel);
     }
-    
-    g.setFont(getFont());
-    final String str = toStringValue;
-    int offset = 4;
-    final int itemHeight = getVHeight();
-    if ((-1 != getImageIndex()) && (null != il)) {
-    int imgHeight = il.getHeight();
-    int imageYOfs = (itemHeight - imgHeight) >> 2;
-    offset += imgHeight;
-    il.drawImage(g, getImageIndex(), 2, imageYOfs);
-    }
-    
-    g.setClip(xo, yo, w, h);
-    g.clipRect(offset, 0, g.getClipWidth(), itemHeight);
-    
-    if (str!=null) {
-    int fontHeight = getFont().getHeight();
-    int fontYOfs = (itemHeight - fontHeight) >> 2;
-    g.drawString(str, offset - ofs, fontYOfs, Graphics.TOP|Graphics.LEFT);
-    }
-    }
-     */
+
     public final String getName() {
         return name;
     }

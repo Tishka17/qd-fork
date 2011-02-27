@@ -44,8 +44,8 @@
 //#     public static String plugin = new String("PLUGIN_IE");
 //#endif
 //# 
-//#     public static final int ACRHIVE_EXPORT = 0;
-//#     public static final int ACRHIVE_IMPORT = 1;
+//#     public static final int ARCHIVE_EXPORT = 0;
+//#     public static final int ARCHIVE_IMPORT = 1;
 //#     public static final int ACCOUNT_EXPORT = 2;
 //#     public static final int ACCOUNT_IMPORT = 3;
 //# 
@@ -54,8 +54,8 @@
 //#ifdef PLUGINS
 //#         if (StaticData.getInstance().Archive) {
 //#endif
-//#         addItem(SR.get(SR.MS_ARCHIVE) + ": " + SR.get(SR.MS_LOAD_FROM_FILE), ACRHIVE_IMPORT);
-//#         addItem(SR.get(SR.MS_ARCHIVE) + ": " + SR.get(SR.MS_SAVE_TO_FILE), ACRHIVE_EXPORT);
+//#         addItem(SR.get(SR.MS_ARCHIVE) + ": " + SR.get(SR.MS_LOAD_FROM_FILE), ARCHIVE_IMPORT);
+//#         addItem(SR.get(SR.MS_ARCHIVE) + ": " + SR.get(SR.MS_SAVE_TO_FILE), ARCHIVE_EXPORT);
 //#ifdef PLUGINS
 //#         }
 //#endif
@@ -71,11 +71,11 @@
 //#         MenuItem mItem = (MenuItem) getFocusedObject();
 //#         
 //#         switch (mItem.index) {
-//#             case ACRHIVE_IMPORT:
+//#             case ARCHIVE_IMPORT:
 //#             case ACCOUNT_IMPORT:
 //#                 new Browser(null, display, this, this, false);
 //#                 break;
-//#             case ACRHIVE_EXPORT:
+//#             case ARCHIVE_EXPORT:
 //#             case ACCOUNT_EXPORT:
 //#                 new Browser(null, display, this, this, true);
 //#                 break;
@@ -86,8 +86,8 @@
 //#         MenuItem mItem = (MenuItem) getFocusedObject();
 //#         
 //#         switch (mItem.index) {
-//#             case ACRHIVE_EXPORT:
-//#             case ACRHIVE_IMPORT:
+//#             case ARCHIVE_EXPORT:
+//#             case ARCHIVE_IMPORT:
 //#                 new ArchiveTemplates(path, mItem.index);
 //#                 break;
 //#             case ACCOUNT_EXPORT:
@@ -95,6 +95,7 @@
 //#                 new Accounts(path, mItem.index);
 //#                 break;
 //#         }
+//#         setWobble(3, null, SR.get(SR.MS_DONE));
 //#     }
 //# }
 //#endif

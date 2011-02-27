@@ -24,13 +24,13 @@
  * along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
-package impexp; 
+package impexp;
 
 import account.Account;
 import io.NvStorage;
 import io.file.FileIO;
 import java.io.DataOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Vector;
 
 /**
@@ -41,175 +41,153 @@ public class Accounts {
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_IE");
 //#endif
-    
-    private final static String userName = "userName"; 
-    private final static String server = "server"; 
-    private final static String password = "password"; 
-    private final static String hostAddr = "hostAddr"; 
-    private final static String port = "port"; 
-    private final static String nick = "nick"; 
-    private final static String resource = "resource"; 
-    private final static String useSSL = "useSSL"; 
-    private final static String plainAuth = "plainAuth"; 
-    private final static String mucOnly = "mucOnly"; 
-    private final static String compression = "compression"; 
-    private final static String keepAliveType = "keepAliveType"; 
-    private final static String keepAlivePeriod = "keepAlivePeriod";
-    
-    Vector accountList;
+    private final static String USERNAME = "userName";
+    private final static String SERVER = "server";
+    private final static String PASSWORD = "password";
+    private final static String HOST = "hostAddr";
+    private final static String PORT = "port";
+    private final static String NICK = "nick";
+    private final static String RESOURCE = "resource";
+    private final static String USE_SSL = "useSSL";
+    private final static String PLAIN_AUTH = "plainAuth";
+    private final static String MUC_ONLY = "mucOnly";
+    private final static String COMPRESSION = "compression";
+    private final static String KEEPALIVE = "keepAliveType";
+    private final static String KEEPALIVEPERIOD = "keepAlivePeriod";
+    private Vector accountList;
 
-    private String file;
+    public Accounts(String path, int action) {
+        accountList = new Vector();
 
-    /** Creates a new instance of Accounts */
-    public Accounts(String path, int type) {
-        accountList = new Vector(0);
-        this.file=path;
-        
-        if (type == IEMenu.ACCOUNT_IMPORT) {
-            importData();
-        } else {
-            exportData();
+        switch (action) {
+            case IEMenu.ACCOUNT_EXPORT:
+                exportData(path);
+                break;
+            case IEMenu.ACCOUNT_IMPORT:
+                importData(path);
+                break;
         }
     }
-    
-    
-    private void importData() {
-        String accounts="";
-        
-        FileIO fileIO=FileIO.createConnection(file);
-        byte[] bodyMessage = fileIO.fileRead();
 
-        if (bodyMessage!=null) {
-            accounts=new String(bodyMessage, 0, bodyMessage.length);
+    private void exportData(String path) {
+        StringBuffer body = new StringBuffer();
+        Vector accounts = new Vector();
+
+        Account a;
+        int index = 0;
+        do {
+            a = Account.createFromStorage(index);
+            if (a != null) {
+
+                body.append("<a>");
+                body.append(createBlock(USERNAME, a.getUserName()));
+                body.append(createBlock(SERVER, a.getServer()));
+                body.append(createBlock(PASSWORD, a.getPassword()));
+                body.append(createBlock(HOST, a.getHostAddr()));
+                body.append(createBlock(PORT, Integer.toString(a.getPort())));
+                body.append(createBlock(NICK, a.getNick()));
+                body.append(createBlock(RESOURCE, a.getResource()));
+                body.append(createBlock(USE_SSL, (a.getUseSSL() ? "1" : "0")));
+                body.append(createBlock(PLAIN_AUTH, (a.getPlainAuth() ? "1" : "0")));
+                body.append(createBlock(MUC_ONLY, (a.isMucOnly() ? "1" : "0")));
+                body.append(createBlock(COMPRESSION, (a.useCompression() ? "1" : "0")));
+                body.append(createBlock(KEEPALIVE, Integer.toString(a.getKeepAliveType())));
+                body.append(createBlock(KEEPALIVEPERIOD, Integer.toString(a.getKeepAlivePeriod())));
+                body.append("</a>\r\n");
+
+                index++;
+            }
+        } while (a != null);
+
+        byte buf[];
+        try {
+            buf = body.toString().getBytes("utf-8");
+        } catch (UnsupportedEncodingException e) {
+            buf = body.toString().getBytes();
         }
-        if (accounts!=null) {
+
+        FileIO fileIO = FileIO.createConnection(path + "accounts.txt");
+        fileIO.fileWrite(buf);
+    }
+
+    private void importData(String path) {
+        FileIO fileIO = FileIO.createConnection(path);
+        byte[] buf = fileIO.fileRead();
+        
+        DataOutputStream outputStream = NvStorage.CreateDataOutputStream(); 
+
+        if (buf != null) {
+            String raw;
             try {
-                int pos=0;
-                int start_pos=0;
-                int end_pos=0;
-                
-                boolean parse=true;
+                raw = new String(buf, "utf-8");
+            } catch (UnsupportedEncodingException e) {
+                raw = new String(buf);
+            }
+
+            try {
+                int pos = 0;
+                int start_pos = 0;
+                int end_pos = 0;
+
+                boolean parse = true;
 
                 while (parse) {
-                    start_pos=accounts.indexOf("<a>", pos); 
-                    end_pos=accounts.indexOf("</a>", pos);
-                    
-                    if (start_pos>-1 && end_pos>-1) {
-                        pos=end_pos+4;
-                        String tempstr=accounts.substring(start_pos+3, end_pos);
+                    start_pos = raw.indexOf("<a>", pos);
+                    end_pos = raw.indexOf("</a>", pos);
 
-                        Account account=new Account();
-                        account.setUserName(findBlock(tempstr, userName));
-                        account.setServer(findBlock(tempstr, server));
-                        account.setPassword(findBlock(tempstr,password));
-                        account.setNick(findBlock(tempstr, nick));
-                        
-                        account.setPort(Integer.parseInt(findBlock(tempstr, port)));
-                        account.setHostAddr(findBlock(tempstr, hostAddr));
-                        account.setResource(findBlock(tempstr, resource));
-                        account.setPassword(findBlock(tempstr, password));
-                        account.setUseSSL((findBlock(tempstr, useSSL).equals("1"))?true:false);
-                        account.setPlainAuth((findBlock(tempstr, plainAuth).equals("1"))?true:false);
-                        account.setUseCompression((findBlock(tempstr, compression).equals("1"))?true:false);
-                        account.setMucOnly((findBlock(tempstr, mucOnly).equals("1"))?true:false);
-                        account.setKeepAlivePeriod(Integer.parseInt(findBlock(tempstr, keepAlivePeriod)));
-                        account.setKeepAliveType(Integer.parseInt(findBlock(tempstr, keepAliveType)));
-                        
-                        accountList.addElement(account);
-                    } else parse=false;
+                    if (start_pos > -1 && end_pos > -1) {
+                        pos = end_pos + 4;
+                        String tempstr = raw.substring(start_pos + 3, end_pos);
+
+                        Account account = new Account();
+                        account.setUserName(findBlock(tempstr, USERNAME));
+                        account.setServer(findBlock(tempstr, SERVER));
+                        account.setPassword(findBlock(tempstr, PASSWORD));
+                        account.setNick(findBlock(tempstr, NICK));
+
+                        account.setPort(Integer.parseInt(findBlock(tempstr, PORT)));
+                        account.setHostAddr(findBlock(tempstr, HOST));
+                        account.setResource(findBlock(tempstr, RESOURCE));
+                        account.setPassword(findBlock(tempstr, PASSWORD));
+                        account.setUseSSL((findBlock(tempstr, USE_SSL).equals("1")) ? true : false);
+                        account.setPlainAuth((findBlock(tempstr, PLAIN_AUTH).equals("1")) ? true : false);
+                        account.setUseCompression((findBlock(tempstr, COMPRESSION).equals("1")) ? true : false);
+                        account.setMucOnly((findBlock(tempstr, MUC_ONLY).equals("1")) ? true : false);
+                        account.setKeepAlivePeriod(Integer.parseInt(findBlock(tempstr, KEEPALIVEPERIOD)));
+                        account.setKeepAliveType(Integer.parseInt(findBlock(tempstr, KEEPALIVE)));
+
+                        account.saveToDataOutputStream(outputStream);
+                        account.setIconElement();
+                    } else {
+                        parse = false;
+                    }
                 }
-                rmsUpdate();
-            } catch (Exception e) { }
-        }
-    }
-    
-    private void rmsUpdate(){
-        DataOutputStream outputStream=NvStorage.CreateDataOutputStream();
-        for (int i=0; i<getItemCount(); i++){
-            getAccount(i).saveToDataOutputStream(outputStream);
-            getAccount(i).setIconElement();
-        }
-        NvStorage.writeFileRecord(outputStream, "accnt_db", 0, true); //Account.storage
-    }
-    
-    
-    private String findBlock(String source, String needle){
-        String startItem="<"+needle+">";
-        int start =source.indexOf(startItem);
-        int end = source.indexOf("</"+needle+">");
 
-        if (start>-1 && end>-1 && start!=end) {
-            return source.substring(start+startItem.length(), end);
+                NvStorage.writeFileRecord(outputStream, "accnt_db", 0, true);
+            } catch (Exception e) {
+            }
+        }
+    }
+
+    private String findBlock(String source, String needle) {
+        String startItem = "<" + needle + ">";
+        int start = source.indexOf(startItem);
+        int end = source.indexOf("</" + needle + ">");
+
+        if (start > -1 && end > -1 && start != end) {
+            return source.substring(start + startItem.length(), end);
         }
 
         return "";
     }
-    
-    private String createBlock(String needle, String value){
-        StringBuffer block = new StringBuffer("<")
-            .append(needle)
-            .append('>');
-            if (value!=null)
-                block.append(value);
-            block.append("</")
-            .append(needle)
-            .append('>');
-        
-        return block.toString();
-    }
-    
-    private void exportData() {
-        StringBuffer body=new StringBuffer();
-        
-        getAccounts();
-        
-        for(int i=0; i<getItemCount(); i++){
-            Account a=getAccount(i);
-            StringBuffer account = new StringBuffer("<a>");
-            account.append(createBlock(userName, a.getUserName()))
-                   .append(createBlock(server, a.getServer()))
-                   .append(createBlock(password, a.getPassword()))
-                   .append(createBlock(hostAddr, a.getHostAddr()))
-                   .append(createBlock(port, Integer.toString(a.getPort())))
-                   .append(createBlock(nick, a.getNick()))
-                   .append(createBlock(resource, a.getResource()))
-                   .append(createBlock(useSSL, (a.getUseSSL()?"1":"0")))
-                   .append(createBlock(plainAuth, (a.getPlainAuth()?"1":"0")))
-                   .append(createBlock(mucOnly, (a.isMucOnly()?"1":"0")))
-                   .append(createBlock(compression, (a.useCompression()?"1":"0")))
-                   .append(createBlock(keepAliveType, Integer.toString(a.getKeepAliveType())))
-                   .append(createBlock(keepAlivePeriod, Integer.toString(a.getKeepAlivePeriod())))
-                   .append("</a>\r\n");
-            body.append(account);
+
+    private String createBlock(String tag, String value) {
+        StringBuffer block = new StringBuffer("<").append(tag).append('>');
+        if (value != null) {
+            block.append(value);
         }
+        block.append("</").append(tag).append('>');
 
-        byte[] bodyMessage=body.toString().getBytes();
-
-        FileIO fileIO=FileIO.createConnection(file+"accounts.txt");
-        fileIO.fileWrite(bodyMessage);
-
-        bodyMessage=null;
-        body=null;
-    }
-    
-    private void getAccounts() {
-        Account a;
-        int index=0;
-        do {
-            a=Account.createFromStorage(index);
-            if (a!=null) {
-                accountList.addElement(a);
-                index++;
-            }
-        } while (a!=null);
-    }
-    
-    
-    public int getItemCount() {
-	return accountList.size();
-    }
-    
-    public Account getAccount(int index) {
-	return (Account) accountList.elementAt(index);
+        return block.toString();
     }
 }

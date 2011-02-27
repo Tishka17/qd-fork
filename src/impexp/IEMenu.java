@@ -43,7 +43,7 @@
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_IE");
 //#endif
-//#     private int choice = -1;
+//# 
 //#     public static final int ACRHIVE_EXPORT = 0;
 //#     public static final int ACRHIVE_IMPORT = 1;
 //#     public static final int ACCOUNT_EXPORT = 2;
@@ -69,9 +69,6 @@
 //# 
 //#     public void eventOk() {
 //#         MenuItem mItem = (MenuItem) getFocusedObject();
-//#         if (mItem == null) {
-//#             return;
-//#         }
 //#         
 //#         switch (mItem.index) {
 //#             case ACRHIVE_IMPORT:
@@ -86,14 +83,16 @@
 //#     }
 //# 
 //#     public void BrowserFilePathNotify(String path) {
-//#         switch (choice) {
+//#         MenuItem mItem = (MenuItem) getFocusedObject();
+//#         
+//#         switch (mItem.index) {
 //#             case ACRHIVE_EXPORT:
 //#             case ACRHIVE_IMPORT:
-//#                 new ArchiveTemplates(path, choice);
+//#                 new ArchiveTemplates(path, mItem.index);
 //#                 break;
 //#             case ACCOUNT_EXPORT:
 //#             case ACCOUNT_IMPORT:
-//#                 new Accounts(path, choice);
+//#                 new Accounts(path, mItem.index);
 //#                 break;
 //#         }
 //#     }

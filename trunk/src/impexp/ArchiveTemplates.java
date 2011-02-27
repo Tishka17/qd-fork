@@ -65,19 +65,15 @@ public class ArchiveTemplates {
     private final static String start_body="<START_BODY>";
     private final static String end_body="<END_BODY>";
     
-    private int where;
-    
     private Config cf;
     
     MessageArchive archive;
     
 
-    public ArchiveTemplates(int direction, int where, String pathSelected) {
-        this.where=where;
-        
+    public ArchiveTemplates(int direction, String pathSelected) {       
         cf=Config.getInstance();
         
-        archive=new MessageArchive(where);
+        archive=new MessageArchive();
         
         if (direction==1) {
                 exportData(pathSelected);
@@ -192,7 +188,7 @@ public class ArchiveTemplates {
             bodyMessage=body.toString().getBytes();
         }
 
-        FileIO file=FileIO.createConnection(arhPath+((where==1)?"archive_":"template_")+getDate()+".txt");
+        FileIO file=FileIO.createConnection(arhPath+"archive_"+getDate()+".txt");
         file.fileWrite(bodyMessage);
 
         body=null;
@@ -218,7 +214,7 @@ public class ArchiveTemplates {
         Vector history=importData(arhPath);
         
         for (Enumeration messages=history.elements(); messages.hasMoreElements(); )  {
-            MessageArchive.store((Msg) messages.nextElement(), where);
+            MessageArchive.store((Msg) messages.nextElement());
         }
         archive.close();
     }

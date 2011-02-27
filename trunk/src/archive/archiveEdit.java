@@ -52,8 +52,6 @@ public class archiveEdit
     
     MessageArchive archive;
 
-    private int where=1;
-
     private int pos;
 
     private ArchiveList al;
@@ -62,14 +60,14 @@ public class archiveEdit
     
     public TextBox t;      
     
-    public archiveEdit(Display display, Displayable pView, int pos, int where, ArchiveList al) {
+    public archiveEdit(Display display, Displayable pView, int pos, ArchiveList al) {
         t=new TextBox((pos>-1)?SR.get(SR.MS_EDIT):SR.get(SR.MS_NEW) ,null, 4096, TextField.ANY);
         this.display=display;
         
         cmdCancel=new Command(SR.get(SR.MS_CANCEL), Command.BACK, 99);
         cmdOk=new Command(SR.get(SR.MS_OK), Command.OK /*Command.SCREEN*/, 1);
-        archive=new MessageArchive(where);
-        this.where=where;
+        archive=new MessageArchive();
+
         this.pos=pos;
         this.al=al;
         
@@ -100,7 +98,7 @@ public class archiveEdit
             }
             Msg newmsg=new Msg(type, from, subj, body);
             
-            MessageArchive.store(newmsg, where);
+            MessageArchive.store(newmsg);
             archive.close();
             
             al.reFresh();

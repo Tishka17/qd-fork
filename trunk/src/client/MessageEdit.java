@@ -92,11 +92,7 @@ public final class MessageEdit
 //#ifdef CLIPBOARD
 //#     Command cmdPasteText;
 //#endif  
-//#if TEMPLATES
-//#     Command cmdTemplate;
-//#endif   
-    
-    
+
     public void initCommands(){
           cmdSend=new Command(SR.get(SR.MS_SEND), Command.OK, 1);
 //#ifdef SMILES
@@ -120,9 +116,6 @@ public final class MessageEdit
 //#ifdef CLIPBOARD
 //#           cmdPasteText=new Command(SR.get(SR.MS_PASTE), Command.SCREEN, 8);
 //#endif  
-//#if TEMPLATES
-//#       cmdTemplate=new Command(SR.get(SR.MS_TEMPLATE), Command.SCREEN, 7);
-//#endif 
           //System.out.println("initCommands");
     }
 
@@ -257,9 +250,6 @@ public final class MessageEdit
 //#endif
         t.addCommand(cmdPaste);
 //#endif
-//#ifdef TEMPLATES
-//#         t.addCommand(cmdTemplate);
-//#endif
         t.setCommandListener(this);
 //#ifdef RUNNING_MESSAGE
 //#         /*
@@ -335,9 +325,6 @@ public final class MessageEdit
 //#endif
        form.addCommand(cmdPaste);
 //#endif
-       //#ifdef TEMPLATES
-//#        form.addCommand(cmdTemplate);
-       //#endif
        form.setCommandListener(this);
     }
     
@@ -355,15 +342,16 @@ public final class MessageEdit
 
 
 //#ifdef ARCHIVE
-	if (c==cmdPaste) { 
-            //System.out.println(to);
-                //composing=false;
-                if(null != to) to.msgSuspended=body; 
-                if(midlet.BombusQD.cf.msgEditType>0){
-                  new ArchiveList(display , textField.getCaretPosition(), 1, textField, null,  to); return;                    
-                }else{
-                  new ArchiveList(display , t.getCaretPosition(),1,null,t,to); return;
-                }
+        if (c == cmdPaste) {
+            if (null != to) {
+                to.msgSuspended = body;
+            }
+            if (midlet.BombusQD.cf.msgEditType > 0) {
+                new ArchiveList(display, textField.getCaretPosition(), textField, null, to);
+            } else {
+                new ArchiveList(display, t.getCaretPosition(), null, t, to);
+            }
+            return;
         }
 //#endif
 //#ifdef CLIPBOARD
@@ -383,19 +371,7 @@ public final class MessageEdit
               t.insert("/me ", 0);                
             }
             return;
-        }
-//#if TEMPLATES && ARCHIVE
-//#         if (c==cmdTemplate) {
-//#             try {
-//#                 if(null != to) to.msgSuspended=body; 
-//#                 if(midlet.BombusQD.cf.msgEditType>0){
-//#                   new ArchiveList(display , textField.getCaretPosition(), 0, textField, null, to); return;                    
-//#                 }else{
-//#                   new ArchiveList(display , t.getCaretPosition(), 0, null, t, to); return;
-//#                 }
-//#             } catch (Exception e) {/*no messages*/}
-//#         }
-//#endif        
+        }   
         if (c==cmdLastMessage) {
             if(null == to) return;
             if(null == to.lastSendedMessage) return;

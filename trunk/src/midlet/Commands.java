@@ -34,9 +34,6 @@ public class Commands {
     public static Command cmdSelect;
     public static Command cmdActions;
     public static Command cmdActive;
-//#if TEMPLATES
-//#     public static Command cmdTemplate; //MS_SAVE_TEMPLATE),Command.SCREEN,11);
-//#endif
 //#ifdef FILE_IO
     public static Command cmdSaveChat;
 //#endif
@@ -98,9 +95,6 @@ public class Commands {
               cmdSelect=new Command(SR.get(SR.MS_SELECT), Command.SCREEN, 8);
               cmdActions=new Command(SR.get(SR.MS_CONTACT),Command.SCREEN,9);
               cmdActive=new Command(SR.get(SR.MS_ACTIVE_CONTACTS),Command.SCREEN,10);
-//#if TEMPLATES
-//#               cmdTemplate=new Command(SR.get(SR.MS_SAVE_TEMPLATE),Command.SCREEN,11);
-//#endif
 //#ifdef FILE_IO
               cmdSaveChat=new Command(SR.get(SR.MS_SAVE_CHAT), Command.SCREEN, 12);
 //#endif
@@ -174,9 +168,6 @@ public class Commands {
         cmdHistoryRMS.setImg(0x64);
         cmdHistoryFS.setImg(0x64);
         cmdHistorySERVER.setImg(0x64);
-        //#ifdef TEMPLATES
-//#         cmdTemplate.setImg(0x44);
-        //#endif
     }
         
     private Commands() {

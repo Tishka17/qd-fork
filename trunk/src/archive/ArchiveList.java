@@ -72,8 +72,6 @@ public class ArchiveList
     MessageArchive archive;
     
     private int caretPos;
-    
-    private int where=1;
 
     private TextField tf;
     private TextBox tb;
@@ -86,9 +84,8 @@ public class ArchiveList
     }
     
     /** Creates a new instance of ArchiveList */
-    public ArchiveList(Display display, int caretPos, int where, TextField tf, TextBox tb, Contact cc) {
+    public ArchiveList(Display display, int caretPos, TextField tf, TextBox tb, Contact cc) {
  	super();
-        this.where=where;
         this.caretPos=caretPos;
         if(midlet.BombusQD.cf.msgEditType>0){
            this.tf=tf;
@@ -108,12 +105,8 @@ public class ArchiveList
 //#         cmdExport = new Command(SR.get(SR.MS_ieStr), Command.SCREEN, 11);
 //#endif
         
-        archive=new MessageArchive(where);
-	MainBar mainbar=new MainBar(
-                (where==1)?
-                SR.get(SR.MS_ARCHIVE)
-                :SR.get(SR.MS_TEMPLATE)
-                );
+        archive=new MessageArchive();
+	MainBar mainbar=new MainBar(SR.get(SR.MS_ARCHIVE));
 	mainbar.addElement(null);
 	mainbar.addRAlign();
 	mainbar.addElement(null);
@@ -196,7 +189,7 @@ public class ArchiveList
 //#         display.setCurrent(new impexp.IEMenu(display, this));
 //#     }
 //#endif
-        if (c==cmdNew) { new archiveEdit(display, this, -1, where, this); }
+        if (c==cmdNew) { new archiveEdit(display, this, -1, this); }
 	if (m==null) return;
         
 	if (c==cmdDelete) { keyClear(); }
@@ -206,13 +199,13 @@ public class ArchiveList
 	if (c==cmdJid) { pasteData(2); }
         if (c==cmdEdit) {
             try {
-                new archiveEdit(display, this, cursor, where, this);
+                new archiveEdit(display, this, cursor, this);
             } catch (Exception e) {/*no messages*/}
         }
     }
     
     public void reFresh() {
-        archive=new MessageArchive(where);
+        archive=new MessageArchive();
         messages.removeAllElements();
     }
 

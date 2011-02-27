@@ -44,7 +44,6 @@ import images.MenuIcons;
 //#ifdef ARCHIVE
 import archive.ArchiveList;
 //#endif
-import menu.RosterItemActions;
 //#ifdef CLIENTS_ICONS
 import images.ClientsIconsData;
 //#endif
@@ -208,19 +207,13 @@ public class Roster
     //public ConfigForm pluginsConfig;
     private static MessageEdit messageEdit;
     private static MessageEdit altmessageEdit;
-    private static ActiveContacts activeContacts = null;
-    private static RosterItemActions userActions = null;
+
 //#ifdef PEP  
 //#     public static SelectPEP selectPEP = null;
 //#endif  
     
-    public void showUserActions(Displayable pView, Object obj, int index){
-        userActions.showActions(pView,obj, index);
-    }
-    
-    public void createActiveContacts(Displayable pView, Contact current){
-        if(activeContacts.setActiveContacts(pView, current))
-            display.setCurrent(activeContacts);
+    public void showActiveContacts(Displayable pView, Contact current){
+        new ActiveContacts(display, pView, current);
     }
 
     public void createMessageEdit(boolean reCreate){
@@ -277,8 +270,7 @@ public class Roster
         setCommandListener(this);
 
         message.MessageParser.restart();
-        if(activeContacts == null) activeContacts = new ActiveContacts(display, this);
-        if(userActions == null) userActions = new RosterItemActions(display, this);
+
 //#ifdef PEP
 //#         if(selectPEP == null) selectPEP = new SelectPEP(display);
 //#endif
@@ -319,7 +311,6 @@ public class Roster
     public void initCommands() {
           createMessageEdit(true);
           StatusList.getInstance().reinit();
-          if(activeContacts != null) activeContacts.initCommands();
 
           cmdActions=new Command(SR.get(SR.MS_ITEM_ACTIONS), Command.SCREEN, 2);
           cmdStatus=new Command(SR.get(SR.MS_STATUS_MENU), Command.SCREEN, 4);
@@ -697,7 +688,7 @@ public class Roster
     public void cmdStatus() { currentReconnect=0; new StatusSelect(display, this, null); }
     public void cmdAlert() { new AlertProfile(display, this); }
 //#ifdef ARCHIVE
-    public void cmdArchive() { new ArchiveList(display , -1, 1, null, null, null); }
+    public void cmdArchive() { new ArchiveList(display , -1, null, null, null); }
 //#endif
     public void cmdInfo() { new info.InfoWindow(display, this); }
     
@@ -713,9 +704,7 @@ public class Roster
 //#endif
    public void cmdActions() {
        if (isLoggedIn()) {
-           try {
-                userActions.showActions(this, getFocusedObject(), -1);
-           } catch (Exception ex) {}
+           new ActionsMenu(display, this, getFocusedObject());
        }
    }    
 
@@ -3746,7 +3735,7 @@ public class Roster
                 break;
                 
             case KEY_NUM3:
-                createActiveContacts(this, null);
+                showActiveContacts(this, null);
                 break;
             case KEY_NUM9:
                 if (getItemCount()==0)
@@ -3810,7 +3799,7 @@ public class Roster
 //#ifndef WMUC
         else if (keyCode==KEY_NUM1 && isLoggedIn()) new Bookmarks(display, this, null);
 //#endif
-       	//else if (keyCode==KEY_NUM3) new ActiveContacts(display, this, null);
+
        	else if (keyCode==KEY_NUM4) {
               display.setCurrent(new ConfigForm(display, this));
         }
@@ -4233,7 +4222,7 @@ public class Roster
         } else if (x < 50){
             cmdStatus();
         } else {
-            createActiveContacts(this, null);
+            showActiveContacts(this, null);
 	}
     }
 

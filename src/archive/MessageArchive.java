@@ -45,14 +45,11 @@ public class MessageArchive {
 //#endif
     
     private final static String ARCHIVE="archive";
-    private final static String TEMPLATES="templates";
 
-    private int where;
     /** Creates a new instance of MessageArchive */
-    public MessageArchive(int where) {
-        this.where=where;
+    public MessageArchive() {
 	try {
-	    rs=RecordStore.openRecordStore((where==1)?ARCHIVE:TEMPLATES, true);
+	    rs=RecordStore.openRecordStore(ARCHIVE, true);
 	    int size=rs.getNumRecords();
 	    indexes=new Vector(size);
 	    RecordEnumeration re=rs.enumerateRecords(null, null, false);
@@ -107,7 +104,7 @@ public class MessageArchive {
 	} catch (Exception e) {}
 	try {
             indexes.removeAllElements();
-            RecordStore.deleteRecordStore((where==1)?ARCHIVE:TEMPLATES);
+            RecordStore.deleteRecordStore(ARCHIVE);
 	} catch (Exception e) {}
     }
 
@@ -125,7 +122,7 @@ public class MessageArchive {
 	rs=null;
     }
 
-    public static void store(Msg msg, int where) {
+    public static void store(Msg msg) {
 	try {
 	    ByteArrayOutputStream bout = new ByteArrayOutputStream();
 	    DataOutputStream dout = new DataOutputStream( bout );
@@ -137,7 +134,7 @@ public class MessageArchive {
               bout.close();
               bout = null;
 	    
-	    RecordStore rs=RecordStore.openRecordStore((where==1)?ARCHIVE:TEMPLATES, true);
+	    RecordStore rs=RecordStore.openRecordStore(ARCHIVE, true);
 	    rs.addRecord(b, 0, b.length);
             rs.closeRecordStore();
             rs = null;

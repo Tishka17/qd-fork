@@ -495,12 +495,6 @@ public class InfoWindow
 //#endif
 //#             abilitiesList.addElement((String)"STATS");
 //#endif
-//#ifdef TEMPLATES
-//#ifdef PLUGINS
-//#         if (sd.Archive)
-//#endif
-//#         abilitiesList.addElement((String)"TEMPLATES");
-//#endif
 //#ifdef USER_KEYS
 //#         abilitiesList.addElement((String)"USER_KEYS");
 //#endif

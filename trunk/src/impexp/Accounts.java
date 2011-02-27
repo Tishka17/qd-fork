@@ -61,21 +61,19 @@ public class Accounts {
     private String file;
 
     /** Creates a new instance of Accounts */
-    public Accounts(String path, int direction) {
-        accountList=null;
-        accountList=new Vector(0);
+    public Accounts(String path, int type) {
+        accountList = new Vector(0);
         this.file=path;
         
-        if (direction==0) {
+        if (type == IEMenu.ACCOUNT_IMPORT) {
             importData();
         } else {
             exportData();
         }
-        accountList=null;
     }
     
     
-    public void importData() {
+    private void importData() {
         String accounts="";
         
         FileIO fileIO=FileIO.createConnection(file);
@@ -123,12 +121,9 @@ public class Accounts {
                 rmsUpdate();
             } catch (Exception e) { }
         }
-
-        accounts=null;
-        bodyMessage=null;
     }
     
-    public void rmsUpdate(){
+    private void rmsUpdate(){
         DataOutputStream outputStream=NvStorage.CreateDataOutputStream();
         for (int i=0; i<getItemCount(); i++){
             getAccount(i).saveToDataOutputStream(outputStream);
@@ -163,7 +158,7 @@ public class Accounts {
         return block.toString();
     }
     
-    public void exportData() {
+    private void exportData() {
         StringBuffer body=new StringBuffer();
         
         getAccounts();

@@ -39,97 +39,61 @@
 //#  *
 //#  * @author ad
 //#  */
-//# public class IEMenu 
-//#         extends Menu
-//#         implements BrowserListener {
+//# public class IEMenu extends Menu implements BrowserListener {
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_IE");
 //#endif
-//# 
 //#     private int choice = -1;
-//#     
+//#     public static final int ACRHIVE_EXPORT = 0;
+//#     public static final int ACRHIVE_IMPORT = 1;
+//#     public static final int ACCOUNT_EXPORT = 2;
+//#     public static final int ACCOUNT_IMPORT = 3;
+//# 
 //#     public IEMenu(Display display, Displayable pView) {
-//#         super(SR.get(SR.MS_IMPORT_EXPORT), null,null);
-//#         //addItem(SR.get(SR.MS_OPTIONS)+": "+SR.get(SR.MS_LOAD_FROM_FILE), 0);
-//#         //addItem(SR.get(SR.MS_OPTIONS)+": "+SR.get(SR.MS_SAVE_TO_FILE), 1);
+//#         super(SR.get(SR.MS_IMPORT_EXPORT), null, null);
 //#ifdef PLUGINS
 //#         if (StaticData.getInstance().Archive) {
 //#endif
-//#             addItem(SR.get(SR.MS_ARCHIVE)+": "+SR.get(SR.MS_LOAD_FROM_FILE), 2);
-//#             addItem(SR.get(SR.MS_ARCHIVE)+": "+SR.get(SR.MS_SAVE_TO_FILE), 3);
+//#         addItem(SR.get(SR.MS_ARCHIVE) + ": " + SR.get(SR.MS_LOAD_FROM_FILE), ACRHIVE_IMPORT);
+//#         addItem(SR.get(SR.MS_ARCHIVE) + ": " + SR.get(SR.MS_SAVE_TO_FILE), ACRHIVE_EXPORT);
 //#ifdef PLUGINS
 //#         }
 //#endif
-//#         addItem(SR.get(SR.MS_TEMPLATE)+": "+SR.get(SR.MS_LOAD_FROM_FILE), 4);
-//#         addItem(SR.get(SR.MS_TEMPLATE)+": "+SR.get(SR.MS_SAVE_TO_FILE), 5);
-//#         
-//#         addItem(SR.get(SR.MS_ACCOUNTS)+": "+SR.get(SR.MS_LOAD_FROM_FILE), 6);
-//#         addItem(SR.get(SR.MS_ACCOUNTS)+": "+SR.get(SR.MS_SAVE_TO_FILE), 7);
+//# 
+//#         addItem(SR.get(SR.MS_ACCOUNTS) + ": " + SR.get(SR.MS_LOAD_FROM_FILE), ACCOUNT_IMPORT);
+//#         addItem(SR.get(SR.MS_ACCOUNTS) + ": " + SR.get(SR.MS_SAVE_TO_FILE), ACCOUNT_EXPORT);
 //# 
 //#         attachDisplay(display);
-//#         this.parentView=pView;
-//#     }
-//#     public void eventOk(){
-//# 	//destroyView();
-//# 	MenuItem me=(MenuItem) getFocusedObject();
-//#         
-//# 	if (me==null)
-//#             return;
-//#         
-//# 	choice=me.index;
-//#         
-//#         if (choice==0)
-//#             new Browser(null, display, this, this, false);
-//#         
-//#         if (choice==1)
-//#             new Browser(null, display, this, this, true);
-//#         
-//#         if (choice==2)
-//#             new Browser(null, display, this, this, false);
-//#         
-//#         if (choice==3)
-//#             new Browser(null, display, this, this, true);
-//#         
-//#         if (choice==4)
-//#             new Browser(null, display, this, this, false);
-//#         
-//#         if (choice==5)
-//#             new Browser(null, display, this, this, true);
-//#         
-//#         if (choice==6)
-//#             new Browser(null, display, this, this, false);
-//#         
-//#         if (choice==7)
-//#             new Browser(null, display, this, this, true);
+//#         this.parentView = pView;
 //#     }
 //# 
-//#     public void BrowserFilePathNotify(String pathSelected) {
+//#     public void eventOk() {
+//#         MenuItem mItem = (MenuItem) getFocusedObject();
+//#         if (mItem == null) {
+//#             return;
+//#         }
+//#         
+//#         switch (mItem.index) {
+//#             case ACRHIVE_IMPORT:
+//#             case ACCOUNT_IMPORT:
+//#                 new Browser(null, display, this, this, false);
+//#                 break;
+//#             case ACRHIVE_EXPORT:
+//#             case ACCOUNT_EXPORT:
+//#                 new Browser(null, display, this, this, true);
+//#                 break;
+//#         }
+//#     }
+//# 
+//#     public void BrowserFilePathNotify(String path) {
 //#         switch (choice) {
-//#       /*      
-//#             case 0: //load Config
-//#                 new IE.ConfigData(pathSelected, 0);
+//#             case ACRHIVE_EXPORT:
+//#             case ACRHIVE_IMPORT:
+//#                 new ArchiveTemplates(path, choice);
 //#                 break;
-//#             case 1: //save Config
-//#                 new IE.ConfigData(pathSelected, 1);
-//#                 break;
-//#        */
-//#             case 2: //load Archive
-//#                 new impexp.ArchiveTemplates(0, 1, pathSelected);
-//#                 break;
-//#             case 3: //save Archive
-//#                 new impexp.ArchiveTemplates(1, 1, pathSelected);
-//#                 break;
-//#             case 4: //load Templates
-//#                 new impexp.ArchiveTemplates(0, 0, pathSelected);
-//#                 break;
-//#             case 5: //save Templates
-//#                 new impexp.ArchiveTemplates(1, 0, pathSelected);
-//#                 break;
-//#             case 6: //load Accounts
-//#                 new impexp.Accounts(pathSelected, 0);
-//#                 break;
-//#             case 7: //save Accounts
-//#                 new impexp.Accounts(pathSelected, 1);
+//#             case ACCOUNT_EXPORT:
+//#             case ACCOUNT_IMPORT:
+//#                 new Accounts(path, choice);
 //#                 break;
 //#         }
 //#     }

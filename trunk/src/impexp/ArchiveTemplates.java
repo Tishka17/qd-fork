@@ -27,15 +27,13 @@
 package impexp;
 
 import client.Constants;
-import client.Config;
 import client.Msg;
 import archive.MessageArchive;
 import io.file.FileIO;
+import java.io.UnsupportedEncodingException;
 import java.util.Enumeration;
 import java.util.Vector;
 import ui.Time;
-import util.Strconv;
-import ui.controls.AlertBox;
 
 /**
  *
@@ -45,79 +43,66 @@ public class ArchiveTemplates {
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_IE");
 //#endif
-    String filePath;
-    private final static String start_item = "<START_ITEM>";
-    private final static String end_item = "<END_ITEM>";
-    private final static String start_date = "<START_DATE>";
-    private final static String end_date = "<END_DATE>";
-    private final static String start_from = "<START_FROM>";
-    private final static String end_from = "<END_FROM>";
-    private final static String start_subj = "<START_SUBJ>";
-    private final static String end_subj = "<END_SUBJ>";
-    private final static String start_body = "<START_BODY>";
-    private final static String end_body = "<END_BODY>";
-    MessageArchive archive;
 
-    public ArchiveTemplates(String path, int type) {
+    private final static String START_ITEM = "<START_ITEM>";
+    private final static String END_ITEM = "<END_ITEM>";
+    private final static String START_DATE = "<START_DATE>";
+    private final static String END_DATE = "<END_DATE>";
+    private final static String START_FROM = "<START_FROM>";
+    private final static String END_FROM = "<END_FROM>";
+    private final static String START_SUBJ = "<START_SUBJ>";
+    private final static String END_SUBJ = "<END_SUBJ>";
+    private final static String START_BODY = "<START_BODY>";
+    private final static String END_BODY = "<END_BODY>";
+    
+    private MessageArchive archive;
+
+    public ArchiveTemplates(String path, int action) {
         archive = new MessageArchive();
 
-        if (type == IEMenu.ACRHIVE_EXPORT) {
-            exportData(path);
-        } else {
-            importArchive(path);
+        switch (action) {
+            case IEMenu.ARCHIVE_EXPORT:
+                exportArchive(path);
+                break;
+            case IEMenu.ARCHIVE_IMPORT:
+                importArchive(path);
+                break;
         }
+        
+        archive.close();
     }
-
-    private void createAlert() {
-        new AlertBox("Info", "Windows cp1251?", midlet.BombusQD.getInstance().display, midlet.BombusQD.sd.roster, false)  {
-            public void yes() {
-                Config.getInstance().cp1251 = true;
-            }
-
-            public void no() {
-                Config.getInstance().cp1251 = false;
-            }
-        };
-    }
-
-    public Vector importData(String arhPath) {
+    
+    private void importArchive(String arhPath) {
         Vector vector = new Vector();
-        byte[] bodyMessage;
-        String archive = "";
-
+        
         FileIO f = FileIO.createConnection(arhPath);
-        bodyMessage = f.fileRead();
-
-        if (bodyMessage != null) {
-            createAlert();
-            if (Config.getInstance().cp1251) {
-                archive = Strconv.convCp1251ToUnicode(new String(bodyMessage, 0, bodyMessage.length));
-            } else {
-                archive = new String(bodyMessage, 0, bodyMessage.length);
-            }
-        }
-        if (archive != null) {
+        byte buf[] = f.fileRead();
+        
+        if (buf != null) {
+            String raw;
+            try {
+                raw = new String(buf, "utf-8");
+            } catch (UnsupportedEncodingException e) {
+                raw = new String(buf);
+            }            
+            
             try {
                 int pos = 0;
                 int start_pos = 0;
                 int end_pos = 0;
 
                 while (true) {
-                    String date = null;
-                    String from = null;
-                    String subj = null;
-                    String body = null;
-                    String tempstr = null;
-                    start_pos = archive.indexOf(start_item, pos);
-                    end_pos = archive.indexOf(end_item, pos);
+                    start_pos = raw.indexOf(START_ITEM, pos);
+                    end_pos = raw.indexOf(END_ITEM, pos);
 
                     if (start_pos > -1 && end_pos > -1) {
-                        tempstr = archive.substring(start_pos + start_item.length(), end_pos);
-                        date = findBlock(tempstr, start_date, end_date);
-                        from = findBlock(tempstr, start_from, end_from);
-                        subj = findBlock(tempstr, start_subj, end_subj);
-                        body = findBlock(tempstr, start_body, end_body);
-                        //System.out.println("["+date+"]"+from+": "+subj+" "+body+"\r\n");
+                        String tempstr = raw.substring(start_pos + START_ITEM.length(), end_pos);
+
+                        String date = findBlock(tempstr, START_DATE, END_DATE);
+                        String from = findBlock(tempstr, START_FROM, END_FROM);
+                        String subj = findBlock(tempstr, START_SUBJ, END_SUBJ);
+                        String body = findBlock(tempstr, START_BODY, END_BODY);
+
                         Msg msg = new Msg(Constants.MESSAGE_TYPE_IN, from, subj, body);
                         msg.setDayTime(date);
                         vector.insertElementAt(msg, 0);
@@ -125,17 +110,16 @@ public class ArchiveTemplates {
                         break;
                     }
 
-                    pos = end_pos + end_item.length();
+                    pos = end_pos + END_ITEM.length();
                 }
             } catch (Exception e) {
                 //System.out.println(e.toString());
             }
+            
+            for (Enumeration e = vector.elements(); e.hasMoreElements();) {
+                MessageArchive.store((Msg) e.nextElement());
+            }
         }
-
-        bodyMessage = null;
-        arhPath = null;
-
-        return vector;
     }
 
     private String findBlock(String source, String _start, String _end) {
@@ -149,55 +133,38 @@ public class ArchiveTemplates {
         return source.substring(start + _start.length(), end);
     }
 
-    private void exportData(String arhPath) {
-        byte[] bodyMessage;
-        int items = getItemCount();
+    private void exportArchive(String path) {
         StringBuffer body = new StringBuffer();
 
-        for (int i = 0; i < items; i++) {
-            Msg m = getMessage(i);
-            body.append(start_item).append("\r\n").append(start_date).append(m.getDayTime()).append(end_date).append("\r\n").append(start_from).append(m.from).append(end_from).append("\r\n").append(start_subj);
+        for (int i = 0; i < archive.size(); ++i) {
+            Msg m = archive.msg(i);
+            body.append(START_ITEM).append("\r\n");
+            body.append(START_DATE).append(m.getDayTime()).append(END_DATE).append("\r\n");
+            body.append(START_FROM).append(m.from).append(END_FROM).append("\r\n");
+            body.append(START_SUBJ);
             if (m.subject != null) {
                 body.append(m.subject);
             }
-            body.append(end_subj).append("\r\n").append(start_body).append(m.body).append(end_body).append("\r\n").append(end_item).append("\r\n\r\n");
+            body.append(END_SUBJ).append("\r\n");
+            body.append(START_BODY).append(m.body).append(END_BODY).append("\r\n");
+            body.append(END_ITEM).append("\r\n\r\n");
+            
+            System.out.println(body.length());
+        }
+        
+        byte buf[];
+        try {
+            buf = body.toString().getBytes("utf-8");
+        } catch (UnsupportedEncodingException e) {
+            buf = body.toString().getBytes();
         }
 
-        createAlert();
-        if (Config.getInstance().cp1251) {
-            bodyMessage = Strconv.convUnicodeToCp1251(body.toString()).getBytes();
-        } else {
-            bodyMessage = body.toString().getBytes();
-        }
-
-        FileIO file = FileIO.createConnection(arhPath + "archive_" + getDate() + ".txt");
-        file.fileWrite(bodyMessage);
-
-        body = null;
-        arhPath = null;
-
-        archive.close();
+        FileIO file = FileIO.createConnection(path + "archive_" + getDate() + ".txt");
+        file.fileWrite(buf);
     }
 
     private String getDate() {
         long dateGmt = Time.utcTimeMillis();
         return Time.dayLocalString(dateGmt).trim();
-    }
-
-    public int getItemCount() {
-        return archive.size();
-    }
-
-    public Msg getMessage(int index) {
-        return archive.msg(index);
-    }
-
-    private void importArchive(String arhPath) {
-        Vector history = importData(arhPath);
-
-        for (Enumeration messages = history.elements(); messages.hasMoreElements();) {
-            MessageArchive.store((Msg) messages.nextElement());
-        }
-        archive.close();
     }
 }

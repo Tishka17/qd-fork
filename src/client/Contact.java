@@ -380,7 +380,9 @@ public class Contact extends IconTextElement{
         if (group.type!=Groups.TYPE_TRANSP && group.type!=Groups.TYPE_SEARCH_RESULT) {
           boolean allowLog = (origin<Constants.ORIGIN_GROUPCHAT);
           if (origin!=Constants.ORIGIN_GROUPCHAT && this instanceof MucContact) allowLog=false;
-          if(allowLog) getML().storeMessage(m);
+//#ifdef HISTORY
+//#           if(allowLog) getML().storeMessage(m);
+//#endif
         }
     }
 

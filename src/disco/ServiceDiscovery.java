@@ -589,6 +589,7 @@ public class ServiceDiscovery
       }
       
       public void onSelect(VirtualList view) { //todo: %)
+//#ifdef POPUPS
          if(imNetwork>0) {
             switch(imNetwork) {
                 case 1://ICQ
@@ -609,6 +610,7 @@ public class ServiceDiscovery
             }
             return;
          }
+//#endif
          super.onSelect(view);
       }
 

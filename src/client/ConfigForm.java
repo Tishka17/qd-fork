@@ -32,7 +32,9 @@ import locale.SR;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import menu.MenuListener;
-import history.HistoryConfig;
+//#ifdef HISTORY
+//# import history.HistoryConfig;
+//#endif
 
 /**
  *
@@ -40,7 +42,7 @@ import history.HistoryConfig;
  */
 
 public class ConfigForm extends DefForm implements MenuListener {
-    private Display display;
+//    private Display display;
 
     public ConfigForm(Display display, Displayable pView) {
         super(display, pView, SR.get(SR.MS_OPTIONS));
@@ -56,10 +58,14 @@ public class ConfigForm extends DefForm implements MenuListener {
         addControl(new PluginBox(SR.get(SR.MS_COLOR_TUNE), config.module_theme, 0));
         addControl(new PluginBox(SR.get(SR.MS_fontsStr), config.module_fonts, 0));
 
-        addControl(new PluginBox(SR.get(SR.MS_AUTOSTATUS), config.module_autostatus, 1));        
+//#ifdef AUTOSTATUS
+//#         addControl(new PluginBox(SR.get(SR.MS_AUTOSTATUS), config.module_autostatus, 1)); 
+//#endif
         addControl(new PluginBox(SR.get(SR.MS_hotkeysStr), config.userKeys, 2));
         addControl(new PluginBox(SR.get(SR.MS_avatarStr), config.module_avatars, 3));
-        addControl(new PluginBox(SR.get(SR.MS_historyStr), config.module_history, 4));
+//#ifdef HISTORY
+//#         addControl(new PluginBox(SR.get(SR.MS_historyStr), config.module_history, 4));
+//#endif
 
 //#ifdef IMPORT_EXPORT         
 //#         addControl(new PluginBox(SR.get(SR.MS_ieStr), config.module_ie, 5));    
@@ -85,18 +91,22 @@ public class ConfigForm extends DefForm implements MenuListener {
             if (!config.userKeys) {
                 return null;
             }
-        } else if (text.equals(SR.get(SR.MS_astatusStr))) {
-            if (!config.module_autostatus) {
-                return null;
-            }
+//#ifdef AUTOSTATUS
+//#         } else if (text.equals(SR.get(SR.MS_astatusStr))) {
+//#             if (!config.module_autostatus) {
+//#                 return null;
+//#             }
+//#endif
         } else if (text.equals(SR.get(SR.MS_clchatStr))) {
             if (!config.module_classicchat) {
                 return null;
             }
-        } else if (text.equals(SR.get(SR.MS_historyStr))) {
-            if (!config.module_history) {
-                return null;
-            }
+//#ifdef HISTORY
+//#         } else if (text.equals(SR.get(SR.MS_historyStr))) {
+//#             if (!config.module_history) {
+//#                 return null;
+//#             }
+//#endif
 //#ifdef IMPORT_EXPORT
 //#         } else if(text.equals(SR.get(SR.MS_ieStr))) {
 //#             if (!config.module_ie) {
@@ -130,18 +140,22 @@ public class ConfigForm extends DefForm implements MenuListener {
 //#       } else if (type.equals(SR.get(SR.MS_hotkeysStr))) {
 //#             display.setCurrent(new ui.keys.UserKeysList(display));
 //#endif
-        } else if (type.equals(SR.get(SR.MS_historyStr))) {
-            display.setCurrent(new HistoryConfig(display, this));
+//#ifdef HISTORY
+//#         } else if (type.equals(SR.get(SR.MS_historyStr))) {
+//#             display.setCurrent(new HistoryConfig(display, this));
+//#endif
         } else if (type.equals(SR.get(SR.MS_fontsStr))) {
             display.setCurrent(new font.ConfigFonts(display, this));
 //#ifdef IMPORT_EXPORT          
 //#         } else if(type.equals(SR.get(SR.MS_ieStr))) {
-//#             display.setCurrent(new impexp.IEMenu(display, this));
+//#             new impexp.IEMenu(display, this);
 //#endif
         } else if (type.equals(SR.get(SR.MS_notifyStr))) {
             display.setCurrent(new alert.AlertCustomizeForm(display, this));
-        } else if (type.equals(SR.get(SR.MS_taskstr))) {
-            display.setCurrent(new autotask.AutoTaskForm(display, this));
+//#if AUTOTASK
+//#         } else if (type.equals(SR.get(SR.MS_taskstr))) {
+//#             new autotask.AutoTaskForm(display, this);
+//#endif
         } else if (type.equals(SR.get(SR.MS_avatarStr))) {
            display.setCurrent(new ConfigAvatar(display,this));
         } else {

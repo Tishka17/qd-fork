@@ -208,8 +208,10 @@ public final class CommandForm extends DefForm
             }  
             case _CHANGE_PASS_RMS://FIX
             {
-                  midlet.BombusQD.clipboard.setClipBoard("");
-                  midlet.BombusQD.clipboard.setClipBoard("!"+(String)res);
+//#ifdef CLIPBOARD
+//#                   midlet.BombusQD.clipboard.setClipBoard("");
+//#                   midlet.BombusQD.clipboard.setClipBoard("!"+(String)res);
+//#endif
                   new AccountSelect(display, parentView, false,-1);
                   break;
             }
@@ -218,14 +220,16 @@ public final class CommandForm extends DefForm
                   new AccountSelect(display, parentView, false,-1);
                   break;
             }
-            case STATS_ITEM:
-            {
-                  try {
-                      midlet.BombusQD.clipboard.add(new Msg(Constants.MESSAGE_TYPE_EVIL,"bechmark",null,(String)obj));
-                  } catch (Exception e) {/*no messages*/}
-                  destroyView();
-                  break;
-            }
+//#ifdef CLIPBOARD
+//#             case STATS_ITEM:
+//#             {
+//#                   try {
+//#                       midlet.BombusQD.clipboard.add(new Msg(Constants.MESSAGE_TYPE_EVIL,"bechmark",null,(String)obj));
+//#                   } catch (Exception e) {/*no messages*/}
+//#                   destroyView();
+//#                   break;
+//#             }
+//#endif
             case HISTORY_ITEM:
             {
                   destroyView();

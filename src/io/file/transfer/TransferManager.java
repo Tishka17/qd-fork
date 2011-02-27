@@ -72,7 +72,9 @@ public class TransferManager
     Command cmdBack;
     Command cmdDel;
     Command cmdClrF;
+//#ifdef POPUPS
     Command cmdInfo;
+//#endif
     
     /** Creates a new instance of TransferManager */
     public TransferManager(Display display) {
@@ -81,7 +83,9 @@ public class TransferManager
         cmdBack=new Command(SR.get(SR.MS_BACK), Command.BACK, 99);
         cmdDel=new Command(SR.get(SR.MS_DECLINE), Command.SCREEN, 10);
         cmdClrF=new Command(SR.get(SR.MS_HIDE_FINISHED), Command.SCREEN, 11);
+//#ifdef POPUPS
         cmdInfo=new Command(SR.get(SR.MS_INFO), Command.SCREEN, 12);
+//#endif
     
         commandState();
         setCommandListener(this);
@@ -108,7 +112,9 @@ public class TransferManager
         if (getItemCount()>0) {
             addCommand(cmdDel); cmdDel.setImg(0x41);
             addCommand(cmdClrF); cmdClrF.setImg(0x41);
+//#ifdef POPUPS
             addCommand(cmdInfo); cmdInfo.setImg(0x04);
+//#endif
         }
     }
 
@@ -155,8 +161,9 @@ public class TransferManager
             //}
         }
         if (c==cmdBack) cmdBack();
+//#ifdef POPUPS
         if (c==cmdInfo) cmdInfo();
-        
+//#endif
     }
     private void cmdBack() {
         TransferDispatcher.getInstance().eventNotify();
@@ -198,15 +205,17 @@ public class TransferManager
 //#endif       
     
     protected void keyPressed(int keyCode) { // overriding this method to avoid autorepeat
-        //kHold=0;
+//#ifdef POPUPS
         if (keyCode==KEY_POUND) {
             cmdInfo();
             return;
         }
+//#endif
         super.keyPressed(keyCode);
     }
 //#endif
 
+//#ifdef POPUPS
     private void cmdInfo() {
         if (getItemCount()>0) {
             TransferTask t=(TransferTask) getFocusedObject();
@@ -229,5 +238,6 @@ public class TransferManager
             VirtualList.setWobble(1, null, info.toString());
         }
     }
+//#endif
 }
 //#endif

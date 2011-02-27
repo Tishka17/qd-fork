@@ -57,7 +57,9 @@ public class Commands {
     public static Command cmdUrl ;
     public static Command cmdBack ;
 
-    public static Command cmdHistory ;
+//#ifdef HISTORY
+//#     public static Command cmdHistory ;
+//#endif
     public static Command cmdHistoryRMS ;
     public static Command cmdHistoryFS ;
     public static Command cmdHistorySERVER ;
@@ -118,11 +120,12 @@ public class Commands {
               cmdUrl = new Command(SR.get(SR.MS_GOTO_URL), Command.SCREEN, 80);
               cmdBack = new Command(SR.get(SR.MS_BACK), Command.BACK, 99);    
   
-    
-              cmdHistory = new Command(SR.get(SR.MS_HISTORY_OPTIONS), Command.SCREEN, 101);
-              cmdHistoryRMS = new Command(SR.get(SR.MS_HISTORY_SHOW) + "(rms)", Command.SCREEN, 102);
-              cmdHistoryFS = new Command(SR.get(SR.MS_HISTORY_SHOW) + "(fs)", Command.SCREEN, 103);
-              cmdHistorySERVER = new Command(SR.get(SR.MS_HISTORY_SHOW) + "(server)", Command.SCREEN, 104);
+//#ifdef HISTORY
+//#               cmdHistory = new Command(SR.get(SR.MS_HISTORY_OPTIONS), Command.SCREEN, 101);
+//#               cmdHistoryRMS = new Command(SR.get(SR.MS_HISTORY_SHOW) + "(rms)", Command.SCREEN, 102);
+//#               cmdHistoryFS = new Command(SR.get(SR.MS_HISTORY_SHOW) + "(fs)", Command.SCREEN, 103);
+//#               cmdHistorySERVER = new Command(SR.get(SR.MS_HISTORY_SHOW) + "(server)", Command.SCREEN, 104);
+//#endif
 //#ifdef JUICK.COM   
 //#     /*
 //#               cmdJuickLastPopular = new Command("", Command.SCREEN, 101);//#
@@ -155,19 +158,22 @@ public class Commands {
 //#ifdef ARCHIVE
         cmdArch.setImg(0x64);
 //#endif
-        cmdCopy.setImg(0x23);
-        cmdCopyPlus.setImg(0x23);
+//#ifdef CLIPBOARD
+//#         cmdCopy.setImg(0x23);
+//#         cmdSendBuffer.setImg(0x84);
+//#         cmdCopyPlus.setImg(0x23);
+//#endif
         cmdxmlSkin.setImg(0x07);
         cmdUrl.setImg(0x15);
         cmdActions.setImg(0x16);
-        cmdSendBuffer.setImg(0x84);
         cmdSaveChat.setImg(0x44);
         cmdMyService.setImg(0x27);
-        
-        cmdHistory.setImg(0x64);
-        cmdHistoryRMS.setImg(0x64);
-        cmdHistoryFS.setImg(0x64);
-        cmdHistorySERVER.setImg(0x64);
+//#ifdef HISTORY
+//#         cmdHistory.setImg(0x64);
+//#         cmdHistoryRMS.setImg(0x64);
+//#         cmdHistoryFS.setImg(0x64);
+//#         cmdHistorySERVER.setImg(0x64);
+//#endif
     }
         
     private Commands() {

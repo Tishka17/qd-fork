@@ -469,9 +469,11 @@ public final class MessageEdit
 //#                  send();
 //#                }
 //#             }
+//#if DETRANSLIT
 //#             if(sendInTranslit) this.sendInTranslit = false;
 //#             if(sendInDeTranslit) this.sendInDeTranslit = false;
 //#             multiMessage = false;
+//#endif
 //#        } 
 //#        else {
 //#          if(to.msgSuspended==null) {
@@ -479,8 +481,10 @@ public final class MessageEdit
 //#             //send(null,null);//check it on Sony Ericsson W595
 //#             send();
 //#          }
+//#if DETRANSLIT
 //#          if(sendInTranslit) this.sendInTranslit = false;
 //#          if(sendInDeTranslit) this.sendInDeTranslit = false;
+//#endif
 //#        }
 //#        if(evil) this.evil = false;
 //#endif

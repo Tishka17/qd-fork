@@ -33,16 +33,20 @@
 //#     private StaticData sd=StaticData.getInstance();
 //#     
 //#     private Command cmdEnableDisable;
-//#     private Command cmdPurge;    
+//#     private Command cmdPurge;  
+//#ifdef CLIPBOARD
 //#     private Command copyReport;
+//#endif
 //# 
 //#     /** Creates a new instance of XMLList */
 //#     public DebugXMLList(Display display, Displayable pView) {
 //#         super ();
 //#         
 //#         cmdEnableDisable=new Command(SR.get(SR.MS_ENABLE_DISABLE), Command.SCREEN, 1);
-//#         cmdPurge=new Command(SR.get(SR.MS_CLEAR_LIST), Command.SCREEN, 3);    
+//#         cmdPurge=new Command(SR.get(SR.MS_CLEAR_LIST), Command.SCREEN, 3); 
+//#ifdef CLIPBOARD
 //#         copyReport=new Command("Bugreport to clipboard", Command.SCREEN, 2);
+//#endif
 //#         
 //#         super.smiles=false;
 //# 
@@ -68,11 +72,13 @@
 //#ifndef GRAPHICS_MENU        
 //#      addCommand(cmdBack);
 //#endif
+//#ifdef CLIPBOARD
 //#         addCommand(copyReport); copyReport.setImg(0x44);
 //#              if (midlet.BombusQD.cf.useClipBoard) {
 //#                 addCommand(midlet.BombusQD.commands.cmdCopy);
 //#                 if (!midlet.BombusQD.clipboard.isEmpty()) addCommand(midlet.BombusQD.commands.cmdCopyPlus);
-//#             }          
+//#             }     
+//#endif
 //#         addCommand(cmdEnableDisable); cmdEnableDisable.setImg(0x26);
 //#         addCommand(cmdPurge); cmdPurge.setImg(0x41);//DELETE
 //#      
@@ -131,10 +137,12 @@
 //# 
 //#         if (c==cmdPurge) { 
 //#             clearReadedMessageList();
-//#         }     
+//#         }  
+//#ifdef CLIPBOARD
 //#         if(c==copyReport){
 //# 
 //#         }
+//#endif
 //#     }
 //# 
 //#     private void clearReadedMessageList() {

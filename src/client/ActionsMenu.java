@@ -167,11 +167,13 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                     }
                 }
             }
-            if (groupType != Groups.TYPE_TRANSP && !(contact instanceof MucContact)) {
-                if (midlet.BombusQD.cf.module_history) {
-                    addItem(SR.get(SR.MS_HISTORY_SHOW), MI_HISTORY, ActionsIcons.ICON_VERSION);
-                }
-            }
+//#ifdef HISTORY
+//#             if (groupType != Groups.TYPE_TRANSP && !(contact instanceof MucContact)) {
+//#                 if (midlet.BombusQD.cf.module_history) {
+//#                     addItem(SR.get(SR.MS_HISTORY_SHOW), MI_HISTORY, ActionsIcons.ICON_VERSION);
+//#                 }
+//#             }
+//#endif
             addItem(SR.get(SR.MS_CLIENT_INFO), MI_VERSION, ActionsIcons.ICON_VERSION);
 //#ifdef SERVICE_DISCOVERY
             addItem(SR.get(SR.MS_COMMANDS), MI_COMMANDS, ActionsIcons.ICON_COMMAND);
@@ -480,9 +482,11 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
 //#                     return;
 //#                 }
 //#endif
-                case MI_HISTORY: {
-                    contact.getMessageList().getRmsData(3, null);
-                }
+//#ifdef HISTORY
+//#                 case MI_HISTORY: {
+//#                     contact.getMessageList().getRmsData(3, null);
+//#                 }
+//#endif
 //#ifdef SERVICE_DISCOVERY
                 case MI_COMMANDS:
                     new ServiceDiscovery(display, contact.getJid(), "http://jabber.org/protocol/commands", false);

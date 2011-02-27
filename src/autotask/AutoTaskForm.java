@@ -25,29 +25,25 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package autotask;
-//#if AUTOTASK    
-//# import client.StaticData;
-//# import java.util.Vector;
+//#if AUTOTASK
+//# package autotask;
+//# 
 //# import ui.controls.form.DropChoiceBox;
 //# import ui.controls.form.NumberInput;
 //# import ui.controls.form.SimpleString;
-//#endif
-import ui.controls.form.DefForm;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
-import locale.SR;
-
-/**
- *
- * @author ad
- */
-public class AutoTaskForm
-    extends DefForm {
-    
-    private Display display;
-    
-//#if AUTOTASK    
+//# 
+//# import ui.controls.form.DefForm;
+//# import javax.microedition.lcdui.Display;
+//# import javax.microedition.lcdui.Displayable;
+//# import locale.SR;
+//# 
+//# /**
+//#  *
+//#  * @author ad
+//#  */
+//# public class AutoTaskForm extends DefForm {    
+//#     //private Display display;
+//#    
 //#     int hour =0;
 //#     int min  =0;
 //#     int wait =1;
@@ -66,14 +62,12 @@ public class AutoTaskForm
 //# 
 //#     private int actionIndex;
 //#     private int typeIndex;
-//#endif
-    
-    /** Creates a new instance of AutoTaskForm */
-    public AutoTaskForm(Display display, Displayable pView) {
-        super(display, pView, SR.get(SR.MS_AUTOTASKS));
-        this.display=display;
-        
-//#ifdef AUTOTASK
+//#     
+//#     /** Creates a new instance of AutoTaskForm */
+//#     public AutoTaskForm(Display display, Displayable pView) {
+//#         super(display, pView, SR.get(SR.MS_AUTOTASKS));
+//#         //this.display=display;
+//# 
 //#         typeIndex=at.taskType;
 //#         actionIndex=at.taskAction;
 //#         
@@ -129,15 +123,8 @@ public class AutoTaskForm
 //#             update();
 //#         }
 //#     }
-//#     
-//#     /*
-//#     public void destroyView(){
-//#         if (display!=null)  
-//#             display.setCurrent(parentView);
-//#     }
-//#      */
 //# 
-//#     public void update(){
+//#     private void update(){
 //#         itemsList.removeElement(autoTaskTimeDesc);
 //#         itemsList.removeElement(autoTaskHour);
 //#         itemsList.removeElement(autoTaskMin);
@@ -150,6 +137,6 @@ public class AutoTaskForm
 //#         } else if (typeIndex==2) {
 //#             itemsList.addElement(autoTaskDelay);
 //#         }
+//#     }
+//# }
 //#endif
-    }
-}

@@ -51,6 +51,7 @@
 //# 
 //#     public IEMenu(Display display, Displayable pView) {
 //#         super(SR.get(SR.MS_IMPORT_EXPORT), null, null);
+//#if ARCHIVE
 //#ifdef PLUGINS
 //#         if (StaticData.getInstance().Archive) {
 //#endif
@@ -58,6 +59,7 @@
 //#         addItem(SR.get(SR.MS_ARCHIVE) + ": " + SR.get(SR.MS_SAVE_TO_FILE), ARCHIVE_EXPORT);
 //#ifdef PLUGINS
 //#         }
+//#endif
 //#endif
 //# 
 //#         addItem(SR.get(SR.MS_ACCOUNTS) + ": " + SR.get(SR.MS_LOAD_FROM_FILE), ACCOUNT_IMPORT);
@@ -86,16 +88,20 @@
 //#         MenuItem mItem = (MenuItem) getFocusedObject();
 //#         
 //#         switch (mItem.index) {
+//#if ARCHIVE
 //#             case ARCHIVE_EXPORT:
 //#             case ARCHIVE_IMPORT:
 //#                 new ArchiveTemplates(path, mItem.index);
 //#                 break;
+//#endif
 //#             case ACCOUNT_EXPORT:
 //#             case ACCOUNT_IMPORT:
 //#                 new Accounts(path, mItem.index);
 //#                 break;
 //#         }
+//#ifdef POPUPS
 //#         setWobble(3, null, SR.get(SR.MS_DONE));
+//#endif
 //#     }
 //# }
 //#endif

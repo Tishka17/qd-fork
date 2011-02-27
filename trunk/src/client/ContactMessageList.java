@@ -56,7 +56,9 @@ import archive.MessageArchive;
 //#endif
 import colors.ColorTheme;
 import javax.microedition.rms.RecordStore;
-import history.HistoryStorage;
+//#if HISTORY
+//# import history.HistoryStorage;
+//#endif
 import midlet.BombusQD;
 import midlet.Commands;
 
@@ -93,50 +95,54 @@ public final class ContactMessageList extends VirtualList implements MenuListene
     public RecordStore getRecordStore(){
        return recordStore;
     }
-    public void storeMessage(Msg msgObj) {
-	synchronized (this) {
-           HistoryStorage.addText(contact, msgObj, this);
-       }
-    }
-    public void getRmsData(int type, RecordStore rs){
-      switch(type){
-          case 0: 
-              //SAVE_RMS_STORE
-              recordStore = rs;
-              break;
-          case 1: 
-              //CLEAR_RMS_STORE
-              recordStore = HistoryStorage.clearRecordStore(rs);
-              break;
-          case 2: 
-              //CLOSE_RMS_STORE
-              recordStore = HistoryStorage.closeStore(rs);
-              break;
-          case 3: 
-              //READ_ALL_DATA
-              String rName = HistoryStorage.getRSName(contact.bareJid);
-              if(rName.length() > 30) rName = rName.substring(0,30);
-              try {
-                 if(recordStore != null) {
-                      recordStore.closeRecordStore();
-                      recordStore = null;
-                 }
-              } catch (Exception e) { 
+
+//#ifdef HISTORY
+//#     public void storeMessage(Msg msgObj) {
+//#         synchronized (this) {
+//#            HistoryStorage.addText(contact, msgObj, this);
+//#        }
+//#     }
+//# 
+//#     public void getRmsData(int type, RecordStore rs){
+//#       switch(type){
+//#           case 0: 
+//#               //SAVE_RMS_STORE
+//#               recordStore = rs;
+//#               break;
+//#           case 1: 
+//#               //CLEAR_RMS_STORE
+//#               recordStore = HistoryStorage.clearRecordStore(rs);
+//#               break;
+//#           case 2: 
+//#               //CLOSE_RMS_STORE
+//#               recordStore = HistoryStorage.closeStore(rs);
+//#               break;
+//#           case 3: 
+//#               //READ_ALL_DATA
+//#               String rName = HistoryStorage.getRSName(contact.bareJid);
+//#               if(rName.length() > 30) rName = rName.substring(0,30);
+//#               try {
+//#                  if(recordStore != null) {
+//#                       recordStore.closeRecordStore();
+//#                       recordStore = null;
+//#                  }
+//#               } catch (Exception e) { 
                   //#ifdef CONSOLE
 //#                   midlet.BombusQD.debug.add("errclose rms",10);
                   //#endif
-              }
-              try {
-                 recordStore = RecordStore.openRecordStore(rName, true);
-              } catch (Exception e) { 
+//#               }
+//#               try {
+//#                  recordStore = RecordStore.openRecordStore(rName, true);
+//#               } catch (Exception e) { 
                   //#ifdef CONSOLE
 //#                   midlet.BombusQD.debug.add("erropen rms",10);
                   //#endif
-              }
-              HistoryStorage.loadData(contact, recordStore);
-              break;
-      } 
-    }
+//#               }
+//#               HistoryStorage.loadData(contact, recordStore);
+//#               break;
+//#       } 
+//#     }
+//#endif
     
     private MainBar mainbar = null;
     public void updateMainBar(Contact contact){
@@ -197,21 +203,22 @@ public final class ContactMessageList extends VirtualList implements MenuListene
         addCommand(midlet.BombusQD.commands.cmdMessage); 
         if (contact.origin!=Constants.ORIGIN_GROUPCHAT) addCommand(midlet.BombusQD.commands.cmdActions); 
         
-
-        if(midlet.BombusQD.cf.module_history){
-            addCommand(midlet.BombusQD.commands.cmdHistory); 
-            switch(history.HistoryConfig.getInstance().historyTypeIndex) {
-              case 0:
-                addInCommand(2,midlet.BombusQD.commands.cmdHistoryRMS); 
-                break;
-              case 1:
-                addInCommand(2,midlet.BombusQD.commands.cmdHistoryFS); 
-                break;
-              case 2:
-                addInCommand(2,midlet.BombusQD.commands.cmdHistorySERVER); 
-                break;
-            }
-        }
+//#ifdef HISTORY
+//#         if(midlet.BombusQD.cf.module_history){
+//#             addCommand(midlet.BombusQD.commands.cmdHistory); 
+//#             switch(history.HistoryConfig.getInstance().historyTypeIndex) {
+//#               case 0:
+//#                 addInCommand(2,midlet.BombusQD.commands.cmdHistoryRMS); 
+//#                 break;
+//#               case 1:
+//#                 addInCommand(2,midlet.BombusQD.commands.cmdHistoryFS); 
+//#                 break;
+//#               case 2:
+//#                 addInCommand(2,midlet.BombusQD.commands.cmdHistorySERVER); 
+//#                 break;
+//#             }
+//#         }
+//#endif
         
         if (contact.getChatInfo().getMessageCount()>0) {
 //#ifndef WMUC
@@ -338,17 +345,17 @@ public final class ContactMessageList extends VirtualList implements MenuListene
     }
 
     public void commandAction(Command c, Displayable d){
-        //super.commandAction(c,d);
-	//cf.clearedGrMenu=true;	
-        if(c==midlet.BombusQD.commands.cmdHistoryRMS) {
-            getRmsData(3, null); //READ_ALL_DATA
-        }
-        if(c==midlet.BombusQD.commands.cmdHistoryFS) {
-
-        }
-        if(c==midlet.BombusQD.commands.cmdHistorySERVER) {
-
-        }      
+//#ifdef HISTORY
+//#         if(c==midlet.BombusQD.commands.cmdHistoryRMS) {
+//#             getRmsData(3, null); //READ_ALL_DATA
+//#         }
+//#         if(c==midlet.BombusQD.commands.cmdHistoryFS) {
+//# 
+//#         }
+//#         if(c==midlet.BombusQD.commands.cmdHistorySERVER) {
+//# 
+//#         }
+//#endif
         if (c==midlet.BombusQD.commands.cmdxmlSkin) {
            try {
                if (((MessageItem)getFocusedObject()).msg.body.indexOf("xmlSkin")>-1) {
@@ -719,8 +726,10 @@ public final class ContactMessageList extends VirtualList implements MenuListene
           switch (keyCode) {
               case KEY_NUM4: {
                      if(found_count>0) found_count--;
-                      else { 
-                          VirtualList.setWobble(1, null, SR.get(SR.MS_END_SEARCH));  
+                      else {
+//#ifdef POPUPS
+                          VirtualList.setWobble(1, null, SR.get(SR.MS_END_SEARCH)); 
+//#endif
                           clear_results();               
                       }
                       if(found_count==0)
@@ -734,8 +743,10 @@ public final class ContactMessageList extends VirtualList implements MenuListene
               }  
               case KEY_NUM6: {
                       if(found_count<vectorfound.size()-1) found_count++;
-                      else { 
-                          VirtualList.setWobble(1, null, SR.get(SR.MS_END_SEARCH));   
+                      else {
+//#ifdef POPUPS
+                          VirtualList.setWobble(1, null, SR.get(SR.MS_END_SEARCH)); 
+//#endif
                           clear_results();
                       }
                       int cursor_index = Integer.parseInt(vectorfound.elementAt(found_count).toString());   

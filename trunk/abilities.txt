@@ -1,28 +1,27 @@
-Фишечки :)
-
-ARCHIVE - архив
-POPUPS - всплывающая панель
-SERVICE_DISCOVERY - диско
-PRIVACY - списки приватности
-SMILES - смайлы
-HISTORY - история сообщений
-HISTORY_READER - чтение истории сообщений в клиенте
-SE_LIGHT - подсветка на сониэриках и нокиях
-USER_KEYS - настройка комбинаций кнопок
-AUTOSTATUS - автостатус
-USE_ROTATOR - баллуны и прокрутка длинных строк
-FILE_TRANSFER - передача файлов
-WSYSTEMGC - очистка кучи после интенсивного использования памяти
-NICK_COLORS - раскрашивание ников
-IMPORT_EXPORT - импорт/экспорт пользовательских данных
-CHANGE_TRANSPORT - смена транспорта(перенос контактов с одного транспорта на другой)
-CLIPBOARD - Буфер обмена
-PEP - pubsub(user mood, user tune, user activity)
-PEP_TUNE - получение инфо о музыке играющей у контактов
-PEP_ACTIVITY - получение инфо состоянии контакта(xep 0108)
-STATS - статистика
-CLIENTS_ICONS - иконки клиентов
-NEW_SKIN - иконки visitors объединены с skin, иконки menu объединены с actions
-MENU_LISTENER - новый тип меню(заменяет родное)
-RUNNING_MESSAGE - бегущая строка в заголовке окна набора сообщения
-ZLIB
+ARCHIVE				Архив
+AUTOSTATUS			Автостатус
+AUTOTASK			Задания
+CHANGE_TRANSPORT	Смена транспорта(перенос контактов с одного транспорта на другой)
+CLIENTS_ICONS		Иконки клиентов
+CLIPBOARD			Буфер обмена
+FILE_IO				Операции с файлами
+FILE_TRANSFER		Передача файлов
+HISTORY				История сообщений
+IMPORT_EXPORT		Ипорт/экспорт пользовательских данных
+MENU_LISTENER		Новый тип меню(заменяет родное)
+NEW_SKIN			Иконки visitors объединены с skin, иконки menu объединены с actions
+NICK_COLORS			Раскрашивание ников
+PEP					PubSub (user mood, user tune, user activity)
+PEP_ACTIVITY		Получение инфо состоянии контакта(xep 0108)
+PEP_TUNE			Получение инфо о музыке играющей у контактов
+POPUPS				Всплывающие окна
+PRIVACY				Списки приватности
+RUNNING_MESSAGE		Бегущая строка в заголовке окна набора сообщения
+SE_LIGHT			Подсветка на сониэриках и нокиях
+SERVICE_DISCOVERY	Обзор сервисов
+SMILES				Смайлы
+STATS				Статистика
+USER_KEYS			Настройка комбинаций кнопок
+USE_ROTATOR			Баллуны и прокрутка длинных строк
+WSYSTEMGC			Очистка кучи после интенсивного использования памяти
+ZLIB				Сжатие трафика

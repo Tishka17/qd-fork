@@ -127,36 +127,38 @@ public class ClassicChat extends CustomItem implements ItemCommandListener
         Image imgBgnd = null;
 //#ifdef BACK_IMAGE
 //#         imgJimm = VirtualList.getImage(1);
-//#         imgBgnd = VirtualList.getImage(3);
+//#         imgBgnd = VirtualList.getImage(3);       
+//#         if(midlet.BombusQD.cf.bgnd_image==1 && imgJimm!=null) {
+//#                 int imgWidth = imgJimm.getWidth();
+//#                 int imgHeight = imgJimm.getHeight();
+//# 		for (int xx = 0; xx < width; xx += imgWidth){
+//# 		     for (int yy = 0; yy < height; yy += imgHeight) g.drawImage(imgJimm, xx, yy, Graphics.LEFT|Graphics.TOP);
+//#                 }
+//#         }
+//#         else if(midlet.BombusQD.cf.bgnd_image==2){ 
+//#                 if(!Config.getInstance().usePhoneTheme) {
+//#                   fon=new Gradient(1, 1, w - 1, h - 1,
+//#                         ColorTheme.getColor(ColorTheme.GRADIENT_BGND_LEFT),ColorTheme.getColor(ColorTheme.GRADIENT_BGND_RIGHT), true);
+//#                   fon.paint(g);
+//#                 }else{
+//#                   g.setClip(0,0,w,h);  
+//#                 }
+//#         }
+//#         else if(midlet.BombusQD.cf.bgnd_image==3 && imgBgnd!=null) { 
+//#                 ImageList il = new ImageList();
+//#                 int imgWidth = imgBgnd.getWidth();
+//#                 int imgHeight = imgBgnd.getHeight();
+//#                 if(width <= imgWidth && height<imgHeight) {
+//#                    imgBgnd = VirtualList.resizeImage(imgBgnd, width, height);
+//#                 }  
+//#                 g.drawImage(imgBgnd, 0, 0, Graphics.LEFT|Graphics.TOP);
+//#         } else{
 //#endif
-        if(midlet.BombusQD.cf.bgnd_image==1 && imgJimm!=null) {
-                int imgWidth = imgJimm.getWidth();
-                int imgHeight = imgJimm.getHeight();
-		for (int xx = 0; xx < width; xx += imgWidth){
-		     for (int yy = 0; yy < height; yy += imgHeight) g.drawImage(imgJimm, xx, yy, Graphics.LEFT|Graphics.TOP);
-                }
-        }
-        else if(midlet.BombusQD.cf.bgnd_image==2){ 
-                if(!Config.getInstance().usePhoneTheme) {
-                  fon=new Gradient(1, 1, w - 1, h - 1,
-                        ColorTheme.getColor(ColorTheme.GRADIENT_BGND_LEFT),ColorTheme.getColor(ColorTheme.GRADIENT_BGND_RIGHT), true);
-                  fon.paint(g);
-                }else{
-                  g.setClip(0,0,w,h);  
-                }
-        }
-        else if(midlet.BombusQD.cf.bgnd_image==3 && imgBgnd!=null) { 
-                ImageList il = new ImageList();
-                int imgWidth = imgBgnd.getWidth();
-                int imgHeight = imgBgnd.getHeight();
-                if(width <= imgWidth && height<imgHeight) {
-                   imgBgnd = VirtualList.resizeImage(imgBgnd, width, height);
-                }  
-                g.drawImage(imgBgnd, 0, 0, Graphics.LEFT|Graphics.TOP);
-        } else{
             g.setColor(ColorTheme.getColor(ColorTheme.LIST_BGND));
-            g.fillRect(0, 0, width, height);        
-        } 
+            g.fillRect(0, 0, width, height);  
+//#ifdef BACK_IMAGE
+//#         } 
+//#endif
 
        int i1 = firstScreenMsg + maxScreenLines;
        int i2 = count<(firstScreenMsg + maxScreenLines) ? count:i1;

@@ -201,21 +201,23 @@ public class AccountForm extends DefForm {
             }
         }
 
-        if (midlet.BombusQD.clipboard.getClipBoard() != null) {
-            if (midlet.BombusQD.clipboard.getClipBoard().startsWith("!")) {
-                insertpass = new LinkString(SR.get(SR.MS_INSERT_NEW_PASSWORD))   {
-                    public void doAction() {
-                        passbox.setValue(midlet.BombusQD.clipboard.getClipBoard().substring(1));
-                        itemsList.removeElement(insertpass);
-                        midlet.BombusQD.clipboard.setClipBoard("");
-                    }
-                };
-                if (!createSimpleAddForm) {
-                    itemsList.addElement(new SpacerItem(3));
-                    itemsList.addElement(insertpass);
-                }
-            }
-        }
+//#ifdef CLIPBOARD
+//#         if (midlet.BombusQD.clipboard.getClipBoard() != null) {
+//#             if (midlet.BombusQD.clipboard.getClipBoard().startsWith("!")) {
+//#                 insertpass = new LinkString(SR.get(SR.MS_INSERT_NEW_PASSWORD))   {
+//#                     public void doAction() {
+//#                         passbox.setValue(midlet.BombusQD.clipboard.getClipBoard().substring(1));
+//#                         itemsList.removeElement(insertpass);
+//#                         midlet.BombusQD.clipboard.setClipBoard("");
+//#                     }
+//#                 };
+//#                 if (!createSimpleAddForm) {
+//#                     itemsList.addElement(new SpacerItem(3));
+//#                     itemsList.addElement(insertpass);
+//#                 }
+//#             }
+//#         }
+//#endif
 
         registerbox = new CheckBox(SR.get(SR.MS_REGISTER_ACCOUNT), register);
 

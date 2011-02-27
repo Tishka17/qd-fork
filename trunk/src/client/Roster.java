@@ -2184,11 +2184,12 @@ public class Roster
                          new CommandForm(display,parentView,3,SR.get(SR.MS_CHANGE_PASSWORD),"", reg.getChildBlockText("password"));
                     }  
                     
-                  
+//#ifdef POPUPS
                     if(id.equals("destroyroom"))   {
                          setWobble(1,null,from + " deleted!");
                          redraw();          
-                    }      
+                    }
+//#endif
                   
 
                     if (id.startsWith("getst")) {         
@@ -2506,7 +2507,9 @@ public class Roster
 			//#endif
 			if (body==null || body.length()==0)
           			body=SR.get(SR.LA_ATTENTION)+SR.get(SR.LA_WAKEUP);
+//#ifdef POPUPS
 			setWobbler(3, c, c.getName() + "\n" +body, null);
+//#endif
 			playNotify(SOUND_ATTENTION);
 		}
 
@@ -3064,7 +3067,7 @@ public class Roster
          String tempRealJid = item.getAttribute("jid");
          if (tempRealJid != null && mc.realJid == null) mc.realJid=tempRealJid;  //for moderating purposes
 
-         //try {
+//#ifdef POPUPS
            JabberDataBlock destroy = xmuc.getChildBlock("destroy");
            if(null != destroy){
                if(null != destroy.getChildBlockText("reason")) {
@@ -3072,8 +3075,7 @@ public class Roster
                       " was destroyed!(reason: " + destroy.getChildBlockText("reason") + ")"); 
                }
            }
-          //} catch (Exception e) { //not muc#user case
-          //}
+//#endif
 
          if (statusCode==201) { //todo: fix this nasty hack, it will not work if multiple status codes are nested in presence)
              mucContactBuf = new StringBuffer(0);
@@ -3258,10 +3260,10 @@ public class Roster
             if(!incomingMsg) return;
             
             if (groupchat==false) {
+//#ifdef POPUPS
 //#ifndef WMUC
                 if (!(c instanceof MucContact)) {
 //#endif
-//#ifdef POPUPS
                     if (showWobbler(c)) {
                         setWobbler(2, c, c.toString()+": "+message.body,null);
                         autorespond = true;

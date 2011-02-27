@@ -228,7 +228,9 @@ public class Config {
     public boolean find_text=false;//fix
     public int maxAvatarHeight=35;
     public int maxAvatarWidth=35;
-    public int bgnd_image=getIntFromManifest("bgnd_type",0);
+//#ifdef BACK_IMAGE 
+//#     public int bgnd_image=getIntFromManifest("bgnd_type",0);
+//#endif
     public boolean image_in_popUp=true;
     public String add_contact_name="@.";
     public boolean use_drawed_font=false;       
@@ -529,7 +531,9 @@ public class Config {
 //#             setAutoStatusMessage=inputStream.readBoolean();
 //#endif
             autoScroll=inputStream.readBoolean();
+//#ifdef POPUPS
             popUps=inputStream.readBoolean();
+//#endif
             showResources=inputStream.readBoolean();
             enableVersionOs=inputStream.readBoolean();  
             eventDelivery=inputStream.readBoolean();
@@ -547,7 +551,9 @@ public class Config {
 //#ifdef PEP
 //#             sndrcvmood=inputStream.readBoolean();
 //#endif
-            useClipBoard=inputStream.readBoolean();
+//#ifdef CLIPBOARD
+//#             useClipBoard=inputStream.readBoolean();
+//#endif
 //#ifdef PEP
 //#             rcvtune=inputStream.readBoolean();
 //#endif
@@ -677,7 +683,9 @@ public class Config {
             reconnectCount=inputStream.readInt();
             reconnectTime=inputStream.readInt();     
             maxAvatarHeight=inputStream.readInt();
-            bgnd_image=inputStream.readInt();
+//#ifdef BACK_IMAGE
+//#             bgnd_image=inputStream.readInt();
+//#endif
             scrollWidth=inputStream.readInt();
             classicChatHeight=inputStream.readInt();
             lineCount=inputStream.readInt(); 
@@ -787,7 +795,9 @@ public class Config {
 //#             outputStream.writeBoolean(setAutoStatusMessage);
 //#endif
             outputStream.writeBoolean(autoScroll);
+//#ifdef POPUPS
             outputStream.writeBoolean(popUps);
+//#endif
             outputStream.writeBoolean(showResources);
             outputStream.writeBoolean(enableVersionOs);  
             outputStream.writeBoolean(eventDelivery);
@@ -805,7 +815,9 @@ public class Config {
 //#ifdef PEP
 //#             outputStream.writeBoolean(sndrcvmood); 
 //#endif
-            outputStream.writeBoolean(useClipBoard);
+//#ifdef CLIPBOARD
+//#             outputStream.writeBoolean(useClipBoard);
+//#endif
 //#ifdef PEP
 //#             outputStream.writeBoolean(rcvtune);
 //#endif
@@ -921,7 +933,9 @@ public class Config {
             outputStream.writeInt(reconnectCount);
             outputStream.writeInt(reconnectTime);     
             outputStream.writeInt(maxAvatarHeight);
-            outputStream.writeInt(bgnd_image);
+//#ifdef BACK_IMAGE
+//#             outputStream.writeInt(bgnd_image);
+//#endif
             outputStream.writeInt(scrollWidth);
             outputStream.writeInt(classicChatHeight);
             outputStream.writeInt(lineCount); 

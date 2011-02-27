@@ -85,7 +85,9 @@ public class BombusQD extends MIDlet implements Runnable
     
     public final static StaticData sd = StaticData.getInstance();
     public final static Config cf = Config.getInstance();
-    public final static ClipBoard clipboard=ClipBoard.getInstance();
+//#ifdef CLIPBOARD
+//#     public final static ClipBoard clipboard=ClipBoard.getInstance();
+//#endif  
     public final static Commands commands=Commands.get();
 //#ifdef CONSOLE    
 //#     public final static DebugList debug = DebugList.get();
@@ -206,18 +208,19 @@ public class BombusQD extends MIDlet implements Runnable
            himg_menu = imageArr[0].getHeight()/10;
         } catch (Exception e) { }    
         
-        //cf.path_skin="";
-        HistoryConfig.getInstance().loadFromStorage();
+//#ifdef HISTORY
+//#         HistoryConfig.getInstance().loadFromStorage();
+//#endif
         FontClass.getInstance().Init(cf.drwd_fontname);  
         
 //#ifdef LIGHT_CONTROL
 //#         lcf=LightConfig.getInstance();
 //#         CustomLight.switchOn(lcf.light_control);
 //#endif        
-        
-        //if(sd.roster==null) sd.roster=new Roster(display);
-        
-        HistoryStorage hs = new HistoryStorage(); 
+
+//#ifdef HISTORY
+//#         HistoryStorage hs = new HistoryStorage(); 
+//#endif
 //#ifdef PEP        
 //#         Activity.loaded();
 //#endif   

@@ -34,7 +34,6 @@ import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import menu.MenuListener;
 import midlet.BombusQD;
-import midlet.Commands;
 import ui.VirtualList;
 import ui.controls.form.CheckBox;
 import ui.controls.form.DefForm;
@@ -47,7 +46,7 @@ import util.StringLoader;
 import xmpp.EntityCaps;
 
 public class ModuleConfigForm extends DefForm implements MenuListener {
-    private Display display;
+    // private Display display;
     
     private String type;
     
@@ -140,7 +139,9 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
     private TrackItem gradientBarLight2; 
     private NumberInput scrollWidth; 
 	private NumberInput minItemHeight;
-    private DropChoiceBox bgnd_image;    
+//#ifdef BACK_IMAGE
+//#     private DropChoiceBox bgnd_image; 
+//#endif
     private DropChoiceBox graphicsMenuPosition;  
     private DropChoiceBox panels;
 
@@ -408,15 +409,17 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
             graphicsMenuPosition.append(SR.get(SR.MS_GRMENU_RIGHT));
             graphicsMenuPosition.setSelectedIndex(config.graphicsMenuPosition);
             addControl(graphicsMenuPosition);  
-             
-            itemsList.addElement(new SpacerItem(3));
-            bgnd_image = new DropChoiceBox(display, "*"+SR.get(SR.MS_TYPE_BACKGROUND));
-            bgnd_image.append(SR.get(SR.MS_BGND_NONE));
-            bgnd_image.append(SR.get(SR.MS_BGND_IMAGE));
-            bgnd_image.append(SR.get(SR.MS_BGND_GRADIENT_));
-            bgnd_image.append(SR.get(SR.MS_MY_BGND_IMAGE));
-            bgnd_image.setSelectedIndex(config.bgnd_image);
-            addControl(bgnd_image);
+            
+//#ifdef BACK_IMAGE
+//#             itemsList.addElement(new SpacerItem(3));
+//#             bgnd_image = new DropChoiceBox(display, "*"+SR.get(SR.MS_TYPE_BACKGROUND));
+//#             bgnd_image.append(SR.get(SR.MS_BGND_NONE));
+//#             bgnd_image.append(SR.get(SR.MS_BGND_IMAGE));
+//#             bgnd_image.append(SR.get(SR.MS_BGND_GRADIENT_));
+//#             bgnd_image.append(SR.get(SR.MS_MY_BGND_IMAGE));
+//#             bgnd_image.setSelectedIndex(config.bgnd_image);
+//#             addControl(bgnd_image);
+//#endif
            
             addControl(new SpacerItem(3));
 
@@ -445,8 +448,10 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
             drawMenuCommand = new CheckBox(SR.get(SR.MS_SHOW_TIME_TRAFFIC), config.showTimeTraffic); 
             addControl(drawMenuCommand);
 
+//#ifdef POPUPS
             popUps = new CheckBox(SR.get(SR.MS_POPUPS), config.popUps);          
             addControl(popUps);
+//#endif
             
             showBaloons = new CheckBox(SR.get(SR.MS_SHOW_BALLONS), config.showBalloons); 
             addControl(showBaloons); 
@@ -684,7 +689,9 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
             }
 
             config.showTimeTraffic = VirtualList.showTimeTraffic = drawMenuCommand.getValue();
-            config.popUps = popUps.getValue();            
+//#ifdef POPUPS
+            config.popUps = popUps.getValue();  
+//#endif
             config.showBalloons = showBaloons.getValue();            
             config.gradient_cursor = gradient_cursor.getValue();
            

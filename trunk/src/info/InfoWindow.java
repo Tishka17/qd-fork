@@ -46,7 +46,9 @@ import ui.controls.form.DefForm;
 import ui.controls.form.LinkString;
 import ui.controls.form.MultiLine;
 import ui.controls.form.SpacerItem;
-import util.ClipBoard;
+//#ifdef CLIPBOARD
+//# import util.ClipBoard;
+//#endif
 import ui.controls.form.LinkString;
 //#ifdef GRAPHICS_MENU        
 //# import ui.GMenu;
@@ -63,11 +65,11 @@ public class InfoWindow
     
     Object name;
     StaticData sd=StaticData.getInstance();
-    
-//#ifdef CLIPBOARD
+
 //#ifndef MENU
-//#     public Command cmdOk;
+    public Command cmdOk;
 //#endif
+//#ifdef CLIPBOARD
 //#     private ClipBoard clipboard=ClipBoard.getInstance();
 //#endif
     

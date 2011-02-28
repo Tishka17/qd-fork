@@ -25,7 +25,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package locale; 
+package locale;
 
 import client.Config;
 import midlet.Commands;
@@ -59,7 +59,7 @@ public class SR {
      public final static short MS_GMT_OFFSET  = 25; //GMT offset
      public final static short MS_TIME_SETTINGS  = 26; //Time settings (hours)
      public final static short MS_CONNECTED  = 27; //Connected
-     public final static short MS_CONNECT_TO_ = 28; //Connect to 
+     public final static short MS_CONNECT_TO_ = 28; //Connect to
      public final static short MS_ALERT_PROFILE  = 29; //Alert Profile
      public final static short MS_MOVE_UP  = 30; //Move Up
      public final static short MS_OWNERS  = 31; //Owners
@@ -86,7 +86,7 @@ public class SR {
      public final static short MS_EDIT_LIST  = 52; //Edit list
      public final static short MS_REGISTERING  = 53; //Registering
      public final static short MS_DONE  = 54; //Done
-     public final static short MS_ERROR_  = 55; //Error: 
+     public final static short MS_ERROR_  = 55; //Error:
      public final static short MS_BROWSE  = 56; //Browse
      public final static short MS_DISCOVER  = 57; //Browse
      public final static short MS_SAVE_LIST  = 58; //Save list
@@ -211,8 +211,8 @@ public class SR {
      public final static short MS_SET_SUBJECT  = 177; //Set Subject
      public final static short MS_PORT  = 178; //Port
      public final static short MS_RESUME  = 179; //Resume Message
-     public final static short MS_ARE_YOU_SURE_WANT_TO_DISCARD  = 180; //Are You sure want to discard 
-     public final static short MS_FROM_OWNER_TO  = 181; // from OWNER to 
+     public final static short MS_ARE_YOU_SURE_WANT_TO_DISCARD  = 180; //Are You sure want to discard
+     public final static short MS_FROM_OWNER_TO  = 181; // from OWNER to
      public final static short MS_MODIFY_AFFILIATION  = 182; //Modify affiliation
      public final static short MS_CLEAR = 183; //Clear
      public final static short MS_SELLOGIN  = 184; //Connect
@@ -222,23 +222,23 @@ public class SR {
      public final static short MS_GRANT_ADMIN  = 188; //Grant Admin
      public final static short MS_GRANT_OWNERSHIP  = 189; //Grant Ownership
      public final static short MS_VIZITORS_FORBIDDEN = 190; //Visitors are not allowed to send messages to all occupants
-     public final static short MS_IS_INVITING_YOU = 191; // is inviting You to 
+     public final static short MS_IS_INVITING_YOU = 191; // is inviting You to
      public final static short MS_ASK_SUBSCRIPTION = 192; //Ask subscription
      public final static short MS_GRANT_SUBSCRIPTION = 193; //Grant subscription
      public final static short MS_INVITE = 194; //Invite to conference
      public final static short MS_REASON = 195; //Reason
-     public final static short MS_YOU_HAVE_BEEN_INVITED = 196; //You have been invited to 
+     public final static short MS_YOU_HAVE_BEEN_INVITED = 196; //You have been invited to
      public final static short MS_DISCO_ROOM = 197; //Participants
      public final static short MS_CAPS_STATE = 198; //Abc
      public final static short MS_STORE_PRESENCE  = 199; //room presences
-     public final static short MS_IS_NOW_KNOWN_AS = 200; // is now known as 
-     public final static short MS_WAS_BANNED = 201; // was banned 
-     public final static short MS_WAS_KICKED = 202; // was kicked 
+     public final static short MS_IS_NOW_KNOWN_AS = 200; // is now known as
+     public final static short MS_WAS_BANNED = 201; // was banned
+     public final static short MS_WAS_KICKED = 202; // was kicked
      public final static short MS_HAS_BEEN_KICKED_BECAUSE_ROOM_BECAME_MEMBERS_ONLY = 203; // has been kicked because room became members-only
      public final static short MS_HAS_LEFT_CHANNEL = 204; // has left the channel
-     public final static short MS_HAS_JOINED_THE_CHANNEL_AS = 205; // has joined the channel as 
-     public final static short MS_AND = 206; // and 
-     public final static short MS_IS_NOW = 207; // is now 
+     public final static short MS_HAS_JOINED_THE_CHANNEL_AS = 205; // has joined the channel as
+     public final static short MS_AND = 206; // and
+     public final static short MS_IS_NOW = 207; // is now
      public final static short MS_ERROR = 208; //error
      public final static short MS_SELECT_HISTORY_FOLDER = 209; //Select history folder
      public final static short MS_SOUND_VOLUME = 210; //Sound volume
@@ -407,10 +407,10 @@ public class SR {
      public final static short MS_CLEAN_ALL_MESSAGES  = 373; //Clear all chats
      public final static short MS_DO_AUTOJOIN  = 374; //Join marked (auto)
      public final static short MS_STATS  = 375; //Statistics
-     public final static short MS_STARTED = 376; //Started: 
-     public final static short MS_TRAFFIC_STATS = 377; //Traffic stats: 
-     public final static short MS_ALL = 378; //All: 
-     public final static short MS_CURRENT = 379; //Current: 
+     public final static short MS_STARTED = 376; //Started:
+     public final static short MS_TRAFFIC_STATS = 377; //Traffic stats:
+     public final static short MS_ALL = 378; //All:
+     public final static short MS_CURRENT = 379; //Current:
      public final static short MS_LAST_MESSAGES  = 380; //Last Messages
      public final static short MS_EDIT_JOIN  = 381; //Edit/join
      public final static short MS_USE_COLOR_SCHEME  = 382; //Use this Color scheme
@@ -449,7 +449,7 @@ public class SR {
      public final static short MS_SUBSCRIPTION_REQUEST_FROM_USER  = 415; //This user wants to subscribe to your presence
      public final static short MS_SUBSCRIPTION_RECEIVED  = 416; //You are now authorized
      public final static short MS_SUBSCRIPTION_DELETED  = 417; //Your authorization has been removed!
-     public final static short MS_SEND_FILE_TO  = 418; //To: 
+     public final static short MS_SEND_FILE_TO  = 418; //To:
      public final static short MS_FILE_SIZE  = 419; //size:
      public final static short MS_SUN  = 420; //Sun
      public final static short MS_MON  = 421; //Mon
@@ -486,9 +486,9 @@ public class SR {
      public final static short MS_POPUPS = 452; //popUps
      public final static short MS_AUTOSTATUS_MESSAGE = 453; //AutoStatus Message
      public final static short MS_MEMORY = 454; //Memory:
-     public final static short MS_FREE  = 455; //Free: 
-     public final static short MS_TOTAL = 456; //Total: 
-     public final static short MS_CONN = 457; //Session(s): 
+     public final static short MS_FREE  = 455; //Free:
+     public final static short MS_TOTAL = 456; //Total:
+     public final static short MS_CONN = 457; //Session(s):
      public final static short MS_DESCRIPTION = 458; //Description
      public final static short MS_USER  = 459; //User
      public final static short MS_IMPORT_EXPORT = 460; //Import/Export
@@ -509,8 +509,8 @@ public class SR {
      public final static short MS_BUILD_NEW = 475; //Build new version on constructor
      public final static short MS_AUTOTASKS = 476; //Auto tasks
      public final static short MS_AUTOTASK_TYPE = 477; //Auto task type
-     public final static short MS_BY_TIMER_ = 478; //by timer 
-     public final static short MS_BY_TIME_ = 479; //by time 
+     public final static short MS_BY_TIMER_ = 478; //by timer
+     public final static short MS_BY_TIME_ = 479; //by time
      public final static short MS_AUTOTASK_ACTION_TYPE = 480; //Auto task action type
      public final static short MS_AUTOTASK_QUIT_BOMBUSMOD = 481; //Quit BombusQD
      public final static short MS_AUTOTASK_QUIT_CONFERENCES = 482; //Quit conferences
@@ -550,7 +550,7 @@ public class SR {
      public final static short MS_RECONNECT_WAIT = 516; //Delay before reconnect(sec.)
      public final static short MS_MENU = 517; //Menu
      public final static short MS_PREVIOUS = 518; //Previous
-     public final static short MS_PREVIOUS_ = 519; //Previous: 
+     public final static short MS_PREVIOUS_ = 519; //Previous:
      public final static short MS_END_OF_VCARD = 520; //[End of vCard]
      public final static short MS_NO_VCARD = 521; //[No vCard available]
      public final static short MS_NO_PHOTO = 522; //[No photo available]
@@ -762,20 +762,20 @@ public class SR {
      public final static short MS_BGND_GRADIENT =  727;
      public final static short MS_GRMENU_LEFT =  728;
      public final static short MS_PEP =  729;
-     
+
      public final static short MS_USER_APP_LEVEL =  730;
      public final static short MS_USER_APP_LEVEL_0 =  731;
      public final static short MS_USER_APP_LEVEL_1 =  732;
      public final static short MS_USER_APP_LEVEL_2 =  733;
-     public final static short MS_WAS_ADDED =  734;  
+     public final static short MS_WAS_ADDED =  734;
      public final static short MS_CONFIGURATION_MASTER =  735;
      public final static short MS_WARNING_MESSAGE_INSTALL =  736;
-     
+
      public final static short MS_IM_NETWORKS = 737;
-     public final static short MS_ADD_SERVER = 738;     
+     public final static short MS_ADD_SERVER = 738;
      public final static short MS_MY_SERVERS = 739;
      public final static short MS_MENU_FONT = 740;
-     
+
      public final static short MS_HISTORY_SHOW = 741;
      public final static short MS_APPRUN_COUNT = 742;
 
@@ -786,12 +786,13 @@ public class SR {
      public final static short LA_SOUND = 747;
 
      public final static short MS_SHADOW_BAR =  748;
-     
+     public final static short MS_COPY_TOPIC =  749;
+
 
     private static String[] localeItemsDefault = new String[0];
     private static String[] localeItems = {
         "en",  "en",
-        
+
         "online",
         "chat",
         "away",
@@ -1511,7 +1512,7 @@ public class SR {
         "User Avatar: delete from ALL vcards",
         "Success",
         "Simple Contacts",
-        
+
         "Enable/Disable",
         "Gradient cursor(1)",
         "Gradient cursor(2)",
@@ -1521,7 +1522,7 @@ public class SR {
         "MS_BGND_GRADIENT",
         "[Left:     ]",
         "Pubsub events",
-        
+
         "User App Level",
         "Started",
         "Confident",
@@ -1529,12 +1530,12 @@ public class SR {
         "Was added:",
         "Configuration Master",
         "Please reinstall the program to avoid possible future problems",
-        
+
         "IM Networks",
         "Add server",
         "My servers",
         "Menu font",
-        
+
         "Show History",
         "AppRun count: ",
 
@@ -1544,7 +1545,8 @@ public class SR {
 	"Request attention",
 	"Attention sound",
 
-        "Shadow bar"
+        "Shadow bar",
+         "Copy topic"
     };
 
     private SR() { }
@@ -1590,8 +1592,8 @@ public class SR {
         }
         localeItems[0] = "en";
         localeItems[1] = "en";
-    }   
-    
+    }
+
     public static void changeLocale() {
         String langFile = Config.getInstance().langFileName();
 //#ifdef DEBUG

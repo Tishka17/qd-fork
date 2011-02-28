@@ -212,9 +212,21 @@ public class Roster
 //#     public static SelectPEP selectPEP = null;
 //#endif
 
-    public void showActiveContacts(Displayable pView, Contact current){
+    public final void showActiveContacts(Displayable pView, Contact current){
         new ActiveContacts(display, pView, current);
     }
+
+   public final void showActionsMenu(Object object) {
+       if (isLoggedIn()) {
+           if (object instanceof Contact) {
+               if (((Contact)object).origin == Constants.ORIGIN_GROUPCHAT) {
+                   return;
+               }
+           }
+
+           new ActionsMenu(display, this, object);
+       }
+   }
 
     public void createMessageEdit(boolean reCreate){
          if(reCreate)
@@ -584,7 +596,9 @@ public class Roster
 //#endif
 
 //#ifdef GRAPHICS_MENU
-//#          if (c==cmdActions) { cmdActions(); }
+//#         if (c == cmdActions) {
+//#             showActionsMenu(getFocusedObject());
+//#         }
 //#            else if(c==cmdOptions){
 //#               display.setCurrent(new ConfigForm(display, this));
 //#            }
@@ -702,19 +716,6 @@ public class Roster
 //#ifndef WMUC
    public void cmdConference() { if (isLoggedIn()) new Bookmarks(display, this, null); }
 //#endif
-   public void cmdActions() {
-       if (isLoggedIn()) {
-           Object item = getFocusedObject();
-           if (item instanceof Contact) {
-               if (((Contact)item).origin == Constants.ORIGIN_GROUPCHAT) {
-                   return;
-               }
-           }
-
-           new ActionsMenu(display, this, item);
-       }
-   }
-
 
     public void setProgress(String pgs,int percent){
         if (midlet.BombusQD.getInstance().s!=null){
@@ -3549,7 +3550,7 @@ public class Roster
 
     public void eventLongOk(){
         super.eventLongOk();
-	cmdActions();
+        showActionsMenu(getFocusedObject());
     }
 
 
@@ -4263,8 +4264,22 @@ public class Roster
         redraw();
     }
 //#ifdef GRAPHICS_MENU
-//#     public void touchRightPressed(){ if (midlet.BombusQD.cf.oldSE) showGraphicsMenu(); else cmdActions(); }
-//#     public void touchLeftPressed(){ if (midlet.BombusQD.cf.oldSE) cmdActions(); else showGraphicsMenu(); }
+//# 
+//#     public void touchRightPressed() {
+//#         if (midlet.BombusQD.cf.oldSE) {
+//#             showGraphicsMenu();
+//#         } else {
+//#             showActionsMenu(getFocusedObject());
+//#         }
+//#     }
+//# 
+//#     public void touchLeftPressed() {
+//#         if (midlet.BombusQD.cf.oldSE) {
+//#             showActionsMenu(getFocusedObject());
+//#         } else {
+//#             showGraphicsMenu();
+//#         }
+//#     }
 //#else
     public void touchRightPressed(){ if (midlet.BombusQD.cf.oldSE) showMenu(); else cmdActions(); }
     public void touchLeftPressed(){ if (midlet.BombusQD.cf.oldSE) cmdActions(); else showMenu(); }

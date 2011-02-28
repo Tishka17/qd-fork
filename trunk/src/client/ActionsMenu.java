@@ -199,8 +199,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                 }
             }
             if (groupType != Groups.TYPE_SELF
-                    && groupType != Groups.TYPE_SEARCH_RESULT
-                    && contact.origin < Constants.ORIGIN_GROUPCHAT) {
+                    && groupType != Groups.TYPE_SEARCH_RESULT) {
 
                 if (contact.status < Constants.PRESENCE_OFFLINE) {
                     addItem(SR.get(SR.MS_ONLINE_TIME), MI_ONLINE, ActionsIcons.ICON_ONLINE);
@@ -540,13 +539,11 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
 //# 
 //#                     BombusQD.sd.roster.sendMessage(contact, id, body, null, null, false);
 //# 
-//#                     if (contact.origin < Constants.ORIGIN_GROUPCHAT) {
-//#                         Msg msg = new Msg(Constants.MESSAGE_TYPE_OUT, from, null, body);
-//#                         msg.id = id;
-//#                         msg.itemCollapsed = true;
+//#                     Msg msg = new Msg(Constants.MESSAGE_TYPE_OUT, from, null, body);
+//#                     msg.id = id;
+//#                     msg.itemCollapsed = true;
 //# 
-//#                         contact.addMessage(msg);
-//#                     }
+//#                     contact.addMessage(msg);
 //#                     break;
 //#                 }
 //#endif

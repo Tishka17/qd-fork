@@ -378,18 +378,21 @@ public class GMenu extends Canvas {
         g.setColor(ColorTheme.getColor(ColorTheme.GRAPHICS_MENU_FONT));
         
         int x_start = 3 + bm.wimg_menu;//3
+	int ty;
         for (int index=0; index<=size; index++) {
            if(gm.itemGrMenu!=GMenu.DEF_FORM){
              Command cmd = (Command)menuCommands.elementAt(index);
+	     ty=(fh-bm.himg_menu)>>1;
              if(bm.imageArr[0]!=null){
-               drawImage(g,cmd.getImg(),3, fh*index + 1 );
+               drawImage(g,cmd.getImg(),3, fh*index + 1 + ty );
              }
              cmd=null;
-           }            
+           }
+	   ty=(fh-g.getFont().getHeight())>>1;
             if(midlet.BombusQD.cf.executeByNum){
-                g.drawString( (index<=9 ? Integer.toString(index)+"-" : "") + drawCommands[index], x_start, fh*index + 1, g.LEFT|g.TOP);
+                g.drawString( (index<=9 ? Integer.toString(index)+"-" : "") + drawCommands[index], x_start, fh*index + 1 + ty, g.LEFT|g.TOP);
            } else {
-                g.drawString(drawCommands[index], x_start, fh*index + 1, g.LEFT|g.TOP);
+                g.drawString(drawCommands[index], x_start, fh*index + 1 + ty, g.LEFT|g.TOP);
            }
         }
 

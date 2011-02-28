@@ -1,6 +1,0 @@
-package impexp;
-
-/* 
- * ConfigData.java
- */
-

@@ -1490,6 +1490,8 @@ public abstract class VirtualList
             }
             return;
       }
+      if (pointer_state == client.Constants.POINTER_PANEL)
+            return;
       if (pointer_state == client.Constants.POINTER_SCROLLBAR) {
             scrollbar.pointerDragged(x, y, this);
             if (clickTime-lastPaint>80) {
@@ -1499,8 +1501,8 @@ public abstract class VirtualList
             return;
       }
       win_top = old_win_top - y + lastClickY;
-      if (x - lastClickX > 7 || lastClickX-x >7
-              || y - lastClickY > 7 || lastClickY-y>7)
+      if (x - lastClickX > 9 || lastClickX-x >9
+              || y - lastClickY > 9 || lastClickY-y>9)
           pointer_state = client.Constants.POINTER_DRAG;
 
       if (win_top+winHeight>listHeight) win_top=listHeight-winHeight;

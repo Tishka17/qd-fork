@@ -55,7 +55,7 @@ public class MainBar extends ComplexString{
 
     public int getVHeight(){
 	    super.getVHeight();
-	    if (height<midlet.BombusQD.cf.minHeight) height = midlet.BombusQD.cf.minHeight;
+	    if (height<midlet.BombusQD.cf.minItemHeight) height = midlet.BombusQD.cf.minItemHeight;
 	    return height;
     }
 }

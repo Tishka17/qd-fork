@@ -9,7 +9,7 @@
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * You can also redistribute and/or modify this program under the
  * terms of the Psi License, specified in the accompanied COPYING
  * file, as published by the Psi Project; either dated January 1st,
@@ -67,31 +67,31 @@ public class EditBox implements CommandListener {
     public Vector recentList;
     private Displayable parentView;
     private String caption;
-    
+
 //#ifdef CLIPBOARD
 //#     private ClipBoard clipboard;
 //#     private Command cmdCopy;
 //#     private Command cmdCopyPlus;
 //#     private Command cmdPasteText;
 //#endif
-    
+
     public EditBox(Display display, String caption, String text, TextInput ti, int boxType) {
         this.display=display;
-        
+
         cmdOk=new Command(SR.get(SR.MS_OK), Command.OK,1);
         cmdRecent=new Command(SR.get(SR.MS_RECENT), Command.SCREEN, 2);
 //#ifdef SMILES
         //cmdSmile=new Command(SR.get(SR.MS_ADD_SMILE), Command.SCREEN, 3);
 //#endif
         cmdCancel=new Command(SR.get(SR.MS_CANCEL), Command.BACK,99);
-        
+
 //#ifdef CLIPBOARD
 //#         cmdCopy = new Command(SR.get(SR.MS_COPY), Command.SCREEN, 3);
 //#         cmdCopyPlus = new Command("+ "+SR.get(SR.MS_COPY), Command.SCREEN, 4);
 //#         cmdPasteText=new Command(SR.get(SR.MS_PASTE), Command.SCREEN, 5);
 //#endif
-        
-        
+
+
         parentView=display.getCurrent();
         this.ti=ti;
         this.caption=caption;
@@ -99,9 +99,8 @@ public class EditBox implements CommandListener {
         t=new TextBox(SR.get(SR.MS_EDIT), text, 500, boxType);
 //#ifdef CLIPBOARD
 //#         if (Config.getInstance().useClipBoard) {
-//#             clipboard=ClipBoard.getInstance();
 //#             t.addCommand(cmdCopy);
-//#             if (!clipboard.isEmpty()) {
+//#             if (!ClipBoard.isEmpty()) {
 //#                 t.addCommand(cmdCopyPlus);
 //#                 t.addCommand(cmdPasteText);
 //#             }
@@ -150,14 +149,14 @@ public class EditBox implements CommandListener {
 //#         if (c==cmdCopyPlus) {
 //#             try {
 //#                 StringBuffer clipstr=new StringBuffer(clipboard.getClipBoard()).append("\n").append("\n").append(text);
-//#                 
+//# 
 //#                 clipboard.setClipBoard(clipstr.toString());
 //#                 clipstr=null;
 //#             } catch (Exception e) {/*no messages*/}
 //#             return;
 //#         }
 //#         if (c==cmdPasteText) {
-//#             t.insert(clipboard.getClipBoard(), getCaretPos()); 
+//#             t.insert(clipboard.getClipBoard(), getCaretPos());
 //#             return;
 //#         }
 //#endif
@@ -177,7 +176,7 @@ public class EditBox implements CommandListener {
         display.setCurrent(parentView);
     }
 //#if (CLIPBOARD||SMILES)
-    public int getCaretPos() {     
+    public int getCaretPos() {
         int caretPos=t.getCaretPosition();
         // +MOTOROLA STUB
         if (Config.getInstance().phoneManufacturer==Config.MOTO)
@@ -193,7 +192,7 @@ public class EditBox implements CommandListener {
         try {
             DataInputStream is=NvStorage.ReadFileRecord(ti.id, 0);
 
-            try { 
+            try {
                 while (true) recentList.addElement(is.readUTF());
             } catch (EOFException e) { is.close(); is=null; }
         } catch (Exception e) { }

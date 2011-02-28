@@ -150,4 +150,8 @@ public final class ConferenceGroup extends Group{
         c.setGroup(this);
         return c;
     }
+    
+    public int getImageIndex() {
+        return collapsed ? RosterIcons.ICON_GCCOLLAPSED_INDEX : RosterIcons.ICON_GCJOIN_INDEX;
+    }
 }

@@ -63,7 +63,7 @@ import ui.controls.form.LinkString;
 import midlet.BombusQD;
 import javax.microedition.io.ConnectionNotFoundException;
 import ui.ImageList;
-//#ifdef GRAPHICS_MENU        
+//#ifdef GRAPHICS_MENU
 //# import ui.GMenu;
 //# import ui.GMenuConfig;
 //#endif
@@ -80,20 +80,19 @@ public class VCardView
 
     private VCard vcard;
     private ImageItem photoItem;
-    
+
     private SimpleString endVCard=new SimpleString(SR.get(SR.MS_END_OF_VCARD), false);
     private SimpleString noVCard=new SimpleString(SR.get(SR.MS_NO_VCARD), true);
     private SimpleString noPhoto=new SimpleString(SR.get(SR.MS_NO_PHOTO), false);
     private SimpleString badFormat=new SimpleString(SR.get(SR.MS_UNSUPPORTED_FORMAT), false);
     private SimpleString photoTooLarge=new SimpleString(SR.get(SR.MS_PHOTO_TOO_LARGE), false);
-    
+
 
     private LinkString refresh;
-    
+
     private String url="";
 
 //#ifdef CLIPBOARD
-//#     ClipBoard clipboard  = ClipBoard.getInstance(); 
 //#     Command cmdCopy;
 //#     Command cmdCopyPlus;
 //#endif
@@ -110,7 +109,7 @@ public class VCardView
     public VCardView(Display display, Displayable pView, Contact contact) {
         super(display, pView, contact.getNickJid());
         this.display=display;
-        
+
 //#ifdef CLIPBOARD
 //#         cmdCopy      = new Command(SR.get(SR.MS_COPY), Command.SCREEN, 1);
 //#         cmdCopyPlus  = new Command("+ "+SR.get(SR.MS_COPY), Command.SCREEN, 2);
@@ -121,10 +120,10 @@ public class VCardView
 //#endif
         cmdDelPhoto  = new Command(SR.get(SR.MS_CLEAR_PHOTO), Command.SCREEN,5);
         cmdDelVcard  = new Command(SR.get(SR.MS_DELETE_VCARD), Command.SCREEN,6);
-        
+
         this.vcard=contact.vcard;
         this.c=contact;
-        
+
         refresh=new LinkString(SR.get(SR.MS_REFRESH)) { public void doAction() { VCard.request(vcard.getJid(), vcard.getId().substring(5)); destroyView(); } };
 
         if (vcard.isEmpty()) {
@@ -175,16 +174,16 @@ public class VCardView
         photoItem = null;
         super.destroyView();
     }
-    
+
      private void setPhoto() {
-        c.hasPhoto = vcard.hasPhoto;         
+        c.hasPhoto = vcard.hasPhoto;
         try {
             itemsList.removeElement(noPhoto);
             itemsList.removeElement(badFormat);
             itemsList.removeElement(photoItem);
             itemsList.removeElement(photoTooLarge);
         } catch (Exception e) { }
-        
+
          if (vcard.hasPhoto) {
             try {
                 int length=vcard.getPhoto().length;
@@ -211,14 +210,14 @@ public class VCardView
             itemsList.addElement(noPhoto);
         }
      }
-     
-     
+
+
     public void commandAction(Command c, Displayable d) {
         if (c==cmdDelVcard){
             this.c.clearVCard();
         }
         if (c==cmdDelPhoto) {
-            vcard.dropPhoto(); 
+            vcard.dropPhoto();
             this.c.img_vcard=null;
             setPhoto();
         }
@@ -235,17 +234,17 @@ public class VCardView
 //#ifdef CLIPBOARD
 //#         if (c == cmdCopy) {
 //#             try {
-//#                 clipboard.setClipBoard((((MultiLine)getFocusedObject()).getValue()==null)?"":((MultiLine)getFocusedObject()).getValue()+"\n");
+//#                 ClipBoard.setClipBoard((((MultiLine)getFocusedObject()).getValue()==null)?"":((MultiLine)getFocusedObject()).getValue()+"\n");
 //#             } catch (Exception e) {/*no messages*/}
 //#         }
-//#         
+//# 
 //#         if (c==cmdCopyPlus) {
 //#             try {
-//#                 StringBuffer clipstr=new StringBuffer(clipboard.getClipBoard())
+//#                 StringBuffer clipstr = new StringBuffer(ClipBoard.getClipBoard())
 //#                 .append("\n\n")
 //#                 .append((((MultiLine)getFocusedObject()).getValue()==null)?"":((MultiLine)getFocusedObject()).getValue()+"\n");
-//#                 
-//#                 clipboard.setClipBoard(clipstr.toString());
+//# 
+//#                 ClipBoard.setClipBoard(clipstr.toString());
 //#                 clipstr=null;
 //#             } catch (Exception e) {/*no messages*/}
 //#         }
@@ -262,7 +261,7 @@ public class VCardView
             file.fileWrite(vcard.getPhoto());
         }
     }
-    
+
     public String getNickDate() {
         StringBuffer nickDate=new StringBuffer();
         nickDate.append("photo_");
@@ -283,22 +282,22 @@ public class VCardView
     }
 //#endif
 
-    
-    
-    
+
+
+
     public void commandState(){
-//#ifdef MENU_LISTENER        
+//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
-//#endif  
-        
-//#ifdef GRAPHICS_MENU               
+//#endif
+
+//#ifdef GRAPHICS_MENU
 //#         //super.commandState();
 //#else
-    super.commandState(); 
+    super.commandState();
 //#endif
         removeCommand(midlet.BombusQD.commands.cmdOk);
         removeCommand(cmdCancel);
-        
+
         if (vcard!=null) {
             if (vcard.hasPhoto) {
 //#if FILE_IO
@@ -310,22 +309,22 @@ public class VCardView
 //#ifdef CLIPBOARD
 //#             if (Config.getInstance().useClipBoard) {
 //#                 addCommand(cmdCopy); cmdCopy.setImg(0x13);
-//#                 if (!clipboard.isEmpty())
+//#                 if (!ClipBoard.isEmpty())
 //#                     addCommand(cmdCopyPlus); cmdCopyPlus.setImg(0x23);
 //#             }
 //#endif
         }
         addCommand(cmdRefresh); cmdRefresh.setImg(0x10);
-//#ifndef GRAPHICS_MENU        
+//#ifndef GRAPHICS_MENU
      addCommand(cmdCancel);
-//#endif     
+//#endif
     }
-    
-    
+
+
 //#ifdef MENU_LISTENER
     public String touchLeftCommand(){ return SR.get(SR.MS_MENU); }
-    
-//#ifdef GRAPHICS_MENU  
+
+//#ifdef GRAPHICS_MENU
 //#     public void touchLeftPressed(){
 //#         showGraphicsMenu();
 //#     }
@@ -340,16 +339,16 @@ public class VCardView
     public void touchLeftPressed(){
         showMenu();
     }
-    
+
     public void showMenu() {
         commandState();
         new MyMenu(display, parentView, this, SR.get(SR.MS_VCARD), null, menuCommands);
-   }  
-//#endif    
-    
+   }
+//#endif
 
-//#endif       
-    
-    
+
+//#endif
+
+
 }
 

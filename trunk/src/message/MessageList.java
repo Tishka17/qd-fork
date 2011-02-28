@@ -26,11 +26,9 @@
  *
  */
 
-package message; 
+package message;
 
-import client.Config;
 import client.Msg;
-import client.StaticData;
 import colors.ColorTheme;
 import java.util.Vector;
 //#ifndef MENU_LISTENER
@@ -39,17 +37,16 @@ import java.util.Vector;
 //#else
 import menu.MenuListener;
 import menu.Command;
-import menu.MyMenu;
 //#endif
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
-import locale.SR;
 import ui.VirtualElement;
 import ui.VirtualList;
 //import ui.reconnectWindow;
-//#ifdef GRAPHICS_MENU        
+//#ifdef GRAPHICS_MENU
 //# import ui.GMenu;
 //# import ui.GMenuConfig;
+//# import util.ClipBoard;
 //#endif
 
 public abstract class MessageList extends VirtualList
@@ -62,7 +59,7 @@ public abstract class MessageList extends VirtualList
     {
 
     protected final Vector messages = new Vector(0);
-    
+
     /** Creates a new instance of MessageList */
 
     public void destroy() {
@@ -70,20 +67,20 @@ public abstract class MessageList extends VirtualList
         //System.out.println("    :::MessageList msgList->removeAllMessages");
         messages.removeAllElements();
     }
-    
+
     public MessageList() {
         super();
 //#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
 //#endif
-        
+
 //#ifdef SMILES
         smiles=midlet.BombusQD.cf.smiles;
 //#else
 //#         smiles=false;
 //#endif
         enableListWrapping(false);
-        
+
 
         cursor=0;//activate
         setCommandListener(this);
@@ -93,10 +90,10 @@ public abstract class MessageList extends VirtualList
         this();
         attachDisplay(display);
     }
-    
-    
+
+
     protected abstract int getItemCount();
-    
+
     public VirtualElement getItemRef(int index) {
         if (messages.size()<getItemCount()) messages.setSize(getItemCount());
         MessageItem mi = (MessageItem)messages.elementAt(index);
@@ -108,7 +105,7 @@ public abstract class MessageList extends VirtualList
         }
         return mi;
     }
-    
+
     /*
     public VirtualElement getItemRef(int index) {
         if (messages.size()<getItemCount()) {
@@ -138,18 +135,18 @@ public abstract class MessageList extends VirtualList
         //mi.getColor();
         messages.setElementAt(mi, index);
     }
-    
+
 
     protected abstract Msg getMessage(int index);
-    
-    
+
+
     public Msg replaceNickTags(Msg msg){
          return util.StringUtils.replaceNickTags(msg);
-    }     
-    
-    
+    }
+
+
     protected void markRead(int msgIndex) {}
-    
+
     protected boolean smiles;
 
     public void addCommands() {
@@ -161,9 +158,9 @@ public abstract class MessageList extends VirtualList
 //#endif
         addCommand(midlet.BombusQD.commands.cmdxmlSkin);
         addCommand(midlet.BombusQD.commands.cmdUrl);
-//#ifndef GRAPHICS_MENU        
+//#ifndef GRAPHICS_MENU
      addCommand(cmdBack);
-//#endif         
+//#endif
     }
     public void removeCommands () {
 //#ifdef CLIPBOARD
@@ -176,15 +173,15 @@ public abstract class MessageList extends VirtualList
         removeCommand(midlet.BombusQD.commands.cmdUrl);
         removeCommand(midlet.BombusQD.commands.cmdBack);
     }
-    
-    
+
+
 
     public void commandAction(Command c, Displayable d) {
         if (c==midlet.BombusQD.commands.cmdBack) {
             midlet.BombusQD.sd.roster.activeContact=null;
             destroyView();
         }
-        
+
         if (c==midlet.BombusQD.commands.cmdUrl) {
             try {
                 Vector urls=((MessageItem) getFocusedObject()).getUrlList();
@@ -193,22 +190,22 @@ public abstract class MessageList extends VirtualList
         }
         if (c==midlet.BombusQD.commands.cmdxmlSkin) {
            try {
-               if (((MessageItem)getFocusedObject()).msg.body.indexOf("xmlSkin")>-1) 
+               if (((MessageItem)getFocusedObject()).msg.body.indexOf("xmlSkin")>-1)
                    ColorTheme.loadSkin(((MessageItem)getFocusedObject()).msg.body,2,true);
             } catch (Exception e){}
         }
-        
+
 //#ifdef CLIPBOARD
 //#         if (c == midlet.BombusQD.commands.cmdCopy)
 //#         {
 //#             try {
-//#                 midlet.BombusQD.clipboard.add(  replaceNickTags( ((MessageItem)getFocusedObject()).msg )  );
+//#                 ClipBoard.add(  replaceNickTags( ((MessageItem)getFocusedObject()).msg )  );
 //#             } catch (Exception e) {}
 //#         }
-//#         
+//# 
 //#         if (c==midlet.BombusQD.commands.cmdCopyPlus) {
 //#             try {
-//#                 midlet.BombusQD.clipboard.append( replaceNickTags(  ((MessageItem)getFocusedObject()).msg  ) );
+//#                 ClipBoard.append( replaceNickTags(  ((MessageItem)getFocusedObject()).msg  ) );
 //#             } catch (Exception e) {}
 //#         }
 //#endif
@@ -222,13 +219,13 @@ public abstract class MessageList extends VirtualList
             } catch (Exception e){}
             return;
         }
-//#endif       
+//#endif
        super.keyPressed(keyCode);
     }
-   
+
 //#ifdef MENU_LISTENER
-    
-//#ifdef GRAPHICS_MENU        
+
+//#ifdef GRAPHICS_MENU
 //#     public int showGraphicsMenu() {
 //#          commandState();
 //#          String capt="";
@@ -236,7 +233,7 @@ public abstract class MessageList extends VirtualList
 //#              capt=getMainBarItem().elementAt(0).toString();
 //#          } catch (Exception ex){ }
 //#         menuItem = new GMenu(display, parentView, this,  null, menuCommands);
-//#         GMenuConfig.getInstance().itemGrMenu = GMenu.MESSAGE_LIST;        
+//#         GMenuConfig.getInstance().itemGrMenu = GMenu.MESSAGE_LIST;
 //#         return GMenu.MESSAGE_LIST;
 //#     }
 //#else
@@ -247,8 +244,8 @@ public abstract class MessageList extends VirtualList
             capt=getMainBarItem().elementAt(0).toString();
         } catch (Exception ex){ }
         new MyMenu(display, parentView, this, capt, null, menuCommands);
-   }  
-//#endif      
+   }
+//#endif
 
 //#endif
 

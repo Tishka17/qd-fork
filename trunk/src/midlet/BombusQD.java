@@ -26,7 +26,7 @@
  */
 
 /**
- * 
+ *
  * @author Eugene Stahov
  */
 package midlet;
@@ -79,41 +79,39 @@ import java.io.DataOutputStream;
  */
 public class BombusQD extends MIDlet implements Runnable
 {
-    
+
     public Display display  = Display.getDisplay(this);
     private boolean isRunning;
-    
+
     public final static StaticData sd = StaticData.getInstance();
     public final static Config cf = Config.getInstance();
-//#ifdef CLIPBOARD
-//#     public final static ClipBoard clipboard=ClipBoard.getInstance();
-//#endif  
+
     public final static Commands commands=Commands.get();
-//#ifdef CONSOLE    
+//#ifdef CONSOLE
 //#     public final static DebugList debug = DebugList.get();
-//#endif    
-    
+//#endif
+
     public int width = 0;
     public int height = 0;
-    public int count = 0;    
-    
+    public int count = 0;
+
     ColorTheme ct;
-    
+
     public SplashScreen s;
     private static BombusQD instance;
-    
-//#ifdef LIGHT_CONTROL    
+
+//#ifdef LIGHT_CONTROL
 //#    LightConfig lcf;
-//#endif    
+//#endif
 
     public BombusQD() {
         SR.changeLocale();
-	instance=this; 
+	instance=this;
         ct=ColorTheme.getInstance();
         s=SplashScreen.getInstance(display);
         s.setProgress("Loading", 3);
     }
-    
+
     /** Entry point  */
     public void startApp() {
         if (isRunning) {
@@ -130,12 +128,12 @@ public class BombusQD extends MIDlet implements Runnable
      */
     public void pauseApp() { }
 
-    
+
     public Image[] imageArr = null;
     public int wimg_menu;
     public int himg_menu;
     public int wimg_actions;
-    public int himg_actions;    
+    public int himg_actions;
 
     private void rmsVersion(boolean save, Displayable parentView) {
         String key = "key15628618";
@@ -171,66 +169,66 @@ public class BombusQD extends MIDlet implements Runnable
         } catch (Exception e) { }
         NvStorage.writeFileRecord(os, "appver", 0, true);
     }
-    
-    public void run(){ 
+
+    public void run(){
 
         //long s1 = System.currentTimeMillis();
         if(sd.roster==null) sd.roster=new Roster(display);
         //s.setProgress(18);
-        
+
         s.getKeys();
         width=s.width;
         height=s.height;
-        
+
         boolean selAccount=((cf.accountIndex<0));
           if (!selAccount && cf.autoLogin) {
             //sd.roster=new Roster(display);
             Account.loadAccount(cf.autoLogin, cf.accountIndex,-1);
           }
-        
+
         display.setCurrent(sd.roster);
         rmsVersion(false, sd.roster);
-        
+
         //long s2 = System.currentTimeMillis();
-//#ifdef CONSOLE        
-//#         if(cf.debug){      
+//#ifdef CONSOLE
+//#         if(cf.debug){
 //#             //debug.add("::start "+(s2-s1)+" msec",10);
-//#             debug.add("::startmem free/total "+ 
-//#                     Long.toString(Runtime.getRuntime().freeMemory()>>10) + "/" + 
+//#             debug.add("::startmem free/total "+
+//#                     Long.toString(Runtime.getRuntime().freeMemory()>>10) + "/" +
 //#                     Long.toString(Runtime.getRuntime().totalMemory()>>10), 10) ;
 //#         }
-//#endif        
-        
+//#endif
+
         try {
            imageArr = new Image[2];
            imageArr[0] = Image.createImage("/images/menu.png");
            wimg_menu = imageArr[0].getWidth()/8;
            himg_menu = imageArr[0].getHeight()/10;
-        } catch (Exception e) { }    
-        
+        } catch (Exception e) { }
+
 //#ifdef HISTORY
 //#         HistoryConfig.getInstance().loadFromStorage();
 //#endif
-        FontClass.getInstance().Init(cf.drwd_fontname);  
-        
+        FontClass.getInstance().Init(cf.drwd_fontname);
+
 //#ifdef LIGHT_CONTROL
 //#         lcf=LightConfig.getInstance();
 //#         CustomLight.switchOn(lcf.light_control);
-//#endif        
+//#endif
 
 //#ifdef HISTORY
-//#         HistoryStorage hs = new HistoryStorage(); 
+//#         HistoryStorage hs = new HistoryStorage();
 //#endif
-//#ifdef PEP        
+//#ifdef PEP
 //#         Activity.loaded();
-//#endif   
+//#endif
 //#ifdef STATS
 //#         Stats.getInstance().loadFromStorage();
 //#         Stats.getInstance().updateRunValue();
 //#endif
 //#ifdef AUTOTASK
 //#         sd.autoTask=new AutoTask(display);
-//#endif        
+//#endif
     }
 
     public void destroyApp(boolean unconditional) { }
@@ -249,7 +247,7 @@ public class BombusQD extends MIDlet implements Runnable
           }
         }
     }
-    
+
     public static BombusQD getInstance() {
         return instance;
     }

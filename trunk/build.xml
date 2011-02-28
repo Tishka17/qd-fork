@@ -5,38 +5,6 @@
 <project name="" default="jar" basedir=".">
     <description>Builds, tests, and runs the project .</description>
     <import file="nbproject/build-impl.xml"/>
-
-
-    <!-- release tasks -->
-    <target name="for-release-configs">
-        <antcall inheritrefs="false" inheritall="false" target="${target.to.call}">
-            <param name="config.active" value="full_ver_newmenu"/>
-        </antcall>
-        <antcall inheritrefs="false" inheritall="false" target="${target.to.call}">
-            <param name="config.active" value="full_ver"/>
-        </antcall>
-        <antcall inheritrefs="false" inheritall="false" target="${target.to.call}">
-            <param name="config.active" value="adsky"/>
-        </antcall>
-    </target>
-
-    <target name="rebuild-fullver">
-	    <antcall inheritrefs="false" inheritall="false" target="rebuild">
-		    <param name="config.active" value="full_ver"/>
-	    </antcall>
-    </target>
-	
-    <target name="rebuild-fullver-newmenu">
-	    <antcall inheritrefs="false" inheritall="false" target="rebuild">
-		    <param name="config.active" value="full_ver_newmenu"/>
-	    </antcall>
-    </target>
-
-    <target name="rebuild-adsky">
-	    <antcall inheritrefs="false" inheritall="false" target="rebuild">
-		    <param name="config.active" value="adsky"/>
-	    </antcall>
-    </target>
  
     <!-- prepare version patch -->
     <target name="post-init">
@@ -54,29 +22,6 @@
 			file="${preprocessed.dir}\info\Version.java"  
 			token="$BOMBUSVERSION$"
 			value="${bombus.revision}"/>
-    </target>
-
-    <!-- version patch in manifest -->
-    <target name="pre-jar" depends="create-jad">
-	<property file="resources/.version" />
-	<replace file="${build.dir}/manifest.mf"  
-	    token="$BOMBUSVERSION$"
-	    value="${bombus.version}"/>
-	<replace file="${build.dir}/manifest.mf"  
-	    token="$MIDLETVERSION$"
-	    value="${bombus.midlet}"/>
-    </target>
-
-
-    <target name="post-jar">
-        <!-- version patch in jad -->
-	<property file="resources/.version" />
-	<replace file="${dist.dir}/BombusQD.jad"
-	    token="$BOMBUSVERSION$"
-	    value="${bombus.version}"/>
-	<replace file="${dist.dir}/BombusQD.jad"
-	    token="$MIDLETVERSION$"
-	    value="${bombus.midlet}"/>
     </target>
 
     <!-- overrided to change bootclasspath -->

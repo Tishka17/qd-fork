@@ -42,7 +42,8 @@ import java.util.Vector;
 //#endif
 import ui.MainBar;
 import ui.controls.form.MultiLine;
-//#ifdef GRAPHICS_MENU        
+import util.ClipBoard;
+//#ifdef GRAPHICS_MENU
 //#endif
 //#ifdef CLIPBOARD
 //#endif
@@ -52,23 +53,23 @@ public final class CommandForm extends DefForm
     private Display display;
     private Displayable parentView;
     private static TextInput textbox;
-    
-    
+
+
     private static Object obj;
-    private static Object res;  
+    private static Object res;
     private static int type=-1;
-    
+
     private static StringBuffer sb = new StringBuffer(0);
     private static final int DESTROY_ROOM=0;
-    private static final int DELETE_ACCOUNT=1;    
-    private static final int CHANGE_PASS_ACC=2; 
-    private static final int _CHANGE_PASS_RMS=3;  
+    private static final int DELETE_ACCOUNT=1;
+    private static final int CHANGE_PASS_ACC=2;
+    private static final int _CHANGE_PASS_RMS=3;
     private static final int _DEL_ACCOUNT_FROM_RMS=4;
     private static final int STATS_ITEM=5;
     private static final int HISTORY_ITEM=6;
-    
+
     public CommandForm(){};
-    
+
     public void addObject(Object res, int current, int size){
         sb = new StringBuffer(0);
         if(current != 0) {
@@ -83,24 +84,24 @@ public final class CommandForm extends DefForm
            mainbar.setElementAt(res, 0);
         }
     }
-    
+
     public void setParentView(String title, Displayable pView) {
         mainbar.setElementAt( title , 0);
         midlet.BombusQD.getInstance().display.setCurrent(this);
         moveCursorHome();
         this.parentView = pView;
-    } 
-    
+    }
+
     public void setParentView(Contact c) {
         mainbar.setElementAt( c.bareJid , 0);
         midlet.BombusQD.getInstance().display.setCurrent(this);
         moveCursorHome();
         this.parentView = c.getMessageList();
-    }    
-    
+    }
+
     public CommandForm(Display display, Displayable pView,int type, String title, Object obj, Object res) {
         super(display, pView, title);
-        
+
         this.display=display;
         this.obj=obj;
         this.type=type;
@@ -108,30 +109,30 @@ public final class CommandForm extends DefForm
         String field_text="";
         switch(type){
             case DESTROY_ROOM:{
-                itemsList.addElement(new SimpleString(SR.get(SR.MS_DESTROY_ROOM)+"?", true));                
+                itemsList.addElement(new SimpleString(SR.get(SR.MS_DESTROY_ROOM)+"?", true));
                 field_text = SR.get(SR.MS_REASON);
                 break;
             }
             case DELETE_ACCOUNT:{
                 itemsList.addElement(new SimpleString(SR.get(SR.MS_REMOVE_ACCOUNT)+"?", true));
                 break;
-            } 
+            }
             case CHANGE_PASS_ACC:{
                 field_text = SR.get(SR.MS_PASSWORD);
-                itemsList.addElement(new SimpleString(SR.get(SR.MS_CHANGE_PASSWORD)+"?", true));                
+                itemsList.addElement(new SimpleString(SR.get(SR.MS_CHANGE_PASSWORD)+"?", true));
                 break;
-            }    
+            }
             case _CHANGE_PASS_RMS:{
                 itemsList.addElement(new MultiLine(SR.get(SR.MS_NEW_PASSWORD), (String)res, super.superWidth));
                 itemsList.addElement(new SimpleString(SR.get(SR.MS_COPY)+"?", true));
-                itemsList.addElement(new SimpleString(SR.get(SR.MS_EDIT_ACCOUNT_MSG), true));                
+                itemsList.addElement(new SimpleString(SR.get(SR.MS_EDIT_ACCOUNT_MSG), true));
                 break;
             }
             case _DEL_ACCOUNT_FROM_RMS:{
                 itemsList.addElement(new SimpleString((String)obj, true));
-                itemsList.addElement(new SimpleString(SR.get(SR.MS_DELETE)+"?", true));                
+                itemsList.addElement(new SimpleString(SR.get(SR.MS_DELETE)+"?", true));
                 break;
-            } 
+            }
             case HISTORY_ITEM:
             case STATS_ITEM:{
                 if(res!=null){
@@ -142,39 +143,39 @@ public final class CommandForm extends DefForm
                     }
                     get = null;
                 }
-                break;                
+                break;
             }
         }
-        
+
         if(field_text.length()>0){
-         textbox=new TextInput(display,field_text, "",null,TextField.ANY);  
-         itemsList.addElement(textbox);    
+         textbox=new TextInput(display,field_text, "",null,TextField.ANY);
+         itemsList.addElement(textbox);
         }
-        
+
         mainbar = new MainBar(title);
         setMainBarItem(mainbar);
-        
+
         if(title.length()>0){
           attachDisplay(display);
           this.parentView=pView;
         }
     }
-    
+
     public void destroyView() {
         if(sb.length()>0) destroy();
 	if (display!=null) display.setCurrent(midlet.BombusQD.sd.roster);
     }
-    
+
     public void cmdOk() {
           switch(type){
-             case DESTROY_ROOM: 
-             {            
+             case DESTROY_ROOM:
+             {
                   Group g = (Group) obj;
-                  Iq first=new Iq(g.getName(),0,"destroyroom"); 
+                  Iq first=new Iq(g.getName(),0,"destroyroom");
                   JabberDataBlock x=first.addChild("query",null);
-                  x.setNameSpace("http://jabber.org/protocol/muc#owner");       
+                  x.setNameSpace("http://jabber.org/protocol/muc#owner");
                   JabberDataBlock destroy=x.addChild("destroy",null);
-                  destroy.setAttribute("jid", g.getName()); 
+                  destroy.setAttribute("jid", g.getName());
                   destroy.addChild("reason",textbox.getValue());
                   midlet.BombusQD.sd.roster.theStream.send(first);
                   destroyView();
@@ -182,7 +183,7 @@ public final class CommandForm extends DefForm
              }
             case DELETE_ACCOUNT://FIX
             {
-                  Account acc = (Account) obj;                
+                  Account acc = (Account) obj;
                   Iq iqdel=new Iq(acc.getServer(), Iq.TYPE_SET,"delacc");
                   JabberDataBlock qB = iqdel.addChildNs("query", "jabber:iq:register" );
                   qB.addChild("remove",null);
@@ -190,7 +191,7 @@ public final class CommandForm extends DefForm
                   iqdel=null;
                   qB=null;
                   destroyView();
-                  break;                
+                  break;
             }
             case CHANGE_PASS_ACC://FIX
             {
@@ -199,18 +200,18 @@ public final class CommandForm extends DefForm
                  Iq iqdel=new Iq(acc.getServer(), Iq.TYPE_SET,"changemypass");
                  JabberDataBlock qB = iqdel.addChildNs("query", "jabber:iq:register" );
                   qB.addChild("username",acc.getUserName());
-                  qB.addChild("password",pass);            
+                  qB.addChild("password",pass);
                   midlet.BombusQD.sd.roster.theStream.send(iqdel);
                   iqdel=null;
                   qB=null;
                   destroyView();
-                  break;                
-            }  
+                  break;
+            }
             case _CHANGE_PASS_RMS://FIX
             {
 //#ifdef CLIPBOARD
-//#                   midlet.BombusQD.clipboard.setClipBoard("");
-//#                   midlet.BombusQD.clipboard.setClipBoard("!"+(String)res);
+//#                   ClipBoard.setClipBoard("");
+//#                   ClipBoard.setClipBoard("!"+(String)res);
 //#endif
                   new AccountSelect(display, parentView, false,-1);
                   break;
@@ -224,7 +225,7 @@ public final class CommandForm extends DefForm
 //#             case STATS_ITEM:
 //#             {
 //#                   try {
-//#                       midlet.BombusQD.clipboard.add(new Msg(Constants.MESSAGE_TYPE_EVIL,"bechmark",null,(String)obj));
+//#                       ClipBoard.add(new Msg(Constants.MESSAGE_TYPE_EVIL,"bechmark",null,(String)obj));
 //#                   } catch (Exception e) {/*no messages*/}
 //#                   destroyView();
 //#                   break;
@@ -238,4 +239,4 @@ public final class CommandForm extends DefForm
           }
     }
 
-  } 
+  }

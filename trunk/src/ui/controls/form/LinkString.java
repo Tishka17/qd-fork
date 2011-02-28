@@ -3,7 +3,7 @@
  *
  * Created on 25.05.2008, 13:24
  *
- * Copyright (c) 2006-2008, Daniel Apatin (ad), http://apatin.net.ru 
+ * Copyright (c) 2006-2008, Daniel Apatin (ad), http://apatin.net.ru
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -30,46 +30,47 @@ package ui.controls.form;
 import colors.ColorTheme;
 import javax.microedition.lcdui.Graphics;
 import ui.VirtualList;
+
 /**
  *
  * @author ad
  */
-public abstract class LinkString 
-     extends SimpleString {
 
-    /** Creates a new instance of NewClass */
+public abstract class LinkString extends SimpleString {
     public LinkString(String text) {
         super(text, true);
     }
-    
+
     public int getColor() {
         return ColorTheme.getColor(ColorTheme.MSG_HIGHLIGHT);
     }
-    public int getVWidth(){ 
+
+    public int getVWidth() {
         return -1;
     }
+
     public void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {
-        int width=g.getClipWidth();
-        int height=super.getVHeight();
+        final int stringWidth = getFont().stringWidth(toString());
+        final int fontHeight = getFont().getHeight();
 
-        int oldColor=g.getColor();
-        
-        int stringWidth=getFont().stringWidth(toString());
+        final int yOffset = (itemHeight - fontHeight) / 2;
 
+        g.setFont(getFont());
         g.setColor(getColor());
-        g.drawLine(4, height-1, stringWidth+4, height-1);
 
-        g.setColor(oldColor);
+        final int lineOffset = yOffset + fontHeight - 1;
+        g.drawLine(4, lineOffset, stringWidth + 3, lineOffset);
 
-        super.drawItem(view, g, ofs, sel);
+        g.drawString(text, getOffset() - ofs, yOffset, Graphics.TOP | Graphics.LEFT);
     }
-    
-    public boolean isSelectable() { return true; }
-    
+
+    public boolean isSelectable() {
+        return true;
+    }
+
     public void onSelect(VirtualList view) {
         doAction();
     }
-    
+
     public abstract void doAction();
-    
 }

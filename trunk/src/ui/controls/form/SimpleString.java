@@ -30,15 +30,16 @@ import font.FontCache;
 import javax.microedition.lcdui.Font;
 import ui.IconTextElement;
 
-/** 
+/**
  *
  * @author ad
  */
 
 public class SimpleString extends IconTextElement {
-    private String text;
-    private boolean bold;
-    private boolean isSelectable = false;
+    protected String text;
+    protected boolean bold;
+
+    protected boolean isSelectable = false;
 
     public SimpleString(String text) {
         this(text, false);
@@ -46,11 +47,10 @@ public class SimpleString extends IconTextElement {
 
     public SimpleString(String text, boolean bold) {
         super(null);
+
         this.text = text;
         this.bold = bold;
     }
-    
-    //public SimpleString()
 
     public int getVWidth() {
         return -1;
@@ -66,7 +66,7 @@ public class SimpleString extends IconTextElement {
     public boolean isSelectable() {
         return isSelectable;
     }
-    
+
     public void setSelectable(boolean value) {
         isSelectable = value;
     }

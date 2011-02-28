@@ -117,6 +117,8 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
     private static final int MI_CHANGE_NICK = 48;
     private static final int MI_REJOIN = 49;
     private static final int MI_RENAME = 50;
+    private static final int MI_COPY_TOPIC = 51;
+
     private Object item;
 
     public ActionsMenu(Display display, Displayable pView, Object item) {
@@ -303,6 +305,11 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
 //#ifndef WMUC
             if (group instanceof ConferenceGroup) {
                 MucContact self = ((ConferenceGroup) group).selfContact;
+
+//#ifdef CLIPBOARD
+//#                 addItem(SR.get(SR.MS_COPY_JID), MI_COPY_JID, ActionsIcons.ICON_COPY_JID);
+//#                 addItem(SR.get(SR.MS_COPY_TOPIC), MI_COPY_TOPIC, ActionsIcons.ICON_COPY_JID);
+//#endif
 
                 addItem(SR.get(SR.MS_LEAVE_ROOM), MI_LEAVE, ActionsIcons.ICON_LEAVE);
                 addItem(SR.get(SR.MS_CLOSE_ALL_ROOMS), MI_LEAVE_ALL, ActionsIcons.ICON_LEAVE);
@@ -523,9 +530,15 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                     break;
 //#ifdef CLIPBOARD
 //#                 case MI_COPY_JID:
-//#                     if (contact.bareJid != null) {
-//#                         Msg msg = new Msg(Constants.MESSAGE_TYPE_SYSTEM, "JID", null, contact.bareJid);
-//#                         ClipBoard.add(msg);
+//#                     if (contact instanceof MucContact) {
+//#                         MucContact c = (MucContact)contact;
+//#                         if (c.realJid != null) {
+//#                             ClipBoard.setClipBoard(c.realJid);
+//#                         }
+//#                     } else {
+//#                         if (contact.bareJid != null) {
+//#                             ClipBoard.setClipBoard(contact.bareJid);
+//#                         }
 //#                     }
 //#                     break;
 //#                 case MI_SEND_BUFFER: {
@@ -623,8 +636,21 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
         } else if (item instanceof Group) {
             final Group group = (Group) item;
             if (group instanceof ConferenceGroup) {
-                String roomjid = ((ConferenceGroup) group).confContact.getJid();
+                ConferenceGroup cgroup = (ConferenceGroup) group;
+                String roomjid = cgroup.confContact.getJid();
+
                 switch (mItem.index) {
+//#ifdef CLIPBOARD
+//#                     case MI_COPY_JID:
+//#                         ClipBoard.setClipBoard(roomjid);
+//#                         break;
+//#                     case MI_COPY_TOPIC:
+//#                         String topic = cgroup.confContact.getStatus();
+//#                         if (topic != null) {
+//#                             ClipBoard.setClipBoard(cgroup.confContact.getStatus());
+//#                         }
+//#                         break;
+//#endif
                     case MI_CONFIG: // room config
                         new QueryConfigForm(display, roomjid);
                         return;

@@ -1,35 +1,8 @@
-/*
- * CheckBox.java  
- *
- * Created on 19.05.2008, 22:16
- *
- * Copyright (c) 2006-2008, Daniel Apatin (ad), http://apatin.net.ru
- * Copyright (c) 2009, Alexej Kotov (aqent), http://bombusmod-qd.wen.ru
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * You can also redistribute and/or modify this program under the
- * terms of the Psi License, specified in the accompanied COPYING
- * file, as published by the Psi Project; either dated January 1st,
- * 2005, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- */
 package ui.controls.form;
 
-import colors.ColorTheme;
 import images.RosterIcons;
 import ui.IconTextElement;
+import javax.microedition.lcdui.*;
 import java.util.Vector;
 import util.StringUtils;
 import ui.GMenuConfig;
@@ -41,15 +14,27 @@ import ui.VirtualList;
  */
 
 public class CheckBox extends IconTextElement {
-    private boolean state = false;
-    private String text;
-    Vector checkBox = new Vector(0);
+    private boolean isChecked = false;
 
-    public CheckBox(String text, boolean state) {
+    private String tip;
+    private String text;
+
+    private Vector tipLines;
+
+    private GMenuConfig gm = GMenuConfig.getInstance();
+
+    public CheckBox(String text, boolean isChecked) {
         super(RosterIcons.getInstance());
-        
-        this.text = text;
-        this.state = state;
+        if (text.indexOf("%") > -1) {
+            this.tip = text.substring(text.indexOf("%"));
+            this.text = text.substring(0, text.indexOf("%"));
+
+            tipLines = StringUtils.parseBoxString(this.tip, gm.phoneWidth - 50, getFont());
+        } else {
+            this.text = text;
+            this.tip = null;
+        }
+        this.isChecked = isChecked;
     }
 
     public String toString() {
@@ -57,15 +42,75 @@ public class CheckBox extends IconTextElement {
     }
 
     public void onSelect(VirtualList view) {
-        state = !state;
+        isChecked = !isChecked;
     }
 
     public int getImageIndex() {
-        return state ? 0x57 : 0x56;
+        return isChecked ? 0x57 : 0x56;
+    }
+
+    public void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {
+        g.setFont(getFont());
+
+        int xOffset = getOffset();
+        if (null != il) {
+            if (getImageIndex() != -1) {
+                il.drawImage(g, getImageIndex(), xOffset, (itemHeight - imgHeight) / 2);
+                xOffset += imgHeight;
+            }
+        }
+
+        if ((tip != null && !isChecked) || (tip == null)) {
+            g.clipRect(xOffset, 0, g.getClipWidth(), itemHeight);
+
+            String str = toString();
+            if (null != str) {
+                int yOffset = getFont().getHeight();
+                g.drawString(str, xOffset - ofs, (itemHeight - yOffset) / 2, Graphics.TOP | Graphics.LEFT);
+            }
+        } else {
+            int scrollW = midlet.BombusQD.cf.scrollWidth;
+
+            int fontHeight = getFont().getHeight();
+            int size = tipLines.size();
+
+            g.clipRect(xOffset, 0, g.getClipWidth(), getVHeight());
+
+            int helpHeight = fontHeight * (size - 1);
+            g.drawString(text, xOffset - ofs, 0, Graphics.TOP | Graphics.LEFT);
+
+            g.setColor(0xFFFFFF);
+            g.fillRoundRect(xOffset, fontHeight + 2, gm.phoneWidth - 30 - scrollW, helpHeight, 9, 9);
+            g.setColor(0x000000);
+            g.drawRoundRect(xOffset, fontHeight + 2, gm.phoneWidth - 30 - scrollW, helpHeight, 9, 9);
+            g.setColor(0x000000);
+
+            int y = 0;
+            for (int i = 0; i < size; i++) {
+                g.drawString((String)tipLines.elementAt(i), xOffset + 3, y + 2, Graphics.TOP | Graphics.LEFT);
+                y += fontHeight;
+            }
+        }
+    }
+
+    public int getVHeight() {
+        int fontHeight = getFont().getHeight();
+        if (isChecked && tip != null) {
+            itemHeight = fontHeight * (tipLines.size() + 1);
+        } else {
+            itemHeight = fontHeight;
+        }
+        if (itemHeight < il.getHeight()) {
+            itemHeight = il.getHeight();
+        }
+        if (itemHeight < midlet.BombusQD.cf.minItemHeight) {
+            itemHeight = midlet.BombusQD.cf.minItemHeight;
+        }
+        return itemHeight;
     }
 
     public boolean getValue() {
-        return state;
+        return isChecked;
     }
 
     public boolean isSelectable() {
@@ -76,7 +121,7 @@ public class CheckBox extends IconTextElement {
         switch (keyCode) {
             case 12:
             case 5:
-                state = !state;
+                isChecked = !isChecked;
                 return true;
         }
         return false;

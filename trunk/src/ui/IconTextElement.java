@@ -24,7 +24,7 @@
  * along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
- 
+
 package ui;
 import javax.microedition.lcdui.*;
 import colors.ColorTheme;
@@ -38,7 +38,7 @@ abstract public class IconTextElement implements VirtualElement {
     protected ImageList il;
     protected int imgHeight = 0;
     protected int imgWidth = 0;
-    
+
     public IconTextElement(ImageList il) {
         this.il = il;
         if (il != null) {
@@ -67,10 +67,9 @@ abstract public class IconTextElement implements VirtualElement {
         return FontCache.getFont(getFontIndex(),FontCache.roster);
     }
 
-    public void drawItem(VirtualList view, Graphics g, int ofs, boolean sel, boolean inCommand) {      
+    public void drawItem(VirtualList view, Graphics g, int ofs, boolean sel, boolean inCommand) {
         g.setFont(getFont());
 
-        String str = toString();
         int xOffset = getOffset();
         if (null != il) {
             if (getImageIndex() != -1) {
@@ -79,16 +78,18 @@ abstract public class IconTextElement implements VirtualElement {
             }
         }
         g.clipRect(xOffset, 0, g.getClipWidth(), itemHeight);
+
+        String str = toString();
         if (null != str) {
             int yOffset = getFont().getHeight();
             g.drawString(str, xOffset - ofs, (itemHeight - yOffset) / 2, Graphics.TOP | Graphics.LEFT);
         }
     }
-    
+
     public void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {
          this.drawItem(view, g, ofs, sel, false);
     }
-    
+
     public int getOffset() {
         return 4;
     }
@@ -106,15 +107,15 @@ abstract public class IconTextElement implements VirtualElement {
 			itemHeight = midlet.BombusQD.cf.minItemHeight;
         return itemHeight;
     }
-    
-    public void onSelect(VirtualList view) {
-        
-    } 
 
-    public int getItemHeight(){ 
+    public void onSelect(VirtualList view) {
+
+    }
+
+    public int getItemHeight(){
         return itemHeight;
     }
-    
+
     public int getColorBGnd() {
         return ColorTheme.getColor(ColorTheme.LIST_BGND);
     }

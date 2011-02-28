@@ -1,3 +1,0 @@
-/*
- * Checkers.java
- */

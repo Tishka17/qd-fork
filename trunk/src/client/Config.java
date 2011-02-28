@@ -320,8 +320,6 @@ public class Config {
     public boolean simpleContacts = false;//fast contact draw
     public int userAppLevel = 0; //0-simple, 1-advanced
 
-    public int minHeight=0;
-    
     public static Config getInstance(){
 	if (instance==null) {
 	    instance=new Config();

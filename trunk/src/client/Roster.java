@@ -2761,11 +2761,18 @@ public class Roster
                            messageStore(conferenceContact, conferenceMessage);
                         }
                         if (ti==Constants.PRESENCE_OFFLINE)  {
-                            conferenceContact.setIncoming(Constants.INC_NONE);
-                            conferenceContact.showComposing=false;
-                            conferenceContact.client=-1;
-                            conferenceContact.clientName="-";
-                            conferenceContact.version="";
+                            //автоочистка вышедших из конфы
+                            if (0 == conferenceContact.getNewMsgsCount()) {
+                                conferenceContact.destroy();
+                                contactList.removeContact(conferenceContact);
+                                setModified();
+                            } else {
+                                conferenceContact.setIncoming(Constants.INC_NONE);
+                                conferenceContact.showComposing=false;
+                                conferenceContact.client=-1;
+                                conferenceContact.clientName="-";
+                                conferenceContact.version="";
+                           }
                         }
                         name=null;
                         lang=null;

@@ -29,54 +29,35 @@
 //# 
 //# import client.Msg;
 //# 
-//# public class ClipBoard
-//#  {
-//#     
-//#     // Singleton
-//#     private static ClipBoard instance;
+//# public class ClipBoard {
+//#     private static String clipBoard = "";
 //# 
-//#     public static ClipBoard getInstance(){
-//#         if (instance==null) {
-//#             instance=new ClipBoard();
-//#         }
-//#         return instance;
-//#     }
-//#     
-//#     private static String clipBoard="";
-//# 
-//# 
-//#     public String getClipBoard() {
-//#       return clipBoard;
+//#     public static String getClipBoard() {
+//#         return clipBoard;
 //#     }
 //# 
-//#     public void setClipBoard(String str) {
-//#       clipBoard=(str.length()>4096)?str.substring(0,4095):str;
+//#     public static void setClipBoard(String str) {
+//#       clipBoard = (str.length() > 4096) ? str.substring(0,4095) : str;
 //#     }
 //# 
-//#     public boolean isEmpty() { 
+//#     public static boolean isEmpty() {
 //#         boolean empty = true;
-//#         if (clipBoard!=null)
-//#             if (clipBoard.length()>0)
-//#                 empty = false;
+//#         if (clipBoard != null && clipBoard.length() > 0)
+//#             return false;
 //#         return empty;
 //#     }
-//#     
-//#     public void add(Msg msg) {
-//#         try {
-//#             StringBuffer clipstr=new StringBuffer(util.StringUtils.quoteString(msg));
-//#             setClipBoard(clipstr.toString());
-//#             clipstr=null;
-//#         } catch (Exception e) {/*no messages*/}
+//# 
+//#     public static void add(Msg msg) {
+//#         clipBoard = StringUtils.quoteString(msg);
 //#     }
-//#     
-//#     public void append(Msg msg) {
-//#         try {
-//#             StringBuffer clipstr=new StringBuffer(clipBoard)
-//#             .append("\n\n")
-//#             .append(util.StringUtils.quoteString(msg));
-//#             setClipBoard(clipstr.toString());
-//#             clipstr=null;
-//#         } catch (Exception e) {/*no messages*/}
+//# 
+//#     public static void append(Msg msg) {
+//#         StringBuffer buf = new StringBuffer(clipBoard);
+//# 
+//#         buf.append("\n\n");
+//#         buf.append(StringUtils.quoteString(msg));
+//# 
+//#         clipBoard = buf.toString();
 //#     }
 //# }
 //#endif

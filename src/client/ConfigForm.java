@@ -42,8 +42,6 @@ import menu.MenuListener;
  */
 
 public class ConfigForm extends DefForm implements MenuListener {
-//    private Display display;
-
     public ConfigForm(Display display, Displayable pView) {
         super(display, pView, SR.get(SR.MS_OPTIONS));
         this.display = display;
@@ -54,12 +52,12 @@ public class ConfigForm extends DefForm implements MenuListener {
         addControl(new PluginBox(SR.get(SR.MS_notifyStr), config.module_notify, 0));
         addControl(new PluginBox(SR.get(SR.MS_netStr), config.module_network, 0));
         addControl(new PluginBox(SR.get(SR.MS_appStr), config.module_app, 0));
-        addControl(new PluginBox(SR.get(SR.MS_grStr), config.module_graphics, 0));        
+        addControl(new PluginBox(SR.get(SR.MS_grStr), config.module_graphics, 0));
         addControl(new PluginBox(SR.get(SR.MS_COLOR_TUNE), config.module_theme, 0));
         addControl(new PluginBox(SR.get(SR.MS_fontsStr), config.module_fonts, 0));
 
 //#ifdef AUTOSTATUS
-//#         addControl(new PluginBox(SR.get(SR.MS_AUTOSTATUS), config.module_autostatus, 1)); 
+//#         addControl(new PluginBox(SR.get(SR.MS_AUTOSTATUS), config.module_autostatus, 1));
 //#endif
         addControl(new PluginBox(SR.get(SR.MS_hotkeysStr), config.userKeys, 2));
         addControl(new PluginBox(SR.get(SR.MS_avatarStr), config.module_avatars, 3));
@@ -67,25 +65,27 @@ public class ConfigForm extends DefForm implements MenuListener {
 //#         addControl(new PluginBox(SR.get(SR.MS_historyStr), config.module_history, 4));
 //#endif
 
-//#ifdef IMPORT_EXPORT         
-//#         addControl(new PluginBox(SR.get(SR.MS_ieStr), config.module_ie, 5));    
+//#ifdef IMPORT_EXPORT
+//#         addControl(new PluginBox(SR.get(SR.MS_ieStr), config.module_ie, 5));
 //#endif
         if(config.userAppLevel == 1) {
-            addControl(new PluginBox(SR.get(SR.MS_taskstr), config.module_tasks, 6));
+//#ifdef AUTOTASK
+//#             addControl(new PluginBox(SR.get(SR.MS_taskstr), config.module_tasks, 6));
+//#endif
             addControl(new PluginBox(SR.get(SR.MS_clchatStr), config.module_classicchat, 7));
         }
 
         attachDisplay(display);
-        this.parentView = pView;        
+        this.parentView = pView;
     }
 
     public String touchRightCommand() {
         return SR.get(SR.MS_BACK);
-    }  
+    }
 
-    public String touchLeftCommand() { 
+    public String touchLeftCommand() {
         Config config = Config.getInstance();
-        
+
         String text = getFocusedObject().toString();
         if (text.equals(SR.get(SR.MS_hotkeysStr))) {
             if (!config.userKeys) {
@@ -113,18 +113,20 @@ public class ConfigForm extends DefForm implements MenuListener {
 //#                 return null;
 //#             }
 //#endif
-        } else if(text.equals(SR.get(SR.MS_taskstr))) {
-            if (!config.module_tasks) {
-                return null;
-            }  
+//#ifdef AUTOTASK
+//#         } else if(text.equals(SR.get(SR.MS_taskstr))) {
+//#             if (!config.module_tasks) {
+//#                 return null;
+//#             }
+//#endif
         } else if(text.equals(SR.get(SR.MS_avatarStr))) {
             if (!config.module_avatars) {
                 return null;
-            }  
+            }
         }
         return SR.get(SR.MS_config);
-    }    
-    
+    }
+
     public void eventLongOk() {
 	    touchLeftPressed();
     }
@@ -146,13 +148,13 @@ public class ConfigForm extends DefForm implements MenuListener {
 //#endif
         } else if (type.equals(SR.get(SR.MS_fontsStr))) {
             display.setCurrent(new font.ConfigFonts(display, this));
-//#ifdef IMPORT_EXPORT          
+//#ifdef IMPORT_EXPORT
 //#         } else if(type.equals(SR.get(SR.MS_ieStr))) {
 //#             new impexp.IEMenu(display, this);
 //#endif
         } else if (type.equals(SR.get(SR.MS_notifyStr))) {
             display.setCurrent(new alert.AlertCustomizeForm(display, this));
-//#if AUTOTASK
+//#ifdef AUTOTASK
 //#         } else if (type.equals(SR.get(SR.MS_taskstr))) {
 //#             new autotask.AutoTaskForm(display, this);
 //#endif
@@ -160,11 +162,11 @@ public class ConfigForm extends DefForm implements MenuListener {
            display.setCurrent(new ConfigAvatar(display,this));
         } else {
             new ModuleConfigForm(display, this, type);
-        }          
+        }
     }
 
     public void destroyView(){
         Config.getInstance().saveToStorage();
         display.setCurrent(parentView);
-    }    
+    }
 }

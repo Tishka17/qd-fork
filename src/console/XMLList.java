@@ -41,10 +41,10 @@
 //# import javax.microedition.lcdui.Display;
 //# import javax.microedition.lcdui.Displayable;
 //# import locale.SR;
-//#ifdef CLIPBOARD   
+//#ifdef CLIPBOARD
 //# import util.ClipBoard;
 //#endif
-//#ifdef CONSOLE 
+//#ifdef CONSOLE
 //# import ui.MainBar;
 //#endif
 //# import message.MessageItem;
@@ -53,37 +53,33 @@
 //#  *
 //#  * @author ad,aqent
 //#  */
-//# public class XMLList 
+//# public class XMLList
 //#     extends MessageList {
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_CONSOLE");
 //#endif
-//#     
+//# 
 //#     StanzasList stanzas;
 //#     private StaticData sd=StaticData.getInstance();
-//#     
+//# 
 //#     private Command cmdNew;
 //#     private Command cmdEnableDisable;
 //#     private Command cmdPurge;
 //#     private Command cmdDebugLog;
-//#     
-//#ifdef CLIPBOARD    
-//#     private ClipBoard clipboard=ClipBoard.getInstance();
-//#endif
 //# 
 //#     /** Creates a new instance of XMLList */
 //#     public XMLList(Display display, Displayable pView) {
 //#         super ();
-//#         
+//# 
 //#         cmdNew=new Command(SR.get(SR.MS_NEW), Command.SCREEN, 5);
 //#         cmdEnableDisable=new Command(SR.get(SR.MS_ENABLE_DISABLE), Command.SCREEN, 6);
 //#         cmdPurge=new Command(SR.get(SR.MS_CLEAR_LIST), Command.SCREEN, 10);
 //#         cmdDebugLog=new Command("CREATE DEBUG LOG", Command.SCREEN, 13);
-//#         
+//# 
 //#         super.smiles=false;
-//#         
+//# 
 //#         stanzas=StanzasList.getInstance();
-//#         
+//# 
 //#         commandState();
 //#         addCommands();
 //#         setCommandListener(this);
@@ -97,13 +93,13 @@
 //#         attachDisplay(display);
 //#         this.parentView=pView;
 //#     }
-//#     
+//# 
 //#     public void commandState() {
 //#ifdef MENU_LISTENER
 //#         menuCommands.removeAllElements();
 //#endif
-//#         
-//#ifndef GRAPHICS_MENU        
+//# 
+//#ifndef GRAPHICS_MENU
 //#      addCommand(cmdBack);
 //#endif
 //#         addCommand(cmdNew); cmdNew.setImg(0x42);//ADD
@@ -111,33 +107,33 @@
 //#ifdef CLIPBOARD
 //#             if (Config.getInstance().useClipBoard) {
 //#                 addCommand(midlet.BombusQD.commands.cmdCopy);
-//#                 if (!clipboard.isEmpty()) addCommand(midlet.BombusQD.commands.cmdCopyPlus);
+//#                 if (!ClipBoard.isEmpty()) addCommand(midlet.BombusQD.commands.cmdCopyPlus);
 //#             }
 //#endif
 //#         addCommand(cmdEnableDisable); cmdEnableDisable.setImg(0x26);
 //#         addCommand(cmdPurge); cmdPurge.setImg(0x41);//DELETE
 //#     }
-//#     
+//# 
 //#     protected void beginPaint() {
 //#         StringBuffer str = new StringBuffer(" (")
 //#         .append(getItemCount())
 //#         .append(")");
-//#         
+//# 
 //#         if (!stanzas.enabled)
 //#             str.append(" - Disabled");
-//#         
+//# 
 //#         getMainBarItem().setElementAt(str.toString(),1);
 //#     }
-//#     
+//# 
 //#     public void eventOk(){
 //#        MessageItem mi = (MessageItem)messages.elementAt(cursor);
 //#        mi.onSelect(this);
 //#     }
-//#     
+//# 
 //#     public int getItemCount() {
 //#         return stanzas.size();
 //#     }
-//#     
+//# 
 //#     public Msg getMessage(int index) {
 //#         try {
 //#            return stanzas.msg(index);
@@ -153,10 +149,10 @@
 //#         } catch (Exception e) {}
 //#         new StanzaEdit(display, this, stanza).setParentView(this);
 //#     }
-//#     
+//# 
 //#     public void commandAction(Command c, Displayable d) {
 //#         super.commandAction(c,d);
-//#         
+//# 
 //# 	Msg m=getMessage(cursor);
 //#         if (c==cmdNew) {
 //#             keyGreen();
@@ -167,12 +163,12 @@
 //#         }
 //# 	if (m==null) return;
 //# 
-//#         if (c==cmdPurge) { 
+//#         if (c==cmdPurge) {
 //#             clearReadedMessageList();
 //#         }
-//#          
+//# 
 //#     }
-//#     
+//# 
 //#     private void clearReadedMessageList() {
 //#         try {
 //#             if (cursor+1==stanzas.size()) {
@@ -185,18 +181,18 @@
 //#             messages.removeAllElements();
 //#         } catch (Exception e) { }
 //#         moveCursorHome();
-//#         redraw(); 
+//#         redraw();
 //#     }
-//#     
-//#     public void keyClear() { 
+//# 
+//#     public void keyClear() {
 //#         clearReadedMessageList();
 //#     }
-//#     
+//# 
 //#     public void userKeyPressed(int keyCode) {
 //#         if (keyCode=='0')
 //#             clearReadedMessageList();
 //#     }
-//#     
+//# 
 //#     public void destroyView(){
 //# 	super.destroyView();
 //#     }

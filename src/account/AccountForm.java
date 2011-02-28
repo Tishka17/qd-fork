@@ -41,6 +41,7 @@ import ui.controls.form.NumberInput;
 import ui.controls.form.TextInput;
 import java.util.Random;
 import ui.controls.form.SpacerItem;
+import util.ClipBoard;
 
 public class AccountForm extends DefForm {
     private final AccountSelect accountSelect;
@@ -56,13 +57,13 @@ public class AccountForm extends DefForm {
     private TextInput emailbox;
 //#if HTTPCONNECT
 //#       private CheckBox proxybox;
-//#elif HTTPPOLL        
+//#elif HTTPPOLL
 //#       private CheckBox pollingbox;
 //#endif
     private CheckBox registerbox;
     private NumberInput keepAlive;
     private DropChoiceBox keepAliveType;
-//#if HTTPPOLL || HTTPCONNECT  
+//#if HTTPPOLL || HTTPCONNECT
 //#     private TextInput proxyHost;
 //#     private TextInput proxyPort;
 //#endif
@@ -110,7 +111,7 @@ public class AccountForm extends DefForm {
                 getMainBarItem().setElementAt(SR.get(SR.MS_NEW_ACCOUNT), 0);
             } else {
                 getMainBarItem().setElementAt(account.toString(), 0);
-            }            
+            }
         }
 
         String server = register ? serverReg : "";
@@ -202,13 +203,13 @@ public class AccountForm extends DefForm {
         }
 
 //#ifdef CLIPBOARD
-//#         if (midlet.BombusQD.clipboard.getClipBoard() != null) {
-//#             if (midlet.BombusQD.clipboard.getClipBoard().startsWith("!")) {
+//#         if (!ClipBoard.isEmpty()) {
+//#             if (ClipBoard.getClipBoard().startsWith("!")) {
 //#                 insertpass = new LinkString(SR.get(SR.MS_INSERT_NEW_PASSWORD))   {
 //#                     public void doAction() {
-//#                         passbox.setValue(midlet.BombusQD.clipboard.getClipBoard().substring(1));
+//#                         passbox.setValue(ClipBoard.getClipBoard().substring(1));
 //#                         itemsList.removeElement(insertpass);
-//#                         midlet.BombusQD.clipboard.setClipBoard("");
+//#                         ClipBoard.setClipBoard("");
 //#                     }
 //#                 };
 //#                 if (!createSimpleAddForm) {
@@ -354,7 +355,7 @@ public class AccountForm extends DefForm {
         confOnlybox = new CheckBox(SR.get(SR.MS_CONFERENCES_ONLY), account.isMucOnly());
 //#if HTTPCONNECT
 //#        proxybox = new CheckBox("proxybox", SR.get(SR.MS_PROXY_ENABLE), account.isEnableProxy());
-//#elif HTTPPOLL        
+//#elif HTTPPOLL
 //#        pollingbox = new CheckBox("pollingbox", "HTTP Polling", false);
 //#endif
 
@@ -365,7 +366,7 @@ public class AccountForm extends DefForm {
             itemsList.addElement(confOnlybox);
 //#if HTTPCONNECT
 //#        itemsList.addElement(proxybox);
-//#elif HTTPPOLL        
+//#elif HTTPPOLL
 //#        itemsList.addElement(pollingbox);
 //#endif
         }
@@ -382,9 +383,9 @@ public class AccountForm extends DefForm {
             itemsList.addElement(keepAlive);
 //#if HTTPCONNECT
 //# 	proxyHost = new TextInput(display, SR.get(SR.MS_PROXY_HOST), account.getProxyHostAddr(), null, TextField.URL);
-//# 
+//#
 //# 	proxyPort = new TextInput(display, SR.get(SR.MS_PROXY_PORT), Integer.toString(account.getProxyPort()));
-//#elif HTTPPOLL        
+//#elif HTTPPOLL
 //# 	proxyHost = new TextInput(display, SR.get(SR.MS_PROXY_HOST), account.getProxyHostAddr(), null, TextField.URL);
 //#endif
             itemsList.addElement(ipbox);
@@ -394,7 +395,7 @@ public class AccountForm extends DefForm {
 //#if HTTPCONNECT
 //# 	itemsList.addElement(proxyHost);
 //# 	itemsList.addElement(proxyPort);
-//#elif HTTPPOLL        
+//#elif HTTPPOLL
 //# 	itemsList.addElement(proxyHost);
 //#endif
         }
@@ -455,7 +456,7 @@ public class AccountForm extends DefForm {
             account.setUseCompression(compressionBox.getValue());
             account.setMucOnly(confOnlybox.getValue());
 
-//#if HTTPPOLL || HTTPCONNECT            
+//#if HTTPPOLL || HTTPCONNECT
 //#         account.setEnableProxy(proxybox.getValue());
 //#         account.setProxyHostAddr(proxyHost.getValue());
 //#         account.setProxyPort(proxyPort.getValue());
@@ -483,7 +484,7 @@ public class AccountForm extends DefForm {
         display.setCurrent(accountSelect);
     }
 
-//#ifdef MENU_LISTENER    
+//#ifdef MENU_LISTENER
     public void userKeyPressed(int keyCode) {
         switch (keyCode) {
             case KEY_NUM4:
@@ -494,7 +495,7 @@ public class AccountForm extends DefForm {
                 break;
         }
     }
-//#endif     
+//#endif
 
     protected void keyRepeated(int keyCode) {
         super.keyRepeated(keyCode);

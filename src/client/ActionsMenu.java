@@ -55,6 +55,7 @@ import midlet.BombusQD;
 import ui.controls.AlertBox;
 import ui.MIDPTextBox;
 import ui.MainBar;
+import util.ClipBoard;
 import vcard.VCard;
 import vcard.VCardEdit;
 import vcard.VCardView;
@@ -135,7 +136,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
             if (groupType == Groups.TYPE_TRANSP) {
                 addItem(SR.get(SR.MS_LOGIN), MI_LOGIN, ActionsIcons.ICON_ON);
                 addItem(SR.get(SR.MS_LOGOFF), MI_LOGOUT, ActionsIcons.ICON_OFF);
-//#if CHANGE_TRANSPORT
+//#ifdef CHANGE_TRANSPORT
 //#ifdef PLUGINS
 //#                if (sd.ChangeTransport);
 //#endif
@@ -181,7 +182,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
 //#ifdef CLIPBOARD
 //#             if (midlet.BombusQD.cf.useClipBoard) {
 //#                 addItem(SR.get(SR.MS_COPY_JID), MI_COPY_JID, ActionsIcons.ICON_COPY_JID);
-//#                 if (!midlet.BombusQD.clipboard.isEmpty()) {
+//#                 if (!ClipBoard.isEmpty()) {
 //#                     addItem(SR.get(SR.MS_SEND_BUFFER), MI_SEND_BUFFER, ActionsIcons.ICON_SEND_BUFFER);
 //#                 }
 //#             }
@@ -274,7 +275,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
             }
 //#endif
 
-//#if FILE_TRANSFER
+//#ifdef FILE_TRANSFER
             if (groupType != Groups.TYPE_TRANSP && midlet.BombusQD.cf.fileTransfer) {
                 if (groupType != Groups.TYPE_SELF) {
 //#ifdef FILE_IO
@@ -417,7 +418,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                             VCard.request(contact.bareJid, contact.getJid());
                         }
                     }
-                    return;
+                    break;
                 case MI_DELVCARD:
                     contact.clearVCard();
                     break;
@@ -449,7 +450,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                     new SubscriptionEdit(display, this, contact);
                     return;
                 case MI_DELETE:
-                    new AlertBox(SR.get(SR.MS_DELETE_ASK), contact.getName(), display, BombusQD.sd.roster, false)                             {
+                    new AlertBox(SR.get(SR.MS_DELETE_ASK), contact.getName(), display, BombusQD.sd.roster, false) {
                         public void yes() {
                             BombusQD.sd.roster.deleteContact((Contact) item);
                         }
@@ -473,11 +474,8 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                     BombusQD.sd.roster.theStream.send(presence);
                     break;
                 }
-                //case MI_:
-                //    BombusQD.sd.roster.resolveNicknames(c.bareJid);
-                //    break;
-//#if CHANGE_TRANSPORT
-//#                 case 915: {
+//#ifdef CHANGE_TRANSPORT
+//#                 case MI_CHTRANSPORT: {
 //#                     new ChangeTransport(display, contact.bareJid);
 //#                     return;
 //#                 }
@@ -528,11 +526,11 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
 //#                 case MI_COPY_JID:
 //#                     if (contact.bareJid != null) {
 //#                         Msg msg = new Msg(Constants.MESSAGE_TYPE_SYSTEM, "JID", null, contact.bareJid);
-//#                         BombusQD.clipboard.add(msg);
+//#                         ClipBoard.add(msg);
 //#                     }
 //#                     break;
 //#                 case MI_SEND_BUFFER: {
-//#                     String body = BombusQD.clipboard.getClipBoard();
+//#                     String body = ClipBoard.getClipBoard();
 //#                     if (body == null && body.length() == 0) {
 //#                         return;
 //#                     }
@@ -580,7 +578,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                 case MI_SEND_PRESENCE:
                     new StatusSelect(display, this, contact);
                     return;
-//#if FILE_TRANSFER
+//#ifdef FILE_TRANSFER
 //#ifdef FILE_IO
                 case MI_SEND_FILE:
                     new TransferSendFile(display, this, contact.getJid());

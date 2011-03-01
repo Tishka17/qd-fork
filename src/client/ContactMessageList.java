@@ -747,7 +747,7 @@ public final class ContactMessageList extends VirtualList implements MenuListene
 //#ifdef JUICK.COM
 //#             else{
 //#               if(contact.getJid().indexOf("juick@juick.com")>-1){
-//#                 Reply(false); return;
+//#                 reply(false); return;
 //#               }
 //#             }
 //#endif

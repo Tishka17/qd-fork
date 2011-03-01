@@ -24,7 +24,8 @@
  * along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
- 
+
+//#ifdef CLIENTS_ICONS
 package images;
 
 import client.Contact;
@@ -36,7 +37,7 @@ import util.StringLoader;
  * @author ad,aqent
  */
 public class ClientsIconsData {
-    
+
     private static ClientsIconsData instance;
     private static String[] clientName = {
         "BombusMod",
@@ -85,9 +86,9 @@ public class ClientsIconsData {
         "WokJab",
         "Adium"
         //"svn.xmpp.ru/repos/mrim",
-        //"jit.mytlt.ru"        
+        //"jit.mytlt.ru"
     };
-    
+
     private static String[] sites = {
         "bombusmod.net.ru",
         "bombus-im.org",
@@ -137,12 +138,12 @@ public class ClientsIconsData {
         //"svn.xmpp.ru/repos/mrim",
         //"jit.mytlt.ru"
     };
-    
+
     public static ClientsIconsData getInstance() {
 	if (instance==null) instance=new ClientsIconsData();
 	return instance;
     }
-    
+
     private ClientsIconsData() { }
 
     private static byte getClientIDByCaps(String caps) {
@@ -154,16 +155,17 @@ public class ClientsIconsData {
         }
         return -1;
     }
-    
+
     public static void processData(Contact c, String data) {
         //System.out.println("set-> " + c);
         c.client = getClientIDByCaps(data);
         c.clientName = (c.client>-1)?c.clientName=getClientNameByID(c.client):"";
         //System.out.println("set->OK. " + c + "->" + c.client + "/" + c.clientName );
     }
-    
+
     private static String getClientNameByID(byte id) {
         return clientName[id];
     }
-    
+
 }
+//#endif

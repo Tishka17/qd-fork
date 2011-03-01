@@ -85,7 +85,7 @@ public final class MessageEdit
     Command cmdSubj;
     Command cmdSuspend;
     Command cmdCancel;
-    Command cmdSendEvil;
+
     Command cmdTranslate;
 //#ifdef ARCHIVE
     Command cmdPaste;
@@ -109,7 +109,7 @@ public final class MessageEdit
           cmdSubj=new Command(SR.get(SR.MS_SET_SUBJECT), Command.SCREEN, 10);
           cmdSuspend=new Command(SR.get(SR.MS_SUSPEND), Command.BACK,90);
           cmdCancel=new Command(SR.get(SR.MS_CANCEL), Command.SCREEN,99);
-          cmdSendEvil=new Command(SR.get(SR.MS_SEND_EVIL_MSG), Command.SCREEN,229);
+
           cmdTranslate=new Command(SR.get(SR.MS_TRANSLATE), Command.SCREEN ,337);
 //#ifdef ARCHIVE
           cmdPaste=new Command(SR.get(SR.MS_ARCHIVE), Command.SCREEN, 6);
@@ -235,7 +235,6 @@ public final class MessageEdit
         t.addCommand(cmdInsMe);
 //#ifdef SMILES
         t.addCommand(cmdSmile);
-        t.addCommand(cmdSendEvil);
 //#endif
         t.addCommand(cmdTranslate);
 
@@ -310,7 +309,6 @@ public final class MessageEdit
        form.addCommand(cmdInsMe);
 //#ifdef SMILES
        form.addCommand(cmdSmile);
-       form.addCommand(cmdSendEvil);
 //#endif
        form.addCommand(cmdTranslate);
 
@@ -455,10 +453,6 @@ public final class MessageEdit
             body=null; //"/me "+SR.get(SR.MS_HAS_SET_TOPIC_TO+": "+subj;
         }
 
-        if(c==cmdSendEvil){
-           evil=true;
-        }
-
 //#ifdef RUNNING_MESSAGE
 //#        if(null == to || multiMessage) {
 //# 
@@ -487,7 +481,6 @@ public final class MessageEdit
 //#          if(sendInDeTranslit) this.sendInDeTranslit = false;
 //#endif
 //#        }
-//#        if(evil) this.evil = false;
 //#endif
     }
 
@@ -532,7 +525,6 @@ public final class MessageEdit
             msg.subject = subj;
             msg.body = body;
 
-            if(evil) msg.body="(!)"+msg.body;
             msg.id=id;
 
             if (to.origin!=Constants.ORIGIN_GROUPCHAT) {
@@ -544,9 +536,7 @@ public final class MessageEdit
         try { //??
             if (body!=null || subj!=null || comp!=null) {
                if (body!=null) to.lastSendedMessage=body; //System.out.println("sendMessage=>" + body + " > " + subj + " >>> " + to);
-                 if(evil)
-                     midlet.BombusQD.sd.roster.sendMessage(to, id, body, subj, comp,true);
-                 else midlet.BombusQD.sd.roster.sendMessage(to, id, body, subj, comp,false);
+                 midlet.BombusQD.sd.roster.sendMessage(to, id, body, subj, comp);
                msg = null;
                if(subj!=null) this.subj = null;
                id = to.msgSuspended = null;

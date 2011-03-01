@@ -1565,7 +1565,7 @@ public class Roster
         if (subscribe) sendPresence(to,"subscribe", null, false);
     }
 
-    public void sendMessage(Contact to, String id,String body,String subject , String composingState,boolean evil) {
+    public void sendMessage(Contact to, String id,String body,String subject, String composingState) {
         try {
 //#ifndef WMUC
             boolean groupchat=to.origin==Constants.ORIGIN_GROUPCHAT;
@@ -1627,10 +1627,6 @@ public class Roster
             if (!groupchat)
                 if (body!=null) if (midlet.BombusQD.cf.eventDelivery)
                     message.addChildNs("request", "urn:xmpp:receipts");
-
-            if(evil)
-                    message.addChildNs("evil","http://jabber.org/protocol/evil");
-
 
            theStream.send(message);
 
@@ -1841,10 +1837,6 @@ public class Roster
         Contact self=selfContact();
         self.jid=this.myJid=new Jid(myJid);
     }
-
-
-    JabberDataBlock evil=null;
-
 
 //#if BREDOGENERATOR
 //#     public Vector baseWord = new Vector();
@@ -2406,17 +2398,6 @@ public class Roster
 //#              */
 //#endif
 
-
-
-                  try {
-                     evil=message.findNamespace("evil", "http://jabber.org/protocol/evil");
-                     if(evil!=null){
-                       body = "(!)" + body.trim() + "..";
-                       mType = Constants.MESSAGE_TYPE_EVIL;
-                    }
-                  } catch (Exception e) { }
-
-
 //#if BREDOGENERATOR
 //#                 String gen="";
 //#                 if(midlet.BombusQD.cf.bredoGen==true) gen = generateWord();
@@ -2777,8 +2758,10 @@ public class Roster
                             } else {
                                 conferenceContact.setIncoming(Constants.INC_NONE);
                                 conferenceContact.showComposing=false;
+//#ifdef CLIENTS_ICONS
                                 conferenceContact.client=-1;
                                 conferenceContact.clientName="-";
+//#endif
                                 conferenceContact.version="";
                            }
                         }
@@ -2909,8 +2892,10 @@ public class Roster
 //#                         //c.pepMoodText="-";
 //#                         //c.activity="";
 //#endif
+//#ifdef CLIENTS_ICONS
                         c.client=-1;
                         c.clientName="-";
+//#endif
                         c.version="";
                     }
                     if (ti>=0) {
@@ -3921,25 +3906,24 @@ public class Roster
                 }
             } else {
 //#endif
-                mess.append("jid: ")
-                    .append(cntact.bareJid)
-                    .append(cntact.jid.getResource())
-                    .append('\n')
-                    //.append("Group: " + cntact.group.type + " >> " + cntact.group.name)
-                    //.append('\n')
-                    .append(SR.get(SR.MS_SUBSCRIPTION))
-                    .append(' ');
+                mess.append("Jid: ").append(cntact.bareJid).append(cntact.jid.getResource()).append('\n');
+                mess.append(SR.get(SR.MS_SUBSCRIPTION)).append(": ");
 
-              if(cntact.subscr!=null){
-                if(cntact.subscr.indexOf("both")>-1) mess.append(SR.get(SR.MS_SUBSCR_BOTH));
-                else if(cntact.subscr.indexOf("from")>-1) mess.append(SR.get(SR.MS_SUBSCR_FROM));
-                else if(cntact.subscr.indexOf("to")>-1) mess.append(SR.get(SR.MS_SUBSCR_TO));
-                else if(cntact.subscr.indexOf("none")>-1) mess.append(SR.get(SR.MS_SUBSCR_NONE));
-                else mess.append(cntact.subscr);
-              } else {
-                mess.append("self");
-              }
-
+                if (cntact.subscr != null) {
+                    if (cntact.subscr.indexOf("both") > -1) {
+                        mess.append(SR.get(SR.MS_SUBSCR_BOTH));
+                    } else if (cntact.subscr.indexOf("from") > -1) {
+                        mess.append(SR.get(SR.MS_SUBSCR_FROM));
+                    } else if (cntact.subscr.indexOf("to") > -1) {
+                        mess.append(SR.get(SR.MS_SUBSCR_TO));
+                    } else if (cntact.subscr.indexOf("none") > -1) {
+                        mess.append(SR.get(SR.MS_SUBSCR_NONE));
+                    } else {
+                        mess.append(cntact.subscr);
+                    }
+                } else {
+                    mess.append("self");
+                }
 //#ifdef PEP
 //#                 if (cntact.hasMood()) {
 //#                     mess.append('\n')
@@ -3961,20 +3945,22 @@ public class Roster
             }
 //#endif
             if (cntact.origin!=Constants.ORIGIN_GROUPCHAT){
-                mess.append((cntact.j2j!=null)?"\nJ2J: "+cntact.j2j:"");
-//#ifdef CLIENTS_ICONS
-//#ifdef PLUGINS
-//#                 if (midlet.BombusQD.cf.showClientIcon)
-//#endif
-//#endif
-                if (cntact.client>-1 && cntact.version!=null)
-                    mess.append("\nUse: "+cntact.clientName).append(' ').append(cntact.version);
-                else{
-                  if (cntact.client>-1) mess.append("\nUse: "+cntact.clientName);
-                  if (cntact.version!=null) mess.append("\nVersion: "+cntact.version);
+                if (cntact.j2j != null) {
+                    mess.append("\nJ2J: ").append(cntact.j2j);
                 }
-
-                if (cntact.lang!=null) mess.append("\nLang: "+cntact.lang);
+//#ifdef CLIENTS_ICONS
+                if (midlet.BombusQD.cf.showClientIcon) {
+                    if (cntact.client != -1) {
+                        mess.append("\nUse: ").append(cntact.clientName);
+                        if (cntact.version != null) {
+                            mess.append(" ").append(cntact.version);
+                        }
+                    }
+                }
+//#endif
+                if (cntact.lang != null) {
+                    mess.append("\nLang: " + cntact.lang);
+                }
             }
 
             if (cntact.getStatus()!=null) {

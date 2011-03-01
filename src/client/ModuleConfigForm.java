@@ -47,15 +47,17 @@ import xmpp.EntityCaps;
 
 public class ModuleConfigForm extends DefForm implements MenuListener {
     // private Display display;
-    
+
     private String type;
-    
+
     // for contacts options
     private CheckBox simpleContacts;
     private CheckBox selfContact;
     private CheckBox showOfflineContacts;
     private CheckBox showTransports;
+//#ifdef CLIENTS_ICONS
     private CheckBox showClientIcon;
+//#endif
     private CheckBox iconsLeft;
     private CheckBox ignore;
     private CheckBox autoFocus;
@@ -77,7 +79,7 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
     private CheckBox showNickNames;
     private CheckBox timePresence;
     private CheckBox savePos;
-    private CheckBox boldNicks; 
+    private CheckBox boldNicks;
     private CheckBox capsState;
     private CheckBox useTabs;
     private CheckBox useLowMemory_iconmsgcollapsed;
@@ -100,14 +102,14 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 //#     // for autostatus config
 //#     private CheckBox awayStatus;
 //#     private DropChoiceBox autoAwayType;
-//#     private NumberInput fieldAwayDelay; 
+//#     private NumberInput fieldAwayDelay;
 //#endif
-    
+
     // for classic chat config
     private CheckBox usePhoneTheme;
-    private NumberInput classicChatHeight;     
+    private NumberInput classicChatHeight;
     private NumberInput lineCount;
-    
+
     // for app config
     private CheckBox autoLogin;
     private CheckBox autoJoinConferences;
@@ -120,7 +122,7 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
     private CheckBox popupFromMinimized;
     private DropChoiceBox langFiles;
     private NumberInput fieldGmt;
-    
+
     // for interface config
     private CheckBox gradient_cursor;
     private CheckBox showBaloons;
@@ -131,18 +133,18 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 //#ifdef MEMORY_MONITOR
 //#     private CheckBox memMon;
 //#endif
-    private CheckBox drawScrollBgnd; 
+    private CheckBox drawScrollBgnd;
     private CheckBox gradientBarLigth;
     private CheckBox shadowBar;
     private CheckBox drawMenuCommand;
-    private TrackItem gradientBarLight1; 
-    private TrackItem gradientBarLight2; 
-    private NumberInput scrollWidth; 
+    private TrackItem gradientBarLight1;
+    private TrackItem gradientBarLight2;
+    private NumberInput scrollWidth;
 	private NumberInput minItemHeight;
 //#ifdef BACK_IMAGE
-//#     private DropChoiceBox bgnd_image; 
+//#     private DropChoiceBox bgnd_image;
 //#endif
-    private DropChoiceBox graphicsMenuPosition;  
+    private DropChoiceBox graphicsMenuPosition;
     private DropChoiceBox panels;
 
     // for network config
@@ -170,7 +172,7 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 
         this.display = display;
         this.type = type;
-        
+
         Config config = Config.getInstance();
 
         if(type.equals(SR.get(SR.MS_contactStr))) {
@@ -192,44 +194,46 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
                 nil.setSelectedIndex(config.notInListDropLevel);
             }
             addControl(nil);
-          
+
             if(config.userAppLevel == 1) {
-                simpleContacts = new CheckBox(SR.get(SR.MS_SIMPLE_CONTACTS_DRAW), config.simpleContacts);              
+                simpleContacts = new CheckBox(SR.get(SR.MS_SIMPLE_CONTACTS_DRAW), config.simpleContacts);
                 addControl(simpleContacts);
-                
+
                 selfContact = new CheckBox(SR.get(SR.MS_SELF_CONTACT), config.selfContact);
                 addControl(selfContact);
             }
 
             showOfflineContacts = new CheckBox(SR.get(SR.MS_OFFLINE_CONTACTS), config.showOfflineContacts);
             addControl(showOfflineContacts);
-            
+
             showTransports = new CheckBox(SR.get(SR.MS_TRANSPORTS), config.showTransports);
             addControl(showTransports);
-            
+
             if(config.userAppLevel == 1) {
                 showResources = new CheckBox(SR.get(SR.MS_SHOW_RESOURCES), config.showResources);
                 addControl(showResources);
 
+//#ifdef CLIENTS_ICONS
                 showClientIcon = new CheckBox(SR.get(SR.MS_SHOW_CLIENTS_ICONS), config.showClientIcon);
                 addControl(showClientIcon);
-                
+//#endif
+
                 iconsLeft = new CheckBox(SR.get(SR.MS_CLIENT_ICONS_LEFT), config.iconsLeft);
                 addControl(iconsLeft);
-                
+
                 ignore = new CheckBox(SR.get(SR.MS_IGNORE_LIST), config.ignore);
                 addControl(ignore);
             }
-            
+
             rosterStatus = new CheckBox(SR.get(SR.MS_SHOW_STATUSES), config.rosterStatus);
             itemsList.addElement(rosterStatus);
-        
+
             useBoldFont = new CheckBox(SR.get(SR.MS_BOLD_FONT), config.useBoldFont);
             addControl(useBoldFont);
-            
+
             autoFocus = new CheckBox(SR.get(SR.MS_AUTOFOCUS), config.autoFocus);
             addControl(autoFocus);
-            
+
             // add min height;
 
         } else if (type.equals(SR.get(SR.MS_msgStr))) {
@@ -245,7 +249,7 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 //#             runningMessage = new CheckBox(SR.get(SR.MS_RUNNING_MESSAGE), config.runningMessage);
 //#             addControl(runningMessage);
 //#endif
-            
+
             addControl(new SpacerItem(3));
 
             textWrap = new DropChoiceBox(display, SR.get(SR.MS_TEXTWRAP));
@@ -260,19 +264,19 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
                 messageLimit = new NumberInput(display, SR.get(SR.MS_MESSAGE_COLLAPSE_LIMIT), Integer.toString(config.messageLimit), 200, 1000);
                 addControl(messageLimit);
             }
-                  
+
             msglistLimit = new NumberInput(display, SR.get(SR.MS_MESSAGE_COUNT_LIMIT), Integer.toString(config.msglistLimit), 10, 1000);
             addControl(msglistLimit);
-                  
+
             addControl(new SpacerItem(3));
-                
+
             createMessageByFive = new CheckBox(SR.get(SR.MS_USE_FIVE_TO_CREATEMSG), config.createMessageByFive);
             addControl(createMessageByFive);
 
             if(config.userAppLevel == 1) {
-                storeConfPresence = new CheckBox(SR.get(SR.MS_STORE_PRESENCE), config.storeConfPresence); 
+                storeConfPresence = new CheckBox(SR.get(SR.MS_STORE_PRESENCE), config.storeConfPresence);
                 addControl(storeConfPresence);
-                
+
                 showCollapsedPresences = new CheckBox(SR.get(SR.MS_COLLAPSE_PRESENCE), config.showCollapsedPresences);
                 addControl(showCollapsedPresences);
             }
@@ -281,30 +285,30 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
             addControl(autoScroll);
 
 //#ifdef DETRANSLIT
-//#             autoDetranslit = new CheckBox(SR.get(SR.MS_AUTODETRANSLIT), config.autoDeTranslit); 
+//#             autoDetranslit = new CheckBox(SR.get(SR.MS_AUTODETRANSLIT), config.autoDeTranslit);
 //#             addControl(autoDetranslit);
 //#endif
             if(config.userAppLevel == 1) {
                 savePos = new CheckBox(SR.get(SR.MS_SAVE_CURSOR), config.savePos);
-                addControl(savePos); 
-                
+                addControl(savePos);
+
                 timePresence = new CheckBox(SR.get(SR.MS_SHOW_PRS_TIME), config.timePresence);
                 addControl(timePresence);
 
-                showNickNames = new CheckBox(SR.get(SR.MS_SHOW_NACKNAMES), config.showNickNames); 
+                showNickNames = new CheckBox(SR.get(SR.MS_SHOW_NACKNAMES), config.showNickNames);
                 addControl(showNickNames);
-                
-                boldNicks = new CheckBox(SR.get(SR.MS_BOLD_AND_COLORS_NICKS), config.boldNicks); 
+
+                boldNicks = new CheckBox(SR.get(SR.MS_BOLD_AND_COLORS_NICKS), config.boldNicks);
                 addControl(boldNicks);
             }
-            
+
             selectOutMessages = new CheckBox(SR.get(SR.MS_SELECT_OUT_MESSAGES), config.selectOutMessages);
             addControl(selectOutMessages);
 
-            useTabs = new CheckBox(SR.get(SR.MS_EMULATE_TABS), config.useTabs); 
+            useTabs = new CheckBox(SR.get(SR.MS_EMULATE_TABS), config.useTabs);
             addControl(useTabs);
 
-            capsState = new CheckBox(SR.get(SR.MS_CAPS_STATE), config.capsState); 
+            capsState = new CheckBox(SR.get(SR.MS_CAPS_STATE), config.capsState);
             addControl(capsState);
 
 //#ifdef SMILES
@@ -315,30 +319,30 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
                 addControl(animatedSmiles);
             }
 //#endif
-            
+
             if(config.userAppLevel == 1) {
-                useLowMemory_iconmsgcollapsed = new CheckBox(SR.get(SR.MS_ICON_COLP), config.useLowMemory_iconmsgcollapsed);                         
+                useLowMemory_iconmsgcollapsed = new CheckBox(SR.get(SR.MS_ICON_COLP), config.useLowMemory_iconmsgcollapsed);
                 addControl(useLowMemory_iconmsgcollapsed);
 //#ifdef CLIPBOARD
-//#                 useClipBoard = new CheckBox(SR.get(SR.MS_CLIPBOARD), config.useClipBoard); 
+//#                 useClipBoard = new CheckBox(SR.get(SR.MS_CLIPBOARD), config.useClipBoard);
 //#                 addControl(useClipBoard);
 //#endif
             }
-        } else if (type.equals(SR.get(SR.MS_netStr))) {       
+        } else if (type.equals(SR.get(SR.MS_netStr))) {
             if (config.userAppLevel == 1) {
                 autoLoadTransports = new CheckBox(SR.get(SR.MS_AUTOCONNECT_TRANSPORTS), config.autoLoadTransports);
                 addControl(autoLoadTransports);
-                
-//#ifdef PEP 
+
+//#ifdef PEP
 //#                 addControl(new SimpleString(SR.get(SR.MS_PEP), true));
 //# 
 //#                 sndrcvmood = new CheckBox(SR.get(SR.MS_USERMOOD), config.sndrcvmood);
 //#                 addControl(sndrcvmood);
-//#                 
+//# 
 //#                 rcvtune = new CheckBox(SR.get(SR.MS_USERTUNE), config.rcvtune);
 //#                 addControl(rcvtune);
 //# 
-//#                 rcvactivity = new CheckBox(SR.get(SR.MS_USERACTIVITY), config.rcvactivity);                
+//#                 rcvactivity = new CheckBox(SR.get(SR.MS_USERACTIVITY), config.rcvactivity);
 //#                 addControl(rcvactivity);
 //# 
 //#                 addControl(new SpacerItem(10));
@@ -346,13 +350,13 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
             }
 
             addControl(new SimpleString(SR.get(SR.MS_MESSAGES), true));
-            
+
             eventComposing = new CheckBox(SR.get(SR.MS_COMPOSING_EVENTS), config.eventComposing);
             addControl(eventComposing);
-            
-            eventDelivery = new CheckBox(SR.get(SR.MS_DELIVERY), config.eventDelivery); 
+
+            eventDelivery = new CheckBox(SR.get(SR.MS_DELIVERY), config.eventDelivery);
             addControl(eventDelivery);
-            
+
             networkAnnotation = new CheckBox(SR.get(SR.MS_CONTACT_ANNOTATIONS), config.networkAnnotation);
             addControl(networkAnnotation);
 
@@ -361,16 +365,16 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 
             reconnectCount = new NumberInput(display, SR.get(SR.MS_RECONNECT_COUNT_RETRY), Integer.toString(config.reconnectCount), 0, 100);
             addControl(reconnectCount);
-           
-            reconnectTime = new NumberInput(display, SR.get(SR.MS_RECONNECT_WAIT), Integer.toString(config.reconnectTime), 1, 60 ); 
+
+            reconnectTime = new NumberInput(display, SR.get(SR.MS_RECONNECT_WAIT), Integer.toString(config.reconnectTime), 1, 60 );
             addControl(reconnectTime);
-            
+
             nokiaReconnectHack = new CheckBox(SR.get(SR.MS_NOKIA_RECONNECT_HACK), config.nokiaReconnectHack);
             addControl(nokiaReconnectHack);
-                   
+
             if (config.userAppLevel == 1) {
 //#ifdef FILE_TRANSFER
-                fileTransfer = new CheckBox(SR.get(SR.MS_FILE_TRANSFERS), config.fileTransfer); 
+                fileTransfer = new CheckBox(SR.get(SR.MS_FILE_TRANSFERS), config.fileTransfer);
                 addControl(fileTransfer);
 //#endif
 //#ifdef ADHOC
@@ -391,25 +395,25 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
             addControl(panels);
 
             gradientBarLigth = new CheckBox(SR.get(SR.MS_USE_LIGHT_TO_DRWPANELS), config.gradientBarLigth);
-            addControl(gradientBarLigth); 
+            addControl(gradientBarLigth);
 
             addControl(new SimpleString(SR.get(SR.MS_MAINBAR_GRADIENTLIGHT)+"1", true));
 
             gradientBarLight1 = new TrackItem(config.gradientBarLight1/10, 20);
             addControl(gradientBarLight1);
-           
+
             addControl(new SimpleString(SR.get(SR.MS_MAINBAR_GRADIENTLIGHT)+"2", true));
-            
+
             gradientBarLight2 = new TrackItem(config.gradientBarLight2/10, 20);
             addControl(gradientBarLight2);
-          
+
             graphicsMenuPosition = new DropChoiceBox(display, SR.get(SR.MS_GRAPHICSMENU_POS));
             graphicsMenuPosition.append(SR.get(SR.MS_GRMENU_CENTER));
             graphicsMenuPosition.append(SR.get(SR.MS_GRMENU_LEFT));
             graphicsMenuPosition.append(SR.get(SR.MS_GRMENU_RIGHT));
             graphicsMenuPosition.setSelectedIndex(config.graphicsMenuPosition);
-            addControl(graphicsMenuPosition);  
-            
+            addControl(graphicsMenuPosition);
+
 //#ifdef BACK_IMAGE
 //#             itemsList.addElement(new SpacerItem(3));
 //#             bgnd_image = new DropChoiceBox(display, "*"+SR.get(SR.MS_TYPE_BACKGROUND));
@@ -420,16 +424,16 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 //#             bgnd_image.setSelectedIndex(config.bgnd_image);
 //#             addControl(bgnd_image);
 //#endif
-           
+
             addControl(new SpacerItem(3));
 
-            scrollWidth = new NumberInput(display, SR.get(SR.MS_SCROLL_WIDTH), Integer.toString(config.scrollWidth), 3, 25); 
-            addControl(scrollWidth);  
+            scrollWidth = new NumberInput(display, SR.get(SR.MS_SCROLL_WIDTH), Integer.toString(config.scrollWidth), 3, 25);
+            addControl(scrollWidth);
 
 			minItemHeight = new NumberInput(display, "Min item height", Integer.toString(config.minItemHeight), 0, 100);
 			addControl(minItemHeight);
-            addControl(new SpacerItem(3)); 
-            
+            addControl(new SpacerItem(3));
+
             if(config.userAppLevel == 1) {
 //#ifdef MEMORY_MONITOR
 //#              memMon = new CheckBox(SR.get(SR.MS_HEAP_MONITOR), config.memMonitor);
@@ -440,30 +444,30 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 
                 shadowBar = new CheckBox(SR.get(SR.MS_SHADOW_BAR), config.shadowBar);
                 addControl(shadowBar);
-                
-                drawScrollBgnd = new CheckBox(SR.get(SR.MS_BGND_SCROLL),config.drawScrollBgnd); 
+
+                drawScrollBgnd = new CheckBox(SR.get(SR.MS_BGND_SCROLL),config.drawScrollBgnd);
                 addControl(drawScrollBgnd);
             }
 
-            drawMenuCommand = new CheckBox(SR.get(SR.MS_SHOW_TIME_TRAFFIC), config.showTimeTraffic); 
+            drawMenuCommand = new CheckBox(SR.get(SR.MS_SHOW_TIME_TRAFFIC), config.showTimeTraffic);
             addControl(drawMenuCommand);
 
 //#ifdef POPUPS
-            popUps = new CheckBox(SR.get(SR.MS_POPUPS), config.popUps);          
+            popUps = new CheckBox(SR.get(SR.MS_POPUPS), config.popUps);
             addControl(popUps);
 //#endif
-            
-            showBaloons = new CheckBox(SR.get(SR.MS_SHOW_BALLONS), config.showBalloons); 
-            addControl(showBaloons); 
-            
+
+            showBaloons = new CheckBox(SR.get(SR.MS_SHOW_BALLONS), config.showBalloons);
+            addControl(showBaloons);
+
             gradient_cursor = new CheckBox(SR.get(SR.MS_GRADIENT_CURSOR), config.gradient_cursor);
             addControl(gradient_cursor);
-        } else if (type.equals(SR.get(SR.MS_appStr))) {            
+        } else if (type.equals(SR.get(SR.MS_appStr))) {
             addControl(new SimpleString(SR.get(SR.MS_STARTUP_ACTIONS), true));
-            
+
             autoLogin = new CheckBox(SR.get(SR.MS_AUTOLOGIN), config.autoLogin);
             addControl(autoLogin);
-            
+
             autoJoinConferences = new CheckBox(SR.get(SR.MS_AUTO_CONFERENCES), config.autoJoinConferences);
             addControl(autoJoinConferences);
 
@@ -473,12 +477,12 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 
                 enableVersionOs = new CheckBox(SR.get(SR.MS_SHOW_HARDWARE), config.enableVersionOs);
                 addControl(enableVersionOs);
-                
+
                 queryExit = new CheckBox(SR.get(SR.MS_CONFIRM_EXIT), config.queryExit);
                 addControl(queryExit);
             }
 
-            fullscr = new CheckBox(SR.get(SR.MS_FULLSCREEN), config.fullscreen); 
+            fullscr = new CheckBox(SR.get(SR.MS_FULLSCREEN), config.fullscreen);
             addControl(fullscr);
 
             if (phoneManufacturer == Config.SONYE) {
@@ -490,9 +494,9 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
                 addControl(popupFromMinimized);
             }
 
-            executeByNum = new CheckBox(SR.get(SR.MS_EXECUTE_MENU_BY_NUMKEY), config.executeByNum); 
+            executeByNum = new CheckBox(SR.get(SR.MS_EXECUTE_MENU_BY_NUMKEY), config.executeByNum);
             addControl(executeByNum);
-                               
+
             addControl(new SpacerItem(10));
             addControl(new SimpleString(SR.get(SR.MS_TIME_SETTINGS), true));
 
@@ -549,19 +553,19 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
             lineCount = new NumberInput(display, SR.get(SR.MS_CLCHAT_MSGLIMIT), Integer.toString(config.lineCount), 1, 1000);
             itemsList.addElement(lineCount);
             itemsList.addElement(new SpacerItem(10));
-        } 
+        }
         setCommandListener(this);
-        attachDisplay(display);    
+        attachDisplay(display);
         this.parentView = pView;
     }
 
-    
+
     public void cmdOk() {
         Config config = Config.getInstance();
         if (type.equals(SR.get(SR.MS_contactStr))) {
             config.autoSubscribe = subscr.getSelectedIndex();
             config.notInListDropLevel = nil.getSelectedIndex();
-          
+
             if (config.userAppLevel == 1) {
                 config.simpleContacts = simpleContacts.getValue();
                 config.selfContact = selfContact.getValue();
@@ -569,15 +573,17 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 
             config.showOfflineContacts = showOfflineContacts.getValue();
             config.showTransports = showTransports.getValue();
-            
+
             if (config.userAppLevel == 1) {
                 config.showResources = showResources.getValue();
-                config.showClientIcon = showClientIcon.getValue();                
-                config.iconsLeft = iconsLeft.getValue();                
+//#ifdef CLIENTS_ICONS
+                config.showClientIcon = showClientIcon.getValue();
+//#endif
+                config.iconsLeft = iconsLeft.getValue();
                 config.ignore = ignore.getValue();
             }
-            
-            config.rosterStatus = rosterStatus.getValue();        
+
+            config.rosterStatus = rosterStatus.getValue();
             config.useBoldFont = useBoldFont.getValue();
             config.autoFocus = autoFocus.getValue();
         } else if (type.equals(SR.get(SR.MS_msgStr))) {
@@ -593,12 +599,12 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
             if(config.userAppLevel == 1) {
                 config.messageLimit = Integer.parseInt(messageLimit.getValue());
             }
-                  
-            config.msglistLimit = Integer.parseInt(msglistLimit.getValue());                  
+
+            config.msglistLimit = Integer.parseInt(msglistLimit.getValue());
             config.createMessageByFive = createMessageByFive.getValue();
 
             if(config.userAppLevel == 1) {
-                config.storeConfPresence = storeConfPresence.getValue();                
+                config.storeConfPresence = storeConfPresence.getValue();
                 config.showCollapsedPresences = showCollapsedPresences.getValue();
             }
 
@@ -613,10 +619,10 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
                 config.savePos = savePos.getValue();
                 config.boldNicks = boldNicks.getValue();
             }
-            
+
             config.selectOutMessages = selectOutMessages.getValue();
             config.useTabs = useTabs.getValue();
-            config.capsState = capsState.getValue(); 
+            config.capsState = capsState.getValue();
 
 //#ifdef SMILES
             config.smiles=smiles.getValue();
@@ -628,7 +634,7 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
                  message.MessageParser.restart();
             }
 //#endif
-            
+
             if(config.userAppLevel == 1) {
                 config.useLowMemory_iconmsgcollapsed = useLowMemory_iconmsgcollapsed.getValue();
 //#ifdef CLIPBOARD
@@ -638,22 +644,22 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
        } else if (type.equals(SR.get(SR.MS_netStr))) {
             if (config.userAppLevel == 1) {
                 config.autoLoadTransports = autoLoadTransports.getValue();
-                
-//#ifdef PEP 
+
+//#ifdef PEP
 //#                 config.sndrcvmood = sndrcvmood.getValue();
 //#                 config.rcvtune = rcvtune.getValue();
-//#                 config.rcvactivity = rcvactivity.getValue(); 
+//#                 config.rcvactivity = rcvactivity.getValue();
 //#endif
             }
 
-            config.eventComposing = eventComposing.getValue();            
-            config.eventDelivery = eventDelivery.getValue();            
+            config.eventComposing = eventComposing.getValue();
+            config.eventDelivery = eventDelivery.getValue();
             config.networkAnnotation = networkAnnotation.getValue();
 
-            config.reconnectCount = Integer.parseInt(reconnectCount.getValue());           
-            config.reconnectTime = Integer.parseInt(reconnectTime.getValue());            
-            config.nokiaReconnectHack = nokiaReconnectHack.getValue(); 
-                   
+            config.reconnectCount = Integer.parseInt(reconnectCount.getValue());
+            config.reconnectTime = Integer.parseInt(reconnectTime.getValue());
+            config.nokiaReconnectHack = nokiaReconnectHack.getValue();
+
             if(config.userAppLevel == 1) {
 //#ifdef FILE_TRANSFER
                 config.fileTransfer = fileTransfer.getValue();
@@ -663,50 +669,50 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 //#endif
             }
             EntityCaps.initCaps();
-            
+
          } else if(type.equals(SR.get(SR.MS_grStr))) {
-            config.panelsState = panels.getSelectedIndex(); 
+            config.panelsState = panels.getSelectedIndex();
 
             config.gradientBarLigth = gradientBarLigth.getValue();
-            config.gradientBarLight1=gradientBarLight1.getValue() * 10;           
+            config.gradientBarLight1=gradientBarLight1.getValue() * 10;
             config.gradientBarLight2=gradientBarLight2.getValue() * 10;
-          
-            config.graphicsMenuPosition = graphicsMenuPosition.getSelectedIndex();  
+
+            config.graphicsMenuPosition = graphicsMenuPosition.getSelectedIndex();
 //#ifdef BACK_IMAGE
 //#             config.bgnd_image = bgnd_image.getSelectedIndex();
 //#endif
 
             config.scrollWidth = Integer.parseInt(scrollWidth.getValue());
 			config.minItemHeight = Integer.parseInt(minItemHeight.getValue());
-            
+
             if(config.userAppLevel == 1) {
 //#ifdef MEMORY_MONITOR
 //#              config.memMonitor = VirtualList.memMonitor = memMon.getValue();
 //#endif
                 config.useLowMemory_userotator = useLowMemory_userotator.getValue();
-                config.shadowBar = shadowBar.getValue();                
-                config.drawScrollBgnd = drawScrollBgnd.getValue();  
+                config.shadowBar = shadowBar.getValue();
+                config.drawScrollBgnd = drawScrollBgnd.getValue();
             }
 
             config.showTimeTraffic = VirtualList.showTimeTraffic = drawMenuCommand.getValue();
 //#ifdef POPUPS
-            config.popUps = popUps.getValue();  
+            config.popUps = popUps.getValue();
 //#endif
-            config.showBalloons = showBaloons.getValue();            
+            config.showBalloons = showBaloons.getValue();
             config.gradient_cursor = gradient_cursor.getValue();
-           
-            VirtualList.changeOrient(config.panelsState);  
+
+            VirtualList.changeOrient(config.panelsState);
 //#ifdef BACK_IMAGE
 //#             VirtualList.createImage(false);
-//#endif   
-        } else if (type.equals(SR.get(SR.MS_appStr))) {         
+//#endif
+        } else if (type.equals(SR.get(SR.MS_appStr))) {
             config.autoLogin = autoLogin.getValue();
             config.autoJoinConferences = autoJoinConferences.getValue();
 
             if (config.userAppLevel == 1) {
                 config.collapsedGroups = collapsedGroups.getValue();
                 config.enableVersionOs = enableVersionOs.getValue();
-                config.queryExit = queryExit.getValue(); 
+                config.queryExit = queryExit.getValue();
             }
 
             VirtualList.fullscreen = config.fullscreen = fullscr.getValue();
@@ -744,11 +750,11 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
         } else if (type.equals(SR.get(SR.MS_clchatStr))) {
             config.usePhoneTheme = usePhoneTheme.getValue();
             config.classicChatHeight = Integer.parseInt(classicChatHeight.getValue());
-            config.lineCount = Integer.parseInt(lineCount.getValue()); 
-        }          
+            config.lineCount = Integer.parseInt(lineCount.getValue());
+        }
         destroyView();
     }
-    
+
     public void destroyView(){
         display.setCurrent(parentView);
     }

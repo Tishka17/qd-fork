@@ -54,7 +54,7 @@ public class Contact extends IconTextElement{
     public void setNewContact() { this.isnew = 10; }
 //#endif
 
-//#ifdef PEP    
+//#ifdef PEP
 //#     public byte pepMood=-1;//0..127
 //#     public String pepMoodName=null;
 //#     public String pepMoodText=null;
@@ -65,47 +65,47 @@ public class Contact extends IconTextElement{
 //#     public byte activ=-1;//0..127
 //#endif
 //#endif
-    public String annotations=null;    
+    public String annotations=null;
 
     private String nick;
     private String statusString;
-    
+
     public Jid jid;
     public String bareJid; // for roster/subscription manipulating
     public int priority = 0;
     public Group group;
 
-    
+
     public String getNick() { return nick; }
     public String getStatus() { return statusString; }
-    
+
     public void setNick(String value) { this.nick = value; }
     public void setStatus(String value) { this.statusString = value; }
-    
-    
+
+
     public boolean autoresponded=false;
     public boolean moveToLatest=false;
 
     public boolean acceptComposing;
     public boolean showComposing=false;
-    
+
     public short deliveryType;
-    
+
     public byte incomingState=0;//INC_NONE=0
 
     protected byte key0;
     protected String key1;
 
     public byte origin;
-    
+
     public String subscr;
     public boolean ask_subscribe;
 
     public ClassicChat scroller = null;
-    
+
     public String msgSuspended;
     public String lastSendedMessage;
-    
+
     public VCard vcard;
 //#ifdef CLIENTS_ICONS
     public byte client=-1;
@@ -119,7 +119,7 @@ public class Contact extends IconTextElement{
     public String j2j;
     public String lang;
     public String version;
-    
+
 //#ifdef FILE_TRANSFER
     public boolean fileQuery;
 //#endif
@@ -139,16 +139,16 @@ public class Contact extends IconTextElement{
         fileQuery=false;
 //#endif
         if (0 < getChatInfo().getMessageCount()) {
-            if(midlet.BombusQD.cf.savePos) 
-                getML().moveCursorTo(getCursor()); 
-            else 
+            if(midlet.BombusQD.cf.savePos)
+                getML().moveCursorTo(getCursor());
+            else
                 getML().moveCursorEnd();
         }
         chatInfo.opened = true;//chat open flag
         getML().updateMainBar(this);
         return getML();
     }
-    
+
     public final ChatInfo getChatInfo() {
         if(chatInfo == null){
             chatInfo = new ChatInfo();
@@ -156,7 +156,7 @@ public class Contact extends IconTextElement{
         }
         return chatInfo;
     }
-    
+
     public void destroy() {
         if(!midlet.BombusQD.sd.roster.isLoggedIn()) return;
         if(chatInfo != null){
@@ -169,17 +169,19 @@ public class Contact extends IconTextElement{
         }
         if(null != msgSuspended) msgSuspended = null;
         if(null != vcard) clearVCard();
+//#ifdef CLIENTS_ICONS
         if(null != clientName) clientName = null;
+        client = -1;
+//#endif
         if(null != version) version = null;
         if(null != lang) lang = null;
-        client = -1;        
 
         if(null != version) version = null;
         if(null != lastSendedMessage) lastSendedMessage = null;
     }
-    
+
    private int fontHeight;
-    
+
     int ilHeight;
     int maxImgHeight;
     int cursorPos;
@@ -196,20 +198,20 @@ public class Contact extends IconTextElement{
 
     public Contact(final String Nick, final String sJid, final int Status, String subscr) {
         this();
-        nick=Nick; 
+        nick=Nick;
         jid= new Jid(sJid);
         status=Status;
-        
+
         bareJid=sJid;
         this.subscr=subscr;
-    
+
         setSortKey((null == Nick)?sJid:Nick);
 
         transport=RosterIcons.getInstance().getTransportIndex(jid.getTransport());
     }
-    
+
     public int getColor() {
-//#if USE_ROTATOR        
+//#if USE_ROTATOR
         if (isnew>0){
             isnew--;
             return (isnew%2==0)?0xFF0000:0x0000FF;
@@ -221,11 +223,11 @@ public class Contact extends IconTextElement{
 //#endif
         return getMainColor();
     }
-    
+
     public int getCursor() {
        return cursorPos;
-    }      
-    
+    }
+
     public int getMainColor() {
         switch (status) {
             case Constants.PRESENCE_CHAT: return ColorTheme.getColor(ColorTheme.CONTACT_CHAT);
@@ -235,22 +237,22 @@ public class Contact extends IconTextElement{
         }
         return ColorTheme.getColor(ColorTheme.CONTACT_DEFAULT);
     }
-    
+
     public int setCursor(int cursor) {
        cursorPos=cursor;
        return cursorPos;
-    }     
+    }
 
     public final int getNewMsgsCount() {
         if (Groups.TYPE_IGNORE == getGroupType()) return 0;
         if(chatInfo == null) return 0;
         return chatInfo.getNewMessageCount();
     }
-    
+
     public final boolean hasNewMsgs() {
         return getNewMsgsCount() > 0;
     }
-    
+
     public int getNewHighliteMsgsCount() {
         if (Groups.TYPE_IGNORE == getGroupType()) return 0;
         if(chatInfo == null) return 0;
@@ -261,21 +263,21 @@ public class Contact extends IconTextElement{
         if(chatInfo == null) return false;
         return chatInfo.isActiveChat();
     }
-    
+
     public final void setGroup(Group g) {
         if (null != group) group.removeContact(this);
         this.group = g;
         if (null != group) group.addContact(this);
-        
-    } 
-  
+
+    }
+
     public void setIncoming (int state) {
         if (!midlet.BombusQD.cf.IQNotify) return;
 
         byte i=0;
         switch (state){
             case Constants.INC_APPEARING:
-                i=RosterIcons.ICON_APPEARING_INDEX; 
+                i=RosterIcons.ICON_APPEARING_INDEX;
                 break;
             case Constants.INC_VIEWING:
                 i=RosterIcons.ICON_VIEWING_INDEX;
@@ -323,7 +325,7 @@ public class Contact extends IconTextElement{
                     temp.append("</nick>");
 //#endif
                     temp.insert(0,'*');
-                    
+
                     temp.append(m.body.substring(3));
                     m.body=temp.toString().trim();
                     temp = new StringBuffer(0);
@@ -347,10 +349,10 @@ public class Contact extends IconTextElement{
             if (null != messageList) {
                 midlet.BombusQD.debug.add("deleteOldMessages "+this+" ...",10);
                 getML().deleteOldMessages( getChatInfo().getMessageCount() );
-                
+
             }
          */
-        
+
         if (first_replace) {
             chatInfo.setFirstMessage(m);
             if (null != messageList) {
@@ -359,17 +361,17 @@ public class Contact extends IconTextElement{
             }
             return;
         }
-        
+
         chatInfo.addMessage(m);
-        
-        
+
+
         if(chatInfo.opened || m.messageType == Constants.MESSAGE_TYPE_OUT) chatInfo.reEnumCounts();
         if (first_msgreplace){
             chatInfo.setFirstMessage(m);
             if (null != messageList) {
                 getML().resetMessages();
                 getML().redraw();
-            } 
+            }
         } else {
 		if (null != messageList) {
 		    getML().addMessage(m);
@@ -391,9 +393,9 @@ public class Contact extends IconTextElement{
        if(chatInfo == null) return false;
        return chatInfo.isActiveChat();
     }
-    
-    public final String getName(){ 
-        return (null == nick)?bareJid:nick; 
+
+    public final String getName(){
+        return (null == nick)?bareJid:nick;
     }
 
     public final String getJid() {
@@ -408,14 +410,14 @@ public class Contact extends IconTextElement{
         if (null == nick) return bareJid;
         return nick+" <"+bareJid+">";
     }
-    
+
     public final void purge() {
         chatInfo.initMsgs();
         if (null != messageList) messageList.destroy();
         messageList = null;
         clearVCard();
     }
-    
+
     public final void clearVCard() {
         try {
             if (null != vcard) {
@@ -424,25 +426,25 @@ public class Contact extends IconTextElement{
             }
         } catch (Exception e) { }
     }
-    
+
     public final void setSortKey(String sortKey){
         key1=(sortKey==null)? "": sortKey.toLowerCase();
     }
 
     public String getTipString() {
         int nm=getNewMsgsCount();
-        if (nm!=0) 
+        if (nm!=0)
             return String.valueOf(nm);
-        if (nick!=null) 
+        if (nick!=null)
             return bareJid;
         return null;
     }
 
-    public int getGroupType() {  
+    public int getGroupType() {
         if (group==null) return 0;
         return group.type;
     }
-    
+
     public void setStatus(int status) {
         setIncoming(0);
         this.status = status;
@@ -453,14 +455,18 @@ public class Contact extends IconTextElement{
         chatInfo.markDelivered(id);
         if (null != messageList) messageList.redraw();
     }
-    
+
     public int getVWidth(){
         int wft = getFirstLength();
         if (midlet.BombusQD.cf.rosterStatus) {
             int sl = getSecondLength();
             wft = Math.max(wft, sl);
         }
+//#ifdef CLIENTS_ICONS
         return wft + il.getWidth() + 4 + (hasClientIcon()?ClientsIcons.getInstance().getWidth():0);
+//#else
+//#         return wft + il.getWidth() + 4;
+//#endif
     }
     /*
     public int getVWidth(){
@@ -470,26 +476,26 @@ public class Contact extends IconTextElement{
         return wft+il.getWidth()+4 +(hasClientIcon()?ClientsIcons.getInstance().getWidth():0);
     }
      */
-    
+
     public String toString() { return getFirstString(); }
 
     public int getSecondLength() {
         if (getSecondString()==null || getSecondString().equals("")) return 0;
         return getFont().stringWidth(getSecondString());
     }
-    
+
     public int getFirstLength() {
         if (getFirstString()==null || getFirstString().equals("") ) return 0;
         return getFont().stringWidth(getFirstString());
     }
-    
+
     public String getFirstString() {
         if (!midlet.BombusQD.cf.showResources) return (nick==null)?getJid():nick;
         else if (origin>Constants.ORIGIN_GROUPCHAT) return nick;
         else if (origin==Constants.ORIGIN_GROUPCHAT) return getJid();
-        return (nick==null)?getJid():nick+jid.getResource(); 
+        return (nick==null)?getJid():nick+jid.getResource();
     }
-    
+
     public String getSecondString() {
         if (midlet.BombusQD.cf.rosterStatus){
             if (statusString!=null) return statusString;
@@ -499,9 +505,9 @@ public class Contact extends IconTextElement{
         }
         return null;
     }
-    
+
     public boolean inGroup(Group ingroup) {  return group==ingroup;  }
- 
+
     public int transport;
     public int status;
     public int offline_type=Constants.PRESENCE_UNKNOWN;
@@ -520,7 +526,7 @@ public class Contact extends IconTextElement{
         if (incomingState>0) return incomingState;
         return -1;
     }
-    
+
 //#ifdef PEP
 //#     public String getMoodString() {
 //#         StringBuffer mood=null;
@@ -537,8 +543,8 @@ public class Contact extends IconTextElement{
 //#         return (mood!=null)?mood.toString():null;
 //#     }
 //#endif
-    
-    
+
+
     public int getVHeight(){
         fontHeight = getFont().getHeight();
         if(midlet.BombusQD.cf.simpleContacts) return fontHeight;
@@ -557,20 +563,20 @@ public class Contact extends IconTextElement{
              if(img_vcard.getHeight()>=itemVHeight){
                itemVHeight = avatar_height + 5;
              }
-          }             
+          }
         }
 		if (itemVHeight < midlet.BombusQD.cf.minItemHeight)
 		itemVHeight = midlet.BombusQD.cf.minItemHeight;
-		
+
         return itemVHeight;
-    }    
-    
-    
+    }
+
+
     public Image img_vcard=null;
     public boolean hasPhoto=false;
-    
+
     public int avatar_width=0;
-    public int avatar_height=0;    
+    public int avatar_height=0;
 
 
     public final void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {
@@ -585,23 +591,23 @@ public class Contact extends IconTextElement{
             super.drawItem(view, g, ofs, sel);
             return;
         }
-        
+
         int offset=4;
         int h=getVHeight();
         int xo=g.getClipX();
         int yo=g.getClipY();
-        
+
         int pos = 10;
 //#if METACONTACTS
-//#  
+//# 
 //#endif
         g.translate(pos,0);
         w -= pos;
-        
+
         int imgH=(h-ilHeight) >> 1 ;
-        
+
         if(midlet.BombusQD.cf.module_avatars==false){
-          img_vcard=null;  
+          img_vcard=null;
         }
         if (imageIndex>-1) {
             offset+=ilHeight;
@@ -615,7 +621,7 @@ public class Contact extends IconTextElement{
              g.drawImage(img_vcard,w,yy,Graphics.TOP|Graphics.LEFT);
              if(midlet.BombusQD.cf.showAvatarRect){
                 g.setColor(0x000000);
-                g.drawRect(w,yy,avatar_width,avatar_height);     
+                g.drawRect(w,yy,avatar_width,avatar_height);
              }
            } else {
               w = w-avatar_width - 4;
@@ -626,20 +632,20 @@ public class Contact extends IconTextElement{
               }
            }
            g.setColor(def);
-        }         
+        }
 //#ifdef CLIENTS_ICONS
         if (hasClientIcon() && midlet.BombusQD.cf.showClientIcon ) {
              int clientImgSize=ClientsIcons.getInstance().getWidth();
              if(midlet.BombusQD.cf.iconsLeft){
                  offset+=clientImgSize;
              }else{
-                 w-=clientImgSize;  
+                 w-=clientImgSize;
              }
              ClientsIcons.getInstance().drawImage(g, client, midlet.BombusQD.cf.iconsLeft?ilHeight+2
-                     :w 
+                     :w
                      , (h-clientImgSize) >> 1 );
              //client==index
-             if (maxImgHeight<clientImgSize) maxImgHeight=clientImgSize;               
+             if (maxImgHeight<clientImgSize) maxImgHeight=clientImgSize;
         }
 //#endif
 //#ifdef PEP
@@ -675,21 +681,21 @@ public class Contact extends IconTextElement{
         }
 
         int thisOfs=0;
-        
+
         g.setClip(offset, yo, w-offset, h);
         thisOfs=(getFirstLength()>w)?-ofs+offset:offset;
         if ((thisOfs+getFirstLength())<0) thisOfs=offset;
-        
+
         g.setFont(getFont());
-//#if METACONTACTS        
-//#         
+//#if METACONTACTS
+//# 
 //#endif
-        
-        
+
+
         if (getSecondString()==null) {
             int y = (h - fontHeight) >> 1 ;
-            g.drawString(getFirstString(), thisOfs , y, Graphics.TOP|Graphics.LEFT);   
-        }        
+            g.drawString(getFirstString(), thisOfs , y, Graphics.TOP|Graphics.LEFT);
+        }
         else {
             int y = (h - (fontHeight<<1)) >> 1 ;
             g.drawString(getFirstString(), thisOfs , y , Graphics.TOP|Graphics.LEFT);
@@ -699,7 +705,7 @@ public class Contact extends IconTextElement{
         }
         g.setClip(xo, yo, w, h);
     }
-    
+
 //#ifdef CLIENTS_ICONS
     boolean hasClientIcon() {
         return (client>-1);

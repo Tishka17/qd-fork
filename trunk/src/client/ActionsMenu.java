@@ -400,7 +400,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                     String body = ColorTheme.getSkin();
                     String id = String.valueOf((int) System.currentTimeMillis());
 
-                    BombusQD.sd.roster.sendMessage(contact, id, body, null, null, false);
+                    BombusQD.sd.roster.sendMessage(contact, id, body, null, null);
                     contact.addMessage(new Msg(Constants.MESSAGE_TYPE_OUT, from, null, "Scheme sended"));
                     break;
                 }
@@ -550,7 +550,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
 //#                     String from = midlet.BombusQD.sd.account.toString();
 //#                     String id = String.valueOf((int) System.currentTimeMillis());
 //# 
-//#                     BombusQD.sd.roster.sendMessage(contact, id, body, null, null, false);
+//#                     BombusQD.sd.roster.sendMessage(contact, id, body, null, null);
 //# 
 //#                     Msg msg = new Msg(Constants.MESSAGE_TYPE_OUT, from, null, body);
 //#                     msg.id = id;

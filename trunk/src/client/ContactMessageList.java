@@ -145,11 +145,8 @@ public final class ContactMessageList extends VirtualList implements MenuListene
 //#     }
 //#endif
 
-    private MainBar mainbar = null;
     public void updateMainBar(Contact contact){
-        mainbar = new MainBar(contact);
-        setMainBarItem(mainbar);
-        mainbar = null;
+        setMainBarItem(new MainBar(contact));
     }
 
     /** Creates a new instance of MessageList */
@@ -189,33 +186,39 @@ public final class ContactMessageList extends VirtualList implements MenuListene
         cmdsecondList.removeAllElements();
         cmdThirdList.removeAllElements();
 //#endif
-        if (startSelection) addCommand(midlet.BombusQD.commands.cmdSelect);
-        if (contact.msgSuspended!=null) addCommand(midlet.BombusQD.commands.cmdResume);
+        if (startSelection) {
+            addCommand(Commands.cmdSelect);
+        }
+        if (contact.msgSuspended != null) {
+            addCommand(Commands.cmdResume);
+        }
 
-        if (midlet.BombusQD.commands.cmdSubscribe==null) return;
+        //if (Commands.cmdSubscribe == null) return;
         try {
             Msg msg=getMessageAt(cursor);
             if (msg.messageType==Constants.MESSAGE_TYPE_AUTH) {
-                addCommand(midlet.BombusQD.commands.cmdSubscribe);
-                addCommand(midlet.BombusQD.commands.cmdUnsubscribed);
+                addCommand(Commands.cmdSubscribe);
+                addCommand(Commands.cmdUnsubscribed);
             }
         } catch (Exception e) {}
 
-        addCommand(midlet.BombusQD.commands.cmdMessage);
-        if (contact.origin!=Constants.ORIGIN_GROUPCHAT) addCommand(midlet.BombusQD.commands.cmdActions);
+        addCommand(Commands.cmdMessage);
+        if (contact.origin != Constants.ORIGIN_GROUPCHAT) {
+            addCommand(Commands.cmdActions);
+        }
 
 //#ifdef HISTORY
 //#         if(midlet.BombusQD.cf.module_history){
-//#             addCommand(midlet.BombusQD.commands.cmdHistory);
-//#             switch(history.HistoryConfig.getInstance().historyTypeIndex) {
+//#             addCommand(Commands.cmdHistory);
+//#             switch(history.HistoryConfig.historyTypeIndex) {
 //#               case 0:
-//#                 addInCommand(2,midlet.BombusQD.commands.cmdHistoryRMS);
+//#                 addInCommand(2, Commands.cmdHistoryRMS);
 //#                 break;
 //#               case 1:
-//#                 addInCommand(2,midlet.BombusQD.commands.cmdHistoryFS);
+//#                 addInCommand(2, Commands.cmdHistoryFS);
 //#                 break;
 //#               case 2:
-//#                 addInCommand(2,midlet.BombusQD.commands.cmdHistorySERVER);
+//#                 addInCommand(2, Commands.cmdHistorySERVER);
 //#                 break;
 //#             }
 //#         }
@@ -225,47 +228,53 @@ public final class ContactMessageList extends VirtualList implements MenuListene
 //#ifndef WMUC
             if (contact instanceof MucContact && contact.origin==Constants.ORIGIN_GROUPCHAT
                     || contact.getJid().indexOf("juick@juick.com")>-1 ) {
-                addCommand(midlet.BombusQD.commands.cmdReply);
+                addCommand(Commands.cmdReply);
             }
 //#endif
-            addCommand(midlet.BombusQD.commands.cmdQuote);
+            addCommand(Commands.cmdQuote);
+            addCommand(Commands.cmdMyService);
 
-            addCommand(midlet.BombusQD.commands.cmdMyService);
-            addInCommand(3,midlet.BombusQD.commands.cmdPurge);
-            addInCommand(3,midlet.BombusQD.commands.cmdAddSearchQuery);
-            //addInCommand(3,midlet.BombusQD.commands.cmdTranslate);
-            addInCommand(3,midlet.BombusQD.commands.cmdClrPresences);
+            addInCommand(3, Commands.cmdPurge);
+            addInCommand(3, Commands.cmdAddSearchQuery);
+            addInCommand(3, Commands.cmdClrPresences);
 
-            if (!startSelection) addInCommand(3,midlet.BombusQD.commands.cmdSelect);
+            if (!startSelection) {
+                addInCommand(3, Commands.cmdSelect);
+            }
 
         //if (contact.getChatInfo().getMessageCount()>0) {
 //#ifdef ARCHIVE
 //#ifdef PLUGINS
 //#          if (sd.Archive)
 //#endif
-            addCommand(midlet.BombusQD.commands.cmdArch);
+            addCommand(Commands.cmdArch);
 //#endif
         //}
 
 //#ifdef CLIPBOARD
 //#             if (midlet.BombusQD.cf.useClipBoard) {
-//#                 addCommand(midlet.BombusQD.commands.cmdCopy);
-//#                 if (!ClipBoard.isEmpty()) addCommand(midlet.BombusQD.commands.cmdCopyPlus);
+//#                 addCommand(Commands.cmdCopy);
+//#                 if (!ClipBoard.isEmpty()) {
+//#                     addCommand(Commands.cmdCopyPlus);
+//#                     addCommand(Commands.cmdPaste);
+//#                 }
 //#             }
 //#endif
 //#ifdef MENU_LISTENER
-            if (isHasScheme()) addInCommand(3,midlet.BombusQD.commands.cmdxmlSkin);
+            if (isHasScheme()) {
+                addInCommand(3, Commands.cmdxmlSkin);
+            }
 //#endif
 //#ifdef MENU_LISTENER
             if (hasUrl())
 //#endif
-                addCommand(midlet.BombusQD.commands.cmdUrl);
+                addCommand(Commands.cmdUrl);
         }
 
 
 //#ifdef CLIPBOARD
 //#         if (midlet.BombusQD.cf.useClipBoard && !ClipBoard.isEmpty()) {
-//#             addInCommand(3,midlet.BombusQD.commands.cmdSendBuffer);
+//#             addInCommand(3, Commands.cmdSendBuffer);
 //#         }
 //#endif
 
@@ -290,7 +299,7 @@ public final class ContactMessageList extends VirtualList implements MenuListene
 
     public VirtualElement getItemRef(int index) {
         MessageItem mi=(MessageItem) messages.elementAt(index);
-        if (mi.msg.unread) {//������������� ���������
+        if (mi.msg.unread) {
             getChatInfo().readMessage(mi.msg);
         }
         return mi;
@@ -345,80 +354,84 @@ public final class ContactMessageList extends VirtualList implements MenuListene
         }
     }
 
-    public void commandAction(Command c, Displayable d){
+    public void commandAction(Command c, Displayable d) {
 //#ifdef HISTORY
-//#         if(c==midlet.BombusQD.commands.cmdHistoryRMS) {
+//#         if (c == Commands.cmdHistoryRMS) {
 //#             getRmsData(3, null); //READ_ALL_DATA
 //#         }
-//#         if(c==midlet.BombusQD.commands.cmdHistoryFS) {
-//# 
-//#         }
-//#         if(c==midlet.BombusQD.commands.cmdHistorySERVER) {
-//# 
-//#         }
 //#endif
-        if (c==midlet.BombusQD.commands.cmdxmlSkin) {
-           try {
-               if (((MessageItem)getFocusedObject()).msg.body.indexOf("xmlSkin")>-1) {
-                    ColorTheme.loadSkin(((MessageItem)getFocusedObject()).msg.body,2,true);
-               }
-            } catch (Exception e){}
+        if (c == Commands.cmdxmlSkin) {
+            try {
+                if (((MessageItem) getFocusedObject()).msg.body.indexOf("xmlSkin") > -1) {
+                    ColorTheme.loadSkin(((MessageItem) getFocusedObject()).msg.body, 2, true);
+                }
+            } catch (Exception e) {
+            }
         }
 //#ifdef ARCHIVE
-        if (c==midlet.BombusQD.commands.cmdArch) {
+        if (c == Commands.cmdArch) {
             try {
                 MessageArchive.store(util.StringUtils.replaceNickTags(getMessage(cursor)));
-            } catch (Exception e) {/*no messages*/}
+            } catch (Exception e) {/*no messages*/
+
+            }
         }
 //#endif
-        if (c==midlet.BombusQD.commands.cmdUrl) {
+        if (c == Commands.cmdUrl) {
             try {
-                Vector urls=((MessageItem) getFocusedObject()).getUrlList();
+                Vector urls = ((MessageItem) getFocusedObject()).getUrlList();
                 new MessageUrl(midlet.BombusQD.getInstance().display, urls); //throws NullPointerException if no urls
-            } catch (Exception e) {/* no urls found */}
+            } catch (Exception e) {/* no urls found */
+
+            }
         }
 //#ifdef CLIPBOARD
-//#         if (c == midlet.BombusQD.commands.cmdCopy)
-//#         {
+//#         if (c == Commands.cmdCopy) {
 //#             try {
-//#                 ClipBoard.add(  util.StringUtils.replaceNickTags( ((MessageItem)getFocusedObject()).msg )  );
-//#             } catch (Exception e) {/*no messages*/}
+//#                 ClipBoard.add(util.StringUtils.replaceNickTags(((MessageItem) getFocusedObject()).msg));
+//#             } catch (Exception e) {/*no messages*/
+//# 
+//#             }
 //#         }
 //# 
-//#         if (c==midlet.BombusQD.commands.cmdCopyPlus) {
+//#         if (c == Commands.cmdCopyPlus) {
 //#             try {
-//#                 ClipBoard.append( util.StringUtils.replaceNickTags(  ((MessageItem)getFocusedObject()).msg  ) );
-//#             } catch (Exception e) {/*no messages*/}
+//#                 ClipBoard.append(util.StringUtils.replaceNickTags(((MessageItem) getFocusedObject()).msg));
+//#             } catch (Exception e) {/*no messages*/
+//# 
+//#             }
 //#         }
 //#endif
 
-        if(c==midlet.BombusQD.commands.cmdClrPresences){
+        if (c == Commands.cmdClrPresences) {
             smartPurge(true);
             return;
         }
         /*
         if(c==midlet.BombusQD.commands.cmdTranslate){
-            String body = replaceNickTags(getMessage(cursor)).body.toString();
-            if(body.indexOf(">")>-1){
-              String nick = body.substring(0,body.indexOf(">"));
-              new TranslateSelect(display,this,contact,
-                      replaceNickTags(getMessage(cursor)).body.substring(body.indexOf(">")+1,body.length()).trim(),nick,
-                      true,cursor);
-            }else{
-              new TranslateSelect(display,this,contact,replaceNickTags(getMessage(cursor)).body.toString(),"none",true,cursor);
-            }
+        String body = replaceNickTags(getMessage(cursor)).body.toString();
+        if(body.indexOf(">")>-1){
+        String nick = body.substring(0,body.indexOf(">"));
+        new TranslateSelect(display,this,contact,
+        replaceNickTags(getMessage(cursor)).body.substring(body.indexOf(">")+1,body.length()).trim(),nick,
+        true,cursor);
+        }else{
+        new TranslateSelect(display,this,contact,replaceNickTags(getMessage(cursor)).body.toString(),"none",true,cursor);
+        }
 
-            tr=true;
-            contact.setCursor(cursor);
-            return;
+        tr=true;
+        contact.setCursor(cursor);
+        return;
         }
          */
-        if (c==midlet.BombusQD.commands.cmdPurge) {
-            if (messages.isEmpty()) return;
+        if (c == Commands.cmdPurge) {
+            if (messages.isEmpty()) {
+                return;
+            }
 
             if (startSelection) {
-                for (Enumeration select=msgs.elements(); select.hasMoreElements(); ) {
-                    Msg mess=(Msg) select.nextElement();
+                for (Enumeration select = msgs.elements(); select.hasMoreElements();) {
+                    Msg mess = (Msg) select.nextElement();
                     if (mess.selected) {
                         removeMessage(msgs.indexOf(mess));
                     }
@@ -429,34 +442,53 @@ public final class ContactMessageList extends VirtualList implements MenuListene
             }
             return;
         }
-        if (c==midlet.BombusQD.commands.cmdSelect) {
-            startSelection=true;
-            Msg mess=getMessage(cursor);
+        if (c == Commands.cmdSelect) {
+            startSelection = true;
+            Msg mess = getMessage(cursor);
             mess.selected = !mess.selected;
-            mess.search_word=!mess.search_word;; //image
+            mess.search_word = !mess.search_word;
+            ; //image
             mess.oldHighlite = mess.highlite;
             mess.highlite = mess.selected;
             return;
         }
-        /** login-critical section */
-        if (!midlet.BombusQD.sd.roster.isLoggedIn()) return;
 
-        if (c==midlet.BombusQD.commands.cmdMessage) {
-            contact.msgSuspended=null;
+        /** login-critical section */
+        if (!midlet.BombusQD.sd.roster.isLoggedIn()) {
+            return;
+        }
+
+        if (c == Commands.cmdMessage) {
+            contact.msgSuspended = null;
             keyGreen();
         }
-        if (c==midlet.BombusQD.commands.cmdResume) {
+//#ifdef CLIPBOARD
+//#         if (c == Commands.cmdPaste) {
+//# 
+//#ifdef RUNNING_MESSAGE
+//#             showMsgEdit(ClipBoard.getClipBoard());
+//#else
+//#             new MessageEdit(display, this, contact, ClipBoard.getClipBoard());
+//#endif
+//#         }
+//#endif
+        if (c == Commands.cmdResume) {
             keyGreen();
         }
-        if (c==midlet.BombusQD.commands.cmdQuote) Quote();
-        if (c==midlet.BombusQD.commands.cmdReply) {
-            if(contact.getJid().indexOf("juick@juick.com")>-1){
-                Reply(false); return;
-            } else checkOffline();
+        if (c == Commands.cmdQuote) {
+            quoteMessage();
         }
-        if(c==midlet.BombusQD.commands.cmdAddSearchQuery) {
-             new MIDPTextBox(midlet.BombusQD.getInstance().display, SR.get(SR.MS_SEARCH), null, this, TextField.ANY, 30);
-             return;
+        if (c == Commands.cmdReply) {
+            if (contact.getJid().indexOf("juick@juick.com") > -1) {
+                reply(false);
+                return;
+            } else {
+                checkOffline();
+            }
+        }
+        if (c == Commands.cmdAddSearchQuery) {
+            new MIDPTextBox(midlet.BombusQD.getInstance().display, SR.get(SR.MS_SEARCH), null, this, TextField.ANY, 30);
+            return;
         }
 //#if BREDOGENERATOR
 //#         if (c==midlet.BombusQD.commands.cmdAutoGenON) {
@@ -473,32 +505,38 @@ public final class ContactMessageList extends VirtualList implements MenuListene
         if (c == Commands.cmdActions) {
             BombusQD.sd.roster.showActionsMenu(contact);
         }
-	if (c==midlet.BombusQD.commands.cmdActive) {
+        if (c == midlet.BombusQD.commands.cmdActive) {
             contact.getChatInfo().opened = false;
             midlet.BombusQD.sd.roster.showActiveContacts(this, contact);
         }
 
-        if (c==midlet.BombusQD.commands.cmdSubscribe) midlet.BombusQD.sd.roster.doSubscribe(contact);
+        if (c == midlet.BombusQD.commands.cmdSubscribe) {
+            midlet.BombusQD.sd.roster.doSubscribe(contact);
+        }
 
-        if (c==midlet.BombusQD.commands.cmdUnsubscribed) midlet.BombusQD.sd.roster.sendPresence(contact.bareJid, "unsubscribed", null, false);
+        if (c == midlet.BombusQD.commands.cmdUnsubscribed) {
+            midlet.BombusQD.sd.roster.sendPresence(contact.bareJid, "unsubscribed", null, false);
+        }
 
 //#ifdef CLIPBOARD
-//#         if (c==midlet.BombusQD.commands.cmdSendBuffer) {
-//#             String from=midlet.BombusQD.sd.account.toString();
-//#             String body=ClipBoard.getClipBoard();
+//#         if (c == midlet.BombusQD.commands.cmdSendBuffer) {
+//#             String from = midlet.BombusQD.sd.account.toString();
+//#             String body = ClipBoard.getClipBoard();
 //# 
-//#             String id=String.valueOf((int) System.currentTimeMillis());
-//#             Msg msg=new Msg(Constants.MESSAGE_TYPE_OUT,from,null,body);
-//#             msg.id=id;
-//#             msg.itemCollapsed=true;
+//#             String id = String.valueOf((int) System.currentTimeMillis());
+//#             Msg msg = new Msg(Constants.MESSAGE_TYPE_OUT, from, null, body);
+//#             msg.id = id;
+//#             msg.itemCollapsed = true;
 //# 
 //#             try {
-//#                 if (body!=null && body.length()>0) {
-//#                     midlet.BombusQD.sd.roster.sendMessage(contact, id, body, null, null,false);
-//#                     if (contact.origin<Constants.ORIGIN_GROUPCHAT) contact.addMessage(msg);
+//#                 if (body != null && body.length() > 0) {
+//#                     midlet.BombusQD.sd.roster.sendMessage(contact, id, body, null, null);
+//#                     if (contact.origin < Constants.ORIGIN_GROUPCHAT) {
+//#                         contact.addMessage(msg);
+//#                     }
 //#                 }
 //#             } catch (Exception e) {
-//#                 contact.addMessage(new Msg(Constants.MESSAGE_TYPE_OUT,from,null,SR.get(SR.MS_CLIPBOARD_SENDERROR)));
+//#                 contact.addMessage(new Msg(Constants.MESSAGE_TYPE_OUT, from, null, SR.get(SR.MS_CLIPBOARD_SENDERROR)));
 //#             }
 //#             redraw();
 //#             return;
@@ -602,10 +640,10 @@ public final class ContactMessageList extends VirtualList implements MenuListene
 
        if(!found&&msg!=null) { new ui.controls.AlertBox(msg.from,
            SR.get(SR.MS_ALERT_CONTACT_OFFLINE), midlet.BombusQD.getInstance().display, this, false) {
-           public void yes() { Reply(true); }
+           public void yes() { reply(true); }
            public void no() { }
          };
-       } else Reply(true);
+       } else reply(true);
        msg=null;
     }
 
@@ -624,7 +662,7 @@ public final class ContactMessageList extends VirtualList implements MenuListene
       midlet.BombusQD.sd.roster.createMessageEdit(contact, msgText , this, false);
     }
 
-    private void Reply(boolean check) {
+    private void reply(boolean check) {
         if (!midlet.BombusQD.sd.roster.isLoggedIn()) return;
 
         try {
@@ -799,7 +837,9 @@ public final class ContactMessageList extends VirtualList implements MenuListene
                 midlet.BombusQD.sd.roster.showActiveContacts(this, contact);
                 break;
             case KEY_NUM9:
-                Quote();
+                if (BombusQD.sd.roster.isLoggedIn()) {
+                    quoteMessage();
+                }
                 break;
           }
        }
@@ -831,9 +871,7 @@ public final class ContactMessageList extends VirtualList implements MenuListene
 
 //#endif
 
-    private void Quote() {
-        if (!midlet.BombusQD.sd.roster.isLoggedIn()) return;
-
+    private void quoteMessage() {
         try {
             String msg=new StringBuffer(0)
                 .append((char)0xab) //
@@ -876,7 +914,6 @@ public final class ContactMessageList extends VirtualList implements MenuListene
         forceScrolling();
         redraw();
     }
-
 
     private final void smartPurge(boolean presence) {
         int cur=cursor+1;

@@ -30,7 +30,9 @@ public class ConfigurationMaster {
     }
 
     private String[] text = {
+//#ifdef CLIENTS_ICONS
         SR.get(SR.MS_SHOW_CLIENTS_ICONS),
+//#endif
         SR.get(SR.MS_SHOW_STATUSES),
         SR.get(SR.MS_BOLD_FONT),
         SR.get(SR.MS_USE_FIVE_TO_CREATEMSG),
@@ -48,22 +50,24 @@ public class ConfigurationMaster {
     private void doAction(byte type, boolean value) {
         Config config = Config.getInstance();
         switch (type) {
-            case 0: 
+//#ifdef CLIENTS_ICONS
+            case 0:
                 config.showClientIcon = value;
                 break;
-            case 1: 
+//#endif
+            case 1:
                 config.rosterStatus = value;
                 break;
-            case 2: 
+            case 2:
                 config.useBoldFont = value;
                 break;
-            case 3: 
+            case 3:
                 config.createMessageByFive = value;
                 break;
             case 4:
                 config.storeConfPresence = value;
                 break;
-            case 5: 
+            case 5:
                 config.timePresence = value;
                 break;
             case 6:
@@ -78,10 +82,10 @@ public class ConfigurationMaster {
             case 9:
                 config.fileTransfer = value;
                 break;
-            case 10: 
+            case 10:
                 config.queryExit = value;
                 break;
-            case 11: 
+            case 11:
                 config.module_history = value;
                 break;
         }

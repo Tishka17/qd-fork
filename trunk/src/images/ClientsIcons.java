@@ -24,7 +24,8 @@
  * along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
- 
+
+//#ifdef CLIENTS_ICONS
 package images;
 
 import ui.ImageList;
@@ -44,14 +45,15 @@ public class ClientsIcons extends ImageList {
     private ClientsIcons() {
         super("/images/clients.png", 0, CLIENTS_IN_ROW);
     }
-    
+
     private static ImageList instance;
     public static ImageList getInstance() {
 	if (instance==null) instance=new ClientsIcons();
 	return instance;
     }
-    
+
     public void drawImage(Graphics g, int index, int x, int y) {
         super.drawImage(g, index, x, y);
     }
 }
+//#endif

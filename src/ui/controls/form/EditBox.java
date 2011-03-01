@@ -69,7 +69,6 @@ public class EditBox implements CommandListener {
     private String caption;
 
 //#ifdef CLIPBOARD
-//#     private ClipBoard clipboard;
 //#     private Command cmdCopy;
 //#     private Command cmdCopyPlus;
 //#     private Command cmdPasteText;
@@ -139,8 +138,8 @@ public class EditBox implements CommandListener {
 //#ifdef CLIPBOARD
 //#         if (c == cmdCopy) {
 //#             try {
-//#                clipboard.setClipBoard(text);
-//#                 if (!clipboard.isEmpty()) {
+//#                ClipBoard.setClipBoard(text);
+//#                 if (!ClipBoard.isEmpty()) {
 //#                     t.addCommand(cmdCopyPlus);
 //#                 }
 //#             } catch (Exception e) {/*no messages*/}
@@ -148,15 +147,12 @@ public class EditBox implements CommandListener {
 //#         }
 //#         if (c==cmdCopyPlus) {
 //#             try {
-//#                 StringBuffer clipstr=new StringBuffer(clipboard.getClipBoard()).append("\n").append("\n").append(text);
-//# 
-//#                 clipboard.setClipBoard(clipstr.toString());
-//#                 clipstr=null;
+//#                 ClipBoard.addToClipBoard(text);
 //#             } catch (Exception e) {/*no messages*/}
 //#             return;
 //#         }
 //#         if (c==cmdPasteText) {
-//#             t.insert(clipboard.getClipBoard(), getCaretPos());
+//#             t.insert(ClipBoard.getClipBoard(), getCaretPos());
 //#             return;
 //#         }
 //#endif

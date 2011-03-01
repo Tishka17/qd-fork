@@ -32,7 +32,6 @@
 //# import client.Msg;
 //# import client.CommandForm;
 //# import java.io.*;
-//# import ui.controls.form.CheckBox;
 //# import java.util.Timer;
 //# import java.util.TimerTask;
 //# import javax.microedition.rms.RecordStore;
@@ -42,7 +41,9 @@
 //# import java.io.OutputStream;
 //# import util.Strconv;
 //#endif
+//#ifdef DETRANSLIT
 //# import util.DeTranslit;
+//#endif
 //# import util.StringUtils;
 //# import client.ContactMessageList;
 //# import ui.controls.form.MultiLine;
@@ -52,7 +53,7 @@
 //#  * @author aqent
 //#  */
 //# public class HistoryStorage {
-//#     
+//# 
 //#     /** Creates a new instance of HistoryStorage */
 //#     public HistoryStorage() { }
 //#     private final static Contact c = null;
@@ -80,7 +81,7 @@
 //#                 break;
 //#         }
 //#    }
-//#     
+//# 
 //#    public static void loadData(Contact c, RecordStore recordStore) {
        //#ifdef CONSOLE
 //#         midlet.BombusQD.debug.add("loadRMSData " + c + "/" + recordStore,10);
@@ -101,14 +102,14 @@
 //#                 break;
 //#         }
 //#    }
-//#     
-//#     
+//# 
+//# 
 //#if FILE_IO
 //#     private static FileIO file;
 //#     private static OutputStream os;
 //#     private static byte[] bodyMessage;
 //#     private static StringBuffer buf;
-//#     
+//# 
 //#     private static String createBody(Msg m) {
 //#         //String fromName=midlet.BombusQD.sd.account.getUserName();
 //#         //if (m.messageType!=Constants.MESSAGE_TYPE_OUT) fromName=m.from;
@@ -140,7 +141,7 @@
 //#            .append(m.getDayTime())
 //#            .append(']')
 //#            .append(' ');
-//#             
+//# 
 //#         buf.append(m.body)
 //#            .append('\r')
 //#            .append('\n');
@@ -151,17 +152,19 @@
 //#          */
 //#         return (HistoryConfig.getInstance().cp1251) ? Strconv.convUnicodeToCp1251(buf.toString()) : buf.toString();
 //#     }
-//#     
+//# 
 //#     private static void addFSMessage(Msg m, String filename) {
 //#        bodyMessage = createBody(m).getBytes();
+//#ifdef DETRANSLIT
 //#        filename = (HistoryConfig.getInstance().transliterateFilenames) ? DeTranslit.getInstance().translit(filename) : filename;
-//#        
+//#endif
+//# 
 //#        buf = new StringBuffer(0);
 //#        buf.append(HistoryConfig.getInstance().historyPath)
 //#                    .append(StringUtils.replaceBadChars(filename))
 //#                    .append(".txt");
 //#        filename = buf.toString();
-//#        
+//# 
 //#        file = FileIO.createConnection(filename);
 //# 
 //#         try {
@@ -182,20 +185,20 @@
 //#         bodyMessage = null;
 //#         bodyMessage = new byte[0];
 //#     }
-//#     
+//# 
 //#endif
-//#     
-//#     
+//# 
+//# 
 //#     private static ByteArrayOutputStream baos = null;
 //#     private static DataOutputStream das = null;
 //#     private static byte[] buffer = null;
 //#     private static byte[] textData = null;
-//#     
+//# 
 //#     private final static int SAVE_RMS_STORE = 0;
 //#     private final static int CLEAR_RMS_STORE = 1;
 //#     private final static int CLOSE_RMS_STORE = 2;
 //#     private final static int READ_ALL_DATA = 3;
-//#     
+//# 
 //#     synchronized private static void addRMSrecord(Contact c, Msg message, RecordStore recordStore) {
 //#         buffer = textData = null;
 //#         int len;
@@ -211,7 +214,7 @@
 //#               das = new DataOutputStream(baos);
 //#               das.writeUTF(message.getDayTime());
 //#               das.writeUTF(message.body);
-//#                         
+//# 
 //#             textData = baos.toByteArray();
 //#             len = textData.length;
 //# 
@@ -236,14 +239,14 @@
 //#         }
 //#     }
 //# 
-//#     
-//#     public static RecordStore closeStore(RecordStore recordStore) {	
+//# 
+//#     public static RecordStore closeStore(RecordStore recordStore) {
 //#        try {
 //#            recordStore.closeRecordStore();
 //#        } catch (Exception e) {}
 //#        return null;
-//#     }  
-//#     
+//#     }
+//# 
 //#     public static RecordStore clearRecordStore(RecordStore recordStore) {
 //#         try {
 //#             int size = recordStore.getNumRecords();
@@ -251,26 +254,26 @@
 //#               for (int i = 1; i <= size; ++i) {
 //#                  recordStore.deleteRecord(i);
 //#               }
-//#             } 
+//#             }
 //#             recordStore.closeRecordStore();
 //#             return null;
-//#          } catch (Exception e) { 
+//#          } catch (Exception e) {
 //#              e.printStackTrace(); return null;
 //#          }
 //#     }
 //# 
-//#     private static int getRecordCount(RecordStore recordStore) {	
+//#     private static int getRecordCount(RecordStore recordStore) {
 //#        try {
 //#          return recordStore.getNumRecords();
 //#        } catch (Exception e) {  return -1; }
 //#     }
-//#     
+//# 
 //#     public static String getRSName(String bareJid) {
 //#        return store + bareJid;
 //#     }
-//#     
 //# 
-//#     
+//# 
+//# 
 //#     private static Timer timer;
 //#     private static LoadMessages load;
 //#     private static void startTimer(RecordStore rs, Contact c, int repeatTime) {
@@ -287,7 +290,7 @@
 //#            timer.schedule( load, 0, repeatTime );
 //#        }
 //#     }
-//#    
+//# 
 //#     private static void stopTimer() {
 //#       if ( timer != null ) {
 //#           timer.cancel();
@@ -295,7 +298,7 @@
 //#           load = null;
 //#       }
 //#     }
-//#   
+//# 
 //#     private static ByteArrayInputStream bais = null;
 //#     private static DataInputStream dis = null;
 //#     private static StringBuffer sb;
@@ -304,13 +307,13 @@
 //#       RecordStore recordStore;
 //#       Contact c;
 //#       long timeS,timeE;
-//#       
+//# 
 //#       public void set(RecordStore rs, Contact c){
-//#         posRecord = 0;  
+//#         posRecord = 0;
 //#         this.recordStore = rs;
 //#         this.c = c;
 //#       }
-//#       
+//# 
 //#       public void run () {
 //#          if(posRecord == 0) {
 //#            cmd.setParentView(c);
@@ -346,7 +349,7 @@
 //#                    if (size == 0) {
 //#                        SimpleString item = new SimpleString("Empty history!");
 //#                        item.setSelectable(true);
-//#                        
+//# 
 //#                        cmd.addControl(item);
 //#                    }
 //# 

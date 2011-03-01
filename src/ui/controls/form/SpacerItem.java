@@ -1,7 +1,7 @@
 /*
- * SpacerItem.java 
+ * SpacerItem.java
  *
- * Created on 19 Май 2008 г., 23:41
+ * Created on 19 пїЅпїЅпїЅ 2008 пїЅ., 23:41
  *
  * Copyright (c) 2006-2008, Daniel Apatin (ad), http://apatin.net.ru
  *
@@ -24,7 +24,6 @@
  * along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package ui.controls.form;
 
 import ui.IconTextElement;
@@ -33,24 +32,27 @@ import ui.IconTextElement;
  *
  * @author ad
  */
-public class SpacerItem 
-        extends IconTextElement {
-    
-    private static int itemHeight=4;
-    public int getVWidth(){ 
-        return -1;
-    }      
-    /**
-     * Creates a new instance of SpacerItem
-     */
+public class SpacerItem extends IconTextElement {
     public SpacerItem(int height) {
         super(null);
-        if (height!=0)
-            itemHeight=height;
+        if (height != 0) {
+            itemHeight = height;
+        }
     }
-    
-    public String toString() { return " "; }
-    public int getVHeight(){ return itemHeight; }
 
-    public boolean isSelectable() { return false; }
+    public int getVWidth() {
+        return -1;
+    }
+
+    public String toString() {
+        return " ";
+    }
+
+    public int getVHeight() {
+        return itemHeight;
+    }
+
+    public boolean isSelectable() {
+        return false;
+    }
 }

@@ -1,7 +1,7 @@
 /*
  * NumberInput.java
  *
- * Created on 20.05.2008, 16:20 
+ * Created on 20.05.2008, 16:20
  *
  * Copyright (c) 2006-2008, Daniel Apatin (ad), http://apatin.net.ru
  *
@@ -24,7 +24,6 @@
  * along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package ui.controls.form;
 
 import javax.microedition.lcdui.Display;
@@ -34,33 +33,31 @@ import javax.microedition.lcdui.TextField;
  *
  * @author ad
  */
-public class NumberInput
-    extends TextInput {
-
+public class NumberInput extends TextInput {
     private int max;
     private int min;
-    private String initValue;  
-    /**
-     * Creates a new instance of NumberInput
-     */
-    public void destroy(){
-       if(initValue.length()>0) initValue = null;
-    }
-    
+
     public NumberInput(Display display, String caption, String text, int min, int max) {
-        super(display, caption, text, null, (min<0)?TextField.DECIMAL:TextField.NUMERIC);
-        this.min=min;
-        this.max=max;
-        initValue=text;
+        super(display, caption, text, null, (min < 0) ? TextField.DECIMAL : TextField.NUMERIC);
+        this.min = min;
+        this.max = max;
     }
-    
+
+    public void destroy() {
+        // empty;
+    }
+
     public String getValue() {
-	try {
-	    int value=Integer.parseInt(super.getValue());
-	    if (value>max) return Integer.toString(max);
-	    if (value<min) return Integer.toString(min);
-	    return Integer.toString(value);
-	} catch (NumberFormatException e) { /* returning initValue */ }
-	return initValue;
+        try {
+            int value = Integer.parseInt(text);
+            if (value > max) {
+                return Integer.toString(max);
+            }
+            if (value < min) {
+                return Integer.toString(min);
+            }
+            return Integer.toString(value);
+        } catch (NumberFormatException e) { /* returning initValue */ }
+        return text;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * MultiLine.java 
+ * MultiLine.java
  *
  * Created on 25.05.2008, 18:37
  *
@@ -41,23 +41,23 @@ import ui.VirtualList;
  * @author ad
  */
 public class MultiLine extends IconTextElement {
-    
+
     private Vector lines=null;
     private String text;
-    
+
     private String caption;
-    
+
     public boolean selectable;
-    
+
     private Font font;
     private int fontHeight;
-    
+
     private Font captionFont;
     private int captionFontHeight;
-    
+
     private boolean parsed;
-    private int itemHeight=0;
-    
+    // private int itemHeight=0;
+
     private int width;
 
 
@@ -68,33 +68,33 @@ public class MultiLine extends IconTextElement {
         super(null);
         this.text=text;
         this.caption=caption;
-        
+
         font=FontCache.getFont(true, FontCache.msg);
         fontHeight=font.getHeight();
         itemHeight=fontHeight;
-        
+
         width=availWidth;
-        
+
         if (caption!=null) {
             captionFont=FontCache.getFont(true, FontCache.msg);
             captionFontHeight=captionFont.getHeight();
             itemHeight=captionFontHeight;
         }
     }
-    
+
     public String getValue() {
         return text;
     }
-    
+
     public String toString() {
         if (caption==null)
             return text;
-        
+
         return caption+"\n"+text;
     }
-    public int getVWidth(){ 
+    public int getVWidth(){
         return -1;
-    }    
+    }
     public int getVHeight(){
         if (lines==null && width>0) {
             lines=StringUtils.parseMessage(text, width-10, font);
@@ -105,10 +105,10 @@ public class MultiLine extends IconTextElement {
         }
         return itemHeight;
     }
-    
+
     public void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {
         if (!parsed) return;
-        
+
         int y=0;
         if (caption!=null) {
             g.setFont(captionFont);

@@ -1,7 +1,7 @@
 /*
  * TextInput.java
  *
- * Created on 19.05.2008, 23:01 
+ * Created on 19.05.2008, 23:01
  *
  * Copyright (c) 2006-2008, Daniel Apatin (ad), http://apatin.net.ru
  *
@@ -24,7 +24,6 @@
  * along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package ui.controls.form;
 
 import colors.ColorTheme;
@@ -42,137 +41,148 @@ import ui.VirtualList;
  *
  * @author ad
  */
-public class TextInput 
-        extends IconTextElement {
+public class TextInput extends IconTextElement {
 
-    private String text="";
-    private String caption="";
+    protected String text;
+    protected String caption;
+
     private Display display;
-    
     public String id;
-
     private int boxType;
-    
     private Font font;
     private int fontHeight;
-    
     private Font captionFont;
     private int captionFontHeight;
-
-    private int itemHeight=0;
 
     private int colorItem;
     private int colorBorder;
     private int colorBGnd;
-    
+
     /**
      * Creates a new instance of TextInput
      */
     public TextInput(Display display, String caption, String text, String id, int boxType) {
         super(null);
-        this.display=display;
-        this.caption=(caption==null)?"":caption;
-        this.id=id;
-        this.boxType=boxType;
+        this.display = display;
+        this.caption = caption;
+        this.id = id;
+        this.boxType = boxType;
 
-        colorItem=ColorTheme.getColor(ColorTheme.CONTROL_ITEM);
-        colorBorder=ColorTheme.getColor(ColorTheme.CURSOR_OUTLINE);
-        colorBGnd=ColorTheme.getColor(ColorTheme.LIST_BGND);
-        
-        font=FontCache.getFont(false, FontCache.roster);
-        fontHeight=font.getHeight();
-        itemHeight=fontHeight;
-        
-        if (caption!=null) {
-            captionFont=FontCache.getFont(true, FontCache.msg);
-            captionFontHeight=captionFont.getHeight();
-            itemHeight+=captionFontHeight;
+        colorItem = ColorTheme.getColor(ColorTheme.CONTROL_ITEM);
+        colorBorder = ColorTheme.getColor(ColorTheme.CURSOR_OUTLINE);
+        colorBGnd = ColorTheme.getColor(ColorTheme.LIST_BGND);
+
+        font = FontCache.getFont(false, FontCache.roster);
+        fontHeight = font.getHeight();
+        itemHeight = fontHeight;
+
+        if (caption != null) {
+            captionFont = FontCache.getFont(true, FontCache.msg);
+            captionFontHeight = captionFont.getHeight();
+            itemHeight += captionFontHeight;
         }
-        if (text==null && id!=null) {
-            String tempText="";
+        if (text == null && id != null) {
+            String tempText = "";
             try {
-                DataInputStream is=NvStorage.ReadFileRecord(id, 0);
-                try { 
-                    tempText=is.readUTF();
-                } catch (EOFException e) { 
-                    is.close(); 
+                DataInputStream is = NvStorage.ReadFileRecord(id, 0);
+                try {
+                    tempText = is.readUTF();
+                } catch (EOFException e) {
+                    is.close();
                     is = null;
                 }
-            } catch (Exception e) {/* no history available */}
-            this.text=(tempText==null)?"":tempText;
+            } catch (Exception e) {/* no history available */
+
+            }
+            this.text = (tempText == null) ? "" : tempText;
         } else {
-            this.text=(text==null)?"":text;
+            this.text = (text == null) ? "" : text;
         }
     }
-    
+
     public int getCaptionLength() {
-        if (caption==null) return 0;
-        if (caption.equals("")) return 0;
+        if (caption == null) {
+            return 0;
+        }
+        if (caption.equals("")) {
+            return 0;
+        }
         return captionFont.stringWidth(caption);
     }
 
     public int getTextLength() {
-        if (text==null) return 0;
-        if (text.equals("")) return 0;
+        if (text == null) {
+            return 0;
+        }
+        if (text.equals("")) {
+            return 0;
+        }
         return font.stringWidth(text);
     }
-    
-    //public String toString() { return (getCaptionLength()>getTextLength())?caption:getValue(); }
-    public String toString() { return (0==getTextLength())?caption:getValue(); }//Tishka17
-    
-    public void onSelect(VirtualList view) { 
+
+    public String toString() {
+        return (0 == getTextLength()) ? caption : getValue();
+    } //Tishka17
+
+    public void onSelect(VirtualList view) {
         new EditBox(display, caption, text, this, boxType);
     }
-    
-    public String getValue() { return (text==null)?"":text; }
 
-    public void setValue(String text) { this.text=(text==null)?"":text; }
-    
-    public int getVHeight(){
+    public String getValue() {
+        return (text == null) ? "" : text;
+    }
+
+    public void setValue(String text) {
+        this.text = (text == null) ? "" : text;
+    }
+
+    public int getVHeight() {
         return itemHeight;
     }
-    public int getVWidth(){ 
+
+    public int getVWidth() {
         return -1;
-    }    
-    
+    }
+
     public String getText() {
         return getValue();
     }
 
     public void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {
-        int width=g.getClipWidth();
-        int height=fontHeight;
+        int width = g.getClipWidth();
+        int height = fontHeight;
 
-        int oldColor=g.getColor();
-        
-        int thisOfs=0;
-        
-        int y=0;
-        if (caption!=null) {
-            thisOfs=(getCaptionLength()>width)?-ofs:2;
+        int oldColor = g.getColor();
+
+        int thisOfs = 0;
+
+        int y = 0;
+        if (caption != null) {
+            thisOfs = (getCaptionLength() > width) ? -ofs : 2;
             g.setFont(captionFont);
-            g.drawString(caption, thisOfs, y, Graphics.TOP|Graphics.LEFT);
-            y=captionFontHeight;
+            g.drawString(caption, thisOfs, y, Graphics.TOP | Graphics.LEFT);
+            y = captionFontHeight;
         }
 
-        if(text.length() == 0) {
-          width = width - midlet.BombusQD.cf.scrollWidth - 5;
-          g.setColor(colorBGnd);
-          g.fillRect(5, y, width, height-3);
+        if (text.length() == 0) {
+            width = width - midlet.BombusQD.cf.scrollWidth - 5;
+            g.setColor(colorBGnd);
+            g.fillRect(5, y, width, height - 3);
 
-          g.setColor((sel)?colorBorder:colorItem);
-          //g.drawRect(0, y, width-1, height-1);
-          g.drawRoundRect(5, y, width, height-3,8,8);//Tishka17
+            g.setColor((sel) ? colorBorder : colorItem);
+            g.drawRoundRect(5, y, width, height - 3, 8, 8); //Tishka17
         }
 
         g.setColor(oldColor);
-        
-        if (getTextLength()>0) {
-            thisOfs=(getTextLength()>width)?-ofs+4:4;
+
+        if (getTextLength() > 0) {
+            thisOfs = (getTextLength() > width) ? -ofs + 4 : 4;
             g.setFont(font);
-            g.drawString(getText(), thisOfs, y, Graphics.TOP|Graphics.LEFT); 
+            g.drawString(getText(), thisOfs, y, Graphics.TOP | Graphics.LEFT);
         }
     }
 
-    public boolean isSelectable() { return true; }
+    public boolean isSelectable() {
+        return true;
+    }
 }

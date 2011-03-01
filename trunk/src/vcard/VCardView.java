@@ -233,20 +233,17 @@ public class VCardView
 //#endif
 //#ifdef CLIPBOARD
 //#         if (c == cmdCopy) {
-//#             try {
-//#                 ClipBoard.setClipBoard((((MultiLine)getFocusedObject()).getValue()==null)?"":((MultiLine)getFocusedObject()).getValue()+"\n");
-//#             } catch (Exception e) {/*no messages*/}
-//#         }
+//#             String lineValue = ((MultiLine)getFocusedObject()).getValue();
 //# 
-//#         if (c==cmdCopyPlus) {
-//#             try {
-//#                 StringBuffer clipstr = new StringBuffer(ClipBoard.getClipBoard())
-//#                 .append("\n\n")
-//#                 .append((((MultiLine)getFocusedObject()).getValue()==null)?"":((MultiLine)getFocusedObject()).getValue()+"\n");
+//#             if (lineValue != null) {
+//#                  ClipBoard.setClipBoard(lineValue);
+//#             }
+//#         } else if (c == cmdCopyPlus) {
+//#             String lineValue = ((MultiLine)getFocusedObject()).getValue();
 //# 
-//#                 ClipBoard.setClipBoard(clipstr.toString());
-//#                 clipstr=null;
-//#             } catch (Exception e) {/*no messages*/}
+//#             if (lineValue != null) {
+//#                  ClipBoard.addToClipBoard(lineValue);
+//#             }
 //#         }
 //#endif
         super.commandAction(c, d);

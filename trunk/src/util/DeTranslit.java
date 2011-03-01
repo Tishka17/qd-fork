@@ -25,7 +25,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package util; 
+package util;
 
 import java.util.Vector;
 
@@ -33,50 +33,52 @@ import java.util.Vector;
  *
  * @author ad
  */
-public class DeTranslit {
-    static Vector translit[];
-    static boolean filled=false;
-    
-    private static DeTranslit instance;
-    
-    public static DeTranslit getInstance(){
-	if (instance==null) {
-	    instance=new DeTranslit();
-	    instance.fill();
-	}
-	return instance;
-    }
-    
-    /** Creates a new instance of DeTranslit */
-    public static String deTranslit(String src) {
-        if (translit[0].size()<1) return src;
-        if (src==null) return null;
-        for (int i=0; i<translit[0].size(); i++) {
-            src=StringUtils.stringReplace(src, (String) translit[0].elementAt(i), (String) translit[1].elementAt(i));
-	}
-        return src;
-    }
-    
-    public static String translit(String src) {
-        int size = translit[0].size();
-        if (size<1) return src;
-        if (src==null) return null;
-        for (int i=0; i<size; ++i) {
-            src=StringUtils.stringReplace(src, (String) translit[1].elementAt(i), (String) translit[0].elementAt(i));
-	}
-        return src;
-    }
-    
-    private static void fill() {
-        translit=new Vector[2];
-        translit[0]=new Vector(0);
-        translit[1]=new Vector(0);
-        
-        Vector defs[]=new StringLoader().stringLoader("/translit.txt", 2);
-        for (int i=0; i<defs[0].size(); i++) {
-            translit[0].addElement((String) defs[0].elementAt(i));
-            translit[1].addElement((String) defs[1].elementAt(i));
-        }
-    }
 
-}
+//#ifdef DETRANSLIT
+//# public class DeTranslit {
+//#     static Vector translit[];
+//#     static boolean filled=false;
+//# 
+//#     private static DeTranslit instance;
+//# 
+//#     public static DeTranslit getInstance(){
+//# 	if (instance==null) {
+//# 	    instance=new DeTranslit();
+//# 	    instance.fill();
+//# 	}
+//# 	return instance;
+//#     }
+//# 
+//#     /** Creates a new instance of DeTranslit */
+//#     public static String deTranslit(String src) {
+//#         if (translit[0].size()<1) return src;
+//#         if (src==null) return null;
+//#         for (int i=0; i<translit[0].size(); i++) {
+//#             src=StringUtils.stringReplace(src, (String) translit[0].elementAt(i), (String) translit[1].elementAt(i));
+//# 	}
+//#         return src;
+//#     }
+//# 
+//#     public static String translit(String src) {
+//#         int size = translit[0].size();
+//#         if (size<1) return src;
+//#         if (src==null) return null;
+//#         for (int i=0; i<size; ++i) {
+//#             src=StringUtils.stringReplace(src, (String) translit[1].elementAt(i), (String) translit[0].elementAt(i));
+//# 	}
+//#         return src;
+//#     }
+//# 
+//#     private static void fill() {
+//#         translit=new Vector[2];
+//#         translit[0]=new Vector(0);
+//#         translit[1]=new Vector(0);
+//# 
+//#         Vector defs[]=new StringLoader().stringLoader("/translit.txt", 2);
+//#         for (int i=0; i<defs[0].size(); i++) {
+//#             translit[0].addElement((String) defs[0].elementAt(i));
+//#             translit[1].addElement((String) defs[1].elementAt(i));
+//#         }
+//#     }
+//# }
+//#endif

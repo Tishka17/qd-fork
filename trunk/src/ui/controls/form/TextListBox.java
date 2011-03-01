@@ -1,10 +1,10 @@
 /*
- * TextListBox.java 
+ * TextListBox.java
  *
  * Created on 25 ??? 2008 ?., 16:58
  *
  * Copyright (c) 2006-2008, Daniel Apatin (ad), http://apatin.net.ru
- * Copyright (c) 2009, Alexej Kotov (aqent), http://bombusmod-qd.wen.ru 
+ * Copyright (c) 2009, Alexej Kotov (aqent), http://bombusmod-qd.wen.ru
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -44,9 +44,8 @@ import locale.SR;
 //#else
 import menu.MenuListener;
 import menu.Command;
-import menu.MyMenu;
 //#endif
-//#ifdef GRAPHICS_MENU        
+//#ifdef GRAPHICS_MENU
 //# import ui.GMenu;
 //# import ui.GMenuConfig;
 //#endif
@@ -54,8 +53,8 @@ import menu.MyMenu;
  *
  * @author ad,aqent
  */
-public class TextListBox 
-        extends VirtualList 
+public class TextListBox
+        extends VirtualList
         implements
 //#ifndef MENU_LISTENER
 //#         CommandListener
@@ -64,7 +63,6 @@ public class TextListBox
 //#endif
     {
 
-    private Command cmdCancel;
     private Command cmdOk;
     private Command cmdClear;
 
@@ -74,34 +72,33 @@ public class TextListBox
 
     public TextListBox(Display display, EditBox ti) {
         super(display);
-        
-        cmdCancel=new Command(SR.get(SR.MS_CANCEL), Command.BACK,99);
+
         cmdOk=new Command(SR.get(SR.MS_OK), Command.OK,1);
-        cmdClear=new Command(SR.get(SR.MS_CLEAR), Command.SCREEN, 2);    
-        
+        cmdClear=new Command(SR.get(SR.MS_CLEAR), Command.SCREEN, 2);
+
         this.ti=ti;
         this.recentList=ti.recentList;
         setMainBarItem(new MainBar(SR.get(SR.MS_SELECT)));
 
         commandState();
     }
-    
+
     public void commandState() {
 //#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
 //#endif
         addCommand(cmdOk); cmdOk.setImg(0x43);
         addCommand(cmdClear); cmdClear.setImg(0x13);
-//#ifndef GRAPHICS_MENU        
+//#ifndef GRAPHICS_MENU
      addCommand(cmdCancel);
-//#endif     
+//#endif
         setCommandListener(this);
     }
-    
+
     public void eventOk() {
         if (recentList.size()>0)
             ti.setValue((String) recentList.elementAt(cursor));
-        
+
         display.setCurrent(parentView);
     }
 
@@ -114,26 +111,23 @@ public class TextListBox
             eventOk();
             return;
         }
-        
+
         display.setCurrent(parentView);
     }
 
-    public VirtualElement getItemRef(int index){ 
-        return new ListItem((String) recentList.elementAt(index)); 
+    public VirtualElement getItemRef(int index){
+        return new ListItem((String) recentList.elementAt(index));
     }
     public int getItemCount() { return recentList.size(); }
-    
+
 //#ifdef MENU_LISTENER
-    
-//#ifdef GRAPHICS_MENU        
+
+//#ifdef GRAPHICS_MENU
 //#     public int showGraphicsMenu() {
 //#         commandState();
-//#          String capt="";
-//#          try {
-//#              capt=getMainBarItem().elementAt(0).toString();
-//#          } catch (Exception ex){ }        
+//# 
 //#         menuItem = new GMenu(display, parentView, this,null, menuCommands);
-//#         GMenuConfig.getInstance().itemGrMenu = GMenu.TEXTLISTBOX;         
+//#         GMenuConfig.getInstance().itemGrMenu = GMenu.TEXTLISTBOX;
 //#         return GMenu.TEXTLISTBOX;
 //#     }
 //#else
@@ -144,8 +138,8 @@ public class TextListBox
             capt=getMainBarItem().elementAt(0).toString();
         } catch (Exception ex){ }
         new MyMenu(display, parentView, this, capt, null, menuCommands);
-   }  
-//#endif    
+   }
+//#endif
 
 //#endif
 }

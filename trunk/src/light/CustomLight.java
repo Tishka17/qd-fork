@@ -200,9 +200,11 @@ public final class CustomLight extends TimerTask {
         if ((value > 100) || (value < 0)) {
             return;
         }
-        if ((value > 0) && light==LIGHT_NOKIA) {
+        // дает слабое ежесекундное мерцание экрана
+        // на новых нокиях - отключено (Марс)
+        /*if ((value > 0) && light==LIGHT_NOKIA) {
             setLight(0);
-        }
+        }*/
         try {
             switch (light) {                
                 case LIGHT_MOTOROLA_FUNLIGHT:

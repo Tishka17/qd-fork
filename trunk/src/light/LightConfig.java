@@ -40,7 +40,7 @@ public class LightConfig {
     public int light_error_time=3;
     public int light_blink_time=1;
 
-    public int light_idle=00;
+    public int light_idle=0;
     public int light_presence=10;
     public int light_keypress=50;
     public int light_connect=100;
@@ -76,6 +76,10 @@ public class LightConfig {
             light_keypress=inputStream.readInt();
             light_keypressed_time=inputStream.readInt();
             light_connect=inputStream.readInt();
+            // делаем подсветку при включении равной
+            // подсветке при сообщениии - убираем
+            // мигание подсветки при включении (Марс)
+            light_connect=light_message;
             light_error=inputStream.readInt();
             light_error_time=inputStream.readInt();
             inputStream.close();

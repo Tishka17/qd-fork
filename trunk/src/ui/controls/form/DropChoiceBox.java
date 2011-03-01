@@ -178,12 +178,20 @@ public class DropChoiceBox
     public boolean handleEvent(int keyCode) {
         if (items.size()<1) return false;
         
-         switch (keyCode) {
+         switch( keyCode){
              case 5:
                 onSelect(null);
                 return true;
+             case 4:
+                if( --index < 0) index= 0;
+                this.index= index;
+                return true;
+             case 6:
+                if( ++index > items.size()-1) index= items.size()-1;
+                this.index= index;
+                return true;
          }
-        return false;
+         return false;
     }
     
     public boolean isSelectable() { return selectable; }

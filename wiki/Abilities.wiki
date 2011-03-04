@@ -1,78 +1,51 @@
-=Full Build(полная сборка):=
- * HISTORY_READER(история)
- * COLORS
- * FILE_TRANSFER(передача файлов)
- * CONSOLE(консоли XML и отладки)
- * CLIPBOARD
- * GRAPHICS_MENU(графическое меню)
- * BACK_IMAGE(фоновый рисунок)
- * ARCHIVE(архив)
- * NEW_SKIN(создание цвет. схемы)
- * RUNNING_MESSAGE()
- * IMPORT_EXPORT(импорт-экспорт)
- * STATS
- * SERVICE_DISCOVERY(диско сервисов)
- * SASL
- * PEP(пепы)
- * SE_LIGHT(работа с подсветкой на SonyEricsson)
- * SASL_XGOOGLETOKEN
- * PEP_ACTIVITY
- * PEP_TUNE
- * AUTOTASK
- * GRADIENT(градиенты)
- * PRIVACY(списки приватности)
- * AUTOSTATUS(автостатус)
- * NICK_COLORS(цвета ников)
- * MIDP2
- * HISTORY(история сообщений)
- * CLIENTS_ICONS(иконки клиентов)
- * CHECKERS(шашки)
- * USE_ROTATOR(работа с акселерометром)
- * ZLIB(сжатие траффика)
- * CAPTCHA(показ капчи в клиенте)
- * POPUPS(всплывающее меню)
- * WSYSTEMGC
- * DETRANSLIT(де-транслит)
- * SMILES(смайлы)
- * CHANGE_TRANSPORT
- * USER_KEYS
- * JUICK.COM(плагин Juick)
- * METACONTACTS(метаконтакты)
- * COLOR_TUNE
- * MENU_LISTENER
- * FILE_IO
- * ADHOC(эдхоц-команды контактам)
- * LAST_MESSAGES
- * LIGHT_CONTROL(управление подсветкой)
- * TEMPLATES
-
-=Lite Build(облегченная сборка):=
-(Имеют те же значения, что и в Full-сборке)
- * COLORS
- * FILE_TRANSFER
- * CLIPBOARD
- * GRAPHICS_MENU
- * BACK_IMAGE
- * ARCHIVE
- * NEW_SKIN
- * RUNNING_MESSAGE
- * SASL
- * SERVICE_DISCOVERY
- * SE_LIGHT
- * GRADIENT
- * NICK_COLORS
- * MIDP2
- * CLIENTS_ICONS
- * ZLIB
- * USE_ROTATOR
- * CAPTCHA
- * POPUPS
- * SUPER_LIGHT
- * DETRANSLIT
- * SMILES
- * COLOR_TUNE
- * MENU_LISTENER
- * FILE_IO
- * ADHOC
+=Таблица абилити в сборках:=
+|| *_Abilitie_* ||Описание|| *Full* || _Lite_ ||
+||HISTORY_READER||Чтение истории|| *+*|| -|| 
+||COLORS||Управление цветом|| *+* || *+*||
+||FILE_TRANSFER||Передача файлов|| *+* || *+*|| 
+||CONSOLE||Консоли XML и отладки|| *+* ||-||
+||CLIPBOARD|| || *+* || *+* ||
+||GRAPHICS_MENU||Графическое меню|| *+* || *+*|| 
+||BACK_IMAGE||Фоновый рисунок|| *+* || *+*||
+||ARCHIVE ||Архив|| *+* || *+*||
+||NEW_SKIN ||Создание цвет. схемы|| *+* || *+*||
+||RUNNING_MESSAGE|| || *+*|| *+* ||
+||IMPORT_EXPORT ||Импорт-экспорт || *+* ||-||
+||STATS || || *+* ||- ||
+||SERVICE_DISCOVERY||Диско сервисов|| *+* || *+*||
+||SASL || || *+* || *+* ||
+||PEP||Пепы || *+* ||- ||
+||SE_LIGHT ||Работа с подсветкой на SonyEricsson|| *+* || *+*|| 
+||SASL_XGOOGLETOKEN|| || *+* || -||
+||PEP_ACTIVITY|| || *+* || -||
+||PEP_TUNE || || *+* || -||
+||AUTOTASK || || *+* ||- ||
+||GRADIENT|| Градиенты || *+* || *+* ||
+||PRIVACY||Списки приватности|| *+* ||-||
+||AUTOSTATUS||Автостатус || *+* ||- ||
+||NICK_COLORS||Цвета ников|| *+* || *+*||
+||MIDP2|| || *+* || *+* ||
+||HISTORY||История сообщений || *+* ||- ||
+||CLIENTS_ICONS||Иконки клиентов|| *+* || *+*||
+||CHECKERS||Шашки || *+* ||-||
+||USE_ROTATOR||Работа с акселерометром|| *+* || *+* || 
+||ZLIB||Сжатие траффика || *+* || *+* ||
+||CAPTCHA||Показ капчи в клиенте|| *+* || *+* || 
+||POPUPS||Всплывающее меню|| *+* || *+*||
+||SUPER_LIGHT|| Супер-легкая сборка||-|| *+*||
+||WSYSTEMGC || || *+* || -||
+||DETRANSLIT||Де-транслит|| *+* || *+* ||
+||SMILES||Смайлы || *+* || *+* ||
+||CHANGE_TRANSPORT|| || *+* ||- ||
+||USER_KEYS || || *+* || -||
+||JUICK.COM||Плагин Juick || *+* ||- ||
+||METACONTACTS||метаконтакты|| *+* ||- ||
+||COLOR_TUNE || || *+* || *+*||
+||MENU_LISTENER|| || *+* || *+* ||
+||FILE_IO || || *+* || *+* ||
+||ADHOC||Эдхоц-команды контактам|| *+* || *+* ||
+||LAST_MESSAGES|| || *+* ||- ||
+||LIGHT_CONTROL||Управление подсветкой|| *+* ||- ||
+||TEMPLATES|| || *+* ||- ||
 
 _*Список абилити в сборках может меняться и не соответствовать перечисленному.*_

@@ -35,6 +35,7 @@ import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Gauge;
 import locale.SR;
 import ui.AlertBox;
+import midlet.BombusQD;
 
 /**
  *
@@ -44,7 +45,6 @@ public class Reconnect extends AlertBox implements Runnable{
 
     private Gauge timer;
     boolean isRunning;
-    private final static int WAITTIME=5;
     /** Creates a new instance of Reconnect */
     private Command cmdCancel;
     
@@ -54,7 +54,7 @@ public class Reconnect extends AlertBox implements Runnable{
         cmdCancel=new Command(SR.get(SR.MS_CANCEL), Command.BACK, 2);
         alert.setTimeout(Alert.FOREVER);
         
-        timer=new Gauge(null, false, WAITTIME, 1);
+        timer=new Gauge(null, false, midlet.BombusQD.cf.reconnectTime, 1);
 //#if (!MIDP1)
         alert.setIndicator(timer);
 //#endif
@@ -82,7 +82,7 @@ public class Reconnect extends AlertBox implements Runnable{
             } catch (Exception e) { break; }
             int value=timer.getValue()+1;
             timer.setValue(value);
-            if (value>=WAITTIME) break;
+            if (value>=midlet.BombusQD.cf.reconnectTime) break;
         }
         commandAction(cmdOk, alert);
     }

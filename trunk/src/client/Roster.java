@@ -275,7 +275,7 @@ public class Roster
         mainbar.addElement(null);
         mainbar.addElement(null);
         mainbar.addElement(null); //ft
-	updateMainBar();
+        updateMainBar();
 
 
         commandState();
@@ -4246,6 +4246,7 @@ public class Roster
         if (null != c) {
             focusToContact(c, true);
             setRotator();
+			fitCursorByBottom();
         }
         redraw();
     }

@@ -46,6 +46,7 @@
 //#endif
 //# import util.StringUtils;
 //# import client.ContactMessageList;
+//# import javax.microedition.rms.RecordStoreException;
 //# import ui.controls.form.MultiLine;
 //# import ui.controls.form.SimpleString;
 //# /**
@@ -53,11 +54,11 @@
 //#  * @author aqent
 //#  */
 //# public class HistoryStorage {
+//#     public static final String STORAGE_PREFIX = "hist_";
 //# 
-//#     /** Creates a new instance of HistoryStorage */
 //#     public HistoryStorage() { }
 //#     private final static Contact c = null;
-//#     private final static String store = "store_";//link this with selfjid
+//# 
 //#     private static CommandForm cmd = null;
 //#     private static ContactMessageList messageList = null;
 //# 
@@ -81,28 +82,6 @@
 //#                 break;
 //#         }
 //#    }
-//# 
-//#    public static void loadData(Contact c, RecordStore recordStore) {
-       //#ifdef CONSOLE
-//#         midlet.BombusQD.debug.add("loadRMSData " + c + "/" + recordStore,10);
-        //#endif
-//#         if (midlet.BombusQD.cf.module_history==false) return;
-//#         switch(HistoryConfig.getInstance().historyTypeIndex) {
-//#             case 0:
-//#                 startTimer(recordStore, c, 50);
-//#                 //System.out.println("get->RMS");
-//#                 break;
-//#             case 1:
-//#                 //System.out.println("get->FS");
-//#                 if(true) return;
-//#                 break;
-//#             case 2:
-//#                 //System.out.println("get->SERVER");
-//#                 if(true) return;
-//#                 break;
-//#         }
-//#    }
-//# 
 //# 
 //#if FILE_IO
 //#     private static FileIO file;
@@ -204,38 +183,42 @@
 //#         int len;
 //#         try {
 //#               if(null == recordStore) {
-//#                             String rName = getRSName(c.bareJid);
-//#                             if(rName.length()>30) rName = rName.substring(0,30);
-//#                             recordStore = RecordStore.openRecordStore(rName, true);
-//#                             messageList.getRmsData(SAVE_RMS_STORE, recordStore);//save
-//#                             rName = null;
+//#                 String rName = getRSName(c.bareJid);
+//#                 recordStore = RecordStore.openRecordStore(rName, true);
+//#                 //messageList.getRmsData(SAVE_RMS_STORE, recordStore);//save
+//#                 //rName = null;
 //#               }
 //#               baos = new ByteArrayOutputStream();
 //#               das = new DataOutputStream(baos);
+//# 
+//#               das.writeByte(message.messageType);
+//#               das.writeUTF(message.from);
 //#               das.writeUTF(message.getDayTime());
 //#               das.writeUTF(message.body);
 //# 
 //#             textData = baos.toByteArray();
-//#             len = textData.length;
+//#             //len = textData.length;
 //# 
-//#             buffer = new byte[len+1];
-//#             System.arraycopy(textData, 0, buffer, 1, len);
-//#             recordStore.addRecord(buffer, 0, buffer.length);
+//#             //buffer = new byte[len+1];
+//#             //System.arraycopy(textData, 0, buffer, 1, len);
+//#             recordStore.addRecord(textData, 0, textData.length);
 //# 
 //#          } catch (Exception ex) {
 //#                  ex.printStackTrace();
 //#          } finally {
-//#                   if (recordStore != null) {
-//#                     messageList.getRmsData(CLOSE_RMS_STORE, recordStore);
+//#                 try {
+//#                     recordStore.closeRecordStore();
 //#                     recordStore = null;
-//#                   }
-//#                   try{
-//#                      textData = buffer = null;
-//#                      buffer = new byte[0];
-//#                      textData = new byte[0];
-//#                      if (dis != null)  { das.close(); das = null; }
-//#                      if (baos != null) { baos.close(); baos = null; }
-//#                   } catch (Exception e) { }
+//#                 } catch (RecordStoreException e ) {
+//# 
+//#                 }
+//#               try{
+//#                  textData = buffer = null;
+//#                  buffer = new byte[0];
+//#                  textData = new byte[0];
+//#                  if (das != null)  { das.close(); das = null; }
+//#                  if (baos != null) { baos.close(); baos = null; }
+//#               } catch (Exception e) { }
 //#         }
 //#     }
 //# 
@@ -247,124 +230,13 @@
 //#        return null;
 //#     }
 //# 
-//#     public static RecordStore clearRecordStore(RecordStore recordStore) {
-//#         try {
-//#             int size = recordStore.getNumRecords();
-//#             if (size > 0) {
-//#               for (int i = 1; i <= size; ++i) {
-//#                  recordStore.deleteRecord(i);
-//#               }
-//#             }
-//#             recordStore.closeRecordStore();
-//#             return null;
-//#          } catch (Exception e) {
-//#              e.printStackTrace(); return null;
-//#          }
-//#     }
-//# 
-//#     private static int getRecordCount(RecordStore recordStore) {
-//#        try {
-//#          return recordStore.getNumRecords();
-//#        } catch (Exception e) {  return -1; }
-//#     }
-//# 
 //#     public static String getRSName(String bareJid) {
-//#        return store + bareJid;
+//#         String str = STORAGE_PREFIX + bareJid;
+//#         if (str.length() > 30) {
+//#             str = str.substring(0, 30);
+//#         }
+//#         return str;
 //#     }
 //# 
-//# 
-//# 
-//#     private static Timer timer;
-//#     private static LoadMessages load;
-//#     private static void startTimer(RecordStore rs, Contact c, int repeatTime) {
-//#        cmd = null;
-//#        cmd = new CommandForm(midlet.BombusQD.getInstance().display, midlet.BombusQD.sd.roster, 6 , "" , null, null);
-//#        if (timer != null) {
-//#            timer.cancel();
-//#            timer = null;
-//#        }
-//#        if ( timer == null) {
-//#            timer = new Timer();
-//#            load = new LoadMessages();
-//#            load.set(rs, c);
-//#            timer.schedule( load, 0, repeatTime );
-//#        }
-//#     }
-//# 
-//#     private static void stopTimer() {
-//#       if ( timer != null ) {
-//#           timer.cancel();
-//#           timer = null;
-//#           load = null;
-//#       }
-//#     }
-//# 
-//#     private static ByteArrayInputStream bais = null;
-//#     private static DataInputStream dis = null;
-//#     private static StringBuffer sb;
-//#     private static class LoadMessages extends TimerTask {
-//#       int posRecord;
-//#       RecordStore recordStore;
-//#       Contact c;
-//#       long timeS,timeE;
-//# 
-//#       public void set(RecordStore rs, Contact c){
-//#         posRecord = 0;
-//#         this.recordStore = rs;
-//#         this.c = c;
-//#       }
-//# 
-//#       public void run () {
-//#          if(posRecord == 0) {
-//#            cmd.setParentView(c);
-//#            timeS = System.currentTimeMillis();
-//#          }
-//#          int size = 0;
-//#          int i;
-//#          try {
-//#               byte[] msgData = null;
-//#               size = recordStore.getNumRecords();
-//#               try {
-//#                    for (i=0; i < 5; ++i) {
-//#                     posRecord++;
-//#                     msgData = recordStore.getRecord(posRecord);
-//#                           bais = new ByteArrayInputStream(msgData, 1, msgData.length - 1);
-//#                           dis = new DataInputStream(bais);
-//# 
-//#                           MultiLine item = new MultiLine(dis.readUTF(), dis.readUTF(), cmd.superWidth);
-//#                           item.selectable = true;
-//# 
-//#                           cmd.addControl(item);
-//#                    }
-//#                    msgData = null;
-//#               } catch (Exception e) {
-//#                 posRecord = size;
-//#               }
-//#             } catch (Exception e) {
-//#                 e.printStackTrace();
-//#             } finally {
-//#                 if(posRecord == size) {
-//#                    timeE = System.currentTimeMillis();
-//#                    stopTimer();
-//#                    if (size == 0) {
-//#                        SimpleString item = new SimpleString("Empty history!");
-//#                        item.setSelectable(true);
-//# 
-//#                        cmd.addControl(item);
-//#                    }
-//# 
-//#                   if (recordStore != null) {
-//#                     messageList.getRmsData(CLOSE_RMS_STORE, recordStore);
-//#                     recordStore = null;
-//#                   }
-//#                     try{
-//#                          if (dis != null) { das.close(); das = null; }
-//#                          if (baos != null) { baos.close(); baos = null; }
-//#                          if (bais != null) { bais.close(); bais = null; }
-//#                     } catch (Exception e) { }
-//#                 }
-//#             }
-//#       }
-//#     }
 //# }
 //#endif

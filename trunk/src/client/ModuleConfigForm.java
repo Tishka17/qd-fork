@@ -46,8 +46,6 @@ import util.StringLoader;
 import xmpp.EntityCaps;
 
 public class ModuleConfigForm extends DefForm implements MenuListener {
-    // private Display display;
-
     private String type;
 
     // for contacts options
@@ -83,6 +81,7 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
     private CheckBox capsState;
     private CheckBox useTabs;
     private CheckBox useLowMemory_iconmsgcollapsed;
+    private CheckBox swapSendAndSuspend;
 //#ifdef CLIPBOARD
 //#     private CheckBox useClipBoard;
 //#endif
@@ -98,8 +97,8 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
     private NumberInput messageLimit;
     private NumberInput msglistLimit;
 
+    // for autostatus config
 //#ifdef AUTOSTATUS
-//#     // for autostatus config
 //#     private CheckBox awayStatus;
 //#     private DropChoiceBox autoAwayType;
 //#     private NumberInput fieldAwayDelay;
@@ -233,9 +232,6 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 
             autoFocus = new CheckBox(SR.get(SR.MS_AUTOFOCUS), config.autoFocus);
             addControl(autoFocus);
-
-            // add min height;
-
         } else if (type.equals(SR.get(SR.MS_msgStr))) {
             msgEditType = new DropChoiceBox(display, SR.get(SR.MS_MSG_EDIT_TYPE));
             msgEditType.append(SR.get(SR.MS_MES_EDIT_OLD));
@@ -328,6 +324,9 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 //#                 addControl(useClipBoard);
 //#endif
             }
+
+            swapSendAndSuspend = new CheckBox("Swap Send and Suspend", config.swapSendAndSuspend);
+            addControl(swapSendAndSuspend);
         } else if (type.equals(SR.get(SR.MS_netStr))) {
             if (config.userAppLevel == 1) {
                 autoLoadTransports = new CheckBox(SR.get(SR.MS_AUTOCONNECT_TRANSPORTS), config.autoLoadTransports);
@@ -641,6 +640,7 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 //#                 config.useClipBoard = useClipBoard.getValue();
 //#endif
             }
+            config.swapSendAndSuspend = swapSendAndSuspend.getValue();
        } else if (type.equals(SR.get(SR.MS_netStr))) {
             if (config.userAppLevel == 1) {
                 config.autoLoadTransports = autoLoadTransports.getValue();
@@ -669,7 +669,6 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 //#endif
             }
             EntityCaps.initCaps();
-
          } else if(type.equals(SR.get(SR.MS_grStr))) {
             config.panelsState = panels.getSelectedIndex();
 

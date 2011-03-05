@@ -41,6 +41,7 @@ import conference.affiliation.AffiliationItem;
 import conference.affiliation.Affiliations;
 import conference.affiliation.ConferenceQuickPrivelegeModify;
 import disco.ServiceDiscovery;
+import history.HistoryConfig;
 import images.ActionsIcons;
 import io.file.transfer.TransferImage;
 import io.file.transfer.TransferSendFile;
@@ -173,7 +174,9 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
 //#ifdef HISTORY
 //#             if (groupType != Groups.TYPE_TRANSP && !(contact instanceof MucContact)) {
 //#                 if (midlet.BombusQD.cf.module_history) {
-//#                     addItem(SR.get(SR.MS_HISTORY_SHOW), MI_HISTORY, ActionsIcons.ICON_VERSION);
+//#                     if (HistoryConfig.historyTypeIndex == HistoryConfig.TYPE_RMS) {
+//#                         addItem(SR.get(SR.MS_HISTORY_SHOW), MI_HISTORY, ActionsIcons.ICON_VERSION);
+//#                     }
 //#                 }
 //#             }
 //#endif

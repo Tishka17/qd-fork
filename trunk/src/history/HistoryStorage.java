@@ -66,19 +66,13 @@
 //#     {
 //#         if (midlet.BombusQD.cf.module_history==false) return;
 //#         messageList = msgList;
-//#         switch(HistoryConfig.getInstance().historyTypeIndex) {
-//#             case 0:
-//#                 //System.out.println("add to->RMS");
+//# 
+//#         switch(HistoryConfig.historyTypeIndex) {
+//#             case HistoryConfig.TYPE_RMS:
 //#                 addRMSrecord(c, message, messageList.getRecordStore() );
 //#                 break;
-//#             case 1:
-//#                 //System.out.println("add to->FS");
+//#             case HistoryConfig.TYPE_FS:
 //#                 addFSMessage(message, c.bareJid);
-//#                 if(true) return;
-//#                 break;
-//#             case 2:
-//#                 //System.out.println("add to->SERVER");
-//#                 if(true) return;
 //#                 break;
 //#         }
 //#    }

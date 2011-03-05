@@ -45,10 +45,10 @@
 //# import ui.controls.form.TextInput;
 //# import locale.SR;
 //# import ui.controls.form.DropChoiceBox;
-//#ifdef GRAPHICS_MENU        
+//#ifdef GRAPHICS_MENU
 //# import ui.GMenu;
 //# import ui.GMenuConfig;
-//#endif   
+//#endif
 //# import io.file.browse.Browser;
 //# import io.file.browse.BrowserListener;
 //# 
@@ -57,42 +57,43 @@
 //#  * @author aqent
 //#  */
 //# public class HistoryConfig extends DefForm implements BrowserListener {
-//#     
+//#     public static final int TYPE_RMS = 0;
+//#     public static final int TYPE_FS = 1;
+//# 
 //#     private static HistoryConfig instance;
 //#     public void BrowserFilePathNotify(String pathSelected) {
 //#        historyFolder.setValue(pathSelected);
 //#     }
-//#     
+//# 
 //#     Command cmdPath;
 //# 
-//#     private DropChoiceBox historyType; 
-//#     private CheckBox saveHistoryBox;
+//#     private DropChoiceBox historyType;
 //#     private TextInput historyFolder;
 //#     private CheckBox windows1251;
 //#     private CheckBox translit;
-//#     
+//# 
 //#     public HistoryConfig(){}
 //#     public static HistoryConfig getInstance() {
 //#        if (instance == null) instance = new HistoryConfig();
 //#        return instance;
 //#     }
-//#     
+//# 
 //#     public static boolean msgLogConf = false;
 //#     public static int historyTypeIndex = 0;
 //#     public static String historyPath = "";
 //#     public static boolean cp1251 = false;
 //#     public static boolean transliterateFilenames = false;
-//#     
-//#     
+//# 
+//# 
 //#     /** Creates a new instance of HistoryConfig */
 //#     public HistoryConfig(Display display, Displayable pView) {
 //#         super(display, pView, SR.get(SR.MS_HISTORY_OPTIONS));
 //#         cmdPath=new Command(SR.get(SR.MS_SELECT_HISTORY_FOLDER), Command.SCREEN, 2);
 //#         loadFromStorage();
-//#         
-//#            windows1251 = new CheckBox(SR.get(SR.MS_1251_CORRECTION), cp1251); 
+//# 
+//#            windows1251 = new CheckBox(SR.get(SR.MS_1251_CORRECTION), cp1251);
 //#            translit = new CheckBox(SR.get(SR.MS_1251_TRANSLITERATE_FILENAMES), transliterateFilenames);
-//#            
+//# 
 //#            historyFolder = new TextInput(display, SR.get(SR.MS_HISTORY_FOLDER), historyPath, null, TextField.ANY);
 //#            historyType=new DropChoiceBox(display, SR.get(SR.MS_HISTORY_TYPE));
 //#            historyType.append(SR.get(SR.MS_HISTORY_RMS));//0
@@ -131,23 +132,23 @@
 //#               }
 //#               break;
 //#           }
-//#        } 
+//#        }
 //#     }
 //# 
 //#     public void cmdOk() {
 //#         destroyView();
 //#     }
-//#     
+//# 
 //# 
 //#     public void destroyView(){
 //#        saveToStorage();
-//#         saveHistoryBox = windows1251 = translit = null;
+//#         windows1251 = translit = null;
 //#         historyType = null;
 //#         historyFolder = null;
 //#         itemsList.removeAllElements();
 //#        display.setCurrent(parentView);
 //#     }
-//#     
+//# 
 //#     public void loadFromStorage(){
 //#         DataInputStream inputStream = NvStorage.ReadFileRecord("history_storage", 0);
 //#         try {
@@ -166,7 +167,7 @@
 //#             } catch (IOException ex) {}
 //# 	}
 //#     }
-//#     
+//# 
 //#     public void saveToStorage(){
 //# 	try {
 //#             DataOutputStream outputStream = NvStorage.CreateDataOutputStream();
@@ -180,12 +181,12 @@
 //#             outputStream.writeInt(historyTypeIndex);
 //#             outputStream.writeBoolean(cp1251);
 //#             outputStream.writeBoolean(transliterateFilenames);
-//#             
+//# 
 //#             NvStorage.writeFileRecord(outputStream, "history_storage", 0, true);
 //#             outputStream=null;
 //# 	} catch (IOException e) { }
 //#     }
-//#     
+//# 
 //# 
 //#     public void commandAction(Command command, Displayable displayable) {
 //#         if (command==cmdPath) {
@@ -194,15 +195,15 @@
 //#         }
 //#         destroyView();
 //#     }
-//#     
-//#     
+//# 
+//# 
 //#      public int showGraphicsMenu() {
 //#          if(menuCommands.size()==0){
 //#              cmdOk();
 //#              return -1;
 //#          }
 //#          menuItem = new GMenu(display, parentView, this, null, menuCommands);
-//#          GMenuConfig.getInstance().itemGrMenu = GMenu.HISTORY_CONFIG; 
+//#          GMenuConfig.getInstance().itemGrMenu = GMenu.HISTORY_CONFIG;
 //#          redraw();
 //#          return GMenu.HISTORY_CONFIG;
 //#      }

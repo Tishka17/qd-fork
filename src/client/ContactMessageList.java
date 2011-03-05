@@ -55,6 +55,7 @@ import archive.MessageArchive;
 //# import ui.GMenuConfig;
 //#endif
 import colors.ColorTheme;
+import history.HistoryConfig;
 import javax.microedition.rms.RecordStore;
 //#ifdef HISTORY
 //# import history.HistoryStorage;
@@ -64,11 +65,8 @@ import midlet.Commands;
 import util.ClipBoard;
 
 public final class ContactMessageList extends VirtualList implements MenuListener,MIDPTextBox.TextBoxNotify {
-
     Contact contact;
-    private boolean composing=true;
     private boolean startSelection;
-    private boolean tr = false;
 
     protected final Vector messages = new Vector(0);
     private Vector msgs;
@@ -168,18 +166,11 @@ public final class ContactMessageList extends VirtualList implements MenuListene
         }
 
 //#ifdef HISTORY
-//#         if(midlet.BombusQD.cf.module_history){
-//#             addCommand(Commands.cmdHistory);
-//#             switch(history.HistoryConfig.historyTypeIndex) {
-//#               case 0:
-//#                 addInCommand(2, Commands.cmdHistoryRMS);
-//#                 break;
-//#               case 1:
-//#                 addInCommand(2, Commands.cmdHistoryFS);
-//#                 break;
-//#               case 2:
-//#                 addInCommand(2, Commands.cmdHistorySERVER);
-//#                 break;
+//#         if (contact.origin != Constants.ORIGIN_GROUPCHAT) {
+//#             if (midlet.BombusQD.cf.module_history) {
+//#                 if (HistoryConfig.historyTypeIndex == HistoryConfig.TYPE_RMS) {
+//#                     addCommand(Commands.cmdHistory);
+//#                 }
 //#             }
 //#         }
 //#endif
@@ -316,7 +307,7 @@ public final class ContactMessageList extends VirtualList implements MenuListene
 
     public void commandAction(Command c, Displayable d) {
 //#ifdef HISTORY
-//#         if (c == Commands.cmdHistoryRMS) {
+//#         if (c == Commands.cmdHistory) {
 //#             BombusQD.sd.roster.showHistory(this, contact);
 //#             return;
 //#         }

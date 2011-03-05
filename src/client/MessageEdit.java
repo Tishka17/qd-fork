@@ -36,9 +36,6 @@ import conference.AppendNick;
 import javax.microedition.lcdui.*;
 import locale.SR;
 import io.TranslateSelect;
-//#ifdef STATS
-//# import stats.Stats;
-//#endif
 //#ifdef ARCHIVE
 import archive.ArchiveList;
 //#endif
@@ -69,8 +66,6 @@ public final class MessageEdit
 //#     DeTranslit dt;
 //#endif
 
-
-
     Command cmdSend;
 //#ifdef SMILES
     Command cmdSmile;
@@ -94,30 +89,36 @@ public final class MessageEdit
 //#     Command cmdPasteText;
 //#endif
 
-    public void initCommands(){
-          cmdSend=new Command(SR.get(SR.MS_SEND), Command.OK, 1);
+    public void initCommands() {
+
+        if (Config.getInstance().swapSendAndSuspend) {
+            cmdSend = new Command(SR.get(SR.MS_SEND), Command.BACK, 1);
+            cmdSuspend = new Command(SR.get(SR.MS_SUSPEND), Command.SCREEN, 90);
+        } else {
+            cmdSend = new Command(SR.get(SR.MS_SEND), Command.OK, 1);
+            cmdSuspend = new Command(SR.get(SR.MS_SUSPEND), Command.BACK, 90);
+        }
+
 //#ifdef SMILES
-          cmdSmile=new Command(SR.get(SR.MS_ADD_SMILE), Command.SCREEN,2);
+        cmdSmile = new Command(SR.get(SR.MS_ADD_SMILE), Command.SCREEN, 2);
 //#endif
-          cmdInsNick=new Command(SR.get(SR.MS_NICKNAMES),Command.SCREEN,3);
-          cmdInsMe=new Command(SR.get(SR.MS_SLASHME), Command.SCREEN, 4); // /me
+        cmdInsNick = new Command(SR.get(SR.MS_NICKNAMES), Command.SCREEN, 3);
+        cmdInsMe = new Command(SR.get(SR.MS_SLASHME), Command.SCREEN, 4); // /me
 //#ifdef DETRANSLIT
 //#           cmdSendInTranslit=new Command(SR.get(SR.MS_TRANSLIT), Command.SCREEN, 5);
 //#           cmdSendInDeTranslit=new Command(SR.get(SR.MS_DETRANSLIT), Command.SCREEN, 5);
 //#endif
-          cmdLastMessage=new Command(SR.get(SR.MS_PREVIOUS), Command.SCREEN, 9);
-          cmdSubj=new Command(SR.get(SR.MS_SET_SUBJECT), Command.SCREEN, 10);
-          cmdSuspend=new Command(SR.get(SR.MS_SUSPEND), Command.BACK,90);
-          cmdCancel=new Command(SR.get(SR.MS_CANCEL), Command.SCREEN,99);
+        cmdLastMessage = new Command(SR.get(SR.MS_PREVIOUS), Command.SCREEN, 9);
+        cmdSubj = new Command(SR.get(SR.MS_SET_SUBJECT), Command.SCREEN, 10);
+        cmdCancel = new Command(SR.get(SR.MS_CANCEL), Command.SCREEN, 99);
 
-          cmdTranslate=new Command(SR.get(SR.MS_TRANSLATE), Command.SCREEN ,337);
+        cmdTranslate = new Command(SR.get(SR.MS_TRANSLATE), Command.SCREEN, 337);
 //#ifdef ARCHIVE
-          cmdPaste=new Command(SR.get(SR.MS_ARCHIVE), Command.SCREEN, 6);
+        cmdPaste = new Command(SR.get(SR.MS_ARCHIVE), Command.SCREEN, 6);
 //#endif
 //#ifdef CLIPBOARD
-//#           cmdPasteText=new Command(SR.get(SR.MS_PASTE), Command.SCREEN, 8);
+//#         cmdPasteText = new Command(SR.get(SR.MS_PASTE), Command.SCREEN, 8);
 //#endif
-          //System.out.println("initCommands");
     }
 
 
@@ -262,11 +263,9 @@ public final class MessageEdit
     new Thread(this).start() ;
 //#endif
     }
+
 //************OLD MsgEdit************
 
-
-
-    private boolean evil=false;
     public Form form;
     public Ticker ticker = null;
     public TextField textField = null;//default msgEdit
@@ -337,8 +336,7 @@ public final class MessageEdit
         //System.out.println("commandAction.");
         if (body.length()==0) body=null;
 
-        int caretPos=midlet.BombusQD.cf.msgEditType>0?textField.getCaretPosition():t.getCaretPosition();
-
+        //int caretPos=midlet.BombusQD.cf.msgEditType>0?textField.getCaretPosition():t.getCaretPosition();
 
 //#ifdef ARCHIVE
         if (c == cmdPaste) {
@@ -442,7 +440,7 @@ public final class MessageEdit
 //#         if (c==cmdSendInTranslit) {
 //#             sendInTranslit=true;
 //#         }
-//# 
+//#
 //#         if (c==cmdSendInDeTranslit) {
 //#             sendInDeTranslit=true;
 //#         }

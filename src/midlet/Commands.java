@@ -57,9 +57,6 @@ public class Commands {
 //#ifdef HISTORY
 //#     public static Command cmdHistory;
 //#endif
-    public static Command cmdHistoryRMS;
-    public static Command cmdHistoryFS;
-    public static Command cmdHistorySERVER;
 //#ifdef JUICK.COM
 //#     /*
 //#     public static Command cmdJuickLastPopular ; //"", Command.SCREEN, 101);//#
@@ -145,17 +142,8 @@ public class Commands {
 //#endif
 
 //#ifdef HISTORY
-//#         cmdHistory = new Command(SR.get(SR.MS_HISTORY_OPTIONS), Command.SCREEN, 101);
+//#         cmdHistory = new Command(SR.get(SR.MS_historyStr), Command.SCREEN, 101);
 //#         cmdHistory.setImg(0x64);
-//# 
-//#         cmdHistoryRMS = new Command(SR.get(SR.MS_HISTORY_SHOW) + "(rms)", Command.SCREEN, 102);
-//#         cmdHistoryRMS.setImg(0x64);
-//# 
-//#         cmdHistoryFS = new Command(SR.get(SR.MS_HISTORY_SHOW) + "(fs)", Command.SCREEN, 103);
-//#         cmdHistoryFS.setImg(0x64);
-//# 
-//#         cmdHistorySERVER = new Command(SR.get(SR.MS_HISTORY_SHOW) + "(server)", Command.SCREEN, 104);
-//#         cmdHistorySERVER.setImg(0x64);
 //#endif
 
 //#ifdef ARCHIVE

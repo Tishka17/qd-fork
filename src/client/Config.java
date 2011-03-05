@@ -44,15 +44,12 @@ import util.StringLoader;
 import ui.Time;
 import ui.VirtualList;
 import io.NvStorage;
-import menu.MenuListener;
-//#ifdef STATS
-//# import stats.Stats;
-//#endif
 
 /**
  *
  * @author Eugene Stahov,aqent
  */
+
 public class Config {
     // Singleton
     private static Config instance;
@@ -320,6 +317,8 @@ public class Config {
     public boolean simpleContacts = false;//fast contact draw
     public int userAppLevel = 0; //0-simple, 1-advanced
 
+    public boolean swapSendAndSuspend = false;
+
     public static Config getInstance(){
 	if (instance==null) {
 	    instance=new Config();
@@ -496,90 +495,93 @@ public class Config {
         //return "/lang/ru.txt"; //unknown language ->en
     }
 
-
-
-    protected void loadBoolean(){
-        DataInputStream inputStream=NvStorage.ReadFileRecord("confBoolean", 0);
-	try {
-	    showOfflineContacts=inputStream.readBoolean();
-	    fullscreen=inputStream.readBoolean();
-	    smiles=inputStream.readBoolean();
-	    showTransports=inputStream.readBoolean();
-	    selfContact=inputStream.readBoolean();
-	    collapsedGroups=inputStream.readBoolean();
-	    ignore=inputStream.readBoolean();
-	    eventComposing=inputStream.readBoolean();
-	    autoLogin=inputStream.readBoolean();
-	    autoJoinConferences=inputStream.readBoolean();
-            popupFromMinimized=inputStream.readBoolean();
-	    notifyBlink=inputStream.readBoolean();
+    // TODO remove "minItemHeight" loading
+    protected void loadBoolean() {
+        DataInputStream inputStream = NvStorage.ReadFileRecord("confBoolean", 0);
+        try {
+            showOfflineContacts = inputStream.readBoolean();
+            fullscreen = inputStream.readBoolean();
+            smiles = inputStream.readBoolean();
+            showTransports = inputStream.readBoolean();
+            selfContact = inputStream.readBoolean();
+            collapsedGroups = inputStream.readBoolean();
+            ignore = inputStream.readBoolean();
+            eventComposing = inputStream.readBoolean();
+            autoLogin = inputStream.readBoolean();
+            autoJoinConferences = inputStream.readBoolean();
+            popupFromMinimized = inputStream.readBoolean();
+            notifyBlink = inputStream.readBoolean();
 //#ifdef MEMORY_MONITOR
 //# 	    memMonitor=inputStream.readBoolean();
 //#endif
-            autoFocus=inputStream.readBoolean();
-            storeConfPresence=inputStream.readBoolean();
-            capsState=inputStream.readBoolean();
+            autoFocus = inputStream.readBoolean();
+            storeConfPresence = inputStream.readBoolean();
+            capsState = inputStream.readBoolean();
 
-            cp1251=inputStream.readBoolean();
+            cp1251 = inputStream.readBoolean();
 
-            fileTransfer=inputStream.readBoolean(); //newMenu
-            lightState=inputStream.readBoolean();
-            notifySound=inputStream.readBoolean();
+            fileTransfer = inputStream.readBoolean(); //newMenu
+            lightState = inputStream.readBoolean();
+            notifySound = inputStream.readBoolean();
 //#ifdef AUTOSTATUS
-//#             setAutoStatusMessage=inputStream.readBoolean();
+//#             setAutoStatusMessage = inputStream.readBoolean();
 //#endif
-            autoScroll=inputStream.readBoolean();
+            autoScroll = inputStream.readBoolean();
 //#ifdef POPUPS
-            popUps=inputStream.readBoolean();
+            popUps = inputStream.readBoolean();
 //#endif
-            showResources=inputStream.readBoolean();
-            enableVersionOs=inputStream.readBoolean();
-            eventDelivery=inputStream.readBoolean();
+            showResources = inputStream.readBoolean();
+            enableVersionOs = inputStream.readBoolean();
+            eventDelivery = inputStream.readBoolean();
 
-            transliterateFilenames=inputStream.readBoolean();
-            rosterStatus=inputStream.readBoolean();
-            queryExit=inputStream.readBoolean();
-            notifyPicture=inputStream.readBoolean();
-            showBalloons=inputStream.readBoolean();
+            transliterateFilenames = inputStream.readBoolean();
+            rosterStatus = inputStream.readBoolean();
+            queryExit = inputStream.readBoolean();
+            notifyPicture = inputStream.readBoolean();
+            showBalloons = inputStream.readBoolean();
             //user-Keys=inputStream.readBoolean();
-            useTabs=inputStream.readBoolean();
-            useBoldFont=inputStream.readBoolean();
+            useTabs = inputStream.readBoolean();
+            useBoldFont = inputStream.readBoolean();
 
-            IQNotify=inputStream.readBoolean(); //IRC_LIKE
+            IQNotify = inputStream.readBoolean(); //IRC_LIKE
 //#ifdef PEP
-//#             sndrcvmood=inputStream.readBoolean();
+//#             sndrcvmood = inputStream.readBoolean();
 //#endif
 //#ifdef CLIPBOARD
-//#             useClipBoard=inputStream.readBoolean();
+//#             useClipBoard = inputStream.readBoolean();
 //#endif
 //#ifdef PEP
-//#             rcvtune=inputStream.readBoolean();
+//#             rcvtune = inputStream.readBoolean();
 //#endif
-            autoDeTranslit=inputStream.readBoolean();
+            autoDeTranslit = inputStream.readBoolean();
 //#ifdef CLIENTS_ICONS
-            showClientIcon=inputStream.readBoolean();
+            showClientIcon = inputStream.readBoolean();
 //#endif
-            executeByNum=inputStream.readBoolean();
-            showNickNames=inputStream.readBoolean();
-            adhoc=inputStream.readBoolean();
-            createMessageByFive=inputStream.readBoolean();
-            gradientBarLigth=inputStream.readBoolean();
-            shadowBar=inputStream.readBoolean();
-            autoLoadTransports=inputStream.readBoolean();
-            simpleContacts=inputStream.readBoolean();
-            minItemHeight=inputStream.readInt();
+            executeByNum = inputStream.readBoolean();
+            showNickNames = inputStream.readBoolean();
+            adhoc = inputStream.readBoolean();
+            createMessageByFive = inputStream.readBoolean();
+            gradientBarLigth = inputStream.readBoolean();
+            shadowBar = inputStream.readBoolean();
+            autoLoadTransports = inputStream.readBoolean();
+            simpleContacts = inputStream.readBoolean();
+            minItemHeight = inputStream.readInt();
 
-	    inputStream.close();
-            inputStream=null;
-	} catch (Exception e) {
+            swapSendAndSuspend = inputStream.readBoolean();
+            inputStream.close();
+            inputStream = null;
+        } catch (Exception e) {
             try {
-                if (inputStream!=null) {
+                if (inputStream != null) {
                     inputStream.close();
-                    inputStream=null;
+                    inputStream = null;
                 }
-            } catch (IOException ex) { }
-	}
+            } catch (IOException ex) {
+            }
+        }
     }
+
+    // TODO merge with loadBoolean;
     protected void loadBoolean_(){
         DataInputStream inputStream=NvStorage.ReadFileRecord("confBoolean_", 0);
 	try {
@@ -742,7 +744,6 @@ public class Config {
 	}
     }
 
-
     public boolean module_contacts = true;
     public boolean module_messages = true;
     public boolean module_network = true;
@@ -834,6 +835,8 @@ public class Config {
             outputStream.writeBoolean(autoLoadTransports);
             outputStream.writeBoolean(simpleContacts);
 			outputStream.writeInt(minItemHeight);
+
+            outputStream.writeBoolean(swapSendAndSuspend);
 
 	} catch (Exception e) { }
 	return NvStorage.writeFileRecord(outputStream, "confBoolean", 0, true);

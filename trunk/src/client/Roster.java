@@ -106,7 +106,6 @@ import javax.microedition.lcdui.Image;
 import io.file.FileIO;
 import java.io.IOException;
 import java.io.OutputStream;
-import ui.controls.form.CheckBox;
 
 //#ifdef GRAPHICS_MENU
 //# import ui.GMenu;
@@ -136,6 +135,9 @@ import Menu.RosterToolsMenu;
 //# import xmpp.extensions.JuickModule;
 //#endif
 import colors.ColorTheme;
+//#ifdef HISTORY
+//# import history.HistoryViewer;
+//#endif
 import ui.controls.form.MultiLine;
 
 public class Roster
@@ -216,7 +218,7 @@ public class Roster
         new ActiveContacts(display, pView, current);
     }
 
-   public final void showActionsMenu(Object object) {
+    public final void showActionsMenu(Object object) {
        if (isLoggedIn()) {
            if (object instanceof Contact) {
                if (((Contact)object).origin == Constants.ORIGIN_GROUPCHAT) {
@@ -226,7 +228,13 @@ public class Roster
 
            new ActionsMenu(display, this, object);
        }
-   }
+    }
+
+//#ifdef HISTORY
+//#     public final void showHistory(Displayable pView, Contact c) {
+//#         new HistoryViewer(display, pView, c);
+//#     }
+//#endif
 
     public void createMessageEdit(boolean reCreate){
          if(reCreate)

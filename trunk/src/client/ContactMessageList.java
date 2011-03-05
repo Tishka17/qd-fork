@@ -56,7 +56,7 @@ import archive.MessageArchive;
 //#endif
 import colors.ColorTheme;
 import javax.microedition.rms.RecordStore;
-//#if HISTORY
+//#ifdef HISTORY
 //# import history.HistoryStorage;
 //#endif
 import midlet.BombusQD;
@@ -102,46 +102,6 @@ public final class ContactMessageList extends VirtualList implements MenuListene
 //#         synchronized (this) {
 //#            HistoryStorage.addText(contact, msgObj, this);
 //#        }
-//#     }
-//# 
-//#     public void getRmsData(int type, RecordStore rs){
-//#       switch(type){
-//#           case 0:
-//#               //SAVE_RMS_STORE
-//#               recordStore = rs;
-//#               break;
-//#           case 1:
-//#               //CLEAR_RMS_STORE
-//#               recordStore = HistoryStorage.clearRecordStore(rs);
-//#               break;
-//#           case 2:
-//#               //CLOSE_RMS_STORE
-//#               recordStore = HistoryStorage.closeStore(rs);
-//#               break;
-//#           case 3:
-//#               //READ_ALL_DATA
-//#               String rName = HistoryStorage.getRSName(contact.bareJid);
-//#               if(rName.length() > 30) rName = rName.substring(0,30);
-//#               try {
-//#                  if(recordStore != null) {
-//#                       recordStore.closeRecordStore();
-//#                       recordStore = null;
-//#                  }
-//#               } catch (Exception e) {
-                  //#ifdef CONSOLE
-//#                   midlet.BombusQD.debug.add("errclose rms",10);
-                  //#endif
-//#               }
-//#               try {
-//#                  recordStore = RecordStore.openRecordStore(rName, true);
-//#               } catch (Exception e) {
-                  //#ifdef CONSOLE
-//#                   midlet.BombusQD.debug.add("erropen rms",10);
-                  //#endif
-//#               }
-//#               HistoryStorage.loadData(contact, recordStore);
-//#               break;
-//#       }
 //#     }
 //#endif
 
@@ -357,7 +317,8 @@ public final class ContactMessageList extends VirtualList implements MenuListene
     public void commandAction(Command c, Displayable d) {
 //#ifdef HISTORY
 //#         if (c == Commands.cmdHistoryRMS) {
-//#             getRmsData(3, null); //READ_ALL_DATA
+//#             BombusQD.sd.roster.showHistory(this, contact);
+//#             return;
 //#         }
 //#endif
         if (c == Commands.cmdxmlSkin) {

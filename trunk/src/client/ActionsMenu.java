@@ -488,7 +488,8 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
 //#endif
 //#ifdef HISTORY
 //#                 case MI_HISTORY: {
-//#                     contact.getMessageList().getRmsData(3, null);
+//#                     BombusQD.sd.roster.showHistory(BombusQD.sd.roster, contact);
+//#                     return;
 //#                 }
 //#endif
 //#ifdef SERVICE_DISCOVERY

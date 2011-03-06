@@ -787,6 +787,8 @@ public class SR {
 
      public final static short MS_SHADOW_BAR =  748;
      public final static short MS_COPY_TOPIC =  749;
+     public final static short MS_SWAP_SEND_SUSPEND =  750;
+     public final static short MS_MIN_ITEM_HEIGHT = 751;
 
 
     private static String[] localeItemsDefault = new String[0];
@@ -1539,14 +1541,16 @@ public class SR {
         "Show History",
         "AppRun count: ",
 
-	"Attention!",
-	"Wake Up!!!",
-	"Enable attention requests",
-	"Request attention",
-	"Attention sound",
+        "Attention!",
+        "Wake Up!!!",
+        "Enable attention requests",
+        "Request attention",
+        "Attention sound",
 
         "Shadow bar",
-         "Copy topic"
+         "Copy topic",
+         "Send <-> Suspend",
+         "Min item height"
     };
 
     private SR() { }

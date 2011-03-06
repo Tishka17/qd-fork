@@ -713,7 +713,7 @@ public class Roster
     public void cmdStatus() { currentReconnect=0; new StatusSelect(display, this, null); }
     public void cmdAlert() { new AlertProfile(display, this); }
 //#ifdef ARCHIVE
-    public void cmdArchive() { new ArchiveList(display , -1, null, null, null); }
+    public void cmdArchive() { new ArchiveList(display , -1, null, null); }
 //#endif
     public void cmdInfo() { new info.InfoWindow(display, this); }
 

@@ -1,5 +1,5 @@
 /*
- * archiveEdit.java
+ * ArchiveEdit.java
  *
  * Created on 20.02.2005, 21:20
  * Copyright (c) 2006-2008, Daniel Apatin (ad), http://apatin.net.ru
@@ -37,19 +37,19 @@ import client.Constants;
  *
  * @author ad
  */
-public class archiveEdit 
+public class ArchiveEdit
         //extends ExTextBox
         implements CommandListener {
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_ARCHIVE");
 //#endif
-    
+
     private Display display;
 
     private Command cmdCancel;
     private Command cmdOk;
     private Msg msg;
-    
+
     MessageArchive archive;
 
     private int pos;
@@ -57,33 +57,33 @@ public class archiveEdit
     private ArchiveList al;
 
     private String body;
-    
-    public TextBox t;      
-    
-    public archiveEdit(Display display, Displayable pView, int pos, ArchiveList al) {
+
+    public TextBox t;
+
+    public ArchiveEdit(Display display, Displayable pView, int pos, ArchiveList al) {
         t=new TextBox((pos>-1)?SR.get(SR.MS_EDIT):SR.get(SR.MS_NEW) ,null, 4096, TextField.ANY);
         this.display=display;
-        
+
         cmdCancel=new Command(SR.get(SR.MS_CANCEL), Command.BACK, 99);
         cmdOk=new Command(SR.get(SR.MS_OK), Command.OK /*Command.SCREEN*/, 1);
         archive=new MessageArchive();
 
         this.pos=pos;
         this.al=al;
-        
+
         if (pos>-1) {
             this.msg=archive.msg(pos);
             body=util.StringUtils.quoteString(msg);
         }
-        
+
         t.setString(body);
         t.addCommand(cmdOk);
         t.addCommand(cmdCancel);
         t.setCommandListener(this);
         display.setCurrent(t);
     }
-    
-    public void commandAction(Command c, Displayable d){ 
+
+    public void commandAction(Command c, Displayable d){
         body=t.getString();
         if (body.length()==0) body=null;
         if (c==cmdOk) {
@@ -97,10 +97,10 @@ public class archiveEdit
                 archive.delete(pos);
             }
             Msg newmsg=new Msg(type, from, subj, body);
-            
+
             MessageArchive.store(newmsg);
             archive.close();
-            
+
             al.reFresh();
         }
         display.setCurrent(/*parentView*/al);

@@ -15,9 +15,7 @@
 //# import javax.microedition.lcdui.Display;
 //# import javax.microedition.lcdui.Displayable;
 //# import locale.SR;
-//#ifdef CONSOLE
 //# import ui.MainBar;
-//#endif
 //# import message.MessageItem;
 //# import midlet.Commands;
 //# import util.ClipBoard;
@@ -126,7 +124,7 @@
 //#         try {
 //#             stanza =  m.toString();
 //#         } catch (Exception e) {}
-//#         new StanzaEdit(display, this, stanza).setParentView(this);
+//#         new StanzaEdit(display, this, stanza);
 //#     }
 //# 
 //#     public void commandAction(Command c, Displayable d) {

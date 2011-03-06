@@ -27,10 +27,11 @@
  */
 //#ifdef CONSOLE
 //# package console;
+//# 
+//# import archive.MessageArchive;
 //# import client.Constants;
 //# import client.Config;
 //# import client.Msg;
-//# import client.StaticData;
 //# import message.MessageList;
 //#ifndef MENU_LISTENER
 //# import javax.microedition.lcdui.Command;
@@ -54,14 +55,11 @@
 //#  * @author ad,aqent
 //#  */
 //# public class XMLList
-//#     extends MessageList {
+//#         extends MessageList {
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_CONSOLE");
 //#endif
-//# 
-//#     StanzasList stanzas;
-//#     private StaticData sd=StaticData.getInstance();
-//# 
+//#     private StanzasList stanzas;
 //#     private Command cmdNew;
 //#     private Command cmdEnableDisable;
 //#     private Command cmdPurge;
@@ -69,16 +67,23 @@
 //# 
 //#     /** Creates a new instance of XMLList */
 //#     public XMLList(Display display, Displayable pView) {
-//#         super ();
+//#         super();
 //# 
-//#         cmdNew=new Command(SR.get(SR.MS_NEW), Command.SCREEN, 5);
-//#         cmdEnableDisable=new Command(SR.get(SR.MS_ENABLE_DISABLE), Command.SCREEN, 6);
-//#         cmdPurge=new Command(SR.get(SR.MS_CLEAR_LIST), Command.SCREEN, 10);
-//#         cmdDebugLog=new Command("CREATE DEBUG LOG", Command.SCREEN, 13);
+//#         cmdNew = new Command(SR.get(SR.MS_NEW), Command.SCREEN, 5);
+//#         cmdNew.setImg(0x42);
 //# 
-//#         super.smiles=false;
+//#         cmdEnableDisable = new Command(SR.get(SR.MS_ENABLE_DISABLE), Command.SCREEN, 6);
+//#         cmdEnableDisable.setImg(0x26);
 //# 
-//#         stanzas=StanzasList.getInstance();
+//#         cmdPurge = new Command(SR.get(SR.MS_CLEAR_LIST), Command.SCREEN, 10);
+//#         cmdPurge.setImg(0x41);
+//# 
+//#         cmdDebugLog = new Command("CREATE DEBUG LOG", Command.SCREEN, 13);
+//#         cmdDebugLog.setImg(0x44);
+//# 
+//#         super.smiles = false;
+//# 
+//#         stanzas = StanzasList.getInstance();
 //# 
 //#         commandState();
 //#         addCommands();
@@ -86,12 +91,10 @@
 //# 
 //#         moveCursorHome();
 //# 
-//# 
-//#  	MainBar mainbar=new MainBar(SR.get(SR.MS_XML_CONSOLE));
-//#          setMainBarItem(mainbar);
+//#         setMainBarItem(new MainBar(SR.get(SR.MS_XML_CONSOLE)));
 //# 
 //#         attachDisplay(display);
-//#         this.parentView=pView;
+//#         this.parentView = pView;
 //#     }
 //# 
 //#     public void commandState() {
@@ -102,32 +105,34 @@
 //#ifndef GRAPHICS_MENU
 //#      addCommand(cmdBack);
 //#endif
-//#         addCommand(cmdNew); cmdNew.setImg(0x42);//ADD
-//#         addCommand(cmdDebugLog); cmdDebugLog.setImg(0x44);
+//#         addCommand(cmdNew);
+//#         addCommand(cmdDebugLog);
+//#         addCommand(Commands.cmdArch);
 //#ifdef CLIPBOARD
-//#             if (Config.getInstance().useClipBoard) {
-//#                 addCommand(Commands.cmdCopy);
-//#                 if (!ClipBoard.isEmpty()) addCommand(Commands.cmdCopyPlus);
+//#         if (Config.getInstance().useClipBoard) {
+//#             addCommand(Commands.cmdCopy);
+//#             if (!ClipBoard.isEmpty()) {
+//#                 addCommand(Commands.cmdCopyPlus);
 //#             }
+//#         }
 //#endif
-//#         addCommand(cmdEnableDisable); cmdEnableDisable.setImg(0x26);
-//#         addCommand(cmdPurge); cmdPurge.setImg(0x41);//DELETE
+//#         addCommand(cmdEnableDisable);
+//#         addCommand(cmdPurge);
 //#     }
 //# 
 //#     protected void beginPaint() {
-//#         StringBuffer str = new StringBuffer(" (")
-//#         .append(getItemCount())
-//#         .append(")");
+//#         StringBuffer str = new StringBuffer(" (").append(getItemCount()).append(")");
 //# 
-//#         if (!stanzas.enabled)
+//#         if (!stanzas.enabled) {
 //#             str.append(" - Disabled");
+//#         }
 //# 
-//#         getMainBarItem().setElementAt(str.toString(),1);
+//#         getMainBarItem().setElementAt(str.toString(), 1);
 //#     }
 //# 
-//#     public void eventOk(){
-//#        MessageItem mi = (MessageItem)messages.elementAt(cursor);
-//#        mi.onSelect(this);
+//#     public void eventOk() {
+//#         MessageItem mi = (MessageItem)messages.elementAt(cursor);
+//#         mi.onSelect(this);
 //#     }
 //# 
 //#     public int getItemCount() {
@@ -136,50 +141,55 @@
 //# 
 //#     public Msg getMessage(int index) {
 //#         try {
-//#            return stanzas.msg(index);
-//#         } catch (Exception e) { }
-//# 	return new Msg(Constants.MESSAGE_TYPE_OUT, "local", null, null);
+//#             return stanzas.msg(index);
+//#         } catch (Exception e) {
+//#         }
+//#         return new Msg(Constants.MESSAGE_TYPE_OUT, "local", null, null);
 //#     }
 //# 
-//#     public void keyGreen(){
-//# 	Msg m=getMessage(cursor);
+//#     public void keyGreen() {
+//#         Msg m = getMessage(cursor);
 //#         String stanza = "";
 //#         try {
-//#             stanza =  m.toString();
-//#         } catch (Exception e) {}
-//#         new StanzaEdit(display, this, stanza).setParentView(this);
+//#             stanza = m.toString();
+//#         } catch (Exception e) {
+//#         }
+//#         new StanzaEdit(display, this, stanza);
 //#     }
 //# 
 //#     public void commandAction(Command c, Displayable d) {
-//#         super.commandAction(c,d);
-//# 
-//# 	Msg m=getMessage(cursor);
-//#         if (c==cmdNew) {
+//#         Msg msg = getMessage(cursor);
+//#         if (c == cmdNew) {
 //#             keyGreen();
-//#         }
-//#         if (c==cmdEnableDisable) {
-//#             stanzas.enabled=!stanzas.enabled;
+//#         } else if (c == cmdEnableDisable) {
+//#             StanzasList.enabled = !StanzasList.enabled;
 //#             redraw();
 //#         }
-//# 	if (m==null) return;
-//# 
-//#         if (c==cmdPurge) {
-//#             clearReadedMessageList();
+//#         if (msg == null) {
+//#             return;
 //#         }
 //# 
+//#         if (c == cmdPurge) {
+//#             clearReadedMessageList();
+//#         } else if (c == Commands.cmdArch) {
+//#             MessageArchive.store(util.StringUtils.replaceNickTags(msg));
+//#         }
+//# 
+//#         super.commandAction(c, d);
 //#     }
 //# 
 //#     private void clearReadedMessageList() {
 //#         try {
-//#             if (cursor+1==stanzas.size()) {
+//#             if (cursor + 1 == stanzas.size()) {
 //#                 stanzas.stanzas.removeAllElements();
-//#             }
-//#             else {
-//#                 for (int i=0; i<cursor+1; i++)
+//#             } else {
+//#                 for (int i = 0; i < cursor + 1; i++) {
 //#                     stanzas.stanzas.removeElementAt(0);
+//#                 }
 //#             }
 //#             messages.removeAllElements();
-//#         } catch (Exception e) { }
+//#         } catch (Exception e) {
+//#         }
 //#         moveCursorHome();
 //#         redraw();
 //#     }
@@ -189,12 +199,13 @@
 //#     }
 //# 
 //#     public void userKeyPressed(int keyCode) {
-//#         if (keyCode=='0')
+//#         if (keyCode == '0') {
 //#             clearReadedMessageList();
+//#         }
 //#     }
 //# 
-//#     public void destroyView(){
-//# 	super.destroyView();
+//#     public void destroyView() {
+//#         super.destroyView();
 //#     }
 //# }
 //#endif

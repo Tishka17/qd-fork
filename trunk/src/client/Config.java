@@ -240,7 +240,7 @@ public class Config {
     public boolean drawScrollBgnd = false;
     public int[] cursorPos = {
                             1,  //RosterToolsMenu 0
-                            1,  //RosterItemActions 1
+                            0,  //RosterItemActions 1
                             1,  //ActivityMenu 2
                             1,  //MoodList 3
                             -1, //...

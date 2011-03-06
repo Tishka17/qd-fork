@@ -32,7 +32,6 @@
 //# import client.Msg;
 //# import client.StaticData;
 //# import message.MessageList;
-//# import java.util.Vector;
 //#ifndef MENU_LISTENER
 //# import javax.microedition.lcdui.Command;
 //#else
@@ -48,6 +47,7 @@
 //# import ui.MainBar;
 //#endif
 //# import message.MessageItem;
+//# import midlet.Commands;
 //# 
 //# /**
 //#  *
@@ -106,8 +106,8 @@
 //#         addCommand(cmdDebugLog); cmdDebugLog.setImg(0x44);
 //#ifdef CLIPBOARD
 //#             if (Config.getInstance().useClipBoard) {
-//#                 addCommand(midlet.BombusQD.commands.cmdCopy);
-//#                 if (!ClipBoard.isEmpty()) addCommand(midlet.BombusQD.commands.cmdCopyPlus);
+//#                 addCommand(Commands.cmdCopy);
+//#                 if (!ClipBoard.isEmpty()) addCommand(Commands.cmdCopyPlus);
 //#             }
 //#endif
 //#         addCommand(cmdEnableDisable); cmdEnableDisable.setImg(0x26);

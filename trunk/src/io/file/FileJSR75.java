@@ -25,7 +25,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package io.file; 
+//#ifdef FILE_IO
+package io.file;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,7 +46,7 @@ class FileJSR75 extends FileIO {
     public FileJSR75(String fileName) {
         this.fileName=fileName;
     }
-    
+
     protected void openFile() throws IOException{
         fileConnection = (javax.microedition.io.file.FileConnection) Connector.open("file:///" + fileName);
     }
@@ -60,7 +61,7 @@ class FileJSR75 extends FileIO {
         }
         return fileConnection.openOutputStream();
     }
-    
+
     public void delete() throws IOException{
         if (fileConnection==null) openFile();
         fileConnection.delete();
@@ -75,9 +76,9 @@ class FileJSR75 extends FileIO {
 
     public InputStream openInputStream() throws IOException{
         if (fileConnection==null) openFile();
-        return fileConnection.openInputStream(); 
+        return fileConnection.openInputStream();
     }
-    
+
 
     public void close() throws IOException{
         if (fileConnection!=null) fileConnection.close();
@@ -111,7 +112,7 @@ class FileJSR75 extends FileIO {
             if (directoriesOnly) {
                 if (item.endsWith("/"))
                     rd.addElement(item);
-            } else {            
+            } else {
                 rd.addElement(item);
             }
         }
@@ -122,3 +123,4 @@ class FileJSR75 extends FileIO {
         fileConnection.rename(newName);
     }
 }
+//#endif

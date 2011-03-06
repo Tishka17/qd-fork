@@ -1,5 +1,5 @@
 /*
- * userKeyExecute.java 
+ * userKeyExecute.java
  *
  * Created on 14.09.2007, 13:38
  * Copyright (c) 2006-2008, Daniel Apatin (ad), http://apatin.net.ru
@@ -58,7 +58,7 @@
 //# 
 //#     private static Config cf;
 //#     StaticData sd=StaticData.getInstance();
-//#     
+//# 
 //#     private static UserKeyExec instance;
 //#     public static UserKeyExec getInstance(){
 //# 	if (instance==null) {
@@ -72,11 +72,11 @@
 //#     private Display display;
 //# 
 //#     public Vector commandsList;
-//#     
+//# 
 //#     private void initCommands() {
 //#         commandsList=null;
 //#         commandsList=new Vector(0);
-//#         
+//# 
 //#         UserKey u = null;
 //# 
 //#         int index=0;
@@ -100,24 +100,24 @@
 //#          }
 //#         return commandNum;
 //#     }
-//#     
+//# 
 //#     public void commandExecute(Display display, int command) { //return false if key not executed
 //#         this.display=display;
 //# 
 //#         int commandId=getCommandByKey(command);
-//#         
+//# 
 //#         if (commandId<1) return;
-//#             
+//# 
 //#         boolean connected= ( sd.roster.isLoggedIn() );
 //# 
 //#         switch (commandId) {
-//#             case 1: 
+//#             case 1:
 //#                 //new ConfigForm(display, sd.roster);//?
 //#                 break;
-//#             case 2: 
+//#             case 2:
 //#                 sd.roster.cmdCleanAllMessages();
 //#                 break;
-//#             case 3: 
+//#             case 3:
 //#                 sd.roster.connectionTerminated(new Exception(SR.get(SR.MS_SIMULATED_BREAK)));
 //#                 break;
 //#ifdef POPUPS
@@ -133,12 +133,14 @@
 //#             case 5:
 //#                 sd.roster.cmdStatus();
 //#                 break;
-//#             case 6: 
+//#             case 6:
+//#ifdef FILE_IO
 //#if FILE_TRANSFER
 //#                 new io.file.transfer.TransferManager(display);
 //#endif
+//#endif
 //#                 break;
-//#             case 7: 
+//#             case 7:
 //#ifdef ARCHIVE
 //#ifdef PLUGINS
 //#                 if (sd.Archive)
@@ -146,12 +148,12 @@
 //#                     sd.roster.cmdArchive();
 //#endif
 //#                 break;
-//#             case 8: 
+//#             case 8:
 //#ifdef SERVICE_DISCOVERY
 //#                 if (connected) new ServiceDiscovery(display, null, null, false);
 //#endif
 //#                 break;
-//#             case 9: 
+//#             case 9:
 //#ifdef PRIVACY
 //#                 if (connected) new PrivacySelect(display, sd.roster);
 //#endif
@@ -170,7 +172,7 @@
 //#                 sd.roster.setLight(cf.lightState);
 //#                 cf.saveToStorage();
 //#                 break;
-//#                  
+//# 
 //#             case 13:
 //#                 sd.roster.cmdInfo();
 //#                 break;

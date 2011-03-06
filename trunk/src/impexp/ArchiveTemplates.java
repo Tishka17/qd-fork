@@ -25,7 +25,9 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-//#if IMPORT_EXPORT && ARCHIVE
+//#ifdef IMPORT_EXPORT
+//#ifdef ARCHIVE
+//#ifdef FILE_IO
 //# package impexp;
 //# 
 //# import client.Constants;
@@ -56,7 +58,7 @@
 //#     private final static String END_SUBJ = "<END_SUBJ>";
 //#     private final static String START_BODY = "<START_BODY>";
 //#     private final static String END_BODY = "<END_BODY>";
-//#     
+//# 
 //#     private MessageArchive archive;
 //# 
 //#     public ArchiveTemplates(String path, int action) {
@@ -70,24 +72,24 @@
 //#                 importArchive(path);
 //#                 break;
 //#         }
-//#         
+//# 
 //#         archive.close();
 //#     }
-//#     
+//# 
 //#     private void importArchive(String arhPath) {
 //#         Vector vector = new Vector();
-//#         
+//# 
 //#         FileIO f = FileIO.createConnection(arhPath);
 //#         byte buf[] = f.fileRead();
-//#         
+//# 
 //#         if (buf != null) {
 //#             String raw;
 //#             try {
 //#                 raw = new String(buf, "utf-8");
 //#             } catch (UnsupportedEncodingException e) {
 //#                 raw = new String(buf);
-//#             }            
-//#             
+//#             }
+//# 
 //#             try {
 //#                 int pos = 0;
 //#                 int start_pos = 0;
@@ -117,7 +119,7 @@
 //#             } catch (Exception e) {
 //#                 //System.out.println(e.toString());
 //#             }
-//#             
+//# 
 //#             for (Enumeration e = vector.elements(); e.hasMoreElements();) {
 //#                 MessageArchive.store((Msg) e.nextElement());
 //#             }
@@ -150,10 +152,10 @@
 //#             body.append(END_SUBJ).append("\r\n");
 //#             body.append(START_BODY).append(m.body).append(END_BODY).append("\r\n");
 //#             body.append(END_ITEM).append("\r\n\r\n");
-//#             
+//# 
 //#             System.out.println(body.length());
 //#         }
-//#         
+//# 
 //#         byte buf[];
 //#         try {
 //#             buf = body.toString().getBytes("utf-8");
@@ -170,4 +172,6 @@
 //#         return Time.dayLocalString(dateGmt).trim();
 //#     }
 //# }
+//#endif
+//#endif
 //#endif

@@ -17,7 +17,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
@@ -25,6 +25,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+//#ifdef FILE_IO
 package io.file;
 
 import client.Config;
@@ -44,13 +45,13 @@ public abstract class FileIO {
     protected final static int COM_MOTOROLA=2;
     protected final static int COM_SIEMENS=3;
     protected final static int JSR75_SIEMENS=4;
-    
+
     public final static int MAX_NAME_LEN=48;
-    
+
     protected static int fileSystemType;
-    
+
     protected String fileName;
-    
+
     public static FileIO createConnection(String fileName) {
         if (fileSystemType==NOT_DETECTED) {
             fileSystemType=NONE;
@@ -80,14 +81,14 @@ public abstract class FileIO {
         }
         return null;
     }
-    
+
     public Vector fileList(boolean directoriesOnly) throws IOException{
         if (fileName.length()==0) return rootDirs();
         Vector dir=dirs(directoriesOnly);
         dir.addElement("../");
         return dir;
     }
-    
+
     public byte[] fileRead() {
         InputStream is=null;
         try { is=openInputStream(); } catch (IOException e) {}
@@ -98,7 +99,7 @@ public abstract class FileIO {
         try { close(); } catch (IOException e) {}
         return b;
     }
-    
+
     public void fileWrite(byte[] bytes) {
         try { delete(); } catch (IOException ex) { }
         OutputStream os = null;
@@ -107,22 +108,23 @@ public abstract class FileIO {
         try { os.close(); os.flush(); } catch (IOException ex) { }
         try { close(); } catch (IOException ex) { }
     }
-    
+
     public abstract OutputStream openOutputStream() throws IOException;
-   
+
     public abstract InputStream openInputStream() throws IOException;
-    
+
     public abstract void close() throws IOException;
-    
+
     public abstract void delete() throws IOException;
-    
+
     public abstract void rename(String newName) throws IOException;
-    
+
     public abstract long fileSize() throws IOException;
 
     protected abstract Vector rootDirs();
-    
+
     protected abstract Vector dirs(boolean directoriesOnly) throws IOException;
 
     public abstract OutputStream openOutputStream(long pos_eof) throws IOException;
 }
+//#endif

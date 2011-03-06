@@ -1,6 +1,6 @@
 /*
  * DefForm.java
- * 
+ *
  * Created on 21.05.2008, 9:40
  *
  * Copyright (c) 2006-2008, Daniel Apatin (ad), http://apatin.net.ru
@@ -35,22 +35,22 @@ import java.util.Vector;
 //#else
 import menu.MenuListener;
 import menu.Command;
-import menu.MyMenu;
 //#endif
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
+import midlet.Commands;
 import ui.MainBar;
 import ui.VirtualElement;
 import ui.VirtualList;
-//#ifdef GRAPHICS_MENU        
+//#ifdef GRAPHICS_MENU
 //# import ui.GMenu;
-//#endif 
+//#endif
 /**
  *
  * @author ad,aqent
  */
-public class DefForm 
+public class DefForm
         extends VirtualList
         implements
 //#ifndef MENU_LISTENER
@@ -61,7 +61,7 @@ public class DefForm
     {
 
     public Display display;
-    
+
     public Vector itemsList=new Vector(0);
 
     public Command cmdCancel;
@@ -74,23 +74,23 @@ public class DefForm
 
     public DefForm(final Display display, Displayable pView, String caption) {
 	this.display=display;
-        
+
         cmdCancel = new Command(SR.get(SR.MS_BACK), Command.BACK, 99);
         setMainBarItem(new MainBar(caption));
-        
+
         superWidth=super.getWidth();
-        
-//#ifdef GRAPHICS_MENU               
+
+//#ifdef GRAPHICS_MENU
 //#         //commandState();
 //#else
-    super.commandState(); 
-//#endif        
+    super.commandState();
+//#endif
 
-        
+
 	setCommandListener(this);
-        
+
         enableListWrapping(true);
-        
+
         this.parentView=pView;
     }
 
@@ -99,16 +99,16 @@ public class DefForm
     protected VirtualElement getItemRef(int index) {
         return (VirtualElement)itemsList.elementAt(index);
     }
-    
+
     public void touchLeftPressed(){ cmdOk(); }
 
     public void touchRightPressed(){ cmdCancel(); }
-    
+
     public void commandAction(Command command, Displayable displayable) {
-	if (command==cmdCancel) {
+	if (command == cmdCancel) {
 	    cmdCancel();
 	}
-	if (command==midlet.BombusQD.commands.cmdOk) {
+	if (command == Commands.cmdOk) {
             cmdOk();
         }
     }
@@ -125,7 +125,7 @@ public class DefForm
         itemsList.removeAllElements();
 	if (display!=null) display.setCurrent(parentView);
     }
-    
+
     public final void addControl(Object obj) {
         itemsList.addElement(obj);
     }
@@ -133,58 +133,58 @@ public class DefForm
     public void cmdCancel() {
         destroyView();
     }
-    
+
     public void cmdOk() { }
-    
-//#ifdef MENU_LISTENER    
+
+//#ifdef MENU_LISTENER
     public void userKeyPressed(int keyCode){
      switch (keyCode) {
         case KEY_NUM4:
             pageLeft();
-            break; 
+            break;
         case KEY_NUM6:
             pageRight();
-            break;  
+            break;
      }
     }
-//#endif    
-    
-//#ifdef GRAPHICS_MENU 
-//#     
+//#endif
+
+//#ifdef GRAPHICS_MENU
+//# 
 //#  //   public void commandState() {
 //#ifdef MENU_LISTENER
 //#         //menuCommands.removeAllElements();
 //#endif
 //# 	//addCommand(cmdOk); //cmdOk.setImg(0x43);
-//#ifndef GRAPHICS_MENU        
+//#ifndef GRAPHICS_MENU
 //#      addCommand(cmdCancel);
-//#endif     
+//#endif
 //# //    }
-//#     
-//#else  
-    
-    
+//# 
+//#else
+
+
     public void commandState() {
 //#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
 //#endif
 	addCommand(cmdOk);
-    addCommand(cmdCancel);    
+    addCommand(cmdCancel);
    }
-    
+
 //#endif
 
- 
-    
+
+
 //#ifdef MENU_LISTENER
-    
-//#ifdef GRAPHICS_MENU  
-//#    
+
+//#ifdef GRAPHICS_MENU
+//# 
 //#     public int showGraphicsMenu() {
 //#         //System.out.println("1");
 //#         return GMenu.DEF_FORM;
 //#     }
-//#    
+//# 
 //#else
     public void showMenu() {
         commandState();
@@ -195,10 +195,10 @@ public class DefForm
             }
         }
         new MyMenu(display, parentView, this, "", null, menuCommands);
-    }   
-//#endif    
+    }
+//#endif
 
-    
+
     public String touchLeftCommand(){ return SR.get(SR.MS_OK); }
 //#endif
 }

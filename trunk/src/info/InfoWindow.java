@@ -34,25 +34,20 @@ import javax.microedition.io.ConnectionNotFoundException;
 //# import javax.microedition.lcdui.CommandListener;
 //# import javax.microedition.lcdui.Command;
 //#else
-import menu.MenuListener;
 import menu.Command;
-import menu.MyMenu;
 //#endif
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import midlet.BombusQD;
+import midlet.Commands;
 import ui.controls.form.DefForm;
-import ui.controls.form.LinkString;
 import ui.controls.form.MultiLine;
 import ui.controls.form.SpacerItem;
 //#ifdef CLIPBOARD
-//# import util.ClipBoard;
 //#endif
 import ui.controls.form.LinkString;
 //#ifdef GRAPHICS_MENU
-//# import ui.GMenu;
-//# import ui.GMenuConfig;
 //#endif
 import ui.controls.AlertBox;
 
@@ -248,7 +243,7 @@ public class InfoWindow
 
 
 //#ifndef MENU
-        super.removeCommand(midlet.BombusQD.commands.cmdOk);
+        super.removeCommand(Commands.cmdOk);
 //#ifdef CLIPBOARD
 //#         if (Config.getInstance().useClipBoard) {
 //#             addCommand(cmdOk); cmdOk.setImg(0x43);
@@ -277,9 +272,6 @@ public class InfoWindow
 //#     }
 //#endif
 
-
-
-
     public void commandState(){
 //#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
@@ -291,7 +283,6 @@ public class InfoWindow
         removeCommand(cmdCancel);
         removeCommand(cmdOk);
     }
-
 
 //#ifdef MENU_LISTENER
     /*

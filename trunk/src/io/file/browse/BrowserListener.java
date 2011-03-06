@@ -2,7 +2,7 @@
  * BrowserListener.java
  *
  * Created on 2.10.2006, 1:44
- * 
+ *
  * Copyright (c) 2005-2008, Eugene Stahov (evgs), http://bombus-im.org
  *
  * This program is free software; you can redistribute it and/or
@@ -25,6 +25,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+//#ifdef FILE_IO
 package io.file.browse;
 
 /**
@@ -34,3 +35,4 @@ package io.file.browse;
 public interface BrowserListener {
     public void BrowserFilePathNotify(String pathSelected);
 }
+//#endif

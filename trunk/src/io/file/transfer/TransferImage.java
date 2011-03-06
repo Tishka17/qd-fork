@@ -1,6 +1,5 @@
-//#ifdef FILE_TRANSFER
 /*
- * TransferImage.java 
+ * TransferImage.java
  *
  * Created on 7.08.2008, 23:47
  *
@@ -26,6 +25,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+//#ifdef FILE_IO
+//#ifdef FILE_TRANSFER
 package io.file.transfer;
 
 import images.camera.CameraImage;
@@ -46,7 +47,7 @@ import ui.controls.form.TextInput;
  * @author ad
  */
 public class TransferImage
-        extends DefForm 
+        extends DefForm
         implements CameraImageListener {
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_IMAGE_TRANSFER");
@@ -54,11 +55,11 @@ public class TransferImage
 
     private String to;
     private byte[] photo;
-    
+
     private ImageItem photoItem;
     private LinkString shot;
     private TextInput description;
-    
+
     /** Creates a new instance of TransferImage */
     public TransferImage(final Display display, Displayable pView, String recipientJid) {
         super(display, pView, SR.get(SR.MS_SEND_PHOTO));
@@ -66,18 +67,18 @@ public class TransferImage
         this.to=recipientJid;
 
         itemsList.addElement(new SimpleString(recipientJid, false));
-        
+
         shot=new LinkString(SR.get(SR.MS_CAMERASHOT)) { public void doAction() { initCamera(); } };
         itemsList.addElement(shot);
-        
+
         description = new TextInput(display, SR.get(SR.MS_DESCRIPTION), null, null, TextField.ANY);
         itemsList.addElement(description);
-        
+
         moveCursorTo(1);
         attachDisplay(display);
         this.parentView=pView;
     }
-    
+
     public void initCamera() {
         new CameraImage(display, this);
     }
@@ -91,7 +92,7 @@ public class TransferImage
             itemsList.addElement(photoItem);
         } catch (Exception e) { }
     }
-    
+
     public void cmdOk() {
         try {
             TransferTask task=new TransferTask(to, String.valueOf(System.currentTimeMillis()), "photo.png", description.getValue(), true, photo);
@@ -103,4 +104,5 @@ public class TransferImage
         } catch (Exception e) { photo=null; }
     }
 }
+//#endif
 //#endif

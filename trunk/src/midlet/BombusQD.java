@@ -86,7 +86,6 @@ public class BombusQD extends MIDlet implements Runnable
     public final static StaticData sd = StaticData.getInstance();
     public final static Config cf = Config.getInstance();
 
-    public final static Commands commands=Commands.get();
 //#ifdef CONSOLE
 //#     public final static DebugList debug = DebugList.get();
 //#endif
@@ -106,7 +105,8 @@ public class BombusQD extends MIDlet implements Runnable
 
     public BombusQD() {
         SR.changeLocale();
-	instance=this;
+
+        instance=this;
         ct=ColorTheme.getInstance();
         s=SplashScreen.getInstance(display);
         s.setProgress("Loading", 3);

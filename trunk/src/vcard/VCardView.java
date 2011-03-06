@@ -36,9 +36,6 @@ import io.file.browse.BrowserListener;
 import util.StringUtils;
 import ui.Time;
 //#endif
-//#ifdef CLIPBOARD
-//# import util.ClipBoard;
-//#endif
 //#ifdef DETRANSLIT
 //# import util.DeTranslit;
 //#endif
@@ -62,8 +59,8 @@ import ui.controls.form.LinkString;
 //#endif
 import midlet.BombusQD;
 import javax.microedition.io.ConnectionNotFoundException;
-import ui.ImageList;
 //#ifdef GRAPHICS_MENU
+//# import midlet.Commands;
 //# import ui.GMenu;
 //# import ui.GMenuConfig;
 //#endif
@@ -292,7 +289,7 @@ public class VCardView
 //#else
     super.commandState();
 //#endif
-        removeCommand(midlet.BombusQD.commands.cmdOk);
+        removeCommand(Commands.cmdOk);
         removeCommand(cmdCancel);
 
         if (vcard!=null) {

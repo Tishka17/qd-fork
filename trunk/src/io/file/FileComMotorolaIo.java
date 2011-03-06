@@ -8,7 +8,7 @@
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version. 
+ * of the License, or (at your option) any later version.
  *
  * You can also redistribute and/or modify this program under the
  * terms of the Psi License, specified in the accompanied COPYING
@@ -25,6 +25,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+//#ifdef FILE_IO
 package io.file;
 
 import java.io.IOException;
@@ -61,7 +62,7 @@ class FileComMotorolaIo extends FileIO{
         }
         return fileConnection.openOutputStream();
     }
-    
+
     public OutputStream openOutputStream(long pos_eof) throws IOException {
         if (fileConnection==null) openFile();
         if (!fileConnection.exists()) fileConnection.create();
@@ -70,7 +71,7 @@ class FileComMotorolaIo extends FileIO{
 
     public InputStream openInputStream() throws IOException {
         if (fileConnection==null) openFile();
-        return fileConnection.openInputStream(); 
+        return fileConnection.openInputStream();
     }
 
     public void close() throws IOException {
@@ -94,7 +95,7 @@ class FileComMotorolaIo extends FileIO{
         openFile();
         String[] list = fileConnection.list();
         close();
-        
+
         Vector rd=new Vector(list.length + 1);
         for (int i = 0; i < list.length; i++) {
             if (directoriesOnly & !list[i].endsWith("/")) continue;
@@ -112,3 +113,4 @@ class FileComMotorolaIo extends FileIO{
         fileConnection.rename(newName);
     }
 }
+//#endif

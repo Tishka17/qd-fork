@@ -1,6 +1,6 @@
 /*
  * LightConfigForm.java
- */ 
+ */
 
 package light;
 
@@ -8,6 +8,7 @@ import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import java.util.Vector;
+import midlet.Commands;
 import ui.controls.form.SimpleString;
 import ui.controls.form.CheckBox;
 import ui.controls.form.DefForm;
@@ -18,18 +19,13 @@ import ui.controls.form.TrackItem;
 //# import javax.microedition.lcdui.CommandListener;
 //# import javax.microedition.lcdui.Command;
 //#else
-import menu.MenuListener;
-import menu.Command;
-import menu.MyMenu;
 //#endif
-//#ifdef GRAPHICS_MENU        
-//# import ui.GMenu;
-//# import ui.GMenuConfig;
+//#ifdef GRAPHICS_MENU
 //#endif
 
 public class LightConfigForm
         extends DefForm {
-    
+
     private Display display;
 
     private CheckBox config_enabled;
@@ -41,7 +37,7 @@ public class LightConfigForm
 
     private TrackItem light_message;
     private NumberInput light_message_time;
-    //private static CheckBox lightState;    
+    //private static CheckBox lightState;
 
     // переменный шаг подсветки (Марс)
     // массив значений для каждого шага
@@ -103,24 +99,24 @@ public class LightConfigForm
         /*
         itemsList.addElement(new SpacerItem(5));
         lightState = new CheckBox(SR.get(SR.MS_FLASHLIGHT), midlet.BombusQD.cf.lightState);
-           if (phoneManufacturer==Config.SIEMENS || phoneManufacturer==Config.SIEMENS2 
-           || phoneManufacturer==Config.SONYE || phoneManufacturer==Config.NOKIA) itemsList.addElement(lightState);  
+           if (phoneManufacturer==Config.SIEMENS || phoneManufacturer==Config.SIEMENS2
+           || phoneManufacturer==Config.SONYE || phoneManufacturer==Config.NOKIA) itemsList.addElement(lightState);
          */
-        
+
         commandState();
 
         attachDisplay(display);
         this.parentView=pView;
     }
-    
+
     public void commandState() {
 //#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
 //#endif
-        addCommand(midlet.BombusQD.commands.cmdOk); //cmdOk.setImg(0x43);
+        addCommand(Commands.cmdOk);
         addCommand(cmdCancel);
     }
-   
+
     public void cmdOk() {
         light.light_control=config_enabled.getValue();
         light.light_idle=light_idle.getValue();
@@ -138,5 +134,5 @@ public class LightConfigForm
 	CustomLight.switchOn(light.light_control);
         destroyView();
     }
-           
+
 }

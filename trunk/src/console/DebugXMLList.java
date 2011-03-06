@@ -19,6 +19,7 @@
 //# import ui.MainBar;
 //#endif
 //# import message.MessageItem;
+//# import midlet.Commands;
 //# import util.ClipBoard;
 //# 
 //# /**
@@ -73,12 +74,17 @@
 //#ifdef CLIPBOARD
 //#         addCommand(copyReport); copyReport.setImg(0x44);
 //#              if (midlet.BombusQD.cf.useClipBoard) {
-//#                 addCommand(midlet.BombusQD.commands.cmdCopy);
-//#                 if (!ClipBoard.isEmpty()) addCommand(midlet.BombusQD.commands.cmdCopyPlus);
+//#                 addCommand(Commands.cmdCopy);
+//#                 if (!ClipBoard.isEmpty()) {
+//#                     addCommand(Commands.cmdCopyPlus);
+//#                 }
 //#             }
 //#endif
-//#         addCommand(cmdEnableDisable); cmdEnableDisable.setImg(0x26);
-//#         addCommand(cmdPurge); cmdPurge.setImg(0x41);//DELETE
+//#         addCommand(cmdEnableDisable);
+//#         cmdEnableDisable.setImg(0x26);
+//# 
+//#         addCommand(cmdPurge);
+//#         cmdPurge.setImg(0x41);//DELETE
 //# 
 //#     }
 //# 

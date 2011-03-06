@@ -59,14 +59,18 @@ public class ConfigForm extends DefForm implements MenuListener {
 //#ifdef AUTOSTATUS
 //#         addControl(new PluginBox(SR.get(SR.MS_AUTOSTATUS), config.module_autostatus, 1));
 //#endif
-        addControl(new PluginBox(SR.get(SR.MS_hotkeysStr), config.userKeys, 2));
+//#ifdef USER_KEYS
+//#         addControl(new PluginBox(SR.get(SR.MS_hotkeysStr), config.userKeys, 2));
+//#endif
         addControl(new PluginBox(SR.get(SR.MS_avatarStr), config.module_avatars, 3));
 //#ifdef HISTORY
 //#         addControl(new PluginBox(SR.get(SR.MS_historyStr), config.module_history, 4));
 //#endif
 
 //#ifdef IMPORT_EXPORT
+//#ifdef FILE_IO
 //#         addControl(new PluginBox(SR.get(SR.MS_ieStr), config.module_ie, 5));
+//#endif
 //#endif
         if(config.userAppLevel == 1) {
 //#ifdef AUTOTASK
@@ -108,10 +112,12 @@ public class ConfigForm extends DefForm implements MenuListener {
 //#             }
 //#endif
 //#ifdef IMPORT_EXPORT
+//#ifdef FILE_IO
 //#         } else if(text.equals(SR.get(SR.MS_ieStr))) {
 //#             if (!config.module_ie) {
 //#                 return null;
 //#             }
+//#endif
 //#endif
 //#ifdef AUTOTASK
 //#         } else if(text.equals(SR.get(SR.MS_taskstr))) {
@@ -149,8 +155,10 @@ public class ConfigForm extends DefForm implements MenuListener {
         } else if (type.equals(SR.get(SR.MS_fontsStr))) {
             display.setCurrent(new font.ConfigFonts(display, this));
 //#ifdef IMPORT_EXPORT
+//#ifdef FILE_IO
 //#         } else if(type.equals(SR.get(SR.MS_ieStr))) {
 //#             new impexp.IEMenu(display, this);
+//#endif
 //#endif
         } else if (type.equals(SR.get(SR.MS_notifyStr))) {
             display.setCurrent(new alert.AlertCustomizeForm(display, this));

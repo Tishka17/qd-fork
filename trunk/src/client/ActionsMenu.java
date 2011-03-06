@@ -43,8 +43,12 @@ import conference.affiliation.ConferenceQuickPrivelegeModify;
 import disco.ServiceDiscovery;
 import history.HistoryConfig;
 import images.ActionsIcons;
+//#ifdef FILE_IO
+//#ifdef FILE_TRANSFER
 import io.file.transfer.TransferImage;
 import io.file.transfer.TransferSendFile;
+//#endif
+//#endif
 import java.util.Enumeration;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
@@ -279,10 +283,10 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
             }
 //#endif
 
+//#ifdef FILE_IO
 //#ifdef FILE_TRANSFER
             if (groupType != Groups.TYPE_TRANSP && midlet.BombusQD.cf.fileTransfer) {
                 if (groupType != Groups.TYPE_SELF) {
-//#ifdef FILE_IO
 //#ifdef PLUGINS
 //#                     if (sd.FileTransfer)
 //#endif
@@ -296,9 +300,9 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                             addItem(SR.get(SR.MS_SEND_PHOTO), MI_SEND_PHOTO, ActionsIcons.ICON_SEND_FILE);
                         }
                     }
-//#endif
                 }
             }
+//#endif
 //#endif
         } else {
             Group group = (Group) item;
@@ -592,15 +596,15 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                 case MI_SEND_PRESENCE:
                     new StatusSelect(display, this, contact);
                     return;
-//#ifdef FILE_TRANSFER
 //#ifdef FILE_IO
-                case MI_SEND_FILE:
-                    new TransferSendFile(display, this, contact.getJid());
-                    return;
-//#endif
+//#ifdef FILE_TRANSFER
+                 case MI_SEND_FILE:
+                     new TransferSendFile(display, this, contact.getJid());
+                     return;
                 case MI_SEND_PHOTO:
                     new TransferImage(display, this, contact.getJid());
                     return;
+//#endif
 //#endif
             }
             if (contact instanceof MucContact) {

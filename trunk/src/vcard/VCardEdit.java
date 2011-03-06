@@ -4,13 +4,12 @@
  * Created on 30 Май 2008 г., 9:25
  *
  * To change this template, choose Tools | Template Manager
- * and open the template in the editor. 
+ * and open the template in the editor.
  */
 
 package vcard;
 
 import client.StaticData;
-import client.Config;
 //#if (FILE_IO)
 //#ifdef DETRANSLIT
 //# import util.DeTranslit;
@@ -35,6 +34,7 @@ import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
+import midlet.Commands;
 
 import ui.Time;
 import util.StringUtils;
@@ -45,7 +45,7 @@ import ui.controls.form.SimpleString;
 import ui.controls.form.TextInput;
 import ui.controls.form.LinkString;
 
-//#ifdef GRAPHICS_MENU        
+//#ifdef GRAPHICS_MENU
 //# import ui.GMenu;
 //# import ui.GMenuConfig;
 //#endif
@@ -54,14 +54,14 @@ import ui.controls.form.LinkString;
  * @author ad
  */
 public class VCardEdit
-        extends DefForm 
+        extends DefForm
         implements Runnable
 //#if (FILE_IO)
         , BrowserListener
 //#endif
         , CameraImageListener
 {
-    
+
     Command cmdPublish;
     Command cmdRefresh;
 //#if FILE_IO
@@ -73,7 +73,7 @@ public class VCardEdit
 
     private Vector items=new Vector(0);
     private VCard vcard;
-    
+
     private ImageItem photoItem;
 
     private int st=-1;
@@ -82,12 +82,12 @@ public class VCardEdit
     private SimpleString noPhoto=new SimpleString(SR.get(SR.MS_NO_PHOTO), false);
     private SimpleString badFormat=new SimpleString(SR.get(SR.MS_UNSUPPORTED_FORMAT), false);
     private SimpleString photoTooLarge=new SimpleString(SR.get(SR.MS_PHOTO_TOO_LARGE), false);
-    
+
     private LinkString publish;
 
     public VCardEdit(Display display, Displayable pView, VCard vcard) {
         super(display, pView, SR.get(SR.MS_VCARD)+" "+vcard.getNickName());
-        
+
         cmdPublish=new Command(SR.get(SR.MS_PUBLISH), Command.OK, 1);
         cmdRefresh=new Command(SR.get(SR.MS_REFRESH), Command.SCREEN, 2);
 //#if FILE_IO
@@ -96,7 +96,7 @@ public class VCardEdit
 //#endif
         cmdDelPhoto=new Command(SR.get(SR.MS_CLEAR_PHOTO), Command.SCREEN,5);
         cmdCamera=new Command(SR.get(SR.MS_CAMERA), Command.SCREEN,6);
-        
+
         this.display=display;
         this.vcard=vcard;
 
@@ -108,12 +108,12 @@ public class VCardEdit
                 int len=data.length();
                 if (data.length()>500)
                     data=data.substring(0, 494)+"<...>";
-            } 
+            }
             itemsList.addElement(new TextInput(display, name, data, null, TextField.ANY));
         }
 
         publish=new LinkString(SR.get(SR.MS_PUBLISH)) { public void doAction() { publish(); } };
-        
+
         setPhoto();
 
         commandState();
@@ -121,7 +121,7 @@ public class VCardEdit
         attachDisplay(display);
         this.parentView=pView;
     }
-    
+
     public void publish() {
         for (int index=0; index<vcard.getCount(); index++) {
             try {
@@ -134,7 +134,7 @@ public class VCardEdit
         new Thread(this).start();
         destroyView();
     }
-    
+
 
     public void commandAction(Command c, Displayable d) {
         if (c==cmdCancel) {
@@ -144,7 +144,7 @@ public class VCardEdit
             VCard.request(vcard.getJid(), vcard.getId().substring(5));
             destroyView();
         }
-        
+
 //#if FILE_IO
         if (c==cmdLoadPhoto) {
             st=1;
@@ -169,7 +169,7 @@ public class VCardEdit
         super.commandAction(c, d);
     }
 
-    
+
     public void run() {
         StaticData.getInstance().roster.theStream.send(vcard.constructVCard());
         //System.out.println(vcard.constructVCard());
@@ -230,7 +230,7 @@ public class VCardEdit
             itemsList.removeElement(badFormat);
             itemsList.removeElement(photoItem);
             itemsList.removeElement(photoTooLarge);
-            
+
             itemsList.removeElement(publish);
         } catch (Exception e) { }
 
@@ -251,26 +251,26 @@ public class VCardEdit
             itemsList.addElement(noPhoto);
         }
         //itemsList.addElement(endVCard);
-        
+
         itemsList.addElement(publish);
      }
 
-     
-     
-   
+
+
+
     public void commandState(){
-//#ifdef MENU_LISTENER        
+//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
-//#endif        
-        
-//#ifdef GRAPHICS_MENU               
+//#endif
+
+//#ifdef GRAPHICS_MENU
 //#         //super.commandState();
 //#else
-    super.commandState(); 
+    super.commandState();
 //#endif
-        removeCommand(midlet.BombusQD.commands.cmdOk);
+        removeCommand(Commands.cmdOk);
         removeCommand(cmdCancel);
-        
+
         addCommand(cmdPublish); cmdPublish.setImg(0x50);
         addCommand(cmdRefresh); cmdRefresh.setImg(0x73);
 //#if FILE_IO
@@ -281,17 +281,17 @@ public class VCardEdit
         if (cameraAvailable!=null) if (cameraAvailable.startsWith("true"))
             addCommand(cmdCamera); cmdCamera.setImg(0x75);
         addCommand(cmdDelPhoto); cmdDelPhoto.setImg(0x76);
-        
 
-//#ifndef GRAPHICS_MENU        
+
+//#ifndef GRAPHICS_MENU
      addCommand(cmdCancel);
-//#endif     
+//#endif
     }
-   
+
 //#ifdef MENU_LISTENER
     public String touchLeftCommand(){ return SR.get(SR.MS_MENU); }
-    
- //#ifdef GRAPHICS_MENU    
+
+ //#ifdef GRAPHICS_MENU
 //#     public void touchLeftPressed(){
 //#         showGraphicsMenu();
 //#     }
@@ -309,9 +309,9 @@ public class VCardEdit
     public void showMenu() {
         commandState();
         new MyMenu(display, parentView, this, SR.get(SR.MS_PUBLISH), null, menuCommands);
-   }   
-//#endif   
-    
+   }
+//#endif
 
-//#endif           
+
+//#endif
 }

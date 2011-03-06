@@ -32,7 +32,9 @@ import colors.ColorTheme;
 import font.FontCache;
 import javax.microedition.lcdui.*;
 import client.Config;
-import client.SimpleItemChat;
+//#ifdef CLASSIC_CHAT
+//# import client.SimpleItemChat;
+//#endif
 import client.StaticData;
 import client.Contact;
 import locale.SR;
@@ -1756,16 +1758,20 @@ public abstract class VirtualList
 //#         if (keyCode==greenKeyCode) {
 //#            System.out.println("popupGreen");
 //#             if (getPopUp().getContact()!=null) {
+//#ifdef CLASSIC_CHAT
 //#                    if(midlet.BombusQD.cf.module_classicchat){
 //#                       new SimpleItemChat(midlet.BombusQD.getInstance().display,sd.roster,sd.roster.getContact(popup.getContact(), false));
 //#                    } else {
+//#endif
 //#                        Contact c = sd.roster.getContact(popup.getContact(), false);
 //#                        if(c.getChatInfo().getMessageCount()<=0 ){
 //#                           midlet.BombusQD.sd.roster.createMessageEdit(c, c.msgSuspended, this, true);
 //#                           return;
 //#                        }
 //#                        midlet.BombusQD.getInstance().display.setCurrent(c.getMessageList());
+//#ifdef CLASSIC_CHAT
 //#                    }
+//#endif
 //#                 popup.next();
 //#                 return;
 //#             } else if (phoneManufacturer==Config.MOTO || phoneManufacturer==Config.NOKIA || phoneManufacturer==Config.NOKIA_9XXX) {

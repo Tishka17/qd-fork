@@ -24,99 +24,107 @@
  *
  */
 
-package client;
-import javax.microedition.lcdui.*;
+//#ifdef CLASSIC_CHAT
+//# package client;
+//# 
+//# import javax.microedition.lcdui.*;
 //#ifdef CONSOLE
 //#endif
-import util.StringUtils;
-import conference.AppendNick;
+//# import util.StringUtils;
+//# import conference.AppendNick;
 //#ifndef GRAPHICS_MENU
-import Menu.RosterToolsMenu;
+//# import Menu.RosterToolsMenu;
 //#endif
-
-public class SimpleItemChat implements CommandListener {
-
-  private Display display;
-  Displayable parentView;
-
-  private Form form;
-  private Command exit;
-  public TextField txtField;
-
-  private Command cmdSend;
-  private Command cmdInsNick;
-  private Command cmdInsMe; // /me
-  private Command cmdCancel;
-  Contact contact;
-
-  public TextField msgTF;
-  public ClassicChat scroller;
-
-
-
-  public SimpleItemChat(Display display, Displayable pView,Contact contact) {
-    this.display=display;
-    this.contact=contact;
-
-    StaticData.getInstance().roster.activeContact=contact;
-    contact.setIncoming(0);
-
-    cmdSend=new Command(locale.SR.get(locale.SR.MS_SEND), Command.SCREEN, 1);
-    cmdInsNick=new Command(locale.SR.get(locale.SR.MS_NICKNAMES),Command.SCREEN,6);
-    cmdInsMe=new Command(locale.SR.get(locale.SR.MS_SLASHME), Command.SCREEN, 5); ; // /me
-    cmdCancel=new Command(locale.SR.get(locale.SR.MS_BACK), Command.BACK, 2);
-
-    form = new Form(contact.getJid());
-    int width = form.getWidth();
-    int height = form.getHeight();
-
-    msgTF = new TextField(null, null, 1024, 0);
-    scroller = new ClassicChat(null, width, Config.getInstance().classicChatHeight , contact);
-
-    Config.getInstance().width_classic=width;
-
-    form.append(scroller);
-    form.append(msgTF);
-    form.addCommand(cmdCancel);
-    form.addCommand(cmdSend);
-    form.addCommand(cmdInsNick);
-    form.addCommand(cmdInsMe);
-    form.setCommandListener(this);
-
-    contact.scroller=scroller;
-
-    int size = contact.getChatInfo().msgs.size();
-      for (int i = 0; i<size; i++) {
-         String msg = contact.getChatInfo().msgs.elementAt(i).toString();
-            if (((Msg)contact.getChatInfo().msgs.elementAt(i)).unread==true){
-              ((Msg)contact.getChatInfo().msgs.elementAt(i)).unread=false;
-            }
-         StringUtils.addClassicChatMsg(msg,width,scroller);
-      }
-    contact.getChatInfo().reEnumCounts();
-
-    display.setCurrent(form);
-    this.parentView=pView;
-    scroller.setDisplay(display,parentView);
-  }
-
-  public void commandAction(Command c, Displayable s) {
-    if (c == cmdSend){
-        String msg = msgTF.getString().trim();
-      if ((msg != null) && (!msg.equals("")) && msg.length()>=1){
-        StaticData.getInstance().roster.sendMessage(contact, null, msg , null, null);
-        msgTF.delete(0,msgTF.size());
-      }
-    }
-    if (c == cmdInsNick){
-         new AppendNick(display, display.getCurrent(), contact, msgTF.getCaretPosition() , msgTF, null, true); return;
-    }
-    if (c == cmdInsMe){
-        msgTF.setString("/me ");
-    }
-    if (c == cmdCancel){
-        display.setCurrent(parentView);
-    }
-  }
-}
-
+//# 
+//# public class SimpleItemChat implements CommandListener {
+//# 
+//#   private Display display;
+//#   Displayable parentView;
+//# 
+//#   private Form form;
+//#   //private Command exit;
+//#   public TextField txtField;
+//# 
+//#   private Command cmdSend;
+//#   private Command cmdInsNick;
+//#   private Command cmdInsMe; // /me
+//#   private Command cmdCancel;
+//#   Contact contact;
+//# 
+//#   public TextField msgTF;
+//# 
+//#ifdef CLASSIC_CHAT
+//#   public ClassicChat scroller;
+//#endif
+//# 
+//# 
+//#   public SimpleItemChat(Display display, Displayable pView,Contact contact) {
+//#     this.display=display;
+//#     this.contact=contact;
+//# 
+//#     StaticData.getInstance().roster.activeContact=contact;
+//#     contact.setIncoming(0);
+//# 
+//#     cmdSend=new Command(locale.SR.get(locale.SR.MS_SEND), Command.SCREEN, 1);
+//#     cmdInsNick=new Command(locale.SR.get(locale.SR.MS_NICKNAMES),Command.SCREEN,6);
+//#     cmdInsMe=new Command(locale.SR.get(locale.SR.MS_SLASHME), Command.SCREEN, 5); ; // /me
+//#     cmdCancel=new Command(locale.SR.get(locale.SR.MS_BACK), Command.BACK, 2);
+//# 
+//#     form = new Form(contact.getJid());
+//#     int width = form.getWidth();
+//#     int height = form.getHeight();
+//# 
+//#     msgTF = new TextField(null, null, 1024, 0);
+//#ifdef CLASSIC_CHAT
+//#     scroller = new ClassicChat(null, width, Config.getInstance().classicChatHeight , contact);
+//#endif
+//# 
+//#     Config.getInstance().width_classic=width;
+//# 
+//#     form.append(scroller);
+//#     form.append(msgTF);
+//#     form.addCommand(cmdCancel);
+//#     form.addCommand(cmdSend);
+//#     form.addCommand(cmdInsNick);
+//#     form.addCommand(cmdInsMe);
+//#     form.setCommandListener(this);
+//# 
+//#ifdef CLASSIC_CHAT
+//#     contact.scroller=scroller;
+//#endif
+//# 
+//#     int size = contact.getChatInfo().msgs.size();
+//#       for (int i = 0; i<size; i++) {
+//#          String msg = contact.getChatInfo().msgs.elementAt(i).toString();
+//#             if (((Msg)contact.getChatInfo().msgs.elementAt(i)).unread==true){
+//#               ((Msg)contact.getChatInfo().msgs.elementAt(i)).unread=false;
+//#             }
+//#          StringUtils.addClassicChatMsg(msg,width,scroller);
+//#       }
+//#     contact.getChatInfo().reEnumCounts();
+//# 
+//#     display.setCurrent(form);
+//#     this.parentView=pView;
+//#     scroller.setDisplay(display,parentView);
+//#   }
+//# 
+//#   public void commandAction(Command c, Displayable s) {
+//#     if (c == cmdSend){
+//#         String msg = msgTF.getString().trim();
+//#       if ((msg != null) && (!msg.equals("")) && msg.length()>=1){
+//#         StaticData.getInstance().roster.sendMessage(contact, null, msg , null, null);
+//#         msgTF.delete(0,msgTF.size());
+//#       }
+//#     }
+//#     if (c == cmdInsNick){
+//#          new AppendNick(display, display.getCurrent(), contact, msgTF.getCaretPosition() , msgTF, null, true); return;
+//#     }
+//#     if (c == cmdInsMe){
+//#         msgTF.setString("/me ");
+//#     }
+//#     if (c == cmdCancel){
+//#         display.setCurrent(parentView);
+//#     }
+//#   }
+//# }
+//#endif

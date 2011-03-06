@@ -102,9 +102,11 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 //#endif
 
     // for classic chat config
-    private CheckBox usePhoneTheme;
-    private NumberInput classicChatHeight;
-    private NumberInput lineCount;
+//#ifdef CLASSIC_CHAT
+//#     private CheckBox usePhoneTheme;
+//#     private NumberInput classicChatHeight;
+//#     private NumberInput lineCount;
+//#endif
 
     // for app config
     private CheckBox autoLogin;
@@ -520,24 +522,26 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 //#             awayStatus = new CheckBox(SR.get(SR.MS_AUTOSTATUS_MESSAGE), config.setAutoStatusMessage);
 //#             addControl(awayStatus);
 //#endif
-        } else if (type.equals(SR.get(SR.MS_clchatStr))) {
-            addControl(new SimpleString(SR.get(SR.MS_CLCHAT_ON), true));
-
-            usePhoneTheme = new CheckBox(SR.get(SR.MS_CLCHAT_BGNG_PHONE), config.usePhoneTheme);
-            addControl(usePhoneTheme);
-
-            classicChatHeight = new NumberInput(display,SR.get(SR.MS_CLCHAT_HEIGHT), Integer.toString(config.classicChatHeight), 80, 320);
-            addControl(classicChatHeight);
-
-            lineCount = new NumberInput(display, SR.get(SR.MS_CLCHAT_MSGLIMIT), Integer.toString(config.lineCount), 1, 1000);
-            itemsList.addElement(lineCount);
-            itemsList.addElement(new SpacerItem(10));
+//#ifdef CLASSIC_CHAT
+//#         } else if (type.equals(SR.get(SR.MS_clchatStr))) {
+//#             addControl(new SimpleString(SR.get(SR.MS_CLCHAT_ON), true));
+//# 
+//#             usePhoneTheme = new CheckBox(SR.get(SR.MS_CLCHAT_BGNG_PHONE), config.usePhoneTheme);
+//#             addControl(usePhoneTheme);
+//# 
+//#             classicChatHeight = new NumberInput(display,SR.get(SR.MS_CLCHAT_HEIGHT), Integer.toString(config.classicChatHeight), 80, 320);
+//#             addControl(classicChatHeight);
+//# 
+//#             lineCount = new NumberInput(display, SR.get(SR.MS_CLCHAT_MSGLIMIT), Integer.toString(config.lineCount), 1, 1000);
+//#             itemsList.addElement(lineCount);
+//#             itemsList.addElement(new SpacerItem(10));
+//#endif
         }
         setCommandListener(this);
         attachDisplay(display);
         this.parentView = pView;
-    }
 
+    }
 
     public void cmdOk() {
         Config config = Config.getInstance();
@@ -720,10 +724,12 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 //#             config.autoAwayDelay = Integer.parseInt(fieldAwayDelay.getValue());
 //#             config.setAutoStatusMessage = awayStatus.getValue();
 //#endif
-        } else if (type.equals(SR.get(SR.MS_clchatStr))) {
-            config.usePhoneTheme = usePhoneTheme.getValue();
-            config.classicChatHeight = Integer.parseInt(classicChatHeight.getValue());
-            config.lineCount = Integer.parseInt(lineCount.getValue());
+//#ifdef CLASSIC_CHAT
+//#         } else if (type.equals(SR.get(SR.MS_clchatStr))) {
+//#             config.usePhoneTheme = usePhoneTheme.getValue();
+//#             config.classicChatHeight = Integer.parseInt(classicChatHeight.getValue());
+//#             config.lineCount = Integer.parseInt(lineCount.getValue());
+//#endif
         }
         destroyView();
     }

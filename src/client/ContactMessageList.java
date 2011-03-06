@@ -55,7 +55,9 @@ import archive.MessageArchive;
 //# import ui.GMenuConfig;
 //#endif
 import colors.ColorTheme;
-import history.HistoryConfig;
+//#ifdef HISTORY
+//# import history.HistoryConfig;
+//#endif
 import javax.microedition.rms.RecordStore;
 //#ifdef HISTORY
 //# import history.HistoryStorage;

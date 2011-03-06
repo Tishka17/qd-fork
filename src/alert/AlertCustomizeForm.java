@@ -42,22 +42,23 @@ import ui.controls.form.DropChoiceBox;
 import ui.controls.form.SpacerItem;
 import ui.controls.form.TrackItem;
 import ui.controls.form.NumberInput;
-import ui.controls.form.LinkString;
 import util.StringLoader;
 import java.util.Enumeration;
 //#ifndef MENU_LISTENER
 //# import javax.microedition.lcdui.CommandListener;
 //# import javax.microedition.lcdui.Command;
 //#else
-import menu.Command;
 //#endif
 //#ifdef GRAPHICS_MENU
+//# import midlet.Commands;
+//# import menu.Command;
 //# import ui.GMenu;
 //# import ui.GMenuConfig;
 //#endif
 //#ifdef LIGHT_CONTROL
 //# import light.*;
 //# import midlet.Commands;
+//# import ui.controls.form.LinkString;
 //#endif
 
 public class AlertCustomizeForm

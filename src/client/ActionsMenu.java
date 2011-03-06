@@ -41,7 +41,9 @@ import conference.affiliation.AffiliationItem;
 import conference.affiliation.Affiliations;
 import conference.affiliation.ConferenceQuickPrivelegeModify;
 import disco.ServiceDiscovery;
-import history.HistoryConfig;
+//#ifdef HISTORY
+//# import history.HistoryConfig;
+//#endif
 import images.ActionsIcons;
 //#ifdef FILE_IO
 //#ifdef FILE_TRANSFER

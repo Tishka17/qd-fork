@@ -2593,7 +2593,7 @@ public class Roster
                     if (mucGrp.selfContact.getJid().equals(message.getFrom())) {
                         m.messageType=Constants.MESSAGE_TYPE_OUT;
                         m.unread=false;
-                        m.highlite=midlet.BombusQD.cf.selectOutMessages;
+                        m.highlite = false;
                     } else {
 //#ifdef LIGHT_CONTROL
 //#                         CustomLight.message();
@@ -2893,10 +2893,9 @@ public class Roster
                     }
                     if ((ti==Constants.PRESENCE_ONLINE || ti==Constants.PRESENCE_CHAT) && notifyReady(-111)) {
 //#if USE_ROTATOR
-                     if(midlet.BombusQD.cf.useLowMemory_userotator==false){
-                        if (midlet.BombusQD.cf.notifyBlink)
+                        if (midlet.BombusQD.cf.notifyBlink) {
                             c.setNewContact();
-                     }
+                        }
 //#endif
                         if (midlet.BombusQD.cf.notifyPicture) {
                             if (c.getGroupType()!=Groups.TYPE_TRANSP)

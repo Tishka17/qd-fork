@@ -72,12 +72,9 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
     private CheckBox createMessageByFive;
     private CheckBox storeConfPresence;
     private CheckBox showCollapsedPresences;
-    private CheckBox autoScroll;
-    private CheckBox selectOutMessages;
     private CheckBox showNickNames;
     private CheckBox timePresence;
     private CheckBox savePos;
-    private CheckBox boldNicks;
     private CheckBox capsState;
     private CheckBox useTabs;
     private CheckBox useLowMemory_iconmsgcollapsed;
@@ -125,14 +122,12 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
     // for interface config
     private CheckBox gradient_cursor;
     private CheckBox showBaloons;
-    private CheckBox useLowMemory_userotator;
 //#ifdef POPUPS
     private CheckBox popUps;
 //#endif
 //#ifdef MEMORY_MONITOR
 //#     private CheckBox memMon;
 //#endif
-    private CheckBox drawScrollBgnd;
     private CheckBox gradientBarLigth;
     private CheckBox shadowBar;
     private CheckBox drawMenuCommand;
@@ -277,9 +272,6 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
                 addControl(showCollapsedPresences);
             }
 
-            autoScroll = new CheckBox(SR.get(SR.MS_AUTOSCROLL), config.autoScroll);
-            addControl(autoScroll);
-
 //#ifdef DETRANSLIT
 //#             autoDetranslit = new CheckBox(SR.get(SR.MS_AUTODETRANSLIT), config.autoDeTranslit);
 //#             addControl(autoDetranslit);
@@ -293,13 +285,7 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 
                 showNickNames = new CheckBox(SR.get(SR.MS_SHOW_NACKNAMES), config.showNickNames);
                 addControl(showNickNames);
-
-                boldNicks = new CheckBox(SR.get(SR.MS_BOLD_AND_COLORS_NICKS), config.boldNicks);
-                addControl(boldNicks);
             }
-
-            selectOutMessages = new CheckBox(SR.get(SR.MS_SELECT_OUT_MESSAGES), config.selectOutMessages);
-            addControl(selectOutMessages);
 
             useTabs = new CheckBox(SR.get(SR.MS_EMULATE_TABS), config.useTabs);
             addControl(useTabs);
@@ -438,14 +424,8 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 //#              memMon = new CheckBox(SR.get(SR.MS_HEAP_MONITOR), config.memMonitor);
 //#              addControl(memMon);
 //#endif
-                useLowMemory_userotator = new CheckBox(SR.get(SR.MS_ANIMATION), config.useLowMemory_userotator);
-                addControl(useLowMemory_userotator);
-
                 shadowBar = new CheckBox(SR.get(SR.MS_SHADOW_BAR), config.shadowBar);
                 addControl(shadowBar);
-
-                drawScrollBgnd = new CheckBox(SR.get(SR.MS_BGND_SCROLL),config.drawScrollBgnd);
-                addControl(drawScrollBgnd);
             }
 
             drawMenuCommand = new CheckBox(SR.get(SR.MS_SHOW_TIME_TRAFFIC), config.showTimeTraffic);
@@ -607,8 +587,6 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
                 config.showCollapsedPresences = showCollapsedPresences.getValue();
             }
 
-            config.autoScroll = autoScroll.getValue();
-
 //#ifdef DETRANSLIT
 //#             config.autoDeTranslit = autoDetranslit.getValue();
 //#endif
@@ -616,10 +594,8 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
                 config.timePresence = timePresence.getValue();
                 config.showNickNames = showNickNames.getValue();
                 config.savePos = savePos.getValue();
-                config.boldNicks = boldNicks.getValue();
             }
 
-            config.selectOutMessages = selectOutMessages.getValue();
             config.useTabs = useTabs.getValue();
             config.capsState = capsState.getValue();
 
@@ -688,9 +664,7 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 //#ifdef MEMORY_MONITOR
 //#              config.memMonitor = VirtualList.memMonitor = memMon.getValue();
 //#endif
-                config.useLowMemory_userotator = useLowMemory_userotator.getValue();
                 config.shadowBar = shadowBar.getValue();
-                config.drawScrollBgnd = drawScrollBgnd.getValue();
             }
 
             config.showTimeTraffic = VirtualList.showTimeTraffic = drawMenuCommand.getValue();

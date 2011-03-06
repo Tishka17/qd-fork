@@ -270,10 +270,8 @@ public final class ContactMessageList extends VirtualList implements MenuListene
 
 
     private void forceScrolling() { //by voffk
-        if (midlet.BombusQD.cf.autoScroll) {
-            if (cursor >= (messages.size() - 2)) {
-                moveCursorEnd();
-            }
+        if (cursor >= (messages.size() - 2)) {
+            moveCursorEnd();
         }
     }
 
@@ -346,15 +344,15 @@ public final class ContactMessageList extends VirtualList implements MenuListene
 //#             try {
 //#                 ClipBoard.add(util.StringUtils.replaceNickTags(((MessageItem) getFocusedObject()).msg));
 //#             } catch (Exception e) {/*no messages*/
-//#
+//# 
 //#             }
 //#         }
-//#
+//# 
 //#         if (c == Commands.cmdCopyPlus) {
 //#             try {
 //#                 ClipBoard.append(util.StringUtils.replaceNickTags(((MessageItem) getFocusedObject()).msg));
 //#             } catch (Exception e) {/*no messages*/
-//#
+//# 
 //#             }
 //#         }
 //#endif
@@ -420,7 +418,7 @@ public final class ContactMessageList extends VirtualList implements MenuListene
         }
 //#ifdef CLIPBOARD
 //#         if (c == Commands.cmdPaste) {
-//#
+//# 
 //#ifdef RUNNING_MESSAGE
 //#             showMsgEdit(ClipBoard.getClipBoard());
 //#else
@@ -478,12 +476,12 @@ public final class ContactMessageList extends VirtualList implements MenuListene
 //#         if (c == Commands.cmdSendBuffer) {
 //#             String from = midlet.BombusQD.sd.account.toString();
 //#             String body = ClipBoard.getClipBoard();
-//#
+//# 
 //#             String id = String.valueOf((int) System.currentTimeMillis());
 //#             Msg msg = new Msg(Constants.MESSAGE_TYPE_OUT, from, null, body);
 //#             msg.id = id;
 //#             msg.itemCollapsed = true;
-//#
+//# 
 //#             try {
 //#                 if (body != null && body.length() > 0) {
 //#                     midlet.BombusQD.sd.roster.sendMessage(contact, id, body, null, null);

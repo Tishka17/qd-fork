@@ -157,7 +157,7 @@ public class Config {
     public boolean istreamWaiting;
     public int panelsState= 2; //default state both panels show, reverse disabled
     public boolean lightState=false;
-    public boolean autoScroll=true;
+
 //#ifdef POPUPS
     public boolean popUps=false;
 //#endif
@@ -209,7 +209,6 @@ public class Config {
 
     public boolean showTimeTraffic=false;
     public boolean useLowMemory_msgedit=true;
-    public boolean useLowMemory_userotator=false;
     public boolean useLowMemory_iconmsgcollapsed=false;
     //public boolean drawCPhoto=true;
     public boolean auto_queryPhoto=false;
@@ -234,10 +233,10 @@ public class Config {
     public String drwd_fontname="no";
 
     public boolean savePos=true;
-    public boolean boldNicks=true;
+
     public int scrollWidth=5;
 	public int minItemHeight = rosterFont*3;
-    public boolean drawScrollBgnd = false;
+
     public int[] cursorPos = {
                             1,  //RosterToolsMenu 0
                             0,  //RosterItemActions 1
@@ -296,8 +295,6 @@ public class Config {
     public int msgEditType=0;
     public boolean runningMessage=false;
     public boolean debug=false;
-    public boolean selectOutMessages=false;
-
 
     public int ANIsmilesHeight=-1;
     public static boolean ANIsmilesDetect = true;
@@ -526,7 +523,8 @@ public class Config {
 //#ifdef AUTOSTATUS
 //#             setAutoStatusMessage = inputStream.readBoolean();
 //#endif
-            autoScroll = inputStream.readBoolean();
+            // empty!
+            inputStream.readBoolean();
 //#ifdef POPUPS
             popUps = inputStream.readBoolean();
 //#endif
@@ -591,7 +589,10 @@ public class Config {
             oldSE=inputStream.readBoolean();
             showTimeTraffic=inputStream.readBoolean();
             useLowMemory_msgedit=inputStream.readBoolean();
-            useLowMemory_userotator=inputStream.readBoolean();
+
+            // empty!
+            inputStream.readBoolean();
+
             useLowMemory_iconmsgcollapsed=inputStream.readBoolean();
             //drawCPhoto=inputStream.readBoolean();
             auto_queryPhoto=inputStream.readBoolean();
@@ -599,8 +600,13 @@ public class Config {
 
             use_drawed_font=inputStream.readBoolean();
             savePos=inputStream.readBoolean();
-            boldNicks=inputStream.readBoolean();
-            drawScrollBgnd=inputStream.readBoolean();
+
+            // empty!
+            inputStream.readBoolean();
+
+            // empty!
+            inputStream.readBoolean();
+
             isLegal=inputStream.readBoolean();
             iconsLeft=inputStream.readBoolean();
             //useClassicChat=inputStream.readBoolean();
@@ -638,7 +644,10 @@ public class Config {
             runningMessage=inputStream.readBoolean();
 
             debug=inputStream.readBoolean();
-            selectOutMessages=inputStream.readBoolean();
+
+            // empty!
+            inputStream.readBoolean();
+
             showCollapsedPresences=inputStream.readBoolean();
             networkAnnotation=inputStream.readBoolean();
             metaContacts=inputStream.readBoolean();
@@ -795,7 +804,8 @@ public class Config {
 //#ifdef AUTOSTATUS
 //#             outputStream.writeBoolean(setAutoStatusMessage);
 //#endif
-            outputStream.writeBoolean(autoScroll);
+            // empty!
+            outputStream.writeBoolean(false);
 //#ifdef POPUPS
             outputStream.writeBoolean(popUps);
 //#endif
@@ -851,7 +861,10 @@ public class Config {
             outputStream.writeBoolean(oldSE);
             outputStream.writeBoolean(showTimeTraffic);
             outputStream.writeBoolean(useLowMemory_msgedit);
-            outputStream.writeBoolean(useLowMemory_userotator);
+
+            // empty!
+            outputStream.writeBoolean(false);
+
             outputStream.writeBoolean(useLowMemory_iconmsgcollapsed);
             //outputStream.writeBoolean(drawCPhoto);
             outputStream.writeBoolean(auto_queryPhoto);
@@ -859,8 +872,13 @@ public class Config {
 
             outputStream.writeBoolean(use_drawed_font);
             outputStream.writeBoolean(savePos);
-            outputStream.writeBoolean(boldNicks);
-            outputStream.writeBoolean(drawScrollBgnd);
+
+            // empty!
+            outputStream.writeBoolean(false);
+
+            // empty!
+            outputStream.writeBoolean(false);
+
             outputStream.writeBoolean(isLegal);
             outputStream.writeBoolean(iconsLeft);
             //outputStream.writeBoolean(useClassicChat);
@@ -898,7 +916,10 @@ public class Config {
             outputStream.writeBoolean(runningMessage);
 
             outputStream.writeBoolean(debug);
-            outputStream.writeBoolean(selectOutMessages);
+
+            // empty!
+            outputStream.writeBoolean(false);
+
             outputStream.writeBoolean(showCollapsedPresences);
             outputStream.writeBoolean(networkAnnotation);
             outputStream.writeBoolean(metaContacts);

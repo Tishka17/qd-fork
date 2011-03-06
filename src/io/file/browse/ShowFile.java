@@ -25,6 +25,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+//#ifdef FILE_IO
 package io.file.browse;
 
 import client.Config;
@@ -47,40 +48,40 @@ import ui.ImageList;
 
 /**
  *
- * @author User 
+ * @author User
  */
 public class ShowFile implements CommandListener{
-    
+
     private Display display;
     private Displayable parentView;
-    
+
     private Command back;
     private Command stop;
-    //private Command appliedRES = new Command("Yes", Command.BACK, 4);    
+    //private Command appliedRES = new Command("Yes", Command.BACK, 4);
 
     private int len;
 
     private byte[] b;
 
     private Player pl;
-    
+
     private Config cf;
     private long length=0;
     boolean play=false;
-    
+
     int width;
     int height;
     public ShowFile(Display display, final String fileName, int type,String trackname, int width, int height) {
         this.display=display;
         this.width=width;
         this.height=height;
-        
+
         back = new Command(SR.get(SR.MS_BACK), Command.BACK, 2);
         stop = new Command(SR.get(SR.MS_STOP), Command.BACK, 3);
-    
+
         parentView=display.getCurrent();
         cf=Config.getInstance();
-  
+
         load(fileName);
         if (type==1) { //sounds
           play(fileName, "", true);
@@ -96,8 +97,8 @@ public class ShowFile implements CommandListener{
     }
 
     private ChoiceGroup resType;
-    private int replyIndex;       // Index of "reply" in choice group        
-    
+    private int replyIndex;       // Index of "reply" in choice group
+
     private void load(String file) {
         try {
             FileIO f=FileIO.createConnection(file);
@@ -107,8 +108,8 @@ public class ShowFile implements CommandListener{
             f.close();
         } catch (Exception e) {}
     }
-         
-    
+
+
     private void view(String file) {
           ImageList il = new ImageList();
           Image photoImg = null;
@@ -127,13 +128,13 @@ public class ShowFile implements CommandListener{
               }  catch (Exception e) {
               }
         if (null == photoImg) return;
-        Form form = new Form(file);      
+        Form form = new Form(file);
         form.append(new ImageItem(null, photoImg, ImageItem.LAYOUT_CENTER | ImageItem.LAYOUT_NEWLINE_BEFORE, "[image]"));
         form.addCommand(back);
         form.setCommandListener(this);
         display.setCurrent(form);
     }
-    
+
     private void read(String file) {
        Form form = new Form("");
        TextField tf = new TextField(file+" ("+len+" bytes)", null, len, TextField.ANY);
@@ -151,7 +152,7 @@ public class ShowFile implements CommandListener{
                     s=new String(b, 0, maxSize);
                 }
             } catch (Exception e) {}
-           
+
             if (cf.cp1251) tf.setString(Strconv.convCp1251ToUnicode(s));
             else {
                tf.setString(s);
@@ -159,7 +160,7 @@ public class ShowFile implements CommandListener{
         }
        display.setCurrent(form);
     }
-    
+
     private void play(String file,String trackname,boolean play) {
         try {
             pl = Manager.createPlayer("file://" + file);
@@ -177,7 +178,7 @@ public class ShowFile implements CommandListener{
         a.setCommandListener(this);
         display.setCurrent(a);
     }
-    
+
     public void commandAction(Command c, Displayable d) {
         if (c==back) display.setCurrent(parentView);
         if (c==stop) {
@@ -188,3 +189,4 @@ public class ShowFile implements CommandListener{
         }
     }
 }
+//#endif

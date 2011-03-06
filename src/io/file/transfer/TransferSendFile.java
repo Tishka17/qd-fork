@@ -1,4 +1,3 @@
-//#ifdef FILE_TRANSFER 
 /*
  * TransferSendFile.java
  *
@@ -24,8 +23,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- */ 
+ */
 
+//#ifdef FILE_IO
+//#ifdef FILE_TRANSFER
 package io.file.transfer;
 
 import io.file.browse.Browser;
@@ -40,16 +41,16 @@ import ui.controls.form.SimpleString;
 import ui.controls.form.TextInput;
 
 public class TransferSendFile
-        extends DefForm 
+        extends DefForm
         implements BrowserListener {
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_FILE_TRANSFER");
 //#endif
-    
+
     private Display display;
 
     private String to;
-    
+
     private LinkString selectFile;
     private TextInput fileName;
     private TextInput description;
@@ -62,21 +63,21 @@ public class TransferSendFile
 
         itemsList.addElement(new SimpleString(SR.get(SR.MS_SEND_FILE_TO), true));
         itemsList.addElement(new SimpleString(recipientJid, false));
-        
+
         fileName = new TextInput(display, SR.get(SR.MS_FILE), null, "sendfile", TextField.ANY);
         itemsList.addElement(fileName);
-        
+
         selectFile=new LinkString(SR.get(SR.MS_SELECT_FILE)) { public void doAction() { initBrowser(); } };
         itemsList.addElement(selectFile);
-        
+
         description = new TextInput(display, SR.get(SR.MS_DESCRIPTION), null, null, TextField.ANY);
         itemsList.addElement(description);
-        
+
         moveCursorTo(2);
         attachDisplay(display);
         this.parentView=pView;
     }
-    
+
     public void initBrowser() {
         new Browser(null, display, this, this, false);
     }
@@ -85,7 +86,7 @@ public class TransferSendFile
 
     public void cmdOk() {
         if (fileName.getValue()==null || fileName.getValue().length()==0) return;
-        
+
         try {
             TransferTask task=new TransferTask(to, String.valueOf(System.currentTimeMillis()), fileName.getValue(), description.getValue(), false, null);
             TransferDispatcher.getInstance().sendFile(task);
@@ -95,4 +96,5 @@ public class TransferSendFile
         } catch (Exception e) {}
     }
 }
+//#endif
 //#endif

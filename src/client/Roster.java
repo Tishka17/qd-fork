@@ -55,8 +55,10 @@ import images.RosterIcons;
 import menu.MenuListener;
 import menu.Command;
 //#endif
-//#if FILE_TRANSFER
+//#ifdef FILE_IO
+//#ifdef FILE_TRANSFER
 import io.file.transfer.TransferDispatcher;
+//#endif
 //#endif
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
@@ -102,10 +104,11 @@ import javax.microedition.lcdui.Image;
 //import javax.microedition.lcdui.Alert;
 //import javax.microedition.lcdui.AlertType;
 
-
+//#ifdef FILE_IO
 import io.file.FileIO;
 import java.io.IOException;
 import java.io.OutputStream;
+//#endif
 
 //#ifdef GRAPHICS_MENU
 //# import ui.GMenu;
@@ -1797,12 +1800,15 @@ public class Roster
 //#         if (midlet.BombusQD.sd.account.isGmail())
 //#             theStream.addBlockListener(new IqGmail());
 //#endif
-//#if FILE_TRANSFER
+
+//#ifdef FILE_IO
+//#ifdef FILE_TRANSFER
         if (midlet.BombusQD.cf.fileTransfer) // enable File transfers
 //#ifdef PLUGINS
 //#             if (midlet.BombusQD.sd.FileTransfer)
 //#endif
                 TransferDispatcher.getInstance().addBlockListener();
+//#endif
 //#endif
 
 //#ifdef CAPTCHA
@@ -2782,7 +2788,11 @@ public class Roster
                         conferenceContact=null;
                         chatPres=null;
 
-                        if(midlet.BombusQD.cf.autoload_FSPhoto) loadAvatar(from, true );
+//#ifdef FILE_IO
+                        if(midlet.BombusQD.cf.autoload_FSPhoto) {
+                            loadAvatar(from, true);
+                        }
+//#endif
                     }
                     catch(OutOfMemoryError eom){ errorLog("error Roster::3"); } catch (Exception e) {
                         if(null != conferenceContact) {
@@ -2800,7 +2810,11 @@ public class Roster
                     //if(null != room) room = null;
                 } else {
 //#endif
-                    if(midlet.BombusQD.cf.autoload_FSPhoto) loadAvatar(from, false );
+//#ifdef FILE_IO
+                    if(midlet.BombusQD.cf.autoload_FSPhoto) {
+                        loadAvatar(from, false);
+                    }
+//#endif
 
                     Contact c=null;
                     //System.out.println("FROM:"+from);

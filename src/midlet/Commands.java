@@ -6,6 +6,7 @@
  * To change this template, choose Tools | Template Manager
  * and open the template in the editor.
  */
+
 package midlet;
 
 import menu.Command;
@@ -167,19 +168,4 @@ public class Commands {
 //#     */
 //#endif
     }
-
-    // TODO убрать, ибо не нужно.
-    private Commands() {
-
-    }
-
-    public static Commands get() {
-        if (commands == null) {
-            commands = new Commands();
-            initCommands();
-        }
-        return commands;
-    }
-
-    private static Commands commands;
 }

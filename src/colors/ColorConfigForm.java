@@ -48,7 +48,7 @@ import ui.controls.AlertBox;
  *
  * @author ad,aqent
  */
-public class ColorConfigForm 
+public class ColorConfigForm
         extends DefForm
 //#if FILE_IO
         implements BrowserListener
@@ -67,11 +67,11 @@ public class ColorConfigForm
     String filePath;
     private int loadType=0;
 //#endif
-    
+
     private Vector[] files;
 
     private TrackItem skinFiles;
-    
+
     private TrackItem argb_bgnd;
     private TrackItem gmenu_bgnd;
     private TrackItem popup_bgnd;
@@ -89,7 +89,7 @@ public class ColorConfigForm
 //#             if (StaticData.getInstance().Colors) {
 //#endif
 //#         invertColors=new LinkString(SR.get(SR.MS_INVERT)) { public void doAction() { ColorTheme.invertSkin(); } };
-//#         configureColors=new LinkString(SR.get(SR.MS_EDIT_COLORS)) { public void doAction() { new ColorsList(display);  } };   
+//#         configureColors=new LinkString(SR.get(SR.MS_EDIT_COLORS)) { public void doAction() { new ColorsList(display);  } };
 //#         itemsList.addElement(configureColors);
 //#ifdef PLUGINS
 //#             }
@@ -107,7 +107,7 @@ public class ColorConfigForm
 			for (int i=0; i<size; i++) {
 			    skins.addElement((String)files[1].elementAt(i));
 			    str = new SimpleString(Integer.toString(i).concat("-").concat((String)files[1].elementAt(i)), true);
-			    
+
 			    itemsList.addElement(str);
 			    if(midlet.BombusQD.cf.path_skin.indexOf((String)files[1].elementAt(i))>-1) ind = i;
 			}
@@ -116,7 +116,7 @@ public class ColorConfigForm
 		}
             }
         } catch (Exception e) {}
-        
+
        argb_bgnd = new TrackItem(midlet.BombusQD.cf.argb_bgnd/10, 25);
        gmenu_bgnd = new TrackItem(midlet.BombusQD.cf.gmenu_bgnd/10, 25);
        popup_bgnd = new TrackItem(midlet.BombusQD.cf.popup_bgnd/10, 25);
@@ -130,7 +130,7 @@ public class ColorConfigForm
         itemsList.addElement(new SimpleString(SR.get(SR.MS_POPUPS), true));
         itemsList.addElement(popup_bgnd);
         itemsList.addElement(new SimpleString(SR.get(SR.MS_CURSOR_TR), true));
-        itemsList.addElement(cursor_bgnd);        
+        itemsList.addElement(cursor_bgnd);
         itemsList.addElement(new SpacerItem(5));
 //#if FILE_IO
         loadFromFile=new LinkString(SR.get(SR.MS_LOAD_FROM_FILE)) { public void doAction() { initBrowser(1); } };
@@ -138,32 +138,34 @@ public class ColorConfigForm
         saveToFile=new LinkString(SR.get(SR.MS_SAVE_TO_FILE)) { public void doAction() { initBrowser(0); } };
 
 //#endif
-        
-        reset=new LinkString(SR.get(SR.MS_CLEAR)) { 
+
+        reset=new LinkString(SR.get(SR.MS_CLEAR)) {
           public void doAction() {
              AlertBox alert = new AlertBox( "Query", "Load lime theme?" , display, parentView, true) {
              public void yes() { ColorTheme.loadSkin("/themes/default.txt", 1, true); }
              public void no() {
-               ColorTheme.init(); 
+               ColorTheme.init();
                ColorTheme.saveToStorage();
              }
              };
              alert = null;
-          } 
+          }
         };
 
             //#ifdef COLOR_TUNE
 //#             itemsList.addElement(invertColors);
             //#endif
-            itemsList.addElement(loadFromFile);            
+//#ifdef FILE_IO
+            itemsList.addElement(loadFromFile);
             itemsList.addElement(saveToFile);
+//#endif
             itemsList.addElement(reset);
-        
+
         //moveCursorTo(getNextSelectableRef(-1));
         attachDisplay(display);
         this.parentView=pView;
     }
-    
+
     public void cmdOk() {
        midlet.BombusQD.cf.argb_bgnd = argb_bgnd.getValue()*10;
        midlet.BombusQD.cf.gmenu_bgnd = gmenu_bgnd.getValue()*10;
@@ -171,7 +173,7 @@ public class ColorConfigForm
        midlet.BombusQD.cf.cursor_bgnd = cursor_bgnd.getValue()*10;
        destroyView();
     }
-    
+
     public void destroyView() {
         ColorTheme.saveToStorage();
         if(null != files)
@@ -181,7 +183,7 @@ public class ColorConfigForm
 
 //#if FILE_IO
     public void initBrowser(int type) {
-        loadType=type; 
+        loadType=type;
         if (type==0) {
             new Browser(null,display, this, this, true);
         } else if(type==1) {

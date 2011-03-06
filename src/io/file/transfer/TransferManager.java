@@ -1,6 +1,5 @@
-//#ifdef FILE_TRANSFER
 /*
- * TransferManager.java 
+ * TransferManager.java
  *
  * Created on 28.10.2006, 17:00
  *
@@ -26,19 +25,18 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+//#ifdef FILE_IO
+//#ifdef FILE_TRANSFER
 package io.file.transfer;
 
-import client.StaticData;
 import ui.MainBar;
 import java.util.Vector;
-import client.Config;
 //#ifndef MENU_LISTENER
 //# import javax.microedition.lcdui.CommandListener;
 //# import javax.microedition.lcdui.Command;
 //#else
 import menu.MenuListener;
 import menu.Command;
-import menu.MyMenu;
 //#endif
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
@@ -46,7 +44,7 @@ import locale.SR;
 import ui.Time;
 import ui.VirtualElement;
 import ui.VirtualList;
-//#ifdef GRAPHICS_MENU        
+//#ifdef GRAPHICS_MENU
 //# import ui.GMenu;
 //# import ui.GMenuConfig;
 //#endif
@@ -66,16 +64,16 @@ public class TransferManager
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_FILE_TRANSFER");
 //#endif
-    
+
     private Vector taskList=new Vector(0);
-    
+
     Command cmdBack;
     Command cmdDel;
     Command cmdClrF;
 //#ifdef POPUPS
     Command cmdInfo;
 //#endif
-    
+
     /** Creates a new instance of TransferManager */
     public TransferManager(Display display) {
         super(display);
@@ -86,14 +84,14 @@ public class TransferManager
 //#ifdef POPUPS
         cmdInfo=new Command(SR.get(SR.MS_INFO), Command.SCREEN, 12);
 //#endif
-    
+
         commandState();
         setCommandListener(this);
         setMainBarItem(new MainBar(2, null, SR.get(SR.MS_TRANSFERS), false));
-        
+
         taskList=TransferDispatcher.getInstance().getTaskList();
     }
-    
+
     public void showNotify(){
         super.showNotify();
 //#ifndef MENU_LISTENER
@@ -103,7 +101,7 @@ public class TransferManager
 //#         commandState();
 //#endif
     }
-    
+
     public void commandState(){
 //#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
@@ -127,7 +125,7 @@ public class TransferManager
         if (t!=null)
             if (t.isAcceptWaiting()) new TransferAcceptFile(display, this, t);
     }
-    
+
     protected void keyClear() {
         if (getItemCount()>0) {
             synchronized (taskList) {
@@ -144,9 +142,9 @@ public class TransferManager
                 int i=0;
                 while (i<taskList.size()) {
                     TransferTask task=(TransferTask) taskList.elementAt(i);
-                    if (task.isStopped()) 
+                    if (task.isStopped())
                         taskList.removeElementAt(i);
-                    else 
+                    else
                         i++;
                 }
             }
@@ -157,7 +155,7 @@ public class TransferManager
         if (c==cmdDel) {
             keyClear();
             //if (getItemCount()<=1){
-            midlet.BombusQD.sd.roster.setEventIcon(null);   
+            midlet.BombusQD.sd.roster.setEventIcon(null);
             //}
         }
         if (c==cmdBack) cmdBack();
@@ -169,13 +167,13 @@ public class TransferManager
         TransferDispatcher.getInstance().eventNotify();
         destroyView();
     }
-    
+
 //#ifdef MENU_LISTENER
-    
+
 //#ifdef MENU_LISTENER
     public String touchLeftCommand(){ return SR.get(SR.MS_MENU); }
-    
-//#ifdef GRAPHICS_MENU  
+
+//#ifdef GRAPHICS_MENU
 //#     public void touchLeftPressed(){
 //#         if (getItemCount()>0){
 //#            showGraphicsMenu();
@@ -194,16 +192,16 @@ public class TransferManager
     public void touchLeftPressed(){
         showMenu();
     }
-    
+
     public void showMenu() {
         commandState();
         new MyMenu(display, parentView, this, SR.get(SR.MS_VCARD), null, menuCommands);
-   }  
-//#endif    
-    
+   }
+//#endif
 
-//#endif       
-    
+
+//#endif
+
     protected void keyPressed(int keyCode) { // overriding this method to avoid autorepeat
 //#ifdef POPUPS
         if (keyCode==KEY_POUND) {
@@ -240,4 +238,5 @@ public class TransferManager
     }
 //#endif
 }
+//#endif
 //#endif

@@ -1,8 +1,7 @@
-//#ifdef FILE_TRANSFER
 /*
  * TransferTask.java
  *
- * Created on 28.10.2006, 17:00 
+ * Created on 28.10.2006, 17:00
  *
  * Copyright (c) 2005-2008, Eugene Stahov (evgs), http://bombus-im.org
  *
@@ -26,6 +25,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+//#ifdef FILE_IO
+//#ifdef FILE_TRANSFER
 package io.file.transfer;
 
 import com.alsutton.jabber.JabberDataBlock;
@@ -50,14 +51,14 @@ import ui.VirtualList;
  *
  * @author Evg_S
  */
-public class TransferTask 
+public class TransferTask
         extends IconTextElement
         implements Runnable
 {
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_FILE_TRANSFER");
 //#endif
-    
+
     public final static int COMPLETE=1;
     public final static int PROGRESS=3;
     public final static int ERROR=4;
@@ -70,26 +71,26 @@ public class TransferTask
     boolean showEvent;
     boolean isBytes;
     byte[] bytes;
-    
+
     String jid;
     String id;
     String sid;
     String fileName;
     String description;
     String errMsg;
-    
+
     int fileSize;
     private int filePos;
     String filePath;
     private FileIO file;
     private OutputStream os;
     private InputStream is;
-    
+
     private Vector methods;
 
     long started;
     long finished;
-    
+
     /** Creates TransferTask for incoming file */
     public TransferTask(String jid, String id, String sid, String name, String description, int size, Vector methods) {
         super(RosterIcons.getInstance());
@@ -103,7 +104,7 @@ public class TransferTask
         this.fileSize=size;
         this.methods=methods;
     }
-    
+
     /**
      * Sending constructor
      */
@@ -116,10 +117,10 @@ public class TransferTask
         this.sid=sid;
         this.fileName=fileName.substring( fileName.lastIndexOf('/')+1 );
         this.description=description;
-        
+
         this.isBytes=isBytes;
         this.bytes=bytes;
-        
+
         //this.fileSize=size;
         //this.methods=methods;
         if (!isBytes) {
@@ -137,7 +138,7 @@ public class TransferTask
         } else {
             is=new ByteArrayInputStream(bytes);
             fileSize=bytes.length;
-            
+
         }
     }
 
@@ -148,21 +149,21 @@ public class TransferTask
     public void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {
         int xpgs=(g.getClipWidth()/3)*2;
         int pgsz=g.getClipWidth()-xpgs-4;
-        int filled=(fileSize==0)? 0 : (pgsz*filePos)/fileSize; 
-        
+        int filled=(fileSize==0)? 0 : (pgsz*filePos)/fileSize;
+
         int oldColor=g.getColor();
         g.setColor(0xffffff);
-        
+
         g.fillRect(xpgs, 3, pgsz, getVHeight()-6);
         g.setColor(0x668866);
         g.drawRect(xpgs, 3, pgsz, getVHeight()-6);
         g.fillRect(xpgs, 3, filled, getVHeight()-6);
         g.setColor(oldColor);
-        
+
         super.drawItem(view, g, ofs, sel);
         showEvent=false;
     }
-    
+
     public String toString() { return fileName; }
 
     void decline() {
@@ -170,7 +171,7 @@ public class TransferTask
         JabberDataBlock reject=new Iq(jid, Iq.TYPE_ERROR, id);
         reject.addChild(new XmppError(XmppError.NOT_ALLOWED, "declined by user"));
         TransferDispatcher.getInstance().send(reject, true);
-        
+
         state=ERROR;
         errMsg=SR.get(SR.MS_REJECTED);
         showEvent=true;
@@ -187,22 +188,22 @@ public class TransferTask
             return;
         }
         JabberDataBlock accept=new Iq(jid, Iq.TYPE_RESULT, id);
-        
+
         JabberDataBlock si=accept.addChildNs("si", "http://jabber.org/protocol/si");
-        
+
         JabberDataBlock feature=si.addChildNs("feature", "http://jabber.org/protocol/feature-neg");
-        
+
         JabberDataBlock x=feature.addChildNs("x", "jabber:x:data");
         x.setTypeAttribute("submit");
-        
+
         JabberDataBlock field=x.addChild("field", null);
         field.setAttribute("var","stream-method");
         field.addChild("value", "http://jabber.org/protocol/ibb");
-        
+
         TransferDispatcher.getInstance().send(accept, true);
         state=HANDSHAKE;
     }
-    
+
     void writeFile(byte b[]){
         try {
             os.write(b);
@@ -261,7 +262,7 @@ public class TransferTask
         started=System.currentTimeMillis();
         if (state==ERROR) return;
 
-        JabberDataBlock iq=new Iq(jid, Iq.TYPE_SET, sid); 
+        JabberDataBlock iq=new Iq(jid, Iq.TYPE_SET, sid);
 
         JabberDataBlock si=iq.addChildNs("si", "http://jabber.org/protocol/si");
         si.setAttribute("id",sid);
@@ -316,12 +317,12 @@ public class TransferTask
                 JabberDataBlock rule;
 
                 rule=amp.addChild("rule", null);
-                rule.setAttribute("condition", "deliver-at"); 
+                rule.setAttribute("condition", "deliver-at");
                 rule.setAttribute("value", "stored");
                 rule.setAttribute("action", "error");
 
                 rule=amp.addChild("rule", null);
-                rule.setAttribute("condition", "match-resource"); 
+                rule.setAttribute("condition", "match-resource");
                 rule.setAttribute("value", "exact");
                 rule.setAttribute("action", "error");
 
@@ -347,11 +348,11 @@ public class TransferTask
         return (state==COMPLETE || state==ERROR);
 
     }
-    
+
     boolean isStarted() {
         return (state!=NONE && state!=IN_ASK);
     }
-    
+
     public void cancel() {
         if (isStopped()) return;
         state=ERROR;
@@ -362,4 +363,5 @@ public class TransferTask
             bytes=null;
     }
 }
+//#endif
 //#endif

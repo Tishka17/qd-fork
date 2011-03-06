@@ -71,9 +71,11 @@
 //#             case HistoryConfig.TYPE_RMS:
 //#                 addRMSrecord(c, message, messageList.getRecordStore() );
 //#                 break;
+//#ifdef FILE_IO
 //#             case HistoryConfig.TYPE_FS:
 //#                 addFSMessage(message, c.bareJid);
 //#                 break;
+//#endif
 //#         }
 //#    }
 //# 
@@ -82,11 +84,11 @@
 //#     private static OutputStream os;
 //#     private static byte[] bodyMessage;
 //#     private static StringBuffer buf;
-//# 
+//#
 //#     private static String createBody(Msg m) {
 //#         //String fromName=midlet.BombusQD.sd.account.getUserName();
 //#         //if (m.messageType!=Constants.MESSAGE_TYPE_OUT) fromName=m.from;
-//# 
+//#
 //#         buf = new StringBuffer(0);
 //#         switch(m.messageType){
 //#              case Constants.MESSAGE_TYPE_IN:
@@ -114,7 +116,7 @@
 //#            .append(m.getDayTime())
 //#            .append(']')
 //#            .append(' ');
-//# 
+//#
 //#         buf.append(m.body)
 //#            .append('\r')
 //#            .append('\n');
@@ -125,21 +127,21 @@
 //#          */
 //#         return (HistoryConfig.getInstance().cp1251) ? Strconv.convUnicodeToCp1251(buf.toString()) : buf.toString();
 //#     }
-//# 
+//#
 //#     private static void addFSMessage(Msg m, String filename) {
 //#        bodyMessage = createBody(m).getBytes();
 //#ifdef DETRANSLIT
 //#        filename = (HistoryConfig.getInstance().transliterateFilenames) ? DeTranslit.getInstance().translit(filename) : filename;
 //#endif
-//# 
+//#
 //#        buf = new StringBuffer(0);
 //#        buf.append(HistoryConfig.getInstance().historyPath)
 //#                    .append(StringUtils.replaceBadChars(filename))
 //#                    .append(".txt");
 //#        filename = buf.toString();
-//# 
+//#
 //#        file = FileIO.createConnection(filename);
-//# 
+//#
 //#         try {
 //#             os = file.openOutputStream(0);
 //#             if(bodyMessage.length > 0) os.write(bodyMessage);
@@ -158,7 +160,7 @@
 //#         bodyMessage = null;
 //#         bodyMessage = new byte[0];
 //#     }
-//# 
+//#
 //#endif
 //# 
 //# 

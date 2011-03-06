@@ -1,6 +1,5 @@
-//#ifdef FILE_TRANSFER
 /*
- * TransferAcceptFile.java 
+ * TransferAcceptFile.java
  *
  * Created on 29.10.2006, 1:20
  *
@@ -26,6 +25,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+//#ifdef FILE_IO
+//#ifdef FILE_TRANSFER
 package io.file.transfer;
 
 import io.file.FileIO;
@@ -56,29 +57,29 @@ public class TransferAcceptFile
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_FILE_TRANSFER");
 //#endif
-    
+
     private Display display;
 
     TransferTask t;
     TextInput fileName;
     TextInput path;
-    
+
     LinkString selectFile;
 
     /** Creates a new instance of TransferAcceptFile */
     public TransferAcceptFile(Display display, Displayable pView, TransferTask transferTask) {
         super(display, pView, SR.get(SR.MS_ACCEPT_FILE));
-        
+
         this.display=display;
-        
+
         t=transferTask;
-        
+
         // Trimming filename
         String name=t.fileName.trim();
         if (name.length()>FileIO.MAX_NAME_LEN) {
             int extPos=name.lastIndexOf('.');
             int extLen=name.length()-extPos;
-            
+
             if (extLen>FileIO.MAX_NAME_LEN) {
                 name=name.substring(0, FileIO.MAX_NAME_LEN-1);
             } else {
@@ -89,17 +90,17 @@ public class TransferAcceptFile
                 newName=null;
             }
         }
-        
+
         fileName=new TextInput(display, SR.get(SR.MS_FILE), name, "", TextField.ANY);
         itemsList.addElement(fileName);
         itemsList.addElement(new SimpleString(SR.get(SR.MS_FILE_SIZE)+" "+String.valueOf(t.fileSize)+" bytes", true));
 
         path=new TextInput(display, SR.get(SR.MS_SAVE_TO), t.filePath, "recvPath", TextField.ANY);
         itemsList.addElement(path);
-        
+
         selectFile=new LinkString(SR.get(SR.MS_PATH)) { public void doAction() { initBrowser(); } };
         itemsList.addElement(selectFile);
-                
+
         itemsList.addElement(new MultiLine(SR.get(SR.MS_SENDER), t.jid, super.superWidth));
 
         itemsList.addElement(new MultiLine(SR.get(SR.MS_DESCRIPTION), t.description, super.superWidth));
@@ -108,22 +109,23 @@ public class TransferAcceptFile
         this.parentView=pView;
     }
 
-    
+
     public void initBrowser() { new Browser(path.getValue(), display, this, this, true); }
 
     public void BrowserFilePathNotify(String pathSelected) { path.setValue(pathSelected); }
-    
+
     public void cmdOk() {
         t.fileName=fileName.getValue().trim();
         t.filePath=path.getValue();
         t.accept();
-        
+
         destroyView();
     }
-    
+
     public void cmdCancel() {
         t.decline();
         destroyView();
     }
 }
+//#endif
 //#endif

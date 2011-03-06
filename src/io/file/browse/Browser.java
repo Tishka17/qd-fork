@@ -25,7 +25,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package io.file.browse; 
+//#ifdef FILE_IO
+package io.file.browse;
 
 import client.Config;
 import client.StaticData;
@@ -50,7 +51,7 @@ import locale.SR;
 import ui.IconTextElement;
 import ui.VirtualElement;
 import ui.VirtualList;
-//#ifdef GRAPHICS_MENU        
+//#ifdef GRAPHICS_MENU
 //# import ui.GMenu;
 //# import ui.GMenuConfig;
 //#endif
@@ -69,7 +70,7 @@ public class Browser
         MenuListener
 //#endif
     {
- 
+
     private Vector dir;
 
     Command cmdOk;
@@ -79,13 +80,13 @@ public class Browser
     Command cmdDelete;
     Command cmdCancel;
     Command cmdExit;
-    //Command cmdLoadPngSkin=new Command("Load Resource from File", Command.BACK, 100);    
+    //Command cmdLoadPngSkin=new Command("Load Resource from File", Command.BACK, 100);
 
     private String path;
     private BrowserListener browserListener;
 
     private boolean getDirectory;
-    
+
     /** Creates a new instance of Browser */
     public Browser(String path, Display display, Displayable pView, BrowserListener browserListener, boolean getDirectory) {
         super(display);
@@ -98,7 +99,7 @@ public class Browser
         cmdCancel=new Command(SR.get(SR.MS_BACK), Command.BACK, 98);
         cmdExit=new Command(SR.get(SR.MS_CANCEL), Command.EXIT, 99);
         //new Browser(null, display, this, this, true);
-        
+
         this.browserListener=browserListener;
 	this.getDirectory=getDirectory;
         this.path=(path==null)?StaticData.getInstance().previousPath:path;
@@ -107,13 +108,13 @@ public class Browser
         if (path==null) path="";
 
         setMainBarItem(new MainBar(2, null, null, false));
-        
+
 //#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
 //#endif
-        
-        addCommand(cmdOk); cmdOk.setImg(0x43);//OK 
-        
+
+        addCommand(cmdOk); cmdOk.setImg(0x43);//OK
+
         if (getDirectory) {
             addCommand(cmdSelect); cmdSelect.setImg(0x60);
         } else {
@@ -122,29 +123,29 @@ public class Browser
 	addCommand(cmdDelete); cmdDelete.setImg(0x41);
         addCommand(cmdRoot); cmdRoot.setImg(0x15);
         addCommand(cmdExit); cmdExit.setImg(0x33);//
-//#ifndef GRAPHICS_MENU        
+//#ifndef GRAPHICS_MENU
      addCommand(cmdCancel);
-//#endif     
+//#endif
         //addCommand(cmdLoadPngSkin);
         setCommandListener(this);
-       
+
         // trim filename
         int l=path.lastIndexOf('/');
         if (l<0)
-            path=""; 
+            path="";
         else
             path=path.substring(0,l+1);
 
         chDir(path);
-        
+
         attachDisplay(display);
         this.parentView=pView;
     }
-    
+
     protected int getItemCount() { return dir.size(); }
-    
+
     protected VirtualElement getItemRef(int index) { return (VirtualElement) dir.elementAt(index); }
-    
+
     public void cmdCancel() {
         if (!chDir("../")) {
             destroyView();
@@ -174,10 +175,10 @@ public class Browser
             browserListener.BrowserFilePathNotify(path+f);
             return;
           }
-            if (!chDir(f)) { 
-              destroyView(); 
-              return; 
-            }            
+            if (!chDir(f)) {
+              destroyView();
+              return;
+            }
         }
          */
         if (command==cmdSelect) {
@@ -191,7 +192,7 @@ public class Browser
             }
             //todo: choose directory here, drop ../
         }
-        
+
         if (command==cmdDelete) {
             AlertBox alert = new AlertBox( "Alert", SR.get(SR.MS_DELETE) + '?' , display, this, false) {
                public void yes() { fileDelete(); }
@@ -206,7 +207,7 @@ public class Browser
         }
         if (command==cmdExit) { destroyView(); }
     }
-    
+
     public void destroyView(){
         StaticData.getInstance().previousPath=path;
         super.destroyView();
@@ -218,7 +219,7 @@ public class Browser
              path=relativePath;
          } else if (relativePath.startsWith("../")) {
             if (path.length()==0) return false;
-            if (path.length()==1) { 
+            if (path.length()==1) {
                 path="";
             } else {
                 int remainderPos=path.lastIndexOf('/', path.length()-2) + 1;
@@ -241,7 +242,7 @@ public class Browser
         moveCursorHome();
         return true;
      }
-    
+
     private void readDirectory(String name) {
         getMainBarItem().setElementAt((path.endsWith("/"))?path.substring(0, path.length()-1):path, 0);
         dir=new Vector();
@@ -250,13 +251,13 @@ public class Browser
             Enumeration files=f.fileList(getDirectory).elements();
             while (files.hasMoreElements())
                 dir.addElement( new FileItem((String) files.nextElement()) );
-            
+
         } catch (Exception ex) {
             dir.addElement( new FileItem("../(Restricted Access)"));
             ex.printStackTrace();
         }
     }
-    
+
     public void fileDelete() {
         String f=((FileItem)getFocusedObject()).name;
         if (f.endsWith("/"))
@@ -269,14 +270,14 @@ public class Browser
             redraw();
         } catch (Exception e) { e.printStackTrace(); }
     }
-    
+
     public void showFile() {
         FileItem fi=(FileItem)getFocusedObject();
         if (fi.getType()<4 && fi.getType()>0){
-         new ShowFile(display, path+fi.name, fi.getType(),fi.name, width, height);            
+         new ShowFile(display, path+fi.name, fi.getType(),fi.name, width, height);
         }
     }
-    
+
     public void eventOk() {
         String f=((FileItem)getFocusedObject()).name;
         if (!f.endsWith("/")) {
@@ -288,31 +289,31 @@ public class Browser
             browserListener.BrowserFilePathNotify(path+f);
             return;
         }
-        if (!chDir(f)) { 
-            destroyView(); 
-            return; 
+        if (!chDir(f)) {
+            destroyView();
+            return;
         }
-        
+
         redraw();
     }
 
     private class FileItem extends IconTextElement {
-        
+
         public String name;
         private int iconIndex;
         private int type;
-        
+
         public FileItem(String name) {
             super(RosterIcons.getInstance());
             this.name=name;
             //TODO: file icons
             iconIndex=name.endsWith("/")? RosterIcons.ICON_COLLAPSED_INDEX: RosterIcons.ICON_PROFILE_INDEX;
-            
+
             String ext=name.substring(name.lastIndexOf('.')+1).toLowerCase();
             String imgs="png.bmp.jpg.jpeg.gif";
             String snds="wav.mid.amr.wav.mp3.aac";
             String txts="txt.log";
-            
+
             if (txts.indexOf(ext)>=0) {
                 iconIndex=RosterIcons.ICON_PRIVACY_ACTIVE;
                 type=3;
@@ -329,40 +330,41 @@ public class Browser
                 return;
             }
         }
-        
-        public int getImageIndex() { 
-            return iconIndex; 
+
+        public int getImageIndex() {
+            return iconIndex;
         }
-        
+
         public String toString() { return (name.endsWith("/"))?name.substring(0, name.length()-1):name; }
-        
+
         public int compare(IconTextElement right){
             FileItem fileItem=(FileItem) right;
-            
+
             int cpi=iconIndex-fileItem.iconIndex;
             if (cpi==0) cpi=name.compareTo(fileItem.name);
             return cpi;
         }
-        
+
         public int getType() {
             return type;
         }
     }
 //#ifdef MENU_LISTENER
-    
-//#ifdef GRAPHICS_MENU        
+
+//#ifdef GRAPHICS_MENU
 //#     public int showGraphicsMenu() {
 //#        // commandState();
 //#         menuItem = new GMenu(display, parentView, this, null, menuCommands);
-//#         GMenuConfig.getInstance().itemGrMenu = GMenu.BROWSER;          
+//#         GMenuConfig.getInstance().itemGrMenu = GMenu.BROWSER;
 //#         return GMenu.BROWSER;
 //#     }
 //#else
     public void showMenu() {
         new MyMenu(display, parentView, this, SR.get(SR.MS_DISCO), null, menuCommands);
     }
-//#endif    
+//#endif
 
     public void touchRightPressed() { cmdCancel(); }
 //#endif
 }
+//#endif

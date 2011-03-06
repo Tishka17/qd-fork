@@ -25,7 +25,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-
+//#ifdef FILE_IO
 package io.file;
 
 import com.siemens.mp.io.File;
@@ -36,24 +36,24 @@ import java.util.Vector;
 
 
 public class FileSiemens extends FileIO {
-    
+
     private File f;
     private int fd;
 
     public FileSiemens(String fileName) {
         this.fileName=fileName=fileName.replace('/', '\\');//.substring(1);
     }
-    
+
     public void openFile() throws IOException{
-	f = new File(); 
+	f = new File();
         fd = f.open(fileName);
     }
-    
+
     public void close() throws IOException{
 	f.close(fd);
 	f = null;
     }
-    
+
     public long fileSize() throws IOException {
 	return f.length(fd);
     }
@@ -69,8 +69,8 @@ public class FileSiemens extends FileIO {
     protected Vector dirs(boolean directoriesOnly) throws IOException{
         String[] directory=File.list(fileName);
         Vector rd=new Vector();
-        
-        if (directory!=null) 
+
+        if (directory!=null)
         for (int i = 0; i < File.list(fileName).length; i++) {
             if (directory[i].endsWith("/")) { // x75 feature? (excepting s75)
                 rd.addElement(directory[i]);
@@ -92,12 +92,12 @@ public class FileSiemens extends FileIO {
         openFile();
         return new FileSiemensInputStream(f, fd);
     }
-    
+
     public OutputStream openOutputStream(long pos_eof) throws IOException {
         openFile();
         return new FileSiemensOutputStream(f, fd, pos_eof);
     }
-    
+
     public void delete() throws IOException{
         File.delete(fileName);
     }
@@ -113,7 +113,7 @@ class FileSiemensInputStream extends InputStream {
     public FileSiemensInputStream(File f, int fd) {
         this.f=f; this.fileDescriptor=fd;
     }
-    
+
     public int read() throws IOException {
         byte buf[]=new byte[1];
         f.read(fileDescriptor, buf, 0, 1);
@@ -138,13 +138,14 @@ class FileSiemensOutputStream extends OutputStream {
             ex.printStackTrace();
         }
     }
-    
+
     public void write(int i) throws IOException {
         byte buf[]=new byte[1];
         f.write(fileDescriptor, buf, 0, 1);
     }
-    
+
     public void write(byte[] b, int off, int len) throws IOException {  f.write(fileDescriptor, b, off, len); }
 
     public void write(byte[] b) throws IOException {  f.write(fileDescriptor, b, 0, b.length);  }
 }
+//#endif

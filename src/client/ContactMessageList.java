@@ -457,21 +457,21 @@ public final class ContactMessageList extends VirtualList implements MenuListene
         if (c == Commands.cmdActions) {
             BombusQD.sd.roster.showActionsMenu(contact);
         }
-        if (c == midlet.BombusQD.commands.cmdActive) {
+        if (c == Commands.cmdActive) {
             contact.getChatInfo().opened = false;
             midlet.BombusQD.sd.roster.showActiveContacts(this, contact);
         }
 
-        if (c == midlet.BombusQD.commands.cmdSubscribe) {
+        if (c == Commands.cmdSubscribe) {
             midlet.BombusQD.sd.roster.doSubscribe(contact);
         }
 
-        if (c == midlet.BombusQD.commands.cmdUnsubscribed) {
+        if (c == Commands.cmdUnsubscribed) {
             midlet.BombusQD.sd.roster.sendPresence(contact.bareJid, "unsubscribed", null, false);
         }
 
 //#ifdef CLIPBOARD
-//#         if (c == midlet.BombusQD.commands.cmdSendBuffer) {
+//#         if (c == Commands.cmdSendBuffer) {
 //#             String from = midlet.BombusQD.sd.account.toString();
 //#             String body = ClipBoard.getClipBoard();
 //# 

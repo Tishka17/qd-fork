@@ -31,7 +31,6 @@
 //# import java.io.DataInputStream;
 //# import java.io.DataOutputStream;
 //# import java.io.IOException;
-//# import java.io.InputStream;
 //#ifndef MENU_LISTENER
 //# import javax.microedition.lcdui.Command;
 //#else
@@ -49,14 +48,21 @@
 //# import ui.GMenu;
 //# import ui.GMenuConfig;
 //#endif
+//#ifdef FILE_IO
 //# import io.file.browse.Browser;
 //# import io.file.browse.BrowserListener;
+//#endif
+//# import midlet.Commands;
 //# 
 //# /**
 //#  *
 //#  * @author aqent
 //#  */
-//# public class HistoryConfig extends DefForm implements BrowserListener {
+//# public class HistoryConfig extends DefForm
+//#ifdef FILE_IO
+//#     implements BrowserListener
+//#endif
+//#     {
 //#     public static final int TYPE_RMS = 0;
 //#     public static final int TYPE_FS = 1;
 //# 
@@ -80,10 +86,11 @@
 //# 
 //#     public static boolean msgLogConf = false;
 //#     public static int historyTypeIndex = 0;
+//#ifdef FILE_IO
 //#     public static String historyPath = "";
 //#     public static boolean cp1251 = false;
 //#     public static boolean transliterateFilenames = false;
-//# 
+//#endif
 //# 
 //#     /** Creates a new instance of HistoryConfig */
 //#     public HistoryConfig(Display display, Displayable pView) {
@@ -91,13 +98,16 @@
 //#         cmdPath=new Command(SR.get(SR.MS_SELECT_HISTORY_FOLDER), Command.SCREEN, 2);
 //#         loadFromStorage();
 //# 
+//#ifdef FILE_IO
 //#            windows1251 = new CheckBox(SR.get(SR.MS_1251_CORRECTION), cp1251);
 //#            translit = new CheckBox(SR.get(SR.MS_1251_TRANSLITERATE_FILENAMES), transliterateFilenames);
-//# 
 //#            historyFolder = new TextInput(display, SR.get(SR.MS_HISTORY_FOLDER), historyPath, null, TextField.ANY);
+//#endif
 //#            historyType=new DropChoiceBox(display, SR.get(SR.MS_HISTORY_TYPE));
 //#            historyType.append(SR.get(SR.MS_HISTORY_RMS));//0
+//#ifdef FILE_IO
 //#            historyType.append('*' + SR.get(SR.MS_HISTORY_FS));//1
+//#endif
 //#            //historyType.append('*' + SR.get(SR.MS_HISTORY_SERVER));//2
 //#            historyType.setSelectedIndex(historyTypeIndex);
 //#            itemsList.addElement(historyType);
@@ -106,6 +116,7 @@
 //#         this.parentView=pView;
 //#     }
 //# 
+//#ifdef FILE_IO
 //#     protected void beginPaint(){
 //#        if(historyType != null) {
 //#           boolean isHistoryFs = itemsList.contains(historyFolder);
@@ -113,7 +124,7 @@
 //#           switch(index){
 //#             case 2:
 //#             case 0:
-//#               if(contains(midlet.BombusQD.commands.cmdOk)) removeCommand(midlet.BombusQD.commands.cmdOk);
+//#               if(contains(Commands.cmdOk)) removeCommand(Commands.cmdOk);
 //#               if(isHistoryFs) {
 //#                   itemsList.removeElement(historyFolder);
 //#                   itemsList.removeElement(windows1251);
@@ -122,7 +133,7 @@
 //#               }
 //#               break;
 //#             case 1:
-//#               addCommand(midlet.BombusQD.commands.cmdOk);
+//#               addCommand(Commands.cmdOk);
 //#               if(!isHistoryFs) {
 //#                   itemsList.addElement(historyFolder);
 //#                   itemsList.addElement(windows1251);
@@ -134,6 +145,7 @@
 //#           }
 //#        }
 //#     }
+//#endif
 //# 
 //#     public void cmdOk() {
 //#         destroyView();
@@ -142,9 +154,11 @@
 //# 
 //#     public void destroyView(){
 //#        saveToStorage();
-//#         windows1251 = translit = null;
 //#         historyType = null;
+//#ifdef FILE_IO
 //#         historyFolder = null;
+//#         windows1251 = translit = null;
+//#endif
 //#         itemsList.removeAllElements();
 //#        display.setCurrent(parentView);
 //#     }
@@ -152,10 +166,14 @@
 //#     public void loadFromStorage(){
 //#         DataInputStream inputStream = NvStorage.ReadFileRecord("history_storage", 0);
 //#         try {
+//#ifdef FILE_IO
 //#             historyPath=inputStream.readUTF();
+//#endif
 //#             historyTypeIndex=inputStream.readInt();
+//#ifdef FILE_IO
 //#             cp1251=inputStream.readBoolean();
 //#             transliterateFilenames=inputStream.readBoolean();
+//#endif
 //#             inputStream.close();
 //#             inputStream=null;
 //# 	} catch (Exception e) {
@@ -171,17 +189,23 @@
 //#     public void saveToStorage(){
 //# 	try {
 //#             DataOutputStream outputStream = NvStorage.CreateDataOutputStream();
+//#ifdef FILE_IO
 //#              cp1251 = windows1251.getValue();
+//#endif
 //#              historyTypeIndex = historyType.getSelectedIndex();
+//#ifdef FILE_IO
 //#              if(itemsList.contains(historyFolder)){
 //#                historyPath = historyFolder.getValue();
 //#              }
-//#              transliterateFilenames = translit.getValue();
+//# 
+//#             transliterateFilenames = translit.getValue();
 //#             outputStream.writeUTF(historyPath);
+//#endif
 //#             outputStream.writeInt(historyTypeIndex);
+//#ifdef FILE_IO
 //#             outputStream.writeBoolean(cp1251);
 //#             outputStream.writeBoolean(transliterateFilenames);
-//# 
+//#endif
 //#             NvStorage.writeFileRecord(outputStream, "history_storage", 0, true);
 //#             outputStream=null;
 //# 	} catch (IOException e) { }
@@ -189,10 +213,12 @@
 //# 
 //# 
 //#     public void commandAction(Command command, Displayable displayable) {
+//#ifdef FILE_IO
 //#         if (command==cmdPath) {
 //#             new Browser(null, display, this, this, true);
 //#             return;
 //#         }
+//#endif
 //#         destroyView();
 //#     }
 //# 

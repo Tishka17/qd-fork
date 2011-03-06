@@ -25,7 +25,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-//#ifdef IMPORT_EXPORT 
+//#ifdef IMPORT_EXPORT
+//#ifdef FILE_IO
 //# package impexp;
 //# 
 //# import account.Account;
@@ -115,8 +116,8 @@
 //#     private void importData(String path) {
 //#         FileIO fileIO = FileIO.createConnection(path);
 //#         byte[] buf = fileIO.fileRead();
-//#         
-//#         DataOutputStream outputStream = NvStorage.CreateDataOutputStream(); 
+//# 
+//#         DataOutputStream outputStream = NvStorage.CreateDataOutputStream();
 //# 
 //#         if (buf != null) {
 //#             String raw;
@@ -193,4 +194,5 @@
 //#         return block.toString();
 //#     }
 //# }
+//#endif
 //#endif

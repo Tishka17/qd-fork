@@ -1,5 +1,4 @@
-//#ifdef FILE_TRANSFER
-/* 
+/*
  * TransferDispatcher.java
  *
  * Created on 28.10.2006, 19:44
@@ -26,6 +25,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+//#ifdef FILE_IO
+//#ifdef FILE_TRANSFER
 package io.file.transfer;
 
 import client.StaticData;
@@ -49,14 +50,14 @@ public class TransferDispatcher implements JabberBlockListener{
 
     /** Singleton */
     private static TransferDispatcher instance;
-    
+
     public static TransferDispatcher getInstance() {
         if (instance==null) instance=new TransferDispatcher();
         return instance;
     }
-   
+
     StaticData sd = StaticData.getInstance();
-    
+
     private Vector taskList;
     public Vector getTaskList() { return taskList;  }
         public void destroy() {
@@ -65,7 +66,7 @@ public class TransferDispatcher implements JabberBlockListener{
     private TransferDispatcher() {
         taskList=new Vector(0);
     }
-    
+
     public void addBlockListener() {
         sd.roster.theStream.addBlockListener(instance);
     }
@@ -73,15 +74,15 @@ public class TransferDispatcher implements JabberBlockListener{
     public int blockArrived(JabberDataBlock data) {
         if (data instanceof Iq) {
             String id=data.getAttribute("id");
-            
+
             JabberDataBlock si=data.getChildBlock("si");
             if (si!=null) {
                 // stream initiating
                 String sid=si.getAttribute("id");
-                
+
                 JabberDataBlock file=si.getChildBlock("file");
                 JabberDataBlock feature=si.getChildBlock("feature");
-                
+
                 String type=data.getTypeAttribute();
                 if (type.equals("set")) {
                     // sender initiates file sending process
@@ -92,9 +93,9 @@ public class TransferDispatcher implements JabberBlockListener{
                             file.getChildBlockText("desc"),
                             Integer.parseInt(file.getAttribute("size")),
                             null);
-                    
+
                     synchronized (taskList){ taskList.addElement(task); }
-                    
+
                     eventNotify();
                     sd.roster.addFileQuery(data.getAttribute("from"), file.getAttribute("name")+"\n"+Integer.parseInt(file.getAttribute("size"))+" bytes");
                     sd.roster.playNotify(1000);
@@ -104,7 +105,7 @@ public class TransferDispatcher implements JabberBlockListener{
                     // our file were accepted
                     TransferTask task=getTransferBySid(id);
                     task.initIBB();
-                    
+
                     eventNotify();
                     return BLOCK_PROCESSED;
                 }
@@ -113,7 +114,7 @@ public class TransferDispatcher implements JabberBlockListener{
             if (open!=null) if (open.isJabberNameSpace("http://jabber.org/protocol/ibb")) {
                 String sid=open.getAttribute("sid");
                 TransferTask task=getTransferBySid(sid);
-                
+
                 JabberDataBlock accept=new Iq(task.jid, Iq.TYPE_RESULT, id);
                 send(accept, true);
                 eventNotify();
@@ -123,7 +124,7 @@ public class TransferDispatcher implements JabberBlockListener{
             if (close!=null) {
                 String sid=close.getAttribute("sid");
                 TransferTask task=getTransferBySid(sid);
-                
+
                 JabberDataBlock done=new Iq(task.jid, Iq.TYPE_RESULT, id);
                 send(done, true);
                 task.closeFile();
@@ -149,18 +150,18 @@ public class TransferDispatcher implements JabberBlockListener{
             if (!bdata.isJabberNameSpace("http://jabber.org/protocol/ibb")) return BLOCK_REJECTED;
             String sid=bdata.getAttribute("sid");
             TransferTask task=getTransferBySid(sid);
-            
+
             byte b[]=Strconv.fromBase64(bdata.getText());
 //#ifdef DEBUG
 //#             System.out.println("data chunk received");
 //#endif
             repaintNotify();
             task.writeFile(b);
-            
+
         }
         return BLOCK_REJECTED;
     }
-	
+
     // send shortcut
     private static StringBuffer sb;
     void send(JabberDataBlock data, boolean async) {
@@ -171,7 +172,7 @@ public class TransferDispatcher implements JabberBlockListener{
         } catch (Exception e) {
             //e.printStackTrace();
         }
-        
+
     }
 
     private TransferTask getTransferBySid(String sid) {
@@ -205,4 +206,5 @@ public class TransferDispatcher implements JabberBlockListener{
         task.sendInit();
     }
 }
+//#endif
 //#endif

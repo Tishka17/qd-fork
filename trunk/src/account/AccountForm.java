@@ -41,7 +41,9 @@ import ui.controls.form.NumberInput;
 import ui.controls.form.TextInput;
 import java.util.Random;
 import ui.controls.form.SpacerItem;
-import util.ClipBoard;
+//#ifdef CLIPBOARD
+//# import util.ClipBoard;
+//#endif
 
 public class AccountForm extends DefForm {
     private final AccountSelect accountSelect;

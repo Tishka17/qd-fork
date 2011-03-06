@@ -42,7 +42,9 @@
 //# import message.MessageList;
 //# import midlet.Commands;
 //# import ui.MainBar;
+//#ifdef CLIPBOARD
 //# import util.ClipBoard;
+//#endif
 //# 
 //# public class HistoryViewer extends MessageList implements Runnable {
 //#     private Vector elements;

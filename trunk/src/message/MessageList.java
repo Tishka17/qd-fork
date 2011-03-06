@@ -47,7 +47,9 @@ import ui.VirtualList;
 //#ifdef GRAPHICS_MENU
 //# import ui.GMenu;
 //# import ui.GMenuConfig;
+//#ifdef CLIPBOARD
 //# import util.ClipBoard;
+//#endif
 //#endif
 
 public abstract class MessageList extends VirtualList
@@ -201,7 +203,7 @@ public abstract class MessageList extends VirtualList
 //#                 ClipBoard.add(  replaceNickTags( ((MessageItem)getFocusedObject()).msg )  );
 //#             } catch (Exception e) {}
 //#         }
-//# 
+//#
 //#         if (c==Commands.cmdCopyPlus) {
 //#             try {
 //#                 ClipBoard.append( replaceNickTags(  ((MessageItem)getFocusedObject()).msg  ) );

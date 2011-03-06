@@ -107,7 +107,9 @@
 //#endif
 //#         addCommand(cmdNew);
 //#         addCommand(cmdDebugLog);
+//#ifdef ARCHIVE
 //#         addCommand(Commands.cmdArch);
+//#endif
 //#ifdef CLIPBOARD
 //#         if (Config.getInstance().useClipBoard) {
 //#             addCommand(Commands.cmdCopy);
@@ -171,8 +173,10 @@
 //# 
 //#         if (c == cmdPurge) {
 //#             clearReadedMessageList();
+//#ifdef ARCHIVE
 //#         } else if (c == Commands.cmdArch) {
 //#             MessageArchive.store(util.StringUtils.replaceNickTags(msg));
+//#endif
 //#         }
 //# 
 //#         super.commandAction(c, d);

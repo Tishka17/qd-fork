@@ -736,3 +736,6 @@ Enable attention requests	Включить запросы привлечения
 Request attention	Привлечь внимание
 Attention sound	Звук будильника
 Shadow bar	Тень от панелей
+Copy topic	Копировать тему
+Min item height	Мин. высота элементов
+Send <-> Suspend	Отправить <-> Отложить

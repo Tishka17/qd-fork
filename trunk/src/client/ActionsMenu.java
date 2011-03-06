@@ -317,20 +317,20 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
             if (group instanceof ConferenceGroup) {
                 MucContact self = ((ConferenceGroup) group).selfContact;
 
-//#ifdef CLIPBOARD
-//#                 addItem(SR.get(SR.MS_COPY_JID), MI_COPY_JID, ActionsIcons.ICON_COPY_JID);
-//#                 addItem(SR.get(SR.MS_COPY_TOPIC), MI_COPY_TOPIC, ActionsIcons.ICON_COPY_JID);
-//#endif
-
                 addItem(SR.get(SR.MS_LEAVE_ROOM), MI_LEAVE, ActionsIcons.ICON_LEAVE);
                 addItem(SR.get(SR.MS_CLOSE_ALL_ROOMS), MI_LEAVE_ALL, ActionsIcons.ICON_LEAVE);
 
-                if (self.status >= Constants.PRESENCE_OFFLINE) {
+                if (self.status == Constants.PRESENCE_OFFLINE) {
                     addItem(SR.get(SR.MS_REENTER), MI_REJOIN, ActionsIcons.ICON_CHANGE_NICK);
                 } else {
+//#ifdef CLIPBOARD
+//#                     addItem(SR.get(SR.MS_COPY_JID), MI_COPY_JID, ActionsIcons.ICON_COPY_JID);
+//#                     addItem(SR.get(SR.MS_COPY_TOPIC), MI_COPY_TOPIC, ActionsIcons.ICON_COPY_JID);
+//#endif
+
                     addItem(SR.get(SR.MS_DIRECT_PRESENCE), MI_SEND_PRESENCE, ActionsIcons.ICON_SET_STATUS);
                     addItem(SR.get(SR.MS_CHANGE_NICKNAME), MI_CHANGE_NICK, ActionsIcons.ICON_CHANGE_NICK);
-                    if (self.affiliationCode >= Constants.AFFILIATION_OWNER) {
+                    if (self.affiliationCode == Constants.AFFILIATION_OWNER) {
                         addItem(SR.get(SR.MS_CONFIG_ROOM), MI_CONFIG, ActionsIcons.ICON_CONFIGURE);
                         addItem(SR.get(SR.MS_DESTROY_ROOM), MI_DELETE, ActionsIcons.ICON_OUTCASTS);
                     }
@@ -560,16 +560,16 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
 //#                     if (body == null && body.length() == 0) {
 //#                         return;
 //#                     }
-//#
+//# 
 //#                     String from = midlet.BombusQD.sd.account.toString();
 //#                     String id = String.valueOf((int) System.currentTimeMillis());
-//#
+//# 
 //#                     BombusQD.sd.roster.sendMessage(contact, id, body, null, null);
-//#
+//# 
 //#                     Msg msg = new Msg(Constants.MESSAGE_TYPE_OUT, from, null, body);
 //#                     msg.id = id;
 //#                     msg.itemCollapsed = true;
-//#
+//# 
 //#                     contact.addMessage(msg);
 //#                     break;
 //#                 }

@@ -311,7 +311,7 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 //#endif
             }
 
-            swapSendAndSuspend = new CheckBox("Swap Send and Suspend", config.swapSendAndSuspend);
+            swapSendAndSuspend = new CheckBox(SR.get(SR.MS_SWAP_SEND_SUSPEND), config.swapSendAndSuspend);
             addControl(swapSendAndSuspend);
         } else if (type.equals(SR.get(SR.MS_netStr))) {
             if (config.userAppLevel == 1) {
@@ -415,7 +415,7 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
             scrollWidth = new NumberInput(display, SR.get(SR.MS_SCROLL_WIDTH), Integer.toString(config.scrollWidth), 3, 25);
             addControl(scrollWidth);
 
-			minItemHeight = new NumberInput(display, "Min item height", Integer.toString(config.minItemHeight), 0, 100);
+			minItemHeight = new NumberInput(display, SR.get(SR.MS_MIN_ITEM_HEIGHT), Integer.toString(config.minItemHeight), 0, 100);
 			addControl(minItemHeight);
             addControl(new SpacerItem(3));
 

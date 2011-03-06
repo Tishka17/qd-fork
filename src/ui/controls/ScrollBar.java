@@ -43,35 +43,35 @@ import client.Config;
 public class ScrollBar {
     //private static final int WIDTH_SCROLL_1      =4;
     private static final int WIDTH_SCROLL_2      =10;
-    
+
     private int yTranslate;
     private boolean fingerScroll;
-    
+
     private int size;
     private int windowSize;
     private int position;
-    
+
     private int scrollerX;
-    
+
     private int drawHeight;
 //#ifdef GRADIENT
 //#     //private Gradient gr;
 //#     //private int prevDrawHeight;
 //#endif
-    
+
     private int point_y;    // точка, за которую "держится" указатель
-    
+
     private int scrollerSize;
     private int scrollerPos;
-    
+
     private boolean hasPointerEvents;
-    
+
     private int minimumHeight=3;
-    
+
     private int colorTop;
     private int colorBar;
     private int colorBorder;
-    
+
     /** Creates a new instance of ScrollBar */
     public ScrollBar() {
         point_y=-1;
@@ -113,28 +113,28 @@ public class ScrollBar {
             return false;
         }
         y-=yTranslate;
-        if (y<scrollerPos) { 
+        if (y<scrollerPos) {
             // page up
             int pos=position-windowSize;
             if (pos<0) pos=0;
             list.win_top=pos;
-            list.repaint(); 
-            return true; 
-        } 
-        if (y>scrollerPos+scrollerSize) { 
+            list.repaint();
+            return true;
+        }
+        if (y>scrollerPos+scrollerSize) {
             int pos=position+windowSize;
             int listEnd=size-windowSize;
             list.win_top=(pos<listEnd)?pos:listEnd;
-            list.repaint(); 
-            return true; 
+            list.repaint();
+            return true;
         } // page down
         point_y=y-scrollerPos;
         return true;
     }
-    
+
     public boolean pointerDragged(int x, int yPos, VirtualList list) {
         yPos -= yTranslate;
-        if (point_y<0) return false; 
+        if (point_y<0) return false;
         int new_top = yPos - point_y;
         int new_pos = (new_top*size)/drawHeight;
         if ((position-new_pos)==0) return true;
@@ -144,46 +144,41 @@ public class ScrollBar {
 	return true;
     }
     public void pointerReleased(int x, int y, VirtualList v) { point_y=-1; }
-    
+
     public void draw(Graphics g) {
-        
+
         colorTop = ColorTheme.getColor(ColorTheme.SCROLL_BGND);
         colorBar = ColorTheme.getColor(ColorTheme.SCROLL_BAR);
         colorBorder = ColorTheme.getColor(ColorTheme.SCROLL_BRD);
-        
+
 	yTranslate=g.getTranslateY();
-	
+
 	drawHeight=g.getClipHeight();
 	int drawWidth=g.getClipWidth();
         int scrollWidth = midlet.BombusQD.cf.scrollWidth;
-	
+
 	scrollerX=drawWidth-scrollWidth;
 
 	g.translate(scrollerX, 0);
-        if(midlet.BombusQD.cf.drawScrollBgnd){
          g.setColor(colorTop);
 	 g.fillRect(1, 0, scrollWidth-2, drawHeight-1);
-	
+
          g.setColor(colorBorder);
          g.drawLine(0, 0, 0, drawHeight-1);
          g.drawLine(scrollWidth-1, 0, scrollWidth-1, drawHeight-1);
-        }
 
 	drawHeight-=minimumHeight;
-        
+
 	scrollerSize=(drawHeight*windowSize)/size+minimumHeight;
-	
+
 	scrollerPos=(drawHeight*position)/size;
-       if(midlet.BombusQD.cf.drawScrollBgnd){   
+
         g.setColor(colorBar);
         g.fillRect(1, scrollerPos, scrollWidth-2, scrollerSize);
-        
+
         g.setColor(colorBorder);
         g.drawLine(0, scrollerPos, scrollWidth-1, scrollerPos);
         g.drawLine(0, scrollerPos+scrollerSize, scrollWidth-1, scrollerPos+scrollerSize);
-       }else{
-        g.setColor(colorBar);
-        g.fillRect(1, scrollerPos, scrollWidth, scrollerSize);
-       }
+
     }
 }

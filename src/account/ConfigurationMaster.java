@@ -38,7 +38,6 @@ public class ConfigurationMaster {
         SR.get(SR.MS_USE_FIVE_TO_CREATEMSG),
         SR.get(SR.MS_STORE_PRESENCE),
         SR.get(SR.MS_SHOW_PRS_TIME),
-        SR.get(SR.MS_AUTOSCROLL),
         SR.get(SR.MS_ANI_SMILES),
         SR.get(SR.MS_DELIVERY),
         SR.get(SR.MS_FILE_TRANSFERS),
@@ -71,21 +70,18 @@ public class ConfigurationMaster {
                 config.timePresence = value;
                 break;
             case 6:
-                config.autoScroll = value;
-                break;
-            case 7:
                 config.animatedSmiles = value;
                 break;
-            case 8:
+            case 7:
                 config.eventDelivery = value;
                 break;
-            case 9:
+            case 8:
                 config.fileTransfer = value;
                 break;
-            case 10:
+            case 9:
                 config.queryExit = value;
                 break;
-            case 11:
+            case 10:
                 config.module_history = value;
                 break;
         }

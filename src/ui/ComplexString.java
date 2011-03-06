@@ -15,7 +15,7 @@
  * terms of the Psi License, specified in the accompanied COPYING
  * file, as published by the Psi Project; either dated January 1st,
  * 2005, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -39,7 +39,7 @@ import colors.ColorTheme;
 public class ComplexString implements VirtualElement {
 
     public final static int IMAGE     = 0x00000000;
-    public final static int COLOR     = 0x01000000; 
+    public final static int COLOR     = 0x01000000;
     public final static int RALIGN    = 0x02000000;
     public final static int UNDERLINE = 0x03000000;
 //#if NICK_COLORS
@@ -58,7 +58,7 @@ public class ComplexString implements VirtualElement {
     private int color;
     private boolean aniSmile;
     private Vector elementData = new Vector(0);
-    
+
 
     /** Creates a new instance of ComplexString */
     public ComplexString() {
@@ -71,7 +71,7 @@ public class ComplexString implements VirtualElement {
         colorBGnd=ColorTheme.getColor(ColorTheme.LIST_BGND);
         this.imageList=imageList;
     }
-    
+
     public void destroy() {
         //System.out.println("    :::     complex-->elementData:: " + elementData.toString());
         imageList = null;
@@ -86,20 +86,20 @@ public class ComplexString implements VirtualElement {
     private int imgWidth(){
         return (imageList==null)?0:imageList.getWidth();
     }
-    
+
     public int getColor() { return color; }
     public int getColorBGnd() { return colorBGnd; }
-    
+
     public void setColorBGnd(int color){ colorBGnd=color;}
-    public void setColor(int color){ 
+    public void setColor(int color){
         this.color=color;
     }
-    
+
     public void onSelect(VirtualList view){};
-    
+
     Font bold;
     char c1,c2;
-    
+
     public void drawItem(VirtualList view, Graphics g, int offset, boolean selected){
         boolean ralign=false;
 	boolean underline=false;
@@ -111,9 +111,7 @@ public class ComplexString implements VirtualElement {
         int imageYOfs=(( getVHeight()-imgHeight() )>>1);
         int fontYOfs=(( getVHeight() - font.getHeight() )>>1);
         int imgWidth = imgWidth();
-        
-        if(!midlet.BombusQD.cf.boldNicks) g.setFont(font);
-        
+
         int size = elementData.size();
         for (int index = 0; index < size; ++index) {
               if (elementData.elementAt(index)==null) continue;
@@ -121,10 +119,8 @@ public class ComplexString implements VirtualElement {
 //#if NICK_COLORS
                     if (nick) {
                         int color=g.getColor();
-                        //int randColor=randomColor();
-                        bold = midlet.BombusQD.cf.boldNicks?FontCache.getFont(true,font.getSize()):null;    
-                        if(midlet.BombusQD.cf.boldNicks) g.setFont(bold);
-                        
+                        g.setFont(FontCache.getFont(true,font.getSize()));
+
                         dw=0;
                         int startDrw = 0;
                         int len = ((String)elementData.elementAt(index)).length();
@@ -133,13 +129,8 @@ public class ComplexString implements VirtualElement {
                             startDrw=6;
                            }
 
-                            if(midlet.BombusQD.cf.boldNicks) {
                               g.setColor(ColorTheme.strong(color));   /*(c1>255) ?*/ /* : color*/
                               dw=bold.substringWidth(((String)elementData.elementAt(index)), startDrw, len);
-                            }else{
-                              g.setColor( /*(c1>255) ? ColorTheme.strong(color); :*/ color);
-                              dw=font.substringWidth(((String)elementData.elementAt(index)), startDrw, len);
-                            }
                             if (ralign) w-=dw;
                               g.drawSubstring( ((String)elementData.elementAt(index)), startDrw, len, w,fontYOfs,Graphics.LEFT|Graphics.TOP);
                             if (!ralign) w+=dw;
@@ -147,8 +138,8 @@ public class ComplexString implements VirtualElement {
                         g.setColor(color);
                     } else {
 //#endif
-                        if(midlet.BombusQD.cf.boldNicks) g.setFont(font);
-                        dw=font.stringWidth((String)elementData.elementAt(index));  
+                        g.setFont(font);
+                        dw=font.stringWidth((String)elementData.elementAt(index));
                         if (ralign) w-=dw;
                           g.drawString((String)elementData.elementAt(index),w,fontYOfs,Graphics.LEFT|Graphics.TOP);
                           if (underline) {
@@ -163,8 +154,8 @@ public class ComplexString implements VirtualElement {
                     }
 //#endif
 
-                } else if (elementData.elementAt(index) instanceof StringBuffer) { 
-                  
+                } else if (elementData.elementAt(index) instanceof StringBuffer) {
+
                     g.setFont(font);
                     StringBuffer sb = (StringBuffer)elementData.elementAt(index);
                     int sbSize = sb.length();
@@ -179,9 +170,9 @@ public class ComplexString implements VirtualElement {
                       }
                     if (!ralign) w += sbWidth;
                     sb = null;
-                    
+
                 } else if ((elementData.elementAt(index) instanceof Integer)) { // image element or color
-                    int i=((Integer)elementData.elementAt(index)).intValue();                           
+                    int i=((Integer)elementData.elementAt(index)).intValue();
                     switch (i&0xff000000) {
                         case IMAGE: {
                                 if (imageList==null) break;
@@ -213,19 +204,19 @@ public class ComplexString implements VirtualElement {
 			    break;
 //#if NICK_COLORS
                         case NICK_ON:
-                            nick=true; 
+                            nick=true;
                             break;
                         case NICK_OFF:
                             nick=false;
                             break;
 //#endif
                     }
-                } else if (elementData.elementAt(index) instanceof VirtualElement) { 
-                    int clipw=g.getClipWidth(); 
+                } else if (elementData.elementAt(index) instanceof VirtualElement) {
+                    int clipw=g.getClipWidth();
                     int cliph=g.getClipHeight();
                     ((VirtualElement)elementData.elementAt(index)).drawItem(view, g, 0, false);
                     g.setClip(g.getTranslateX(), g.getTranslateY(), clipw, cliph);
-                    
+
                 }
            // } // if ob!=null
         } // for
@@ -258,19 +249,19 @@ public class ComplexString implements VirtualElement {
         if (index>=elementData.size()) elementData.setSize(index+1);
         elementData.setElementAt(obj, index);
     }
-    
+
     public void setSize(int size){
         elementData.setSize(size);
     }
-    
+
     public String elementAt(int index){
         return (String)elementData.elementAt(index);
     }
-    
+
     public boolean isEmpty(){
         return elementData.isEmpty();
     }
-    
+
     public int getVHeight(){
         if (height!=0) return height;
         int elementCount = elementData.size();
@@ -299,7 +290,7 @@ public class ComplexString implements VirtualElement {
         obj = null;
     }
 
-    public void addSmile(int imageIndex,int iw) {  
+    public void addSmile(int imageIndex,int iw) {
         if ((imageIndex & 0xff000000) == 0)
             imageIndex = imageIndex | SMILE;
         addElement(new Integer(imageIndex));
@@ -309,8 +300,8 @@ public class ComplexString implements VirtualElement {
     public void addColor(int colorRGB){ addElement(new Integer(COLOR | colorRGB)); }
     public void addRAlign(){ addElement(new Integer(RALIGN)); }
     public void addUnderline(){ addElement(new Integer(UNDERLINE)); }
-    public void addBold(){ addElement(new Integer(BOLD)); }    
-    
+    public void addBold(){ addElement(new Integer(BOLD)); }
+
     public Font getFont() {
         return font;
     }
@@ -324,7 +315,7 @@ public class ComplexString implements VirtualElement {
     public boolean isSelectable() {
         return true;
     }
-    
+
     public boolean handleEvent(int keyCode) { return false; }
 
 }

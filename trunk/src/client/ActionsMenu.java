@@ -387,9 +387,6 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
         MenuItem mItem = (MenuItem) getFocusedObject();
 
         Config.getInstance().cursorPos[1] = super.cursor;
-        // return - don't close Actions window;
-        // break - vice versa
-
         if (item instanceof Contact) {
             Contact contact = (Contact) item;
             switch (mItem.index) {
@@ -420,10 +417,11 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                 case MI_VCARD:
                     if (contact.vcard != null) {
                         if (contact.getGroupType() == Groups.TYPE_SELF) {
-                            new VCardEdit(display, this, contact.vcard);
+                            new VCardEdit(display, BombusQD.sd.roster, contact.vcard);
                         } else {
-                            new VCardView(display, this, contact);
+                            new VCardView(display, BombusQD.sd.roster, contact);
                         }
+                        return;
                     } else {
                         if (contact instanceof MucContact) {
                             MucContact mcontact = (MucContact) contact;

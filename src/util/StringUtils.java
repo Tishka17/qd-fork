@@ -6,7 +6,7 @@
  * To change this template, choose Tools | Template Manager
  * and open the template in the editor.
  */
- 
+
 package util;
 
 import conference.ConferenceGroup;
@@ -19,7 +19,9 @@ import xmpp.XmppError;
 import font.*;
 import com.ssttr.crypto.SHA1;
 import java.util.Random;
-import client.ClassicChat;
+//#ifdef CLASSIC_CHAT
+//# import client.ClassicChat;
+//#endif
 import client.Msg;
 import client.Config;
 import client.StaticData;
@@ -29,11 +31,11 @@ import client.Constants;
  * @author ad
  */
 public class StringUtils {
-    
+
     /** Creates a new instance of StringUtils */
     public StringUtils() { }
-    
-     
+
+
     public static String quoteString(Msg msg) {
         StringBuffer out=new StringBuffer(0);
         String subject = msg.subject;
@@ -49,9 +51,9 @@ public class StringUtils {
         }
         return out.toString();
     }
-    
+
     private final static String[] badChars= { "?", "\\", "/", "*", ".", "\"", ":", "%", "@", "|", "<", ">", "COM", "LPT", "NULL", "PRINT"};
- 
+
     public static String replaceNickTags(String body){
          StringBuffer sb = new StringBuffer(0);
          if (null==body) return null;
@@ -75,8 +77,8 @@ public class StringUtils {
          len = body.length();
          sb = null;
          return body.substring(0,len-1);
-    }    
-    
+    }
+
     public static Msg replaceNickTags(Msg msg){
          StringBuffer sb = new StringBuffer(0);
          String body = msg.body+" ";
@@ -99,9 +101,9 @@ public class StringUtils {
          len = body.length();
          msg.body = body.substring(0,len-1);
          return msg;
-    }      
-    
-    
+    }
+
+
     private static StringBuffer buffer = new StringBuffer(0);
     public static String stringReplace(String aSearch, String aFind, String aReplace) {
     	int pos = aSearch.indexOf(aFind);
@@ -125,11 +127,11 @@ public class StringUtils {
         sha1.update(generate());
         sha1.finish();
         return sha1.getDigestBase64();
-    }    
-    
-    
+    }
+
+
    public static String generate() {
-    StringBuffer sb = new StringBuffer();       
+    StringBuffer sb = new StringBuffer();
       Random rand = new Random();
       int i=0;
       char[] chars = {
@@ -145,49 +147,50 @@ public class StringUtils {
          i = Math.abs(rand.nextInt()) % 62;
          pass[k]=chars[i];
       }
-      sb.append(pass);        
+      sb.append(pass);
    return sb.toString();
-  }       
-    
-   
-  //static FontClass MFont = FontClass.getInstance();   
+  }
+
+
+  //static FontClass MFont = FontClass.getInstance();
   //static Font f = Font.getFont(Font.FACE_PROPORTIONAL,Font.STYLE_PLAIN,Font.SIZE_SMALL);
-   
+
   public static Font getFont() {
         return FontCache.getFont(false, FontCache.msg);
-  }   
-   
-  public static void addClassicChatMsg(String message, int availWidth,ClassicChat scrMsg) {
-        Vector lines=new Vector(0);
-        char[] valueChars = message.concat("   ").toCharArray();
-        int startPos = 0;
-        availWidth-=24;
-        int currentLineWidth = 0;
+  }
 
-        for (int i = 0; i < valueChars.length; i++) {
-            char c = valueChars[i];
-            currentLineWidth += //MFont.isCheck()?MFont.getCharWidth(c):
-                    getFont().charWidth(c);
-            if (c == '\n') {
-                scrMsg.storeMessage( new String( valueChars, startPos, i - startPos ));
-                //lastSpacePos = -1;
-                startPos = i+1;
-                currentLineWidth = 0;
-                i = startPos;
-            } else if (currentLineWidth >= availWidth && i > 0) {
-                    i--;
-                    scrMsg.storeMessage( new String( valueChars, startPos, i - startPos ));
-                    startPos =  i;
-                    currentLineWidth = 0;
-            }
-        } 
-        scrMsg.storeMessage( new String( valueChars, startPos, valueChars.length - startPos ));
-    }    
-   
-   
+//#ifdef CLASSIC_CHAT
+//#   public static void addClassicChatMsg(String message, int availWidth,ClassicChat scrMsg) {
+//#         Vector lines=new Vector(0);
+//#         char[] valueChars = message.concat("   ").toCharArray();
+//#         int startPos = 0;
+//#         availWidth-=24;
+//#         int currentLineWidth = 0;
+//# 
+//#         for (int i = 0; i < valueChars.length; i++) {
+//#             char c = valueChars[i];
+//#             currentLineWidth += //MFont.isCheck()?MFont.getCharWidth(c):
+//#                     getFont().charWidth(c);
+//#             if (c == '\n') {
+//#                 scrMsg.storeMessage( new String( valueChars, startPos, i - startPos ));
+//#                 //lastSpacePos = -1;
+//#                 startPos = i+1;
+//#                 currentLineWidth = 0;
+//#                 i = startPos;
+//#             } else if (currentLineWidth >= availWidth && i > 0) {
+//#                     i--;
+//#                     scrMsg.storeMessage( new String( valueChars, startPos, i - startPos ));
+//#                     startPos =  i;
+//#                     currentLineWidth = 0;
+//#             }
+//#         }
+//#         scrMsg.storeMessage( new String( valueChars, startPos, valueChars.length - startPos ));
+//#     }
+//#endif
+
     private static StringBuffer suffix;
     private static String ratio="";
-  
+
     public static String getSizeString(long number) { //multiple calls
         suffix = new StringBuffer(0);
         try {
@@ -199,7 +202,7 @@ public class StringUtils {
                 suffix.append( (dotpos==0)? "0":ratio.substring(0, dotpos))
                       .append('.')
                       .append(ratio.substring(dotpos))
-                      
+
                       .append(" mb");
             } else if ( number > 1024 ) {
                 ratio=Long.toString(number/100);
@@ -209,7 +212,7 @@ public class StringUtils {
                 suffix.append( (dotpos==0)? "0":ratio.substring(0, dotpos))
                       .append('.')
                       .append(ratio.substring(dotpos))
-                      
+
                       .append(" kb");
             } else {
                 suffix.append(number)
@@ -217,28 +220,28 @@ public class StringUtils {
             }
             suffix.append(midlet.BombusQD.sd.roster.theStream.getStreamStatsBar());
         } catch (Exception e) { }
-        
+
         return suffix.toString();
     }
-    
+
     public static String replaceBadChars (String src) {
         int len = badChars.length;
         for (int i=0; i<len;i++) src=stringReplace(src,badChars[i],"_");
         return src;
     }
-    
+
     public static String urlPrep(String src){
         String mask=" #$%&/:;<=>?@[\\]^'{|}";
         StringBuffer out=new StringBuffer();
-        
+
         for (int i=0; i<src.length(); i++) {
             char s=src.charAt(i);
-            
+
             if (mask.indexOf(s)<0) {  out.append(s); continue;  }
-            
+
             out.append('%').append(hexByteToString((byte)s));
         }
-        
+
         return out.toString();
     }
 
@@ -277,15 +280,15 @@ public class StringUtils {
                     lastSpacePos = -1;
                 }
             }
-        } 
+        }
         object = new String( valueChars, startPos, valueChars.length - startPos );
         lines.addElement( object );
         valueChars = null;
         object = null;
         return lines;
     }
-    
-  
+
+
     public static Vector parseMessage(String value, int availWidth, Font font) {
         StringBuffer out=new StringBuffer(value);
         int vi = 0;
@@ -328,7 +331,7 @@ public class StringUtils {
                 lastSpacePos = i;
                 lastSpacePosLength = currentLineWidth;
             }
-        } 
+        }
         // last string
         lines.addElement( new String( valueChars, startPos, valueChars.length - startPos ) );
         valueChars=null;
@@ -340,7 +343,7 @@ public class StringUtils {
         src=stringReplace(src,"%dt",Time.dispLocalTime());
         src=stringReplace(src,"%t",Time.localTime());
                 Random rand = new Random();
-                String[] qd_offline_status = { 
+                String[] qd_offline_status = {
                        "BombusQD.It's very simple",
                        "I use BombusQD.And you?",
                        "I'am happy user of BombusQD.Check it on http://bombusmod-qd.wen.ru/",
@@ -366,7 +369,7 @@ public class StringUtils {
         else
             c = (char)(c + '0');
         out.append(c);
-        
+
         return out.toString();
     }
 
@@ -374,8 +377,8 @@ public class StringUtils {
         XmppError xe=XmppError.findInStanza(presence);
         int errCode=xe.getCondition();
 
-        //ConferenceGroup grp=(ConferenceGroup)group;//? 
-        if (presenceType>=Constants.PRESENCE_OFFLINE) 
+        //ConferenceGroup grp=(ConferenceGroup)group;//?
+        if (presenceType>=Constants.PRESENCE_OFFLINE)
             midlet.BombusQD.sd.roster.testMeOffline(muc, group, true);
         if (errCode!=XmppError.CONFLICT || presenceType>=Constants.PRESENCE_OFFLINE)
             muc.setStatus(presenceType);

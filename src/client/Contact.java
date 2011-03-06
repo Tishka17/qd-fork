@@ -101,7 +101,9 @@ public class Contact extends IconTextElement{
     public String subscr;
     public boolean ask_subscribe;
 
-    public ClassicChat scroller = null;
+//#ifdef CLASSIC_CHAT
+//#     public ClassicChat scroller = null;
+//#endif
 
     public String msgSuspended;
     public String lastSendedMessage;
@@ -191,7 +193,9 @@ public class Contact extends IconTextElement{
         if(chatInfo != null) {
           chatInfo.initMsgs();
         }
-        scroller=null;
+//#ifdef CLASSIC_CHAT
+//#         scroller=null;
+//#endif
         key1="";
         maxImgHeight = ilHeight= il.getHeight();
     }

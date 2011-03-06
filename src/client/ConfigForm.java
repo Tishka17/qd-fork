@@ -76,7 +76,9 @@ public class ConfigForm extends DefForm implements MenuListener {
 //#ifdef AUTOTASK
 //#             addControl(new PluginBox(SR.get(SR.MS_taskstr), config.module_tasks, 6));
 //#endif
-            addControl(new PluginBox(SR.get(SR.MS_clchatStr), config.module_classicchat, 7));
+//#ifdef CLASSIC_CHAT
+//#             addControl(new PluginBox(SR.get(SR.MS_clchatStr), config.module_classicchat, 7));
+//#endif
         }
 
         attachDisplay(display);
@@ -101,10 +103,12 @@ public class ConfigForm extends DefForm implements MenuListener {
 //#                 return null;
 //#             }
 //#endif
-        } else if (text.equals(SR.get(SR.MS_clchatStr))) {
-            if (!config.module_classicchat) {
-                return null;
-            }
+//#ifdef CLASSIC_CHAT
+//#         } else if (text.equals(SR.get(SR.MS_clchatStr))) {
+//#             if (!config.module_classicchat) {
+//#                 return null;
+//#             }
+//#endif
 //#ifdef HISTORY
 //#         } else if (text.equals(SR.get(SR.MS_historyStr))) {
 //#             if (!config.module_history) {

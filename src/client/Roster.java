@@ -1641,28 +1641,30 @@ public class Roster
 
            theStream.send(message);
 
-           if(body!=null){
-
-               if(midlet.BombusQD.cf.module_classicchat){
-                 if(!groupchat) {
-                 //forfix
-                 Msg mmm = new Msg(Constants.MESSAGE_TYPE_OUT,"Me",null,"Me: " + body);
-                 to.addMessage(mmm);
-                 StringUtils.addClassicChatMsg("Me: "+body,midlet.BombusQD.cf.width_classic,to.scroller);
-                 }else
-                 {
-                   Msg mmm;
-                   if(body.startsWith("/me")){
-                     mmm = new Msg(Constants.MESSAGE_TYPE_OUT,"Me",null,"***Me " + body.substring(3,body.length()));
-                     StringUtils.addClassicChatMsg("***Me " + body.substring(3,body.length()),midlet.BombusQD.cf.width_classic,to.scroller);
-                   }else {
-                     mmm = new Msg(Constants.MESSAGE_TYPE_OUT,"Me",null,"Me: " + body);
-                     StringUtils.addClassicChatMsg("Me: " + body,midlet.BombusQD.cf.width_classic,to.scroller);
-                    }
-                    mmm=null;
-                  }
-                }//midlet.BombusQD.cf.useClassicChat
-         }
+//#ifdef CLASSIC_CHAT
+//#            if(body!=null){
+//# 
+//#                if(midlet.BombusQD.cf.module_classicchat){
+//#                  if(!groupchat) {
+//#                  //forfix
+//#                  Msg mmm = new Msg(Constants.MESSAGE_TYPE_OUT,"Me",null,"Me: " + body);
+//#                  to.addMessage(mmm);
+//#                  StringUtils.addClassicChatMsg("Me: "+body,midlet.BombusQD.cf.width_classic,to.scroller);
+//#                  }else
+//#                  {
+//#                    Msg mmm;
+//#                    if(body.startsWith("/me")){
+//#                      mmm = new Msg(Constants.MESSAGE_TYPE_OUT,"Me",null,"***Me " + body.substring(3,body.length()));
+//#                      StringUtils.addClassicChatMsg("***Me " + body.substring(3,body.length()),midlet.BombusQD.cf.width_classic,to.scroller);
+//#                    }else {
+//#                      mmm = new Msg(Constants.MESSAGE_TYPE_OUT,"Me",null,"Me: " + body);
+//#                      StringUtils.addClassicChatMsg("Me: " + body,midlet.BombusQD.cf.width_classic,to.scroller);
+//#                     }
+//#                     mmm=null;
+//#                   }
+//#                 }
+//#          }
+//#endif
         if (body!=null || subject!=null)
             playNotify(SOUND_OUTGOING);
         message=null;
@@ -3335,7 +3337,11 @@ public class Roster
 
             }
         }
-        if(midlet.BombusQD.cf.module_classicchat) StringUtils.addClassicChatMsg(message.toString(),midlet.BombusQD.cf.width_classic,c.scroller);
+//#ifdef CLASSIC_CHAT
+//#         if(midlet.BombusQD.cf.module_classicchat) {
+//#             StringUtils.addClassicChatMsg(message.toString(),midlet.BombusQD.cf.width_classic,c.scroller);
+//#         }
+//#endif
     }
 
     private static long notifyReadyTime=System.currentTimeMillis();
@@ -3604,16 +3610,24 @@ public class Roster
          }
     }
 
-    protected void keyGreen(){
-        if (!isLoggedIn()) return;
-        Displayable pview=createMsgList();
-        if (pview!=null) {
-            Contact c=(Contact)getFocusedObject();
-               if(!midlet.BombusQD.cf.module_classicchat){
-                  createMessageEdit(c, c.msgSuspended, pview, (c.getChatInfo().getMessageCount()==0) );
-               }
-               else new SimpleItemChat(display,this,c);
-            c.msgSuspended=null;
+    protected void keyGreen() {
+        if (!isLoggedIn()) {
+            return;
+        }
+        Displayable pview = createMsgList();
+        if (pview != null) {
+            Contact c = (Contact)getFocusedObject();
+
+//#ifdef CLASSIC_CHAT
+//#             if (midlet.BombusQD.cf.module_classicchat) {
+//#                 new SimpleItemChat(display, this, c);
+//#             } else {
+//#endif
+                createMessageEdit(c, c.msgSuspended, pview, (c.getChatInfo().getMessageCount() == 0));
+//#ifdef CLASSIC_CHAT
+//#             }
+//#endif
+            c.msgSuspended = null;
         }
     }
 
@@ -3657,25 +3671,27 @@ public class Roster
 //#endif
 
 
-    public void eventOk(){
-       super.eventOk();
-        Object e=getFocusedObject();
+    public void eventOk() {
+        super.eventOk();
+        Object e = getFocusedObject();
         if (e instanceof Contact) {
             Contact c = (Contact)e;
-//#if METACONTACTS
-//#endif
-            if(c.getChatInfo().getMessageCount()==0){
+
+            if (c.getChatInfo().getMessageCount() == 0) {
                 createMessageEdit(c, c.msgSuspended, this, true);
                 return;
             }
-
-              if(midlet.BombusQD.cf.module_classicchat){
-                new SimpleItemChat(display,this,c);
-              } else{
+//#ifdef CLASSIC_CHAT
+//#             if (midlet.BombusQD.cf.module_classicchat) {
+//#                 new SimpleItemChat(display, this, c);
+//#             } else {
+//#endif
                 display.setCurrent(c.getMessageList());
-              }
+//#ifdef CLASSIC_CHAT
+//#             }
+//#endif
             c = null;
-        } else{
+        } else {
             cleanupGroup();
             reEnumRoster();
             redraw();//???

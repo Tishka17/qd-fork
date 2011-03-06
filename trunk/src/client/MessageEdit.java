@@ -344,9 +344,9 @@ public final class MessageEdit
                 to.msgSuspended = body;
             }
             if (midlet.BombusQD.cf.msgEditType > 0) {
-                new ArchiveList(display, textField.getCaretPosition(), textField, null, to);
+                new ArchiveList(display, textField.getCaretPosition(), textField, null);
             } else {
-                new ArchiveList(display, t.getCaretPosition(), null, t, to);
+                new ArchiveList(display, t.getCaretPosition(), null, t);
             }
             return;
         }
@@ -440,7 +440,7 @@ public final class MessageEdit
 //#         if (c==cmdSendInTranslit) {
 //#             sendInTranslit=true;
 //#         }
-//#
+//# 
 //#         if (c==cmdSendInDeTranslit) {
 //#             sendInDeTranslit=true;
 //#         }

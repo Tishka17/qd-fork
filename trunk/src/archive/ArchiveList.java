@@ -78,15 +78,13 @@ public class ArchiveList
     private TextField tf;
     private TextBox tb;
 
-    Contact cc;
-
     public void eventOk(){
        MessageItem mi = (MessageItem)messages.elementAt(cursor);
        mi.onSelect(this);
     }
 
     /** Creates a new instance of ArchiveList */
-    public ArchiveList(Display display, int caretPos, TextField tf, TextBox tb, Contact cc) {
+    public ArchiveList(Display display, int caretPos, TextField tf, TextBox tb) {
  	super();
         this.caretPos=caretPos;
         if(midlet.BombusQD.cf.msgEditType>0){
@@ -94,7 +92,6 @@ public class ArchiveList
         }else{
            this.tb=tb;
         };
-        this.cc=cc;
 
        cmdPaste = new Command(SR.get(SR.MS_PASTE_BODY), Command.SCREEN, 1);
        cmdJid = new Command(SR.get(SR.MS_PASTE_JID) /*"Paste Jid"*/, Command.SCREEN, 2);
@@ -193,7 +190,7 @@ public class ArchiveList
 //#     }
 //#endif
 //#endif
-        if (c==cmdNew) { new archiveEdit(display, this, -1, this); }
+        if (c==cmdNew) { new ArchiveEdit(display, this, -1, this); }
 	if (m==null) return;
 
 	if (c==cmdDelete) { keyClear(); }
@@ -203,7 +200,7 @@ public class ArchiveList
 	if (c==cmdJid) { pasteData(2); }
         if (c==cmdEdit) {
             try {
-                new archiveEdit(display, this, cursor, this);
+                new ArchiveEdit(display, this, cursor, this);
             } catch (Exception e) {/*no messages*/}
         }
     }

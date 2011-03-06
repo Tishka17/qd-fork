@@ -18,7 +18,9 @@
 //# import ui.MainBar;
 //# import message.MessageItem;
 //# import midlet.Commands;
+//#ifdef CLIPBOARD
 //# import util.ClipBoard;
+//#endif
 //# 
 //# /**
 //#  *
@@ -142,7 +144,7 @@
 //#         }
 //#ifdef CLIPBOARD
 //#         if(c==copyReport){
-//# 
+//#
 //#         }
 //#endif
 //#     }

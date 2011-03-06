@@ -32,8 +32,9 @@
 //# import java.io.IOException;
 //# import javax.microedition.lcdui.*;
 //# import locale.SR;
+//#ifdef CLIPBOARD
 //# import util.ClipBoard;
-//# //import ui.controls.ExTextBox;
+//#endif
 //# 
 //# /**
 //#  *
@@ -68,8 +69,12 @@
 //#     public StanzaEdit(Display display, Displayable pView, String body) {
 //#         cmdCancel = new Command(SR.get(SR.MS_CANCEL), Command.BACK, 99);
 //#         cmdSend = new Command(SR.get(SR.MS_SEND), Command.OK, 1);
+//#ifdef ARCHIVE
 //#         cmdArchive = new Command(SR.get(SR.MS_ARCHIVE), Command.SCREEN, 9);
+//#endif
+//#ifdef CLIPBOARD
 //#         cmdPaste = new Command(SR.get(SR.MS_PASTE), Command.SCREEN, 10);
+//#endif
 //#         cmdPasteIQDisco = new Command("disco#info", Command.SCREEN, 11);
 //#         cmdPasteIQVersion = new Command("jabber:iq:version", Command.SCREEN, 12);
 //#         cmdPastePresence = new Command("presence", Command.SCREEN, 13);
@@ -79,8 +84,12 @@
 //#         this.display = display;
 //# 
 //#         textBox.addCommand(cmdSend);
+//#ifdef CLIPBOARD
 //#         textBox.addCommand(cmdPaste);
+//#endif
+//#ifdef ARCHIVE
 //#         textBox.addCommand(cmdArchive);
+//#endif
 //#         textBox.addCommand(cmdPasteIQDisco);
 //#         textBox.addCommand(cmdPasteIQVersion);
 //#         textBox.addCommand(cmdPastePresence);

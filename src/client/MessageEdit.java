@@ -40,7 +40,9 @@ import io.TranslateSelect;
 import archive.ArchiveList;
 //#endif
 import java.util.Vector;
-import util.ClipBoard;
+//#ifdef CLIPBOARD
+//# import util.ClipBoard;
+//#endif
 
 /**
  *

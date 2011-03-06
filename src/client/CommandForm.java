@@ -42,7 +42,9 @@ import java.util.Vector;
 //#endif
 import ui.MainBar;
 import ui.controls.form.MultiLine;
-import util.ClipBoard;
+//#ifdef CLIPBOARD
+//# import util.ClipBoard;
+//#endif
 //#ifdef GRAPHICS_MENU
 //#endif
 //#ifdef CLIPBOARD

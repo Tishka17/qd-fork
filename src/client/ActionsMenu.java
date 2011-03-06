@@ -62,7 +62,9 @@ import midlet.BombusQD;
 import ui.controls.AlertBox;
 import ui.MIDPTextBox;
 import ui.MainBar;
-import util.ClipBoard;
+//#ifdef CLIPBOARD
+//# import util.ClipBoard;
+//#endif
 import vcard.VCard;
 import vcard.VCardEdit;
 import vcard.VCardView;
@@ -558,16 +560,16 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
 //#                     if (body == null && body.length() == 0) {
 //#                         return;
 //#                     }
-//# 
+//#
 //#                     String from = midlet.BombusQD.sd.account.toString();
 //#                     String id = String.valueOf((int) System.currentTimeMillis());
-//# 
+//#
 //#                     BombusQD.sd.roster.sendMessage(contact, id, body, null, null);
-//# 
+//#
 //#                     Msg msg = new Msg(Constants.MESSAGE_TYPE_OUT, from, null, body);
 //#                     msg.id = id;
 //#                     msg.itemCollapsed = true;
-//# 
+//#
 //#                     contact.addMessage(msg);
 //#                     break;
 //#                 }

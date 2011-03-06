@@ -221,7 +221,7 @@ public class Roster
         new ActiveContacts(display, pView, current);
     }
 
-    public final void showActionsMenu(Object object) {
+    public final void showActionsMenu(Displayable pView, Object object) {
        if (isLoggedIn()) {
            if (object instanceof Contact) {
                if (((Contact)object).origin == Constants.ORIGIN_GROUPCHAT) {
@@ -229,7 +229,7 @@ public class Roster
                }
            }
 
-           new ActionsMenu(display, this, object);
+           new ActionsMenu(display, pView, object);
        }
     }
 
@@ -608,7 +608,7 @@ public class Roster
 
 //#ifdef GRAPHICS_MENU
 //#         if (c == cmdActions) {
-//#             showActionsMenu(getFocusedObject());
+//#             showActionsMenu(this, getFocusedObject());
 //#         }
 //#            else if(c==cmdOptions){
 //#               display.setCurrent(new ConfigForm(display, this));
@@ -3557,7 +3557,7 @@ public class Roster
 
     public void eventLongOk(){
         super.eventLongOk();
-        showActionsMenu(getFocusedObject());
+        showActionsMenu(this, getFocusedObject());
     }
 
 
@@ -4278,13 +4278,13 @@ public class Roster
 //#         if (midlet.BombusQD.cf.oldSE) {
 //#             showGraphicsMenu();
 //#         } else {
-//#             showActionsMenu(getFocusedObject());
+//#             showActionsMenu(this, getFocusedObject());
 //#         }
 //#     }
 //# 
 //#     public void touchLeftPressed() {
 //#         if (midlet.BombusQD.cf.oldSE) {
-//#             showActionsMenu(getFocusedObject());
+//#             showActionsMenu(this, getFocusedObject());
 //#         } else {
 //#             showGraphicsMenu();
 //#         }

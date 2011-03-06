@@ -353,6 +353,9 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
             }
 //#endif
         }
+
+        moveCursorTo(Config.getInstance().cursorPos[1]);
+
         attachDisplay(display);
         super.parentView = pView;
     }
@@ -383,6 +386,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
     public void eventOk() {
         MenuItem mItem = (MenuItem) getFocusedObject();
 
+        Config.getInstance().cursorPos[1] = super.cursor;
         // return - don't close Actions window;
         // break - vice versa
 

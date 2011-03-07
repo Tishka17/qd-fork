@@ -222,9 +222,7 @@ public class Contact extends IconTextElement{
         }
 //#endif
         if (null != j2j) return ColorTheme.getColor(ColorTheme.CONTACT_J2J);
-//#if METACONTACTS
-//# 
-//#endif
+
         return getMainColor();
     }
 
@@ -602,9 +600,7 @@ public class Contact extends IconTextElement{
         int yo=g.getClipY();
 
         int pos = 10;
-//#if METACONTACTS
-//# 
-//#endif
+
         g.translate(pos,0);
         w -= pos;
 
@@ -691,10 +687,6 @@ public class Contact extends IconTextElement{
         if ((thisOfs+getFirstLength())<0) thisOfs=offset;
 
         g.setFont(getFont());
-//#if METACONTACTS
-//# 
-//#endif
-
 
         if (getSecondString()==null) {
             int y = (h - fontHeight) >> 1 ;

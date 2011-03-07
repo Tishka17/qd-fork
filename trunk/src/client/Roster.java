@@ -1064,14 +1064,7 @@ public class Roster
            getNotes.addChildNs("query", "jabber:iq:private").addChildNs("storage", "storage:rosternotes");
            theStream.send(getNotes);
         }
-//#if METACONTACTS
-//#         //XEP-0209: Metacontacts
-//#         if(midlet.BombusQD.cf.metaContacts) {
-//#           JabberDataBlock metaQuery = new Iq(null, Iq.TYPE_GET, "idMetaCnts");
-//#           metaQuery.addChildNs("query", "jabber:iq:private").addChildNs("storage", "storage:metacontacts");
-//#           //theStream.send(metaQuery);
-//#         }
-//#endif
+
         if(cont!=null){
           cont = new Vector(0);
           cont = null;
@@ -1126,7 +1119,6 @@ public class Roster
                         i = f-1;
                         while (i>=0){
                            c = (Contact)sortVector.elementAt(i);
-                           //if(c.metaContact) break;
                            right=(IconTextElement)sortVector.elementAt(i);
                            if (right.compare(left) <0) break;
                            sortVector.setElementAt(right,i+1);
@@ -1643,7 +1635,7 @@ public class Roster
 
 //#ifdef CLASSIC_CHAT
 //#            if(body!=null){
-//# 
+//#
 //#                if(midlet.BombusQD.cf.module_classicchat){
 //#                  if(!groupchat) {
 //#                  //forfix
@@ -2074,12 +2066,10 @@ public class Roster
                         if (type.equals("get") || type.equals("set") || type.equals("error") ) return JabberBlockListener.BLOCK_REJECTED;
 
                         setQuerySign(false);
-                        VCard vc=new VCard(data);
+                        VCard vcard=new VCard(data);
                         String jid=id.substring(5);
                         Contact c=null;
-//#if METACONTACTS
-//# 
-//#endif
+
                         if(c==null) c=getContact(jid, false); // drop unwanted vcards
 			String vcardFrom = data.getAttribute("from");
 			if (c instanceof MucContact) {
@@ -2102,22 +2092,23 @@ public class Roster
 
 //#if FILE_IO
                                 if(midlet.BombusQD.cf.autoSaveVcard) {//check img in fs?
-                                    cashePhoto(vc,c);
+                                    cashePhoto(vcard,c);
                                 }
 //#endif
-                        if (c!=null) {
-                            c.vcard=vc;
-                            if (display.getCurrent() instanceof VirtualList) {
-                                if (c.getGroupType()==Groups.TYPE_SELF)
-                                    new VCardEdit(display, this, vc);
-                                else
-                                    new VCardView(display, this, c);
-                            }
-                        } else {
-                            new VCardView(display, this, c);
-                        }
-                        vc=null;
-                        return JabberBlockListener.BLOCK_PROCESSED;
+                         if (c != null) {
+                             c.vcard = vcard;
+                             if (display.getCurrent() instanceof VirtualList) {
+                                 if (c.getGroupType() == Groups.TYPE_SELF) {
+                                     new VCardEdit(display, this, vcard);
+                                 } else {
+                                     new VCardView(display, this, c);
+                                 }
+                             }
+                         } else {
+                             new VCardView(display, this, vcard);
+                         }
+                         vcard = null;
+                         return JabberBlockListener.BLOCK_PROCESSED;
                     }
 
                     if (id.startsWith("avcard_get")) {
@@ -2134,8 +2125,7 @@ public class Roster
                             } else {
                                 Image photoImg=Image.createImage(vc.getPhoto(), 0, length);
                                 Contact c=null;
-//#if METACONTACTS
-//#endif
+
                                 if(c==null) c=getContact(data.getAttribute("from"), true);
 //#if FILE_IO
                                 if(midlet.BombusQD.cf.autoSaveVcard) {
@@ -2166,11 +2156,7 @@ public class Roster
                         }
                        redraw();
                     }
-//#if METACONTACTS
-//#                     if(id.startsWith("idMetaCnts")){//XEP-0209: Metacontacts
-//# 
-//#                     }
-//#endif
+
                     if(id.startsWith("getnotes")){
                       //XEP-0145: Annotations
                       if(midlet.BombusQD.cf.networkAnnotation) {
@@ -2346,15 +2332,11 @@ public class Roster
                     if (rp>0) from=from.substring(0, rp);
                 }
 
-                Contact c = null;
-//#if METACONTACTS
-//#                 if(c==null) c = getContact(from, (midlet.BombusQD.cf.notInListDropLevel!=NotInListFilter.DROP_MESSAGES_PRESENCES||groupchat));
-//#else
-                c = getContact(from, (midlet.BombusQD.cf.notInListDropLevel!=NotInListFilter.DROP_MESSAGES_PRESENCES||groupchat));
-//#endif
-
-                if (c==null) return JabberBlockListener.BLOCK_REJECTED; //not-in-list message dropped
-
+                Contact c = getContact(from, (midlet.BombusQD.cf.notInListDropLevel != NotInListFilter.DROP_MESSAGES_PRESENCES || groupchat));
+                //not-in-list message dropped
+                if (c == null) {
+                    return JabberBlockListener.BLOCK_REJECTED;
+                }
 
                 boolean highlite=false;
 
@@ -2664,20 +2646,15 @@ public class Roster
 //#                 //midlet.BombusQD.debug.add("::PRESENCE "+data.toString(),10);
 //#endif
 
-                if(midlet.BombusQD.cf.auto_queryPhoto)
-                {
-                    Contact c=null;
-//#if METACONTACTS
-//# 
-//#endif
-                    if(c==null) c = getContact(data.getAttribute("from"), true);
-                    if(c.hasPhoto==false&&c.img_vcard==null){
-                     JabberDataBlock req=new Iq(c.getJid(), Iq.TYPE_GET, "avcard_get");
-                     req.addChildNs("vCard", "vcard-temp" );
-                     theStream.send(req);
-                     req=null;
+                if (midlet.BombusQD.cf.auto_queryPhoto) {
+                    Contact c = getContact(data.getAttribute("from"), true);
+                    if (c.hasPhoto == false && c.img_vcard == null) {
+                        JabberDataBlock req = new Iq(c.getJid(), Iq.TYPE_GET, "avcard_get");
+                        req.addChildNs("vCard", "vcard-temp");
+                        theStream.send(req);
+                        req = null;
                     }
-                    c=null;
+                    c = null;
                 }
 //#ifndef WMUC
             JabberDataBlock xmuc=pr.findNamespace("x", "http://jabber.org/protocol/muc#user");
@@ -2835,9 +2812,6 @@ public class Roster
                             return JabberBlockListener.BLOCK_PROCESSED;
                         }
 
-//#if METACONTACTS
-//# 
-//#endif
                         c=getContact(from, true);
                         messageStore(c, m);
                         sortRoster(c);
@@ -2849,9 +2823,7 @@ public class Roster
                     } else {
                         // processing presences
                         boolean enNIL= midlet.BombusQD.cf.notInListDropLevel > NotInListFilter.DROP_PRESENCES;
-//#if METACONTACTS
-//# 
-//#endif
+
                         c=getContact(from, enNIL);
                         if (c==null) return JabberBlockListener.BLOCK_REJECTED; //drop not-in-list presence
                         if (pr.getAttribute("ver")!=null) c.version=pr.getAttribute("ver");  // for bombusmod only
@@ -2943,7 +2915,7 @@ public class Roster
                 return JabberBlockListener.BLOCK_PROCESSED;
             }
         } catch( Exception e ) {
-                //if(midlet.BombusQD.cf.debug) midlet.BombusQD.debug.add("error RosterJDB:: "+data.toString(),10);
+            e.printStackTrace();
 //#if DEBUG
 //#             e.printStackTrace();
 //#endif
@@ -3666,11 +3638,6 @@ public class Roster
         }
     }
 
-//#if METACONTACTS
-//# 
-//#endif
-
-
     public void eventOk() {
         super.eventOk();
         Object e = getFocusedObject();
@@ -3712,9 +3679,6 @@ public class Roster
                 return;
 //#endif
             case KEY_NUM1:
-//#if METACONTACTS
-//#                 //collapseContacts();
-//#endif
                 if (midlet.BombusQD.cf.collapsedGroups) { //collapse all groups
                      int size = contactList.groups.groups.size();
                      for (int i=0; i<size; ++i) {

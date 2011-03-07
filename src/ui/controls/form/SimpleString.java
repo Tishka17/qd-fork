@@ -52,10 +52,6 @@ public class SimpleString extends IconTextElement {
         this.bold = bold;
     }
 
-    public int getVWidth() {
-        return -1;
-    }
-
     public String toString() {
         return text;
     }

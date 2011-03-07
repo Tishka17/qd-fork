@@ -1,5 +1,5 @@
 /*
- * CheckBox.java 
+ * CheckBox.java
  *
  * Created on 19.05.2008, 22:16
  *
@@ -27,128 +27,118 @@
  */
 
 package ui.controls.form;
-
-import colors.ColorTheme;
-import images.RosterIcons;
-import ui.IconTextElement;
-import javax.microedition.lcdui.*;
 import java.util.Vector;
-import util.StringUtils;
+import javax.microedition.lcdui.Graphics;
 import ui.GMenuConfig;
+import ui.IconTextElement;
 import ui.VirtualList;
+import util.StringUtils;
+
 /**
  *
  * @author ad,aqent
  */
-public class SimpleTextBox 
-        extends IconTextElement {
-    
-    private boolean state=false;
-    private String text="";
-    private String text_undo="";    
-    private boolean otherWindow=false;    
-    private int colorItem;
-    Vector checkBox = new Vector(0);
-    GMenuConfig gm = GMenuConfig.getInstance();
-    
-    public SimpleTextBox(String text, boolean state,boolean otherWindow) {
+
+public class SimpleTextBox extends IconTextElement {
+    private boolean isExpanded;
+
+    private String tip;
+    private String text;
+
+    private Vector tipLines;
+
+    private GMenuConfig gm = GMenuConfig.getInstance();
+
+    public SimpleTextBox(String text, boolean isExpanded) {
         super(null);
-        if(text.indexOf("%")>-1){
-          this.text=text.substring(text.indexOf("%"),text.length());
-          this.text_undo=text.substring(0,text.indexOf("%"));
-        }else{
-          this.text=text;
+
+        int sep = text.indexOf("%");
+        if (sep > -1) {
+            this.tip = text.substring(sep);
+            this.text = text.substring(0, sep);
+
+            tipLines = StringUtils.parseBoxString(this.tip, gm.phoneWidth - 30, getFont());
+        } else {
+            this.text = text;
+            this.tip = null;
         }
-        this.state=state;
-        this.otherWindow=otherWindow;
-        colorItem=ColorTheme.getColor(ColorTheme.CONTROL_ITEM);
-        checkBox.addElement(StringUtils.parseBoxString(this.text, gm.phoneWidth - 50, getFont()));
+        this.isExpanded = isExpanded;
     }
-    
-    public SimpleTextBox(String text, boolean state) {
-        super(null);
-        if(text.indexOf("%")>-1){
-          this.text=text.substring(text.indexOf("%"),text.length());
-          this.text_undo=text.substring(0,text.indexOf("%"));
-        }else{
-          this.text=text;
-        }
-        this.state=state;
-        this.otherWindow=false;
-        colorItem=ColorTheme.getColor(ColorTheme.CONTROL_ITEM);
-        checkBox.addElement(StringUtils.parseBoxString(this.text, gm.phoneWidth - 50, getFont()));
+
+    public String toString() {
+        return text;
     }
-    
-    public String toString() { return text; }
+
     public void onSelect(VirtualList view) {
-        state=!state;
+        isExpanded = !isExpanded;
     }
 
-    //public int getImageIndex(){ return state?0x57:0x56; }
-    
-    int fontHeight=getFont().getHeight();
-    
-    public void drawItem(VirtualList view, Graphics g, int ofs, boolean sel){
-       g.setFont(getFont());
-       int offset=4;
+    public void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {
+        g.setFont(getFont());
 
-       if (toString()!=null){
-        Vector lines=(Vector)checkBox.elementAt(0);   
-        int size=lines.size(); 
-        g.clipRect(0, 0, g.getClipWidth(), getVHeight());
-        int y = 0;
-         if(state){
-              int helpHeight=0;
-              
-              if(toString().indexOf("%")>-1){
-                    helpHeight += fontHeight*(size-1);
-                    g.drawString(text_undo, offset-ofs, y, Graphics.TOP|Graphics.LEFT);                    
-                    g.setColor(0xffffff);
-                    g.fillRoundRect(15,fontHeight+2,gm.phoneWidth-30,helpHeight,9,9);
-                    g.setColor(0x000000);
-                    g.drawRoundRect(15,fontHeight+2,gm.phoneWidth-30,helpHeight,9,9);  
-                    g.setColor(0x000000);
-                 for(int i=0;i<size;i++){ 
-                   if(i==0){
-                      g.drawString((String)lines.elementAt(i),3, y, Graphics.TOP|Graphics.LEFT);
-                   }else{
-                      g.drawString((String)lines.elementAt(i),18 , y + 2, Graphics.TOP|Graphics.LEFT);   
-                   }
-                   y += fontHeight;
-                 }
-              }else{
-                   g.drawString(toString(), offset-ofs, fontYOfs, Graphics.TOP|Graphics.LEFT);
-              }
-         } else{
-              if(toString().indexOf("%")>-1){
-                 g.drawString(text_undo, offset-ofs, fontYOfs, Graphics.TOP|Graphics.LEFT);  
-              }else{
-                  g.drawString(toString(), offset-ofs, fontYOfs, Graphics.TOP|Graphics.LEFT);
-              }
-         }         
-       }       
-    }    
+        int xOffset = getOffset();
 
-    public int getVWidth(){ 
+        if ((tip != null && !isExpanded) || (tip == null)) {
+            g.clipRect(xOffset, 0, g.getClipWidth(), itemHeight);
+
+            String str = toString();
+            if (null != str) {
+                int yOffset = getFont().getHeight();
+                g.drawString(str, xOffset - ofs, (itemHeight - yOffset) / 2, Graphics.TOP | Graphics.LEFT);
+            }
+        } else {
+            int scrollW = midlet.BombusQD.cf.scrollWidth;
+
+            int fontHeight = getFont().getHeight();
+            int size = tipLines.size();
+
+            g.clipRect(xOffset, 0, g.getClipWidth(), getVHeight());
+
+            int helpHeight = fontHeight * (size - 1);
+            g.drawString(text, xOffset - ofs, 0, Graphics.TOP | Graphics.LEFT);
+
+            g.setColor(0xFFFFFF);
+            g.fillRoundRect(xOffset, fontHeight + 2, gm.phoneWidth - 10 - scrollW, helpHeight, 9, 9);
+            g.setColor(0x000000);
+            g.drawRoundRect(xOffset, fontHeight + 2, gm.phoneWidth - 10 - scrollW, helpHeight, 9, 9);
+            g.setColor(0x000000);
+
+            int y = 0;
+            for (int i = 0; i < size; i++) {
+                g.drawString((String)tipLines.elementAt(i), xOffset + 3, y + 2, Graphics.TOP | Graphics.LEFT);
+                y += fontHeight;
+            }
+        }
+    }
+
+    public int getVWidth(){
         return -1;
     }
-    
-    public int getVHeight(){ 
-        Vector str=(Vector)checkBox.elementAt(0);
-        if(state){
-           if (str.size()<1) {
-             return fontHeight;
-           }else{
-              if(toString().indexOf("%")>-1){
-                return fontHeight*str.size() + 7;  
-              }else{
-                return fontHeight;   
-              }
-           }            
-        }else{
-           return fontHeight;
+
+    public int getVHeight() {
+        int fontHeight = getFont().getHeight();
+        if (isExpanded && tip != null) {
+            itemHeight = fontHeight * (tipLines.size() + 1);
+        } else {
+            itemHeight = fontHeight;
         }
+        if (itemHeight < midlet.BombusQD.cf.minItemHeight) {
+            itemHeight = midlet.BombusQD.cf.minItemHeight;
+        }
+        return itemHeight;
     }
-    public boolean getValue() { return state; }
-    public boolean isSelectable() { return true; }
+
+    public boolean isSelectable() {
+        return true;
+    }
+
+    public boolean handleEvent(int keyCode) {
+        switch (keyCode) {
+            case 12:
+            case 5:
+                isExpanded = !isExpanded;
+                return true;
+        }
+        return false;
+    }
 }

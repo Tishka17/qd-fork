@@ -1128,7 +1128,7 @@ public class Roster
                 }
             reEnumRoster();
         } catch (Exception e) {
-            e.printStackTrace(); /* ClassCastException */
+            //e.printStackTrace();
         }
     }
 
@@ -1423,7 +1423,9 @@ public class Roster
         if (myStatus==Constants.PRESENCE_OFFLINE) {
             try {
                 theStream.close(); // sends </stream:stream> and closes socket
-            } catch (Exception e) { e.printStackTrace(); }
+            } catch (Exception e) {
+                //e.printStackTrace();
+            }
             contactList.setOfflineStatus();
             theStream=null;
             System.gc();
@@ -1667,8 +1669,10 @@ public class Roster
             lastMessageTime=Time.utcTimeMillis();
 
         }
-        catch(OutOfMemoryError eom) { errorLog("error Roster::1"); }
-        catch (Exception e) { e.printStackTrace(); }
+        catch(OutOfMemoryError eom) { errorLog("error Roster::1");
+        } catch (Exception e) {
+            //e.printStackTrace()
+        }
 //#ifdef AUTOSTATUS
 //#         messageActivity();
 //#endif
@@ -2458,9 +2462,11 @@ public class Roster
                             }
                          }
                     }
+                } catch (OutOfMemoryError eom) {
+                    errorLog("error Roster::2");
+                } catch (Exception e) {
+                    //e.printStackTrace();
                 }
-                catch(OutOfMemoryError eom) { errorLog("error Roster::2"); }
-                catch (Exception e) { e.printStackTrace(); }
 //#endif
                 if (name==null) name=c.getName();
                 // /me
@@ -2915,10 +2921,7 @@ public class Roster
                 return JabberBlockListener.BLOCK_PROCESSED;
             }
         } catch( Exception e ) {
-            e.printStackTrace();
-//#if DEBUG
-//#             e.printStackTrace();
-//#endif
+            //e.printStackTrace();
         }
         return JabberBlockListener.BLOCK_REJECTED;
     }
@@ -4339,7 +4342,7 @@ public class Roster
                 if(desiredFocus!=null) desiredFocus = null;
                 focused = null;
             } catch (Exception e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
         private void reinit(Object focused) {

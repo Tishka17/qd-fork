@@ -96,10 +96,29 @@ public class Group extends IconTextElement {
     }
 
     public final void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {
+        g.setFont(getFont());
+
+        int xOffset = getOffset();
+        int clipWidth = g.getClipWidth();
+
+        if (null != il) {
+            if (getImageIndex() != -1) {
+                il.drawImage(g, getImageIndex(), xOffset , (itemHeight - imgHeight) / 2);
+                xOffset += imgHeight;
+            }
+        }
         if (collapsed && hasNewMsgs()) {
             il.drawImage(g, RosterIcons.ICON_MESSAGE_INDEX, g.getClipWidth() - imgWidth, (itemHeight - imgHeight) / 2);
+            clipWidth -= imgWidth;
         }
-        super.drawItem(view, g, ofs, sel);
+
+        g.setClip(g.getClipX(), g.getClipY(), clipWidth, itemHeight);
+
+        String str = toString();
+        if (null != str) {
+            int yOffset = getFont().getHeight();
+            g.drawString(str, xOffset - ofs, (itemHeight - yOffset) / 2, Graphics.TOP | Graphics.LEFT);
+        }
     }
 
     public final String getName() {

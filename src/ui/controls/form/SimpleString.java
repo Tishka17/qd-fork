@@ -57,9 +57,6 @@ public class SimpleString extends IconTextElement {
     }
 
     public String toString() {
-        if (text.equals(locale.SR.get(locale.SR.MS_USER_APP_LEVEL))) {
-            isSelectable = true;
-        }
         return text;
     }
 

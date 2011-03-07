@@ -28,7 +28,10 @@
 package ui.controls.form;
 
 import colors.ColorTheme;
+import font.FontCache;
+import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
+import ui.IconTextElement;
 import ui.VirtualList;
 
 /**
@@ -36,17 +39,20 @@ import ui.VirtualList;
  * @author ad
  */
 
-public abstract class LinkString extends SimpleString {
+public abstract class LinkString extends IconTextElement {
+    private String text;
+
     public LinkString(String text) {
-        super(text, true);
+        super(null);
+        this.text = text;
+    }
+
+    public Font getFont() {
+        return FontCache.getFont(true, FontCache.msg);
     }
 
     public int getColor() {
         return ColorTheme.getColor(ColorTheme.MSG_HIGHLIGHT);
-    }
-
-    public int getVWidth() {
-        return -1;
     }
 
     public void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {
@@ -62,6 +68,10 @@ public abstract class LinkString extends SimpleString {
         g.drawLine(4, lineOffset, stringWidth + 3, lineOffset);
 
         g.drawString(text, getOffset() - ofs, yOffset, Graphics.TOP | Graphics.LEFT);
+    }
+
+    public String toString() {
+        return text;
     }
 
     public boolean isSelectable() {

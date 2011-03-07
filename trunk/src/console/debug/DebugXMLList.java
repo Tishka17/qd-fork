@@ -28,10 +28,10 @@
 //#ifdef DEBUG_CONSOLE
 //# package console.debug;
 //# 
-//# import console.xml.StanzaEdit;
 //# import client.Constants;
 //# import client.Msg;
 //# import client.StaticData;
+//# import console.ConsoleTextEdit;
 //# import message.MessageList;
 //#ifndef MENU_LISTENER
 //# import javax.microedition.lcdui.Command;
@@ -52,6 +52,7 @@
 //#  *
 //#  * @author ad,aqent
 //#  */
+//# 
 //# public final class DebugXMLList
 //#     extends MessageList {
 //# 
@@ -152,7 +153,7 @@
 //#         try {
 //#             stanza =  m.toString();
 //#         } catch (Exception e) {}
-//#         new StanzaEdit(display, this, stanza);
+//#         new ConsoleTextEdit(display, this, stanza);
 //#     }
 //# 
 //#     public void commandAction(Command c, Displayable d) {

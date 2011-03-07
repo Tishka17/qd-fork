@@ -29,11 +29,11 @@
 //#ifdef XML_CONSOLE
 //# package console.xml;
 //# 
-//# import console.xml.StanzasList;
 //# import archive.MessageArchive;
 //# import client.Constants;
 //# import client.Config;
 //# import client.Msg;
+//# import console.ConsoleTextEdit;
 //# import message.MessageList;
 //#ifndef MENU_LISTENER
 //# import javax.microedition.lcdui.Command;
@@ -51,6 +51,7 @@
 //#endif
 //# import message.MessageItem;
 //# import midlet.Commands;
+//# import ui.MainBar;
 //# 
 //# /**
 //#  *
@@ -158,7 +159,7 @@
 //#             stanza = m.toString();
 //#         } catch (Exception e) {
 //#         }
-//#         new StanzaEdit(display, this, stanza);
+//#         new ConsoleTextEdit(display, this, stanza);
 //#     }
 //# 
 //#     public void commandAction(Command c, Displayable d) {

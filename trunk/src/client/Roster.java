@@ -569,11 +569,10 @@ public class Roster
 //#          */
 //#ifdef XML_CONSOLE
 //#             } else if(c==cmdXMLConsole){
-//#              new XMLList(display,this);
-//#            }
+//#                 new XMLList(display,this);
 //#endif
 //#ifdef DEBUG_CONSOLE
-//#            else if(c==cmdDebugConsole){
+//#           } else if(c==cmdDebugConsole){
 //#                 new DebugXMLList(display, this);
 //#endif
 //#          } else if (c==cmdMinimize) { cmdMinimize();  }

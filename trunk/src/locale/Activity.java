@@ -25,7 +25,7 @@
  */
 
 //#ifdef PEP
-//# package locale; 
+//# package locale;
 //# 
 //# import client.Config;
 //# import java.util.Hashtable;
@@ -38,7 +38,7 @@
 //#     public   static String ACTIVITY_having_coffee = loadString( "having_coffee" );
 //#     public   static String ACTIVITY_having_tea = loadString( "having_tea" );
 //# 
-//#     
+//# 
 //#     public   static String CATEGORY_doing_chores = loadString( "doing_chores" );
 //#     public   static String ACTIVITY_buying_groceries = loadString( "buying_groceries" );
 //#     public   static String ACTIVITY_cleaning = loadString( "cleaning" );
@@ -50,12 +50,12 @@
 //#     public   static String ACTIVITY_running_an_errand = loadString( "running_an_errand" );
 //#     public   static String ACTIVITY_walking_the_dog = loadString( "walking_the_dog" );
 //# 
-//#     
+//# 
 //#     public   static String CATEGORY_eating = loadString( "eating" );
 //#     public   static String ACTIVITY_having_a_snack = loadString( "having_a_snack" );
 //#     public   static String ACTIVITY_having_breakfast = loadString( "having_breakfast" );
 //#     public   static String ACTIVITY_having_dinner = loadString( "having_dinner" );
-//#     public   static String ACTIVITY_having_lunch = loadString( "having_lunch" );    
+//#     public   static String ACTIVITY_having_lunch = loadString( "having_lunch" );
 //# 
 //#     public   static String CATEGORY_exercising = loadString( "exercising" );
 //#     public   static String ACTIVITY_cycling = loadString( "cycling" );
@@ -66,9 +66,9 @@
 //#     public   static String ACTIVITY_running = loadString( "running" );
 //#     public   static String ACTIVITY_skiing = loadString( "skiing" );
 //#     public   static String ACTIVITY_swimming = loadString( "swimming" );
-//#     public   static String ACTIVITY_working_out = loadString( "working_out" );    
-//#     
-//#     
+//#     public   static String ACTIVITY_working_out = loadString( "working_out" );
+//# 
+//# 
 //#     public   static String CATEGORY_grooming = loadString( "grooming" );
 //#     public   static String ACTIVITY_at_the_spa = loadString( "at_the_spa" );
 //#     public   static String ACTIVITY_brushing_teeth = loadString( "brushing_teeth" );
@@ -76,21 +76,21 @@
 //#     public   static String ACTIVITY_shaving = loadString( "shaving" );
 //#     public   static String ACTIVITY_taking_a_bath = loadString( "taking_a_bath" );
 //#     public   static String ACTIVITY_taking_a_shower = loadString( "taking_a_shower" );
-//#     
-//#     public   static String CATEGORY_having_appointment = loadString( "having_appointment" );    
-//#     
-//#     
+//# 
+//#     public   static String CATEGORY_having_appointment = loadString( "having_appointment" );
+//# 
+//# 
 //#     public   static String CATEGORY_inactive = loadString( "inactive" );
 //#     public   static String ACTIVITY_day_off = loadString( "day_off" );
 //#     public   static String ACTIVITY_hanging_out = loadString( "hanging_out" );
 //#     public   static String ACTIVITY_hiding = loadString( "hiding" );
 //#     public   static String ACTIVITY_on_vacation = loadString( "on_vacation" );
 //#     public   static String ACTIVITY_praying = loadString( "praying" );
-//#     public   static String ACTIVITY_scheduled_holiday = loadString( "scheduled_holiday" );   
+//#     public   static String ACTIVITY_scheduled_holiday = loadString( "scheduled_holiday" );
 //#     public   static String ACTIVITY_sleeping = loadString( "sleeping" );
 //#     public   static String ACTIVITY_thinking = loadString( "thinking" );
-//#     
-//#     
+//# 
+//# 
 //#     public   static String CATEGORY_relaxing = loadString( "relaxing" );
 //#     public   static String ACTIVITY_fishing = loadString( "fishing" );
 //#     public   static String ACTIVITY_gaming = loadString( "gaming" );
@@ -100,19 +100,19 @@
 //#     public   static String ACTIVITY_rehearsing = loadString( "rehearsing" );
 //#     public   static String ACTIVITY_shopping = loadString( "shopping" );
 //#     public   static String ACTIVITY_smoking = loadString( "smoking" );
-//#     public   static String ACTIVITY_socializing = loadString( "socializing" ); 
+//#     public   static String ACTIVITY_socializing = loadString( "socializing" );
 //#     public   static String ACTIVITY_sunbathing = loadString( "sunbathing" );
 //#     public   static String ACTIVITY_watching_tv = loadString( "watching_tv" );
 //#     public   static String ACTIVITY_watching_a_movie = loadString( "watching_a_movie" );
-//#     
-//#  
+//# 
+//# 
 //# 
 //#     public   static String CATEGORY_talking = loadString( "talking" );
 //#     public   static String ACTIVITY_in_real_life = loadString( "in_real_life" );
 //#     public   static String ACTIVITY_on_the_phone = loadString( "on_the_phone" );
 //#     public   static String ACTIVITY_on_video_phone = loadString( "on_video_phone" );
-//#     
-//#     
+//# 
+//# 
 //#     public   static String CATEGORY_traveling = loadString( "traveling" );
 //#     public   static String ACTIVITY_commuting = loadString( "commuting" );
 //#    //public   static String ACTIVITY_cycling = loadString( "cycling" );
@@ -122,35 +122,35 @@
 //#     public   static String ACTIVITY_on_a_plane = loadString( "on_a_plane" );
 //#     public   static String ACTIVITY_on_a_train = loadString( "on_a_train" );
 //#     public   static String ACTIVITY_on_a_trip = loadString( "on_a_trip" );
-//#     public   static String ACTIVITY_walking = loadString( "walking" ); 
+//#     public   static String ACTIVITY_walking = loadString( "walking" );
 //# 
-//#     
+//# 
 //#     public   static String CATEGORY_working = loadString( "working" );
 //#     public   static String ACTIVITY_coding = loadString( "coding" );
 //#     public   static String ACTIVITY_in_a_meeting = loadString( "in_a_meeting" );
-//#     public   static String ACTIVITY_studying = loadString( "studying" );    
-//#     public   static String ACTIVITY_writing = loadString( "writing" );   
-//#     
-//#     public   static String no_activity = loadString( "no activity" );        
-//#     
+//#     public   static String ACTIVITY_studying = loadString( "studying" );
+//#     public   static String ACTIVITY_writing = loadString( "writing" );
+//# 
+//#     public   static String no_activity = loadString( "no activity" );
+//# 
 //#     public Activity() { }
-//#     
+//# 
 //#     public static String getString(String key) {
 //#         if (action==null) {
-//#            String value=(String)action.get(key);    
+//#            String value=(String)action.get(key);
 //#            return (value==null)?key:value;
 //#         }
 //#        return "error";
 //#     }
-//#     
-//#     private static Hashtable action;    
+//# 
+//#     private static Hashtable action;
 //# 
 //#     public static final String[] NAMES = {
 //#        "drinking",
 //#          "having_a_beer",
 //#          "having_coffee",
-//#          "having_tea",        
-//#       "doing_chores", 
+//#          "having_tea",
+//#       "doing_chores",
 //#          "buying_groceries",
 //#          "cleaning",
 //#          "cooking",
@@ -160,7 +160,7 @@
 //#          "gardening",
 //#          "running_an_errand",
 //#          "walking_the_dog",
-//#       "eating", 
+//#       "eating",
 //#          "having_a_snack",
 //#          "having_breakfast",
 //#          "having_dinner",
@@ -192,7 +192,7 @@
 //#          "scheduled_holiday",
 //#          "sleeping",
 //#          "thinking",
-//#        "relaxing", 
+//#        "relaxing",
 //#          "fishing",
 //#          "gaming",
 //#          "going_out",
@@ -205,7 +205,7 @@
 //#          "sunbathing",
 //#          "watching_tv",
 //#          "watching_a_movie",
-//#        "talking", 
+//#        "talking",
 //#          "in_real_life",
 //#          "on_the_phone",
 //#          "on_video_phone",
@@ -223,24 +223,24 @@
 //#          "coding",
 //#          "in_a_meeting",
 //#          "studying",
-//#          "writing"      
-//#     };   
-//#     
+//#          "writing"
+//#     };
+//# 
 //#     public static byte getIconIndex(String str) {
 //#         int len = NAMES.length;
 //#         for (int i=0; i<len;i++) {
 //#             if(str.indexOf(NAMES[i])>-1) return (byte)i;
 //#         }
 //#         return -1;
-//#     }    
+//#     }
 //# 
 //#     public static String loadString(String key) {
 //#         if (action==null) {
 //#             String file="/lang/"+midlet.BombusQD.cf.getInstance().lang+".activity.txt";
-//#ifdef CONSOLE 
+//#ifdef DEBUG_CONSOLE
 //#             if(midlet.BombusQD.cf.debug) midlet.BombusQD.debug.add("::loadActivity->"+file,10);
 //#endif
-//#             System.out.println(file);
+//#             //System.out.println(file);
 //#             action=new StringLoader().hashtableLoader(file);
 //#             if (action==null) {
 //#                 action=new Hashtable(0);

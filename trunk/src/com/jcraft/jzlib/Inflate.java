@@ -8,8 +8,8 @@ modification, are permitted provided that the following conditions are met:
   1. Redistributions of source code must retain the above copyright notice,
      this list of conditions and the following disclaimer.
 
-  2. Redistributions in binary form must reproduce the above copyright 
-     notice, this list of conditions and the following disclaimer in 
+  2. Redistributions in binary form must reproduce the above copyright
+     notice, this list of conditions and the following disclaimer in
      the documentation and/or other materials provided with the distribution.
 
   3. The names of the authors may not be used to endorse or promote products
@@ -35,7 +35,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package com.jcraft.jzlib;
 
 final class Inflate{
-  
+
   static final public int MAX_WBITS=15; // 32K LZ77 window
 
   // preset dictionary flag in zlib header
@@ -94,9 +94,11 @@ final class Inflate{
 
   int inflateReset(ZStream z){
     if(z == null || z.istate == null) return Z_STREAM_ERROR;
-    
+
     z.total_in = z.total_out = 0;
-    z.addDebugMsg("inflate::inflateReset -> null");
+//#ifdef DEBUG_CONSOLE
+//#     z.addDebugMsg("inflate::inflateReset -> null");
+//#endif
     //z.msg = null;
     z.istate.mode = z.istate.nowrap!=0 ? BLOCKS : METHOD;
     z.istate.blocks.reset(z, null);
@@ -112,7 +114,9 @@ final class Inflate{
   }
 
   int inflateInit(ZStream z, int w){
-    z.addDebugMsg("inflate::inflateInit -> null");
+//#ifdef DEBUG_CONSOLE
+//#     z.addDebugMsg("inflate::inflateInit -> null");
+//#endif
     //z.msg = null;
     blocks = null;
 
@@ -130,7 +134,7 @@ final class Inflate{
     }
     wbits=w;
 
-    z.istate.blocks=new InfBlocks(z, 
+    z.istate.blocks=new InfBlocks(z,
 				  z.istate.nowrap!=0 ? null : this,
 				  1<<w);
 
@@ -157,14 +161,18 @@ final class Inflate{
         z.avail_in--; z.total_in++;
         if(((z.istate.method = z.next_in[z.next_in_index++])&0xf)!=Z_DEFLATED){
           z.istate.mode = BAD;
-          z.addDebugMsg("inflate::inflate -> unknown compression method");
+//#ifdef DEBUG_CONSOLE
+//#           z.addDebugMsg("inflate::inflate -> unknown compression method");
+//#endif
           //z.msg="unknown compression method";
           z.istate.marker = 5;       // can't try inflateSync
           break;
         }
         if((z.istate.method>>4)+8>z.istate.wbits){
           z.istate.mode = BAD;
-          z.addDebugMsg("inflate::inflate -> invalid window size");
+//#ifdef DEBUG_CONSOLE
+//#           z.addDebugMsg("inflate::inflate -> invalid window size");
+//#endif
           //z.msg="invalid window size";
           z.istate.marker = 5;       // can't try inflateSync
           break;
@@ -179,7 +187,9 @@ final class Inflate{
 
         if((((z.istate.method << 8)+b) % 31)!=0){
           z.istate.mode = BAD;
-          z.addDebugMsg("inflate::inflate -> incorrect header check");
+//#ifdef DEBUG_CONSOLE
+//#           z.addDebugMsg("inflate::inflate -> incorrect header check");
+//#endif
           //z.msg = "incorrect header check";
           z.istate.marker = 5;       // can't try inflateSync
           break;
@@ -222,7 +232,9 @@ final class Inflate{
         return Z_NEED_DICT;
       case DICT0:
         z.istate.mode = BAD;
-        z.addDebugMsg("inflate::inflate -> need dictionary");
+//#ifdef DEBUG_CONSOLE
+//#         z.addDebugMsg("inflate::inflate -> need dictionary");
+//#endif
         //z.msg = "need dictionary";
         z.istate.marker = 0;       // can try inflateSync
         return Z_STREAM_ERROR;
@@ -277,7 +289,9 @@ final class Inflate{
 
         if(((int)(z.istate.was[0])) != ((int)(z.istate.need))){
           z.istate.mode = BAD;
-          z.addDebugMsg("inflate::inflate -> incorrect data check");
+//#ifdef DEBUG_CONSOLE
+//#           z.addDebugMsg("inflate::inflate -> incorrect data check");
+//#endif
           //z.msg = "incorrect data check";
           z.istate.marker = 5;       // can't try inflateSync
           break;

@@ -32,8 +32,8 @@
 //# import stats.Stats;
 //#endif
 //# import colors.ColorTheme;
-//#ifdef CONSOLE
-//# import console.XMLList;
+//#ifdef XML_CONSOLE
+//# import console.xml.XMLList;
 //#endif
 //#ifdef PRIVACY
 //# import privacy.PrivacySelect;

@@ -17,62 +17,72 @@ import images.RosterIcons;
  * @author aqent
  */
 
-public class PluginBox extends IconTextElement {    
-    private boolean state;
-    private String text;
-    private int edit;
+public class PluginBox extends IconTextElement {
+    public static final int STANDART = 0;
+    public static final int AUTOSTATUS = 1;
+    public static final int USERKEYS = 2;
+    public static final int AVATARS = 3;
+    public static final int HISTORY = 4;
+    public static final int IMPORT_EXPORT = 5;
+    public static final int TASKS = 6;
+    public static final int CLASSIC_CHAT = 7;
+    public static final int DEBUG = 8;
 
-    public PluginBox(String text, boolean state, int edit) {
+    private boolean isChecked;
+    private String text;
+    private int type;
+
+    public PluginBox(String text) {
+        this(text, true, STANDART);
+    }
+
+    public PluginBox(String text, boolean isChecked, int type) {
         super(RosterIcons.getInstance());
 
         this.text = text;
-        this.state = state;
-        this.edit = edit;
+        this.isChecked = isChecked;
+        this.type = type;
     }
-    
+
     public String toString() {
         return text;
     }
 
     public void onSelect(VirtualList view) {
-        if (edit > 0) {
-            state = !state;
+        if (type != STANDART) {
+            isChecked = !isChecked;
             Config config = Config.getInstance();
-            switch (edit) {
-                case 1:
+            switch (type) {
+                case AUTOSTATUS:
                     config.module_autostatus = !config.module_autostatus;
                     break;
-                case 2:
+                case USERKEYS:
                     config.userKeys = !config.userKeys;
                     break;
-                case 3:
+                case AVATARS:
                     config.module_avatars = !config.module_avatars;
                     break;
-                case 4:
+                case HISTORY:
                     config.module_history = !config.module_history;
                     break;
-                case 5:
+                case IMPORT_EXPORT:
                     config.module_ie = !config.module_ie;
                     break;
-                case 6:
+                case TASKS:
                     config.module_tasks = !config.module_tasks;
                     break;
-                case 7:
+                case CLASSIC_CHAT:
                     config.module_classicchat = !config.module_classicchat;
                     break;
-                case 8:
+                case DEBUG:
                     config.debug = !config.debug;
                     break;
             }
         }
     }
-    
-    public int getImageIndex() {
-        return edit > 0 ? (state ? 0x36 : 0x37) : 0x36;
-    }
 
-    public boolean getValue() {
-        return state;
+    public int getImageIndex() {
+        return type > 0 ? (isChecked ? 0x36 : 0x37) : 0x36;
     }
 
     public boolean isSelectable() {

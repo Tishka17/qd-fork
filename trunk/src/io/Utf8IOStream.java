@@ -33,7 +33,7 @@ import com.jcraft.jzlib.ZInputStream;
 import com.jcraft.jzlib.ZOutputStream;
 //#endif
 import java.io.IOException;
-import java.io.InputStream; 
+import java.io.InputStream;
 import java.io.OutputStream;
 import javax.microedition.io.*;
 import util.Strconv;
@@ -43,7 +43,7 @@ import util.Strconv;
  * @author EvgS
  */
 public class Utf8IOStream {
-    
+
     private StreamConnection connection;
     private InputStream inpStream;
     private OutputStream outStream;
@@ -60,12 +60,12 @@ public class Utf8IOStream {
         outStream = new ZOutputStream(outStream, JZlib.Z_DEFAULT_COMPRESSION);
          ((ZOutputStream)outStream).setFlushMode(JZlib.Z_SYNC_FLUSH);
         this.isZlib = true;
-        //#ifdef CONSOLE
+        //#ifdef DEBUG_CONSOLE
 //#         midlet.BombusQD.debug.add("::ZLIB->" + this.isZlib,10);
         //#endif
      }
 //#endif
-    
+
     /** Creates a new instance of Utf8IOStream */
     public Utf8IOStream(StreamConnection connection) throws IOException {
 	this.connection=connection;
@@ -76,20 +76,20 @@ public class Utf8IOStream {
         } catch (Exception e) {}
 
 	inpStream = connection.openInputStream();
-	outStream = connection.openOutputStream();	
+	outStream = connection.openOutputStream();
 
         length=0;
         pbyte=0;
     }
-    
- //#if (ZLIB)    
+
+ //#if (ZLIB)
     public long countPocketsSend=0;
-//#endif       
-    
+//#endif
+
     public void send( StringBuffer data ) throws IOException {
-//#if (ZLIB)            
+//#if (ZLIB)
 	countPocketsSend++;
-//#endif          
+//#endif
 	synchronized (outStream) {
             byte[] bytes = Strconv.stringToByteArray(data.toString());
             int outLen=bytes.length;
@@ -98,21 +98,21 @@ public class Utf8IOStream {
 	    outStream.flush();
             bytes=null;
             bytes=new byte[0];
-            
+
             if(isZlib == false){
               addOutTraffic(avail);
               updateTraffic(false, 0);
             }
 	}
-//#if (XML_STREAM_DEBUG)        
+//#if (XML_STREAM_DEBUG)
 //#         System.out.println(">> "+data);
 //#endif
     }
-    
+
     byte cbuf[]=new byte[512];
     int length;
     int pbyte;
-    
+
     int avail=0;
     int lenbuf=0;
 
@@ -122,9 +122,9 @@ public class Utf8IOStream {
         if (avail==0) return 0;
 
         lenbuf=buf.length;
-        
+
         if (avail>lenbuf) avail=lenbuf;
-        
+
         avail=inpStream.read(buf, 0, avail);
 //#if (XML_STREAM_DEBUG)
 //# 	System.out.println("<< "+new String(buf, 0, avail));
@@ -136,12 +136,12 @@ public class Utf8IOStream {
         return avail;
     }
 
-    
+
     public void updateTraffic(boolean in, int value) {
         if(isZlib) {
            if(in)
                addInTraffic(value);
-           else 
+           else
                addOutTraffic(value);
            midlet.BombusQD.sd.traffic = bytesSent + bytesRecv;
         } else {
@@ -149,37 +149,37 @@ public class Utf8IOStream {
         }
         midlet.BombusQD.sd.updateTrafficOut();
      }
-    
+
 
      private static final int TCP_SERVICEINFO_OUT_PROCENT = 75;
      private static final int TCP_SERVICEINFO_IN_PROCENT = 80;
-     
-     private static int getBytes(int bytes){ 
+
+     private static int getBytes(int bytes){
          return bytes + (bytes * TCP_SERVICEINFO_IN_PROCENT)/100;
      }
-     
+
      public static void addInTraffic(int bytes) { bytesRecv += getBytes(bytes); }
      public static void addOutTraffic(int bytes) { bytesSent += getBytes(bytes); }
-     
-     
+
+
     public void close() {
          bytesSent = 0;
          bytesRecv = 0;
- 	try { 
+ 	try {
              boolean outZ = (outStream instanceof ZOutputStream);
-             //#ifdef CONSOLE
+             //#ifdef DEBUG_CONSOLE
 //#              midlet.BombusQD.debug.add("::CLOSE_OUT_ZLIB->"  + outZ,10);
              //#endif
-             if(outZ) 
+             if(outZ)
                  ((ZOutputStream)outStream).close();
-             else outStream.close(); 
+             else outStream.close();
          } catch (Exception e) {} finally {  outStream = null; }
- 	try { 
+ 	try {
              boolean inZ = (inpStream instanceof ZInputStream);
-             //#ifdef CONSOLE
+             //#ifdef DEBUG_CONSOLE
 //#              midlet.BombusQD.debug.add("::CLOSE_IN_ZLIB->" +  inZ,10);
              //#endif
-             if(inZ) 
+             if(inZ)
                  ((ZInputStream)inpStream).close();
              else inpStream.close();
          } catch (Exception e) {} finally {  inpStream = null; }
@@ -190,21 +190,21 @@ public class Utf8IOStream {
 
     public String getPocketsStats() {
         return Long.toString(countPocketsSend);
-    }    
-  
+    }
+
     public String getStreamStatsBar() { //for info panel
         stats = new StringBuffer(0);
         try {
             if (isZlib) {
                 ZInputStream z = (ZInputStream) inpStream;
                 String ratio=Long.toString((10*z.getTotalOut())/z.getTotalIn());
-                int dotpos=ratio.length()-1;  
-                
+                int dotpos=ratio.length()-1;
+
                 stats.append(' ')
                      .append('(');
                 if(0 == dotpos)
-                    stats.append('0'); 
-                else 
+                    stats.append('0');
+                else
                     stats.append(ratio.substring(0, dotpos));
                 stats.append('.')
                  .append(ratio.substring(dotpos))
@@ -217,7 +217,7 @@ public class Utf8IOStream {
         } catch (Exception e) {
             return "";
         }
-        return stats.toString();       
+        return stats.toString();
     }
 
     public String getStreamStats() { //for stats window
@@ -239,15 +239,15 @@ public class Utf8IOStream {
         }
         return stats.toString();
     }
-    
+
     private void appendZlibStats(StringBuffer s, long packed, long unpacked, boolean read){
         s.append(packed).append(read?'>':'<').append(unpacked);
         String ratio = Long.toString((10*unpacked)/packed);
         int dotpos=ratio.length()-1;
         s.append(' ')
          .append('(');
-        if(0 == dotpos) 
-            s.append('0'); 
+        if(0 == dotpos)
+            s.append('0');
         else
             s.append(ratio.substring(0, dotpos));
         s.append('.')
@@ -255,8 +255,8 @@ public class Utf8IOStream {
          .append('x')
          .append(')');
     }
-        
-    
+
+
     public String getConnectionData() {
         stats = new StringBuffer(0);
         try {
@@ -290,7 +290,7 @@ public class Utf8IOStream {
 //#          }
 //#          return stats.toString();
 //#      }
-//#      
+//#
 //#      public long getBytes() {
 //#          try {
 //#              return bytesSent+bytesRecv;

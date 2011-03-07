@@ -8,8 +8,8 @@ modification, are permitted provided that the following conditions are met:
   1. Redistributions of source code must retain the above copyright notice,
      this list of conditions and the following disclaimer.
 
-  2. Redistributions in binary form must reproduce the above copyright 
-     notice, this list of conditions and the following disclaimer in 
+  2. Redistributions in binary form must reproduce the above copyright
+     notice, this list of conditions and the following disclaimer in
      the documentation and/or other materials provided with the distribution.
 
   3. The names of the authors may not be used to endorse or promote products
@@ -71,30 +71,30 @@ final class InfBlocks{
   static final private byte DONE=8;  // finished last block, done
   static final private byte BAD=9;   // ot a data error--stuck here
 
-  int mode;            // current inflate_block mode 
+  int mode;            // current inflate_block mode
 
-  int left;            // if STORED, bytes left to copy 
+  int left;            // if STORED, bytes left to copy
 
-  int table;           // table lengths (14 bits) 
-  int index;           // index into blens (or border) 
-  int[] blens;         // bit lengths of codes 
-  int[] bb=new int[1]; // bit length tree depth 
-  int[] tb=new int[1]; // bit length decoding tree 
+  int table;           // table lengths (14 bits)
+  int index;           // index into blens (or border)
+  int[] blens;         // bit lengths of codes
+  int[] bb=new int[1]; // bit length tree depth
+  int[] tb=new int[1]; // bit length decoding tree
 
-  InfCodes codes=new InfCodes();      // if CODES, current state 
+  InfCodes codes=new InfCodes();      // if CODES, current state
 
-  int last;            // true if this block is the last block 
+  int last;            // true if this block is the last block
 
-  // mode independent information 
-  int bitk;            // bits in bit buffer 
-  int bitb;            // bit buffer 
-  int[] hufts;         // single malloc for tree space 
-  byte[] window;       // sliding window 
-  int end;             // one byte after sliding window 
-  int read;            // window read pointer 
-  int write;           // window write pointer 
-  Object checkfn;      // check function 
-  long check;          // check on output 
+  // mode independent information
+  int bitk;            // bits in bit buffer
+  int bitb;            // bit buffer
+  int[] hufts;         // single malloc for tree space
+  byte[] window;       // sliding window
+  int end;             // one byte after sliding window
+  int read;            // window read pointer
+  int write;           // window write pointer
+  Object checkfn;      // check function
+  long check;          // check on output
 
   InfTree inftree=new InfTree();
 
@@ -146,7 +146,7 @@ final class InfBlocks{
 	    r=Z_OK;
 	  }
 	  else{
-	    bitb=b; bitk=k; 
+	    bitb=b; bitk=k;
 	    z.avail_in=n;
 	    z.total_in+=p-z.next_in_index;z.next_in_index=p;
 	    write=q;
@@ -160,7 +160,7 @@ final class InfBlocks{
 	last = t & 1;
 
 	switch (t >>> 1){
-        case 0:                         // stored 
+        case 0:                         // stored
           {b>>>=(3);k-=(3);}
           t = k & 7;                    // go to byte boundary
 
@@ -192,11 +192,13 @@ final class InfBlocks{
 
           {b>>>=(3);k-=(3);}
           mode = BAD;
-          z.addDebugMsg("infBlocks::proc -> invalid block type");
+//#ifdef DEBUG_CONSOLE
+//#           z.addDebugMsg("infBlocks::proc -> invalid block type");
+//#endif
           //z.msg = "invalid block type";
           r = Z_DATA_ERROR;
 
-	  bitb=b; bitk=k; 
+	  bitb=b; bitk=k;
 	  z.avail_in=n;z.total_in+=p-z.next_in_index;z.next_in_index=p;
 	  write=q;
 	  return inflate_flush(z,r);
@@ -209,7 +211,7 @@ final class InfBlocks{
 	    r=Z_OK;
 	  }
 	  else{
-	    bitb=b; bitk=k; 
+	    bitb=b; bitk=k;
 	    z.avail_in=n;
 	    z.total_in+=p-z.next_in_index;z.next_in_index=p;
 	    write=q;
@@ -222,11 +224,13 @@ final class InfBlocks{
 
 	if ((((~b) >>> 16) & 0xffff) != (b & 0xffff)){
 	  mode = BAD;
-          z.addDebugMsg("infBlocks::proc -> invalid stored block lengths");
+//#ifdef DEBUG_CONSOLE
+//#           z.addDebugMsg("infBlocks::proc -> invalid stored block lengths");
+//#endif
 	  //z.msg = "invalid stored block lengths";
 	  r = Z_DATA_ERROR;
 
-	  bitb=b; bitk=k; 
+	  bitb=b; bitk=k;
 	  z.avail_in=n;z.total_in+=p-z.next_in_index;z.next_in_index=p;
 	  write=q;
 	  return inflate_flush(z,r);
@@ -237,7 +241,7 @@ final class InfBlocks{
 	break;
       case STORED:
 	if (n == 0){
-	  bitb=b; bitk=k; 
+	  bitb=b; bitk=k;
 	  z.avail_in=n;z.total_in+=p-z.next_in_index;z.next_in_index=p;
 	  write=q;
 	  return inflate_flush(z,r);
@@ -248,14 +252,14 @@ final class InfBlocks{
 	    q=0; m=(int)(q<read?read-q-1:end-q);
 	  }
 	  if(m==0){
-	    write=q; 
+	    write=q;
 	    r=inflate_flush(z,r);
 	    q=write;m=(int)(q<read?read-q-1:end-q);
 	    if(q==end&&read!=0){
 	      q=0; m=(int)(q<read?read-q-1:end-q);
 	    }
 	    if(m==0){
-	      bitb=b; bitk=k; 
+	      bitb=b; bitk=k;
 	      z.avail_in=n;z.total_in+=p-z.next_in_index;z.next_in_index=p;
 	      write=q;
 	      return inflate_flush(z,r);
@@ -281,7 +285,7 @@ final class InfBlocks{
 	    r=Z_OK;
 	  }
 	  else{
-	    bitb=b; bitk=k; 
+	    bitb=b; bitk=k;
 	    z.avail_in=n;
 	    z.total_in+=p-z.next_in_index;z.next_in_index=p;
 	    write=q;
@@ -296,11 +300,13 @@ final class InfBlocks{
 	if ((t & 0x1f) > 29 || ((t >> 5) & 0x1f) > 29)
 	  {
 	    mode = BAD;
-            z.addDebugMsg("infBlocks::proc -> too many length or distance symbols");
+//#ifdef DEBUG_CONSOLE
+//#             z.addDebugMsg("infBlocks::proc -> too many length or distance symbols");
+//#endif
 	    //z.msg = "too many length or distance symbols";
 	    r = Z_DATA_ERROR;
 
-	    bitb=b; bitk=k; 
+	    bitb=b; bitk=k;
 	    z.avail_in=n;z.total_in+=p-z.next_in_index;z.next_in_index=p;
 	    write=q;
 	    return inflate_flush(z,r);
@@ -324,7 +330,7 @@ final class InfBlocks{
 	      r=Z_OK;
 	    }
 	    else{
-	      bitb=b; bitk=k; 
+	      bitb=b; bitk=k;
 	      z.avail_in=n;
 	      z.total_in+=p-z.next_in_index;z.next_in_index=p;
 	      write=q;
@@ -353,7 +359,7 @@ final class InfBlocks{
 	    mode = BAD;
 	  }
 
-	  bitb=b; bitk=k; 
+	  bitb=b; bitk=k;
 	  z.avail_in=n;z.total_in+=p-z.next_in_index;z.next_in_index=p;
 	  write=q;
 	  return inflate_flush(z,r);
@@ -378,7 +384,7 @@ final class InfBlocks{
 	      r=Z_OK;
 	    }
 	    else{
-	      bitb=b; bitk=k; 
+	      bitb=b; bitk=k;
 	      z.avail_in=n;
 	      z.total_in+=p-z.next_in_index;z.next_in_index=p;
 	      write=q;
@@ -409,7 +415,7 @@ final class InfBlocks{
 		r=Z_OK;
 	      }
 	      else{
-		bitb=b; bitk=k; 
+		bitb=b; bitk=k;
 		z.avail_in=n;
 		z.total_in+=p-z.next_in_index;z.next_in_index=p;
 		write=q;
@@ -432,11 +438,13 @@ final class InfBlocks{
 		(c == 16 && i < 1)){
 	      blens=null;
 	      mode = BAD;
-              z.addDebugMsg("infBlocks::proc -> invalid bit length repeat");
+//#ifdef DEBUG_CONSOLE
+//#               z.addDebugMsg("infBlocks::proc -> invalid bit length repeat");
+//#endif
 	      //z.msg = "invalid bit length repeat";
 	      r = Z_DATA_ERROR;
 
-	      bitb=b; bitk=k; 
+	      bitb=b; bitk=k;
 	      z.avail_in=n;z.total_in+=p-z.next_in_index;z.next_in_index=p;
 	      write=q;
 	      return inflate_flush(z,r);
@@ -461,7 +469,7 @@ final class InfBlocks{
 	  bd[0] = 6;         // must be <= 9 for lookahead assumptions
 
 	  t = table;
-	  t = inftree.inflate_trees_dynamic(257 + (t & 0x1f), 
+	  t = inftree.inflate_trees_dynamic(257 + (t & 0x1f),
 					    1 + ((t >> 5) & 0x1f),
 					    blens, bl, bd, tl, td, hufts, z);
 
@@ -472,7 +480,7 @@ final class InfBlocks{
 	    }
 	    r = t;
 
-	    bitb=b; bitk=k; 
+	    bitb=b; bitk=k;
 	    z.avail_in=n;z.total_in+=p-z.next_in_index;z.next_in_index=p;
 	    write=q;
 	    return inflate_flush(z,r);
@@ -500,11 +508,11 @@ final class InfBlocks{
 	}
 	mode = DRY;
       case DRY:
-	write=q; 
-	r=inflate_flush(z, r); 
+	write=q;
+	r=inflate_flush(z, r);
 	q=write; m=(int)(q<read?read-q-1:end-q);
 	if (read != write){
-	  bitb=b; bitk=k; 
+	  bitb=b; bitk=k;
 	  z.avail_in=n;z.total_in+=p-z.next_in_index;z.next_in_index=p;
 	  write=q;
 	  return inflate_flush(z, r);
@@ -513,14 +521,14 @@ final class InfBlocks{
       case DONE:
 	r = Z_STREAM_END;
 
-	bitb=b; bitk=k; 
+	bitb=b; bitk=k;
 	z.avail_in=n;z.total_in+=p-z.next_in_index;z.next_in_index=p;
 	write=q;
 	return inflate_flush(z, r);
       case BAD:
 	r = Z_DATA_ERROR;
 
-	bitb=b; bitk=k; 
+	bitb=b; bitk=k;
 	z.avail_in=n;z.total_in+=p-z.next_in_index;z.next_in_index=p;
 	write=q;
 	return inflate_flush(z, r);
@@ -528,7 +536,7 @@ final class InfBlocks{
       default:
 	r = Z_STREAM_ERROR;
 
-	bitb=b; bitk=k; 
+	bitb=b; bitk=k;
 	z.avail_in=n;z.total_in+=p-z.next_in_index;z.next_in_index=p;
 	write=q;
 	return inflate_flush(z, r);
@@ -549,7 +557,7 @@ final class InfBlocks{
   }
 
   // Returns true if inflate is currently at the end of a block generated
-  // by Z_SYNC_FLUSH or Z_FULL_FLUSH. 
+  // by Z_SYNC_FLUSH or Z_FULL_FLUSH.
   int sync_point(){
     return mode == LENS ? 1 : 0;
   }

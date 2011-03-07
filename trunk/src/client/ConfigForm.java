@@ -44,40 +44,43 @@ import menu.MenuListener;
 public class ConfigForm extends DefForm implements MenuListener {
     public ConfigForm(Display display, Displayable pView) {
         super(display, pView, SR.get(SR.MS_OPTIONS));
-        this.display = display;
+        //this.display = display;
 
         Config config = Config.getInstance();
-        addControl(new PluginBox(SR.get(SR.MS_contactStr), config.module_contacts, 0));
-        addControl(new PluginBox(SR.get(SR.MS_msgStr), config.module_messages, 0));
-        addControl(new PluginBox(SR.get(SR.MS_notifyStr), config.module_notify, 0));
-        addControl(new PluginBox(SR.get(SR.MS_netStr), config.module_network, 0));
-        addControl(new PluginBox(SR.get(SR.MS_appStr), config.module_app, 0));
-        addControl(new PluginBox(SR.get(SR.MS_grStr), config.module_graphics, 0));
-        addControl(new PluginBox(SR.get(SR.MS_COLOR_TUNE), config.module_theme, 0));
-        addControl(new PluginBox(SR.get(SR.MS_fontsStr), config.module_fonts, 0));
+        addControl(new PluginBox(SR.get(SR.MS_contactStr)));
+        addControl(new PluginBox(SR.get(SR.MS_msgStr)));
+        addControl(new PluginBox(SR.get(SR.MS_notifyStr)));
+        addControl(new PluginBox(SR.get(SR.MS_netStr)));
+        addControl(new PluginBox(SR.get(SR.MS_appStr)));
+        addControl(new PluginBox(SR.get(SR.MS_grStr)));
+        addControl(new PluginBox(SR.get(SR.MS_COLOR_TUNE)));
+        addControl(new PluginBox(SR.get(SR.MS_fontsStr)));
 
 //#ifdef AUTOSTATUS
-//#         addControl(new PluginBox(SR.get(SR.MS_AUTOSTATUS), config.module_autostatus, 1));
+//#         addControl(new PluginBox(SR.get(SR.MS_AUTOSTATUS), config.module_autostatus, PluginBox.AUTOSTATUS));
 //#endif
 //#ifdef USER_KEYS
-//#         addControl(new PluginBox(SR.get(SR.MS_hotkeysStr), config.userKeys, 2));
+//#         addControl(new PluginBox(SR.get(SR.MS_hotkeysStr), config.userKeys, PluginBox.USERKEYS));
 //#endif
-        addControl(new PluginBox(SR.get(SR.MS_avatarStr), config.module_avatars, 3));
+        addControl(new PluginBox(SR.get(SR.MS_avatarStr), config.module_avatars, PluginBox.AVATARS));
 //#ifdef HISTORY
-//#         addControl(new PluginBox(SR.get(SR.MS_historyStr), config.module_history, 4));
+//#         addControl(new PluginBox(SR.get(SR.MS_historyStr), config.module_history, PluginBox.HISTORY));
 //#endif
 
 //#ifdef IMPORT_EXPORT
 //#ifdef FILE_IO
-//#         addControl(new PluginBox(SR.get(SR.MS_ieStr), config.module_ie, 5));
+//#         addControl(new PluginBox(SR.get(SR.MS_ieStr), config.module_ie, PluginBox.IMPORT_EXPORT));
 //#endif
 //#endif
         if(config.userAppLevel == 1) {
 //#ifdef AUTOTASK
-//#             addControl(new PluginBox(SR.get(SR.MS_taskstr), config.module_tasks, 6));
+//#             addControl(new PluginBox(SR.get(SR.MS_taskstr), config.module_tasks, PluginBox.TASKS));
 //#endif
 //#ifdef CLASSIC_CHAT
-//#             addControl(new PluginBox(SR.get(SR.MS_clchatStr), config.module_classicchat, 7));
+//#             addControl(new PluginBox(SR.get(SR.MS_clchatStr), config.module_classicchat, PluginBox.CLASSIC_CHAT));
+//#endif
+//#ifdef DEBUG_CONSOLE
+//#             addControl(new PluginBox(SR.get(SR.MS_DEBUG_MENU), config.debug, PluginBox.DEBUG));
 //#endif
         }
 

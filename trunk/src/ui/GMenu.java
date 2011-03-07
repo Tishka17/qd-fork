@@ -1,5 +1,5 @@
 /*
- * GMenu.java 
+ * GMenu.java
  *
  *
  * Copyright (c) 2009, Alexej Kotov (aqent), http://bombusmod-qd.wen.ru
@@ -35,10 +35,10 @@ import menu.Command;
 import java.util.*;
 
 public class GMenu extends Canvas {
-       
+
    public GMenu() {};
    private Image offscreen = null;
-   
+
    public void init(Graphics g, int width, int height,VirtualList view) {
         this.height=height;
         this.width=width;
@@ -46,16 +46,16 @@ public class GMenu extends Canvas {
             offscreen=Image.createImage(width, height);
         }
     }
-   public void paint(Graphics g){ 
+   public void paint(Graphics g){
        paintCustom(g,gm.itemGrMenu);
-   }   
-    
+   }
+
    Display display;
    Displayable parentView;
-   GMenuConfig gm = GMenuConfig.getInstance(); 
+   GMenuConfig gm = GMenuConfig.getInstance();
    BombusQD bm = BombusQD.getInstance();
 
-   
+
    public final static byte MAIN_MENU_ROSTER=1;
    public final static byte ACCOUNT_SELECT_MENU=2;
    public final static byte ALERT_CUSTOMIZE_FORM=3;
@@ -65,47 +65,47 @@ public class GMenu extends Canvas {
    public final static byte CONTACT_MSGS_LIST=7;//
    public final static byte SEARCH_FORM=8;
    public final static byte SMILE_PEAKER=9;
-   public final static byte STATUS_SELECT=10;  
+   public final static byte STATUS_SELECT=10;
    public final static byte APPEND_NICK=11;
-   public final static byte BOOKMARKS=12;  
-   public final static byte CONFERENCE_FORM=13; 
-   public final static byte HISTORY_CONFIG=14; 
+   public final static byte BOOKMARKS=12;
+   public final static byte CONFERENCE_FORM=13;
+   public final static byte HISTORY_CONFIG=14;
    public final static byte INFO_WINDOW=16;
    public final static byte MESSAGE_LIST=17;
-   public final static byte PRIVACY_MODIFY_LIST=18;  
+   public final static byte PRIVACY_MODIFY_LIST=18;
    public final static byte PRIVACY_SELECT=19;
-   public final static byte SERVICE_DISCOVERY=20; 
-   public final static byte STATS_WINDOW=21;  
-   public final static byte VCARD_EDIT=22;  
-   public final static byte VCARD_VIEW=23; 
-   public final static byte BROWSER=24; 
-   public final static byte TRANSFER_MANAGER=25; 
+   public final static byte SERVICE_DISCOVERY=20;
+   public final static byte STATS_WINDOW=21;
+   public final static byte VCARD_EDIT=22;
+   public final static byte VCARD_VIEW=23;
+   public final static byte BROWSER=24;
+   public final static byte TRANSFER_MANAGER=25;
    public final static byte DEF_FORM=26;
    public final static byte TEXTLISTBOX=27;
-   public final static byte USERKEYSLIST=28; 
-   public final static byte RECONNECT=30; 
-   public final static byte NEWVECTORCHAT=31; 
+   public final static byte USERKEYSLIST=28;
+   public final static byte RECONNECT=30;
+   public final static byte NEWVECTORCHAT=31;
    public final static byte AFFILIATIONS_EDIT=32;
-   
-   
+
+
 
    private int width;
    private int height;
    private Font font;
    private int fh;
-   private int size;  
+   private int size;
    private static int x1,y1,x2,y2;
-   
-   
+
+
    private void updateFont() {
        switch(midlet.BombusQD.cf.graphicsMenuFont){
            case 0: font = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_MEDIUM); break;
            case 1: font = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_SMALL);  break;
-           case 2: font = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_LARGE);  break;   
+           case 2: font = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_LARGE);  break;
        }
        fh = font.getHeight();
    }
-   
+
    public GMenu(Display display, Displayable parentView, MenuListener menuListener, ImageList il, Vector menuCommands) {
         gm.ml=menuListener;
         this.parentView=parentView;
@@ -120,8 +120,8 @@ public class GMenu extends Canvas {
         }
         updateFont();
    }
-   
-   
+
+
    public GMenu(Display display,Displayable parentView,MenuListener menuListener,ImageList il,Vector menuCommands,
            Vector cmdfirstList,Vector cmdsecondList,Vector cmdThirdList){
         gm.ml=menuListener;
@@ -143,8 +143,8 @@ public class GMenu extends Canvas {
         gm.cmdThirdList=cmdThirdList;
         updateFont();
    }
-   
-   
+
+
    private boolean GMenuIn(Vector getList) {
          size = getList.size();
           gm.commandslistIn = new String[size];
@@ -154,24 +154,24 @@ public class GMenu extends Canvas {
           }
           gm.menuCommandsIn=getList;
         return true;
-   }  
-   
-   
+   }
+
+
    public void select(boolean inmenu){
-      try {  
+      try {
        Command cmd;
        gm.itemGrMenu=-1;
         if(inmenu){
-          cmd = (Command)gm.menuCommandsIn.elementAt(gm.itemCursorIndexIn); 
+          cmd = (Command)gm.menuCommandsIn.elementAt(gm.itemCursorIndexIn);
           gm.ml.commandAction(cmd, parentView);
           gm.inMenuSelected=false;//���������� ����
         }else{
-          cmd = (Command)gm.menuCommands.elementAt(gm.itemCursorIndex);  
+          cmd = (Command)gm.menuCommands.elementAt(gm.itemCursorIndex);
           gm.ml.commandAction(cmd, parentView);
         }
        gm.ml=null;
       } catch (Exception e) { /* IndexOutOfBounds */
-          //#ifdef CONSOLE
+          //#ifdef DEBUG_CONSOLE
 //#         midlet.BombusQD.debug.add("GMenu::select IndexOutOfBounds->" + e.getMessage(), 10);
         //#endif
       }
@@ -191,11 +191,11 @@ public class GMenu extends Canvas {
      g.clipRect(x,y, bm.wimg_menu,bm.himg_menu);
      g.drawImage(bm.imageArr[0],ix,iy,Graphics.TOP|Graphics.LEFT);
      g.setClip(xo,yo, wo, ho);
-   }; 
+   };
 
-   
+
   public void paintCustom(Graphics g,int itemGrMenu) {
-        Graphics graphics=(offscreen==null)? g: offscreen.getGraphics();    
+        Graphics graphics=(offscreen==null)? g: offscreen.getGraphics();
 //long s1 = System.currentTimeMillis();
           if(eventMenu){
            if(gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_NEW_ACCOUNT))>-1
@@ -208,9 +208,9 @@ public class GMenu extends Canvas {
               drawAllItems(g,gm.menuCommandsIn,gm.commandslistIn,gm.itemCursorIndexIn);
            }
          }else{
-            drawAllItems(g,gm.menuCommands,gm.commandslist,gm.itemCursorIndex);  
+            drawAllItems(g,gm.menuCommands,gm.commandslist,gm.itemCursorIndex);
          }
-/*          
+/*
         long s2 = System.currentTimeMillis();
         int ws = g.getFont().stringWidth(Long.toString(s2-s1)+"msec") + 5;
         int fh = g.getFont().getHeight();
@@ -220,15 +220,15 @@ public class GMenu extends Canvas {
         g.setColor(0,0,0);
         g.drawRect(xpos,1,ws-1,fh-1);
         g.drawString(Long.toString(s2-s1)+"msec", xpos+2, 2, g.LEFT|g.TOP);
- */        
-        if (graphics != g) g.drawImage(offscreen, 0, 0, Graphics.LEFT | Graphics.TOP);       
+ */
+        if (graphics != g) g.drawImage(offscreen, 0, 0, Graphics.LEFT | Graphics.TOP);
   }
-   
+
    boolean eventMenu=false;
    Vector inMenuItems = new Vector(0);
-   
+
    Gradient fon;
-   
+
    private void eventOk(){
     try {
       cursorY=0;
@@ -242,11 +242,11 @@ public class GMenu extends Canvas {
         gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_SORT_TYPE))>-1)  &&
         gm.cmdfirstList.size()>0){
           GMenuIn(gm.cmdfirstList); eventMenu=true; return;
-      } 
+      }
       else if((gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_REGISTERING))>-1
           || gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_HISTORY_OPTIONS))>-1) &&
           gm.cmdsecondList.size()>0) {
-          GMenuIn(gm.cmdsecondList); eventMenu=true; return;   
+          GMenuIn(gm.cmdsecondList); eventMenu=true; return;
       }
       else if (gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_SERVICE))>-1 &&
               gm.cmdThirdList.size()>0){
@@ -256,24 +256,24 @@ public class GMenu extends Canvas {
       }
     } catch (Exception e) {
         /* IndexOutOfBounds */
-        //#ifdef CONSOLE
+        //#ifdef DEBUG_CONSOLE
 //#         midlet.BombusQD.debug.add("GMenu::eventOk Exception->" + e.getMessage(), 10);
         //#endif
     }
    }
-   
+
 
    int pointerX = 0;
    int maxwidth = 0;
    int[] pointerY = null;
-           
+
    void drawAllItems(Graphics g,Vector menuCommands,String[] drawCommands,int itemCursorIndex){
 
         fh = bm.himg_menu>fh?bm.himg_menu:fh;
         if(drawCommands == null || menuCommands == null) return;
         //boolean hasPointerEvents = true;//hasPointerEvents();
         size = drawCommands.length-1;
-        int hitem = 0;        
+        int hitem = 0;
         int maxHeight=drawCommands.length;
 		if (fh < midlet.BombusQD.cf.minItemHeight)
 			fh = midlet.BombusQD.cf.minItemHeight;
@@ -287,10 +287,10 @@ public class GMenu extends Canvas {
                   len_str  = font.stringWidth(drawCommands[index]);
              }
              if(len_str>maxwidth){
-               maxwidth=len_str; 
+               maxwidth=len_str;
              }
        }
-        
+
        int mHfh = maxHeight*fh + 1;
        gm.maxHeight=mHfh;
        int w = maxwidth + bm.wimg_menu + 10;
@@ -298,7 +298,7 @@ public class GMenu extends Canvas {
        hitem=mHfh;
         int bgnd_menu=ColorTheme.getARGB(false);
         if (bgnd_menu!=-1){
-          int[] pixelArray = new int[width * height];  
+          int[] pixelArray = new int[width * height];
           int lengntp = pixelArray.length;
           for(int i = 0; i < lengntp; i++){
             pixelArray[i] = bgnd_menu;
@@ -308,7 +308,7 @@ public class GMenu extends Canvas {
           pixelArray = null;
           pixelArray = new int[0];
         }
-        
+
        switch(midlet.BombusQD.cf.graphicsMenuPosition){
            case 0:
                gm.xcoodr = (g.getClipWidth() - w) >> 1 ;
@@ -332,7 +332,7 @@ public class GMenu extends Canvas {
        }
        int alpha_menu=ColorTheme.getARGB(true);
         if (alpha_menu!=-1){
-          int[] pixelArray = new int[w * mHfh];  
+          int[] pixelArray = new int[w * mHfh];
           int lengntp = pixelArray.length;
           for(int i = 0; i < lengntp; i++){
             pixelArray[i] = alpha_menu;
@@ -342,7 +342,7 @@ public class GMenu extends Canvas {
           pixelArray = null;
           pixelArray = new int[0];
         }else{
-          g.setColor(ColorTheme.getColor(ColorTheme.GRAPHICS_MENU_BGNG_ARGB));     
+          g.setColor(ColorTheme.getColor(ColorTheme.GRAPHICS_MENU_BGNG_ARGB));
           //g.fillRoundRect(1 , 1 , w - 1, mHfh - 1,10,10);
           g.fillRoundRect(gm.xcoodr+1 , gm.ycoodr+1, w - 1, mHfh - 1,10,10);//Tishka17
         }
@@ -352,7 +352,7 @@ public class GMenu extends Canvas {
          g.drawRoundRect(gm.xcoodr - 2, gm.ycoodr - 2, w + 4, mHfh + 4, 10,10);
          g.setColor(0xffffff);
          g.drawRoundRect(gm.xcoodr - 1, gm.ycoodr - 1, w + 2, mHfh + 2, 10,10);
-         
+
          g.translate(gm.xcoodr, gm.ycoodr);
          g.setClip(0,0,w+1,mHfh+40);//?
 
@@ -372,11 +372,11 @@ public class GMenu extends Canvas {
             g.setColor(ColorTheme.getColor(ColorTheme.CURSOR_OUTLINE));
             g.drawRoundRect(0, (midlet.BombusQD.cf.animateMenuAndRoster?cursorY:itemCursorIndex*fh), w , fh+1, 8, 8);
 
-        }  
-          
+        }
+
         g.setFont(font);
         g.setColor(ColorTheme.getColor(ColorTheme.GRAPHICS_MENU_FONT));
-        
+
         int x_start = 3 + bm.wimg_menu;//3
 	int ty;
         for (int index=0; index<=size; index++) {
@@ -411,8 +411,8 @@ public class GMenu extends Canvas {
         }
          */
    }
-   
-   
+
+
    private void touchSelect(int x, int y) {
        if (x<x1 || y<y1 || x> x2 || y>y2) {
            gm.itemGrMenu=-1;
@@ -426,12 +426,12 @@ public class GMenu extends Canvas {
        }
        gm.itemCursorIndex=(y-y1)/fh;
    }
-   
-   
+
+
    protected void pointerPressed(int x, int y) {
        touchSelect(x,y);
        return;
-   }  
+   }
 
    protected void pointerReleased(int x, int y) {
        touchSelect(x,y);
@@ -441,14 +441,14 @@ public class GMenu extends Canvas {
        }
        eventOk();
        return;
-   }   
-   
-    
+   }
+
+
    //private Timer timer;
    int cursorY=0;
    long s1,s2;
    boolean isDown;
-   
+
    /*
 	private static final int ani_msed = 25;
 	private void startTimer (boolean isdownpress)
@@ -457,17 +457,17 @@ public class GMenu extends Canvas {
 		if ( timer == null && midlet.BombusQD.cf.animateMenuAndRoster )
 		{
                         isDown=isdownpress;
-                        cursorY = 
-                                isDown ? 
-                                ( (eventMenu ? gm.itemCursorIndexIn*fh : gm.itemCursorIndex*fh) - fh) 
-                                : 
+                        cursorY =
+                                isDown ?
+                                ( (eventMenu ? gm.itemCursorIndexIn*fh : gm.itemCursorIndex*fh) - fh)
+                                :
                                 ( (eventMenu ? gm.itemCursorIndexIn*fh : gm.itemCursorIndex*fh)  + fh);
                         s1 = System.currentTimeMillis();
 			timer = new Timer();
 			timer.schedule( new anTask(), 0, ani_msed );
 		}
              *
-             
+
 	}
 	private void stopTimer ()
 	{
@@ -499,18 +499,18 @@ public class GMenu extends Canvas {
                             }
                         }
                     //System.out.println(gm.xcoodr +"," + gm.ycoodr+ ","+gm.maxWidth+","+gm.maxHeight);
-                    view.redrawAni(gm.xcoodr,gm.ycoodr,gm.maxWidth,gm.maxHeight-1);  
+                    view.redrawAni(gm.xcoodr,gm.ycoodr,gm.maxWidth,gm.maxHeight-1);
   		}
 	}
-     
+
 */
    public void keyPressed(int keyCode) {
      if (eventMenu==true) {
          eventMenu = sendEvent(keyCode);
          return;
-     }else{ 
+     }else{
          if (keyCode==Config.SOFT_LEFT || keyCode=='(') {
-            eventOk(); 
+            eventOk();
             cursorY=0;
          }
          else if (keyCode==Config.SOFT_RIGHT || keyCode==')' || keyCode == -11 || keyCode == -8) {//SE: 11-back,-8-�������
@@ -520,12 +520,12 @@ public class GMenu extends Canvas {
             cursorY=0;
             //return;
          }
-         else 
+         else
          {
             if(midlet.BombusQD.cf.executeByNum){
-              switch (keyCode) 
+              switch (keyCode)
               {
-                case KEY_NUM0: gm.itemCursorIndex=0; eventOk(); break;                  
+                case KEY_NUM0: gm.itemCursorIndex=0; eventOk(); break;
                 case KEY_NUM1: if(gm.commandslist.length>1) {gm.itemCursorIndex=1; eventOk();} break;
                 case KEY_NUM2: if(gm.commandslist.length>2) {gm.itemCursorIndex=2; eventOk();} break;
                 case KEY_NUM3: if(gm.commandslist.length>3) {gm.itemCursorIndex=3; eventOk();} break;
@@ -538,74 +538,74 @@ public class GMenu extends Canvas {
                 default:
                   try {
                     switch (getGameAction(keyCode)){
-                        case UP:    
+                        case UP:
                              gm.itemCursorIndex--;
                               if(gm.itemCursorIndex<0){
-                                gm.itemCursorIndex=size;  
-                              }    
+                                gm.itemCursorIndex=size;
+                              }
                              //startTimer(false);
-                             break;  
+                             break;
                         case LEFT: break;
                         case RIGHT: break;
-                        case DOWN: 
+                        case DOWN:
                             gm.itemCursorIndex++;
                              if(gm.itemCursorIndex>size){
-                                gm.itemCursorIndex=0;   
-                            } 
+                                gm.itemCursorIndex=0;
+                            }
                             //startTimer(true);
                             break;
                         case FIRE: eventOk(); break;
                     }
-                  } catch (Exception e) {}                
+                  } catch (Exception e) {}
               }
             } else {
-              switch (keyCode) 
+              switch (keyCode)
               {
                 case KEY_NUM2:
                     gm.itemCursorIndex--;
                      if(gm.itemCursorIndex<0){
-                        gm.itemCursorIndex=size;  
-                     } 
+                        gm.itemCursorIndex=size;
+                     }
                      //startTimer(false);
                      break;
                 case KEY_NUM8:
                      gm.itemCursorIndex++;
                      if(gm.itemCursorIndex>size){
-                        gm.itemCursorIndex=0;   
-                     }  
+                        gm.itemCursorIndex=0;
+                     }
                      //startTimer(true);
                      break;
-                case KEY_NUM5: 
+                case KEY_NUM5:
                     gm.itemCursorIndexIn=0;
                     eventOk();
                     //startTimer(true);
                     break;
-                case KEY_NUM1:                     
+                case KEY_NUM1:
                      gm.itemCursorIndex=0;
                     break;
-                case KEY_NUM7:                    
+                case KEY_NUM7:
                      gm.itemCursorIndex=size;
                     break;
                 default:
                   try {
                     switch (getGameAction(keyCode)){
-                        case UP:   
+                        case UP:
                              gm.itemCursorIndex--;
                               if(gm.itemCursorIndex<0){
-                                gm.itemCursorIndex=size;  
+                                gm.itemCursorIndex=size;
                               }
                              //startTimer(false);
-                             break;                            
+                             break;
                         case LEFT: break;
                         case RIGHT: break;
-                        case DOWN:   
+                        case DOWN:
                             gm.itemCursorIndex++;
                              if(gm.itemCursorIndex>size){
-                                gm.itemCursorIndex=0;   
-                            } 
+                                gm.itemCursorIndex=0;
+                            }
                             //startTimer(true);
-                            break;                          
-                        case FIRE: 
+                            break;
+                        case FIRE:
                             eventOk();
                             //startTimer(true);
                             break;
@@ -615,12 +615,12 @@ public class GMenu extends Canvas {
             }//midlet.BombusQD.cf.executeByNum end
          }
      }
-    }   
-   
+    }
+
    private void closeEvent(){
      gm.inMenuSelected=true; gm.itemGrMenu=-1;
    }
-   
+
    public boolean sendEvent(int keyCode) {
          if (keyCode==Config.SOFT_LEFT || keyCode=='(') {
                      //gm.itemGrMenu=-1;
@@ -632,12 +632,12 @@ public class GMenu extends Canvas {
             gm.itemGrMenu=-1;
             gm.ml=null;
             cursorY=0;
-            return false;            
+            return false;
          }
-         else 
+         else
          {
             if(midlet.BombusQD.cf.executeByNum){
-              switch (keyCode) 
+              switch (keyCode)
               {
                 case KEY_NUM0: gm.itemCursorIndexIn=0; closeEvent(); return false;
                 case KEY_NUM1: if(gm.commandslistIn.length>1) {gm.itemCursorIndexIn=1; closeEvent();} return false;
@@ -652,28 +652,28 @@ public class GMenu extends Canvas {
                 default:
                   try {
                     switch (getGameAction(keyCode)){
-                        case UP:   
+                        case UP:
                              gm.itemCursorIndexIn--;
                               if(gm.itemCursorIndexIn<0){
-                                gm.itemCursorIndexIn=size;  
+                                gm.itemCursorIndexIn=size;
                               }
                              //startTimer(false);
                              return true;
                         case LEFT: gm.itemCursorIndexIn=0; cursorY=0; break;
                         //case RIGHT: return true;
-                        case DOWN:   
+                        case DOWN:
                             gm.itemCursorIndexIn++;
                              if(gm.itemCursorIndexIn>size){
-                                gm.itemCursorIndexIn=0;   
-                            } 
+                                gm.itemCursorIndexIn=0;
+                            }
                             //startTimer(true);
                             return true;
                         case FIRE: closeEvent();
                             return false;
                     }
-                  } catch (Exception e) {}                 
+                  } catch (Exception e) {}
               }
-            } else {             
+            } else {
               switch (keyCode) {
                 case KEY_NUM4: gm.itemCursorIndexIn=0; cursorY=gm.itemCursorIndex*fh;
                       break;
@@ -682,46 +682,46 @@ public class GMenu extends Canvas {
                 case KEY_NUM2:
                      gm.itemCursorIndexIn--;
                      if(gm.itemCursorIndexIn<0){
-                        gm.itemCursorIndexIn=size;  
-                     } 
+                        gm.itemCursorIndexIn=size;
+                     }
                      //startTimer(false);
                      return true;
                 case KEY_NUM8:
                      gm.itemCursorIndexIn++;
                      if(gm.itemCursorIndexIn>size){
-                        gm.itemCursorIndexIn=0;   
-                     }     
+                        gm.itemCursorIndexIn=0;
+                     }
                      //startTimer(true);
                      return true;
                 case KEY_NUM5:
                     closeEvent();
                     return false;
-                case KEY_NUM1:                     
+                case KEY_NUM1:
                      gm.itemCursorIndexIn=0;
                     return true;
-                case KEY_NUM7:                    
+                case KEY_NUM7:
                      gm.itemCursorIndexIn=size;
                     return true;
                 default:
                   try {
                     switch (getGameAction(keyCode)){
-                        case UP:   
+                        case UP:
                              gm.itemCursorIndexIn--;
                               if(gm.itemCursorIndexIn<0){
-                                gm.itemCursorIndexIn=size;  
+                                gm.itemCursorIndexIn=size;
                               }
                              //startTimer(false);
                              return true;
                         case LEFT: gm.itemCursorIndexIn=0; cursorY=gm.itemCursorIndex*fh;
                              break;
                         //case RIGHT: return true;
-                        case DOWN:   
+                        case DOWN:
                             gm.itemCursorIndexIn++;
                              if(gm.itemCursorIndexIn>size){
-                                gm.itemCursorIndexIn=0;   
-                            }  
+                                gm.itemCursorIndexIn=0;
+                            }
                             //startTimer(true);
-                            return true;                          
+                            return true;
                         case FIRE: gm.inMenuSelected=true; gm.itemGrMenu=-1;
                             return false;
                     }
@@ -730,5 +730,5 @@ public class GMenu extends Canvas {
             }//midlet.BombusQD.cf.executeByNum
          }
        return false;
-    }      
+    }
 }

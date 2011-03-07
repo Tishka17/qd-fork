@@ -14,7 +14,7 @@
  * terms of the Psi License, specified in the accompanied COPYING
  * file, as published by the Psi Project; either dated January 1st,
  * 2005, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -28,11 +28,11 @@
 package xml;
 
 public class XMLException extends Exception {
-    
+
     /** Creates a new instance of XMLException */
     public XMLException(String text) {
         //super(text);
-        //#ifdef CONSOLE
+        //#ifdef DEBUG_CONSOLE
 //#         midlet.BombusQD.debug.add("::XMLException->" + text, 10);
         //#endif
     }

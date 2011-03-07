@@ -34,8 +34,8 @@ import alert.AlertCustomize;
 import alert.AlertProfile;
 import client.roster.ContactList;
 //#ifndef WMUC
-import conference.BookmarkQuery;
-import conference.Bookmarks;
+import conference.bookmark.BookmarkQuery;
+import conference.bookmark.Bookmarks;
 import conference.ConferenceGroup;
 import conference.MucContact;
 import conference.affiliation.ConferenceQuickPrivelegeModify;
@@ -124,9 +124,11 @@ import java.io.OutputStream;
 //#ifdef STATS
 //# import stats.Stats;
 //#endif
-//#ifdef CONSOLE
-//# import console.XMLList;
-//# import console.DebugXMLList;
+//#ifdef XML_CONSOLE
+//# import console.xml.XMLList;
+//#endif
+//#ifdef DEBUG_CONSOLE
+//# import console.debug.DebugXMLList;
 //#endif
 //#else
 import Menu.RosterToolsMenu;
@@ -330,114 +332,67 @@ public class Roster
          */
     }
 
-
     public void initCommands() {
-          createMessageEdit(true);
-          StatusList.getInstance().reinit();
+        createMessageEdit(true);
+        StatusList.getInstance().reinit();
 
-          cmdActions=new Command(SR.get(SR.MS_ITEM_ACTIONS), Command.SCREEN, 2);
-          cmdStatus=new Command(SR.get(SR.MS_STATUS_MENU), Command.SCREEN, 4);
+        cmdActions = new Command(SR.get(SR.MS_ITEM_ACTIONS), Command.SCREEN, 2);
+        cmdActions.setImg(MenuIcons.ICON_ITEM_ACTIONS);
+
+        cmdStatus = new Command(SR.get(SR.MS_STATUS_MENU), Command.SCREEN, 4);
+        cmdStatus.setImg(MenuIcons.ICON_STATUS);
 
 //#ifdef GRAPHICS_MENU
-//#             cmdOptions=new Command(SR.get(SR.MS_OPTIONS), Command.SCREEN, 16);
+//#         cmdOptions = new Command(SR.get(SR.MS_OPTIONS), Command.SCREEN, 16);
+//#         cmdOptions.setImg(0x03);
 //# 
-//#           cmdMyService=new Command(SR.get(SR.MS_SERVICE) + '>', Command.SCREEN, 22); //1
-//#           /*
-//#             cmdVcard=new Command(SR.get(SR.MS_VCARD), Command.SCREEN, 23);
-//#             cmdConference=new Command(SR.get(SR.MS_CONFERENCE), Command.SCREEN, 24);
-//#             cmdAdd=new Command(SR.get(SR.MS_ADD_CONTACT), Command.SCREEN, 25);
-//#             cmdSearchUsers=new Command(SR.get(SR.MS_USERS_SEARCH), Command.SCREEN, 47);
-//#ifdef SERVICE_DISCOVERY
-//#             cmdSrvDisco=new Command(SR.get(SR.MS_DISCO), Command.SCREEN, 26);
-//#endif
-//#ifdef PRIVACY
-//#             cmdPrivacy=new Command(SR.get(SR.MS_PRIVACY_LISTS), Command.SCREEN, 27);
-//#endif
-//#ifdef FILE_TRANSFER
-//#             cmdTransfers=new Command(SR.get(SR.MS_FILE_TRANSFERS), Command.SCREEN, 28);
-//#endif
-//#ifdef PEP
-//#             cmdMood=new Command(SR.get(SR.MS_USERMOOD), Command.SCREEN, 29);
-//#             cmdActivity=new Command(SR.get(SR.MS_ACTIVITY), Command.SCREEN, 30);
-//#endif
-//#            */
-//#            cmdAlert=new Command(SR.get(SR.MS_ALERT_PROFILE_CMD), Command.SCREEN, 32);
+//#         cmdMyService = new Command(SR.get(SR.MS_SERVICE) + '>', Command.SCREEN, 22);
+//#         cmdMyService.setImg(0x90);
+//# 
+//#         cmdAlert = new Command(SR.get(SR.MS_ALERT_PROFILE_CMD), Command.SCREEN, 32);
+//#         cmdAlert.setImg(MenuIcons.ICON_NOTIFY);
 //#ifdef ARCHIVE
-//#            cmdArchive=new Command(SR.get(SR.MS_ARCHIVE), Command.SCREEN, 33);
+//#         cmdArchive = new Command(SR.get(SR.MS_ARCHIVE), Command.SCREEN, 33);
+//#         cmdArchive.setImg(MenuIcons.ICON_ARCHIVE);
 //#endif
-//# 
-//#           /*cmdMyService=new Command(SR.get(SR.MS_SERVICE) + '>', Command.SCREEN, 31);   //3
-//#ifdef STATS
-//#             cmdStats=new Command(SR.get(SR.MS_STATS), Command.SCREEN, 34);
 //#endif
-//#             cmdClrAllChats=new Command(SR.get(SR.MS_CLEAN_ALL_MESSAGES), Command.SCREEN, 35);
-//#             cmdReconnect=new Command(SR.get(SR.MS_BREAK_CONECTION), Command.SCREEN, 36);
-//#             cmdQDHelp=new Command(SR.get(SR.MS_SUPPORT), Command.SCREEN, 38);
-//#if SASL_XGOOGLETOKEN
-//#             cmdGmail=new Command(SR.get(SR.MS_CHECK_GOOGLE_MAIL), Command.SCREEN, 45);   //3
-//#endif
-//#             cmdFM=new Command(SR.get(SR.MS_FILE_MANAGER), Command.SCREEN, 46);   //3
-//#            */
-//#endif
-//#ifdef CONSOLE
-//#           cmdXMLConsole=new Command(SR.get(SR.MS_XML_CONSOLE), Command.SCREEN, 37);
-//#           cmdDebugConsole=new Command(SR.get(SR.MS_DEBUG_MENU), Command.SCREEN, 39);
+//#ifdef XML_CONSOLE
+//#         cmdXMLConsole = new Command(SR.get(SR.MS_XML_CONSOLE), Command.SCREEN, 37);
+//#         cmdXMLConsole.setImg(MenuIcons.ICON_CONCOLE);
 //#endif
 
-          cmdAccount=new Command(SR.get(SR.MS_ACCOUNT_), Command.SCREEN, 15);
-          cmdInfo=new Command(SR.get(SR.MS_ABOUT), Command.SCREEN, 80);
-          cmdMinimize=new Command(SR.get(SR.MS_APP_MINIMIZE), Command.SCREEN, 90);
-          cmdQuit=new Command(SR.get(SR.MS_APP_QUIT), Command.SCREEN, 99);
-          //cmdLatestNews=new Command("QD ".concat(SR.get(SR.MS_QD_NEWS)), Command.SCREEN, 82);
-          //cmdCleanAllMessages=new Command(SR.get(SR.MS_CLEAN_ALL_MESSAGES), Command.SCREEN, 50);
+//#ifdef DEBUG_CONSOLE
+//#         cmdDebugConsole = new Command(SR.get(SR.MS_DEBUG_MENU), Command.SCREEN, 39);
+//#         cmdDebugConsole.setImg(MenuIcons.ICON_CONCOLE);
+//#endif
+
+        cmdAccount = new Command(SR.get(SR.MS_ACCOUNT_), Command.SCREEN, 15);
+        cmdAccount.setImg(MenuIcons.ICON_VCARD);
+
+        cmdInfo = new Command(SR.get(SR.MS_ABOUT), Command.SCREEN, 80);
+        cmdInfo.setImg(MenuIcons.ICON_CHECK_UPD);
+
+        cmdMinimize = new Command(SR.get(SR.MS_APP_MINIMIZE), Command.SCREEN, 90);
+        cmdMinimize.setImg(MenuIcons.ICON_FILEMAN);
+
+        cmdQuit = new Command(SR.get(SR.MS_APP_QUIT), Command.SCREEN, 99);
+        cmdQuit.setImg(MenuIcons.ICON_BUILD_NEW);
     }
-
 
     private static Command cmdActions;
     private static Command cmdStatus;
 //#ifdef GRAPHICS_MENU
 //#     private static Command cmdOptions;
-//# 
 //#     private static Command cmdMyService;
-//#      /*
-//#       private static Command cmdVcard;
-//#       private static Command cmdConference;
-//#       private static Command cmdAdd;
-//#       private static Command cmdSearchUsers;
-//#ifdef SERVICE_DISCOVERY
-//#       private static Command cmdSrvDisco;
-//#endif
-//#ifdef PRIVACY
-//#       private static Command cmdPrivacy;
-//#endif
-//#ifdef FILE_TRANSFER
-//#       private static Command cmdTransfers;
-//#endif
-//#ifdef PEP
-//#       private static Command cmdMood;
-//#       private static Command cmdActivity;
-//#endif
-//#       */
+//# 
 //#      private static Command cmdAlert;
-//#ifdef CONSOLE
+//#ifdef XML_CONSOLE
 //#       private static Command cmdXMLConsole;
+//#endif
+//#ifdef DEBUG_CONSOLE
 //#       private static Command cmdDebugConsole;
 //#endif
 //# 
-//#     /*
-//#     private static Command cmdMyService;
-//#ifdef STATS
-//#       private static Command cmdStats;
-//#endif
-//#       private static Command cmdClrAllChats;
-//#       private static Command cmdReconnect;
-//# 
-//#       private static Command cmdQDHelp;
-//#if SASL_XGOOGLETOKEN
-//#       private static Command cmdGmail;
-//#endif
-//#       private static Command cmdFM;
-//#      */
 //#endif
 //#ifdef ARCHIVE
     private static Command cmdArchive;
@@ -446,10 +401,6 @@ public class Roster
     private static Command cmdInfo;
     private static Command cmdMinimize;
     private static Command cmdQuit;
-    //private static Command cmdLatestNews;
-    //private static Command cmdCleanAllMessages;
-
-
 
     public void commandState(){
 //#ifdef MENU_LISTENER
@@ -464,79 +415,37 @@ public class Roster
         if (phoneManufacturer==Config.J2ME) activeType=Command.BACK;
 
 //#ifdef GRAPHICS_MENU
-//#         cmdActions.setImg(MenuIcons.ICON_ITEM_ACTIONS);
-//# 
-//# 
-//#         addCommand(cmdStatus); cmdStatus.setImg(MenuIcons.ICON_STATUS);
-//#         if (isLoggedIn()){
-//#          addCommand(cmdMyService); cmdMyService.setImg(0x90);
-//#ifdef SERVICE_DISCOVERY
-//#          //addCommand(cmdSrvDisco); cmdSrvDisco.setImg(MenuIcons.ICON_DISCO);
-//#endif
-//#          /*
-//#               addInCommand(1,cmdVcard); cmdVcard.setImg(MenuIcons.ICON_VCARD);
-//#               addInCommand(1,cmdConference); cmdConference.setImg(MenuIcons.ICON_CONFERENCE);
-//#               addInCommand(1,cmdAdd); cmdAdd.setImg(MenuIcons.ICON_ADD_CONTACT);
-//#               addInCommand(1,cmdSearchUsers); cmdSearchUsers.setImg(MenuIcons.ICON_USER_SEARCH);
-//#ifdef PRIVACY
-//#               addInCommand(1,cmdPrivacy); cmdPrivacy.setImg(MenuIcons.ICON_PRIVACY);
-//#endif
-//# 
-//#ifdef FILE_TRANSFER
-//#               if (midlet.BombusQD.cf.fileTransfer) { addInCommand(1,cmdTransfers); cmdTransfers.setImg(MenuIcons.ICON_FT); }
-//#endif
-//#ifdef PEP
-//#               addInCommand(1,cmdMood); cmdMood.setImg(MenuIcons.ICON_MOOD);
-//#               addInCommand(1,cmdActivity); cmdActivity.setImg(MenuIcons.ICON_USER_ACTIVITY);
-//#endif
-//# 
-//#if SASL_XGOOGLETOKEN
-//#              if(isLoggedIn()){
-//#                if (midlet.BombusQD.sd.account.isGmail()) {
-//#                  addInCommand(1,cmdGmail); cmdGmail.setImg(MenuIcons.ICON_GMAIL);
-//#                }
-//#              }
-//#endif
-//#           */
+//#         addCommand(cmdStatus);
+//#         if (isLoggedIn()) {
+//#             addCommand(cmdMyService);
 //#         }
-//#         addCommand(cmdAlert); cmdAlert.setImg(MenuIcons.ICON_NOTIFY);
-//#         /*
-//#         addCommand(cmdMyService); cmdMyService.setImg(MenuIcons.ICON_ITEM_ACTIONS);
-//#               addInCommand(3,cmdAlert); cmdAlert.setImg(MenuIcons.ICON_NOTIFY);
-//#               if(isLoggedIn()) {
-//#                   addInCommand(3,cmdQDHelp); cmdQDHelp.setImg(0x05);
-//#               }
-//#               addInCommand(3,cmdClrAllChats); cmdClrAllChats.setImg(MenuIcons.ICON_CLEAN_MESSAGES);
-//#ifdef STATS
-//#               addInCommand(3,cmdStats); cmdStats.setImg(MenuIcons.ICON_STAT);
-//#endif
-//#               addInCommand(3,cmdFM); cmdFM.setImg(MenuIcons.ICON_FILEMAN);
-//#               addInCommand(3,cmdReconnect); cmdReconnect.setImg(MenuIcons.ICON_RECONNECT);
-//#          */
-//#         addCommand(cmdAccount); cmdAccount.setImg(MenuIcons.ICON_VCARD);
+//#         addCommand(cmdAlert);
+//#         addCommand(cmdAccount);
 //#ifdef ARCHIVE
-//#         addCommand(cmdArchive); cmdArchive.setImg(MenuIcons.ICON_ARCHIVE);
+//#         addCommand(cmdArchive);
 //#endif
-//#         addCommand(cmdOptions);   cmdOptions.setImg(0x03);
+//#         addCommand(cmdOptions);
 //# 
-//#ifdef CONSOLE
+//#ifdef XML_CONSOLE
 //#         if(midlet.BombusQD.cf.userAppLevel==1) {
-//#                 addCommand(cmdXMLConsole); cmdXMLConsole.setImg(MenuIcons.ICON_CONCOLE);
-//#                 if(midlet.BombusQD.cf.debug) {
-//#                     addCommand(cmdDebugConsole);
-//#                     cmdDebugConsole.setImg(MenuIcons.ICON_CONCOLE);
-//#                 }
+//#             addCommand(cmdXMLConsole);
 //#         }
 //#endif
 //# 
-//#         addCommand(cmdInfo); cmdInfo.setImg(MenuIcons.ICON_CHECK_UPD);
-//#         //addCommand(cmdLatestNews); cmdLatestNews.setImg(MenuIcons.ICON_CHECK_UPD);
+//#ifdef DEBUG_CONSOLE
+//#         if(midlet.BombusQD.cf.userAppLevel==1) {
+//#             if (midlet.BombusQD.cf.debug) {
+//#                 addCommand(cmdDebugConsole);
+//#             }
+//#         }
+//#endif
 //# 
+//#         addCommand(cmdInfo);
 //#         if (midlet.BombusQD.cf.allowMinimize)
 //#             addCommand(cmdMinimize);
-//#             cmdMinimize.setImg(MenuIcons.ICON_FILEMAN);
-//#         if (phoneManufacturer!=Config.NOKIA_9XXX)
-//#             addCommand(cmdQuit); cmdQuit.setImg(MenuIcons.ICON_BUILD_NEW);
+//#         if (phoneManufacturer != Config.NOKIA_9XXX) {
+//#             addCommand(cmdQuit);
+//#         }
 //# 
 //#else
        addCommand(cmdTools);
@@ -610,9 +519,8 @@ public class Roster
 //#         if (c == cmdActions) {
 //#             showActionsMenu(this, getFocusedObject());
 //#         }
-//#            else if(c==cmdOptions){
+//#            else if(c==cmdOptions) {
 //#               display.setCurrent(new ConfigForm(display, this));
-//#            }
 //#         /*
 //#            else if(c==cmdVcard){
 //#                 Contact cs=midlet.BombusQD.sd.roster.selfContact();
@@ -624,7 +532,8 @@ public class Roster
 //#            }
 //#          */
 //#ifdef SERVICE_DISCOVERY
-//#            else if(c==cmdMyService){ new ServiceDiscovery(display, null, null, false);  }
+//#            } else if(c==cmdMyService) {
+//#                new ServiceDiscovery(display, null, null, false);
 //#endif
 //#         /*
 //#ifdef PRIVACY
@@ -658,20 +567,17 @@ public class Roster
 //#            }
 //#            else if(c==cmdQDHelp){ new ConferenceForm(display, this, "BombusQD@", "qd@conference.jabber.ru", null, false);  }
 //#          */
-//#ifdef CONSOLE
-//#            else if(c==cmdXMLConsole){
+//#ifdef XML_CONSOLE
+//#             } else if(c==cmdXMLConsole){
 //#              new XMLList(display,this);
 //#            }
-//#            else if(c==cmdDebugConsole){ new DebugXMLList(display, this);  }
 //#endif
+//#ifdef DEBUG_CONSOLE
+//#            else if(c==cmdDebugConsole){
+//#                 new DebugXMLList(display, this);
+//#endif
+//#          } else if (c==cmdMinimize) { cmdMinimize();  }
 //# 
-//#          else if (c==cmdMinimize) { cmdMinimize();  }
-//#          //else if (c==cmdLatestNews){
-//#          //   new GetFileServer(display, this);
-//#          //}
-//#          //else if(c==cmdSearchUsers){
-//#          //   new DiscoSearchForm(display, this , null , -1);
-//#          //}
 //#          else if (c==cmdAccount){ cmdAccount(); }
 //#          else if (c==cmdStatus) { cmdStatus(); }
 //#          else if (c==cmdAlert) { cmdAlert(); }
@@ -792,7 +698,7 @@ public class Roster
     }
 
     public void resetRoster() {
-//#ifdef CONSOLE
+//#ifdef DEBUG_CONSOLE
 //#         if(midlet.BombusQD.cf.debug) midlet.BombusQD.debug.add("::resetRoster",10);
 //#endif
         contactList.resetRoster();
@@ -818,7 +724,7 @@ public class Roster
         Msg m=new Msg(Constants.MESSAGE_TYPE_OUT, "local", "Info", s);
         messageStore(selfContact(), m);
         selfContact().getChatInfo().reEnumCounts();
-//#ifdef CONSOLE
+//#ifdef DEBUG_CONSOLE
 //#         midlet.BombusQD.debug.add(s,10);
 //#endif
     }
@@ -967,9 +873,9 @@ public class Roster
              if (cg.inRoom==false) {
                 boolean removeGroup = true;
                 hC = hContacts.size() - 1;
-                //#ifdef CONSOLE
+//#ifdef DEBUG_CONSOLE
 //#                 midlet.BombusQD.debug.add("::cleanupGroup->cg.inRoom->" + cg.inRoom + "(destroyContacts)",10);
-                //#endif
+//#endif
                 for (int index = hC; index >= 0; --index) {
                     Contact contact=(Contact)hContacts.elementAt(index);
                     if (0 == contact.getNewMsgsCount()) {
@@ -1382,7 +1288,7 @@ public class Roster
         // reconnect if disconnected
         if (myStatus!=Constants.PRESENCE_OFFLINE && theStream==null ) {
             doReconnect=(contactList.contacts.size() > 1);
-//#ifdef CONSOLE
+//#ifdef DEBUG_CONSOLE
 //#             midlet.BombusQD.debug.add(" ::OFFLINE ==> doReconnect ==> " + doReconnect ,10);
 //#endif
             firstStatus=newStatus;
@@ -1394,7 +1300,7 @@ public class Roster
         blockNotify(-111,13000);
 
         if (isLoggedIn()) {
-//#ifdef CONSOLE
+//#ifdef DEBUG_CONSOLE
 //#         if(midlet.BombusQD.cf.debug) midlet.BombusQD.debug.add("::sendPresence",10);
 //#endif
             if (myStatus==Constants.PRESENCE_OFFLINE  && !midlet.BombusQD.cf.collapsedGroups)
@@ -1411,7 +1317,7 @@ public class Roster
             if (!midlet.BombusQD.sd.account.isMucOnly() )
 		theStream.send(presence);
                 presence=null;
-//#ifdef CONSOLE
+//#ifdef DEBUG_CONSOLE
 //#             if(midlet.BombusQD.cf.debug) midlet.BombusQD.debug.add("::sendMultiPresence",10);
 //#endif
 //#ifndef WMUC
@@ -1434,7 +1340,7 @@ public class Roster
 //#             autoXa=false;
 //#endif
 
-//#ifdef CONSOLE
+//#ifdef DEBUG_CONSOLE
 //#             midlet.BombusQD.debug.add(" ::OFFLINE ==> " + theStream ,10);
 //#endif
         }
@@ -1637,7 +1543,7 @@ public class Roster
 
 //#ifdef CLASSIC_CHAT
 //#            if(body!=null){
-//#
+//# 
 //#                if(midlet.BombusQD.cf.module_classicchat){
 //#                  if(!groupchat) {
 //#                  //forfix
@@ -2989,11 +2895,11 @@ public class Roster
 
      private static StringBuffer mucContactBuf = new StringBuffer(0);
      private String processPresence(MucContact mc, JabberDataBlock xmuc, Presence presence, String Prtext) {
-         //#ifdef CONSOLE
+//#ifdef DEBUG_CONSOLE
 //#           midlet.BombusQD.debug.add("::role: processPresence", 10);
 //#           midlet.BombusQD.debug.add("::role: processPresence->affiliation.." +  mc.affiliation, 10);
 //#           midlet.BombusQD.debug.add("::role: processPresence->role.." +  mc.role, 10);
-          //#endif
+//#endif
 
          affiliation = mc.affiliation;
          role = mc.role;
@@ -3017,10 +2923,10 @@ public class Roster
 
          boolean roleChanged = !tempRole.equals(role);
          boolean affiliationChanged = !tempAffiliation.equals(affiliation);
-         //#ifdef CONSOLE
+ //#ifdef DEBUG_CONSOLE
 //#          midlet.BombusQD.debug.add("::role: " +  role  + "/"  + tempRole +  "("  + roleChanged +  ")"   +
 //#                  "\naff:" +  affiliation +  "/" +  tempAffiliation +  "("  + affiliationChanged  + ")", 10);
-         //#endif
+//#endif
 
          mc.affiliation = tempAffiliation;
          mc.role = tempRole;
@@ -3469,7 +3375,7 @@ public class Roster
      */
 
     public void connectionTerminated( Exception e ) {
-//#ifdef CONSOLE
+//#ifdef DEBUG_CONSOLE
 //#         midlet.BombusQD.debug.add("::connectionTerminated " + e ,10);
 //#endif
          if( e!=null ) {
@@ -3508,7 +3414,7 @@ public class Roster
      }
 
      public void doReconnect() {
-//#ifdef CONSOLE
+//#ifdef DEBUG_CONSOLE
 //#         midlet.BombusQD.debug.add("::doReconnect()" ,10);
 //#endif
         setProgress(SR.get(SR.MS_DISCONNECTED), 0);

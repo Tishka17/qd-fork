@@ -60,7 +60,7 @@ public class DefForm
 //#endif
     {
 
-    public Display display;
+    //public Display display;
 
     public Vector itemsList=new Vector(0);
 
@@ -73,7 +73,7 @@ public class DefForm
     public DefForm() {};
 
     public DefForm(final Display display, Displayable pView, String caption) {
-	this.display=display;
+	//this.display=display;
 
         cmdCancel = new Command(SR.get(SR.MS_BACK), Command.BACK, 99);
         setMainBarItem(new MainBar(caption));
@@ -128,6 +128,14 @@ public class DefForm
 
     public final void addControl(Object obj) {
         itemsList.addElement(obj);
+    }
+
+    public final void insertControl(Object obj, int pos) {
+        itemsList.insertElementAt(obj, pos);
+    }
+
+    public final void removeControl(Object obj) {
+        itemsList.removeElement(obj);
     }
 
     public void cmdCancel() {

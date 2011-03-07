@@ -25,8 +25,8 @@
  * along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package vcard;
+
 import client.Config;
 import client.Contact;
 //#if FILE_IO
@@ -60,171 +60,182 @@ import ui.controls.form.LinkString;
 import midlet.BombusQD;
 import javax.microedition.io.ConnectionNotFoundException;
 //#ifdef GRAPHICS_MENU
-//# import midlet.Commands;
 //# import ui.GMenu;
 //# import ui.GMenuConfig;
+//# import ui.MainBar;
 //#endif
+
 /**
  *
  * @author ad,aqent
  */
-public class VCardView
-    extends DefForm
+public class VCardView extends DefForm
 //#if FILE_IO
         implements BrowserListener
 //#endif
-    {
-
+{
     private VCard vcard;
     private ImageItem photoItem;
 
-    private SimpleString endVCard=new SimpleString(SR.get(SR.MS_END_OF_VCARD), false);
-    private SimpleString noVCard=new SimpleString(SR.get(SR.MS_NO_VCARD), true);
-    private SimpleString noPhoto=new SimpleString(SR.get(SR.MS_NO_PHOTO), false);
-    private SimpleString badFormat=new SimpleString(SR.get(SR.MS_UNSUPPORTED_FORMAT), false);
-    private SimpleString photoTooLarge=new SimpleString(SR.get(SR.MS_PHOTO_TOO_LARGE), false);
+    private SimpleString endVCard = new SimpleString(SR.get(SR.MS_END_OF_VCARD), false);
+    private SimpleString noVCard = new SimpleString(SR.get(SR.MS_NO_VCARD), true);
+    private SimpleString noPhoto = new SimpleString(SR.get(SR.MS_NO_PHOTO), false);
+    private SimpleString badFormat = new SimpleString(SR.get(SR.MS_UNSUPPORTED_FORMAT), false);
+    private SimpleString photoTooLarge = new SimpleString(SR.get(SR.MS_PHOTO_TOO_LARGE), false);
 
-
-    private LinkString refresh;
-
-    private String url="";
+    private String url;
 
 //#ifdef CLIPBOARD
-//#     Command cmdCopy;
-//#     Command cmdCopyPlus;
+//#     private Command cmdCopy;
+//#     private Command cmdCopyPlus;
 //#endif
-    Command cmdRefresh;
+    private Command cmdRefresh;
 //#if FILE_IO
-    Command cmdSavePhoto;
+    private Command cmdSavePhoto;
 //#endif
-    Command cmdDelPhoto;
-    Command cmdDelVcard;
+    private Command cmdDelPhoto;
+    private Command cmdDelVcard;
 
-    /** Creates a new instance of VCardView */
-    private Contact c;
+    private Contact contact;
+
+    public VCardView(Display display, Displayable pView, VCard vcard) {
+        this(display, pView, null, vcard);
+    }
 
     public VCardView(Display display, Displayable pView, Contact contact) {
-        super(display, pView, contact.getNickJid());
-        this.display=display;
+        this(display, pView, contact, contact.vcard);
+    }
+
+    public VCardView(Display display, Displayable pView, Contact contact, final VCard vcard) {
+        super(display, pView, null);
 
 //#ifdef CLIPBOARD
-//#         cmdCopy      = new Command(SR.get(SR.MS_COPY), Command.SCREEN, 1);
-//#         cmdCopyPlus  = new Command("+ "+SR.get(SR.MS_COPY), Command.SCREEN, 2);
+//#         cmdCopy = new Command(SR.get(SR.MS_COPY), Command.SCREEN, 1);
+//#         cmdCopy.setImg(0x13);
+//# 
+//#         cmdCopyPlus = new Command("+ " + SR.get(SR.MS_COPY), Command.SCREEN, 2);
+//#         cmdCopyPlus.setImg(0x23);
 //#endif
-        cmdRefresh   = new Command(SR.get(SR.MS_REFRESH), Command.SCREEN, 3);
+        cmdRefresh = new Command(SR.get(SR.MS_REFRESH), Command.SCREEN, 3);
+        cmdRefresh.setImg(0x10);
 //#if FILE_IO
-        cmdSavePhoto = new Command(SR.get(SR.MS_SAVE_PHOTO), Command.SCREEN,4);
+        cmdSavePhoto = new Command(SR.get(SR.MS_SAVE_PHOTO), Command.SCREEN, 4);
+        cmdSavePhoto.setImg(0x15);
 //#endif
-        cmdDelPhoto  = new Command(SR.get(SR.MS_CLEAR_PHOTO), Command.SCREEN,5);
-        cmdDelVcard  = new Command(SR.get(SR.MS_DELETE_VCARD), Command.SCREEN,6);
+        cmdDelPhoto = new Command(SR.get(SR.MS_CLEAR_PHOTO), Command.SCREEN, 5);
+        cmdDelPhoto.setImg(0x41);
 
-        this.vcard=contact.vcard;
-        this.c=contact;
+        cmdDelVcard = new Command(SR.get(SR.MS_DELETE_VCARD), Command.SCREEN, 6);
+        cmdDelVcard.setImg(0x41);
 
-        refresh=new LinkString(SR.get(SR.MS_REFRESH)) { public void doAction() { VCard.request(vcard.getJid(), vcard.getId().substring(5)); destroyView(); } };
+        this.contact = contact;
+        this.vcard = vcard;
+
+        if (contact != null) {
+            setMainBarItem(new MainBar(contact.getNickJid()));
+        } else {
+            setMainBarItem(new MainBar(vcard.getNickName()));
+        }
 
         if (vcard.isEmpty()) {
-            itemsList.addElement(noVCard);
-            itemsList.addElement(refresh);
+            addControl(noVCard);
         } else {
             setPhoto();
+
             int count = vcard.getCount();
-            String data="";
-            String name="";
-            for (int index=0; index<count; index++) {
-                data = vcard.getVCardData(index);
-                name=(String)VCard.vCardLabels.elementAt(index);
-                if (data!=null && name!=null) {
+
+            for (int index = 0; index < count; ++index) {
+                String data = vcard.getVCardData(index);
+                String name = (String)VCard.vCardLabels.elementAt(index);
+
+                if (data != null && name != null) {
                     if (!VCard.vCardFields.elementAt(index).equals("URL")) {
-                        MultiLine nData=new MultiLine(name, data, super.superWidth);
-                        nData.selectable=true;
-                        itemsList.addElement(nData);
-                        nData=null;
+                        MultiLine item = new MultiLine(name, data, super.superWidth);
+                        item.setSelectable(true);
+                        addControl(item);
                     } else {
-                        url=data;
-                        LinkString nData=new LinkString(url) { public void doAction() {
-                                try {BombusQD.getInstance().platformRequest(url);
+                        url = data;
+                        LinkString nData = new LinkString(url) {
+                            public void doAction() {
+                                try {
+                                    BombusQD.getInstance().platformRequest(url);
                                 } catch (ConnectionNotFoundException ex) {
-                                    ex.printStackTrace();
-                                } } };
-                        itemsList.addElement(nData);
-                        nData=null;
+                                    //ex.printStackTrace();
+                                }
+                            }
+                        };
+                        addControl(nData);
                     }
                 }
             }
-            itemsList.addElement(endVCard);
-            itemsList.addElement(refresh);
+            addControl(endVCard);
         }
 
         commandState();
 
         attachDisplay(display);
-        this.parentView=pView;
+        this.parentView = pView;
     }
 
-    public void destroyView(){
-        endVCard = null;
-        noVCard = null;
-        noPhoto = null;
-        badFormat = null;
-        photoTooLarge = null;
-        photoItem = null;
-        super.destroyView();
-    }
+    private void setPhoto() {
+        if (contact != null) {
+            contact.hasPhoto = vcard.hasPhoto;
+        }
 
-     private void setPhoto() {
-        c.hasPhoto = vcard.hasPhoto;
         try {
-            itemsList.removeElement(noPhoto);
-            itemsList.removeElement(badFormat);
-            itemsList.removeElement(photoItem);
-            itemsList.removeElement(photoTooLarge);
-        } catch (Exception e) { }
+            removeControl(noPhoto);
+            removeControl(badFormat);
+            removeControl(photoItem);
+            removeControl(photoTooLarge);
+        } catch (Exception e) {
+        }
 
-         if (vcard.hasPhoto) {
+        if (vcard.hasPhoto) {
             try {
-                int length=vcard.getPhoto().length;
-                if (length==1) {
+                int length = vcard.getPhoto().length;
+                if (length == 1) {
                     vcard.setPhoto(null);
-                    itemsList.addElement(photoTooLarge);
+                    addControl(photoTooLarge);
                 } else {
-                    Image photoImg=Image.createImage(vcard.getPhoto(), 0, length);
-                    photoItem=new ImageItem(photoImg, "minimized, size: "+String.valueOf(length)+"b.");
-                    if (length>10240)
-                        photoItem.collapsed=true;
-                    itemsList.insertElementAt(photoItem, 0);
-                    if(Config.getInstance().module_avatars) {
-                        int width = photoImg.getWidth();
-                        int height = photoImg.getHeight();
-                        midlet.BombusQD.sd.roster.setImageAvatar(c,photoImg);
+                    Image photoImg = Image.createImage(vcard.getPhoto(), 0, length);
+                    photoItem = new ImageItem(photoImg, "minimized, size: " + String.valueOf(length) + "b.");
+                    if (length > 10240) {
+                        photoItem.collapsed = true;
                     }
-                    photoImg = null;
+                    insertControl(photoItem, 0);
+                    if (contact != null) {
+                        if (Config.getInstance().module_avatars) {
+                            //int width = photoImg.getWidth();
+                            //int height = photoImg.getHeight();
+                            midlet.BombusQD.sd.roster.setImageAvatar(contact, photoImg);
+                        }
+                    }
+                    //photoImg = null;
                 }
             } catch (Exception e) {
-                itemsList.addElement(badFormat);
+                addControl(badFormat);
             }
         } else {
-            itemsList.addElement(noPhoto);
+            addControl(noPhoto);
         }
-     }
-
+    }
 
     public void commandAction(Command c, Displayable d) {
-        if (c==cmdDelVcard){
-            this.c.clearVCard();
+        if (c == cmdDelVcard) {
+            this.contact.clearVCard();
         }
-        if (c==cmdDelPhoto) {
+        if (c == cmdDelPhoto) {
             vcard.dropPhoto();
-            this.c.img_vcard=null;
+            this.contact.img_vcard = null;
             setPhoto();
         }
-        if (c==cmdRefresh) {
+        if (c == cmdRefresh) {
             VCard.request(vcard.getJid(), vcard.getId().substring(5));
             destroyView();
             return;
         }
 //#if FILE_IO
-        if (c==cmdSavePhoto) {
+        if (c == cmdSavePhoto) {
             new Browser(null, display, this, this, true);
         }
 //#endif
@@ -233,13 +244,13 @@ public class VCardView
 //#             String lineValue = ((MultiLine)getFocusedObject()).getValue();
 //# 
 //#             if (lineValue != null) {
-//#                  ClipBoard.setClipBoard(lineValue);
+//#                 ClipBoard.setClipBoard(lineValue);
 //#             }
 //#         } else if (c == cmdCopyPlus) {
 //#             String lineValue = ((MultiLine)getFocusedObject()).getValue();
 //# 
 //#             if (lineValue != null) {
-//#                  ClipBoard.addToClipBoard(lineValue);
+//#                 ClipBoard.addToClipBoard(lineValue);
 //#             }
 //#         }
 //#endif
@@ -251,13 +262,13 @@ public class VCardView
         if (vcard.hasPhoto) {
             //System.out.println(photoType+"->"+getFileType(photoType));
             String filename = StringUtils.replaceBadChars(getNickDate());
-            FileIO file=FileIO.createConnection(pathSelected+filename+vcard.getFileType());
+            FileIO file = FileIO.createConnection(pathSelected + filename + vcard.getFileType());
             file.fileWrite(vcard.getPhoto());
         }
     }
 
     public String getNickDate() {
-        StringBuffer nickDate=new StringBuffer();
+        StringBuffer nickDate = new StringBuffer();
         nickDate.append("photo_");
 //#ifdef DETRANSLIT
 //#         String userName=(vcard.getNickName()!=null)?vcard.getNickName():vcard.getJid();
@@ -267,19 +278,18 @@ public class VCardView
 //#             nickDate.append(userName);
 //#         }
 //#else
-         if (vcard.getNickName()!=null) {
-             nickDate.append(vcard.getNickName());
-         } else nickDate.append(vcard.getJid());
+        if (vcard.getNickName() != null) {
+            nickDate.append(vcard.getNickName());
+        } else {
+            nickDate.append(vcard.getJid());
+        }
 //#endif
         nickDate.append('_').append(Time.dayLocalString(Time.utcTimeMillis()).trim());
         return nickDate.toString();
     }
 //#endif
 
-
-
-
-    public void commandState(){
+    public void commandState() {
 //#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
 //#endif
@@ -289,39 +299,44 @@ public class VCardView
 //#else
     super.commandState();
 //#endif
-        removeCommand(Commands.cmdOk);
-        removeCommand(cmdCancel);
+//        removeCommand(Commands.cmdOk);
+//        removeCommand(cmdCancel);
 
-        if (vcard!=null) {
+        if (vcard != null) {
             if (vcard.hasPhoto) {
 //#if FILE_IO
-                addCommand(cmdSavePhoto); cmdSavePhoto.setImg(0x15);
+                addCommand(cmdSavePhoto);
 //#endif
-                addCommand(cmdDelPhoto); cmdDelPhoto.setImg(0x41);
+                if (contact != null) {
+                    addCommand(cmdDelPhoto);
+                    addCommand(cmdDelVcard);
+                }
             }
-            addCommand(cmdDelVcard);
 //#ifdef CLIPBOARD
 //#             if (Config.getInstance().useClipBoard) {
-//#                 addCommand(cmdCopy); cmdCopy.setImg(0x13);
-//#                 if (!ClipBoard.isEmpty())
-//#                     addCommand(cmdCopyPlus); cmdCopyPlus.setImg(0x23);
+//#                 addCommand(cmdCopy);
+//#                 if (!ClipBoard.isEmpty()) {
+//#                     addCommand(cmdCopyPlus);
+//#                 }
 //#             }
 //#endif
         }
-        addCommand(cmdRefresh); cmdRefresh.setImg(0x10);
+        addCommand(cmdRefresh);
 //#ifndef GRAPHICS_MENU
      addCommand(cmdCancel);
 //#endif
     }
 
-
 //#ifdef MENU_LISTENER
-    public String touchLeftCommand(){ return SR.get(SR.MS_MENU); }
+    public String touchLeftCommand() {
+        return SR.get(SR.MS_MENU);
+    }
 
 //#ifdef GRAPHICS_MENU
-//#     public void touchLeftPressed(){
+//#     public void touchLeftPressed() {
 //#         showGraphicsMenu();
 //#     }
+//# 
 //#     public int showGraphicsMenu() {
 //#         commandState();
 //#         menuItem = new GMenu(display, parentView, this, null, menuCommands);
@@ -340,9 +355,5 @@ public class VCardView
    }
 //#endif
 
-
 //#endif
-
-
 }
-

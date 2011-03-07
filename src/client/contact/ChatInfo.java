@@ -37,7 +37,7 @@ import message.MessageItem;
  */
 public final class ChatInfo {
     public final Vector msgs = new Vector(0);
-    
+
     private int newMsgCnt=0;
     private int newHighLitedMsgCnt=0;
     public byte unreadType;
@@ -77,13 +77,13 @@ public final class ChatInfo {
         for (int i = 0; i <= trash; ++i) {
             m = (Msg)msgs.elementAt(0); m.destroy();
             mi = (MessageItem)mirror.elementAt(0); mi.destroy();
-            
+
             msgs.removeElementAt(0);
             mirror.removeElementAt(0);
         }
         return true;
     }
-    
+
     public void markDelivered(String id) {
         if (id==null) return;
         int size = msgs.size();
@@ -99,13 +99,13 @@ public final class ChatInfo {
     }
     public boolean isActiveChat() {
         return (0 < getMessageCount()) && !isOnlyStatusMessage();
-        
+
     }
-    
+
     public boolean isFirstMessage() {
         return (0 == getMessageCount());
     }
-    
+
     public boolean isOnlyStatusMessage() {
         return (1 == getMessageCount()) && ((Msg)msgs.firstElement()).isPresence();
     }
@@ -116,7 +116,7 @@ public final class ChatInfo {
         if (midlet.BombusQD.cf.createMessageByFive) m.itemCollapsed=false;
         msgs.addElement(m);
         if(m.isPresence()) return;
-        //System.out.println("addMessage "+opened); 
+        //System.out.println("addMessage "+opened);
         if(opened){
            newMsgCnt = 0;
            newHighLitedMsgCnt = 0;
@@ -128,7 +128,7 @@ public final class ChatInfo {
             if (m.messageType > unreadType) unreadType = m.messageType;
         }
     }
-    
+
     public void reEnumCounts() {
         if(newMsgCnt==0 && newHighLitedMsgCnt==0) return;
         newMsgCnt = 0;
@@ -147,7 +147,7 @@ public final class ChatInfo {
         newHighLitedMsgCnt = 0;
         midlet.BombusQD.sd.roster.countMsgs();
     }
-    
+
     public void readMessage(Msg msg) {
         if(!opened) return;
         if(newMsgCnt==0 && newHighLitedMsgCnt==0) return;
@@ -176,11 +176,7 @@ public final class ChatInfo {
         }
         return unreadIndex;
     }
-    
-    /**
-     *
-     * @deprecated
-     */
+
     public Vector getMsgs() {
         return msgs;
     }

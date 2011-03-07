@@ -25,8 +25,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-//#ifdef XML_CONSOLE
-//# package console.xml;
+//#if XML_CONSOLE || DEBUG_CONSOLE
+//# package console;
 //# 
 //# import archive.ArchiveList;
 //# import client.StaticData;
@@ -41,7 +41,7 @@
 //#  *
 //#  * @author ad
 //#  */
-//# public class StanzaEdit implements CommandListener {
+//# public class ConsoleTextEdit implements CommandListener {
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_CONSOLE");
 //#endif
@@ -67,7 +67,7 @@
 //#     private static final String TEMPLATE_MESSAGE = "<message to='???' type='???'>\n<body>???</body>\n</message>";
 //#     private TextBox textBox;
 //# 
-//#     public StanzaEdit(Display display, Displayable pView, String body) {
+//#     public ConsoleTextEdit(Display display, Displayable pView, String body) {
 //#         cmdCancel = new Command(SR.get(SR.MS_CANCEL), Command.BACK, 99);
 //#         cmdSend = new Command(SR.get(SR.MS_SEND), Command.OK, 1);
 //#ifdef ARCHIVE

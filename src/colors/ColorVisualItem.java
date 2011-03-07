@@ -25,64 +25,79 @@
  * along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 //#ifdef COLOR_TUNE
-//# package colors;
-//# 
-//# import javax.microedition.lcdui.Graphics;
-//# import ui.IconTextElement;
-//# import ui.VirtualList;
-//# 
-//# /**
-//#  *
-//#  * @author ad,aqent
-//#  */
-//# public class ColorVisualItem
-//#         extends IconTextElement {
-//#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_COLORS");
-//#endif
-//# 
-//#     private String name;
-//#     private int color;
-//#     private String locale="";
-//# 
-//#     public ColorVisualItem(String name, String locale, int color){
-//#         super(null);
-//#         this.name=name;
-//#         this.color=color;
-//#         this.locale=locale;
-//#     }
-//# 
-//#     public void setColor(int color) { this.color=color; }
-//#     public String toString() { return (locale==null)?name:locale; }
-//# 
-//#     public void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {
-//#        g.setFont(getFont());
-//#        int width = g.getClipWidth();
-//#        int fh = getFont().getHeight();
-//#        itemHeight = fh<<1;
-//#        g.clipRect(4, 0, g.getClipWidth(), itemHeight);
-//#        if (null != toString()) {
-//#            int yPos = (itemHeight-fh)/2;
-//#            g.drawString(toString(), 4 - ofs, yPos, Graphics.TOP|Graphics.LEFT);
-//#        }
-//#        g.setColor(color);
-//#        g.fillRect(width - itemHeight - 3, 3 , itemHeight - 3, itemHeight - 6 );
-//#     }
-//# 
-//#     public int getVHeight() {
-//#        return getFont().getHeight()<<1;
-//#     }
-//# 
-//#     public int getVWidth(){
-//#         return getFont().stringWidth(toString()) + 4 + itemHeight;
-//#     }
-//# 
-//#     public void onSelect(VirtualList view) {
-//#         //state=!state;
-//#     }
-//# 
-//#     public boolean isSelectable() { return true; }
-//# }
+package colors;
+
+import javax.microedition.lcdui.Graphics;
+import midlet.BombusQD;
+import ui.IconTextElement;
+import ui.VirtualList;
+
+/**
+ *
+ * @author ad,aqent
+ */
+public class ColorVisualItem extends IconTextElement {
+    private String name;
+    private int color;
+
+    private String locale = "";
+    public ColorVisualItem(String name, String locale, int color) {
+        super(null);
+
+        this.name = name;
+        this.color = color;
+        this.locale = locale;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
+    }
+
+    public String toString() {
+        return locale;
+    }
+
+    public void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {
+        g.setFont(getFont());
+
+        g.clipRect(4, 0, g.getClipWidth(), itemHeight);
+
+        int yPos = (itemHeight - getFont().getHeight()) / 2;
+        g.drawString(locale, 4 - ofs, yPos, Graphics.TOP | Graphics.LEFT);
+
+        int width = g.getClipWidth();
+        g.setColor(color);
+
+        g.fillRect(width - itemHeight + 4, 2, itemHeight - 4, itemHeight - 4);
+    }
+
+    public int getVHeight() {
+        if (0 == itemHeight) {
+            int fontHeight = getFont().getHeight();
+            if (fontHeight > 16) {
+                itemHeight = fontHeight;
+            } else {
+                itemHeight = 16;
+            }
+            if (itemHeight < BombusQD.cf.minItemHeight) {
+                itemHeight = BombusQD.cf.minItemHeight;
+            }
+        }
+        return itemHeight;
+    }
+
+    public int getVWidth() {
+        return getFont().stringWidth(toString()) + 4 + itemHeight;
+    }
+
+    public void onSelect(VirtualList view) {
+
+    }
+
+    public boolean isSelectable() {
+        return true;
+    }
+
+}
 //#endif

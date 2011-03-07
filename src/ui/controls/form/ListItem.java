@@ -25,7 +25,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package ui.controls.form; 
+package ui.controls.form;
 
 import ui.IconTextElement;
 import images.RosterIcons;
@@ -34,7 +34,7 @@ import colors.ColorTheme;
  *
  * @author ad
  */
-public class ListItem 
+public class ListItem
         extends IconTextElement {
 
     private String text;
@@ -42,7 +42,7 @@ public class ListItem
     int index;
     int icon;
     public int transport;
-        
+
     public ListItem(String text,int icon, String name) {
        super(RosterIcons.getInstance());
        this.icon=icon;
@@ -51,20 +51,20 @@ public class ListItem
        }
        this.text=text;
     }
-    public int getVWidth(){ 
+    public int getVWidth(){
         return -1;
     }
     public ListItem(String text) {
         super(null);
         this.text=text;
     }
-    
-    public int getColor(){ return ColorTheme.getInstance().getColor(ColorTheme.DISCO_CMD); }
+
+    public int getColor(){ return ColorTheme.getColor(ColorTheme.DISCO_CMD); }
     public int getImageIndex() { return RosterIcons.getInstance().getTransportIndex(name); }
 
     public String toString() { return text; }
-    
-    
-    
-    
+
+
+
+
 }

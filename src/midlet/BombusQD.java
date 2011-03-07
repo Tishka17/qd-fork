@@ -31,13 +31,13 @@
  */
 package midlet;
 //#ifdef AUTOTASK
-//# import autotask.AutoTask;
+import autotask.AutoTask;
 //#endif
 import account.Account;
 import account.AccountSelect;
 import colors.ColorTheme;
 //#ifdef STATS
-//# import stats.Stats;
+import stats.Stats;
 //#endif
 import javax.microedition.midlet.*;
 import javax.microedition.lcdui.*;
@@ -58,12 +58,12 @@ import font.*;
 //# import console.debug.DebugList;
 //#endif
 //#ifdef CLIPBOARD
-//# import util.ClipBoard;
+import util.ClipBoard;
 //#endif
 import client.Contact;
 //import Client.ContactMessageList;
 //#ifdef LIGHT_CONTROL
-//# import light.*;
+import light.*;
 //#endif
 import history.*;
 
@@ -94,20 +94,19 @@ public class BombusQD extends MIDlet implements Runnable
     public int height = 0;
     public int count = 0;
 
-    ColorTheme ct;
-
     public SplashScreen s;
     private static BombusQD instance;
 
 //#ifdef LIGHT_CONTROL
-//#    LightConfig lcf;
+   LightConfig lcf;
 //#endif
 
     public BombusQD() {
         SR.changeLocale();
+        ColorTheme.initColors();
 
         instance=this;
-        ct=ColorTheme.getInstance();
+        //ct=ColorTheme.getInstance();
         s=SplashScreen.getInstance(display);
         s.setProgress("Loading", 3);
     }
@@ -207,27 +206,27 @@ public class BombusQD extends MIDlet implements Runnable
         } catch (Exception e) { }
 
 //#ifdef HISTORY
-//#         HistoryConfig.getInstance().loadFromStorage();
+        HistoryConfig.getInstance().loadFromStorage();
 //#endif
         FontClass.getInstance().Init(cf.drwd_fontname);
 
 //#ifdef LIGHT_CONTROL
-//#         lcf=LightConfig.getInstance();
-//#         CustomLight.switchOn(lcf.light_control);
+        lcf=LightConfig.getInstance();
+        CustomLight.switchOn(lcf.light_control);
 //#endif
 
 //#ifdef HISTORY
-//#         HistoryStorage hs = new HistoryStorage();
+        HistoryStorage hs = new HistoryStorage();
 //#endif
 //#ifdef PEP
-//#         Activity.loaded();
+        Activity.loaded();
 //#endif
 //#ifdef STATS
-//#         Stats.getInstance().loadFromStorage();
-//#         Stats.getInstance().updateRunValue();
+        Stats.getInstance().loadFromStorage();
+        Stats.getInstance().updateRunValue();
 //#endif
 //#ifdef AUTOTASK
-//#         sd.autoTask=new AutoTask(display);
+        sd.autoTask=new AutoTask(display);
 //#endif
     }
 

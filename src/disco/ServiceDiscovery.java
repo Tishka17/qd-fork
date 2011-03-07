@@ -143,7 +143,7 @@ public class ServiceDiscovery
 
         //addCommand(cmdAdd);
 //#ifndef GRAPHICS_MENU
-     addCommand(cmdCancel);
+//#      addCommand(cmdCancel);
 //#endif
 
         items=new Vector(0);
@@ -488,8 +488,8 @@ public class ServiceDiscovery
             items=new Vector(0);
             features=new Vector(0);
 //#ifndef GRAPHICS_MENU
-        removeCommand(cmdBack);
-        addCommand(cmdBack);
+//#         removeCommand(cmdBack);
+//#         addCommand(cmdBack);
 //#endif
             this.service=service;
             this.node=node;
@@ -652,7 +652,7 @@ public class ServiceDiscovery
         }
 
         public int getOffset() { return offs; }
-        public int getColor(){ return ColorTheme.getInstance().getColor(ColorTheme.DISCO_CMD); }
+        public int getColor(){ return ColorTheme.getColor(ColorTheme.DISCO_CMD); }
         public int getImageIndex() { return icon; }
         public String toString(){ return name; }
         public void onSelect(VirtualList view) {
@@ -775,11 +775,11 @@ public class ServiceDiscovery
 //#ifdef MENU_LISTENER
 /*
 //#ifdef GRAPHICS_MENU
-//#     public void touchRightPressed(){ if (Config.getInstance().oldSE) showGraphicsMenu(); else destroyView(); }
-//#     public void touchLeftPressed(){ if (Config.getInstance().oldSE) destroyView(); else showGraphicsMenu(); }
+    public void touchRightPressed(){ if (Config.getInstance().oldSE) showGraphicsMenu(); else destroyView(); }
+    public void touchLeftPressed(){ if (Config.getInstance().oldSE) destroyView(); else showGraphicsMenu(); }
 //#else
-    public void touchRightPressed(){ if (cf.oldSE) showMenu(); else destroyView(); }
-    public void touchLeftPressed(){ if (cf.oldSE) keyGreen(); else showMenu(); }
+//#     public void touchRightPressed(){ if (cf.oldSE) showMenu(); else destroyView(); }
+//#     public void touchLeftPressed(){ if (cf.oldSE) keyGreen(); else showMenu(); }
 //#endif
  */
 
@@ -790,16 +790,16 @@ public class ServiceDiscovery
 
 
 //#ifdef GRAPHICS_MENU
-//#     public int showGraphicsMenu() {
-//#         menuItem = new GMenu(display, parentView, this, null, menuCommands);
-//#         GMenuConfig.getInstance().itemGrMenu = GMenu.SERVICE_DISCOVERY;
-//#         redraw();
-//#         return GMenu.SERVICE_DISCOVERY;
-//#     }
-//#else
-    public void showMenu() {
-        new MyMenu(display, parentView, this, SR.get(SR.MS_DISCO), null, menuCommands);
+    public int showGraphicsMenu() {
+        menuItem = new GMenu(display, parentView, this, null, menuCommands);
+        GMenuConfig.getInstance().itemGrMenu = GMenu.SERVICE_DISCOVERY;
+        redraw();
+        return GMenu.SERVICE_DISCOVERY;
     }
+//#else
+//#     public void showMenu() {
+//#         new MyMenu(display, parentView, this, SR.get(SR.MS_DISCO), null, menuCommands);
+//#     }
 //#endif
 
     public String touchLeftCommand(){ return (Config.getInstance().oldSE)?SR.get(SR.MS_BACK):SR.get(SR.MS_MENU); }

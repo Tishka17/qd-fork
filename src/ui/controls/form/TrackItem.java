@@ -1,5 +1,5 @@
 /*
- * TrackItem.java 
+ * TrackItem.java
  *
  * Created on 26.05.2008, 11:16
  *
@@ -25,6 +25,7 @@
  * along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
+
 package ui.controls.form;
 
 import client.Config;
@@ -38,10 +39,13 @@ import ui.VirtualList;
  *
  * @author ad,aqent
  */
+
 public class TrackItem extends IconTextElement {
     private int value;
     private int steps;
+
     private Vector items;
+
     private int maxValue;
 
     public TrackItem(int value, int maxValue) {
@@ -69,34 +73,36 @@ public class TrackItem extends IconTextElement {
     public void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {
         int width = g.getClipWidth();
         int height = g.getClipHeight();
- 
-        int itemWidth = 16;
-        int pos = ((width - itemWidth) * value) / (steps - 1);
 
-        int oldColor = g.getColor();
+        int itemWidth = 16;
+
+        int xOffset = getOffset();
+        int pos = ((width - itemWidth - xOffset * 2) * value) / (steps - 1);
+
+        g.clipRect(getOffset(), 0, g.getClipWidth(), itemHeight);
 
         g.setColor(ColorTheme.getColor(ColorTheme.CONTROL_ITEM));
-        g.drawLine(4, height / 2, width - 4, height / 2);
+        g.drawLine(xOffset, height / 2, width - xOffset, height / 2);
+        g.fillRect(xOffset + pos, 2, itemWidth, height - 4);
 
-        g.fillRect(pos, 2, itemWidth, height - 4);
         if (items != null) {
             g.setColor(0xFFFFFF - g.getColor());
-            g.drawString(Integer.toString(value), pos + 1, height / 4, Graphics.TOP | Graphics.LEFT);
+            g.drawString(Integer.toString(value), xOffset + pos + 1, 1, Graphics.TOP | Graphics.LEFT);
         }
-        g.setColor(oldColor);
-
     }
 
     public int getVHeight() { //fix it
-        if (items != null) {
-            return 30;
-        } else if (maxValue == 2) {
-            return 18;
+        if (0 == itemHeight) {
+            if (items != null) {
+                itemHeight = 16;
+            } else {
+                itemHeight = 16;
+            }
         }
-        if ((midlet.BombusQD.cf.isTouchPhone) && (maxValue == 25)) {
-            return 30;
+        if (itemHeight < midlet.BombusQD.cf.minItemHeight) {
+            itemHeight = midlet.BombusQD.cf.minItemHeight;
         }
-        return maxValue == 25 ? 8 : 30;
+        return itemHeight;
     }
 
     private void loadSkin() {

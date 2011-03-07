@@ -31,8 +31,8 @@ package colors;
  *
  * @author ad
  */
-public class ColorItem { 
-    
+
+public class ColorItem {
     public String name;
     public int color;
 

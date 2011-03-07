@@ -101,10 +101,13 @@ abstract public class IconTextElement implements VirtualElement {
     public int getVHeight() {
         if (0 == itemHeight) {
             itemHeight = getFont().getHeight();
-            if (null != il) itemHeight = Math.max(itemHeight, il.getHeight());
+            if (null != il) {
+                itemHeight = Math.max(itemHeight, il.getHeight());
+            }
         }
-		if (itemHeight < midlet.BombusQD.cf.minItemHeight)
-			itemHeight = midlet.BombusQD.cf.minItemHeight;
+        if (itemHeight < midlet.BombusQD.cf.minItemHeight) {
+            itemHeight = midlet.BombusQD.cf.minItemHeight;
+        }
         return itemHeight;
     }
 

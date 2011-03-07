@@ -29,7 +29,6 @@ package info;
 
 import client.Msg;
 import client.Constants;
-//import Messages.MessageList;
 import images.RosterIcons;
 import java.io.InputStream;
 import java.util.Vector;
@@ -51,8 +50,7 @@ import ui.controls.form.DefForm;
 //# import ui.GMenu;
 //# import ui.GMenuConfig;
 //# import ui.controls.form.MultiLine;
-//# import ui.controls.form.SimpleString;
-//# import ui.controls.form.SimpleTextBox;
+//# import ui.controls.form.CollapsibleItem;
 //#endif
 
 /**
@@ -66,29 +64,23 @@ public class GetFileServer extends DefForm implements Runnable {
 //#endif
 
     private final static String update_url = "http://bombusmod-qd.wen.ru/midp/update.txt";
-    Command cmdICQ = new Command("QD: ICQ Transports list", Command.SCREEN, 3);
-    Command cmdMrim = new Command("QD: Mrim Transports list", Command.SCREEN, 4);
-    Command cmdIrc = new Command("QD: IRC Transports list", Command.SCREEN, 5);
-    Command cmdVk = new Command("QD: j2j Transports list", Command.SCREEN, 6);
-    Vector icq = new Vector();
-    Vector mrim = new Vector();
-    Vector irc = new Vector();
-    Vector vk = new Vector();
-    Vector news;
-    Vector versions[];
-    HttpConnection c;
-    InputStream is;
-    private Display display;
+
+    private Command cmdICQ = new Command("QD: ICQ Transports list", Command.SCREEN, 3);
+    private Command cmdMrim = new Command("QD: Mrim Transports list", Command.SCREEN, 4);
+    private Command cmdIrc = new Command("QD: IRC Transports list", Command.SCREEN, 5);
+    private Command cmdVk = new Command("QD: j2j Transports list", Command.SCREEN, 6);
+
+    private Vector icq = new Vector();
+    private Vector mrim = new Vector();
+    private Vector irc = new Vector();
+    private Vector vk = new Vector();
+    private Vector news;
+
     private boolean wait = true;
     private boolean error = false;
 
-    /**
-     * Creates a new instance of GetFileServer
-     */
     public GetFileServer(Display display, Displayable pView) {
         super(display, pView, "Update");
-        this.display = display;
-        //this.build=build;
 
         news = new Vector();
 
@@ -103,8 +95,10 @@ public class GetFileServer extends DefForm implements Runnable {
         mainbar.addRAlign();
         mainbar.addElement(null);
         commandState();
+
         attachDisplay(display);
         this.parentView = pView;
+
         new Thread(this).start();
     }
 
@@ -112,18 +106,24 @@ public class GetFileServer extends DefForm implements Runnable {
         wait = true;
         rePaint();
 
+        HttpConnection c;
+        InputStream is;
+
         try {
             c = (HttpConnection)Connector.open(update_url);
             is = c.openInputStream();
-            versions = new util.StringLoader().stringLoader(is, 1);
+            Vector versions[] = new util.StringLoader().stringLoader(is, 1);
             int size = versions[0].size();
             for (int i = 0; i < size; i++) {
                 if (versions[0].elementAt(i) == null) {
                     continue;
                 }
                 String name = (String)versions[0].elementAt(i);
-                if (i < 2) {
-                    SimpleTextBox item = new SimpleTextBox(name.concat(Version.getVersionNumber()), true);
+                if (i == 0) {
+                    CollapsibleItem item = new CollapsibleItem(name + Version.getNameVersion(), true);
+                    addControl(item);
+                } else if (i < 2) {
+                    CollapsibleItem item = new CollapsibleItem(name, true);
                     addControl(item);
                 } else {
                     if (name.startsWith("*")) {

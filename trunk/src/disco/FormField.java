@@ -32,7 +32,7 @@ import ui.controls.form.CheckBox;
 import ui.controls.form.DefForm;
 import ui.controls.form.DropChoiceBox;
 import ui.controls.form.TextInput;
-import ui.controls.form.SimpleTextBox;
+import ui.controls.form.CollapsibleItem;
 //#ifdef GRAPHICS_MENU
 //# import ui.GMenu;
 //# import ui.GMenuConfig;
@@ -64,7 +64,7 @@ public class FormField {
             body=field.getChildBlockText("value");
 	    hidden= type.equals("hidden");
             if (type.equals("fixed")) {
-                formItem = new SimpleTextBox( (label==null?"Label":label) + "%"+body, true);
+                formItem = new CollapsibleItem( (label==null?"Label":label) + "%"+body, true);
             }
             else if (type.equals("boolean")) {
                 boolean set=false;
@@ -133,11 +133,11 @@ public class FormField {
             // not x-data
             if ( instructions=name.equals("instructions") )
 
-                formItem =new SimpleTextBox("Instructions%"+ body, true);
+                formItem =new CollapsibleItem("Instructions%"+ body, true);
 
             else if ( name.equals("title") )//jud.jabber.ru
 
-                formItem =new SimpleTextBox("Tittle%"+body, true);
+                formItem =new CollapsibleItem("Tittle%"+body, true);
 
             else if ( name.equals("registered") ) {
                 formItem =new CheckBox("Remove registration",registered);
@@ -160,11 +160,11 @@ public class FormField {
         DropChoiceBox dp = null;
         TextInput ti = null;
         CheckBox chbox = null;
-        SimpleTextBox ss = null;
+        CollapsibleItem ss = null;
 
         try{
-          String value=((SimpleTextBox)formItem).toString();
-          ss = (SimpleTextBox)formItem;
+          String value=((CollapsibleItem)formItem).toString();
+          ss = (CollapsibleItem)formItem;
           return j;
         } catch (Exception e) {  }
 

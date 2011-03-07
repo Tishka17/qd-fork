@@ -48,17 +48,16 @@ import ui.controls.AlertBox;
  *
  * @author ad,aqent
  */
-public class ColorConfigForm
-        extends DefForm
+public class ColorConfigForm extends DefForm
 //#if FILE_IO
         implements BrowserListener
 //#endif
     {
 
 //#ifdef COLOR_TUNE
-//#     private LinkString configureColors;
-//# 
-//#     private LinkString invertColors;
+    private LinkString configureColors;
+
+    private LinkString invertColors;
     //#endif
 //#if FILE_IO
     private LinkString loadFromFile;
@@ -77,20 +76,16 @@ public class ColorConfigForm
     private TrackItem popup_bgnd;
     private TrackItem cursor_bgnd;
 
-    private LinkString reset;
-
-    /** Creates a new instance of ColorConfigForm */
     public ColorConfigForm(final Display display, Displayable pView) {
         super(display, pView, SR.get(SR.MS_COLOR_TUNE));
-        this.display=display;
 
 //#ifdef COLOR_TUNE
 //#ifdef PLUGINS
 //#             if (StaticData.getInstance().Colors) {
 //#endif
-//#         invertColors=new LinkString(SR.get(SR.MS_INVERT)) { public void doAction() { ColorTheme.invertSkin(); } };
-//#         configureColors=new LinkString(SR.get(SR.MS_EDIT_COLORS)) { public void doAction() { new ColorsList(display);  } };
-//#         itemsList.addElement(configureColors);
+        invertColors=new LinkString(SR.get(SR.MS_INVERT)) { public void doAction() { ColorTheme.invertSkin(); } };
+        configureColors=new LinkString(SR.get(SR.MS_EDIT_COLORS)) { public void doAction() { new ColorsList(display);  } };
+        itemsList.addElement(configureColors);
 //#ifdef PLUGINS
 //#             }
 //#endif
@@ -139,27 +134,30 @@ public class ColorConfigForm
 
 //#endif
 
-        reset=new LinkString(SR.get(SR.MS_CLEAR)) {
-          public void doAction() {
-             AlertBox alert = new AlertBox( "Query", "Load lime theme?" , display, parentView, true) {
-             public void yes() { ColorTheme.loadSkin("/themes/default.txt", 1, true); }
-             public void no() {
-               ColorTheme.init();
-               ColorTheme.saveToStorage();
-             }
-             };
-             alert = null;
-          }
-        };
-
-            //#ifdef COLOR_TUNE
-//#             itemsList.addElement(invertColors);
-            //#endif
+//#ifdef COLOR_TUNE
+            itemsList.addElement(invertColors);
+//#endif
 //#ifdef FILE_IO
             itemsList.addElement(loadFromFile);
             itemsList.addElement(saveToFile);
 //#endif
-            itemsList.addElement(reset);
+ //#ifdef COLOR_TUNE
+        addControl(new LinkString(SR.get(SR.MS_CLEAR)) {
+            public void doAction() {
+                new AlertBox("Query", "Load lime theme?", display, parentView, true) {
+                    public void yes() {
+                        ColorTheme.loadSkin("/themes/default.txt", 1, true);
+                    }
+
+                    public void no() {
+                        ColorTheme.init();
+                        ColorTheme.saveToStorage();
+                    }
+                };
+            }
+        });
+//#endif
+
 
         //moveCursorTo(getNextSelectableRef(-1));
         attachDisplay(display);
@@ -190,9 +188,7 @@ public class ColorConfigForm
             new Browser(null, display, this, this, false);
         }
     }
-//#endif
 
-//#if FILE_IO
     public void BrowserFilePathNotify(String pathSelected) {
         if (loadType==0) {
             FileIO file=FileIO.createConnection(pathSelected+"skin.txt");

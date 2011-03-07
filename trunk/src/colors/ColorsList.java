@@ -26,129 +26,131 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-
-package colors;
-import java.util.Enumeration;
-import java.util.Vector;
-import javax.microedition.lcdui.*;
-import locale.SR;
-import ui.MainBar;
-import ui.VirtualElement;
-import ui.VirtualList;
+//#ifdef COLOR_TUNE
+//# package colors;
+//# 
+//# import java.util.Enumeration;
+//# import java.util.Vector;
+//# import javax.microedition.lcdui.*;
+//# import locale.SR;
+//# import ui.MainBar;
+//# import ui.VirtualElement;
+//# import ui.VirtualList;
 //#ifndef MENU_LISTENER
 //# import javax.microedition.lcdui.CommandListener;
 //# import javax.microedition.lcdui.Command;
 //#else
-import menu.MenuListener;
-import menu.Command;
-import menu.MyMenu;
+//# import menu.MenuListener;
+//# import menu.Command;
+//# import menu.MyMenu;
 //#endif
-
-//#ifdef GRAPHICS_MENU        
+//# 
+//#ifdef GRAPHICS_MENU
 //# import ui.GMenu;
 //# import ui.GMenuConfig;
 //#endif
-/**
- *
- * @author ad,aqent
- */
-public class ColorsList
-        extends VirtualList implements
+//# /**
+//#  *
+//#  * @author ad,aqent
+//#  */
+//# public class ColorsList
+//#         extends VirtualList implements
 //#ifndef MENU_LISTENER
 //#         CommandListener,
 //#else
-        MenuListener
-//#endif           
-    {
+//#         MenuListener
+//#endif
+//#     {
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_COLORS");
 //#endif
-    
-
-    static void setColor(int paramName, int value) {
-        ((ColorVisualItem)itemsList.elementAt(paramName)).setColor(value);
-    }
-    
-
-    static Vector itemsList;
-
-    public Command cmdOk;
-    Command cmdBack;
-    
-    /**
-     * Creates a new instance of ColorsList
-     */
-    public ColorsList(Display display) {
-        super(display);
-        
-        cmdOk = new Command(SR.get(SR.MS_EDIT), Command.OK, 1);
-        cmdBack=new Command(SR.get(SR.MS_BACK),Command.BACK,99);        
-        
-        setMainBarItem(new MainBar(SR.get(SR.MS_COLOR_TUNE)));
-        addCommand(cmdBack);
-        addCommand(cmdOk);
-        setCommandListener(this);
-        
-        itemsList=new Vector(0);
-        int cnt=0;
-        int size = ColorTheme.colorsContainer.size();
-        ColorVisualItem item;
-        int[] colors = ColorTheme.getColors();
-        for (int i=0;i<=size;++i) {
-            ColorItem c=(ColorItem)ColorTheme.colorsContainer.elementAt(i);
+//# 
+//# 
+//#     static void setColor(int paramName, int value) {
+//#         ((ColorVisualItem)itemsList.elementAt(paramName)).setColor(value);
+//#     }
+//# 
+//# 
+//#     static Vector itemsList;
+//# 
+//#     public Command cmdOk;
+//#     Command cmdBack;
+//# 
+//#     /**
+//#      * Creates a new instance of ColorsList
+//#      */
+//#     public ColorsList(Display display) {
+//#         super(display);
+//# 
+//#         cmdOk = new Command(SR.get(SR.MS_EDIT), Command.OK, 1);
+//#         cmdBack=new Command(SR.get(SR.MS_BACK),Command.BACK,99);
+//# 
+//#         setMainBarItem(new MainBar(SR.get(SR.MS_COLOR_TUNE)));
+//#         addCommand(cmdBack);
+//#         addCommand(cmdOk);
+//#         setCommandListener(this);
+//# 
+//#         itemsList=new Vector(0);
+//#         int cnt=0;
+//#         int size = ColorTheme.colorsContainer.size();
+//#         ColorVisualItem item;
+//#         int[] colors = ColorTheme.getColors();
+//#         for (int i=0;i<=size;++i) {
+//#             ColorItem c=(ColorItem)ColorTheme.colorsContainer.elementAt(i);
 //#ifdef COLOR_TUNE
 //#             item = new ColorVisualItem(c.name, ColorTheme.NAMES[cnt], colors[i]);
 //#             itemsList.addElement(item);
 //#endif
-            ++cnt;
-        }
-        item = null;
-        commandState();
-        attachDisplay(display);
-        repaint();
-    }
-
-    protected int getItemCount() { return itemsList.size(); }
-
-    protected VirtualElement getItemRef(int index) {
-        return (VirtualElement)itemsList.elementAt(index);
-    }
-    
-    public void commandState(){
+//#             ++cnt;
+//#         }
+//#         item = null;
+//#         commandState();
+//#         attachDisplay(display);
+//#         repaint();
+//#     }
+//# 
+//#     protected int getItemCount() { return itemsList.size(); }
+//# 
+//#     protected VirtualElement getItemRef(int index) {
+//#         return (VirtualElement)itemsList.elementAt(index);
+//#     }
+//# 
+//#     public void commandState(){
 //#ifdef MENU_LISTENER
-        menuCommands.removeAllElements();
+//#         menuCommands.removeAllElements();
 //#endif
-    }
-    
+//#     }
+//# 
 //#ifdef MENU_LISTENER
-    public String touchLeftCommand(){ return SR.get(SR.MS_SELECT); }
-    
-//#ifdef GRAPHICS_MENU        
+//#     public String touchLeftCommand(){ return SR.get(SR.MS_SELECT); }
+//# 
+//#ifdef GRAPHICS_MENU
 //#     public int showGraphicsMenu() {
 //#          commandState();
 //#          menuItem = new GMenu(display, parentView, this, null, menuCommands);
-//#          GMenuConfig.getInstance().itemGrMenu = -1;        
+//#          GMenuConfig.getInstance().itemGrMenu = -1;
 //#          eventOk();
 //#          return -1;
 //#     }
 //#else
-    public void showMenu() {
-        commandState();
-        new MyMenu(display, parentView, this, SR.get(SR.MS_DISCO), null, menuCommands);
-    } 
+//#     public void showMenu() {
+//#         commandState();
+//#         new MyMenu(display, parentView, this, SR.get(SR.MS_DISCO), null, menuCommands);
+//#     }
 //#endif
-
-//#endif      
-    
-   public void commandAction(Command command, Displayable displayable) {
-        if (command==cmdBack) destroyView();
-        else eventOk();
-   }   
-
-    
-    public void eventOk() {
+//# 
+//#endif
+//# 
+//#    public void commandAction(Command command, Displayable displayable) {
+//#         if (command==cmdBack) destroyView();
+//#         else eventOk();
+//#    }
+//# 
+//# 
+//#     public void eventOk() {
 //#ifdef COLOR_TUNE
 //#          new ColorSelector(display, cursor);
 //#endif
-    }
-}
+//#     }
+//# }
+//#endif

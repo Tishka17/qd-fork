@@ -1,5 +1,5 @@
 /*
- * CheckBox.java
+ * CollapsibleItem.java
  *
  * Created on 19.05.2008, 22:16
  *
@@ -27,6 +27,7 @@
  */
 
 package ui.controls.form;
+
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
 import ui.GMenuConfig;
@@ -39,7 +40,7 @@ import util.StringUtils;
  * @author ad,aqent
  */
 
-public class SimpleTextBox extends IconTextElement {
+public final class CollapsibleItem extends IconTextElement {
     private boolean isExpanded;
 
     private String tip;
@@ -49,7 +50,7 @@ public class SimpleTextBox extends IconTextElement {
 
     private GMenuConfig gm = GMenuConfig.getInstance();
 
-    public SimpleTextBox(String text, boolean isExpanded) {
+    public CollapsibleItem(String text, boolean isExpanded) {
         super(null);
 
         int sep = text.indexOf("%");
@@ -87,20 +88,21 @@ public class SimpleTextBox extends IconTextElement {
                 g.drawString(str, xOffset - ofs, (itemHeight - yOffset) / 2, Graphics.TOP | Graphics.LEFT);
             }
         } else {
-            int scrollW = midlet.BombusQD.cf.scrollWidth;
-
             int fontHeight = getFont().getHeight();
+
             int size = tipLines.size();
 
             g.clipRect(xOffset, 0, g.getClipWidth(), getVHeight());
 
-            int helpHeight = fontHeight * (size - 1);
+            int height = fontHeight * (size - 1);
+            int width = g.getClipWidth() - getOffset();
+
             g.drawString(text, xOffset - ofs, 0, Graphics.TOP | Graphics.LEFT);
 
             g.setColor(0xFFFFFF);
-            g.fillRoundRect(xOffset, fontHeight + 2, gm.phoneWidth - 10 - scrollW, helpHeight, 9, 9);
+            g.fillRoundRect(xOffset, fontHeight + 2, width, height, 9, 9);
             g.setColor(0x000000);
-            g.drawRoundRect(xOffset, fontHeight + 2, gm.phoneWidth - 10 - scrollW, helpHeight, 9, 9);
+            g.drawRoundRect(xOffset, fontHeight + 2, width, height, 9, 9);
             g.setColor(0x000000);
 
             int y = 0;
@@ -118,7 +120,7 @@ public class SimpleTextBox extends IconTextElement {
     public int getVHeight() {
         int fontHeight = getFont().getHeight();
         if (isExpanded && tip != null) {
-            itemHeight = fontHeight * (tipLines.size() + 1);
+            itemHeight = fontHeight * (tipLines.size()) + 5;
         } else {
             itemHeight = fontHeight;
         }

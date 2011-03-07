@@ -54,8 +54,8 @@ import ui.SplashScreen;
 import font.*;
 //import util.Strconv;
 //import Account.YesNoAlert;
-//#ifdef CONSOLE
-//# import console.DebugList;
+//#ifdef DEBUG_CONSOLE
+//# import console.debug.DebugList;
 //#endif
 //#ifdef CLIPBOARD
 //# import util.ClipBoard;
@@ -86,7 +86,7 @@ public class BombusQD extends MIDlet implements Runnable
     public final static StaticData sd = StaticData.getInstance();
     public final static Config cf = Config.getInstance();
 
-//#ifdef CONSOLE
+//#ifdef DEBUG_CONSOLE
 //#     public final static DebugList debug = DebugList.get();
 //#endif
 
@@ -190,7 +190,7 @@ public class BombusQD extends MIDlet implements Runnable
         rmsVersion(false, sd.roster);
 
         //long s2 = System.currentTimeMillis();
-//#ifdef CONSOLE
+//#ifdef DEBUG_CONSOLE
 //#         if(cf.debug){
 //#             //debug.add("::start "+(s2-s1)+" msec",10);
 //#             debug.add("::startmem free/total "+

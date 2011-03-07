@@ -5,7 +5,7 @@
   provided that the following conditions are met:
 
   1. Redistributions of source code must retain the above copyright notice, this list of conditions
-  and the following disclaimer. 
+  and the following disclaimer.
 
   2. Redistributions in binary form must reproduce the above copyright notice, this list of
   conditions and the following disclaimer in the documentation and/or other materials provided with
@@ -25,8 +25,8 @@
 */
 
 package com.alsutton.jabber;
-//#ifdef CONSOLE
-//# import console.StanzasList;
+//#ifdef XML_CONSOLE
+//# import console.xml.StanzasList;
 //#endif
 import com.alsutton.jabber.datablocks.Iq;
 import java.util.*;
@@ -83,25 +83,25 @@ public class JabberDataBlockDispatcher
   }
 
   public void addBlockListener(JabberBlockListener listener) {
-      synchronized (blockListeners) { 
+      synchronized (blockListeners) {
           //System.out.println(blockListeners.contains(listener) + "/" + blockListeners.size() + " " + blockListeners.toString());
           if (blockListeners.contains(listener)) return;
           blockListeners.addElement(listener);
       }
   }
   public void cancelBlockListener(JabberBlockListener listener) {
-      synchronized (blockListeners) { 
-          try { 
+      synchronized (blockListeners) {
+          try {
               blockListeners.removeElement(listener);
               listener.destroy();
           }
           catch (Exception e) {
-              e.printStackTrace(); 
+              e.printStackTrace();
           }
       }
   }
 
-  
+
   public void broadcastJabberDataBlock( JabberDataBlock dataBlock ) { arriveDataBlock(dataBlock); }
 
   /**
@@ -112,8 +112,8 @@ public class JabberDataBlockDispatcher
         dispatcherActive = true;
         if (null == dataBlock) return;
             try {
-//#ifdef CONSOLE
-//#                 if (console.StanzasList.enabled)
+//#ifdef XML_CONSOLE
+//#                 if (console.xml.StanzasList.enabled)
 //#                     stream.addLog(dataBlock.toString(), 10);
 //#                 midlet.BombusQD.cf.inStanz+=1;
 //#endif
@@ -155,19 +155,19 @@ public class JabberDataBlockDispatcher
                 //e.printStackTrace();
             }
     }
-    
+
 
   public void restart() {
-      //#ifdef CONSOLE
+      //#ifdef DEBUG_CONSOLE
 //#        midlet.BombusQD.debug.add("restart dispatcher", 10);
        //#endif
        halt();
        listener = null;
        stream = null;
        resetBlockListners();
-  }  
-    
-    
+  }
+
+
   public void cancelBlockListenerByClass(Class removeClass) {
         synchronized (blockListeners) {
             for (int index = blockListeners.size() - 1; 0 <= index; --index) {
@@ -187,14 +187,14 @@ public class JabberDataBlockDispatcher
   /**
    * Method to stop the dispatcher
    */
-  
+
   public void halt()
   {
     //setJabberListener( null );
     dispatcherActive = false;
   }
 
-  
+
   /**
    * Method to tell the listener the connection has been terminated
    *
@@ -208,7 +208,7 @@ public class JabberDataBlockDispatcher
     halt();
     if( listener != null ) listener.connectionTerminated( exception );
   }
-  
+
     void resetBlockListners() {
         try {
             synchronized (blockListeners) {

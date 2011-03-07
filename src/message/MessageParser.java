@@ -26,7 +26,7 @@
  *
  */
 
-package message; 
+package message;
 
 //#ifdef SMILES
 import images.SmilesIcons;
@@ -52,41 +52,38 @@ public final class MessageParser // implements Runnable
 
     private Leaf root;
     private Leaf emptyRoot;
-    
+
     // Singleton
     private static MessageParser instance=null;
-    
+
     private int width; // window width
-//#ifdef SMILES 
+//#ifdef SMILES
     private ImageList smileImages;
 //#endif
-    
+
     //private Vector tasks=new Vector();
     //private Thread thread;
-    
+
     boolean wordsWrap;
     private static String wrapSeparators=" .,-=/\\;:+()[]<>~!@#%^_&";
     public static boolean animated = false;
-    
+
     public static void restart() {
        if(instance!=null) instance = null;
        animated = midlet.BombusQD.cf.animatedSmiles;
-//#ifdef CONSOLE 
-//#        //midlet.BombusQD.debug.add("::restart()"+(animated?"/images/smiles/ani_smiles.txt":"/images/smiles/smiles.txt"),10);//se error
-//#endif
        getInstance();
     }
-    
+
     public static MessageParser getInstance() {
         if (instance==null)
             instance=new MessageParser(animated?"/images/smiles/ani_smiles.txt":"/images/smiles/smiles.txt");
         return instance;
     }
 
-//#ifdef SMILES 
+//#ifdef SMILES
     public Vector getSmileTable() { return smileTable; }
 //#endif
-    
+
     private static class Leaf {
         public int smile=NOSMILE;
         private String smileChars;
@@ -96,7 +93,7 @@ public final class MessageParser // implements Runnable
             child=new Vector(0);
             smileChars=new String("");
         }
-        
+
         public Leaf findChild(char c){
             int index=smileChars.indexOf(c);
             return (index==-1)?null:(Leaf)child.elementAt(index);
@@ -107,11 +104,11 @@ public final class MessageParser // implements Runnable
             smileChars=smileChars+c;
         }
     }
-  
+
     private void addSmile(Leaf rootSmile, String smile, int index) {
 	Leaf p=rootSmile;
 	Leaf p1;
-	
+
 	int len=smile.length();
 	for (int i=0; i<len; i++) {
 	    char c=smile.charAt(i);
@@ -125,7 +122,7 @@ public final class MessageParser // implements Runnable
 	p.smile=index;
     }
 
-    
+
     public void parseMsg(MessageItem messageItem,  int width) {
             wordsWrap=midlet.BombusQD.cf.textWrap==1;
             messageItem.msgLines=new Vector(0);
@@ -139,7 +136,7 @@ public final class MessageParser // implements Runnable
             //messageItem.notifyRepaint();
     }
 
-    
+
     private MessageParser(String res) {
         smileTable=null;
         smileTable=new Vector(0);
@@ -154,7 +151,7 @@ public final class MessageParser // implements Runnable
             InputStream in=this.getClass().getResourceAsStream(res);
 
             boolean firstSmile=true;
-            
+
             int c;
             while (true) {
                 c=in.read();
@@ -162,7 +159,7 @@ public final class MessageParser // implements Runnable
                 switch (c) {
                     case 0x0d:
                     case 0x0a:
-                        if (strhaschars) 
+                        if (strhaschars)
                             endline=true; else break;
                     case 0x09:
                         String smile=Strconv.convCp1251ToUnicode(s.toString());
@@ -191,7 +188,7 @@ public final class MessageParser // implements Runnable
             s = new StringBuffer(0);
         }
 //#endif
-        
+
  	addSmile(root, "http://", URL);
         addSmile(root, "tel:",URL);
         addSmile(root, "ftp://",URL);
@@ -201,7 +198,7 @@ public final class MessageParser // implements Runnable
         addSmile(root, "<nick>", ComplexString.NICK_ON);
         addSmile(root, "</nick>", ComplexString.NICK_OFF);
 //#endif
-        
+
         emptyRoot=new Leaf();
 	addSmile(emptyRoot, "http://", URL);
         addSmile(emptyRoot, "tel:",URL);
@@ -214,24 +211,24 @@ public final class MessageParser // implements Runnable
         addSmile(emptyRoot, "</nick>", ComplexString.NICK_OFF);
 //#endif
     }
-    
+
     private static StringBuffer s;
-    
+
     private void parseMessage(final MessageItem task, final int windowWidth, String txt, boolean isSubj) {//fixes by aspro
       synchronized(this) {
-//long s1 = System.currentTimeMillis();          
+//long s1 = System.currentTimeMillis();
         if (null == txt) return;
 
         Vector lines=task.msgLines;
         boolean singleLine=task.msg.itemCollapsed;
-        
+
         boolean underline=false;
-        
+
         Leaf smileRoot=emptyRoot;
 //#ifdef SMILES
         if (task.smilesEnabled() && !isSubj) smileRoot = root;
 //#endif
-        
+
         s = new StringBuffer(0);
 
         int w=0;
@@ -249,13 +246,13 @@ public final class MessageParser // implements Runnable
 //#             ComplexString l=new ComplexString();
 //#endif
         lines.addElement(l);
-        
+
         Font f=getFont((task.msg.highlite || isSubj));
         l.setFont(f);
 
         int color=ColorTheme.getColor(isSubj ? ColorTheme.MSG_SUBJ : ColorTheme.LIST_INK);
         l.setColor(color);
-        
+
         int pos=0;
         int textLength = txt.length();
         while (pos < textLength) {
@@ -263,7 +260,7 @@ public final class MessageParser // implements Runnable
             int smileStartPos=pos;
             int smileEndPos=pos;
             char c = txt.charAt(pos);
-            
+
             if (underline) {
                 switch (c) {
                     case ' ':
@@ -307,7 +304,7 @@ public final class MessageParser // implements Runnable
                         pos = smileStartPos;
                     }
                 }
-                
+
 //#ifdef SMILES
                 if (0 <= smileIndex) {
                     if (wordStartPos!=smileStartPos) {
@@ -337,19 +334,19 @@ public final class MessageParser // implements Runnable
                     continue;
                 }
 //#endif
-                
+
                 if (smileIndex==URL) {
                     if (s.length()>0) {
                         l.addElement(s.toString());
                         s = new StringBuffer(0);
                     }
                     underline=true;
-                    
+
                 }
                 pos = smileStartPos;
             }
-            
-            
+
+
             int cw = f.charWidth(c);
             if (0x20 != c) {
                 boolean newline = ( c==0x0d || c==0x0a );
@@ -364,8 +361,8 @@ public final class MessageParser // implements Runnable
                     if (underline) l.addUnderline();
                     l.addElement(s.toString());
                     s = new StringBuffer(0); w = 0;
-                    
-                    
+
+
                     if (c == 0xa0) l.setColor(ColorTheme.getColor(ColorTheme.MSG_HIGHLIGHT));
 
 
@@ -375,7 +372,7 @@ public final class MessageParser // implements Runnable
 //#                    l=new ComplexString();
 //#endif
                     lines.addElement(l);
-                    
+
                     l.setColor(color);
                     if (singleLine) return;
                     l.setFont(f);
@@ -384,7 +381,7 @@ public final class MessageParser // implements Runnable
             if (c > 0x1f) wordWidth += cw;
             if (c == 0x09) c  = 0x20;
 //****************************
-            
+
 
             if (-1 != wrapSeparators.indexOf(c) || !wordsWrap) {
                 if (pos > wordStartPos)
@@ -407,7 +404,7 @@ public final class MessageParser // implements Runnable
         smileRoot=null;
         lines=null;
       }
-//long s2 = System.currentTimeMillis();  
+//long s2 = System.currentTimeMillis();
 //System.out.println("parse "+(s2-s1)+" msec");
     }
 /*
@@ -421,8 +418,8 @@ parse 37-40 msec
  *
 aspro + 37r
 parse 20-24 msec
- */    
-    
+ */
+
     public Font getFont(boolean bold) {
         return FontCache.getFont(bold, FontCache.msg);
     }

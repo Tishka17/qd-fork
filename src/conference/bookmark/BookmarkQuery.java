@@ -25,7 +25,7 @@
  *
  */
 
-package conference;
+package conference.bookmark;
 
 import client.StaticData;
 import com.alsutton.jabber.JabberBlockListener;
@@ -33,17 +33,18 @@ import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.Iq;
 import java.util.Vector;
 import client.Constants;
+import conference.ConferenceForm;
 import util.StringLoader;
 
 /**
  *
- * @author Evg_S 
+ * @author Evg_S
  */
 public class BookmarkQuery implements JabberBlockListener{
 
     public final static boolean SAVE=true;
     public final static boolean LOAD=false;
-    
+
     public void destroy() {
     }
     /** Creates a new instance of BookmarkQurery */
@@ -53,21 +54,21 @@ public class BookmarkQuery implements JabberBlockListener{
 
         JabberDataBlock storage=query.addChildNs("storage", "storage:bookmarks");
         if (saveBookmarks) {
-          int size=midlet.BombusQD.sd.roster.bookmarks.size();        
-            for(int i=0;i<size;i++){    
-                storage.addChild( ((BookmarkItem)midlet.BombusQD.sd.roster.bookmarks.elementAt(i)).constructBlock() );              
-            } 
+          int size=midlet.BombusQD.sd.roster.bookmarks.size();
+            for(int i=0;i<size;i++){
+                storage.addChild( ((BookmarkItem)midlet.BombusQD.sd.roster.bookmarks.elementAt(i)).constructBlock() );
+            }
         }
         midlet.BombusQD.sd.roster.theStream.send(request);
         request=null;
         query=null;
         storage=null;
     }
-    
-    
+
+
     public int blockArrived(JabberDataBlock data) {
         try {
-            if (!(data instanceof Iq)) 
+            if (!(data instanceof Iq))
                 return JabberBlockListener.BLOCK_REJECTED;
             if (data.getAttribute("id").equals("getbookmarks")) {
                 JabberDataBlock storage=data.findNamespace("query", "jabber:iq:private"). findNamespace("storage", "storage:bookmarks");
@@ -76,21 +77,21 @@ public class BookmarkQuery implements JabberBlockListener{
 
                 try {
                     int size=storage.getChildBlocks().size();
-                       for(int i=0;i<size;i++){    
+                       for(int i=0;i<size;i++){
                         BookmarkItem bm=new BookmarkItem((JabberDataBlock)storage.getChildBlocks().elementAt(i));
                         bookmarks.addElement(bm);
-                        if (bm.autojoin && autojoin) {
-                            ConferenceForm.join(bm.desc, bm.getJidNick(), bm.password, midlet.BombusQD.cf.confMessageCount);
+                        if (bm.isAutoJoin() && autojoin) {
+                            ConferenceForm.join(bm.getDesc(), bm.getJidNick(), bm.getPassword(), midlet.BombusQD.cf.confMessageCount);
                         }
                     }
                 } catch (Exception e) { } //no any bookmarks
 
-                if (bookmarks.isEmpty()) 
+                if (bookmarks.isEmpty())
                     loadDefaults(bookmarks);
-					
+
                 midlet.BombusQD.sd.roster.bookmarks=bookmarks;
                 //midlet.BombusQD.sd.roster.redraw();
-                
+
                 return JabberBlockListener.NO_MORE_BLOCKS;
             }
         } catch (Exception e) { }

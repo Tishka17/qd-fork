@@ -372,7 +372,7 @@ public abstract class VirtualList
 //#                    case 3: bgndImage = Image.createImage("/images/bgnd.jpg"); break;
 //#                }
 //#            } catch (Exception e) {
-//#ifdef CONSOLE
+//#ifdef DEBUG_CONSOLE
 //#               midlet.BombusQD.debug.add("VL -> createImage Exception: "+e.getMessage(),10);
 //#endif
 //#            }
@@ -469,7 +469,7 @@ public abstract class VirtualList
 
 
     protected void sizeChanged(int w, int h) {
-//#ifdef CONSOLE
+//#ifdef DEBUG_CONSOLE
 //#         midlet.BombusQD.debug.add("VirtualList::sizeChanged " + width+"x"+height + "->"+w+"x"+h ,10);
 //#endif
         width=w;
@@ -2255,8 +2255,10 @@ public abstract class VirtualList
                             find = null;
                             if(c!=null) c = null;
                          } catch(OutOfMemoryError eom) {
-//#ifdef CONSOLE
-//#                            if(midlet.BombusQD.cf.debug) midlet.BombusQD.debug.add("::VList->sort->contactByMsgs",10);
+//#ifdef DEBUG_CONSOLE
+//#                            if(midlet.BombusQD.cf.debug) {
+//#                                midlet.BombusQD.debug.add("::VList->sort->contactByMsgs",10);
+//#                            }
 //#endif
                          } catch (Exception e) {}
                          break;

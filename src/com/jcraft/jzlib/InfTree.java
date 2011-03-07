@@ -8,8 +8,8 @@ modification, are permitted provided that the following conditions are met:
   1. Redistributions of source code must retain the above copyright notice,
      this list of conditions and the following disclaimer.
 
-  2. Redistributions in binary form must reproduce the above copyright 
-     notice, this list of conditions and the following disclaimer in 
+  2. Redistributions in binary form must reproduce the above copyright
+     notice, this list of conditions and the following disclaimer in
      the documentation and/or other materials provided with the distribution.
 
   3. The names of the authors may not be used to endorse or promote products
@@ -194,7 +194,7 @@ final class InfTree{
     80,5,4, 88,5,769, 84,5,49, 92,5,12289,
     82,5,13, 90,5,3073, 86,5,193, 192,5,24577
   };*/
-  
+
 
   // Tables for deflate from PKZIP's appnote.txt.
   static final int[] cplens = { // Copy lengths for literal codes 257..285
@@ -223,7 +223,7 @@ final class InfTree{
   static final int BMAX=15;         // maximum bit length of any code
 
   int[] hn = null;  // hufts used in space
-  int[] v = null;   // work area for huft_build 
+  int[] v = null;   // work area for huft_build
   int[] c = null;   // bit length count table
   int[] r = null;   // table entry for structure assignment
   int[] u = null;   // table stack
@@ -234,7 +234,7 @@ final class InfTree{
   private static int[] fixed_td;
 
   private int huft_build(int[] b, // code lengths in bits (all assumed <= BMAX)
-                         int bindex, 
+                         int bindex,
                          int n,   // number of codes (assumed <= 288)
                          int s,   // number of simple-valued codes (0..s-1)
                          int[] d, // list of base values for non-simple codes
@@ -369,7 +369,7 @@ final class InfTree{
           }
           u[h] = q = /*hp+*/ hn[0];   // DEBUG
           hn[0] += z;
- 
+
 	  // connect to last table, if there is one
 	  if(h!=0){
             x[h]=i;           // save pattern for backing up
@@ -435,11 +435,15 @@ final class InfTree{
     result = huft_build(c, 0, 19, 19, null, null, tb, bb, hp, hn, v);
 
     if(result == Z_DATA_ERROR){
-      z.addDebugMsg("infTree::inflate_trees_bits -> oversubscribed dynamic bit lengths tree");
+//#ifdef DEBUG_CONSOLE
+//#       z.addDebugMsg("infTree::inflate_trees_bits -> oversubscribed dynamic bit lengths tree");
+//#endif
       //z.msg = "oversubscribed dynamic bit lengths tree";
     }
     else if(result == Z_BUF_ERROR || bb[0] == 0){
-      z.addDebugMsg("infTree::inflate_trees_bits -> incomplete dynamic bit lengths tree");
+//#ifdef DEBUG_CONSOLE
+//#       z.addDebugMsg("infTree::inflate_trees_bits -> incomplete dynamic bit lengths tree");
+//#endif
       //z.msg = "incomplete dynamic bit lengths tree";
       result = Z_DATA_ERROR;
     }
@@ -450,7 +454,7 @@ final class InfTree{
                             int nd,   // number of distance codes
                             int[] c,  // that many (total) code lengths
                             int[] bl, // literal desired/actual bit depth
-                            int[] bd, // distance desired/actual bit depth 
+                            int[] bd, // distance desired/actual bit depth
                             int[] tl, // literal/length tree result
                             int[] td, // distance tree result
                             int[] hp, // space for trees
@@ -464,11 +468,15 @@ final class InfTree{
     result = huft_build(c, 0, nl, 257, cplens, cplext, tl, bl, hp, hn, v);
     if (result != Z_OK || bl[0] == 0){
       if(result == Z_DATA_ERROR){
-        z.addDebugMsg("infTree::inflate_trees_dynamic -> oversubscribed literal/length tree");
+//#ifdef DEBUG_CONSOLE
+//#         z.addDebugMsg("infTree::inflate_trees_dynamic -> oversubscribed literal/length tree");
+//#endif
         //z.msg = "oversubscribed literal/length tree";
       }
       else if (result != Z_MEM_ERROR){
-        z.addDebugMsg("infTree::inflate_trees_dynamic -> incomplete literal/length tree");
+//#ifdef DEBUG_CONSOLE
+//#         z.addDebugMsg("infTree::inflate_trees_dynamic -> incomplete literal/length tree");
+//#endif
         //z.msg = "incomplete literal/length tree";
         result = Z_DATA_ERROR;
       }
@@ -481,16 +489,22 @@ final class InfTree{
 
     if (result != Z_OK || (bd[0] == 0 && nl > 257)){
       if (result == Z_DATA_ERROR){
-        z.addDebugMsg("infTree::inflate_trees_dynamic -> oversubscribed distance tree");
+//#ifdef DEBUG_CONSOLE
+//#         z.addDebugMsg("infTree::inflate_trees_dynamic -> oversubscribed distance tree");
+//#endif
         //z.msg = "oversubscribed distance tree";
       }
       else if (result == Z_BUF_ERROR) {
-        z.addDebugMsg("infTree::inflate_trees_dynamic -> incomplete distance tree");  
+//#ifdef DEBUG_CONSOLE
+//#         z.addDebugMsg("infTree::inflate_trees_dynamic -> incomplete distance tree");
+//#endif
         //z.msg = "incomplete distance tree";
         result = Z_DATA_ERROR;
       }
       else if (result != Z_MEM_ERROR){
-        z.addDebugMsg("infTree::inflate_trees_dynamic -> empty distance tree with lengths");
+//#ifdef DEBUG_CONSOLE
+//#         z.addDebugMsg("infTree::inflate_trees_dynamic -> empty distance tree with lengths");
+//#endif
         //z.msg = "empty distance tree with lengths";
         result = Z_DATA_ERROR;
       }
@@ -503,12 +517,12 @@ final class InfTree{
   static int inflate_trees_fixed(int[] bl,  //literal desired/actual bit depth
                                  int[] bd,  //distance desired/actual bit depth
                                  int[][] tl,//literal/length tree result
-                                 int[][] td,//distance tree result 
+                                 int[][] td,//distance tree result
                                  ZStream z  //for memory allocation
 				 ){
     bl[0]=fixed_bl;
     bd[0]=fixed_bd;
-    
+
     if (fixed_tl==null) fixed_tl=new ArrayLoader().readIntArray("/fixed_tl");
     tl[0]=fixed_tl;
     if (fixed_td==null) fixed_td=new ArrayLoader().readIntArray("/fixed_td");

@@ -539,7 +539,7 @@ public class ServiceDiscovery
             redraw();
         }
         } catch (Exception ex) {
-//#ifdef CONSOLE
+//#ifdef DEBUG_CONSOLE
 //#             midlet.BombusQD.debug.add("ServiceDiscovery exception(" + ex.getMessage() + ")",10);
 //#endif
         }

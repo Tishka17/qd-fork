@@ -45,7 +45,7 @@ import menu.Command;
 import ui.MainBar;
 import io.NvStorage;
 import ui.controls.AlertBox;
-//#ifdef GRAPHICS_MENU        
+//#ifdef GRAPHICS_MENU
 //# import ui.GMenu;
 //#endif
 
@@ -173,7 +173,7 @@ public class AccountSelect
 
         if (midlet.BombusQD.sd.roster != null) {
             if (midlet.BombusQD.sd.roster.isLoggedIn()) {
-                //if(cf.difficulty_level==2) {  
+                //if(cf.difficulty_level==2) {
                 addCommand(cmdRemoveAcc);
                 cmdRemoveAcc.setImg(0x51);
                 addCommand(cmdChangePass);
@@ -210,7 +210,7 @@ public class AccountSelect
 //#         cmdQip.setImg(0x94);
 //#         addInCommand(1, cmdVk);
 //#         cmdVk.setImg(0x95);
-//#endif          
+//#endif
 
         if (accountList.isEmpty() == true) {
             addCommand(cmdQuit);
@@ -218,10 +218,10 @@ public class AccountSelect
             //addCommand(cmdConfig); cmdConfig.setImg(0x03);
         }
 
-//#ifndef GRAPHICS_MENU   
+//#ifndef GRAPHICS_MENU
     if (activeAccount>=0 && !enableQuit)
      addCommand(cmdCancel);
-//#endif            
+//#endif
     }
 
     public VirtualElement getItemRef(int Index) {
@@ -241,7 +241,7 @@ public class AccountSelect
         if (c == cmdCancel) {
             destroyView();
         }
-//#ifdef GRAPHICS_MENU  
+//#ifdef GRAPHICS_MENU
 //#         if (c == cmdServ1_reg) {
 //#             new AccountForm(display, this, this, null, 1, true, "jabber.ru");
 //#         }
@@ -262,9 +262,9 @@ public class AccountSelect
 //#         }
 //# 
 //#         if (c == cmdJabber) {
-            //#ifdef CONSOLE
+//#ifdef DEBUG_CONSOLE
 //#             midlet.BombusQD.debug.add("::add profile", 10);
-            //#endif
+//#endif
 //#             new AccountForm(display, this, this, null, 1, false, null);
 //#         }
 //#         if (c == cmdYaru) {
@@ -288,11 +288,11 @@ public class AccountSelect
 //#         if (c == cmdVk) {
 //#             new AccountForm(display, this, this, null, 7, false, null);
 //#         }
-//#else   
+//#else
         if (c==cmdAdd) {
             new AccountForm(display, this, this, null);
         }
-//#endif           
+//#endif
         //if (c==cmdConfig) new ConfigForm(display, this);
         if (c == cmdConfigurationMaster) {
             new ConfigurationMaster(display, this);
@@ -387,7 +387,7 @@ public class AccountSelect
     }
 
 //#ifdef MENU_LISTENER
-//#ifdef GRAPHICS_MENU        
+//#ifdef GRAPHICS_MENU
 //#     public int showGraphicsMenu() {
 //#         commandState();
 //#         menuItem = new GMenu(display, parentView, this, null, menuCommands, cmdfirstList, cmdsecondList, cmdThirdList);
@@ -398,7 +398,7 @@ public class AccountSelect
     public void showMenu() {
         commandState();
         new MyMenu(display, parentView, this, SR.get(SR.MS_DISCO, null, menuCommands));
-   }   
+   }
 //#endif
 
 //#endif

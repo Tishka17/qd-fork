@@ -1,7 +1,7 @@
 /*
- * StanzasList.java
+ * DebugList.java
  *
- * Created on 7.04.2008, 13:48
+ * Created on 7.04.2008, 16:05
  *
  * Copyright (c) 2006-2008, Daniel Apatin (ad), http://apatin.net.ru
  *
@@ -24,57 +24,53 @@
  * along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-//#ifdef CONSOLE
-//# package console;
-//#  
+
+//#ifdef DEBUG_CONSOLE
+//# package console.debug;
+//# 
 //# import client.Msg;
 //# import java.util.Vector;
 //# 
 //# /**
 //#  *
-//#  * @author ad
+//#  * @author ad,aqent
 //#  */
-//# public class StanzasList {
-//#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_CONSOLE");
-//#endif
-//#     
-//#     Vector stanzas=new Vector(0);
-//#     
-//#     public static boolean enabled = false;
-//#     
-//#     private static StanzasList instance;
-//#     
-//#     public static StanzasList getInstance(){
-//# 	if (instance==null) {
-//# 	    instance=new StanzasList();
-//# 	}
-//# 	return instance;
+//# public class DebugList {
+//#     Vector stanzas = new Vector(0);
+//#     private static DebugList instance;
+//# 
+//#     public static DebugList get() {
+//#         if (instance == null) {
+//#             instance = new DebugList();
+//#         }
+//#         return instance;
 //#     }
-//#     
-//#     public Msg msg(int index){
-//# 	try {
-//#             Msg msg=(Msg)stanzas.elementAt(index);
-//# 	    return msg;
-//# 	} catch (Exception e) { }
-//# 	return null;
+//# 
+//#     public Msg msg(int index) {
+//#         try {
+//#             Msg msg = (Msg)stanzas.elementAt(index);
+//#             return msg;
+//#         } catch (Exception e) {
+//#         }
+//#         return null;
 //#     }
 //# 
 //#     public void add(String msg, int type) {
-//#       if (enabled) {
-//# 	  try {
-//#             if(msg.length()>0) {
-//#               Msg stanza=new Msg((byte)type, "local", null, msg.toString());
-//#               stanza.itemCollapsed=true;
-//#               stanzas.addElement(stanza);
-//#               stanza=null;
+//#         if (midlet.BombusQD.cf.debug) {
+//#             try {
+//#                 int free = (int)Runtime.getRuntime().freeMemory() >> 10;
+//#                 int total = (int)Runtime.getRuntime().totalMemory() >> 10;
+//#                 Msg stanza = new Msg((byte)type, "debug", null, "[" + free + "/" + total + "]\t" + msg.toString());
+//#                 stanza.itemCollapsed = false;
+//#                 stanzas.addElement(stanza);
+//#                 stanza = null;
+//#             } catch (Exception e) {
 //#             }
-//# 	  } catch (Exception e) { }
-//#        }
+//#         }
 //#     }
 //# 
-//#     public int size(){
-//# 	return stanzas.size();
+//#     public int size() {
+//#         return stanzas.size();
 //#     }
 //# }
 //#endif

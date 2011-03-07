@@ -48,26 +48,16 @@ import ui.controls.AlertBox;
  *
  * @author ad,aqent
  */
+
 public class ColorConfigForm extends DefForm
 //#if FILE_IO
         implements BrowserListener
 //#endif
     {
 
-//#ifdef COLOR_TUNE
-    private LinkString configureColors;
-
-    private LinkString invertColors;
-    //#endif
 //#if FILE_IO
-    private LinkString loadFromFile;
-    private LinkString saveToFile;
-
-    String filePath;
     private int loadType=0;
 //#endif
-
-    private Vector[] files;
 
     private TrackItem skinFiles;
 
@@ -80,68 +70,81 @@ public class ColorConfigForm extends DefForm
         super(display, pView, SR.get(SR.MS_COLOR_TUNE));
 
 //#ifdef COLOR_TUNE
-//#ifdef PLUGINS
-//#             if (StaticData.getInstance().Colors) {
-//#endif
-        invertColors=new LinkString(SR.get(SR.MS_INVERT)) { public void doAction() { ColorTheme.invertSkin(); } };
-        configureColors=new LinkString(SR.get(SR.MS_EDIT_COLORS)) { public void doAction() { new ColorsList(display);  } };
-        itemsList.addElement(configureColors);
-//#ifdef PLUGINS
-//#             }
-//#endif
+        addControl(new LinkString(SR.get(SR.MS_EDIT_COLORS)) {
+            public void doAction() {
+                new ColorsList(display);
+            }
+
+        });
 //#endif
 
         try {
-            files=new StringLoader().stringLoader("/themes/res.txt",2);
-            if (files[0].size()>0) {
-                Vector skins=new Vector(0);
-                int ind=0;
+            Vector[] files = new StringLoader().stringLoader("/themes/res.txt", 2);
+            if (files[0].size() > 0) {
+                Vector skins = new Vector(0);
+                int ind = 0;
                 int size = files[0].size();
                 SimpleString str;
-		if (size>1) {
-			for (int i=0; i<size; i++) {
-			    skins.addElement((String)files[1].elementAt(i));
-			    str = new SimpleString(Integer.toString(i).concat("-").concat((String)files[1].elementAt(i)), true);
+                if (size > 1) {
+                    for (int i = 0; i < size; i++) {
+                        skins.addElement((String)files[1].elementAt(i));
+                        str = new SimpleString(Integer.toString(i).concat("-").concat((String)files[1].elementAt(i)), true);
 
-			    itemsList.addElement(str);
-			    if(midlet.BombusQD.cf.path_skin.indexOf((String)files[1].elementAt(i))>-1) ind = i;
-			}
-			skinFiles = new TrackItem(ind, skins.size() - 1, skins);
-			itemsList.addElement(skinFiles);
-		}
+                        addControl(str);
+                        if (midlet.BombusQD.cf.path_skin.indexOf((String)files[1].elementAt(i)) > -1) {
+                            ind = i;
+                        }
+                    }
+                    skinFiles = new TrackItem(ind, skins.size() - 1, skins);
+                    addControl(skinFiles);
+                }
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
-       argb_bgnd = new TrackItem(midlet.BombusQD.cf.argb_bgnd/10, 25);
-       gmenu_bgnd = new TrackItem(midlet.BombusQD.cf.gmenu_bgnd/10, 25);
-       popup_bgnd = new TrackItem(midlet.BombusQD.cf.popup_bgnd/10, 25);
-       cursor_bgnd = new TrackItem(midlet.BombusQD.cf.cursor_bgnd/10, 25);
-        itemsList.addElement(new SimpleString(SR.get(SR.MS_TRANSPARENT), true));
-        itemsList.addElement(new SpacerItem(2));
-        itemsList.addElement(new SimpleString(SR.get(SR.MS_BGND_MIDLET), true));
-        itemsList.addElement(argb_bgnd);
-        itemsList.addElement(new SimpleString(SR.get(SR.MS_GR_MENU), true));
-        itemsList.addElement(gmenu_bgnd);
-        itemsList.addElement(new SimpleString(SR.get(SR.MS_POPUPS), true));
-        itemsList.addElement(popup_bgnd);
-        itemsList.addElement(new SimpleString(SR.get(SR.MS_CURSOR_TR), true));
-        itemsList.addElement(cursor_bgnd);
-        itemsList.addElement(new SpacerItem(5));
-//#if FILE_IO
-        loadFromFile=new LinkString(SR.get(SR.MS_LOAD_FROM_FILE)) { public void doAction() { initBrowser(1); } };
+        addControl(new SimpleString(SR.get(SR.MS_TRANSPARENT), true));
+        addControl(new SpacerItem(2));
 
-        saveToFile=new LinkString(SR.get(SR.MS_SAVE_TO_FILE)) { public void doAction() { initBrowser(0); } };
+        addControl(new SimpleString(SR.get(SR.MS_BGND_MIDLET), true));
+        argb_bgnd = new TrackItem(midlet.BombusQD.cf.argb_bgnd/10, 25);
+        addControl(argb_bgnd);
 
-//#endif
+        addControl(new SimpleString(SR.get(SR.MS_GR_MENU), true));
+        gmenu_bgnd = new TrackItem(midlet.BombusQD.cf.gmenu_bgnd/10, 25);
+        addControl(gmenu_bgnd);
+
+        addControl(new SimpleString(SR.get(SR.MS_POPUPS), true));
+        popup_bgnd = new TrackItem(midlet.BombusQD.cf.popup_bgnd/10, 25);
+        addControl(popup_bgnd);
+
+        addControl(new SimpleString(SR.get(SR.MS_CURSOR_TR), true));
+        cursor_bgnd = new TrackItem(midlet.BombusQD.cf.cursor_bgnd/10, 25);
+        addControl(cursor_bgnd);
+
+        addControl(new SpacerItem(5));
 
 //#ifdef COLOR_TUNE
-            itemsList.addElement(invertColors);
-//#endif
+        addControl(new LinkString(SR.get(SR.MS_INVERT)) {
+            public void doAction() {
+                ColorTheme.invertSkin();
+            }
+
+        });
+
 //#ifdef FILE_IO
-            itemsList.addElement(loadFromFile);
-            itemsList.addElement(saveToFile);
+        addControl(new LinkString(SR.get(SR.MS_LOAD_FROM_FILE)) {
+            public void doAction() {
+                initBrowser(1);
+            }
+
+        });
+        addControl(new LinkString(SR.get(SR.MS_SAVE_TO_FILE)) {
+            public void doAction() {
+                initBrowser(0);
+            }
+
+        });
 //#endif
- //#ifdef COLOR_TUNE
         addControl(new LinkString(SR.get(SR.MS_CLEAR)) {
             public void doAction() {
                 new AlertBox("Query", "Load lime theme?", display, parentView, true) {
@@ -158,43 +161,39 @@ public class ColorConfigForm extends DefForm
         });
 //#endif
 
-
-        //moveCursorTo(getNextSelectableRef(-1));
         attachDisplay(display);
-        this.parentView=pView;
+        this.parentView = pView;
     }
 
     public void cmdOk() {
-       midlet.BombusQD.cf.argb_bgnd = argb_bgnd.getValue()*10;
-       midlet.BombusQD.cf.gmenu_bgnd = gmenu_bgnd.getValue()*10;
-       midlet.BombusQD.cf.popup_bgnd = popup_bgnd.getValue()*10;
-       midlet.BombusQD.cf.cursor_bgnd = cursor_bgnd.getValue()*10;
-       destroyView();
+        midlet.BombusQD.cf.argb_bgnd = argb_bgnd.getValue() * 10;
+        midlet.BombusQD.cf.gmenu_bgnd = gmenu_bgnd.getValue() * 10;
+        midlet.BombusQD.cf.popup_bgnd = popup_bgnd.getValue() * 10;
+        midlet.BombusQD.cf.cursor_bgnd = cursor_bgnd.getValue() * 10;
+        destroyView();
     }
 
     public void destroyView() {
         ColorTheme.saveToStorage();
-        if(null != files)
-            files = null;
-	display.setCurrent(parentView);
+        display.setCurrent(parentView);
     }
 
 //#if FILE_IO
     public void initBrowser(int type) {
         loadType=type;
-        if (type==0) {
+        if (type == 0) {
             new Browser(null,display, this, this, true);
-        } else if(type==1) {
+        } else if(type == 1) {
             new Browser(null, display, this, this, false);
         }
     }
 
-    public void BrowserFilePathNotify(String pathSelected) {
-        if (loadType==0) {
-            FileIO file=FileIO.createConnection(pathSelected+"skin.txt");
+    public void BrowserFilePathNotify(String path) {
+        if (loadType == 0) {
+            FileIO file=FileIO.createConnection(path + "skin.txt");
             file.fileWrite(ColorTheme.getSkin().getBytes());
         } else {
-            ColorTheme.loadSkin(pathSelected, 0, true);
+            ColorTheme.loadSkin(path, 0, true);
         }
     }
 //#endif

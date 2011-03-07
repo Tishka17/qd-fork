@@ -25,6 +25,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+//#if SASL_XGOOGLETOKEN
 package login;
 
 import account.Account;
@@ -32,7 +33,7 @@ import java.io.InputStream;
 import javax.microedition.io.Connector;
 import javax.microedition.io.HttpConnection;
 import locale.SR;
-import util.Strconv; 
+import util.Strconv;
 
 /**
  *
@@ -41,7 +42,7 @@ import util.Strconv;
 public class GoogleTokenAuth {
 
     private Account account;
-    
+
     /** Creates a new instance of GoogleTokenAuth */
     public GoogleTokenAuth(Account account) {
         this.account=account;
@@ -58,7 +59,7 @@ public class GoogleTokenAuth {
         } catch (Exception e) {}
         return buf.toString();
     }
-    
+
     /**
      * Generates X-GOOGLE-TOKEN response by communication with http://www.google.com
      * (algorithm from MGTalk/NetworkThread.java)
@@ -70,21 +71,21 @@ public class GoogleTokenAuth {
         try {
             String firstUrl = "https://www.google.com:443/accounts/ClientAuth?Email="
                     + Strconv.unicodeToUTF(account.getUserName()) + "%40"+ account.getServer()
-                    + "&Passwd=" + Strconv.unicodeToUTF(account.getPassword()) 
+                    + "&Passwd=" + Strconv.unicodeToUTF(account.getPassword())
                     + "&PersistentCookie=false&source=googletalk";
-            
+
             //log.addMessage("Connecting to www.google.com");
             HttpConnection c = (HttpConnection) Connector.open(firstUrl.toString());
             InputStream is = c.openInputStream();
-            
-            
+
+
             String sid = readLine(is);
             if(!sid.startsWith("SID=")) {
                 throw new SecurityException(SR.get(SR.MS_LOGIN_FAILED));
             }
-            
+
             String lsid = readLine(is);
-            
+
             String secondUrl = "https://www.google.com:443/accounts/IssueAuthToken?"
                     + sid + "&" + lsid + "&service=mail&Session=true";
             is.close();
@@ -97,7 +98,7 @@ public class GoogleTokenAuth {
             is.close();
             c.close();
             return Strconv.toBase64(token);
-            
+
         } catch (javax.microedition.pki.CertificateException e) {
             throw new SecurityException(e.getMessage());
         } catch (SecurityException e) {
@@ -108,5 +109,6 @@ public class GoogleTokenAuth {
         }
         return null;
     }
-    
+
 }
+//#endif

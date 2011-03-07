@@ -25,7 +25,6 @@
  * along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package info;
 
 import client.Msg;
@@ -47,141 +46,134 @@ import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import ui.MainBar;
 import client.DiscoSearchForm;
-import ui.controls.form.CheckBox;
 import ui.controls.form.DefForm;
-//#ifdef GRAPHICS_MENU        
+//#ifdef GRAPHICS_MENU
 //# import ui.GMenu;
 //# import ui.GMenuConfig;
+//# import ui.controls.form.MultiLine;
 //# import ui.controls.form.SimpleString;
-//#endif 
+//# import ui.controls.form.SimpleTextBox;
+//#endif
+
 /**
  *
  * @author evgs
  */
 
-//new GetFileServer(display, parentView, true);
-
-public class GetFileServer 
-        extends DefForm//extends MessageList 
-        implements Runnable
-    {
+public class GetFileServer extends DefForm implements Runnable {
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_VERSION_UPGRADE");
 //#endif
-   
-    private final static String update_url="http://bombusmod-qd.wen.ru/midp/update.txt";
 
-    Command cmdICQ= new Command("QD: ICQ Transports list", Command.SCREEN, 3); 
-    Command cmdMrim= new Command("QD: Mrim Transports list", Command.SCREEN, 4);  
-    Command cmdIrc= new Command("QD: IRC Transports list", Command.SCREEN, 5);
-    Command cmdVk= new Command("QD: j2j Transports list", Command.SCREEN, 6);
-    
+    private final static String update_url = "http://bombusmod-qd.wen.ru/midp/update.txt";
+    Command cmdICQ = new Command("QD: ICQ Transports list", Command.SCREEN, 3);
+    Command cmdMrim = new Command("QD: Mrim Transports list", Command.SCREEN, 4);
+    Command cmdIrc = new Command("QD: IRC Transports list", Command.SCREEN, 5);
+    Command cmdVk = new Command("QD: j2j Transports list", Command.SCREEN, 6);
     Vector icq = new Vector();
-    Vector mrim=new Vector();
-    Vector irc=new Vector();
-    Vector vk=new Vector();
-    
+    Vector mrim = new Vector();
+    Vector irc = new Vector();
+    Vector vk = new Vector();
     Vector news;
     Vector versions[];
-    
     HttpConnection c;
     InputStream is;
-            
     private Display display;
+    private boolean wait = true;
+    private boolean error = false;
 
-    private boolean wait=true;
-    private boolean error=false;
-    
     /**
      * Creates a new instance of GetFileServer
      */
     public GetFileServer(Display display, Displayable pView) {
         super(display, pView, "Update");
-        this.display=display;
+        this.display = display;
         //this.build=build;
-        
-        news=new Vector();
-        
+
+        news = new Vector();
+
         try {
             focusedItem(0);
-        } catch (Exception e) {}
-        
-	MainBar mainbar=new MainBar(SR.get(SR.MS_CHECK_UPDATE));
+        } catch (Exception e) {
+        }
+
+        MainBar mainbar = new MainBar(SR.get(SR.MS_CHECK_UPDATE));
         setMainBarItem(mainbar);
         mainbar.addElement(null);
         mainbar.addRAlign();
         mainbar.addElement(null);
         commandState();
         attachDisplay(display);
-        this.parentView=pView;
+        this.parentView = pView;
         new Thread(this).start();
     }
 
-    
     public void run() {
-        wait=true;
-        rePaint();        
+        wait = true;
+        rePaint();
 
         try {
-            c = (HttpConnection) Connector.open(update_url);
+            c = (HttpConnection)Connector.open(update_url);
             is = c.openInputStream();
-            versions=new util.StringLoader().stringLoader(is, 1);
-            int size=versions[0].size();
-            for (int i=0; i<size; i++) {
-                if (versions[0].elementAt(i)==null) continue;
-                String name=(String)versions[0].elementAt(i);
-                if(i==0){
-                    SimpleString item = new SimpleString(name.concat(Version.getVersionNumber()));
-                    item.setSelectable(true);
-                    
-                    addControl(item); 
-                }else{
-                  if(name.startsWith("*")){
-                    SimpleString item = new SimpleString(name);
-                    item.setSelectable(true);
-                    
+            versions = new util.StringLoader().stringLoader(is, 1);
+            int size = versions[0].size();
+            for (int i = 0; i < size; i++) {
+                if (versions[0].elementAt(i) == null) {
+                    continue;
+                }
+                String name = (String)versions[0].elementAt(i);
+                if (i < 2) {
+                    SimpleTextBox item = new SimpleTextBox(name.concat(Version.getVersionNumber()), true);
                     addControl(item);
-                  }
-                  else if(name.startsWith("#")){
-                     icq.addElement(name.substring(1,name.length()));
-                  }
-                  else if(name.startsWith("@")){
-                     mrim.addElement(name.substring(1,name.length()));
-                  }
-                  else if(name.startsWith("%")){
-                     irc.addElement(name.substring(1,name.length()));
-                  }
-                  else if(name.startsWith("$")){
-                     vk.addElement(name.substring(1,name.length()));
-                  }
+                } else {
+                    if (name.startsWith("*")) {
+                        MultiLine line = new MultiLine(null, name, super.superWidth);
+                        line.setSelectable(true);
+
+                        addControl(line);
+                    } else if (name.startsWith("#")) {
+                        icq.addElement(name.substring(1, name.length()));
+                    } else if (name.startsWith("@")) {
+                        mrim.addElement(name.substring(1, name.length()));
+                    } else if (name.startsWith("%")) {
+                        irc.addElement(name.substring(1, name.length()));
+                    } else if (name.startsWith("$")) {
+                        vk.addElement(name.substring(1, name.length()));
+                    }
                 }
             }
-            if(is!= null) is.close();is=null;
-            if(c != null) c.close();c=null;
+            if (is != null) {
+                is.close();
+            }
+            is = null;
+            if (c != null) {
+                c.close();
+            }
+            c = null;
         } catch (Exception e) {
             news.addElement(new Msg(Constants.MESSAGE_TYPE_IN, null, null, SR.get(SR.MS_ERROR)));
-        } 
-        wait=false;
+        }
+        wait = false;
         rePaint();
         redraw();
     }
 
     public void commandAction(Command c, Displayable d) {
-        if (c==cmdICQ) {
-           new DiscoSearchForm(display,this,icq,0);
+        if (c == cmdICQ) {
+            new DiscoSearchForm(display, this, icq, 0);
         }
-        if (c==cmdMrim) {
-           new DiscoSearchForm(display,this,mrim,1);
+        if (c == cmdMrim) {
+            new DiscoSearchForm(display, this, mrim, 1);
         }
-        if (c==cmdIrc) {
-           new DiscoSearchForm(display,this,irc,2);
+        if (c == cmdIrc) {
+            new DiscoSearchForm(display, this, irc, 2);
         }
-        if (c==cmdVk) {
-           new DiscoSearchForm(display,this,vk,3);
+        if (c == cmdVk) {
+            new DiscoSearchForm(display, this, vk, 3);
         }
-        super.commandAction(c,d);
+        super.commandAction(c, d);
     }
-    
+
     protected void rePaint() {
         StringBuffer str = new StringBuffer();
         Object pic = null;
@@ -193,38 +185,45 @@ public class GetFileServer
         } else {
             pic = new Integer(RosterIcons.ICON_PRIVACY_ALLOW);
         }
-        getMainBarItem().setElementAt(str.toString(),1);
+        getMainBarItem().setElementAt(str.toString(), 1);
         getMainBarItem().setElementAt(pic, 3);
     }
 
-    public void commandState(){
+    public void commandState() {
 //#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
         cmdfirstList.removeAllElements();
         cmdsecondList.removeAllElements();
         cmdThirdList.removeAllElements();
 //#endif
-//#ifdef GRAPHICS_MENU               
+//#ifdef GRAPHICS_MENU
 //#         //super.commandState();
 //#else
-    super.commandState(); 
+    super.commandState();
 //#endif
-        addCommand(cmdICQ);  cmdICQ.setImg(0x04);
-        addCommand(cmdMrim);  cmdMrim.setImg(0x04);
-        addCommand(cmdIrc);  cmdIrc.setImg(0x04);
-        addCommand(cmdVk);  cmdVk.setImg(0x04);
-//#ifndef GRAPHICS_MENU        
+        addCommand(cmdICQ);
+        cmdICQ.setImg(0x04);
+        addCommand(cmdMrim);
+        cmdMrim.setImg(0x04);
+        addCommand(cmdIrc);
+        cmdIrc.setImg(0x04);
+        addCommand(cmdVk);
+        cmdVk.setImg(0x04);
+//#ifndef GRAPHICS_MENU
      addCommand(cmdCancel);
-//#endif     
+//#endif
     }
-    
+
 //#ifdef MENU_LISTENER
-    public String touchLeftCommand(){ return SR.get(SR.MS_MENU); }
-    
-//#ifdef GRAPHICS_MENU  
-//#     public void touchLeftPressed(){
+    public String touchLeftCommand() {
+        return SR.get(SR.MS_MENU);
+    }
+
+//#ifdef GRAPHICS_MENU
+//#     public void touchLeftPressed() {
 //#         showGraphicsMenu();
 //#     }
+//# 
 //#     public int showGraphicsMenu() {
 //#         commandState();
 //#         menuItem = new GMenu(display, parentView, this, null, menuCommands);
@@ -232,18 +231,16 @@ public class GetFileServer
 //#         redraw();
 //#         return 123;
 //#     }
-//#     
+//# 
 //#else
     public void touchLeftPressed(){
         showMenu();
     }
-    
+
     public void showMenu() {
         commandState();
         new MyMenu(display, parentView, this, SR.get(SR.MS_HISTORY_OPTIONS), null, menuCommands);
-   }  
-//#endif      
-    
-
-//#endif       
+   }
+//#endif
+//#endif
 }

@@ -25,9 +25,11 @@ public class CheckBox extends IconTextElement {
 
     public CheckBox(String text, boolean isChecked) {
         super(RosterIcons.getInstance());
-        if (text.indexOf("%") > -1) {
-            this.tip = text.substring(text.indexOf("%"));
-            this.text = text.substring(0, text.indexOf("%"));
+
+        int sep = text.indexOf("%");
+        if (sep > -1) {
+            this.tip = text.substring(sep);
+            this.text = text.substring(0, sep);
 
             tipLines = StringUtils.parseBoxString(this.tip, gm.phoneWidth - 50, getFont());
         } else {

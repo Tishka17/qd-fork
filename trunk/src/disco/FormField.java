@@ -1,7 +1,7 @@
 /*
  * FormField.java
  *
- * Copyright (c) 2009, Alexej Kotov (aqent), http://bombusmod-qd.wen.ru 
+ * Copyright (c) 2009, Alexej Kotov (aqent), http://bombusmod-qd.wen.ru
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -33,13 +33,13 @@ import ui.controls.form.DefForm;
 import ui.controls.form.DropChoiceBox;
 import ui.controls.form.TextInput;
 import ui.controls.form.SimpleTextBox;
-//#ifdef GRAPHICS_MENU        
+//#ifdef GRAPHICS_MENU
 //# import ui.GMenu;
 //# import ui.GMenuConfig;
-//#endif 
+//#endif
 
 public class FormField {
-    
+
     public String label;
     public String type;
     public String name;
@@ -55,17 +55,17 @@ public class FormField {
         name=field.getTagName();
         label=name;
         String body=field.getText();
-        
+
         if (name.equals("field")) {
             type=field.getTypeAttribute();
             name=field.getAttribute("var");
             label=field.getAttribute("label");
             if (label==null) label=name;
             body=field.getChildBlockText("value");
-	    hidden= type.equals("hidden"); 
+	    hidden= type.equals("hidden");
             if (type.equals("fixed")) {
-                formItem = new SimpleTextBox( (label==null?"Label":label) + "%"+body, true, true);//new StringItem(label, body);
-            } 
+                formItem = new SimpleTextBox( (label==null?"Label":label) + "%"+body, true);
+            }
             else if (type.equals("boolean")) {
                 boolean set=false;
                 JabberDataBlock desc = field.getChildBlock("desc");
@@ -83,7 +83,7 @@ public class FormField {
                     if (option.getTagName().equals("option")) {
                         String value=option.getChildBlockText("value");
                         String label=option.getAttribute("label");//������� �����
-                        
+
                         if (label==null) {//���
                             label=value;
                             listsingle.append(value);
@@ -132,13 +132,13 @@ public class FormField {
         } else {
             // not x-data
             if ( instructions=name.equals("instructions") )
-                
-                formItem =new SimpleTextBox("Instructions%"+ body, true, true);
-            
+
+                formItem =new SimpleTextBox("Instructions%"+ body, true);
+
             else if ( name.equals("title") )//jud.jabber.ru
-                
-                formItem =new SimpleTextBox("Tittle%"+body, true, true);
-            
+
+                formItem =new SimpleTextBox("Tittle%"+body, true);
+
             else if ( name.equals("registered") ) {
                 formItem =new CheckBox("Remove registration",registered);
                 registered=true;
@@ -148,10 +148,10 @@ public class FormField {
             }
         }
         if (name!=null)
-        if ( name.equals("key") ) hidden=true; 
-    }   
-    
-    
+        if ( name.equals("key") ) hidden=true;
+    }
+
+
     public JabberDataBlock constructBlock(){
         JabberDataBlock j=null;
         boolean textInput=false;
@@ -162,13 +162,13 @@ public class FormField {
         CheckBox chbox = null;
         SimpleTextBox ss = null;
 
-        try{  
-          String value=((SimpleTextBox)formItem).toString();  
+        try{
+          String value=((SimpleTextBox)formItem).toString();
           ss = (SimpleTextBox)formItem;
           return j;
-        } catch (Exception e) {  }         
-        
-        try{  
+        } catch (Exception e) {  }
+
+        try{
           String value=((TextInput)formItem).toString();
           ti = (TextInput)formItem;
           String valuestr=ti.getValue();
@@ -181,20 +181,20 @@ public class FormField {
                 j.setAttribute("type", type);
                 j.addChild("value", valuestr);
             }
-           //System.out.println("          TextInput ["+value+"] "+j.toString());         
+           //System.out.println("          TextInput ["+value+"] "+j.toString());
         } catch (Exception e) { }
-        
-        try{  
-          String value=((DropChoiceBox)formItem).toString();  
+
+        try{
+          String value=((DropChoiceBox)formItem).toString();
           dp = (DropChoiceBox)formItem;
           dropChoice=true;
-        } catch (Exception e) { } 
+        } catch (Exception e) { }
 
-         try{  
-          boolean value=((CheckBox)formItem).getValue();  
+         try{
+          boolean value=((CheckBox)formItem).getValue();
           chbox = (CheckBox)formItem;
           booleanBox=true;
-        } catch (Exception e) { }  
+        } catch (Exception e) { }
 
 
         if (dropChoice || booleanBox) {
@@ -209,7 +209,7 @@ public class FormField {
                 j.setAttribute("type", type);
                 if (optionsList==null) {
                     j.addChild("value", chbox.getValue()==true?"1":"0");
-                } else 
+                } else
                 if (type.equals("list-multi")) {
                      j.addChild("value", (String)optionsList.elementAt(dp.getSelectedIndex()));
                 } else  {
@@ -218,9 +218,9 @@ public class FormField {
                 }
         }
         return j;
-    } 
+    }
 }
-//#endif 
+//#endif
 
 
 

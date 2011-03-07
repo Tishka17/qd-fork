@@ -41,26 +41,24 @@ import ui.VirtualList;
  *
  * @author ad
  */
-public class TextInput extends IconTextElement {
 
+public class TextInput extends IconTextElement {
     protected String text;
     protected String caption;
 
     private Display display;
     public String id;
     private int boxType;
+
     private Font font;
-    private int fontHeight;
     private Font captionFont;
+    private int fontHeight;
     private int captionFontHeight;
 
     private int colorItem;
     private int colorBorder;
     private int colorBGnd;
 
-    /**
-     * Creates a new instance of TextInput
-     */
     public TextInput(Display display, String caption, String text, String id, int boxType) {
         super(null);
         this.display = display;
@@ -141,6 +139,9 @@ public class TextInput extends IconTextElement {
     }
 
     public int getVWidth() {
+        if (caption != null) {
+            return captionFont.stringWidth(caption);
+        }
         return -1;
     }
 

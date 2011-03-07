@@ -648,11 +648,12 @@ public final class ContactMessageList extends VirtualList implements MenuListene
 //#              }
 //# 
 //#              showMsgEdit(messg);
-//#             }
+//# 
 //# 
 //#else
             new MessageEdit(display, this, contact, msg.from+": ");
 //#endif
+          }
         } catch (Exception e) {/*no messages*/}
     }
 

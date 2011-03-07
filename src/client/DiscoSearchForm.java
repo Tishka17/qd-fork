@@ -262,7 +262,7 @@ public class DiscoSearchForm
 //#else
     public void showMenu() {
         commandState();
-        new MyMenu(display, parentView, this, SR.get(SR.MS_BOOKMARKS, null, menuCommands);
+        new MyMenu(display, parentView, this, SR.get(SR.MS_BOOKMARKS, null, menuCommands));
     }   
 //#endif      
 

@@ -101,14 +101,14 @@ public class Config {
     public char keyVibra='#';
 
 //#ifdef AUTOSTATUS
-//#     public final static int AWAY_OFF=0;
-//#     public final static int AWAY_LOCK=1;
-//#     public final static int AWAY_MESSAGE=2;
-//#     public final static int AWAY_IDLE=3;
-//# 
-//#     public int autoAwayType=0;
-//#     public int autoAwayDelay=5; //5 minutes
-//#     public boolean setAutoStatusMessage=true;
+    public final static int AWAY_OFF=0;
+    public final static int AWAY_LOCK=1;
+    public final static int AWAY_MESSAGE=2;
+    public final static int AWAY_IDLE=3;
+
+    public int autoAwayType=0;
+    public int autoAwayDelay=5; //5 minutes
+    public boolean setAutoStatusMessage=true;
 //#endif
 
 
@@ -172,9 +172,9 @@ public class Config {
 
     public boolean rosterStatus=false;
 //#ifdef PEP
-//#     public boolean sndrcvmood = true;
-//#     public boolean rcvtune = true;
-//#     public boolean rcvactivity = true;
+    public boolean sndrcvmood = true;
+    public boolean rcvtune = true;
+    public boolean rcvactivity = true;
 //#endif
     public boolean queryExit = false;
     public int notInListDropLevel=NotInListFilter.ALLOW_ALL;//enable all
@@ -189,7 +189,7 @@ public class Config {
     public boolean useBoldFont=false;
 
 //#ifdef CLIPBOARD
-//#     public boolean useClipBoard = true;
+    public boolean useClipBoard = true;
 //#endif
     public String verHash="";
     public String resolvedHost="";
@@ -225,7 +225,7 @@ public class Config {
     public int maxAvatarHeight=35;
     public int maxAvatarWidth=35;
 //#ifdef BACK_IMAGE
-//#     public int bgnd_image=getIntFromManifest("bgnd_type",0);
+    public int bgnd_image = 0;
 //#endif
     public boolean image_in_popUp=true;
     public String add_contact_name="@.";
@@ -422,7 +422,7 @@ public class Config {
 //#ifdef PLUGINS
 //#         if(!sd.UserKeys) userKeys=false;
 //#endif
-//#         VirtualList.userKeys=userKeys;
+        VirtualList.userKeys=userKeys;
 //#endif
 
 //#ifdef PLUGINS
@@ -521,7 +521,7 @@ public class Config {
             lightState = inputStream.readBoolean();
             notifySound = inputStream.readBoolean();
 //#ifdef AUTOSTATUS
-//#             setAutoStatusMessage = inputStream.readBoolean();
+            setAutoStatusMessage = inputStream.readBoolean();
 //#endif
             // empty!
             inputStream.readBoolean();
@@ -543,13 +543,13 @@ public class Config {
 
             IQNotify = inputStream.readBoolean(); //IRC_LIKE
 //#ifdef PEP
-//#             sndrcvmood = inputStream.readBoolean();
+            sndrcvmood = inputStream.readBoolean();
 //#endif
 //#ifdef CLIPBOARD
-//#             useClipBoard = inputStream.readBoolean();
+            useClipBoard = inputStream.readBoolean();
 //#endif
 //#ifdef PEP
-//#             rcvtune = inputStream.readBoolean();
+            rcvtune = inputStream.readBoolean();
 //#endif
             autoDeTranslit = inputStream.readBoolean();
 //#ifdef CLIENTS_ICONS
@@ -584,7 +584,7 @@ public class Config {
         DataInputStream inputStream=NvStorage.ReadFileRecord("confBoolean_", 0);
 	try {
 //#ifdef PEP
-//#             rcvactivity=inputStream.readBoolean();
+            rcvactivity=inputStream.readBoolean();
 //#endif
             oldSE=inputStream.readBoolean();
             showTimeTraffic=inputStream.readBoolean();
@@ -678,12 +678,12 @@ public class Config {
 	    textWrap=inputStream.readInt();
             loginstatus=inputStream.readInt();
 //#ifdef AUTOSTATUS
-//#             autoAwayDelay=inputStream.readInt();
+            autoAwayDelay=inputStream.readInt();
 //#endif
             panelsState=inputStream.readInt();
             confMessageCount=inputStream.readInt();
 //#ifdef AUTOSTATUS
-//#             autoAwayType=inputStream.readInt();
+            autoAwayType=inputStream.readInt();
 //#endif
             messageLimit=inputStream.readInt();
             msglistLimit=inputStream.readInt();
@@ -695,7 +695,7 @@ public class Config {
             reconnectTime=inputStream.readInt();
             maxAvatarHeight=inputStream.readInt();
 //#ifdef BACK_IMAGE
-//#             bgnd_image=inputStream.readInt();
+            bgnd_image=inputStream.readInt();
 //#endif
             scrollWidth=inputStream.readInt();
             classicChatHeight=inputStream.readInt();
@@ -802,7 +802,7 @@ public class Config {
             outputStream.writeBoolean(notifySound);
 
 //#ifdef AUTOSTATUS
-//#             outputStream.writeBoolean(setAutoStatusMessage);
+            outputStream.writeBoolean(setAutoStatusMessage);
 //#endif
             // empty!
             outputStream.writeBoolean(false);
@@ -824,13 +824,13 @@ public class Config {
 
             outputStream.writeBoolean(IQNotify); //IRC_LIKE
 //#ifdef PEP
-//#             outputStream.writeBoolean(sndrcvmood);
+            outputStream.writeBoolean(sndrcvmood);
 //#endif
 //#ifdef CLIPBOARD
-//#             outputStream.writeBoolean(useClipBoard);
+            outputStream.writeBoolean(useClipBoard);
 //#endif
 //#ifdef PEP
-//#             outputStream.writeBoolean(rcvtune);
+            outputStream.writeBoolean(rcvtune);
 //#endif
             outputStream.writeBoolean(autoDeTranslit);
 //#ifdef CLIENTS_ICONS
@@ -856,7 +856,7 @@ public class Config {
        	DataOutputStream outputStream=NvStorage.CreateDataOutputStream();
 	try {
 //#ifdef PEP
-//#             outputStream.writeBoolean(rcvactivity);
+            outputStream.writeBoolean(rcvactivity);
 //#endif
             outputStream.writeBoolean(oldSE);
             outputStream.writeBoolean(showTimeTraffic);
@@ -943,12 +943,12 @@ public class Config {
 	    outputStream.writeInt(textWrap);
             outputStream.writeInt(loginstatus);
 //#ifdef AUTOSTATUS
-//#             outputStream.writeInt(autoAwayDelay);
+            outputStream.writeInt(autoAwayDelay);
 //#endif
             outputStream.writeInt(panelsState);
             outputStream.writeInt(confMessageCount);
 //#ifdef AUTOSTATUS
-//#             outputStream.writeInt(autoAwayType);
+            outputStream.writeInt(autoAwayType);
 //#endif
             outputStream.writeInt(messageLimit);
             outputStream.writeInt(msglistLimit);
@@ -960,7 +960,7 @@ public class Config {
             outputStream.writeInt(reconnectTime);
             outputStream.writeInt(maxAvatarHeight);
 //#ifdef BACK_IMAGE
-//#             outputStream.writeInt(bgnd_image);
+            outputStream.writeInt(bgnd_image);
 //#endif
             outputStream.writeInt(scrollWidth);
             outputStream.writeInt(classicChatHeight);
@@ -1033,7 +1033,7 @@ public class Config {
 //#ifdef PLUGINS
 //#         if(!sd.UserKeys) userKeys=false;
 //#endif
-//#         VirtualList.userKeys=userKeys;
+        VirtualList.userKeys=userKeys;
 //#endif
     }
 

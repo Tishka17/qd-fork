@@ -11,17 +11,37 @@
 		<exec 
 			dir="src"
 			executable="svnversion" 
-			outputproperty="bombus.revision">
+			outputproperty="qd.revision">
 				<arg value="-n"/>
 		</exec>
     </target>
 
     <!-- version patch in Sources -->
     <target name="post-preprocess">
+		<property file="config/version.properties" />
 		<replace 
 			file="${preprocessed.dir}\info\Version.java"  
 			token="$BOMBUSVERSION$"
-			value="${bombus.revision}"/>
+			value="${qd.revision}"/>
+		<replace file="${preprocessed.dir}\info\Version.java"  
+			token="$MIDLETVERSION$"
+			value="${qd.version}"/>
+    </target>
+	
+    <!-- version patch in manifest -->
+    <target name="pre-jar" depends="create-jad">
+		<property file="config/version.properties" />
+		<replace file="${build.dir}/manifest.mf"  
+			token="$MIDLETVERSION$"
+			value="${qd.version}"/>
+    </target>
+
+	<!-- version patch in jad -->
+    <target name="post-jar">
+		<property file="config/version.properties" />
+		<replace file="${dist.dir}/${dist.jad}"
+			token="$MIDLETVERSION$"
+			value="${qd.version}"/>
     </target>
 
     <!-- overrided to change bootclasspath -->

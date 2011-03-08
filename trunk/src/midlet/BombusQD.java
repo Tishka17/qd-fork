@@ -54,6 +54,7 @@ import client.Contact;
 import light.*;
 //#endif
 import history.*;
+import images.ClientsIconsData;
 
 import ui.controls.AlertBox;
 import io.NvStorage;
@@ -94,6 +95,7 @@ public class BombusQD extends MIDlet implements Runnable {
 
         ColorTheme.initColors();
         Commands.initCommands();
+        ClientsIconsData.initClients();
 
         instance = this;
 

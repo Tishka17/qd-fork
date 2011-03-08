@@ -2608,11 +2608,14 @@ public class Roster
 //#ifdef CLIENTS_ICONS
                         if (pr.hasEntityCaps()) {
                             if (pr.getTypeIndex() != Constants.PRESENCE_ERROR) {
-                                if (pr.getEntityNode()!=null) getClientIcon(conferenceContact, pr.getEntityNode());
-                                if (pr.getEntityVer()!=null) conferenceContact.version=pr.getEntityVer();
+                                if (pr.getEntityNode() != null) {
+                                    ClientsIconsData.processData(conferenceContact, pr.getEntityNode());
+                                }
+                                if (pr.getEntityVer() != null) {
+                                    conferenceContact.version = pr.getEntityVer();
+                                }
                             }
                         }
-// */ // crashes after roster get
 //#endif
                         String lang=pr.getAttribute("xml:lang");
                         if (lang!=null) conferenceContact.lang=lang;
@@ -2741,11 +2744,15 @@ public class Roster
 //#                             if (midlet.BombusQD.cf.showClientIcon)
 //#endif
                                 if (pr.hasEntityCaps()) {
-                                    if (pr.getEntityNode()!=null) {
-                                        ClientsIconsData.getInstance().processData(c, pr.getEntityNode());
-                                        if (pr.getEntityVer()!=null) c.version=pr.getEntityVer();
+                                    if (pr.getEntityNode() != null) {
+                                        ClientsIconsData.processData(c, pr.getEntityNode());
+                                        if (pr.getEntityVer() != null) {
+                                            c.version = pr.getEntityVer();
+                                        }
                                     }
-                                } else if (c.jid.hasResource()) ClientsIconsData.getInstance().processData(c, c.getResource().substring(1));
+                                } else if (c.jid.hasResource()) {
+                                    ClientsIconsData.processData(c, c.getResource().substring(1));
+                                }
 //#endif
                             JabberDataBlock j2j=pr.findNamespace("x", "j2j:history");
                             if (j2j!=null) {
@@ -2827,14 +2834,6 @@ public class Roster
         }
         return JabberBlockListener.BLOCK_REJECTED;
     }
-//#ifdef CLIENTS_ICONS
-    private void getClientIcon(Contact c, String data) {
-        ClientsIconsData.getInstance().processData(c, data);
-    }
-//#endif
-
-
-
 
 //#ifndef WMUC
      private final static String mucStrings[] = {

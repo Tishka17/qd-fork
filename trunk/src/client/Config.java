@@ -313,6 +313,7 @@ public class Config {
     public int userAppLevel = 0; //0-simple, 1-advanced
 
     public boolean swapSendAndSuspend = false;
+    public boolean cleanConfContacts = false;
 
     public static Config getInstance(){
 	if (instance==null) {
@@ -521,8 +522,8 @@ public class Config {
 //#ifdef AUTOSTATUS
             setAutoStatusMessage = inputStream.readBoolean();
 //#endif
-            // empty!
-            inputStream.readBoolean();
+
+            cleanConfContacts = inputStream.readBoolean();
 //#ifdef POPUPS
             popUps = inputStream.readBoolean();
 //#endif
@@ -802,8 +803,8 @@ public class Config {
 //#ifdef AUTOSTATUS
             outputStream.writeBoolean(setAutoStatusMessage);
 //#endif
-            // empty!
-            outputStream.writeBoolean(false);
+
+            outputStream.writeBoolean(cleanConfContacts);
 //#ifdef POPUPS
             outputStream.writeBoolean(popUps);
 //#endif

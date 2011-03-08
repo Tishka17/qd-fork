@@ -33,7 +33,6 @@
 //# import client.Constants;
 //# import client.Config;
 //# import client.Msg;
-//# import console.ConsoleTextEdit;
 //# import message.MessageList;
 //#ifndef MENU_LISTENER
 //# import javax.microedition.lcdui.Command;
@@ -62,7 +61,6 @@
 //#     private Command cmdNew;
 //#     private Command cmdEnableDisable;
 //#     private Command cmdPurge;
-//#     private Command cmdDebugLog;
 //# 
 //#     public XMLConsole(Display display, Displayable pView) {
 //#         super();
@@ -75,9 +73,6 @@
 //# 
 //#         cmdPurge = new Command(SR.get(SR.MS_CLEAR_LIST), Command.SCREEN, 10);
 //#         cmdPurge.setImg(0x41);
-//# 
-//#         cmdDebugLog = new Command("CREATE DEBUG LOG", Command.SCREEN, 13);
-//#         cmdDebugLog.setImg(0x44);
 //# 
 //#         super.smiles = false;
 //# 
@@ -104,27 +99,32 @@
 //#      addCommand(cmdBack);
 //#endif
 //#         addCommand(cmdNew);
-//#         addCommand(cmdDebugLog);
 //#ifdef ARCHIVE
-//#         addCommand(Commands.cmdArch);
+//#         if (getItemCount() != 0) {
+//#             addCommand(Commands.cmdArch);
+//#         }
 //#endif
 //#ifdef CLIPBOARD
-//#         if (Config.getInstance().useClipBoard) {
-//#             addCommand(Commands.cmdCopy);
-//#             if (!ClipBoard.isEmpty()) {
-//#                 addCommand(Commands.cmdCopyPlus);
+//#         if (getItemCount() != 0) {
+//#             if (Config.getInstance().useClipBoard) {
+//#                 addCommand(Commands.cmdCopy);
+//#                 if (!ClipBoard.isEmpty()) {
+//#                     addCommand(Commands.cmdCopyPlus);
+//#                 }
 //#             }
 //#         }
 //#endif
 //#         addCommand(cmdEnableDisable);
-//#         addCommand(cmdPurge);
+//#         if (getItemCount() != 0) {
+//#             addCommand(cmdPurge);
+//#         }
 //#     }
 //# 
 //#     protected void beginPaint() {
-//#         StringBuffer str = new StringBuffer(" (").append(getItemCount()).append(")");
+//#         StringBuffer str = new StringBuffer(" (").append(getItemCount()).append(") ");
 //# 
 //#         if (!XMLList.enabled) {
-//#             str.append(" - Disabled");
+//#             str.append(SR.get(SR.MS_DISABLED));
 //#         }
 //# 
 //#         getMainBarItem().setElementAt(str.toString(), 1);

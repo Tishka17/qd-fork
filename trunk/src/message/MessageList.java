@@ -45,10 +45,10 @@ import ui.VirtualElement;
 import ui.VirtualList;
 //import ui.reconnectWindow;
 //#ifdef GRAPHICS_MENU
-//# import ui.GMenu;
-//# import ui.GMenuConfig;
+import ui.GMenu;
+import ui.GMenuConfig;
 //#ifdef CLIPBOARD
-//# import util.ClipBoard;
+import util.ClipBoard;
 //#endif
 //#endif
 
@@ -154,27 +154,23 @@ public abstract class MessageList extends VirtualList
 
     public void addCommands() {
 //#ifdef CLIPBOARD
-//#         if (midlet.BombusQD.cf.useClipBoard) {
-//#             addCommand(Commands.cmdCopy);
-//#             addCommand(Commands.cmdCopyPlus);
-//#         }
+        if (getItemCount() != 0) {
+            if (midlet.BombusQD.cf.useClipBoard) {
+                addCommand(Commands.cmdCopy);
+                if (!ClipBoard.isEmpty()) {
+                    addCommand(Commands.cmdCopyPlus);
+                }
+            }
+        }
 //#endif
-        addCommand(Commands.cmdxmlSkin);
-        addCommand(Commands.cmdUrl);
+        if (getItemCount() != 0) {
+            addCommand(Commands.cmdxmlSkin);
+            addCommand(Commands.cmdUrl);
+        }
+
 //#ifndef GRAPHICS_MENU
-     addCommand(cmdBack);
+//#      addCommand(cmdBack);
 //#endif
-    }
-    public void removeCommands () {
-//#ifdef CLIPBOARD
-//#         if (midlet.BombusQD.cf.useClipBoard) {
-//#             removeCommand(Commands.cmdCopy);
-//#             removeCommand(Commands.cmdCopyPlus);
-//#         }
-//#endif
-        removeCommand(Commands.cmdxmlSkin);
-        removeCommand(Commands.cmdUrl);
-        removeCommand(Commands.cmdBack);
     }
 
     public void commandAction(Command c, Displayable d) {
@@ -197,18 +193,18 @@ public abstract class MessageList extends VirtualList
         }
 
 //#ifdef CLIPBOARD
-//#         if (c == Commands.cmdCopy)
-//#         {
-//#             try {
-//#                 ClipBoard.add(  replaceNickTags( ((MessageItem)getFocusedObject()).msg )  );
-//#             } catch (Exception e) {}
-//#         }
-//#
-//#         if (c==Commands.cmdCopyPlus) {
-//#             try {
-//#                 ClipBoard.append( replaceNickTags(  ((MessageItem)getFocusedObject()).msg  ) );
-//#             } catch (Exception e) {}
-//#         }
+        if (c == Commands.cmdCopy)
+        {
+            try {
+                ClipBoard.add(  replaceNickTags( ((MessageItem)getFocusedObject()).msg )  );
+            } catch (Exception e) {}
+        }
+
+        if (c==Commands.cmdCopyPlus) {
+            try {
+                ClipBoard.append( replaceNickTags(  ((MessageItem)getFocusedObject()).msg  ) );
+            } catch (Exception e) {}
+        }
 //#endif
     }
 
@@ -227,25 +223,25 @@ public abstract class MessageList extends VirtualList
 //#ifdef MENU_LISTENER
 
 //#ifdef GRAPHICS_MENU
-//#     public int showGraphicsMenu() {
-//#          commandState();
-//#          String capt="";
-//#          try {
-//#              capt=getMainBarItem().elementAt(0).toString();
-//#          } catch (Exception ex){ }
-//#         menuItem = new GMenu(display, parentView, this,  null, menuCommands);
-//#         GMenuConfig.getInstance().itemGrMenu = GMenu.MESSAGE_LIST;
-//#         return GMenu.MESSAGE_LIST;
-//#     }
+    public int showGraphicsMenu() {
+         commandState();
+         String capt="";
+         try {
+             capt=getMainBarItem().elementAt(0).toString();
+         } catch (Exception ex){ }
+        menuItem = new GMenu(display, parentView, this,  null, menuCommands);
+        GMenuConfig.getInstance().itemGrMenu = GMenu.MESSAGE_LIST;
+        return GMenu.MESSAGE_LIST;
+    }
 //#else
-    public void showMenu() {
-        commandState();
-        String capt="";
-        try {
-            capt=getMainBarItem().elementAt(0).toString();
-        } catch (Exception ex){ }
-        new MyMenu(display, parentView, this, capt, null, menuCommands);
-   }
+//#     public void showMenu() {
+//#         commandState();
+//#         String capt="";
+//#         try {
+//#             capt=getMainBarItem().elementAt(0).toString();
+//#         } catch (Exception ex){ }
+//#         new MyMenu(display, parentView, this, capt, null, menuCommands);
+//#    }
 //#endif
 
 //#endif

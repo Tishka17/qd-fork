@@ -136,7 +136,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
 
         this.item = item;
         if (item instanceof Contact) {
-            setMainBarItem(new MainBar(((Contact) item).getJid()));
+            setMainBarItem(new MainBar(((Contact) item).getNickJid()));
         } else if (item instanceof Group) {
             setMainBarItem(new MainBar(((Group) item).getName()));
         }

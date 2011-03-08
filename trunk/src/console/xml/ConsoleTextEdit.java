@@ -1,5 +1,5 @@
 /*
- * StanzaEdit.java
+ * ConsoleTextEdit.java
  *
  * Created on 7.04.2008, 16:05
  *
@@ -26,7 +26,7 @@
  */
 
 //#if XML_CONSOLE || DEBUG_CONSOLE
-//# package console;
+//# package console.xml;
 //# 
 //# import archive.ArchiveList;
 //# import client.StaticData;
@@ -86,7 +86,9 @@
 //# 
 //#         textBox.addCommand(cmdSend);
 //#ifdef CLIPBOARD
-//#         textBox.addCommand(cmdPaste);
+//#         if (!ClipBoard.isEmpty()) {
+//#             textBox.addCommand(cmdPaste);
+//#         }
 //#endif
 //#ifdef ARCHIVE
 //#         textBox.addCommand(cmdArchive);

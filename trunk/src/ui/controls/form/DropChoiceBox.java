@@ -41,7 +41,7 @@ import ui.VirtualList;
  * @author ad
  */
 
-public final class DropChoiceBox extends IconTextElement {
+public  class DropChoiceBox extends IconTextElement {
     public int index = 0;
     public Vector items = new Vector(0);
 

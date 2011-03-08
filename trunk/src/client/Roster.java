@@ -1539,7 +1539,7 @@ public class Roster
 
 //#ifdef CLASSIC_CHAT
 //#            if(body!=null){
-//#
+//# 
 //#                if(midlet.BombusQD.cf.module_classicchat){
 //#                  if(!groupchat) {
 //#                  //forfix
@@ -2655,7 +2655,8 @@ public class Roster
                         }
                         if (ti==Constants.PRESENCE_OFFLINE)  {
                             //автоочистка вышедших из конфы
-                            if (0 == conferenceContact.getNewMsgsCount()) {
+                            if (0 == conferenceContact.getNewMsgsCount() &&
+                                    BombusQD.cf.cleanConfContacts) {
                                 conferenceContact.destroy();
                                 contactList.removeContact(conferenceContact);
                                 setModified();

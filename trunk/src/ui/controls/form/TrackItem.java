@@ -44,22 +44,10 @@ public class TrackItem extends IconTextElement {
     private int value;
     private int steps;
 
-    private Vector items;
-
-    private int maxValue;
-
     public TrackItem(int value, int maxValue) {
         super(null);
         this.value = value;
-        this.items = null;
-        this.maxValue = maxValue;
         this.steps = maxValue + 1;
-    }
-
-    public TrackItem(int value, int maxValue, Vector items) {
-        this(value, maxValue);
-
-        this.items = items;
     }
 
     public int getValue() {
@@ -84,20 +72,11 @@ public class TrackItem extends IconTextElement {
         g.setColor(ColorTheme.getColor(ColorTheme.CONTROL_ITEM));
         g.drawLine(xOffset, height / 2, width - xOffset, height / 2);
         g.fillRect(xOffset + pos, 2, itemWidth, height - 4);
-
-        if (items != null) {
-            g.setColor(0xFFFFFF - g.getColor());
-            g.drawString(Integer.toString(value), xOffset + pos + 1, 1, Graphics.TOP | Graphics.LEFT);
-        }
     }
 
     public int getVHeight() { //fix it
         if (0 == itemHeight) {
-            if (items != null) {
-                itemHeight = 16;
-            } else {
-                itemHeight = 16;
-            }
+            itemHeight = 16;
         }
         if (itemHeight < midlet.BombusQD.cf.minItemHeight) {
             itemHeight = midlet.BombusQD.cf.minItemHeight;
@@ -105,33 +84,17 @@ public class TrackItem extends IconTextElement {
         return itemHeight;
     }
 
-    private void loadSkin() {
-        if (items != null) {
-            ColorTheme.loadSkin("/themes/" + (String)items.elementAt(value) + ".txt", 1, false);
-            Config.getInstance().path_skin = "/themes/" + (String) items.elementAt(value) + ".txt";
-        }
-    }
-
     public void onSelect(VirtualList view) {
         value = (value + 1) % steps;
-        if (items != null) {
-            loadSkin();
-        }
     }
 
     public boolean handleEvent(int keyCode) {
         switch (keyCode) {
             case 4:
                 value = (value > 0) ? value - 1 : steps - 1;
-                if (items != null) {
-                    loadSkin();
-                }
                 return true;
             case 6:
                 value = (value + 1) % steps;
-                if (items != null) {
-                    loadSkin();
-                }
                 return true;
         }
         return false;

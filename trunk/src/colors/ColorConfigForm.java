@@ -43,6 +43,7 @@ import ui.controls.form.SpacerItem;
 import ui.controls.form.SimpleString;
 import util.StringLoader;
 import ui.controls.AlertBox;
+import ui.controls.form.ColorThemeSelector;
 
 /**
  *
@@ -59,7 +60,7 @@ public class ColorConfigForm extends DefForm
     private int loadType=0;
 //#endif
 
-    private TrackItem skinFiles;
+    private ColorThemeSelector skinFiles;
 
     private TrackItem argb_bgnd;
     private TrackItem gmenu_bgnd;
@@ -69,6 +70,24 @@ public class ColorConfigForm extends DefForm
     public ColorConfigForm(final Display display, Displayable pView) {
         super(display, pView, SR.get(SR.MS_COLOR_TUNE));
 
+        Vector[] files = new StringLoader().stringLoader("/themes/res.txt", 2);
+        if (files != null) {
+            int size = files[0].size();
+
+            if (size > 0) {
+                skinFiles = new ColorThemeSelector(display, "Color schemes");
+
+                for (int i = 0; i < size; ++i) {
+                    String themeName = (String)files[1].elementAt(i);
+                    String themePath = (String)files[0].elementAt(i);
+
+                    skinFiles.append(themeName, themePath);
+                }
+
+                addControl(skinFiles);
+            }
+        }
+
 //#ifdef COLOR_TUNE
         addControl(new LinkString(SR.get(SR.MS_EDIT_COLORS)) {
             public void doAction() {
@@ -77,30 +96,6 @@ public class ColorConfigForm extends DefForm
 
         });
 //#endif
-
-        try {
-            Vector[] files = new StringLoader().stringLoader("/themes/res.txt", 2);
-            if (files[0].size() > 0) {
-                Vector skins = new Vector(0);
-                int ind = 0;
-                int size = files[0].size();
-                SimpleString str;
-                if (size > 1) {
-                    for (int i = 0; i < size; i++) {
-                        skins.addElement((String)files[1].elementAt(i));
-                        str = new SimpleString(Integer.toString(i).concat("-").concat((String)files[1].elementAt(i)), true);
-
-                        addControl(str);
-                        if (midlet.BombusQD.cf.path_skin.indexOf((String)files[1].elementAt(i)) > -1) {
-                            ind = i;
-                        }
-                    }
-                    skinFiles = new TrackItem(ind, skins.size() - 1, skins);
-                    addControl(skinFiles);
-                }
-            }
-        } catch (Exception e) {
-        }
 
         addControl(new SimpleString(SR.get(SR.MS_TRANSPARENT), true));
         addControl(new SpacerItem(2));

@@ -49,8 +49,8 @@ public class ClientsIconsData {
             nodes = new String[size];
 
             for (int i = 0; i < size; ++i) {
-                String clientName = (String)clients[0].elementAt(i);
-                String clientNode = (String)clients[1].elementAt(i);
+                 String clientNode = (String)clients[0].elementAt(i);
+                 String clientName = (String)clients[1].elementAt(i);
 
                 names[i] = clientName;
                 nodes[i] = clientNode;

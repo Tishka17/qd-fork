@@ -42,7 +42,7 @@ import ui.controls.form.TextInput;
 import java.util.Random;
 import ui.controls.form.SpacerItem;
 //#ifdef CLIPBOARD
-//# import util.ClipBoard;
+import util.ClipBoard;
 //#endif
 
 public class AccountForm extends DefForm {
@@ -205,21 +205,21 @@ public class AccountForm extends DefForm {
         }
 
 //#ifdef CLIPBOARD
-//#         if (!ClipBoard.isEmpty()) {
-//#             if (ClipBoard.getClipBoard().startsWith("!")) {
-//#                 insertpass = new LinkString(SR.get(SR.MS_INSERT_NEW_PASSWORD))   {
-//#                     public void doAction() {
-//#                         passbox.setValue(ClipBoard.getClipBoard().substring(1));
-//#                         itemsList.removeElement(insertpass);
-//#                         ClipBoard.setClipBoard("");
-//#                     }
-//#                 };
-//#                 if (!createSimpleAddForm) {
-//#                     itemsList.addElement(new SpacerItem(3));
-//#                     itemsList.addElement(insertpass);
-//#                 }
-//#             }
-//#         }
+        if (!ClipBoard.isEmpty()) {
+            if (ClipBoard.getClipBoard().startsWith("!")) {
+                insertpass = new LinkString(SR.get(SR.MS_INSERT_NEW_PASSWORD))   {
+                    public void doAction() {
+                        passbox.setValue(ClipBoard.getClipBoard().substring(1));
+                        itemsList.removeElement(insertpass);
+                        ClipBoard.setClipBoard("");
+                    }
+                };
+                if (!createSimpleAddForm) {
+                    itemsList.addElement(new SpacerItem(3));
+                    itemsList.addElement(insertpass);
+                }
+            }
+        }
 //#endif
 
         registerbox = new CheckBox(SR.get(SR.MS_REGISTER_ACCOUNT), register);
@@ -469,7 +469,7 @@ public class AccountForm extends DefForm {
         }
 
         if (newaccount) {
-            accountSelect.accountList.addElement(account);
+            accountSelect.addAccount(account);
         }
         accountSelect.rmsUpdate();
         accountSelect.commandState();

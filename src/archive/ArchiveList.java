@@ -46,7 +46,7 @@ import ui.controls.AlertBox;
 import message.MessageItem;
 //#ifdef IMPORT_EXPORT
 //#ifdef FILE_IO
-//# import impexp.IEMenu;
+import impexp.IEMenu;
 //#endif
 //#endif
 
@@ -68,7 +68,7 @@ public class ArchiveList
     Command cmdDelete;
     Command cmdDeleteAll;
 //#ifdef IMPORT_EXPORT
-//#     Command cmdExport;
+    Command cmdExport;
 //#endif
 
     MessageArchive archive;
@@ -94,14 +94,17 @@ public class ArchiveList
         };
 
        cmdPaste = new Command(SR.get(SR.MS_PASTE_BODY), Command.SCREEN, 1);
-       cmdJid = new Command(SR.get(SR.MS_PASTE_JID) /*"Paste Jid"*/, Command.SCREEN, 2);
+       cmdJid = new Command(SR.get(SR.MS_PASTE_JID), Command.SCREEN, 2);
        cmdSubj = new Command(SR.get(SR.MS_PASTE_SUBJECT), Command.SCREEN, 3);
        cmdEdit = new Command(SR.get(SR.MS_EDIT), Command.SCREEN, 4);
+
        cmdNew = new Command(SR.get(SR.MS_NEW), Command.SCREEN, 5);
+       cmdNew.setImg(0x47);
+
        cmdDelete = new Command(SR.get(SR.MS_DELETE), Command.SCREEN, 9);
        cmdDeleteAll = new Command(SR.get(SR.MS_DELETE_ALL), Command.SCREEN, 10);
 //#ifdef IMPORT_EXPORT
-//#         cmdExport = new Command(SR.get(SR.MS_ieStr), Command.SCREEN, 11);
+        cmdExport = new Command(SR.get(SR.MS_ieStr), Command.SCREEN, 11);
 //#endif
 
         archive=new MessageArchive();
@@ -124,6 +127,7 @@ public class ArchiveList
         menuCommands.removeAllElements();
 //#endif
 
+        addCommand(cmdNew);
         if (getItemCount()>0) {
             addCommand(cmdEdit); cmdEdit.setImg(0x40);
             if(midlet.BombusQD.cf.msgEditType>0){
@@ -143,9 +147,8 @@ public class ArchiveList
             addCommand(cmdDelete); cmdDelete.setImg(0x41);
             addCommand(cmdDeleteAll); cmdDeleteAll.setImg(0x41);
         }
-        addCommand(cmdNew); cmdNew.setImg(0x47);
 //#ifdef IMPORT_EXPORT
-//#     addCommand(cmdExport); cmdExport.setImg(0x60);
+        addCommand(cmdExport); cmdExport.setImg(0x60);
 //#endif
 
 //#ifdef MENU_LISTENER
@@ -185,9 +188,9 @@ public class ArchiveList
 	Msg m=getMessage(cursor);
 //#ifdef IMPORT_EXPORT
 //#ifdef FILE_IO
-//#     if(c==cmdExport) {
-//#         display.setCurrent(new impexp.IEMenu(display, this));
-//#     }
+    if(c==cmdExport) {
+        display.setCurrent(new impexp.IEMenu(display, this));
+    }
 //#endif
 //#endif
         if (c==cmdNew) { new ArchiveEdit(display, this, -1, this); }

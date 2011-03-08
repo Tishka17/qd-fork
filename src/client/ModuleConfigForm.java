@@ -112,6 +112,7 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
     // for app config
     private CheckBox autoLogin;
     private CheckBox autoJoinConferences;
+    private CheckBox cleanConfContacts;
     private CheckBox collapsedGroups;
     private CheckBox enableVersionOs;
     private CheckBox executeByNum;
@@ -249,7 +250,7 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
             textWrap = new DropChoiceBox(display, SR.get(SR.MS_TEXTWRAP));
             textWrap.append(SR.get(SR.MS_TEXTWRAP_CHARACTER));
             textWrap.append(SR.get(SR.MS_TEXTWRAP_WORD));
-	        textWrap.setSelectedIndex(config.textWrap);
+	    textWrap.setSelectedIndex(config.textWrap);
             addControl(textWrap);
 
             addControl(new SpacerItem(3));
@@ -452,6 +453,9 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 
             autoJoinConferences = new CheckBox(SR.get(SR.MS_AUTO_CONFERENCES), config.autoJoinConferences);
             addControl(autoJoinConferences);
+
+            cleanConfContacts = new CheckBox("Delete contacts, who leave MUC", config.cleanConfContacts);
+            addControl(cleanConfContacts);
 
             if (config.userAppLevel == 1) {
                 collapsedGroups = new CheckBox(SR.get(SR.MS_COLLAPSED_GROUPS), config.collapsedGroups);
@@ -686,6 +690,7 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
         } else if (type.equals(SR.get(SR.MS_appStr))) {
             config.autoLogin = autoLogin.getValue();
             config.autoJoinConferences = autoJoinConferences.getValue();
+            config.cleanConfContacts = cleanConfContacts.getValue();
 
             if (config.userAppLevel == 1) {
                 config.collapsedGroups = collapsedGroups.getValue();

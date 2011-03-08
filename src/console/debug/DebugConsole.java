@@ -28,10 +28,11 @@
 //#ifdef DEBUG_CONSOLE
 //# package console.debug;
 //# 
+//# import client.Config;
 //# import client.Constants;
 //# import client.Msg;
 //# import client.StaticData;
-//# import console.ConsoleTextEdit;
+//# import console.xml.ConsoleTextEdit;
 //# import message.MessageList;
 //#ifndef MENU_LISTENER
 //# import javax.microedition.lcdui.Command;
@@ -53,28 +54,20 @@
 //#  * @author ad,aqent
 //#  */
 //# 
-//# public final class DebugConsole
-//#     extends MessageList {
-//# 
-//#     private StaticData sd=StaticData.getInstance();
-//# 
+//# public final class DebugConsole extends MessageList {
 //#     private Command cmdEnableDisable;
 //#     private Command cmdPurge;
-//#ifdef CLIPBOARD
-//#     private Command copyReport;
-//#endif
 //# 
-//#     /** Creates a new instance of XMLList */
 //#     public DebugConsole(Display display, Displayable pView) {
 //#         super ();
 //# 
-//#         cmdEnableDisable=new Command(SR.get(SR.MS_ENABLE_DISABLE), Command.SCREEN, 1);
-//#         cmdPurge=new Command(SR.get(SR.MS_CLEAR_LIST), Command.SCREEN, 3);
-//#ifdef CLIPBOARD
-//#         copyReport=new Command("Bugreport to clipboard", Command.SCREEN, 2);
-//#endif
+//#         cmdEnableDisable = new Command(SR.get(SR.MS_ENABLE_DISABLE), Command.SCREEN, 6);
+//#         cmdEnableDisable.setImg(0x26);
 //# 
-//#         super.smiles=false;
+//#         cmdPurge = new Command(SR.get(SR.MS_CLEAR_LIST), Command.SCREEN, 10);
+//#         cmdPurge.setImg(0x41);
+//# 
+//#         super.smiles = false;
 //# 
 //#         commandState();
 //#         addCommands();
@@ -82,9 +75,7 @@
 //# 
 //#         moveCursorHome();
 //# 
-//# 
-//#  	MainBar mainbar=new MainBar("Debug console");
-//#          setMainBarItem(mainbar);
+//#         setMainBarItem(new MainBar(SR.get(SR.MS_DEBUG_MENU)));
 //# 
 //#         attachDisplay(display);
 //#         this.parentView=pView;
@@ -99,32 +90,27 @@
 //#      addCommand(cmdBack);
 //#endif
 //#ifdef CLIPBOARD
-//#         addCommand(copyReport); copyReport.setImg(0x44);
-//#              if (midlet.BombusQD.cf.useClipBoard) {
+//#         if (getItemCount() != 0) {
+//#             if (Config.getInstance().useClipBoard) {
 //#                 addCommand(Commands.cmdCopy);
 //#                 if (!ClipBoard.isEmpty()) {
 //#                     addCommand(Commands.cmdCopyPlus);
 //#                 }
 //#             }
+//#         }
 //#endif
 //#         addCommand(cmdEnableDisable);
-//#         cmdEnableDisable.setImg(0x26);
-//# 
-//#         addCommand(cmdPurge);
-//#         cmdPurge.setImg(0x41);//DELETE
-//# 
+//#         if (getItemCount() != 0) {
+//#             addCommand(cmdPurge);
+//#         }
 //#     }
 //# 
-//#     private StringBuffer str;
-//# 
 //#     protected void beginPaint() {
-//#         str = new StringBuffer(0);
-//#         str.append(" (")
-//#         .append(getItemCount())
-//#         .append(")");
+//#         StringBuffer str = new StringBuffer(" (").append(getItemCount()).append(") ");
 //# 
-//#         if (!midlet.BombusQD.cf.debug)
-//#             str.append(" - Disabled");
+//#         if (!midlet.BombusQD.cf.debug) {
+//#             str.append(SR.get(SR.MS_DISABLED));
+//#         }
 //# 
 //#         getMainBarItem().setElementAt(str.toString(),1);
 //#     }
@@ -147,46 +133,35 @@
 //# 	return msg;
 //#     }
 //# 
-//#     public void keyGreen(){
-//# 	Msg m=getMessage(cursor);
-//#         String stanza = "";
-//#         try {
-//#             stanza =  m.toString();
-//#         } catch (Exception e) {}
-//#         new ConsoleTextEdit(display, this, stanza);
-//#     }
-//# 
 //#     public void commandAction(Command c, Displayable d) {
-//#         super.commandAction(c,d);
-//# 
-//# 	Msg m=getMessage(cursor);
-//#         if (c==cmdEnableDisable) {
-//#             midlet.BombusQD.cf.debug=!midlet.BombusQD.cf.debug;
+//#         Msg msg = getMessage(cursor);
+//#         if (c == cmdEnableDisable) {
+//#             midlet.BombusQD.cf.debug = !midlet.BombusQD.cf.debug;
 //#             redraw();
 //#         }
-//# 	if (m==null) return;
+//#         if (msg == null) {
+//#             return;
+//#         }
 //# 
-//#         if (c==cmdPurge) {
+//#         if (c == cmdPurge) {
 //#             clearReadedMessageList();
 //#         }
-//#ifdef CLIPBOARD
-//#         if(c==copyReport){
 //# 
-//#         }
-//#endif
+//#         super.commandAction(c, d);
 //#     }
 //# 
 //#     private void clearReadedMessageList() {
 //#         try {
-//#             if (cursor+1==midlet.BombusQD.debug.stanzas.size()) {
+//#             if (cursor + 1 == midlet.BombusQD.debug.stanzas.size()) {
 //#                 midlet.BombusQD.debug.stanzas.removeAllElements();
-//#             }
-//#             else {
-//#                 for (int i=0; i<cursor+1; i++)
+//#             } else {
+//#                 for (int i = 0; i < cursor + 1; i++) {
 //#                     midlet.BombusQD.debug.stanzas.removeElementAt(0);
+//#                 }
 //#             }
 //#             messages.removeAllElements();
-//#         } catch (Exception e) { }
+//#         } catch (Exception e) {
+//#         }
 //#         moveCursorHome();
 //#         redraw();
 //#     }

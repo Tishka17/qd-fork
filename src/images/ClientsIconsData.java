@@ -36,136 +36,51 @@ import util.StringLoader;
  *
  * @author ad,aqent
  */
+
 public class ClientsIconsData {
+    private static String[] names;
+    private static String[] nodes;
 
-    private static ClientsIconsData instance;
-    private static String[] clientName = {
-        "BombusMod",
-        "Bombus",
-        "Bombus-ng",
-        "Psi",
-        "Miranda",
-        "Bombus+",
-        "Google",
-        "Tkabber",
-        "Gajim",
-        "QIP",
-        "Pidgin",
-        "Kopete",
-        "Exodus",
-        "Siemens Native Jabber Client",
-        "BitlBee",
-        "Coccinella",
-        "mcabber",
-        "iChatAgent",
-        "Jabbim",
-        "BombusMod (PL)",
-        "Home",//?
-        "Office",//?
-        "JAJC",
-        "Bombus-Avalon",
-        "Sm@per",
-        "mChat",
-        "Gaim",
-        "Ya.Online",
-        "qutIM",
-        "Vacuum",
-        "BombusQD",
-        "Ex",
-        "Jimm",
-        "Talkonaut",
-        "Lampiro",
-        "Nimbuzz",
-        "movamessenger",
-        "Psi+",
-        "MailAgent",
-        "Bayan",
-        "Simak.ru",
-        "JETI",
-        "Trillian",
-        "WokJab",
-        "Adium"
-        //"svn.xmpp.ru/repos/mrim",
-        //"jit.mytlt.ru"
-    };
+    public static void initClients() {
+        Vector clients[] = new StringLoader().stringLoader("/images/clients.txt", 2);
+        if (clients != null) {
+            int size = clients[0].size();
+            names = new String[size];
+            nodes = new String[size];
 
-    private static String[] sites = {
-        "bombusmod.net.ru",
-        "bombus-im.org",
-        "bombus-im.org/ng",
-        "psi-im.org",
-        "miranda-im.org",
-        "voffk.org.ru",
-        "google.com/xmpp/client/caps",
-        "tkabber.jabber.ru",
-        "gajim.org",
-        "qip.ru",
-        "pidgin.im",
-        "kopete.kde.org/jabber/caps",
-        "exodus.jabberstudio.org",
-        "Siemens Native Jabber Client",
-        "bitlbee.org",
-        "coccinella.sourceforge.net",
-        "mcabber",
-        "apple.com/ichat/caps",
-        "dev.jabbim.cz/jabbim/caps",
-        "bombus.pl",
-        "Home",
-        "Office",
-        "jajc.jrudevels.org",
-        "java.util.Random",
-        "smaper",
-        "mchat.mgslab.com",
-        "gaim.sf.net",
-        "online.yandex.ru",
-        "qutim",
-        "vacuum",
-        "bombusmod-qd.wen.ru",
-        "ex-im.name",
-        "jimm.net.ru",
-        "talkonaut.com",
-        "Lampiro",
-        "nimbuzz.com",
-        "movamessenger",
-        "psi-dev.googlecode.com",
-        "agent.mail.ru",
-        "barobin.com",
-        "simak.ru",
-        "jeti.sf.net",
-        "trillian.cc",
-        "wokjab.nedo.se",
-        "adiumx.com"
-        //"svn.xmpp.ru/repos/mrim",
-        //"jit.mytlt.ru"
-    };
+            for (int i = 0; i < size; ++i) {
+                String clientName = (String)clients[0].elementAt(i);
+                String clientNode = (String)clients[1].elementAt(i);
 
-    public static ClientsIconsData getInstance() {
-	if (instance==null) instance=new ClientsIconsData();
-	return instance;
+                names[i] = clientName;
+                nodes[i] = clientNode;
+            }
+        } else {
+            names = new String[0];
+            nodes = new String[0];
+        }
     }
 
-    private ClientsIconsData() { }
-
     private static byte getClientIDByCaps(String caps) {
-        byte clientsSize = (byte)sites.length;
-         //System.out.println("   client_www-> " + sites[i] );
-         //System.out.println("   client_name-> " + clientName[i] );
-        for (byte i=0; i<clientsSize; ++i) {
-           if(-1 != caps.indexOf(sites[i])) return i;
+        for (byte i = 0; i < nodes.length; ++i) {
+            if (-1 != caps.indexOf(nodes[i])) {
+                return i;
+            }
         }
         return -1;
     }
 
-    public static void processData(Contact c, String data) {
-        //System.out.println("set-> " + c);
-        c.client = getClientIDByCaps(data);
-        c.clientName = (c.client>-1)?c.clientName=getClientNameByID(c.client):"";
-        //System.out.println("set->OK. " + c + "->" + c.client + "/" + c.clientName );
-    }
-
     private static String getClientNameByID(byte id) {
-        return clientName[id];
+        return names[id];
     }
 
+    public static void processData(Contact c, String data) {
+        c.client = getClientIDByCaps(data);
+        if (c.client >- 1) {
+            c.clientName = getClientNameByID(c.client);
+        } else {
+            c.clientName = "";
+        }
+    }
 }
 //#endif

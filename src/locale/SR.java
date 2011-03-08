@@ -28,7 +28,6 @@
 package locale;
 
 import client.Config;
-import midlet.Commands;
 import util.StringLoader;
 
 public class SR {
@@ -789,7 +788,8 @@ public class SR {
      public final static short MS_COPY_TOPIC =  749;
      public final static short MS_SWAP_SEND_SUSPEND =  750;
      public final static short MS_MIN_ITEM_HEIGHT = 751;
-
+     public final static short MS_YOU_WOKE_UP = 752;
+     public final static short MS_SCHEME_SENT = 753;
 
     private static String[] localeItemsDefault = new String[0];
     private static String[] localeItems = {
@@ -1548,14 +1548,16 @@ public class SR {
         "Attention sound",
 
         "Shadow bar",
-         "Copy topic",
-         "Send <-> Suspend",
-         "Min item height"
+        "Copy topic",
+        "Send <-> Suspend",
+        "Min item height",
+        "You're waking up",
+        "Color scheme has been sent"
     };
 
     private SR() { }
 
-    public final static String get(short id){
+    public static String get(short id){
         return localeItems[id];
     }
 

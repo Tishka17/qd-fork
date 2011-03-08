@@ -229,6 +229,10 @@ public class Roster
                if (((Contact)object).origin == Constants.ORIGIN_GROUPCHAT) {
                    return;
                }
+           } else if (object instanceof Group) {
+               if (((Group)object).type == Groups.TYPE_TRANSP) {
+                   return;
+               }
            }
 
            new ActionsMenu(display, pView, object);
@@ -1535,7 +1539,7 @@ public class Roster
 
 //#ifdef CLASSIC_CHAT
 //#            if(body!=null){
-//# 
+//#
 //#                if(midlet.BombusQD.cf.module_classicchat){
 //#                  if(!groupchat) {
 //#                  //forfix

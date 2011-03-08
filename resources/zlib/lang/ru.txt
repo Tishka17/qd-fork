@@ -739,3 +739,5 @@ Shadow bar	Тень от панелей
 Copy topic	Копировать тему
 Min item height	Мин. высота элементов
 Send <-> Suspend	Отправить <-> Отложить
+You're waking up	Вы будите
+Color scheme has been sent	Цветовая схема отправлена

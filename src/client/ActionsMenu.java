@@ -42,7 +42,7 @@ import conference.affiliation.Affiliations;
 import conference.affiliation.ConferenceQuickPrivelegeModify;
 import disco.ServiceDiscovery;
 //#ifdef HISTORY
-//# import history.HistoryConfig;
+import history.HistoryConfig;
 //#endif
 import images.ActionsIcons;
 //#ifdef FILE_IO
@@ -63,7 +63,7 @@ import ui.controls.AlertBox;
 import ui.MIDPTextBox;
 import ui.MainBar;
 //#ifdef CLIPBOARD
-//# import util.ClipBoard;
+import util.ClipBoard;
 //#endif
 import vcard.VCard;
 import vcard.VCardEdit;
@@ -127,6 +127,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
     private static final int MI_REJOIN = 49;
     private static final int MI_RENAME = 50;
     private static final int MI_COPY_TOPIC = 51;
+    private static final int MI_RESOLVE_NICKS = 52;
 
     private Object item;
 
@@ -147,11 +148,12 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
             if (groupType == Groups.TYPE_TRANSP) {
                 addItem(SR.get(SR.MS_LOGIN), MI_LOGIN, ActionsIcons.ICON_ON);
                 addItem(SR.get(SR.MS_LOGOFF), MI_LOGOUT, ActionsIcons.ICON_OFF);
+                addItem(SR.get(SR.MS_RESOLVE_NICKNAMES), MI_RESOLVE_NICKS, ActionsIcons.ICON_NICK_RESOLVE);
 //#ifdef CHANGE_TRANSPORT
 //#ifdef PLUGINS
 //#                if (sd.ChangeTransport);
 //#endif
-//#                 addItem(SR.get(SR.MS_CHANGE_TRANSPORT), MI_CHTRANSPORT, ActionsIcons.ICON_NICK_RESOLVE);
+                addItem(SR.get(SR.MS_CHANGE_TRANSPORT), MI_CHTRANSPORT, ActionsIcons.ICON_NICK_RESOLVE);
 //#endif
             }
 
@@ -180,25 +182,25 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                 }
             }
 //#ifdef HISTORY
-//#             if (groupType != Groups.TYPE_TRANSP && !(contact instanceof MucContact)) {
-//#                 if (midlet.BombusQD.cf.module_history) {
-//#                     if (HistoryConfig.historyTypeIndex == HistoryConfig.TYPE_RMS) {
-//#                         addItem(SR.get(SR.MS_HISTORY_SHOW), MI_HISTORY, ActionsIcons.ICON_VERSION);
-//#                     }
-//#                 }
-//#             }
+            if (groupType != Groups.TYPE_TRANSP && !(contact instanceof MucContact)) {
+                if (midlet.BombusQD.cf.module_history) {
+                    if (HistoryConfig.historyTypeIndex == HistoryConfig.TYPE_RMS) {
+                        addItem(SR.get(SR.MS_HISTORY_SHOW), MI_HISTORY, ActionsIcons.ICON_VERSION);
+                    }
+                }
+            }
 //#endif
             addItem(SR.get(SR.MS_CLIENT_INFO), MI_VERSION, ActionsIcons.ICON_VERSION);
 //#ifdef SERVICE_DISCOVERY
             addItem(SR.get(SR.MS_COMMANDS), MI_COMMANDS, ActionsIcons.ICON_COMMAND);
 //#endif
 //#ifdef CLIPBOARD
-//#             if (midlet.BombusQD.cf.useClipBoard) {
-//#                 addItem(SR.get(SR.MS_COPY_JID), MI_COPY_JID, ActionsIcons.ICON_COPY_JID);
-//#                 if (!ClipBoard.isEmpty()) {
-//#                     addItem(SR.get(SR.MS_SEND_BUFFER), MI_SEND_BUFFER, ActionsIcons.ICON_SEND_BUFFER);
-//#                 }
-//#             }
+            if (midlet.BombusQD.cf.useClipBoard) {
+                addItem(SR.get(SR.MS_COPY_JID), MI_COPY_JID, ActionsIcons.ICON_COPY_JID);
+                if (!ClipBoard.isEmpty()) {
+                    addItem(SR.get(SR.MS_SEND_BUFFER), MI_SEND_BUFFER, ActionsIcons.ICON_SEND_BUFFER);
+                }
+            }
 //#endif
             if (groupType != Groups.TYPE_SELF) {
                 addItem(SR.get(SR.MS_SEND_COLOR_SCHEME), MI_SEND_SCHEME, ActionsIcons.ICON_SEND_COLORS);
@@ -324,8 +326,8 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                     addItem(SR.get(SR.MS_REENTER), MI_REJOIN, ActionsIcons.ICON_CHANGE_NICK);
                 } else {
 //#ifdef CLIPBOARD
-//#                     addItem(SR.get(SR.MS_COPY_JID), MI_COPY_JID, ActionsIcons.ICON_COPY_JID);
-//#                     addItem(SR.get(SR.MS_COPY_TOPIC), MI_COPY_TOPIC, ActionsIcons.ICON_COPY_JID);
+                    addItem(SR.get(SR.MS_COPY_JID), MI_COPY_JID, ActionsIcons.ICON_COPY_JID);
+                    addItem(SR.get(SR.MS_COPY_TOPIC), MI_COPY_TOPIC, ActionsIcons.ICON_COPY_JID);
 //#endif
 
                     addItem(SR.get(SR.MS_DIRECT_PRESENCE), MI_SEND_PRESENCE, ActionsIcons.ICON_SET_STATUS);
@@ -408,14 +410,13 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                     BombusQD.sd.roster.theStream.send(SoftwareInfo.querySend(contact.getJid()));
                     break;
                 case MI_SEND_SCHEME: {
-                    String from = midlet.BombusQD.sd.account.toString();
                     String body = ColorTheme.getSkin();
                     String id = String.valueOf((int) System.currentTimeMillis());
-
                     BombusQD.sd.roster.sendMessage(contact, id, body, null, null);
-                    contact.addMessage(new Msg(Constants.MESSAGE_TYPE_OUT, from, null, "Scheme sended"));
-                    break;
-                }
+
+                    String from2 = midlet.BombusQD.sd.account.toString();
+                    contact.addMessage(new Msg(Constants.MESSAGE_TYPE_OUT, from2, null, SR.get(SR.MS_SCHEME_SENT)));
+                } break;
                 case MI_VCARD:
                     if (contact.vcard != null) {
                         if (contact.getGroupType() == Groups.TYPE_SELF) {
@@ -493,29 +494,38 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                     BombusQD.sd.roster.theStream.send(presence);
                     break;
                 }
+                case MI_RESOLVE_NICKS: {
+                    BombusQD.sd.roster.resolveNicknames(contact.bareJid);
+                    break;
+                }
 //#ifdef CHANGE_TRANSPORT
-//#                 case MI_CHTRANSPORT: {
-//#                     new ChangeTransport(display, contact.bareJid);
-//#                     return;
-//#                 }
+                case MI_CHTRANSPORT: {
+                    new ChangeTransport(display, contact.bareJid);
+                    return;
+                }
 //#endif
 //#ifdef HISTORY
-//#                 case MI_HISTORY: {
-//#                     BombusQD.sd.roster.showHistory(BombusQD.sd.roster, contact);
-//#                     return;
-//#                 }
+                case MI_HISTORY: {
+                    BombusQD.sd.roster.showHistory(BombusQD.sd.roster, contact);
+                    return;
+                }
 //#endif
 //#ifdef SERVICE_DISCOVERY
                 case MI_COMMANDS:
                     new ServiceDiscovery(display, contact.getJid(), "http://jabber.org/protocol/commands", false);
                     return;
 //#endif
-                case MI_ATTENTION:
+                case MI_ATTENTION: {
                     Message message = new Message(contact.getJid(), SR.get(SR.LA_WAKEUP), SR.get(SR.LA_ATTENTION), false);
                     message.setType("headline");
                     message.addChildNs("attention", "urn:xmpp:attention:0");
                     BombusQD.sd.roster.theStream.send(message);
+
+                    String from = midlet.BombusQD.sd.account.toString();
+                    contact.addMessage(
+                            new Msg(Constants.MESSAGE_TYPE_OUT, from, null, SR.get(SR.MS_YOU_WOKE_UP) + " " + contact.getName()));
                     break;
+                }
                 case MI_IDLE:
                     BombusQD.sd.roster.setQuerySign(true);
                     BombusQD.sd.roster.theStream.send(IqLast.query(contact.getJid(), "idle"));
@@ -543,36 +553,36 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                     OkNotify(null);
                     break;
 //#ifdef CLIPBOARD
-//#                 case MI_COPY_JID:
-//#                     if (contact instanceof MucContact) {
-//#                         MucContact c = (MucContact)contact;
-//#                         if (c.realJid != null) {
-//#                             ClipBoard.setClipBoard(c.realJid);
-//#                         }
-//#                     } else {
-//#                         if (contact.bareJid != null) {
-//#                             ClipBoard.setClipBoard(contact.bareJid);
-//#                         }
-//#                     }
-//#                     break;
-//#                 case MI_SEND_BUFFER: {
-//#                     String body = ClipBoard.getClipBoard();
-//#                     if (body == null && body.length() == 0) {
-//#                         return;
-//#                     }
-//# 
-//#                     String from = midlet.BombusQD.sd.account.toString();
-//#                     String id = String.valueOf((int) System.currentTimeMillis());
-//# 
-//#                     BombusQD.sd.roster.sendMessage(contact, id, body, null, null);
-//# 
-//#                     Msg msg = new Msg(Constants.MESSAGE_TYPE_OUT, from, null, body);
-//#                     msg.id = id;
-//#                     msg.itemCollapsed = true;
-//# 
-//#                     contact.addMessage(msg);
-//#                     break;
-//#                 }
+                case MI_COPY_JID:
+                    if (contact instanceof MucContact) {
+                        MucContact c = (MucContact)contact;
+                        if (c.realJid != null) {
+                            ClipBoard.setClipBoard(c.realJid);
+                        }
+                    } else {
+                        if (contact.bareJid != null) {
+                            ClipBoard.setClipBoard(contact.bareJid);
+                        }
+                    }
+                    break;
+                case MI_SEND_BUFFER: {
+                    String body = ClipBoard.getClipBoard();
+                    if (body == null && body.length() == 0) {
+                        return;
+                    }
+
+                    String from = midlet.BombusQD.sd.account.toString();
+                    String id = String.valueOf((int) System.currentTimeMillis());
+
+                    BombusQD.sd.roster.sendMessage(contact, id, body, null, null);
+
+                    Msg msg = new Msg(Constants.MESSAGE_TYPE_OUT, from, null, body);
+                    msg.id = id;
+                    msg.itemCollapsed = true;
+
+                    contact.addMessage(msg);
+                    break;
+                }
 //#endif
 //#ifndef WMUC
                 case MI_INVITE:
@@ -655,15 +665,15 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
 
                 switch (mItem.index) {
 //#ifdef CLIPBOARD
-//#                     case MI_COPY_JID:
-//#                         ClipBoard.setClipBoard(roomjid);
-//#                         break;
-//#                     case MI_COPY_TOPIC:
-//#                         String topic = cgroup.confContact.getStatus();
-//#                         if (topic != null) {
-//#                             ClipBoard.setClipBoard(cgroup.confContact.getStatus());
-//#                         }
-//#                         break;
+                    case MI_COPY_JID:
+                        ClipBoard.setClipBoard(roomjid);
+                        break;
+                    case MI_COPY_TOPIC:
+                        String topic = cgroup.confContact.getStatus();
+                        if (topic != null) {
+                            ClipBoard.setClipBoard(cgroup.confContact.getStatus());
+                        }
+                        break;
 //#endif
                     case MI_CONFIG: // room config
                         new QueryConfigForm(display, roomjid);

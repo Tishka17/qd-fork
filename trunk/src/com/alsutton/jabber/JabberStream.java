@@ -75,8 +75,6 @@ public class JabberStream extends XmppParser implements Runnable {
     public JabberStream( String server, String hostAddr, String proxy) throws IOException {
         this.server=server;
 
-        boolean waiting=Config.getInstance().istreamWaiting;
-
          StreamConnection connection;
          if (proxy==null) {
              connection = (StreamConnection) Connector.open(hostAddr);
@@ -276,17 +274,16 @@ public class JabberStream extends XmppParser implements Runnable {
     }
 
     public void sendBuf( StringBuffer data ) throws IOException {
-        //iostream.send(data);
-        //System.out.println(data.toString());
-        //if (null != outPackets) outPackets.addElement(data);
-        if (null == data) return;
+        if (null == data) {
+            return;
+        }
         if (null != iostream) iostream.send(data);
 //#ifdef XML_CONSOLE
 //#         if (console.xml.XMLList.enabled) {
 //#             addLog(data.toString(), 1);
 //#         }
 //#endif
-        midlet.BombusQD.cf.outStanz+=1;
+        ++midlet.BombusQD.cf.outPacketCount;
         data = new StringBuffer(0); //Tishka17
     }
 
@@ -308,17 +305,6 @@ public class JabberStream extends XmppParser implements Runnable {
             block.destroy();
         } catch (Exception e) { }
     }
-
-
-    /*
-    private StringBuffer getString(JabberDataBlock block) {
-        buf = new StringBuffer(0);
-        block.constructXML(buf);
-        //block.destroy();
-        return buf;
-    }
-     */
-
 
 //#ifdef XML_CONSOLE
 //#     public void addLog (String data, int type) {
@@ -425,40 +411,6 @@ public class JabberStream extends XmppParser implements Runnable {
                 t=null;
             }
         }
-    }
-
-
-    private class SendJabberDataBlock implements Runnable {
-        private JabberDataBlock data;
-        private Thread thread = null;
-        private StringBuffer buf=new StringBuffer(0);
-
-        public SendJabberDataBlock(JabberDataBlock data) {
-            this.data=data;
-            if (thread==null) {
-                thread=new Thread(this);
-                thread.setPriority(Thread.MAX_PRIORITY);
-                thread.start();
-            }else{
-              sendData(data);
-            }
-        }
-
-        public void run(){
-            try {
-                sendData(data);
-            } catch (Exception e) { }
-        }
-
-
-        private void sendData(JabberDataBlock data){
-            try {
-                data.constructXML(buf);
-                sendBuf( buf );
-                thread=null;
-            } catch (Exception e) { }
-        }
-
     }
 }
 

@@ -31,7 +31,6 @@ package com.alsutton.jabber;
 import com.alsutton.jabber.datablocks.Iq;
 import java.util.*;
 import xmpp.XmppError;
-import client.Config;
 
 /**
  * The dispatcher for blocks that have arrived. Adds new blocks to the
@@ -113,10 +112,12 @@ public class JabberDataBlockDispatcher
         if (null == dataBlock) return;
             try {
 //#ifdef XML_CONSOLE
-//#                 if (console.xml.XMLList.enabled)
+//#                 if (console.xml.XMLList.enabled) {
 //#                     stream.addLog(dataBlock.toString(), 10);
-//#                 midlet.BombusQD.cf.inStanz+=1;
+//#                 }
 //#endif
+                ++midlet.BombusQD.cf.incPacketCount;
+
                 int processResult=JabberBlockListener.BLOCK_REJECTED;
                 int block_size = blockListeners.size();
                 //System.out.println("  -----S:blockListeners>> " + blockListeners.toString());

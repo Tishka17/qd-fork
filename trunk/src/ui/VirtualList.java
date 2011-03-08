@@ -46,7 +46,7 @@ import ui.controls.Progress;
 import ui.controls.ScrollBar;
 import util.StringUtils;
 //#ifdef USER_KEYS
-//# import ui.keys.UserKeyExec;
+import ui.keys.UserKeyExec;
 //#endif
 import java.util.Vector;
 
@@ -55,7 +55,7 @@ import menu.Command;
 import menu.MenuListener;
 //#endif
 //#ifdef LIGHT_CONTROL
-//# import light.CustomLight;
+import light.CustomLight;
 //#endif
 
 
@@ -82,9 +82,9 @@ public abstract class VirtualList
     public static int pointer_state = 0;
 
 //#ifdef GRADIENT
-//#     Gradient grIB;
-//#     Gradient grMB;
-//#     Gradient fon;
+    Gradient grIB;
+    Gradient grMB;
+    Gradient fon;
 //#endif
 
 
@@ -111,11 +111,11 @@ public abstract class VirtualList
     }
 
 //#ifdef USER_KEYS
-//#     private static final int USER_OTHER_KEY_PRESSED = 1;
-//#     private static final int USER_STAR_KEY_PRESSED = 2;
-//#     private static final int USER_KEY_EXECUTED = 3;
-//# 
-//#     private int additionKeyState = USER_OTHER_KEY_PRESSED;
+    private static final int USER_OTHER_KEY_PRESSED = 1;
+    private static final int USER_STAR_KEY_PRESSED = 2;
+    private static final int USER_KEY_EXECUTED = 3;
+
+    private int additionKeyState = USER_OTHER_KEY_PRESSED;
 //#endif
 
 //#ifdef POPUPS
@@ -200,7 +200,7 @@ public abstract class VirtualList
     public static boolean showTimeTraffic = true;
 
 //#ifdef USER_KEYS
-//#     public static boolean userKeys;
+    public static boolean userKeys;
 //#endif
     public static boolean canBack=true;
 
@@ -348,35 +348,35 @@ public abstract class VirtualList
    }
 
 //#ifdef BACK_IMAGE
-//#     public static Image getImage(int type) {
-//#         System.out.println("getImage: " + type);
-//#         if(type == 1) return bgndJimmImage;
-//#         if(type == 3) return bgndImage;
-//#         return null;
-//#     }
-//# 
-//#     private static Image bgndJimmImage = null;
-//#     private static Image bgndImage = null;
-//# 
-//#     public static void createImage(boolean create) {
-//#            Config cf = midlet.BombusQD.cf;
-//#            //System.out.println(create + " [" + bgndImage + "/" + bgndJimmImage + "]");
-//#            if(create) {
-//#                if(bgndImage != null || bgndJimmImage != null) return;
-//#            }
-//#            try {
-//#                switch(cf.bgnd_image) {
-//#                    case 0: bgndJimmImage = bgndImage = null; break;
-//#                    case 1: bgndJimmImage = Image.createImage("/images/back.png"); break;
-//#                    case 2: bgndJimmImage = bgndImage = null; break;
-//#                    case 3: bgndImage = Image.createImage("/images/bgnd.jpg"); break;
-//#                }
-//#            } catch (Exception e) {
+    public static Image getImage(int type) {
+        System.out.println("getImage: " + type);
+        if(type == 1) return bgndJimmImage;
+        if(type == 3) return bgndImage;
+        return null;
+    }
+
+    private static Image bgndJimmImage = null;
+    private static Image bgndImage = null;
+
+    public static void createImage(boolean create) {
+           Config cf = midlet.BombusQD.cf;
+           //System.out.println(create + " [" + bgndImage + "/" + bgndJimmImage + "]");
+           if(create) {
+               if(bgndImage != null || bgndJimmImage != null) return;
+           }
+           try {
+               switch(cf.bgnd_image) {
+                   case 0: bgndJimmImage = bgndImage = null; break;
+                   case 1: bgndJimmImage = Image.createImage("/images/back.png"); break;
+                   case 2: bgndJimmImage = bgndImage = null; break;
+                   case 3: bgndImage = Image.createImage("/images/bgnd.jpg"); break;
+               }
+           } catch (Exception e) {
 //#ifdef DEBUG_CONSOLE
 //#               midlet.BombusQD.debug.add("VL -> createImage Exception: "+e.getMessage(),10);
 //#endif
-//#            }
-//#     }
+           }
+    }
 //#endif
 
     public void redrawAni(int x,int y,int width,int height){
@@ -402,7 +402,7 @@ public abstract class VirtualList
 
 
 //#ifdef BACK_IMAGE
-//#         createImage(true);
+        createImage(true);
 //#endif
 
 
@@ -475,8 +475,8 @@ public abstract class VirtualList
         width=w;
         height=h;
 //#ifdef GRADIENT
-//#         iHeight=0;
-//#         mHeight=0;
+        iHeight=0;
+        mHeight=0;
 //#endif
         if (!isDoubleBuffered()) offscreen=Image.createImage(width, height);
         repaint();
@@ -493,13 +493,13 @@ public abstract class VirtualList
     */
 
 //#ifdef GRAPHICS_MENU
-//#     public static GMenu menuItem;
-//# 
-//#     private void drawGraphicsMenu(final Graphics g) {
-//#         if(null == menuItem) return;
-//#         menuItem.paintCustom(g,gm.itemGrMenu);
-//#     }
-//# 
+    public static GMenu menuItem;
+
+    private void drawGraphicsMenu(final Graphics g) {
+        if(null == menuItem) return;
+        menuItem.paintCustom(g,gm.itemGrMenu);
+    }
+
 //#endif
 
     public void paint(Graphics graphics) {
@@ -525,12 +525,12 @@ public abstract class VirtualList
 //#ifdef POPUPS
         getPopUp().init(g, width, height);
 //#ifdef GRAPHICS_MENU
-//#         if(midlet.BombusQD.cf.graphicsMenu) {
-//#            if(null != menuItem) {
-//#              if(gm.itemGrMenu>0) menuItem.init(g, width, height,this);
-//#              if(gm.ml!=null && gm.itemGrMenu==-1) menuItem.select(gm.inMenuSelected);
-//#            }
-//#         }
+        if(midlet.BombusQD.cf.graphicsMenu) {
+           if(null != menuItem) {
+             if(gm.itemGrMenu>0) menuItem.init(g, width, height,this);
+             if(gm.ml!=null && gm.itemGrMenu==-1) menuItem.select(gm.inMenuSelected);
+           }
+        }
 //#endif
 
 
@@ -549,24 +549,24 @@ public abstract class VirtualList
         g.fillRect(0, 0, width, height);
 
 //#ifdef BACK_IMAGE
-//# 
-//#         if(midlet.BombusQD.cf.bgnd_image==1){
-//#           if (null != bgndJimmImage) {
-//#                         int imgW = bgndJimmImage.getWidth();
-//#                         int imgH = bgndJimmImage.getHeight();
-//# 			for (int xx = 0; xx < width; xx += imgW){
-//# 			   for (int yy = 0; yy < height; yy += imgH) g.drawImage(bgndJimmImage, xx, yy, Graphics.LEFT|Graphics.TOP);
-//#                         }
-//#           }
-//#         }
-//#         else if(midlet.BombusQD.cf.bgnd_image==2) {
-//#           fon=new Gradient(0, 0, width, height, ColorTheme.getColor(ColorTheme.GRADIENT_BGND_LEFT),
-//#                   ColorTheme.getColor(ColorTheme.GRADIENT_BGND_RIGHT), true);
-//#           fon.paint(g);
-//#         }
-//#         else if(midlet.BombusQD.cf.bgnd_image==3) {
-//#           if(null != bgndImage) g.drawImage(bgndImage, 0, 0, Graphics.LEFT|Graphics.TOP);
-//#         }
+
+        if(midlet.BombusQD.cf.bgnd_image==1){
+          if (null != bgndJimmImage) {
+                        int imgW = bgndJimmImage.getWidth();
+                        int imgH = bgndJimmImage.getHeight();
+			for (int xx = 0; xx < width; xx += imgW){
+			   for (int yy = 0; yy < height; yy += imgH) g.drawImage(bgndJimmImage, xx, yy, Graphics.LEFT|Graphics.TOP);
+                        }
+          }
+        }
+        else if(midlet.BombusQD.cf.bgnd_image==2) {
+          fon=new Gradient(0, 0, width, height, ColorTheme.getColor(ColorTheme.GRADIENT_BGND_LEFT),
+                  ColorTheme.getColor(ColorTheme.GRADIENT_BGND_RIGHT), true);
+          fon.paint(g);
+        }
+        else if(midlet.BombusQD.cf.bgnd_image==3) {
+          if(null != bgndImage) g.drawImage(bgndImage, 0, 0, Graphics.LEFT|Graphics.TOP);
+        }
 //#endif
 
         if (mainbar!=null)
@@ -645,7 +645,7 @@ public abstract class VirtualList
                     baloon=drawYpos;
                 } else {
 //#ifdef BACK_IMAGE
-//#                     if (bgndJimmImage==null && bgndImage==null && midlet.BombusQD.cf.bgnd_image!=2) g.fillRect(0, drawYpos, itemMaxWidth, lh);
+                    if (bgndJimmImage==null && bgndImage==null && midlet.BombusQD.cf.bgnd_image!=2) g.fillRect(0, drawYpos, itemMaxWidth, lh);
 //#endif
                 }
                 g.translate(0, drawYpos);
@@ -668,7 +668,7 @@ public abstract class VirtualList
 
         if ( clrH>0
 //#ifdef BACK_IMAGE
-//#                 && (bgndJimmImage==null && bgndImage==null && midlet.BombusQD.cf.bgnd_image!=2)
+                && (bgndJimmImage==null && bgndImage==null && midlet.BombusQD.cf.bgnd_image!=2)
 //#endif
                 ) {
             setAbsOrg(g, 0,displayedBottom);
@@ -736,7 +736,7 @@ public abstract class VirtualList
         if(gm.itemGrMenu>0 && midlet.BombusQD.cf.graphicsMenu){
           //showBalloon=false;
 //#ifdef GRAPHICS_MENU
-//#           drawGraphicsMenu(g);
+          drawGraphicsMenu(g);
 //#endif
         }else{
 
@@ -1062,33 +1062,33 @@ public abstract class VirtualList
         int h=mainbar.getVHeight();
         //g.setClip(0,y, width, h);
 //#ifdef GRADIENT
-//#          if (getMainBarBGnd()!=getMainBarBGndBottom()) {
-//#             int c = midlet.BombusQD.cf.gradientBarLigth?1:-1;
-//#             int[] backPic = getBarBgnd(width, h,
-//#                     transformColorLight(getMainBarBGnd(), c*midlet.BombusQD.cf.gradientBarLight1),
-//#                     transformColorLight(getMainBarBGndBottom(), c*midlet.BombusQD.cf.gradientBarLight2));
-//#             g.drawRGB(backPic, 0, width, 0, y, width, h, false);//Tishka17
-//#             backPic = null;
-//#             backPic = new int[0];
-//#          } else {
-//#              g.setColor(getMainBarBGnd());
-//#              g.fillRect(0, y, width, h);
-//#          }
-//#         if (midlet.BombusQD.cf.shadowBar) {
-//#             int sh = (width <= height)?width:height;
-//#             if (reverse) {
-//#                 sh = sh/50;
-//#                    drawShadow(g,0,y-sh,width,sh,200,10);
-//#             }
-//#             else {
-//#                 sh = sh/40;
-//#                    drawShadow(g,0,y+h,width,sh,10,200);
-//#             }
-//#         }
-//# 
+         if (getMainBarBGnd()!=getMainBarBGndBottom()) {
+            int c = midlet.BombusQD.cf.gradientBarLigth?1:-1;
+            int[] backPic = getBarBgnd(width, h,
+                    transformColorLight(getMainBarBGnd(), c*midlet.BombusQD.cf.gradientBarLight1),
+                    transformColorLight(getMainBarBGndBottom(), c*midlet.BombusQD.cf.gradientBarLight2));
+            g.drawRGB(backPic, 0, width, 0, y, width, h, false);//Tishka17
+            backPic = null;
+            backPic = new int[0];
+         } else {
+             g.setColor(getMainBarBGnd());
+             g.fillRect(0, y, width, h);
+         }
+        if (midlet.BombusQD.cf.shadowBar) {
+            int sh = (width <= height)?width:height;
+            if (reverse) {
+                sh = sh/50;
+                   drawShadow(g,0,y-sh,width,sh,200,10);
+            }
+            else {
+                sh = sh/40;
+                   drawShadow(g,0,y+h,width,sh,10,200);
+            }
+        }
+
 //#else
-            g.setColor(getMainBarBGnd());
-            g.fillRect(0, 0, width, h);
+//#             g.setColor(getMainBarBGnd());
+//#             g.fillRect(0, 0, width, h);
 //#endif
         setAbsOrg(g, 0, y);
         g.setColor(getMainBarRGB());
@@ -1137,32 +1137,32 @@ public abstract class VirtualList
     private void drawInfoPanel (final Graphics g, int y) {
         int h=infobar.getVHeight()+1;
 //#ifdef GRADIENT
-//#         if (getMainBarBGnd()!=getMainBarBGndBottom()) {//32,102
-//#             int c = midlet.BombusQD.cf.gradientBarLigth?1:-1;
-//#             int[] backPic = getInfoBarBgnd(width, h,
-//#                     transformColorLight(getMainBarBGnd(), c*midlet.BombusQD.cf.gradientBarLight1),
-//#                     transformColorLight(getMainBarBGndBottom(), c*midlet.BombusQD.cf.gradientBarLight2));
-//#             g.drawRGB(backPic, 0, width, 0, y , width, h, false);//Tishka17
-//#             backPic = null;
-//#             backPic = new int[0];
-//#         } else {
-//#             g.setColor(getMainBarBGnd());
-//#             g.fillRect(0, y, width, h);
-//#         }
-//#         if (midlet.BombusQD.cf.shadowBar) {
-//#             int sh = (width <= height)?width:height;
-//#             if (!reverse) {
-//#                 sh = sh/50;
-//#                    drawShadow(g,0,y-sh,width,sh,200,10);
-//#             }
-//#             else {
-//#                 sh = sh/40;
-//#                    drawShadow(g,0,y+h,width,sh,10,200);
-//#             }
-//#         }
-//#else
+        if (getMainBarBGnd()!=getMainBarBGndBottom()) {//32,102
+            int c = midlet.BombusQD.cf.gradientBarLigth?1:-1;
+            int[] backPic = getInfoBarBgnd(width, h,
+                    transformColorLight(getMainBarBGnd(), c*midlet.BombusQD.cf.gradientBarLight1),
+                    transformColorLight(getMainBarBGndBottom(), c*midlet.BombusQD.cf.gradientBarLight2));
+            g.drawRGB(backPic, 0, width, 0, y , width, h, false);//Tishka17
+            backPic = null;
+            backPic = new int[0];
+        } else {
             g.setColor(getMainBarBGnd());
-            g.fillRect(0, 0, width, h);
+            g.fillRect(0, y, width, h);
+        }
+        if (midlet.BombusQD.cf.shadowBar) {
+            int sh = (width <= height)?width:height;
+            if (!reverse) {
+                sh = sh/50;
+                   drawShadow(g,0,y-sh,width,sh,200,10);
+            }
+            else {
+                sh = sh/40;
+                   drawShadow(g,0,y+h,width,sh,10,200);
+            }
+        }
+//#else
+//#             g.setColor(getMainBarBGnd());
+//#             g.fillRect(0, 0, width, h);
 //#endif
         if(midlet.BombusQD.sd.roster!=null) {
             if (midlet.BombusQD.sd.roster.messageCount>0) drawEnvelop(g , width/2 - 5, y + 1);
@@ -1383,7 +1383,7 @@ public abstract class VirtualList
              return;
         key(keyCode);
 //#ifdef LIGHT_CONTROL
-//#         CustomLight.keyPressed();
+        CustomLight.keyPressed();
 //#endif
     }
     protected void keyReleased(int keyCode) {
@@ -1394,7 +1394,7 @@ public abstract class VirtualList
         kHold=0;
         key(keyCode);
 //#ifdef LIGHT_CONTROL
-//#     CustomLight.keyPressed();
+    CustomLight.keyPressed();
 //#endif
     }
 
@@ -1580,21 +1580,21 @@ public abstract class VirtualList
     }
 
 //#ifdef USER_KEYS
-//#     private void additionKeyPressed(int keyCode) {
-//#         switch (keyCode) {
-//#             case KEY_NUM0: UserKeyExec.getInstance().commandExecute(display, 0); break;
-//#             case KEY_NUM1: UserKeyExec.getInstance().commandExecute(display, 1); break;
-//#             case KEY_NUM2: UserKeyExec.getInstance().commandExecute(display, 2); break;
-//#             case KEY_NUM3: UserKeyExec.getInstance().commandExecute(display, 3); break;
-//#             case KEY_NUM4: UserKeyExec.getInstance().commandExecute(display, 4); break;
-//#             case KEY_NUM5: UserKeyExec.getInstance().commandExecute(display, 5); break;
-//#             case KEY_NUM6: UserKeyExec.getInstance().commandExecute(display, 6); break;
-//#             case KEY_NUM7: UserKeyExec.getInstance().commandExecute(display, 7); break;
-//#             case KEY_NUM8: UserKeyExec.getInstance().commandExecute(display, 8); break;
-//#             case KEY_NUM9: UserKeyExec.getInstance().commandExecute(display, 9); break;
-//#             case KEY_POUND: UserKeyExec.getInstance().commandExecute(display, 10); break;
-//#         }
-//#     }
+    private void additionKeyPressed(int keyCode) {
+        switch (keyCode) {
+            case KEY_NUM0: UserKeyExec.getInstance().commandExecute(display, 0); break;
+            case KEY_NUM1: UserKeyExec.getInstance().commandExecute(display, 1); break;
+            case KEY_NUM2: UserKeyExec.getInstance().commandExecute(display, 2); break;
+            case KEY_NUM3: UserKeyExec.getInstance().commandExecute(display, 3); break;
+            case KEY_NUM4: UserKeyExec.getInstance().commandExecute(display, 4); break;
+            case KEY_NUM5: UserKeyExec.getInstance().commandExecute(display, 5); break;
+            case KEY_NUM6: UserKeyExec.getInstance().commandExecute(display, 6); break;
+            case KEY_NUM7: UserKeyExec.getInstance().commandExecute(display, 7); break;
+            case KEY_NUM8: UserKeyExec.getInstance().commandExecute(display, 8); break;
+            case KEY_NUM9: UserKeyExec.getInstance().commandExecute(display, 9); break;
+            case KEY_POUND: UserKeyExec.getInstance().commandExecute(display, 10); break;
+        }
+    }
 //#endif
 
     private boolean sendEvent(int keyCode) {
@@ -1703,18 +1703,18 @@ public abstract class VirtualList
 
     public void touchLeftPressed(){
 //#ifdef GRAPHICS_MENU
-//#          gm.itemGrMenu = showGraphicsMenu();
-//#          repaint();
+         gm.itemGrMenu = showGraphicsMenu();
+         repaint();
 //#else
-        showMenu();
+//#         showMenu();
 //#endif
     }
 
 
 //#ifdef GRAPHICS_MENU
-//#         public int showGraphicsMenu() { return -10; }
+        public int showGraphicsMenu() { return -10; }
 //#else
-    public void showMenu() {};
+//#     public void showMenu() {};
 //#endif
 
 
@@ -1738,203 +1738,11 @@ public abstract class VirtualList
 
     private void key(int keyCode) {
 //#ifdef GRAPHICS_MENU
-//#      if(gm.itemGrMenu>0 && midlet.BombusQD.cf.graphicsMenu ) { //�������� ����
-//#          if(null != menuItem) menuItem.keyPressed(keyCode);
-//#          repaint();
-//#      }
-//#      else{
-//#        if(midlet.BombusQD.cf.isOptionsSel){
-//#         isSel=false;
-//#         if (keyCode==KEY_NUM5) {
-//#             eventOk();
-//#             redraw();
-//#             return;
-//#          }
-//#        }
-//#if DEBUG
-//#    System.out.println(keyCode);
-//#endif
-//#ifdef POPUPS
-//#         if (keyCode==greenKeyCode) {
-//#            System.out.println("popupGreen");
-//#             if (getPopUp().getContact()!=null) {
-//#ifdef CLASSIC_CHAT
-//#                    if(midlet.BombusQD.cf.module_classicchat){
-//#                       new SimpleItemChat(midlet.BombusQD.getInstance().display,sd.roster,sd.roster.getContact(popup.getContact(), false));
-//#                    } else {
-//#endif
-//#                        Contact c = sd.roster.getContact(popup.getContact(), false);
-//#                        if(c.getChatInfo().getMessageCount()<=0 ){
-//#                           midlet.BombusQD.sd.roster.createMessageEdit(c, c.msgSuspended, this, true);
-//#                           return;
-//#                        }
-//#                        midlet.BombusQD.getInstance().display.setCurrent(c.getMessageList());
-//#ifdef CLASSIC_CHAT
-//#                    }
-//#endif
-//#                 popup.next();
-//#                 return;
-//#             } else if (phoneManufacturer==Config.MOTO || phoneManufacturer==Config.NOKIA || phoneManufacturer==Config.NOKIA_9XXX) {
-//#                 keyGreen();
-//#                 return;
-//#             }
-//#         }
-//#endif
-//#ifdef MENU_LISTENER
-//#         if (keyCode==Config.SOFT_LEFT || keyCode=='(') {
-//#            /*
-//#             if (reconnectWindow.getInstance().isActive()) {
-//#                 reconnectYes();
-//#                 return;
-//#             }
-//#             */
-//#             gm.itemCursorIndex=0;
-//#             gm.itemCursorIndexIn=0;
-//#              touchLeftPressed();
-//#             return;
-//#         }
-//#          if (keyCode==Config.SOFT_RIGHT || keyCode==')') {
-//#            /*
-//#             if (reconnectWindow.getInstance().isActive()) {
-//#                 reconnectNo();
-//#                 return;
-//#             }
-//#             */
-//#              touchRightPressed();
-//#             return;
-//#          }
-//#else
-//#          if (keyCode==Config.SOFT_RIGHT) {
-//#             if (phoneManufacturer!=Config.SONYE || phoneManufacturer==Config.SIEMENS || phoneManufacturer==Config.SIEMENS2 || phoneManufacturer==Config.MOTO) {
-//#                if (canBack==true)
-//#                     destroyView();
-//#                 return;
-//#             }
-//#          }
-//#endif
-//#         if (sendEvent(keyCode)) {
-//#             repaint();
-//#             return;
-//#         }
-//#ifdef USER_KEYS
-//#         if (userKeys) {
-//#             switch (additionKeyState) {
-//#                 case USER_OTHER_KEY_PRESSED:
-//#                 case USER_KEY_EXECUTED:
-//#                     additionKeyState=(keyCode==KEY_STAR)?USER_STAR_KEY_PRESSED:USER_OTHER_KEY_PRESSED;
-//#                     break;
-//#                 case USER_STAR_KEY_PRESSED:
-//#                     additionKeyState=(keyCode!=KEY_STAR)?USER_KEY_EXECUTED:USER_STAR_KEY_PRESSED;
-//#                     additionKeyPressed(keyCode);
-//#                     break;
-//#             }
-//#         }
-//#endif
-//# 
-//#     switch (keyCode) {
-//#         case 0:
-//#             break;
-//#         case KEY_NUM1:
-//#             moveCursorHome();
-//#             break;
-//#         case KEY_NUM2:
-//#             keyUp();
-//#             break;
-//#         case KEY_NUM4:
-//#             userKeyPressed(keyCode);
-//#             break;
-//#         case KEY_NUM6:
-//#             userKeyPressed(keyCode);
-//#             break;
-//#         case KEY_NUM7:
-//# /*
-//#             if(running_animation==true){
-//#                 midlet.BombusQD.cf.flagQuerySign=false;
-//#                 at.stop();
-//#             }else{
-//#                 midlet.BombusQD.cf.flagQuerySign=true;
-//#                 at.start();
-//#             }
-//#  */
-//#             moveCursorEnd();
-//#             break;
-//#         case KEY_NUM8:
-//#             keyDwn();
-//#             break;
-//#         case KEY_STAR:
-//#             if(!isServiceDiscoWindow) midlet.BombusQD.sd.roster.systemGC();
-//#ifdef POPUPS
-//#             mem = new StringBuffer(0);
-//#             mem.append(Time.getTimeWeekDay())
-//#                 .append("\nTraffic: ")
-//#                 .append(getTraffic());
-//#             if(midlet.BombusQD.cf.userAppLevel == 1) {
-//#               mem.append('\n');
-//#                   long free = Runtime.getRuntime().freeMemory()>>10;
-//#                   long total = Runtime.getRuntime().totalMemory()>>10;
-//#                   long qd_use = total - free;
-//#               /* do we really need MathFP? //Tishka17
-//#                * hmmm,maybe in the future?
-//#                   long a = MathFP.toFP(qd_use);
-//#                   long b = MathFP.toFP(total);
-//#                   long res = MathFP.mul( MathFP.div(a,b) , MathFP.toFP(100) ); // (use/total)*100
-//#               */
-//#                mem.append( "QD use: " + qd_use + " kb ")
-//#               // .append( "Memory using: " + MathFP.toString(res,1) + "%\n" )
-//#                 .append('(')
-//#                 .append((100*qd_use/total))
-//#                 .append("%)")
-//#                 .append('\n')
-//#                 .append("*Stanzas(in/out): "+Integer.toString(midlet.BombusQD.cf.inStanz)+"/"+Integer.toString(midlet.BombusQD.cf.outStanz));
-//#             }
-//#             setWobble(1, null, mem.toString());
-//#endif
-//#             break;
-//#ifdef POPUPS
-//#         case KEY_POUND:
-//#             //if (midlet.BombusQD.cf.popUps) {
-//#                 try {
-//#                     String text=((VirtualElement)getFocusedObject()).getTipString();
-//#                     if (text!=null) {
-//#                         setWobble(1, null, text);
-//#                     }
-//#                 } catch (Exception e) { }
-//#             //}
-//#             break;
-//#endif
-//# 
-//#         default:
-//#             try {
-//#                 switch (getGameAction(keyCode)){
-//#                     case UP:
-//#                         keyUp();
-//#                         break;
-//#                     case DOWN:
-//#                         keyDwn();
-//#                         break;
-//#                     case LEFT:
-//#                         pageLeft();
-//#                         break;
-//#                     case RIGHT:
-//#                         pageRight();
-//#                         break;
-//#                     case FIRE:
-//#                         eventOk();
-//#                         break;
-//#                 default:
-//#                     if (keyCode==keyClear) { keyClear(); break; }
-//#                     if (keyCode==keyVolDown) { moveCursorEnd(); break; }
-//#                     if (keyCode=='5') {  eventOk(); break; }
-//#                     if (keyCode==Config.KEY_BACK /*&&  canBack==true*/) { destroyView(); }
-//#                     if (keyCode==greenKeyCode) { keyGreen(); }
-//# 
-//#                     userKeyPressed(keyCode);
-//#                 }
-//#             } catch (Exception e) {/* IllegalArgumentException @ getGameAction */}
-//#         }
-//#         repaint();
-//#      }
-//#else
+     if(gm.itemGrMenu>0 && midlet.BombusQD.cf.graphicsMenu ) { //�������� ����
+         if(null != menuItem) menuItem.keyPressed(keyCode);
+         repaint();
+     }
+     else{
        if(midlet.BombusQD.cf.isOptionsSel){
         isSel=false;
         if (keyCode==KEY_NUM5) {
@@ -1948,12 +1756,22 @@ public abstract class VirtualList
 //#endif
 //#ifdef POPUPS
         if (keyCode==greenKeyCode) {
-            if (popup.getContact()!=null) {
-                   if(midlet.BombusQD.cf.useClassicChat){
-                      new SimpleItemChat(display,sd.roster,sd.roster.getContact(popup.getContact(), false));
-                   }else{
-                      new ContactMessageList(sd.roster.getContact(popup.getContact(), false),display);
-                   }
+           System.out.println("popupGreen");
+            if (getPopUp().getContact()!=null) {
+//#ifdef CLASSIC_CHAT
+//#                    if(midlet.BombusQD.cf.module_classicchat){
+//#                       new SimpleItemChat(midlet.BombusQD.getInstance().display,sd.roster,sd.roster.getContact(popup.getContact(), false));
+//#                    } else {
+//#endif
+                       Contact c = sd.roster.getContact(popup.getContact(), false);
+                       if(c.getChatInfo().getMessageCount()<=0 ){
+                          midlet.BombusQD.sd.roster.createMessageEdit(c, c.msgSuspended, this, true);
+                          return;
+                       }
+                       midlet.BombusQD.getInstance().display.setCurrent(c.getMessageList());
+//#ifdef CLASSIC_CHAT
+//#                    }
+//#endif
                 popup.next();
                 return;
             } else if (phoneManufacturer==Config.MOTO || phoneManufacturer==Config.NOKIA || phoneManufacturer==Config.NOKIA_9XXX) {
@@ -1964,18 +1782,24 @@ public abstract class VirtualList
 //#endif
 //#ifdef MENU_LISTENER
         if (keyCode==Config.SOFT_LEFT || keyCode=='(') {
+           /*
             if (reconnectWindow.getInstance().isActive()) {
                 reconnectYes();
                 return;
             }
+            */
+            gm.itemCursorIndex=0;
+            gm.itemCursorIndexIn=0;
              touchLeftPressed();
             return;
         }
          if (keyCode==Config.SOFT_RIGHT || keyCode==')') {
+           /*
             if (reconnectWindow.getInstance().isActive()) {
                 reconnectNo();
                 return;
             }
+            */
              touchRightPressed();
             return;
          }
@@ -1993,18 +1817,18 @@ public abstract class VirtualList
             return;
         }
 //#ifdef USER_KEYS
-//#         if (userKeys) {
-//#             switch (additionKeyState) {
-//#                 case USER_OTHER_KEY_PRESSED:
-//#                 case USER_KEY_EXECUTED:
-//#                     additionKeyState=(keyCode==KEY_STAR)?USER_STAR_KEY_PRESSED:USER_OTHER_KEY_PRESSED;
-//#                     break;
-//#                 case USER_STAR_KEY_PRESSED:
-//#                     additionKeyState=(keyCode!=KEY_STAR)?USER_KEY_EXECUTED:USER_STAR_KEY_PRESSED;
-//#                     additionKeyPressed(keyCode);
-//#                     break;
-//#             }
-//#         }
+        if (userKeys) {
+            switch (additionKeyState) {
+                case USER_OTHER_KEY_PRESSED:
+                case USER_KEY_EXECUTED:
+                    additionKeyState=(keyCode==KEY_STAR)?USER_STAR_KEY_PRESSED:USER_OTHER_KEY_PRESSED;
+                    break;
+                case USER_STAR_KEY_PRESSED:
+                    additionKeyState=(keyCode!=KEY_STAR)?USER_KEY_EXECUTED:USER_STAR_KEY_PRESSED;
+                    additionKeyPressed(keyCode);
+                    break;
+            }
+        }
 //#endif
 
     switch (keyCode) {
@@ -2038,8 +1862,33 @@ public abstract class VirtualList
             keyDwn();
             break;
         case KEY_STAR:
-            System.gc();
-            try { Thread.sleep(50); } catch (InterruptedException ex) { }
+            if(!isServiceDiscoWindow) midlet.BombusQD.sd.roster.systemGC();
+//#ifdef POPUPS
+            mem = new StringBuffer(0);
+            mem.append(Time.getTimeWeekDay())
+                .append("\nTraffic: ")
+                .append(getTraffic());
+            if(midlet.BombusQD.cf.userAppLevel == 1) {
+              mem.append('\n');
+                  long free = Runtime.getRuntime().freeMemory()>>10;
+                  long total = Runtime.getRuntime().totalMemory()>>10;
+                  long qd_use = total - free;
+              /* do we really need MathFP? //Tishka17
+               * hmmm,maybe in the future?
+                  long a = MathFP.toFP(qd_use);
+                  long b = MathFP.toFP(total);
+                  long res = MathFP.mul( MathFP.div(a,b) , MathFP.toFP(100) ); // (use/total)*100
+              */
+               mem.append( "QD use: " + qd_use + " kb ")
+              // .append( "Memory using: " + MathFP.toString(res,1) + "%\n" )
+                .append('(')
+                .append((100*qd_use/total))
+                .append("%)")
+                .append('\n')
+                .append("*Stanzas(in/out): "+Integer.toString(midlet.BombusQD.cf.incPacketCount)+"/"+Integer.toString(midlet.BombusQD.cf.outPacketCount));
+            }
+            setWobble(1, null, mem.toString());
+//#endif
             break;
 //#ifdef POPUPS
         case KEY_POUND:
@@ -2084,6 +1933,157 @@ public abstract class VirtualList
             } catch (Exception e) {/* IllegalArgumentException @ getGameAction */}
         }
         repaint();
+     }
+//#else
+//#        if(midlet.BombusQD.cf.isOptionsSel){
+//#         isSel=false;
+//#         if (keyCode==KEY_NUM5) {
+//#             eventOk();
+//#             redraw();
+//#             return;
+//#          }
+//#        }
+//#if DEBUG
+//#    System.out.println(keyCode);
+//#endif
+//#ifdef POPUPS
+//#         if (keyCode==greenKeyCode) {
+//#             if (popup.getContact()!=null) {
+//#                    if(midlet.BombusQD.cf.useClassicChat){
+//#                       new SimpleItemChat(display,sd.roster,sd.roster.getContact(popup.getContact(), false));
+//#                    }else{
+//#                       new ContactMessageList(sd.roster.getContact(popup.getContact(), false),display);
+//#                    }
+//#                 popup.next();
+//#                 return;
+//#             } else if (phoneManufacturer==Config.MOTO || phoneManufacturer==Config.NOKIA || phoneManufacturer==Config.NOKIA_9XXX) {
+//#                 keyGreen();
+//#                 return;
+//#             }
+//#         }
+//#endif
+//#ifdef MENU_LISTENER
+//#         if (keyCode==Config.SOFT_LEFT || keyCode=='(') {
+//#             if (reconnectWindow.getInstance().isActive()) {
+//#                 reconnectYes();
+//#                 return;
+//#             }
+//#              touchLeftPressed();
+//#             return;
+//#         }
+//#          if (keyCode==Config.SOFT_RIGHT || keyCode==')') {
+//#             if (reconnectWindow.getInstance().isActive()) {
+//#                 reconnectNo();
+//#                 return;
+//#             }
+//#              touchRightPressed();
+//#             return;
+//#          }
+//#else
+//#          if (keyCode==Config.SOFT_RIGHT) {
+//#             if (phoneManufacturer!=Config.SONYE || phoneManufacturer==Config.SIEMENS || phoneManufacturer==Config.SIEMENS2 || phoneManufacturer==Config.MOTO) {
+//#                if (canBack==true)
+//#                     destroyView();
+//#                 return;
+//#             }
+//#          }
+//#endif
+//#         if (sendEvent(keyCode)) {
+//#             repaint();
+//#             return;
+//#         }
+//#ifdef USER_KEYS
+//#         if (userKeys) {
+//#             switch (additionKeyState) {
+//#                 case USER_OTHER_KEY_PRESSED:
+//#                 case USER_KEY_EXECUTED:
+//#                     additionKeyState=(keyCode==KEY_STAR)?USER_STAR_KEY_PRESSED:USER_OTHER_KEY_PRESSED;
+//#                     break;
+//#                 case USER_STAR_KEY_PRESSED:
+//#                     additionKeyState=(keyCode!=KEY_STAR)?USER_KEY_EXECUTED:USER_STAR_KEY_PRESSED;
+//#                     additionKeyPressed(keyCode);
+//#                     break;
+//#             }
+//#         }
+//#endif
+//#
+//#     switch (keyCode) {
+//#         case 0:
+//#             break;
+//#         case KEY_NUM1:
+//#             moveCursorHome();
+//#             break;
+//#         case KEY_NUM2:
+//#             keyUp();
+//#             break;
+//#         case KEY_NUM4:
+//#             userKeyPressed(keyCode);
+//#             break;
+//#         case KEY_NUM6:
+//#             userKeyPressed(keyCode);
+//#             break;
+//#         case KEY_NUM7:
+//# /*
+//#             if(running_animation==true){
+//#                 midlet.BombusQD.cf.flagQuerySign=false;
+//#                 at.stop();
+//#             }else{
+//#                 midlet.BombusQD.cf.flagQuerySign=true;
+//#                 at.start();
+//#             }
+//#  */
+//#             moveCursorEnd();
+//#             break;
+//#         case KEY_NUM8:
+//#             keyDwn();
+//#             break;
+//#         case KEY_STAR:
+//#             System.gc();
+//#             try { Thread.sleep(50); } catch (InterruptedException ex) { }
+//#             break;
+//#ifdef POPUPS
+//#         case KEY_POUND:
+//#             //if (midlet.BombusQD.cf.popUps) {
+//#                 try {
+//#                     String text=((VirtualElement)getFocusedObject()).getTipString();
+//#                     if (text!=null) {
+//#                         setWobble(1, null, text);
+//#                     }
+//#                 } catch (Exception e) { }
+//#             //}
+//#             break;
+//#endif
+//#
+//#         default:
+//#             try {
+//#                 switch (getGameAction(keyCode)){
+//#                     case UP:
+//#                         keyUp();
+//#                         break;
+//#                     case DOWN:
+//#                         keyDwn();
+//#                         break;
+//#                     case LEFT:
+//#                         pageLeft();
+//#                         break;
+//#                     case RIGHT:
+//#                         pageRight();
+//#                         break;
+//#                     case FIRE:
+//#                         eventOk();
+//#                         break;
+//#                 default:
+//#                     if (keyCode==keyClear) { keyClear(); break; }
+//#                     if (keyCode==keyVolDown) { moveCursorEnd(); break; }
+//#                     if (keyCode=='5') {  eventOk(); break; }
+//#                     if (keyCode==Config.KEY_BACK /*&&  canBack==true*/) { destroyView(); }
+//#                     if (keyCode==greenKeyCode) { keyGreen(); }
+//#
+//#                     userKeyPressed(keyCode);
+//#                 }
+//#             } catch (Exception e) {/* IllegalArgumentException @ getGameAction */}
+//#         }
+//#         repaint();
 //#endif
     }
 

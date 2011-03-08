@@ -53,7 +53,7 @@
 //#  * @author ad,aqent
 //#  */
 //# 
-//# public final class DebugXMLList
+//# public final class DebugConsole
 //#     extends MessageList {
 //# 
 //#     private StaticData sd=StaticData.getInstance();
@@ -65,7 +65,7 @@
 //#endif
 //# 
 //#     /** Creates a new instance of XMLList */
-//#     public DebugXMLList(Display display, Displayable pView) {
+//#     public DebugConsole(Display display, Displayable pView) {
 //#         super ();
 //# 
 //#         cmdEnableDisable=new Command(SR.get(SR.MS_ENABLE_DISABLE), Command.SCREEN, 1);

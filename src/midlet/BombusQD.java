@@ -34,7 +34,6 @@ package midlet;
 import autotask.AutoTask;
 //#endif
 import account.Account;
-import account.AccountSelect;
 import colors.ColorTheme;
 //#ifdef STATS
 import stats.Stats;
@@ -42,26 +41,15 @@ import stats.Stats;
 import javax.microedition.midlet.*;
 import javax.microedition.lcdui.*;
 import locale.*;
-//import ui.*;
 import client.Config;
 import client.StaticData;
 import client.Roster;
-//import Info.Version;
-//import ui.GMenu;
 import ui.SplashScreen;
-//import java.util.Vector;
-//import util.StringLoader;
 import font.*;
-//import util.Strconv;
-//import Account.YesNoAlert;
 //#ifdef DEBUG_CONSOLE
 //# import console.debug.DebugList;
 //#endif
-//#ifdef CLIPBOARD
-import util.ClipBoard;
-//#endif
 import client.Contact;
-//import Client.ContactMessageList;
 //#ifdef LIGHT_CONTROL
 import light.*;
 //#endif
@@ -77,8 +65,8 @@ import java.io.DataOutputStream;
  * @author  Eugene Stahov
  * @version
  */
-public class BombusQD extends MIDlet implements Runnable
-{
+
+public class BombusQD extends MIDlet implements Runnable {
 
     public Display display  = Display.getDisplay(this);
     private boolean isRunning;
@@ -103,15 +91,16 @@ public class BombusQD extends MIDlet implements Runnable
 
     public BombusQD() {
         SR.changeLocale();
-        ColorTheme.initColors();
 
-        instance=this;
-        //ct=ColorTheme.getInstance();
-        s=SplashScreen.getInstance(display);
+        ColorTheme.initColors();
+        Commands.initCommands();
+
+        instance = this;
+
+        s = SplashScreen.getInstance(display);
         s.setProgress("Loading", 3);
     }
 
-    /** Entry point  */
     public void startApp() {
         if (isRunning) {
 	        hideApp(false,null);
@@ -125,8 +114,8 @@ public class BombusQD extends MIDlet implements Runnable
      * Pause is a no-op since there are no background activities or
      * record stores that need to be closed.
      */
-    public void pauseApp() { }
-
+    public void pauseApp() {
+    }
 
     public Image[] imageArr = null;
     public int wimg_menu;
@@ -170,28 +159,24 @@ public class BombusQD extends MIDlet implements Runnable
     }
 
     public void run(){
-
-        //long s1 = System.currentTimeMillis();
-        if(sd.roster==null) sd.roster=new Roster(display);
-        //s.setProgress(18);
+        if (sd.roster == null) {
+            sd.roster = new Roster(display);
+        }
 
         s.getKeys();
         width=s.width;
         height=s.height;
 
         boolean selAccount=((cf.accountIndex<0));
-          if (!selAccount && cf.autoLogin) {
-            //sd.roster=new Roster(display);
-            Account.loadAccount(cf.autoLogin, cf.accountIndex,-1);
-          }
+        if (!selAccount && cf.autoLogin) {
+            Account.loadAccount(cf.autoLogin, cf.accountIndex, -1);
+        }
 
         display.setCurrent(sd.roster);
         rmsVersion(false, sd.roster);
 
-        //long s2 = System.currentTimeMillis();
 //#ifdef DEBUG_CONSOLE
 //#         if(cf.debug){
-//#             //debug.add("::start "+(s2-s1)+" msec",10);
 //#             debug.add("::startmem free/total "+
 //#                     Long.toString(Runtime.getRuntime().freeMemory()>>10) + "/" +
 //#                     Long.toString(Runtime.getRuntime().totalMemory()>>10), 10) ;
@@ -199,11 +184,12 @@ public class BombusQD extends MIDlet implements Runnable
 //#endif
 
         try {
-           imageArr = new Image[2];
-           imageArr[0] = Image.createImage("/images/menu.png");
-           wimg_menu = imageArr[0].getWidth()/8;
-           himg_menu = imageArr[0].getHeight()/10;
-        } catch (Exception e) { }
+            imageArr = new Image[2];
+            imageArr[0] = Image.createImage("/images/menu.png");
+            wimg_menu = imageArr[0].getWidth() / 8;
+            himg_menu = imageArr[0].getHeight() / 10;
+        } catch (Exception e) {
+        }
 
 //#ifdef HISTORY
         HistoryConfig.getInstance().loadFromStorage();
@@ -230,20 +216,21 @@ public class BombusQD extends MIDlet implements Runnable
 //#endif
     }
 
-    public void destroyApp(boolean unconditional) { }
+    public void destroyApp(boolean unconditional) {
 
-    public void hideApp(boolean hide,Contact c) {
-	if (hide){
-            cf.isMinimized=true;
+    }
+
+    public void hideApp(boolean hide, Contact c) {
+        if (hide) {
+            cf.isMinimized = true;
             display.setCurrent(null);
-        }
-	else {
-          cf.isMinimized=false;
-          if(c!=null){
-              display.setCurrent(c.getMessageList());
-          }else{
-              display.setCurrent(sd.roster);
-          }
+        } else {
+            cf.isMinimized = false;
+            if (c != null) {
+                display.setCurrent(c.getMessageList());
+            } else {
+                display.setCurrent(sd.roster);
+            }
         }
     }
 

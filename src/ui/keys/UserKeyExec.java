@@ -24,168 +24,168 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 //#ifdef USER_KEYS
-//# package ui.keys;
-//# 
-//# import client.Config;
-//# import client.StaticData;
+package ui.keys;
+
+import client.Config;
+import client.StaticData;
 //#ifdef STATS
-//# import stats.Stats;
+import stats.Stats;
 //#endif
-//# import colors.ColorTheme;
+import colors.ColorTheme;
 //#ifdef XML_CONSOLE
-//# import console.xml.XMLList;
+//# import console.xml.XMLConsole;
 //#endif
 //#ifdef PRIVACY
-//# import privacy.PrivacySelect;
+import privacy.PrivacySelect;
 //#endif
 //#ifdef SERVICE_DISCOVERY
-//# import disco.ServiceDiscovery;
+import disco.ServiceDiscovery;
 //#endif
 //#ifdef STATS
-//# import stats.StatsWindow;
+import stats.StatsWindow;
 //#endif
-//# import java.util.Enumeration;
-//# import java.util.Vector;
-//# import javax.microedition.lcdui.Display;
-//# import locale.SR;
-//# import midlet.BombusQD;
-//# import ui.VirtualList;
-//# 
-//# public class UserKeyExec {
+import java.util.Enumeration;
+import java.util.Vector;
+import javax.microedition.lcdui.Display;
+import locale.SR;
+import midlet.BombusQD;
+import ui.VirtualList;
+
+public class UserKeyExec {
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_USER_KEYS");
 //#endif
-//# 
-//#     private static Config cf;
-//#     StaticData sd=StaticData.getInstance();
-//# 
-//#     private static UserKeyExec instance;
-//#     public static UserKeyExec getInstance(){
-//# 	if (instance==null) {
-//# 	    instance=new UserKeyExec();
-//#             cf=Config.getInstance();
-//#             instance.initCommands();
-//# 	}
-//# 	return instance;
-//#     }
-//# 
-//#     private Display display;
-//# 
-//#     public Vector commandsList;
-//# 
-//#     private void initCommands() {
-//#         commandsList=null;
-//#         commandsList=new Vector(0);
-//# 
-//#         UserKey u = null;
-//# 
-//#         int index=0;
-//#         do {
-//#             u=UserKey.createFromStorage(index);
-//#             if (u!=null) {
-//#                 commandsList.addElement(u);
-//#                 index++;
-//#              }
-//#         } while (u!=null);
-//#     }
-//# 
-//#     private int getCommandByKey(int key) {
-//#         int commandNum = -1;
-//#          for (Enumeration commands=commandsList.elements(); commands.hasMoreElements(); ) {
-//#             UserKey userKeyItem=(UserKey) commands.nextElement();
-//#             if (userKeyItem.key==key && userKeyItem.active) {
-//#                 commandNum=userKeyItem.commandId;
-//#                 break;
-//#             }
-//#          }
-//#         return commandNum;
-//#     }
-//# 
-//#     public void commandExecute(Display display, int command) { //return false if key not executed
-//#         this.display=display;
-//# 
-//#         int commandId=getCommandByKey(command);
-//# 
-//#         if (commandId<1) return;
-//# 
-//#         boolean connected= ( sd.roster.isLoggedIn() );
-//# 
-//#         switch (commandId) {
-//#             case 1:
-//#                 //new ConfigForm(display, sd.roster);//?
-//#                 break;
-//#             case 2:
-//#                 sd.roster.cmdCleanAllMessages();
-//#                 break;
-//#             case 3:
-//#                 sd.roster.connectionTerminated(new Exception(SR.get(SR.MS_SIMULATED_BREAK)));
-//#                 break;
+
+    private static Config cf;
+    StaticData sd=StaticData.getInstance();
+
+    private static UserKeyExec instance;
+    public static UserKeyExec getInstance(){
+	if (instance==null) {
+	    instance=new UserKeyExec();
+            cf=Config.getInstance();
+            instance.initCommands();
+	}
+	return instance;
+    }
+
+    private Display display;
+
+    public Vector commandsList;
+
+    private void initCommands() {
+        commandsList=null;
+        commandsList=new Vector(0);
+
+        UserKey u = null;
+
+        int index=0;
+        do {
+            u=UserKey.createFromStorage(index);
+            if (u!=null) {
+                commandsList.addElement(u);
+                index++;
+             }
+        } while (u!=null);
+    }
+
+    private int getCommandByKey(int key) {
+        int commandNum = -1;
+         for (Enumeration commands=commandsList.elements(); commands.hasMoreElements(); ) {
+            UserKey userKeyItem=(UserKey) commands.nextElement();
+            if (userKeyItem.key==key && userKeyItem.active) {
+                commandNum=userKeyItem.commandId;
+                break;
+            }
+         }
+        return commandNum;
+    }
+
+    public void commandExecute(Display display, int command) { //return false if key not executed
+        this.display=display;
+
+        int commandId=getCommandByKey(command);
+
+        if (commandId<1) return;
+
+        boolean connected= ( sd.roster.isLoggedIn() );
+
+        switch (commandId) {
+            case 1:
+                //new ConfigForm(display, sd.roster);//?
+                break;
+            case 2:
+                sd.roster.cmdCleanAllMessages();
+                break;
+            case 3:
+                sd.roster.connectionTerminated(new Exception(SR.get(SR.MS_SIMULATED_BREAK)));
+                break;
 //#ifdef POPUPS
 //#ifdef STATS
-//#             case 4:
+            case 4:
 //#ifdef PLUGINS
 //#                 if (sd.Stats)
 //#endif
-//#                     new StatsWindow(display);
-//#                 break;
+                    new StatsWindow(display);
+                break;
 //#endif
 //#endif
-//#             case 5:
-//#                 sd.roster.cmdStatus();
-//#                 break;
-//#             case 6:
+            case 5:
+                sd.roster.cmdStatus();
+                break;
+            case 6:
 //#ifdef FILE_IO
 //#if FILE_TRANSFER
-//#                 new io.file.transfer.TransferManager(display);
+                new io.file.transfer.TransferManager(display);
 //#endif
 //#endif
-//#                 break;
-//#             case 7:
+                break;
+            case 7:
 //#ifdef ARCHIVE
 //#ifdef PLUGINS
 //#                 if (sd.Archive)
 //#endif
-//#                     sd.roster.cmdArchive();
+                    sd.roster.cmdArchive();
 //#endif
-//#                 break;
-//#             case 8:
+                break;
+            case 8:
 //#ifdef SERVICE_DISCOVERY
-//#                 if (connected) new ServiceDiscovery(display, null, null, false);
+                if (connected) new ServiceDiscovery(display, null, null, false);
 //#endif
-//#                 break;
-//#             case 9:
+                break;
+            case 9:
 //#ifdef PRIVACY
-//#                 if (connected) new PrivacySelect(display, sd.roster);
+                if (connected) new PrivacySelect(display, sd.roster);
 //#endif
-//#                 break;
-//#             case 10: //key pound
-//#                 new UserKeysList(display);
-//#                 break;
-//#             case 11:
+                break;
+            case 10: //key pound
+                new UserKeysList(display);
+                break;
+            case 11:
 //#ifdef POPUPS
-//#                 sd.roster.cmdClearPopups();
+                sd.roster.cmdClearPopups();
 //#endif
-//#                 break;
-//#                 /*
-//#             case 12:
-//#                 cf.lightState=!cf.lightState;
-//#                 sd.roster.setLight(cf.lightState);
-//#                 cf.saveToStorage();
-//#                 break;
-//# 
-//#             case 13:
-//#                 sd.roster.cmdInfo();
-//#                 break;
-//#                  */
-//#             case 14:
-//#                 if (cf.allowMinimize)
-//#                     BombusQD.getInstance().hideApp(true, null);
-//#                 break;
-//#             case 15:
-//#                 ColorTheme.invertSkin();
-//#                 break;
-//#                 /*
-//#             case 16:
+                break;
+                /*
+            case 12:
+                cf.lightState=!cf.lightState;
+                sd.roster.setLight(cf.lightState);
+                cf.saveToStorage();
+                break;
+
+            case 13:
+                sd.roster.cmdInfo();
+                break;
+                 */
+            case 14:
+                if (cf.allowMinimize)
+                    BombusQD.getInstance().hideApp(true, null);
+                break;
+            case 15:
+                ColorTheme.invertSkin();
+                break;
+                /*
+            case 16:
 //#ifdef CONSOLE
 //#ifdef PLUGINS
 //#                 try {
@@ -196,15 +196,15 @@
 //#                 } catch (ClassNotFoundException ignore3) { }
 //#endif
 //#endif
-//#                 break;
-//#                  */
-//#             case 17:
-//#                 cf.fullscreen=!cf.fullscreen;
-//#                 cf.saveToStorage();
-//#                 VirtualList.fullscreen=cf.fullscreen;
-//#                 sd.roster.setFullScreenMode(cf.fullscreen);
-//#                 break;
-//#         }
-//#     }
-//# }
+                break;
+                 */
+            case 17:
+                cf.fullscreen=!cf.fullscreen;
+                cf.saveToStorage();
+                VirtualList.fullscreen=cf.fullscreen;
+                sd.roster.setFullScreenMode(cf.fullscreen);
+                break;
+        }
+    }
+}
 //#endif

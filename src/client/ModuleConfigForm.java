@@ -34,6 +34,7 @@ import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import menu.MenuListener;
 import midlet.BombusQD;
+import midlet.Commands;
 import ui.VirtualList;
 import ui.controls.form.CheckBox;
 import ui.controls.form.DefForm;
@@ -525,13 +526,13 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 //#ifdef CLASSIC_CHAT
 //#         } else if (type.equals(SR.get(SR.MS_clchatStr))) {
 //#             addControl(new SimpleString(SR.get(SR.MS_CLCHAT_ON), true));
-//#
+//# 
 //#             usePhoneTheme = new CheckBox(SR.get(SR.MS_CLCHAT_BGNG_PHONE), config.usePhoneTheme);
 //#             addControl(usePhoneTheme);
-//#
+//# 
 //#             classicChatHeight = new NumberInput(display,SR.get(SR.MS_CLCHAT_HEIGHT), Integer.toString(config.classicChatHeight), 80, 320);
 //#             addControl(classicChatHeight);
-//#
+//# 
 //#             lineCount = new NumberInput(display, SR.get(SR.MS_CLCHAT_MSGLIMIT), Integer.toString(config.lineCount), 1, 1000);
 //#             itemsList.addElement(lineCount);
 //#             itemsList.addElement(new SpacerItem(10));
@@ -710,6 +711,7 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
                 if (!config.lang.equals(lang)) {
                     config.lang= lang;
                     SR.changeLocale();
+                    Commands.initCommands();
 //#ifdef COLOR_TUNE
                     ColorTheme.initNames();
 //#endif

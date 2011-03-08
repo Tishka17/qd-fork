@@ -26,7 +26,7 @@
 
 package com.alsutton.jabber;
 //#ifdef XML_CONSOLE
-//# import console.xml.StanzasList;
+//# import console.xml.XMLList;
 //#endif
 import com.alsutton.jabber.datablocks.Iq;
 import java.util.*;
@@ -113,7 +113,7 @@ public class JabberDataBlockDispatcher
         if (null == dataBlock) return;
             try {
 //#ifdef XML_CONSOLE
-//#                 if (console.xml.StanzasList.enabled)
+//#                 if (console.xml.XMLList.enabled)
 //#                     stream.addLog(dataBlock.toString(), 10);
 //#                 midlet.BombusQD.cf.inStanz+=1;
 //#endif

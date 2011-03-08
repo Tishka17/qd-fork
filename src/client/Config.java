@@ -111,7 +111,6 @@ public class Config {
     public boolean setAutoStatusMessage=true;
 //#endif
 
-
     public String msgAvatarPath="";
 
     public boolean cp1251=true;
@@ -268,16 +267,15 @@ public class Config {
 
     public String langpair="ru==>en";
 
-    public int argb_bgnd=getIntFromManifest("argb_bgnd",0);
-    public int gmenu_bgnd=getIntFromManifest("gmenu_bgnd",0);
-    public int popup_bgnd=0;
-    public int cursor_bgnd=0;
+    public int argb_bgnd = 0;
+    public int gmenu_bgnd = 0;
+    public int popup_bgnd = 0;
+    public int cursor_bgnd = 0;
 
     public int avatar_cashe_size=0;
-    //public int difficulty_level=getIntFromManifest("difflevel",0);
 
-    public int inStanz=0;
-    public int outStanz=0;
+    public int incPacketCount = 0;
+    public int outPacketCount = 0;
 
     public boolean autoSaveVcard=false;
     public boolean showAvatarRect=false;
@@ -1211,13 +1209,14 @@ public class Config {
         return defvalue;
     }
 
-    public final int getIntFromManifest(final String key, final int defvalue) {
+    // it doesn't work
+    /*public final int getIntFromManifest(final String key, final int defvalue) {
 	try {
 	    String s=BombusQD.getInstance().getAppProperty(key);
 	    return (s==null)?defvalue:Integer.parseInt(s);
 	} catch (Exception e) {	}
         return defvalue;
-    }
+    }*/
 
     public final int getIntProperty(final String key, final int defvalue) {
 	try { return Integer.parseInt(key); } catch (Exception e) { }

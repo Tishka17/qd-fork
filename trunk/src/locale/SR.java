@@ -1607,11 +1607,9 @@ public class SR {
         if (langFile == null){ //en
            return;
         }
-        int index = langFile.indexOf('.');
         String langName = Config.getInstance().lang;
         localeItems[0] = langName;
         localeItems[1] = langName;
         localeItems  = new StringLoader().arrayLoader(langFile, localeItems);
-        Commands.initCommands();
     }
 }

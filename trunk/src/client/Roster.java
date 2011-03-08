@@ -125,10 +125,10 @@ import conference.ConferenceForm;
 import stats.Stats;
 //#endif
 //#ifdef XML_CONSOLE
-//# import console.xml.XMLList;
+//# import console.xml.XMLConsole;
 //#endif
 //#ifdef DEBUG_CONSOLE
-//# import console.debug.DebugXMLList;
+//# import console.debug.DebugConsole;
 //#endif
 //#else
 //# import Menu.RosterToolsMenu;
@@ -562,11 +562,11 @@ public class Roster
          */
 //#ifdef XML_CONSOLE
 //#             } else if(c==cmdXMLConsole){
-//#                 new XMLList(display,this);
+//#                 new XMLConsole(display,this);
 //#endif
 //#ifdef DEBUG_CONSOLE
 //#           } else if(c==cmdDebugConsole){
-//#                 new DebugXMLList(display, this);
+//#                 new DebugConsole(display, this);
 //#endif
          } else if (c==cmdMinimize) { cmdMinimize();  }
 
@@ -1535,7 +1535,7 @@ public class Roster
 
 //#ifdef CLASSIC_CHAT
 //#            if(body!=null){
-//#
+//# 
 //#                if(midlet.BombusQD.cf.module_classicchat){
 //#                  if(!groupchat) {
 //#                  //forfix

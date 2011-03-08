@@ -29,7 +29,7 @@ package com.alsutton.jabber;
 //import Client.Config;
 import client.StaticData;
 //#ifdef XML_CONSOLE
-//# import console.xml.StanzasList;
+//# import console.xml.XMLList;
 //#endif
 import io.Utf8IOStream;
 import java.io.*;
@@ -282,7 +282,7 @@ public class JabberStream extends XmppParser implements Runnable {
         if (null == data) return;
         if (null != iostream) iostream.send(data);
 //#ifdef XML_CONSOLE
-//#         if (console.xml.StanzasList.enabled) {
+//#         if (console.xml.XMLList.enabled) {
 //#             addLog(data.toString(), 1);
 //#         }
 //#endif
@@ -332,7 +332,7 @@ public class JabberStream extends XmppParser implements Runnable {
 //#             }
 //#         }
 //#endif
-//#         StanzasList.getInstance().add(data, type);
+//#         XMLList.getInstance().add(data, type);
 //#    }
 //#endif
 

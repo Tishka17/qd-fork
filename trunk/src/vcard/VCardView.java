@@ -139,13 +139,6 @@ public class VCardView extends DefForm
 
         if (vcard.isEmpty()) {
             addControl(noVCard);
-            addControl(new LinkString(SR.get(SR.MS_REFRESH)) {
-                public void doAction() {
-                    VCard.request(vcard.getJid(), vcard.getId().substring(5));
-                    destroyView();
-                }
-            });
-            moveCursorTo(1);
         } else {
             setPhoto();
 
@@ -175,8 +168,14 @@ public class VCardView extends DefForm
                     }
                 }
             }
-            addControl(endVCard);
         }
+
+        addControl(endVCard);
+        addControl(new LinkString(SR.get(SR.MS_REFRESH)) {
+                public void doAction() {
+                    refreshVCard();
+                }
+        });
 
         commandState();
 

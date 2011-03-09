@@ -55,14 +55,14 @@ import ui.controls.form.MultiLine;
 import ui.controls.form.SimpleString;
 import ui.controls.form.LinkString;
 //#ifdef CLIPBOARD
-//# import util.ClipBoard;
+import util.ClipBoard;
 //#endif
 import midlet.BombusQD;
 import javax.microedition.io.ConnectionNotFoundException;
 //#ifdef GRAPHICS_MENU
-//# import ui.GMenu;
-//# import ui.GMenuConfig;
-//# import ui.MainBar;
+import ui.GMenu;
+import ui.GMenuConfig;
+import ui.MainBar;
 //#endif
 
 /**
@@ -86,8 +86,8 @@ public class VCardView extends DefForm
     private String url;
 
 //#ifdef CLIPBOARD
-//#     private Command cmdCopy;
-//#     private Command cmdCopyPlus;
+    private Command cmdCopy;
+    private Command cmdCopyPlus;
 //#endif
     private Command cmdRefresh;
 //#if FILE_IO
@@ -110,11 +110,11 @@ public class VCardView extends DefForm
         super(display, pView, null);
 
 //#ifdef CLIPBOARD
-//#         cmdCopy = new Command(SR.get(SR.MS_COPY), Command.SCREEN, 1);
-//#         cmdCopy.setImg(0x13);
-//# 
-//#         cmdCopyPlus = new Command("+ " + SR.get(SR.MS_COPY), Command.SCREEN, 2);
-//#         cmdCopyPlus.setImg(0x23);
+        cmdCopy = new Command(SR.get(SR.MS_COPY), Command.SCREEN, 1);
+        cmdCopy.setImg(0x13);
+
+        cmdCopyPlus = new Command("+ " + SR.get(SR.MS_COPY), Command.SCREEN, 2);
+        cmdCopyPlus.setImg(0x23);
 //#endif
         cmdRefresh = new Command(SR.get(SR.MS_REFRESH), Command.SCREEN, 3);
         cmdRefresh.setImg(0x10);
@@ -139,6 +139,13 @@ public class VCardView extends DefForm
 
         if (vcard.isEmpty()) {
             addControl(noVCard);
+            addControl(new LinkString(SR.get(SR.MS_REFRESH)) {
+                public void doAction() {
+                    VCard.request(vcard.getJid(), vcard.getId().substring(5));
+                    destroyView();
+                }
+            });
+            moveCursorTo(1);
         } else {
             setPhoto();
 
@@ -223,38 +230,37 @@ public class VCardView extends DefForm
     public void commandAction(Command c, Displayable d) {
         if (c == cmdDelVcard) {
             this.contact.clearVCard();
-        }
-        if (c == cmdDelPhoto) {
+        } else if (c == cmdDelPhoto) {
             vcard.dropPhoto();
             this.contact.img_vcard = null;
             setPhoto();
-        }
-        if (c == cmdRefresh) {
-            VCard.request(vcard.getJid(), vcard.getId().substring(5));
-            destroyView();
-            return;
-        }
+        } else if (c == cmdRefresh) {
+            refreshVCard();
 //#if FILE_IO
-        if (c == cmdSavePhoto) {
+        } else if (c == cmdSavePhoto) {
             new Browser(null, display, this, this, true);
-        }
 //#endif
 //#ifdef CLIPBOARD
-//#         if (c == cmdCopy) {
-//#             String lineValue = ((MultiLine)getFocusedObject()).getValue();
-//# 
-//#             if (lineValue != null) {
-//#                 ClipBoard.setClipBoard(lineValue);
-//#             }
-//#         } else if (c == cmdCopyPlus) {
-//#             String lineValue = ((MultiLine)getFocusedObject()).getValue();
-//# 
-//#             if (lineValue != null) {
-//#                 ClipBoard.addToClipBoard(lineValue);
-//#             }
-//#         }
+        } else if (c == cmdCopy) {
+            String lineValue = ((MultiLine)getFocusedObject()).getValue();
+
+            if (lineValue != null) {
+                ClipBoard.setClipBoard(lineValue);
+            }
+        } else if (c == cmdCopyPlus) {
+            String lineValue = ((MultiLine)getFocusedObject()).getValue();
+
+            if (lineValue != null) {
+                ClipBoard.addToClipBoard(lineValue);
+            }
+        }
 //#endif
-        super.commandAction(c, d);
+        //super.commandAction(c, d);
+    }
+
+    private void refreshVCard() {
+        VCard.request(vcard.getJid(), vcard.getId().substring(5));
+        destroyView();
     }
 
 //#if FILE_IO
@@ -295,9 +301,9 @@ public class VCardView extends DefForm
 //#endif
 
 //#ifdef GRAPHICS_MENU
-//#         //super.commandState();
+        //super.commandState();
 //#else
-    super.commandState();
+//#     super.commandState();
 //#endif
 //        removeCommand(Commands.cmdOk);
 //        removeCommand(cmdCancel);
@@ -309,21 +315,23 @@ public class VCardView extends DefForm
 //#endif
                 if (contact != null) {
                     addCommand(cmdDelPhoto);
-                    addCommand(cmdDelVcard);
                 }
             }
+            if (contact != null) {
+                addCommand(cmdDelVcard);
+            }
 //#ifdef CLIPBOARD
-//#             if (Config.getInstance().useClipBoard) {
-//#                 addCommand(cmdCopy);
-//#                 if (!ClipBoard.isEmpty()) {
-//#                     addCommand(cmdCopyPlus);
-//#                 }
-//#             }
+            if (Config.getInstance().useClipBoard) {
+                addCommand(cmdCopy);
+                if (!ClipBoard.isEmpty()) {
+                    addCommand(cmdCopyPlus);
+                }
+            }
 //#endif
         }
         addCommand(cmdRefresh);
 //#ifndef GRAPHICS_MENU
-     addCommand(cmdCancel);
+//#      addCommand(cmdCancel);
 //#endif
     }
 
@@ -333,26 +341,26 @@ public class VCardView extends DefForm
     }
 
 //#ifdef GRAPHICS_MENU
-//#     public void touchLeftPressed() {
-//#         showGraphicsMenu();
-//#     }
-//# 
-//#     public int showGraphicsMenu() {
-//#         commandState();
-//#         menuItem = new GMenu(display, parentView, this, null, menuCommands);
-//#         GMenuConfig.getInstance().itemGrMenu = GMenu.VCARD_VIEW;
-//#         redraw();
-//#         return GMenu.VCARD_VIEW;
-//#     }
-//#else
-    public void touchLeftPressed(){
-        showMenu();
+    public void touchLeftPressed() {
+        showGraphicsMenu();
     }
 
-    public void showMenu() {
+    public int showGraphicsMenu() {
         commandState();
-        new MyMenu(display, parentView, this, SR.get(SR.MS_VCARD), null, menuCommands);
-   }
+        menuItem = new GMenu(display, parentView, this, null, menuCommands);
+        GMenuConfig.getInstance().itemGrMenu = GMenu.VCARD_VIEW;
+        redraw();
+        return GMenu.VCARD_VIEW;
+    }
+//#else
+//#     public void touchLeftPressed(){
+//#         showMenu();
+//#     }
+//#
+//#     public void showMenu() {
+//#         commandState();
+//#         new MyMenu(display, parentView, this, SR.get(SR.MS_VCARD), null, menuCommands);
+//#    }
 //#endif
 
 //#endif

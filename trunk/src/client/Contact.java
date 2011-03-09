@@ -37,8 +37,8 @@ import images.ClientsIcons;
 //#endif
 import javax.microedition.lcdui.Graphics;
 //#ifdef PEP
-//# import images.MoodIcons;
-//# import images.ActivityIcons;
+import images.MoodIcons;
+import images.ActivityIcons;
 //#endif
 import images.RosterIcons;
 import colors.ColorTheme;
@@ -55,14 +55,14 @@ public class Contact extends IconTextElement{
 //#endif
 
 //#ifdef PEP
-//#     public byte pepMood=-1;//0..127
-//#     public String pepMoodName=null;
-//#     public String pepMoodText=null;
-//#     public boolean pepTune;
-//#     public String pepTuneText=null;
+    public byte pepMood=-1;//0..127
+    public String pepMoodName=null;
+    public String pepMoodText=null;
+    public boolean pepTune;
+    public String pepTuneText=null;
 //#ifdef PEP
-//#     public String activity=null;
-//#     public byte activ=-1;//0..127
+    public String activity=null;
+    public byte activ=-1;//0..127
 //#endif
 //#endif
     public String annotations=null;
@@ -110,7 +110,7 @@ public class Contact extends IconTextElement{
 
     public VCard vcard;
 //#ifdef CLIENTS_ICONS
-    public byte client=-1;
+    public int client=-1;
     public String clientName=null;
 //#endif
 
@@ -385,7 +385,7 @@ public class Contact extends IconTextElement{
           boolean allowLog = (origin<Constants.ORIGIN_GROUPCHAT);
           if (origin!=Constants.ORIGIN_GROUPCHAT && this instanceof MucContact) allowLog=false;
 //#ifdef HISTORY
-//#           if(allowLog) getML().storeMessage(m);
+          if(allowLog) getML().storeMessage(m);
 //#endif
         }
     }
@@ -502,7 +502,7 @@ public class Contact extends IconTextElement{
         if (midlet.BombusQD.cf.rosterStatus){
             if (statusString!=null) return statusString;
 //#if PEP
-//#             return getMoodString();
+            return getMoodString();
 //#endif
         }
         return null;
@@ -530,20 +530,20 @@ public class Contact extends IconTextElement{
     }
 
 //#ifdef PEP
-//#     public String getMoodString() {
-//#         StringBuffer mood=null;
-//#         if (hasMood()) {
-//#              mood=new StringBuffer(pepMoodName);
-//#              if (pepMoodText!=null) {
-//#                 if (pepMoodText.length()>0) {
-//#                      mood.append('(')
-//#                          .append(pepMoodText)
-//#                          .append(')');
-//#                 }
-//#              }
-//#         }
-//#         return (mood!=null)?mood.toString():null;
-//#     }
+    public String getMoodString() {
+        StringBuffer mood=null;
+        if (hasMood()) {
+             mood=new StringBuffer(pepMoodName);
+             if (pepMoodText!=null) {
+                if (pepMoodText.length()>0) {
+                     mood.append('(')
+                         .append(pepMoodText)
+                         .append(')');
+                }
+             }
+        }
+        return (mood!=null)?mood.toString():null;
+    }
 //#endif
 
 
@@ -649,23 +649,23 @@ public class Contact extends IconTextElement{
         }
 //#endif
 //#ifdef PEP
-//#         if (hasMood()) {
-//#             int moodImgSize=MoodIcons.getInstance().getWidth();
-//#             w-=moodImgSize;
-//#             MoodIcons.getInstance().drawImage(g, pepMood, w, (h-moodImgSize) >> 1 );
-//#             if (maxImgHeight<moodImgSize) maxImgHeight=moodImgSize;
-//#         }
+        if (hasMood()) {
+            int moodImgSize=MoodIcons.getInstance().getWidth();
+            w-=moodImgSize;
+            MoodIcons.getInstance().drawImage(g, pepMood, w, (h-moodImgSize) >> 1 );
+            if (maxImgHeight<moodImgSize) maxImgHeight=moodImgSize;
+        }
 //#ifdef PEP
-//#         if (pepTune) {
-//#             w-=ilHeight;
-//#             il.drawImage(g, RosterIcons.ICON_PROFILE_INDEX+1, w,imgH);
-//#         }
-//#         if (hasActivity()) {
-//#             int activitySize=ActivityIcons.getInstance().getWidth();
-//#             w-=activitySize;
-//#             ActivityIcons.getInstance().drawImage(g, activ, w, (h-activitySize) >> 1 );
-//#             if (maxImgHeight<activitySize) maxImgHeight=activitySize;
-//#         }
+        if (pepTune) {
+            w-=ilHeight;
+            il.drawImage(g, RosterIcons.ICON_PROFILE_INDEX+1, w,imgH);
+        }
+        if (hasActivity()) {
+            int activitySize=ActivityIcons.getInstance().getWidth();
+            w-=activitySize;
+            ActivityIcons.getInstance().drawImage(g, activ, w, (h-activitySize) >> 1 );
+            if (maxImgHeight<activitySize) maxImgHeight=activitySize;
+        }
 //#endif
 //#endif
 
@@ -709,14 +709,14 @@ public class Contact extends IconTextElement{
 //#endif
 
 //#ifdef PEP
-//#     boolean hasMood() {
-//#         return (pepMood>-1 && pepMood<85);
-//#     }
-//#     boolean hasActivity() {
-//#         if (activity!=null)
-//#             if (activity.length()>0) return true;
-//#         return false;
-//#     }
-//# 
+    boolean hasMood() {
+        return (pepMood>-1 && pepMood<85);
+    }
+    boolean hasActivity() {
+        if (activity!=null)
+            if (activity.length()>0) return true;
+        return false;
+    }
+
 //#endif
 }

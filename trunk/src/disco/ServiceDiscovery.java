@@ -93,19 +93,6 @@ public class ServiceDiscovery
 
     private JabberStream stream;
 
-
-    private String[] ICQ_transports = {
-       "icq.sudouser.ru","icq.mydebian.de","icq.catap.ru","icq.jabber.kiev.ua","icq.jabber.rfei.ru","icq.jabe.ru","icq.freeside.ru"
-    };
-
-    private String[] MRIM_transports = {
-       "mrim.jabber.infos.ru","mrim.sudouser.ru","mrim.jabbim.org","mrim.udaff.com"
-    };
-
-    private String[] VKONTAKTE_transports = {
-       "vkontakte.zoo.dontexist.net","vkontakte.glubina.org","vkontakte.vjabbere.ru","vkontakte.finenet.ru","vk.sski.ru"
-    };
-
     private ServiceDiscovery serviceDisco;
     private Displayable currentDisplay;
 
@@ -336,7 +323,6 @@ public class ServiceDiscovery
               String jid = "";
               String node = "";
               Object serv = null;
-              StringBuffer nextElement = new StringBuffer(0);
 
               for(int y = 0; y < size; ++y) {
                 item = (JabberDataBlock)childs.elementAt(y);
@@ -693,10 +679,10 @@ public class ServiceDiscovery
                         midlet.BombusQD.sd.roster.theStream.send(xmpp.extensions.IqGmail.query());
                         break;
                     case MenuIcons.ICON_RECONNECT:
+                        midlet.BombusQD.sd.roster.showRoster();
                         midlet.BombusQD.sd.roster.errorLog(SR.get(SR.MS_SIMULATED_BREAK));
                         midlet.BombusQD.sd.roster.doReconnect();
-                        midlet.BombusQD.sd.roster.showRoster();
-                        break;
+                        return;
                     case MenuIcons.ICON_DISCO_SERVICE:
                         showIMmenu();
                         break;

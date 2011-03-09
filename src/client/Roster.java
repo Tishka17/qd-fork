@@ -2063,27 +2063,26 @@ public class Roster
                        redraw();
                     }
 
-                    if(id.startsWith("getnotes")){
-                      //XEP-0145: Annotations
-                      if(midlet.BombusQD.cf.networkAnnotation) {
-                        JabberDataBlock notes = data.findNamespace("query","jabber:iq:private").findNamespace("storage","storage:rosternotes");
-                        Vector childBlocks = new Vector(0);
-                        childBlocks = notes.getChildBlocks();
-                        int size = notes.getChildBlocks().size();
-                        int hCsize = contactList.contacts.size();
-                        Contact find;
-                        for(int i=0;i<size;i++){
-                           JabberDataBlock note = (JabberDataBlock)childBlocks.elementAt(i);
-                           for(int j=0;j<hCsize;j++){
-                             find = (Contact)contactList.contacts.elementAt(j);
-                             if (find.bareJid.indexOf(note.getAttribute("jid"))>-1) {
-                                 find.annotations=note.getText();
-                             }
-                           }
+                    if (id.startsWith("getnotes")) {
+                        //XEP-0145: Annotations
+                        if (midlet.BombusQD.cf.networkAnnotation) {
+                            JabberDataBlock notes = data.findNamespace("query", "jabber:iq:private").findNamespace("storage", "storage:rosternotes");
+                            Vector childBlocks = notes.getChildBlocks();
+                            if (null != childBlocks) {
+                                int size = notes.getChildBlocks().size();
+                                int hCsize = contactList.contacts.size();
+                                Contact find;
+                                for (int i = 0; i < size; i++) {
+                                    JabberDataBlock note = (JabberDataBlock)childBlocks.elementAt(i);
+                                    for (int j = 0; j < hCsize; j++) {
+                                        find = (Contact)contactList.contacts.elementAt(j);
+                                        if (find.bareJid.indexOf(note.getAttribute("jid")) > -1) {
+                                            find.annotations = note.getText();
+                                        }
+                                    }
+                                }
+                            }
                         }
-                        childBlocks = new Vector(0);
-                        childBlocks=null;
-                      }
                     }
 
                     if(id.equals("changemypass")) {
@@ -2419,14 +2418,14 @@ public class Roster
                         c.acceptComposing=true;
                         c.showComposing=false;
 //#ifdef RUNNING_MESSAGE
-                        setTicker(c, "","");
+                        setTicker(c, "");
 //#endif
                     }
                     if (message.findNamespace("paused", "http://jabber.org/protocol/chatstates")!=null) {
                         c.acceptComposing=true;
                         c.showComposing=false;
 //#ifdef RUNNING_MESSAGE
-                        setTicker(c, "","");
+                        setTicker(c, "");
 //#endif
                     }
                     if (message.findNamespace("composing", "http://jabber.org/protocol/chatstates")!=null) {
@@ -2434,7 +2433,7 @@ public class Roster
                         c.acceptComposing=true;
                         c.showComposing=true;
 //#ifdef RUNNING_MESSAGE
-                        setTicker(c, SR.get(SR.MS_COMPOSING_NOTIFY),"");
+                        setTicker(c, SR.get(SR.MS_COMPOSING_NOTIFY));
 //#endif
                     }
                 }
@@ -2812,9 +2811,9 @@ public class Roster
                     if (ti>=0) {
 //#ifdef RUNNING_MESSAGE
                         if (ti==Constants.PRESENCE_OFFLINE)
-                            setTicker(c, SR.getPresence(Constants.PRS_OFFLINE), m.getTime());
+                            setTicker(c, SR.getPresence(Constants.PRS_OFFLINE));
                         else if (ti==Constants.PRESENCE_ONLINE)
-                            setTicker(c, SR.getPresence(Constants.PRS_ONLINE), m.getTime());
+                            setTicker(c, SR.getPresence(Constants.PRS_ONLINE));
 //#endif
                         if ((ti==Constants.PRESENCE_ONLINE || ti==Constants.PRESENCE_CHAT
                                 || ti==Constants.PRESENCE_OFFLINE) && (c.getGroupType()!=Groups.TYPE_TRANSP) && (c.getGroupType()!=Groups.TYPE_IGNORE))
@@ -3115,7 +3114,7 @@ public class Roster
         boolean autorespond = false;
 //#ifdef RUNNING_MESSAGE
         if (message.messageType==Constants.MESSAGE_TYPE_IN)
-            setTicker(c, message.toString(), message.getTime());
+            setTicker(c, message.toString());
 //#endif
 //#ifndef WSYSTEMGC
 //#        // if (midlet.BombusQD.cf.ghostMotor) {
@@ -4183,7 +4182,7 @@ public class Roster
 
 
 //#ifdef RUNNING_MESSAGE
-    void setTicker(Contact c, String message,String msgTime) {
+    void setTicker(Contact c, String message) {
        if (midlet.BombusQD.cf.runningMessage) {
             switch(midlet.BombusQD.cf.msgEditType){
                case 0:

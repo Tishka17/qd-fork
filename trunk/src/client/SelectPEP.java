@@ -400,6 +400,7 @@
 //#         xCursor=0;
 //#     }
 //# 
+//#ifdef TOUCH
 //#     protected void pointerPressed(int x, int y) { 
 //#         super.pointerPressed(x,y);
 //#         if (pointer_state != client.Constants.POINTER_SECOND && pointer_state != client.Constants.POINTER_NONE)
@@ -412,6 +413,8 @@
 //#         if (cursor!=lines-1) return;
 //#         if (xCursor >= xLastCnt) xCursor=xLastCnt-1;
 //#     }
+//#endif
+
 //#     public void userKeyPressed(int keyCode) {
 //#         switch (keyCode) {
 //#             case KEY_NUM3 :

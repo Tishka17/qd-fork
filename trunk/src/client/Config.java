@@ -86,7 +86,9 @@ public class Config {
     public final static byte WTK=50;
     public final static byte OTHER=99;
     public final static byte NOKIA_5800=44;
+//#ifdef TOUCH
     public boolean isTouchPhone;
+//#endif
 
     StaticData sd = StaticData.getInstance();
 
@@ -447,6 +449,7 @@ public class Config {
     }
 
 
+//#ifdef TOUCH
     public void initTouchOptions() {
          if(isTouchPhone) {
            VirtualList.fullscreen = false;
@@ -467,6 +470,7 @@ public class Config {
            saveToStorage();
          }
     }
+//#endif
 
 
     public String langFileName(){

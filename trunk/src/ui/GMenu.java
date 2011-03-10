@@ -271,7 +271,6 @@ public class GMenu extends Canvas {
 
         fh = bm.himg_menu>fh?bm.himg_menu:fh;
         if(drawCommands == null || menuCommands == null) return;
-        //boolean hasPointerEvents = true;//hasPointerEvents();
         size = drawCommands.length-1;
         int hitem = 0;
         int maxHeight=drawCommands.length;
@@ -395,24 +394,10 @@ public class GMenu extends Canvas {
                 g.drawString(drawCommands[index], x_start, fh*index + 1 + ty, g.LEFT|g.TOP);
            }
         }
-
-        /*
-        if(hasPointerEvents) {
-             pointerX = x_start;
-             if(null == pointerY) {
-               System.out.println("SET pointerX = " + pointerX);
-               pointerY = new int[drawCommands.length];
-               System.out.println("SET pointerY = new int["+drawCommands.length+"]:");
-               for (int index=0; index<=size; index++) {
-                  pointerY[index] =  fh*index;
-                  System.out.println("SET=> " + index + " [" + pointerX + "," + pointerY[index] + "]\t" + drawCommands[index]);
-               }
-             }
-        }
-         */
    }
 
 
+//#ifdef TOUCH
    private void touchSelect(int x, int y) {
        if (x<x1 || y<y1 || x> x2 || y>y2) {
            gm.itemGrMenu=-1;
@@ -442,7 +427,7 @@ public class GMenu extends Canvas {
        eventOk();
        return;
    }
-
+//#endif
 
    //private Timer timer;
    int cursorY=0;

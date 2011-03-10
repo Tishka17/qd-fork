@@ -176,6 +176,7 @@ public class InfoWindow extends DefForm {
         );
          */
 
+//#ifdef TOUCH
         if (midlet.BombusQD.cf.isTouchPhone) {
             item = new MultiLine("Easter Egg", "Press link under this text", super.superWidth);
             ((MultiLine)item).setSelectable(true);
@@ -189,7 +190,9 @@ public class InfoWindow extends DefForm {
 
             });
             addControl(new SpacerItem(5));
-        } else {
+        } else 
+//#endif
+        {
             item = new MultiLine("Easter Egg:", "Press 5-1-2 keys to lock/unlock new options", super.superWidth);
             ((MultiLine)item).setSelectable(true);
             addControl(item);

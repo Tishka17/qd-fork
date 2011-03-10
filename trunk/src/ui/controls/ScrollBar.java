@@ -31,7 +31,7 @@ package ui.controls;
 import javax.microedition.lcdui.Graphics;
 import colors.ColorTheme;
 //#ifdef GRADIENT
-//# //import ui.Gradient;
+//import ui.Gradient;
 //#endif
 import ui.VirtualList;
 import client.Config;
@@ -45,7 +45,6 @@ public class ScrollBar {
     private static final int WIDTH_SCROLL_2      =10;
 
     private int yTranslate;
-    private boolean fingerScroll;
 
     private int size;
     private int windowSize;
@@ -55,17 +54,18 @@ public class ScrollBar {
 
     private int drawHeight;
 //#ifdef GRADIENT
-//#     //private Gradient gr;
-//#     //private int prevDrawHeight;
+    //private Gradient gr;
+    //private int prevDrawHeight;
 //#endif
 
-    private int point_y;    // точка, за которую "держится" указатель
 
     private int scrollerSize;
     private int scrollerPos;
-
-    private boolean hasPointerEvents;
-
+//#ifdef TOUCH
+//#     private boolean hasPointerEvents;
+//#     private boolean fingerScroll;
+//#     private int point_y;    // точка, за которую "держится" указатель
+//#endif
     private int minimumHeight=3;
 
     private int colorTop;
@@ -74,7 +74,9 @@ public class ScrollBar {
 
     /** Creates a new instance of ScrollBar */
     public ScrollBar() {
-        point_y=-1;
+//#ifdef TOUCH
+//#     point_y=-1;
+//#endif
     }
 
     public void setWindowSize(int windowSize) {
@@ -92,59 +94,60 @@ public class ScrollBar {
     public void setPostion(int postion) {
         this.position = postion;
     }
+//#ifdef TOUCH
+//#     public void setHasPointerEvents(boolean hasPointerEvents) {
+//#         this.hasPointerEvents = hasPointerEvents;
+//# 	midlet.BombusQD.cf.scrollWidth=//���� �������� ���� ������ ������� ������ 4,��:
+//#             (midlet.BombusQD.cf.scrollWidth>3)? midlet.BombusQD.cf.scrollWidth:
+//#                 ( (hasPointerEvents)? WIDTH_SCROLL_2: 4 );
+//#     }
+//#
+//#     public boolean pointerPressed(int x, int y, VirtualList list) {
+//# 	if (size==0) return false;
+//#         fingerScroll = false;
+//#         if (x < scrollerX) {
+//#             fingerScroll = true;
+//#             point_y = y - scrollerPos;
+//#             return false;
+//#         }
+//#         y-=yTranslate;
+//#         if (y<scrollerPos) {
+//#             // page up
+//#             int pos=position-windowSize;
+//#             if (pos<0) pos=0;
+//#             list.win_top=pos;
+//#             list.repaint();
+//#             return true;
+//#         }
+//#         if (y>scrollerPos+scrollerSize) {
+//#             int pos=position+windowSize;
+//#             int listEnd=size-windowSize;
+//#             list.win_top=(pos<listEnd)?pos:listEnd;
+//#             list.repaint();
+//#             return true;
+//#         } // page down
+//#         point_y=y-scrollerPos;
+//#         return true;
+//#     }
+//#
+//#     public boolean pointerDragged(int x, int yPos, VirtualList list) {
+//#         yPos -= yTranslate;
+//#         if (point_y<0) return false;
+//#         int new_top = yPos - point_y;
+//#         int new_pos = (new_top*size)/drawHeight;
+//#         if ((position-new_pos)==0) return true;
+//#         if (new_pos<=0) new_pos = 0;
+//#         if (new_pos+windowSize>size) new_pos = size - windowSize;
+//#         list.win_top = new_pos;
+//# 	return true;
+//#     }
+//#     public void pointerReleased(int x, int y, VirtualList v) { point_y=-1; }
+ //#endif
 
-    public void setHasPointerEvents(boolean hasPointerEvents) {
-        this.hasPointerEvents = hasPointerEvents;
-	midlet.BombusQD.cf.scrollWidth=//���� �������� ���� ������ ������� ������ 4,��:
-            (midlet.BombusQD.cf.scrollWidth>3)? midlet.BombusQD.cf.scrollWidth:
-                ( (hasPointerEvents)? WIDTH_SCROLL_2: 4 );
-    }
-
+    
     public int getScrollWidth() {
         return midlet.BombusQD.cf.scrollWidth;
     }
-
-    public boolean pointerPressed(int x, int y, VirtualList list) {
-	if (size==0) return false;
-        fingerScroll = false;
-        if (x < scrollerX) {
-            fingerScroll = true;
-            point_y = y - scrollerPos;
-            return false;
-        }
-        y-=yTranslate;
-        if (y<scrollerPos) {
-            // page up
-            int pos=position-windowSize;
-            if (pos<0) pos=0;
-            list.win_top=pos;
-            list.repaint();
-            return true;
-        }
-        if (y>scrollerPos+scrollerSize) {
-            int pos=position+windowSize;
-            int listEnd=size-windowSize;
-            list.win_top=(pos<listEnd)?pos:listEnd;
-            list.repaint();
-            return true;
-        } // page down
-        point_y=y-scrollerPos;
-        return true;
-    }
-
-    public boolean pointerDragged(int x, int yPos, VirtualList list) {
-        yPos -= yTranslate;
-        if (point_y<0) return false;
-        int new_top = yPos - point_y;
-        int new_pos = (new_top*size)/drawHeight;
-        if ((position-new_pos)==0) return true;
-        if (new_pos<=0) new_pos = 0;
-        if (new_pos+windowSize>size) new_pos = size - windowSize;
-        list.win_top = new_pos;
-	return true;
-    }
-    public void pointerReleased(int x, int y, VirtualList v) { point_y=-1; }
-
     public void draw(Graphics g) {
 
         colorTop = ColorTheme.getColor(ColorTheme.SCROLL_BGND);

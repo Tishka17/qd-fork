@@ -500,7 +500,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                 }
 //#ifdef CHANGE_TRANSPORT
                 case MI_CHTRANSPORT: {
-                    new ChangeTransport(display, contact.bareJid);
+                    new ChangeTransportForm(display, BombusQD.sd.roster, contact.bareJid);
                     return;
                 }
 //#endif

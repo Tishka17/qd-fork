@@ -22,7 +22,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- */ 
+ */
 
 package images;
 
@@ -34,7 +34,7 @@ import ui.ImageList;
  * @author ad
  */
 public class MenuIcons extends ImageList{
-    
+
     private static MenuIcons instance;
     public static MenuIcons getInstance() {
 	if (instance==null) instance=new MenuIcons();
@@ -84,18 +84,17 @@ public class MenuIcons extends ImageList{
     public static final byte ICON_DISCO      = 0x15;
     public static final byte ICON_IE         = 0x24;
     public static final byte ICON_INVERSE    = 0x25;
-    
-    public static final byte ICON_USER_SEARCH    = 0x42;   
+
+    public static final byte ICON_USER_SEARCH    = 0x42;
     public static final byte ICON_MOOD       = 0x11;
-    public static final byte ICON_USER_ACTIVITY    = 0x67;    
+    public static final byte ICON_USER_ACTIVITY    = 0x67;
     public static final byte ICON_DISCO_SERVICE    = 0x65;
     public static final byte ICON_ADD_SERVER    = 0x55;
     public static final byte ICON_REMOVE_ICON    = 0x51;
-    /*
-    public static final short ICON_JABBER_ACCOUNT = 0x90;
+
+    public static final short ICON_OTHER_ACCOUNT = 0x90;
     public static final short ICON_YANDEX_ACCOUNT = 0x91;
     public static final short ICON_GTALK_ACCOUNT = 0x92;
     public static final short ICON_LJ_ACCOUNT = 0x93;
     public static final short ICON_QIP_ACCOUNT = 0x94;
-     */ 
 }

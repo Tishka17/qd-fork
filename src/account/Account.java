@@ -3,7 +3,7 @@
  *
  * Created on 19.03.2005, 21:52
  * Copyright (c) 2005-2008, Eugene Stahov (evgs), http://bombus-im.org
- * Copyright (c) 2009, Alexej Kotov (aqent), http://bombusmod-qd.wen.ru 
+ * Copyright (c) 2009, Alexej Kotov (aqent), http://bombusmod-qd.wen.ru
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -42,11 +42,7 @@ import client.Constants;
 import client.StaticData;
 
 public class Account extends IconTextElement {
-    public static final int TYPE_YA_RU = 0x91;
-    public static final int TYPE_GMAIL = 0x92;
-    public static final int TYPE_LIVEJOURNAL = 0x93;
-    public static final int TYPE_QIP = 0x94;
-    public static final int TYPE_OTHER = 0x90;
+    private int accountImgIndex = 0;
 
     private String username = "";
     private String password = "";
@@ -54,7 +50,6 @@ public class Account extends IconTextElement {
     private String email = "";
     private String host = "";
     private int port = 5222;
-    private int accountType = 0;
     private boolean active;
     private boolean useSSL;
     private boolean compression = true;
@@ -143,15 +138,15 @@ public class Account extends IconTextElement {
 
     public void setIconElement() {
         if (server.indexOf("ya.ru") > -1) {
-            accountType = TYPE_YA_RU;
+            accountImgIndex = MenuIcons.ICON_YANDEX_ACCOUNT;
         } else if (server.indexOf("gmail.com") > -1) {
-            accountType = TYPE_GMAIL;
+            accountImgIndex = MenuIcons.ICON_GTALK_ACCOUNT;
         } else if (server.indexOf("livejournal.com") > -1) {
-            accountType = TYPE_LIVEJOURNAL;
+            accountImgIndex = MenuIcons.ICON_LJ_ACCOUNT;
         } else if (server.indexOf("qip.ru") > -1) {
-            accountType = TYPE_QIP;
+            accountImgIndex = MenuIcons.ICON_QIP_ACCOUNT;
         } else {
-            accountType = TYPE_OTHER;
+            accountImgIndex = MenuIcons.ICON_OTHER_ACCOUNT;
         }
     }
 
@@ -239,7 +234,7 @@ public class Account extends IconTextElement {
     }
 
     public int getImageIndex() {
-        return accountType;
+        return accountImgIndex;
     }
 
     public String getUserName() {

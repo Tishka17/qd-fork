@@ -41,7 +41,7 @@ import archive.ArchiveList;
 //#endif
 import java.util.Vector;
 //#ifdef CLIPBOARD
-//# import util.ClipBoard;
+import util.ClipBoard;
 //#endif
 
 /**
@@ -88,7 +88,7 @@ public final class MessageEdit
     Command cmdPaste;
 //#endif
 //#ifdef CLIPBOARD
-//#     Command cmdPasteText;
+    Command cmdPasteText;
 //#endif
 
     public void initCommands() {
@@ -119,7 +119,7 @@ public final class MessageEdit
         cmdPaste = new Command(SR.get(SR.MS_ARCHIVE), Command.SCREEN, 6);
 //#endif
 //#ifdef CLIPBOARD
-//#         cmdPasteText = new Command(SR.get(SR.MS_PASTE), Command.SCREEN, 8);
+        cmdPasteText = new Command(SR.get(SR.MS_PASTE), Command.SCREEN, 8);
 //#endif
     }
 
@@ -162,7 +162,7 @@ public final class MessageEdit
                 if (body!=null) t.insert(body,0);
                 if (midlet.BombusQD.cf.capsState) t.setConstraints(TextField.INITIAL_CAPS_SENTENCE);
 //#ifdef CLIPBOARD
-//#                 if (midlet.BombusQD.cf.useClipBoard && !ClipBoard.isEmpty())  t.addCommand(cmdPasteText);
+                if (midlet.BombusQD.cf.useClipBoard && !ClipBoard.isEmpty())  t.addCommand(cmdPasteText);
 //#endif
                 if(null != to){
                   if (to.origin>=4) t.addCommand(cmdInsNick);//Contact.ORIGIN_GROUPCHAT==4
@@ -183,7 +183,7 @@ public final class MessageEdit
                 textField.setString("");
                 if (body!=null) textField.insert(body,0);
 //#ifdef CLIPBOARD
-//#                 if (midlet.BombusQD.cf.useClipBoard && ClipBoard.isEmpty())  form.addCommand(cmdPasteText);
+                if (midlet.BombusQD.cf.useClipBoard && ClipBoard.isEmpty())  form.addCommand(cmdPasteText);
 //#endif
                 if(null != to){
                   if (to.origin>=4) form.addCommand(cmdInsNick);
@@ -255,14 +255,14 @@ public final class MessageEdit
 //#endif
         t.setCommandListener(this);
 //#ifdef RUNNING_MESSAGE
-//#         /*
-//#        if(midlet.BombusQD.cf.useLowMemory_msgedit==false){
-//#          if (thread==null) (thread=new Thread(this)).start() ;
-//#        }
-//#          */
-//# 
+        /*
+       if(midlet.BombusQD.cf.useLowMemory_msgedit==false){
+         if (thread==null) (thread=new Thread(this)).start() ;
+       }
+         */
+
 //#else
-    new Thread(this).start() ;
+//#     new Thread(this).start() ;
 //#endif
     }
 
@@ -329,7 +329,9 @@ public final class MessageEdit
     }
 
     public void commandAction(Command c, Displayable d){
-        if(to == null && !multiMessage) return;
+        if(to == null && !multiMessage) {
+            return;
+        }
         if(midlet.BombusQD.cf.msgEditType>0){
           body=textField.getString();
         }else{
@@ -354,133 +356,148 @@ public final class MessageEdit
         }
 //#endif
 //#ifdef CLIPBOARD
-//#         if (c==cmdPasteText) {
-//#             if(midlet.BombusQD.cf.msgEditType>0){
-//#               textField.insert(ClipBoard.getClipBoard(), textField.getCaretPosition() );
-//#             }else{
-//#               t.insert(ClipBoard.getClipBoard(), t.getCaretPosition() );
-//#             }
-//#             return;
-//#         }
-//#endif
-        if (c==cmdInsMe) {
+        if (c==cmdPasteText) {
             if(midlet.BombusQD.cf.msgEditType>0){
-              textField.insert("/me ", 0);
+              textField.insert(ClipBoard.getClipBoard(), textField.getCaretPosition() );
             }else{
-              t.insert("/me ", 0);
+              t.insert(ClipBoard.getClipBoard(), t.getCaretPosition() );
             }
             return;
         }
-        if (c==cmdLastMessage) {
-            if(null == to) return;
-            if(null == to.lastSendedMessage) return;
-            if(midlet.BombusQD.cf.msgEditType>0){
-              textField.insert(to.lastSendedMessage,textField.getCaretPosition());
-            }else{
-              t.insert(to.lastSendedMessage,t.getCaretPosition());
+//#endif
+        if (c == cmdInsMe) {
+            if (midlet.BombusQD.cf.msgEditType > 0) {
+                textField.insert("/me ", 0);
+            } else {
+                t.insert("/me ", 0);
+            }
+            return;
+        } else if (c == cmdLastMessage) {
+            if (null == to) {
+                return;
+            }
+            if (null == to.lastSendedMessage) {
+                return;
+            }
+            if (midlet.BombusQD.cf.msgEditType > 0) {
+                textField.insert(to.lastSendedMessage, textField.getCaretPosition());
+            } else {
+                t.insert(to.lastSendedMessage, t.getCaretPosition());
             }
             return;
         }
 //#ifdef SMILES
-        if (c==cmdSmile) {
-            if(midlet.BombusQD.cf.msgEditType>0){
-              new SmilePicker(display, display.getCurrent(), textField.getCaretPosition(), textField, null);
-            }else{
-              new SmilePicker(display, display.getCurrent(), t.getCaretPosition(), null, t);
+        if (c == cmdSmile) {
+            if (midlet.BombusQD.cf.msgEditType > 0) {
+                new SmilePicker(display, display.getCurrent(), textField.getCaretPosition(), textField, null);
+            } else {
+                new SmilePicker(display, display.getCurrent(), t.getCaretPosition(), null, t);
             }
             return;
         }
 //#endif
 //#ifndef WMUC
-        if (c==cmdInsNick) {
-            if(midlet.BombusQD.cf.msgEditType>0){
-              new AppendNick(display, display.getCurrent(), to, textField.getCaretPosition(), textField, null);
-            }else{
-              new AppendNick(display, display.getCurrent(), to, t.getCaretPosition(), null , t);
+        if (c == cmdInsNick) {
+            if (midlet.BombusQD.cf.msgEditType > 0) {
+                new AppendNick(display, display.getCurrent(), to, textField.getCaretPosition(), textField, null);
+            } else {
+                new AppendNick(display, display.getCurrent(), to, t.getCaretPosition(), null, t);
             }
             return;
         }
 //#endif
 
-
-        if (c==cmdCancel) {
-            composing=false;
-            if(!multiMessage) send(null,null);
-            body=null;
-            if(multiMessage) multiMessage = false;
-            if(null != to && to.msgSuspended!=null) to.msgSuspended=null;
+        // придумать что-то с общим кодом
+        if (c == cmdCancel) {
+            composing = false;
+            if (!multiMessage) {
+                send(null, null);
+            }
+            body = null;
+            multiMessage = false;
+            if (null != to) {
+                to.msgSuspended = body;
+            }
             destroyView();
             return;
-        }
-        if (c==cmdSuspend) {
-                composing=false;
-                if(!multiMessage) send(null,null);
-                if(multiMessage) multiMessage = false;
-                if(null != to) to.msgSuspended=body;
-                body=null;
+        } else if (c == cmdSuspend) {
+            composing = false;
+            if (!multiMessage) {
+                send(null, null);
+            }
+            multiMessage = false;
+            if (null != to) {
+                to.msgSuspended = body;
+            }
+            body = null;
+            destroyView();
+            return;
+        } else if (c == cmdTranslate) {
+            new TranslateSelect(display, parentView, to, body, "none", false, -1);
+            body = null;
+            return;
+        } else if (c == cmdSend) {
+            if (body == null) {
+                composing = false;
+                if (!multiMessage) {
+                    send(null, null);
+                }
+                multiMessage = false;
+                if (null != to && to.msgSuspended != null) {
+                    to.msgSuspended = null;
+                }
                 destroyView();
                 return;
-        }
-        if(c==cmdTranslate){
-          new TranslateSelect(display,parentView,to,body,"none",false,-1);
-          body=null;
-          return;
-        }
-        if (c==cmdSend){
-            if(body==null){
-                composing=false;
-                if(!multiMessage) send(null,null);
-                if(multiMessage) multiMessage = false;
-                if(null != to && to.msgSuspended!=null) to.msgSuspended=null;
-                destroyView();
-                return;
-            }else{
-              if(null != to) to.msgSuspended=null;
+            } else {
+                if (null != to) {
+                    to.msgSuspended = null;
+                }
             }
         }
 //#ifdef DETRANSLIT
 //#         if (c==cmdSendInTranslit) {
 //#             sendInTranslit=true;
 //#         }
-//# 
+//#
 //#         if (c==cmdSendInDeTranslit) {
 //#             sendInDeTranslit=true;
 //#         }
 //#endif
-        if (c==cmdSubj) {
-            if (body==null) return;
-            subj=body;
-            body=null; //"/me "+SR.get(SR.MS_HAS_SET_TOPIC_TO+": "+subj;
+        if (c == cmdSubj) {
+            if (body == null) {
+                return;
+            }
+            subj = body;
+            body = null;
         }
 
 //#ifdef RUNNING_MESSAGE
-//#        if(null == to || multiMessage) {
-//# 
-//#             composing=false;
-//#             if(active_contacts != null) {
-//#               int size=active_contacts.size();
-//#                for(int i=0; i<size; ++i) {
-//#                  to = (Contact)active_contacts.elementAt(i);
-//#                  send();
-//#                }
-//#             }
+        if (null == to || multiMessage) {
+            composing = false;
+            if (active_contacts != null) {
+                int size = active_contacts.size();
+                for (int i = 0; i < size; ++i) {
+                    to = (Contact)active_contacts.elementAt(i);
+                    send();
+                }
+            }
+			multiMessage = false;
 //#if DETRANSLIT
 //#             if(sendInTranslit) this.sendInTranslit = false;
 //#             if(sendInDeTranslit) this.sendInDeTranslit = false;
-//#             multiMessage = false;
 //#endif
-//#        }
-//#        else {
-//#          if(to.msgSuspended==null) {
-//#             composing=false;
-//#             //send(null,null);//check it on Sony Ericsson W595
-//#             send();
-//#          }
+        }
+       else {
+         if(to.msgSuspended==null) {
+            composing=false;
+            //send(null,null);//check it on Sony Ericsson W595
+            send();
+         }
 //#if DETRANSLIT
 //#          if(sendInTranslit) this.sendInTranslit = false;
 //#          if(sendInDeTranslit) this.sendInDeTranslit = false;
 //#endif
-//#        }
+       }
 //#endif
     }
 

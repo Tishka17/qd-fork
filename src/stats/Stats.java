@@ -66,9 +66,11 @@
 //#     
 //#     public void updateRunValue() {
 //#         appRunCount++;
+//#ifdef TOUCH
 //#         if(appRunCount == 1) {
 //#             midlet.BombusQD.cf.initTouchOptions();
 //#         }
+//#endif
 //#         saveToStorage(false,true);
 //#     }
 //#     

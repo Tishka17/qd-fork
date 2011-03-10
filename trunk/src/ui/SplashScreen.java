@@ -25,13 +25,13 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package ui; 
+package ui;
 
 import client.Config;
 import font.FontCache;
 //#ifdef AUTOSTATUS
-//# import client.ExtendedStatus;
-//# import client.StatusList;
+import client.ExtendedStatus;
+import client.StatusList;
 //#endif
 import images.RosterIcons;
 import java.util.Timer;
@@ -46,38 +46,38 @@ import ui.controls.Progress;
  * @author Eugene Stahov
  */
 public class SplashScreen extends GameCanvas implements CommandListener {
-    
+
     private Display display;
     private Displayable parentView;
-    
+
     private String capt;
     private int pos=-1;
-    
+
     public int width;
     public int height;
-    
+
     private static Image img;
-    
+
     private ComplexString status;
-    
+
     private char exitKey;
     private int kHold;
-    
+
     private TimerTaskClock tc;
-    
+
     private static SplashScreen instance;
 
     public int keypressed=0;
 
     private Font clockFont=FontCache.getFont(true,FontCache.bigSize);
-    
+
     private Progress pb;
-    
+
     public static SplashScreen getInstance(Display display){
         if (instance==null) instance=new SplashScreen(display);
         return instance;
     }
-    
+
     /** Creates a new instance of SplashScreen */
     public SplashScreen(Display display) {
         super(false);//true - getKeyState,false - keyPressed
@@ -90,7 +90,7 @@ public class SplashScreen extends GameCanvas implements CommandListener {
             }
         } catch (Exception e) {
            System.out.println("splash NOT created ");
-        }        
+        }
         display.setCurrent(this);
     }
 
@@ -100,13 +100,13 @@ public class SplashScreen extends GameCanvas implements CommandListener {
         this.display=display;
         this.exitKey=exitKey;
         kHold=exitKey;
-        
+
         parentView=display.getCurrent();
 
         status.setElementAt(new Integer(RosterIcons.ICON_KEYBLOCK_INDEX),6);
         repaint();
         run();
-        
+
         tc=new TimerTaskClock();
         setFullScreenMode(midlet.BombusQD.cf.fullscreen);
 
@@ -124,7 +124,7 @@ public class SplashScreen extends GameCanvas implements CommandListener {
         }
     }
     */
-    
+
     long s1;
     long s2;
 
@@ -140,11 +140,11 @@ public class SplashScreen extends GameCanvas implements CommandListener {
            g.setColor(ColorTheme.getColor(ColorTheme.BLK_BGND));
            g.fillRect(0,0, width, height);
         //}
-           
-        if(img!=null) g.drawImage(img, width/2, height/2, Graphics.VCENTER|Graphics.HCENTER);  
-        
+
+        if(img!=null) g.drawImage(img, width/2, height/2, Graphics.VCENTER|Graphics.HCENTER);
+
         //todo: fix memory leak in getTimeWeekDay
-        if (pos==-1) { 
+        if (pos==-1) {
             g.setColor(ColorTheme.getColor(ColorTheme.BLK_INK));
             status.drawItem(null, g, 0, false);
 
@@ -153,7 +153,7 @@ public class SplashScreen extends GameCanvas implements CommandListener {
              String time = /*"Happy new year!"; */ Time.getTimeWeekDay();
              int tw=clockFont.stringWidth(time);
              g.drawString(time, width/2, height - 5, Graphics.BOTTOM | Graphics.HCENTER);
-             
+
         } else {
             int filled=pos*width/100;
             if (pb==null) pb=new Progress(0, height, width);
@@ -166,7 +166,7 @@ public class SplashScreen extends GameCanvas implements CommandListener {
         }
         */
     }
-    
+
     public void setProgress(int progress) {
         pos=progress;
         repaint();
@@ -175,32 +175,32 @@ public class SplashScreen extends GameCanvas implements CommandListener {
     public void setFailed(){
         setProgress("Failed", 100);
     }
-    
+
     public void setProgress(String caption, int progress){
         capt=caption;
         System.out.println(capt);
 	setProgress(progress);
     }
-    
+
     public int getProgress(){
         return pos;
     }
-    
+
     // close splash
     private Command cmdExit=new Command("Hide", Command.BACK, 99);
-    
+
     public void setExit(Display display, Displayable nextDisplayable){
         this.display=display;
         parentView=nextDisplayable;
         setCommandListener(this);
         addCommand(cmdExit);
     }
-    
+
     public void commandAction(Command c, Displayable d) {
-        if (c==cmdExit) 
+        if (c==cmdExit)
             close();
     }
-    
+
     public void close(){
         display.setCurrent(midlet.BombusQD.sd.roster);
         instance=null;
@@ -227,10 +227,12 @@ public class SplashScreen extends GameCanvas implements CommandListener {
         }
     }
 
+//#ifdef TOUCH
     protected void pointerPressed(int x, int y) {
 	if (pos>=20) close();
     }
-    
+//#endif
+
     public void keyPressed(int keyCode) {
         /*
         boolean keyCheck = false;
@@ -246,7 +248,7 @@ public class SplashScreen extends GameCanvas implements CommandListener {
             case KEY_NUM8: keyCheck = true; speed = 8; break;
             case KEY_NUM9: keyCheck = true; speed = 9; break;
         }
-        
+
         if(keyCheck){
             snow.changeSnowProcess(speed);
         }
@@ -257,10 +259,10 @@ public class SplashScreen extends GameCanvas implements CommandListener {
         kHold=0;
     }
 
-    protected void keyRepeated(int keyCode) { 
+    protected void keyRepeated(int keyCode) {
         if (kHold==0)
-            if (keyCode==exitKey) 
-                destroyView(); 
+            if (keyCode==exitKey)
+                destroyView();
     }
 
     private void destroyView(){
@@ -274,14 +276,14 @@ public class SplashScreen extends GameCanvas implements CommandListener {
          */
         tc.stop();
 //#ifdef AUTOSTATUS
-//#         if (midlet.BombusQD.sd.roster.autoAway && midlet.BombusQD.cf.autoAwayType==Config.AWAY_LOCK) {
-//#             int newStatus=midlet.BombusQD.sd.roster.oldStatus;
-//#             ExtendedStatus es=StatusList.getInstance().getStatus(newStatus);
-//#             String ms=es.getMessage();
-//#             midlet.BombusQD.sd.roster.autoAway=false;
-//#             midlet.BombusQD.sd.roster.autoXa=false;
-//#             midlet.BombusQD.sd.roster.sendPresence(newStatus, ms);
-//#         }
+        if (midlet.BombusQD.sd.roster.autoAway && midlet.BombusQD.cf.autoAwayType==Config.AWAY_LOCK) {
+            int newStatus=midlet.BombusQD.sd.roster.oldStatus;
+            ExtendedStatus es=StatusList.getInstance().getStatus(newStatus);
+            String ms=es.getMessage();
+            midlet.BombusQD.sd.roster.autoAway=false;
+            midlet.BombusQD.sd.roster.autoXa=false;
+            midlet.BombusQD.sd.roster.sendPresence(newStatus, ms);
+        }
 //#endif
         System.gc();
     }
@@ -297,18 +299,18 @@ public class SplashScreen extends GameCanvas implements CommandListener {
         if (pm==Config.WINDOWS) {
              Config.SOFT_LEFT=40;
              Config.SOFT_RIGHT=41;
-             return;     
+             return;
         }
         if (pm==Config.NOKIA || pm==Config.SONYE || pm==Config.SAMSUNG) {
             Config.SOFT_LEFT=-6;
             Config.SOFT_RIGHT=-7;
             return;
-        } 
+        }
         if (pm==Config.MOTOEZX) {
             Config.SOFT_LEFT=-21;
             Config.SOFT_RIGHT=-22;
             return;
-        } 
+        }
         try {
             //Set Motorola specific keycodes
             Class.forName("com.motorola.phonebook.PhoneBookRecord");
@@ -320,7 +322,7 @@ public class SplashScreen extends GameCanvas implements CommandListener {
                 Config.SOFT_RIGHT=22;
             }
         } catch (ClassNotFoundException ignore2) {
-            try {   
+            try {
                 if (getKeyName(21).toUpperCase().indexOf("SOFT")>=0) {
                     Config.SOFT_LEFT=21;
                     Config.SOFT_RIGHT=22;

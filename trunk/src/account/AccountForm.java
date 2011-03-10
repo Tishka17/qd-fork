@@ -62,7 +62,7 @@ public class AccountForm extends DefForm {
 //#elif HTTPPOLL
 //#       private CheckBox pollingbox;
 //#endif
-    private CheckBox registerbox;
+    //private CheckBox registerbox;
     private NumberInput keepAlive;
     private DropChoiceBox keepAliveType;
 //#if HTTPPOLL || HTTPCONNECT
@@ -222,11 +222,13 @@ public class AccountForm extends DefForm {
         }
 //#endif
 
+/*
         registerbox = new CheckBox(SR.get(SR.MS_REGISTER_ACCOUNT), register);
 
-        /*if (newaccount && register) {
-        itemsList.addElement(registerbox);
-        }*/
+        if (newaccount && register) {
+            itemsList.addElement(registerbox);
+        }
+*/
 
         if (!register) {
             showExtended();
@@ -444,14 +446,14 @@ public class AccountForm extends DefForm {
         account.setResource(resource);
 
 
-        boolean registerNew = false;
+        //boolean registerNew = false;
 
         if (newaccount) {
-            registerNew = registerbox.getValue();
+            //registerNew = registerbox.getValue();
         }
 
         if (showExtended) {
-            registerNew = registerbox.getValue();
+            //registerNew = registerbox.getValue();
             account.setHostAddr(ipbox.getValue());
             account.setUseSSL(sslbox.getValue());
             account.setPlainAuth(plainPwdbox.getValue());
@@ -474,11 +476,14 @@ public class AccountForm extends DefForm {
         accountSelect.rmsUpdate();
         accountSelect.commandState();
 
+/*
         if (registerNew) {
             new AccountRegister(account, display, parentView);
         } else {
             destroyView();
         }
+*/
+        destroyView();
         account = null;
     }
 

@@ -62,9 +62,9 @@ public class ScrollBar {
     private int scrollerSize;
     private int scrollerPos;
 //#ifdef TOUCH
-//#     private boolean hasPointerEvents;
-//#     private boolean fingerScroll;
-//#     private int point_y;    // точка, за которую "держится" указатель
+    //private boolean hasPointerEvents;
+    //private boolean fingerScroll;
+    private int point_y;    // точка, за которую "держится" указатель
 //#endif
     private int minimumHeight=3;
 
@@ -75,7 +75,7 @@ public class ScrollBar {
     /** Creates a new instance of ScrollBar */
     public ScrollBar() {
 //#ifdef TOUCH
-//#     point_y=-1;
+    point_y=-1;
 //#endif
     }
 
@@ -95,56 +95,56 @@ public class ScrollBar {
         this.position = postion;
     }
 //#ifdef TOUCH
-//#     public void setHasPointerEvents(boolean hasPointerEvents) {
-//#         this.hasPointerEvents = hasPointerEvents;
-//# 	midlet.BombusQD.cf.scrollWidth=//���� �������� ���� ������ ������� ������ 4,��:
-//#             (midlet.BombusQD.cf.scrollWidth>3)? midlet.BombusQD.cf.scrollWidth:
-//#                 ( (hasPointerEvents)? WIDTH_SCROLL_2: 4 );
-//#     }
-//#
-//#     public boolean pointerPressed(int x, int y, VirtualList list) {
-//# 	if (size==0) return false;
-//#         fingerScroll = false;
-//#         if (x < scrollerX) {
-//#             fingerScroll = true;
-//#             point_y = y - scrollerPos;
-//#             return false;
-//#         }
-//#         y-=yTranslate;
-//#         if (y<scrollerPos) {
-//#             // page up
-//#             int pos=position-windowSize;
-//#             if (pos<0) pos=0;
-//#             list.win_top=pos;
-//#             list.repaint();
-//#             return true;
-//#         }
-//#         if (y>scrollerPos+scrollerSize) {
-//#             int pos=position+windowSize;
-//#             int listEnd=size-windowSize;
-//#             list.win_top=(pos<listEnd)?pos:listEnd;
-//#             list.repaint();
-//#             return true;
-//#         } // page down
-//#         point_y=y-scrollerPos;
-//#         return true;
-//#     }
-//#
-//#     public boolean pointerDragged(int x, int yPos, VirtualList list) {
-//#         yPos -= yTranslate;
-//#         if (point_y<0) return false;
-//#         int new_top = yPos - point_y;
-//#         int new_pos = (new_top*size)/drawHeight;
-//#         if ((position-new_pos)==0) return true;
-//#         if (new_pos<=0) new_pos = 0;
-//#         if (new_pos+windowSize>size) new_pos = size - windowSize;
-//#         list.win_top = new_pos;
-//# 	return true;
-//#     }
-//#     public void pointerReleased(int x, int y, VirtualList v) { point_y=-1; }
+    public void setHasPointerEvents(boolean hasPointerEvents) {
+        //this.hasPointerEvents = hasPointerEvents;
+	midlet.BombusQD.cf.scrollWidth=//���� �������� ���� ������ ������� ������ 4,��:
+            (midlet.BombusQD.cf.scrollWidth>3)? midlet.BombusQD.cf.scrollWidth:
+                ( (hasPointerEvents)? WIDTH_SCROLL_2: 4 );
+    }
+
+    public boolean pointerPressed(int x, int y, VirtualList list) {
+	if (size==0) return false;
+        //fingerScroll = false;
+        if (x < scrollerX) {
+            //fingerScroll = true;
+            point_y = y - scrollerPos;
+            return false;
+        }
+        y-=yTranslate;
+        if (y<scrollerPos) {
+            // page up
+            int pos=position-windowSize;
+            if (pos<0) pos=0;
+            list.win_top=pos;
+            list.repaint();
+            return true;
+        }
+        if (y>scrollerPos+scrollerSize) {
+            int pos=position+windowSize;
+            int listEnd=size-windowSize;
+            list.win_top=(pos<listEnd)?pos:listEnd;
+            list.repaint();
+            return true;
+        } // page down
+        point_y=y-scrollerPos;
+        return true;
+    }
+
+    public boolean pointerDragged(int x, int yPos, VirtualList list) {
+        yPos -= yTranslate;
+        if (point_y<0) return false;
+        int new_top = yPos - point_y;
+        int new_pos = (new_top*size)/drawHeight;
+        if ((position-new_pos)==0) return true;
+        if (new_pos<=0) new_pos = 0;
+        if (new_pos+windowSize>size) new_pos = size - windowSize;
+        list.win_top = new_pos;
+	return true;
+    }
+    public void pointerReleased(int x, int y, VirtualList v) { point_y=-1; }
  //#endif
 
-    
+
     public int getScrollWidth() {
         return midlet.BombusQD.cf.scrollWidth;
     }

@@ -45,8 +45,8 @@ import ui.MainBar;
 import ui.VirtualElement;
 import ui.VirtualList;
 //#ifdef GRAPHICS_MENU
-//# import ui.GMenu;
-//# import ui.GMenuConfig;
+import ui.GMenu;
+import ui.GMenuConfig;
 //#endif
 
 /**
@@ -80,13 +80,27 @@ public final class ActiveContacts extends VirtualList implements
 
     public ActiveContacts(Display display, Displayable pView, Contact current) {
         cmdCancel = new Command(SR.get(SR.MS_BACK), Command.BACK, 99);
+
         cmdOk = new Command(SR.get(SR.MS_SELECT), Command.SCREEN, 1);
+        cmdOk.setImg(0x43);
+
         cmdCreateMultiMessage = new Command(SR.get(SR.MS_MULTI_MESSAGE), Command.SCREEN, 3);
+        cmdCreateMultiMessage.setImg(0x81);
+
         cmdSortType = new Command(SR.get(SR.MS_SORT_TYPE), Command.SCREEN, 4);
+        cmdSortType.setImg(0x64);
+
         cmdSortDefault = new Command(SR.get(SR.MS_SORT_TYPE_DEF), Command.SCREEN, 5);
+        cmdSortDefault.setImg(0x64);
+
         cmdSortByStatus = new Command(SR.get(SR.MS_SORT_TYPE_STATUS), Command.SCREEN, 6);
+        cmdSortByStatus.setImg(0x64);
+
         cmdSortByMsgsCount = new Command(SR.get(SR.MS_SORT_TYPE_MSGS), Command.SCREEN, 7);
+        cmdSortByMsgsCount.setImg(0x64);
+
         cmdClearAllMessages = new Command(SR.get(SR.MS_CLEAN_ALL_MESSAGES), Command.SCREEN, 35);
+        cmdClearAllMessages.setImg(0x41);
 
         Vector hContacts = BombusQD.sd.roster.getHContacts();
         int size = hContacts.size();
@@ -129,40 +143,27 @@ public final class ActiveContacts extends VirtualList implements
         cmdfirstList.removeAllElements();
 //#endif
         addCommand(cmdOk);
-        cmdOk.setImg(0x43);
-
         addCommand(cmdCreateMultiMessage);
-        cmdCreateMultiMessage.setImg(0x81);
-
         addCommand(cmdSortType);
-        cmdSortType.setImg(0x64);
-
         addInCommand(1, cmdSortDefault);
-        cmdSortDefault.setImg(0x64);
-
         addInCommand(1, cmdSortByStatus);
-        cmdSortByStatus.setImg(0x64);
-
         addInCommand(1, cmdSortByMsgsCount);
-        cmdSortByMsgsCount.setImg(0x64);
-
         addCommand(cmdClearAllMessages);
-        cmdClearAllMessages.setImg(0x41);
     }
 
 //#ifdef MENU_LISTENER
 
 //#ifdef GRAPHICS_MENU
-//#     public int showGraphicsMenu() {
-//#         if (contacts.isEmpty()) {
-//#             return 0;
-//#         }
-//#         menuItem = new GMenu(display, parentView, this, null, menuCommands, cmdfirstList, null, null);
-//#         GMenuConfig.getInstance().itemGrMenu = GMenu.ACTIVE_CONTACTS;
-//#         return GMenu.ACTIVE_CONTACTS;
-//#     }
+    public int showGraphicsMenu() {
+        if (contacts.isEmpty()) {
+            return 0;
+        }
+        menuItem = new GMenu(display, parentView, this, null, menuCommands, cmdfirstList, null, null);
+        GMenuConfig.getInstance().itemGrMenu = GMenu.ACTIVE_CONTACTS;
+        return GMenu.ACTIVE_CONTACTS;
+    }
 //#else
-    public void showMenu() { eventOk();}
+//#     public void showMenu() { eventOk();}
 //#endif
 
 //#endif

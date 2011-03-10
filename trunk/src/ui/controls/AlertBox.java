@@ -1,4 +1,4 @@
-/* 
+/*
  * AlertBox.java
  *
  * Created on 17.05.2008, 14:35
@@ -46,7 +46,7 @@ import locale.SR;
 import font.FontCache;
 import util.StringUtils;
 //#ifdef GRADIENT
-//# import ui.Gradient;
+import ui.Gradient;
 //#endif
 /**
  *
@@ -54,7 +54,7 @@ import util.StringUtils;
  */
 public abstract class AlertBox
         extends Canvas
-        
+
 //#ifndef MENU_LISTENER
 //#         implements CommandListener
 //#endif
@@ -62,12 +62,12 @@ public abstract class AlertBox
 
     protected Display display;
     protected Displayable next;
-    
+
 //#ifndef MENU_LISTENER
 //#     protected Command cmdOk=new Command(SR.get(SR.MS_OK), Command.OK, 1);
 //#     protected Command cmdCancel=new Command(SR.get(SR.MS_CANCEL), Command.BACK, 2);
 //#endif
-    
+
     public boolean isShowing;
 
     Font messageFont;
@@ -75,33 +75,33 @@ public abstract class AlertBox
 
     private String left=SR.get(SR.MS_OK);
     private String right=SR.get(SR.MS_CANCEL);
-    
+
     boolean init;
     private String mainbar;
     private String text;
-    
+
     private Vector lines=null;
-    
+
     private int topColor=ColorTheme.getColor(ColorTheme.BAR_BGND);
 //#ifdef GRADIENT
-//#     private int bottomColor=ColorTheme.getColor(ColorTheme.BAR_BGND_BOTTOM);
-//#     private Gradient gr=null;
-//#     private Gradient gr2=null;
+    private int bottomColor=ColorTheme.getColor(ColorTheme.BAR_BGND_BOTTOM);
+    private Gradient gr=null;
+    private Gradient gr2=null;
 //#endif
-    
+
     private Progress pb;
 
     int pos=0;
     int steps=1;
 
-    
+
 //#ifndef WOFFSCREEN
     private Image offscreen = null;
 //#endif
-        
+
     private int height;
-    private int width;    
-    
+    private int width;
+
     public AlertBox(String mainbar, String text, Display display, Displayable nextDisplayable, boolean optionsMaster) {
         this.display=display;
         if(optionsMaster){
@@ -112,7 +112,7 @@ public abstract class AlertBox
 
         messageFont=FontCache.getFont(false, FontCache.msg);
         barFont=FontCache.getFont(false, FontCache.bar);
-        
+
         next=(nextDisplayable==null)? display.getCurrent() : nextDisplayable;
 
         this.text=text;
@@ -121,12 +121,12 @@ public abstract class AlertBox
 //#ifndef MENU_LISTENER
 //#         addCommand(cmdOk);
 //#         addCommand(cmdCancel);
-//# 
+//#
 //#         setCommandListener(this);
 //#endif
         display.setCurrent(this);
     }
-    
+
 //#ifndef MENU_LISTENER
 //#     public void commandAction(Command command, Displayable displayable) {
 //#         if (command==cmdOk) {
@@ -147,7 +147,7 @@ public abstract class AlertBox
             display.setCurrent(next);
         }
     }
-    
+
     private void getLines(int width) {
         if (lines==null) {
             lines=StringUtils.parseMessage(text, width-4, messageFont);
@@ -165,7 +165,7 @@ public abstract class AlertBox
             height=g.getClipHeight();
 
             int oldColor=g.getColor();
-            
+
             g.setColor(ColorTheme.getColor(ColorTheme.LIST_BGND));
             g.fillRect(0,0, width, height); //fill back
 
@@ -173,13 +173,13 @@ public abstract class AlertBox
             if (mainbar!=null) {
                 fh=getBarFontHeight();
 //#ifdef GRADIENT
-//#                 if (gr==null) {
-//#                     gr=new Gradient(0, 0, width, fh, ColorTheme.getColor(ColorTheme.BAR_BGND), bottomColor, false);
-//#                 }
-//#                 gr.paint(g);
+                if (gr==null) {
+                    gr=new Gradient(0, 0, width, fh, ColorTheme.getColor(ColorTheme.BAR_BGND), bottomColor, false);
+                }
+                gr.paint(g);
 //#else
-            g.setColor(topColor);
-            g.fillRect(0, 0, width, fh);
+//#             g.setColor(topColor);
+//#             g.fillRect(0, 0, width, fh);
 //#endif
                 g.setFont(barFont);
                 g.setColor(ColorTheme.getColor(ColorTheme.BAR_INK));
@@ -189,13 +189,13 @@ public abstract class AlertBox
 
             fh=getBarFontHeight();
 //#ifdef GRADIENT
-//#             if (gr2==null) {
-//#                 gr2=new Gradient(0, height-fh, width, height, topColor, bottomColor, false);
-//#             }
-//#             gr2.paint(g);
+            if (gr2==null) {
+                gr2=new Gradient(0, height-fh, width, height, topColor, bottomColor, false);
+            }
+            gr2.paint(g);
 //#else
-        g.setColor(topColor);
-        g.fillRect(0, height-fh, width, fh);
+//#         g.setColor(topColor);
+//#         g.fillRect(0, height-fh, width, fh);
 //#endif
             g.setFont(barFont);
             g.setColor(ColorTheme.getColor(ColorTheme.BAR_INK));
@@ -207,20 +207,20 @@ public abstract class AlertBox
 
             if (pos>0)
                 drawProgress (g, width, height-fh);
-            
+
             g.setColor(oldColor);
 //#ifndef WOFFSCREEN
             if (g != graphics) g.drawImage(offscreen, 0, 0, Graphics.LEFT | Graphics.TOP);
 //#endif
         }
     }
-    
+
     private void drawAllStrings(Graphics g, int x, int y) {
         if (lines==null)
             return;
         if (lines.size()<1)
             return;
-        
+
         g.setFont(messageFont);
         int fh=getFontHeight();
         g.setColor(ColorTheme.getColor(ColorTheme.LIST_INK));
@@ -232,15 +232,15 @@ public abstract class AlertBox
             y += fh;
 	}
     }
-    
+
     private int getBarFontHeight() {
         return barFont.getHeight();
     }
-    
+
     private int getFontHeight() {
         return messageFont.getHeight();
     }
-    
+
     public void drawProgress (Graphics g, int width, int height) {
         int filled=pos*width/steps;
 
@@ -248,19 +248,19 @@ public abstract class AlertBox
             pb=new Progress(0, height, width);
         Progress.draw(g, filled, Integer.toString(steps-pos));
     }
-    
+
     protected void hideNotify() {
 //#ifndef WOFFSCREEN
 	offscreen=null;
 //#endif
     }
-    
+
     protected void showNotify() {
 //#ifndef WOFFSCREEN
 	if (!isDoubleBuffered()) offscreen=Image.createImage(width, height);
 //#endif
     }
-    
+
     protected void sizeChanged(int w, int h) {
         width=w;
         height=h;
@@ -268,7 +268,7 @@ public abstract class AlertBox
         if (!isDoubleBuffered()) offscreen=Image.createImage(width, height);
 //#endif
     }
-    
+
     protected void keyPressed(int keyCode) { // overriding this method to avoid autorepeat
         if (keyCode==Config.SOFT_LEFT || keyCode==FIRE) {
             destroyView();
@@ -278,7 +278,8 @@ public abstract class AlertBox
             no();
         }
     }
-    
+
+//#ifdef TOUCH
     protected void pointerPressed(int x, int y) {
 
         if (height - y < getBarFontHeight()) {
@@ -293,9 +294,10 @@ public abstract class AlertBox
             }
         }
     }
-    
+//#endif
+
     public abstract void yes();
 
-    public abstract void no();    
+    public abstract void no();
 }
 

@@ -31,7 +31,7 @@
 //#ifdef CONSOLE
 //#endif
 //# import util.StringUtils;
-//# import conference.AppendNick;
+//# import conference.AppendNickForm;
 //#ifndef GRAPHICS_MENU
 //# import Menu.RosterToolsMenu;
 //#endif
@@ -117,7 +117,7 @@
 //#       }
 //#     }
 //#     if (c == cmdInsNick){
-//#          new AppendNick(display, display.getCurrent(), contact, msgTF.getCaretPosition() , msgTF, null, true); return;
+//#          new AppendNickForm(display, display.getCurrent(), contact, msgTF.getCaretPosition() , msgTF, null, true); return;
 //#     }
 //#     if (c == cmdInsMe){
 //#         msgTF.setString("/me ");

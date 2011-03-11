@@ -31,7 +31,7 @@ import conference.ConferenceForm;
 import conference.QueryConfigForm;
 import conference.bookmark.BookmarkItem;
 import conference.bookmark.BookmarkQuery;
-import conference.affiliation.Affiliations;
+import conference.affiliation.AffiliationList;
 //#ifdef SERVICE_DISCOVERY
 import disco.ServiceDiscovery;
 //#endif
@@ -50,7 +50,7 @@ import java.util.*;
 import ui.MainBar;
 import ui.controls.AlertBox;
 //#ifdef GRAPHICS_MENU
-//# import ui.GMenu;
+import ui.GMenu;
 //#endif
 /**
  *
@@ -164,7 +164,7 @@ public final class Bookmarks
         addCommand(cmdDisco); cmdDisco.setImg(0x65);
 //#endif
 //#ifndef GRAPHICS_MENU
-     addCommand(cmdCancel);
+//#      addCommand(cmdCancel);
 //#endif
     }
 
@@ -223,10 +223,10 @@ public final class Bookmarks
         else if (c==cmdDisco) new ServiceDiscovery(display, roomJid, null, false);
 //#endif
         else if (c==cmdConfigure) new QueryConfigForm(display,roomJid);
-        else if (c==cmdRoomOwners) new Affiliations(display, this, roomJid, (short)1);
-        else if (c==cmdRoomAdmins) new Affiliations(display, this, roomJid, (short)2);
-        else if (c==cmdRoomMembers) new Affiliations(display, this, roomJid, (short)3);
-        else if (c==cmdRoomBanned) new Affiliations(display, this, roomJid, (short)4);
+        else if (c==cmdRoomOwners) new AffiliationList(display, this, roomJid, (short)1);
+        else if (c==cmdRoomAdmins) new AffiliationList(display, this, roomJid, (short)2);
+        else if (c==cmdRoomMembers) new AffiliationList(display, this, roomJid, (short)3);
+        else if (c==cmdRoomBanned) new AffiliationList(display, this, roomJid, (short)4);
         else if (c==cmdSort) sort(midlet.BombusQD.sd.roster.bookmarks);
         else if (c==cmdDoAutoJoin) {
             for (Enumeration e=midlet.BombusQD.sd.roster.bookmarks.elements(); e.hasMoreElements();) {
@@ -305,17 +305,17 @@ public final class Bookmarks
 //#ifdef MENU_LISTENER
 
 //#ifdef GRAPHICS_MENU
-//#     public int showGraphicsMenu() {
-//#         commandState();
-//#         menuItem = new GMenu(display, parentView, this, null, menuCommands, cmdfirstList, cmdsecondList, cmdThirdList);
-//#         GMenuConfig.getInstance().itemGrMenu=GMenu.BOOKMARKS;
-//#         return GMenu.BOOKMARKS;
-//#     }
-//#else
-    public void showMenu() {
+    public int showGraphicsMenu() {
         commandState();
-        new MyMenu(display, parentView, this, SR.get(SR.MS_BOOKMARKS), null, menuCommands);
+        menuItem = new GMenu(display, parentView, this, null, menuCommands, cmdfirstList, cmdsecondList, cmdThirdList);
+        GMenuConfig.getInstance().itemGrMenu=GMenu.BOOKMARKS;
+        return GMenu.BOOKMARKS;
     }
+//#else
+//#     public void showMenu() {
+//#         commandState();
+//#         new MyMenu(display, parentView, this, SR.get(SR.MS_BOOKMARKS), null, menuCommands);
+//#     }
 //#endif
 
 //#endif

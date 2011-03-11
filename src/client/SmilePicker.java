@@ -27,6 +27,7 @@
  */
 
 package client;
+import images.ImageList;
 import message.MessageParser;
 import images.SmilesIcons;
 import locale.SR;
@@ -49,7 +50,7 @@ import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.TextField;
 import javax.microedition.lcdui.TextBox;
 //#ifdef GRAPHICS_MENU        
-//# import ui.GMenu;
+import ui.GMenu;
 //#endif   
 
 public class SmilePicker  
@@ -154,13 +155,13 @@ public class SmilePicker
     public void onSelect(VirtualList view){
         try {
 //#ifdef RUNNING_MESSAGE
-//#            if(midlet.BombusQD.cf.msgEditType>0){
-//#              tf.insert(" "+getTipString()+" ", caretPos);
-//#            }else{
-//#              tb.insert(" "+getTipString()+" ", caretPos);
-//#            };            
+           if(midlet.BombusQD.cf.msgEditType>0){
+             tf.insert(" "+getTipString()+" ", caretPos);
+           }else{
+             tb.insert(" "+getTipString()+" ", caretPos);
+           };            
 //#else
-            t.insert(getTipString() , caretPos);
+//#             t.insert(getTipString() , caretPos);
 //#endif
         } catch (Exception e) { /*e.printStackTrace();*/  }
         destroyView();
@@ -288,14 +289,14 @@ public class SmilePicker
 //#ifdef MENU_LISTENER
     
 //#ifdef GRAPHICS_MENU        
-//#     public int showGraphicsMenu() {
-//#         commandState();
-//#         menuItem = new GMenu(display, parentView, this, null, menuCommands);        
-//#         GMenuConfig.getInstance().itemGrMenu=GMenu.SMILE_PEAKER;
-//#         return GMenu.SMILE_PEAKER;
-//#     }
+    public int showGraphicsMenu() {
+        commandState();
+        menuItem = new GMenu(display, parentView, this, null, menuCommands);        
+        GMenuConfig.getInstance().itemGrMenu=GMenu.SMILE_PEAKER;
+        return GMenu.SMILE_PEAKER;
+    }
 //#else
-    public void showMenu(){ eventOk(); } 
+//#     public void showMenu(){ eventOk(); } 
 //#endif     
 
      

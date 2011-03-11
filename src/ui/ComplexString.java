@@ -27,6 +27,7 @@
  */
 package ui;
 
+import images.ImageList;
 import font.*;
 import java.util.*;
 import javax.microedition.lcdui.*;

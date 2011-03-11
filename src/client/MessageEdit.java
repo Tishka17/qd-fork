@@ -28,7 +28,7 @@
 
 package client;
 //#ifndef WMUC
-import conference.AppendNick;
+import conference.AppendNickForm;
 //#endif
 //#ifdef DETRANSLIT
 //# import util.DeTranslit;
@@ -399,9 +399,9 @@ public final class MessageEdit
 //#ifndef WMUC
         if (c == cmdInsNick) {
             if (midlet.BombusQD.cf.msgEditType > 0) {
-                new AppendNick(display, display.getCurrent(), to, textField.getCaretPosition(), textField, null);
+                new AppendNickForm(display, display.getCurrent(), to, textField.getCaretPosition(), textField, null);
             } else {
-                new AppendNick(display, display.getCurrent(), to, t.getCaretPosition(), null, t);
+                new AppendNickForm(display, display.getCurrent(), to, t.getCaretPosition(), null, t);
             }
             return;
         }

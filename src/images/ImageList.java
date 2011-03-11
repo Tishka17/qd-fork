@@ -31,7 +31,7 @@
  * @author Eugene Stahov,aqent
  */
 
-package ui;
+package images;
 import javax.microedition.lcdui.*;
 
 public class ImageList {

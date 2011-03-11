@@ -25,15 +25,13 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package conference; 
+package conference;
 
 import client.Contact;
 import client.StaticData;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.Message;
-import com.alsutton.jabber.datablocks.Presence;
 import java.util.Enumeration;
-import java.util.Vector;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
@@ -44,58 +42,52 @@ import ui.controls.form.DropChoiceBox;
 import ui.controls.form.TextInput;
 import client.Constants;
 
-public class InviteForm
-        extends DefForm {
-    
-    private Display display;
+public class InviteForm extends DefForm {
+    private TextInput reason;
+    private DropChoiceBox conferenceList;
+    private Contact contact;
 
-    Vector conferences=new Vector(0);
-    
-    TextInput reason;
-    DropChoiceBox conferenceList;
-    Contact contact;
-    
-    /** Creates a new instance of InviteForm */
     public InviteForm(Display display, Displayable pView, Contact contact) {
         super(display, pView, SR.get(SR.MS_INVITE));
-        this.display=display;
-        this.contact=contact;
-        
-        itemsList.addElement(new SimpleString(contact.getName(), true));
-        conferenceList=new DropChoiceBox(display, SR.get(SR.MS_CONFERENCE));
-        for (Enumeration c=StaticData.getInstance().roster.getHContacts().elements(); c.hasMoreElements(); ) {
-            try {
-                MucContact mc=(MucContact)c.nextElement();
+        this.contact = contact;
 
-                if (mc.origin==Constants.ORIGIN_GROUPCHAT && mc.status==Constants.PRESENCE_ONLINE) {
+        addControl(new SimpleString(contact.getName(), true));
+        conferenceList = new DropChoiceBox(display, SR.get(SR.MS_CONFERENCE));
+        for (Enumeration c = StaticData.getInstance().roster.getHContacts().elements(); c.hasMoreElements();) {
+            try {
+                MucContact mc = (MucContact)c.nextElement();
+                if (mc.origin == Constants.ORIGIN_GROUPCHAT && mc.status == Constants.PRESENCE_ONLINE) {
                     conferenceList.append(mc.getJid());
-                    conferences.addElement(mc.getJid());
                 }
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
         }
-        itemsList.addElement(conferenceList);
-        
-        reason=new TextInput(display, SR.get(SR.MS_REASON), null, "", TextField.ANY); //200
-        itemsList.addElement(reason);
-        
+        addControl(conferenceList);
+
+        reason = new TextInput(display, SR.get(SR.MS_REASON), null, "", TextField.ANY);
+        addControl(reason);
+
         moveCursorTo(getNextSelectableRef(-1));
+
         attachDisplay(display);
-        this.parentView=pView;
+        this.parentView = pView;
     }
 
     public void cmdOk() {
-        String room=(String) conferences.elementAt(conferenceList.getSelectedIndex());
-        String rs=reason.getValue();
+        if (conferenceList.size() != 0) {
+            String room = (String)conferenceList.toString();
+            String rs = reason.getValue();
 
-        Message inviteMsg=new Message(room);
-        JabberDataBlock x=inviteMsg.addChildNs("x", "http://jabber.org/protocol/muc#user");
-        JabberDataBlock invite=x.addChild("invite",null);
-        String invited=(contact instanceof MucContact)? ((MucContact)contact).realJid : contact.bareJid;
+            Message inviteMsg = new Message(room);
+            JabberDataBlock x = inviteMsg.addChildNs("x", "http://jabber.org/protocol/muc#user");
+            JabberDataBlock invite = x.addChild("invite", null);
+            String invited = (contact instanceof MucContact) ? ((MucContact)contact).realJid : contact.bareJid;
 
-        invite.setAttribute("to", invited);
+            invite.setAttribute("to", invited);
 
-        invite.addChild("reason",rs);
-        StaticData.getInstance().roster.theStream.send(inviteMsg);
-        display.setCurrent(StaticData.getInstance().roster);
+            invite.addChild("reason", rs);
+            StaticData.getInstance().roster.theStream.send(inviteMsg);
+        }
+        destroyView();
     }
 }

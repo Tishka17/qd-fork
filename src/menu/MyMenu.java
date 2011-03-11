@@ -31,7 +31,7 @@ import java.util.Enumeration;
 import java.util.Vector;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
-import ui.ImageList;
+import images.ImageList;
 
 /**
  *

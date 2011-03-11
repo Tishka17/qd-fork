@@ -38,7 +38,7 @@ import conference.bookmark.BookmarkQuery;
 import conference.bookmark.Bookmarks;
 import conference.ConferenceGroup;
 import conference.MucContact;
-import conference.affiliation.ConferenceQuickPrivelegeModify;
+import conference.affiliation.QuickPrivelegyEditForm;
 //#endif
 import images.MenuIcons;
 //#ifdef ARCHIVE
@@ -3529,7 +3529,7 @@ public class Roster
                     if (mucGrp.selfContact.roleCode==Constants.ROLE_MODERATOR) {
                         String myNick=mucGrp.selfContact.getName();
                         MucContact mc=(MucContact) c;
-                        new ConferenceQuickPrivelegeModify(display, this, mc, ConferenceQuickPrivelegeModify.KICK,myNick);
+                        new QuickPrivelegyEditForm(display, this, mc, QuickPrivelegyEditForm.KICK,myNick);
                     }
                 }
 //#endif

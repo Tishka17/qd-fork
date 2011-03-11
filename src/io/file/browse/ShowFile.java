@@ -44,7 +44,7 @@ import client.Config;
 import ui.controls.AlertBox;
 import ui.VirtualList;
 import ui.controls.AlertBox;
-import ui.ImageList;
+import images.ImageList;
 
 /**
  *

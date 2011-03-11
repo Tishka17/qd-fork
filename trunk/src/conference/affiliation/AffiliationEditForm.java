@@ -42,78 +42,76 @@ import ui.controls.form.TextInput;
  *
  * @author EvgS
  */
-public class AffiliationModify
-        extends DefForm {
-    
-    private Display display;
 
+public final class AffiliationEditForm extends DefForm {
     private TextInput jidItem;
     private DropChoiceBox affiliationItem;
     private TextInput reasonItem;
-    
+
     private String room;
     private int recentAffiliation;
-    
-    /** Creates a new instance of AffiliationModify */
-    public AffiliationModify(Display display, Displayable pView, String room, String jid, String affiliation, String reason) {
+
+    public AffiliationEditForm(Display display, Displayable pView, String room, String jid, String affiliation, String reason) {
         super(display, pView, SR.get(SR.MS_AFFILIATION));
-        
-        this.display=display;
 
-        this.room=room;
+        this.room = room;
 
-        jidItem=new TextInput(display, SR.get(SR.MS_JID), jid, null, TextField.ANY);
+        jidItem = new TextInput(display, SR.get(SR.MS_JID), jid, null, TextField.ANY);
         itemsList.addElement(jidItem);
 
-        affiliationItem=new DropChoiceBox(display, SR.get(SR.MS_SET_AFFILIATION));
-        for (short index=0; index<=AffiliationItem.AFFILIATION_OUTCAST; index++) {
-            String name=AffiliationItem.getAffiliationName(index);
+        affiliationItem = new DropChoiceBox(display, SR.get(SR.MS_SET_AFFILIATION));
+        for (int i = 0; i <= AffiliationItem.AFFILIATION_OUTCAST; ++i) {
+            String name = AffiliationItem.getAffiliationName(i);
             affiliationItem.append(name);
-            if (affiliation.equals(name)) recentAffiliation=index;
+            if (affiliation.equals(name)) {
+                recentAffiliation = i;
+            }
         }
         affiliationItem.setSelectedIndex(recentAffiliation);
         itemsList.addElement(affiliationItem);
 
-	reasonItem=new TextInput(display, SR.get(SR.MS_REASON), reason, "reason", TextField.ANY);
-	itemsList.addElement(reasonItem);
+        reasonItem = new TextInput(display, SR.get(SR.MS_REASON), reason, "reason", TextField.ANY);
+        itemsList.addElement(reasonItem);
 
         attachDisplay(display);
-        this.parentView=pView;
+        this.parentView = pView;
     }
-    
-    
+
+
     private void modify(){
         JabberStream stream=StaticData.getInstance().roster.theStream;
-        
+
         JabberDataBlock request=new Iq(room, Iq.TYPE_SET, "admin_modify");
         JabberDataBlock query=request.addChildNs("query", "http://jabber.org/protocol/muc#admin");
         JabberDataBlock child=query.addChild("item", null);
         child.setAttribute("jid", jidItem.getValue());
         child.setAttribute("affiliation", AffiliationItem.getAffiliationName((short)affiliationItem.getSelectedIndex()));
-		
+
         String rs=reasonItem.getValue();
-        if (!rs.equals("")) child.addChild("reason", rs);        
+        if (!rs.equals("")) child.addChild("reason", rs);
 
         stream.send(request);
         try {
             Thread.sleep(300);
         } catch (Exception ex) {}
-        
+
         try {
-            Affiliations a=(Affiliations) parentView;
+            AffiliationList a=(AffiliationList) parentView;
             a.getList();
         } catch (Exception e) {}
         destroyView();
     }
-    
+
     public void cmdOk() {
-        if (jidItem.getValue().equals("")) return;
+        if (jidItem.getValue().equals("")) {
+            return;
+        }
         if (recentAffiliation==AffiliationItem.AFFILIATION_OWNER) {
-            StringBuffer warn=new StringBuffer(SR.get(SR.MS_ARE_YOU_SURE_WANT_TO_DISCARD) /*"Are You sure want to discard "*/)
+            StringBuffer warn=new StringBuffer(SR.get(SR.MS_ARE_YOU_SURE_WANT_TO_DISCARD))
             .append(jidItem.getValue())
-            .append(SR.get(SR.MS_FROM_OWNER_TO)/*" from OWNER to "*/)
+            .append(SR.get(SR.MS_FROM_OWNER_TO))
             .append(AffiliationItem.getAffiliationName((short)affiliationItem.getSelectedIndex()));
-            
+
             new AlertBox(SR.get(SR.MS_MODIFY_AFFILIATION), warn.toString(), display, null, false) {
                     public void yes() {
                         modify();
@@ -121,14 +119,6 @@ public class AffiliationModify
                     }
                     public void no() {}
             };
-            warn=null; 
         } else modify();
     }
-
-	
-    public void ActionConfirmed() {
-        modify();
-	destroyView();
-    }
-
 }

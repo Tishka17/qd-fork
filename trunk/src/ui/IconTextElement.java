@@ -26,6 +26,7 @@
  */
 
 package ui;
+import images.ImageList;
 import javax.microedition.lcdui.*;
 import colors.ColorTheme;
 import font.*;
@@ -67,7 +68,7 @@ abstract public class IconTextElement implements VirtualElement {
         return FontCache.getFont(getFontIndex(),FontCache.roster);
     }
 
-    public void drawItem(VirtualList view, Graphics g, int ofs, boolean sel, boolean inCommand) {
+    public void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {
         g.setFont(getFont());
 
         int xOffset = getOffset();
@@ -84,10 +85,6 @@ abstract public class IconTextElement implements VirtualElement {
             int yOffset = getFont().getHeight();
             g.drawString(str, xOffset - ofs, (itemHeight - yOffset) / 2, Graphics.TOP | Graphics.LEFT);
         }
-    }
-
-    public void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {
-         this.drawItem(view, g, ofs, sel, false);
     }
 
     public int getOffset() {

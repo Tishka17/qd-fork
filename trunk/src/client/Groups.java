@@ -223,7 +223,7 @@ public class Groups implements JabberBlockListener{
            int size = contacts.size();
            for(int i=0; i<size; ++i) d.addElement(contacts.elementAt(i));
         }
-        gr.updateDinamicInfo();
+        gr.updateDynamicInfo();
         //if (gr.type>Groups.TYPE_MUC) return; //don't count this contacts
     }
     

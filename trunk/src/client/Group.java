@@ -112,7 +112,7 @@ public class Group extends IconTextElement {
             clipWidth -= imgWidth;
         }
 
-        g.setClip(g.getClipX(), g.getClipY(), clipWidth, itemHeight);
+        g.setClip(xOffset, g.getClipY(), clipWidth, itemHeight);
 
         String str = toString();
         if (null != str) {
@@ -140,7 +140,7 @@ public class Group extends IconTextElement {
         midlet.BombusQD.sd.roster.reEnumRoster();
     }
 
-    public void updateDinamicInfo() {
+    public void updateDynamicInfo() {
         toStringValue = mainbar(name);
     }
 

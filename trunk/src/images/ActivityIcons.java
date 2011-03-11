@@ -25,29 +25,28 @@
  */
  
 //#ifdef PEP
-//# package images;
-//# 
-//# import javax.microedition.lcdui.Graphics;
-//# import ui.ImageList;
-//# 
-//# /**
-//#  *
-//#  * @author ad
-//#  */
-//# public class ActivityIcons extends ImageList{
-//#     
-//# 
-//#     private final static int CLIENTS_IN_ROW=16;
-//# 
-//#     /** Creates a new instance of RosterIcons */
-//#     private ActivityIcons() {
-//#         super("/images/activ.png", 0, CLIENTS_IN_ROW);
-//#     }
-//#     
-//#     private static ImageList instance;
-//#     public static ImageList getInstance() {
-//# 	if (instance==null) instance=new ActivityIcons();
-//# 	return instance;
-//#     }
-//# }
+package images;
+
+import javax.microedition.lcdui.Graphics;
+
+/**
+ *
+ * @author ad
+ */
+public class ActivityIcons extends ImageList{
+    
+
+    private final static int CLIENTS_IN_ROW=16;
+
+    /** Creates a new instance of RosterIcons */
+    private ActivityIcons() {
+        super("/images/activ.png", 0, CLIENTS_IN_ROW);
+    }
+    
+    private static ImageList instance;
+    public static ImageList getInstance() {
+	if (instance==null) instance=new ActivityIcons();
+	return instance;
+    }
+}
 //#endif

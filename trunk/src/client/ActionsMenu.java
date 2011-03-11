@@ -38,8 +38,8 @@ import conference.InviteForm;
 import conference.MucContact;
 import conference.QueryConfigForm;
 import conference.affiliation.AffiliationItem;
-import conference.affiliation.Affiliations;
-import conference.affiliation.ConferenceQuickPrivelegeModify;
+import conference.affiliation.AffiliationList;
+import conference.affiliation.QuickPrivelegyEditForm;
 import disco.ServiceDiscovery;
 //#ifdef HISTORY
 import history.HistoryConfig;
@@ -238,7 +238,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                 int myAff = self.affiliationCode;
 
                 if (mcontact.realJid != null) {
-                    if (myAff == Constants.AFFILIATION_MEMBER) {
+                    if (myAff >= Constants.AFFILIATION_MEMBER) {
                         addItem(SR.get(SR.MS_INVITE), MI_INVITE, ActionsIcons.ICON_INVITE);
                     }
                 }
@@ -420,9 +420,9 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                 case MI_VCARD:
                     if (contact.vcard != null) {
                         if (contact.getGroupType() == Groups.TYPE_SELF) {
-                            new VCardEdit(display, BombusQD.sd.roster, contact.vcard);
+                            new VCardEdit(display, parentView, contact.vcard);
                         } else {
-                            new VCardView(display, BombusQD.sd.roster, contact);
+                            new VCardView(display, parentView, contact);
                         }
                         return;
                     } else {
@@ -464,10 +464,10 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                     }
                     break;
                 case MI_EDIT:
-                    new ContactEdit(display, this, contact);
+                    new ContactEdit(display, parentView, contact);
                     return;
                 case MI_SUBSCRIBTION:
-                    new SubscriptionEdit(display, this, contact);
+                    new SubscriptionEdit(display, parentView, contact);
                     return;
                 case MI_DELETE:
                     new AlertBox(SR.get(SR.MS_DELETE_ASK), contact.getName(), display, BombusQD.sd.roster, false) {
@@ -500,13 +500,13 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                 }
 //#ifdef CHANGE_TRANSPORT
                 case MI_CHTRANSPORT: {
-                    new ChangeTransportForm(display, BombusQD.sd.roster, contact.bareJid);
+                    new ChangeTransportForm(display, parentView, contact.bareJid);
                     return;
                 }
 //#endif
 //#ifdef HISTORY
                 case MI_HISTORY: {
-                    BombusQD.sd.roster.showHistory(BombusQD.sd.roster, contact);
+                    BombusQD.sd.roster.showHistory(parentView, contact);
                     return;
                 }
 //#endif
@@ -586,39 +586,19 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
 //#endif
 //#ifndef WMUC
                 case MI_INVITE:
-                    if (contact.jid != null) {
-                        new InviteForm(display, midlet.BombusQD.sd.roster, contact);
-                    } else {
-                        MucContact mcontact = (MucContact) contact;
-
-                        if (mcontact.realJid != null) {
-                            boolean onlineConferences = false;
-                            for (Enumeration cJ = midlet.BombusQD.sd.roster.getHContacts().elements(); cJ.hasMoreElements();) {
-                                try {
-                                    MucContact mcN = (MucContact) cJ.nextElement();
-                                    if (mcN.origin == Constants.ORIGIN_GROUPCHAT && mcN.status == Constants.PRESENCE_ONLINE) {
-                                        onlineConferences = true;
-                                    }
-                                } catch (Exception e) {
-                                }
-                            }
-                            if (onlineConferences) {
-                                new InviteForm(display, this, mcontact);
-                            }
-                        }
-                    }
+                    new InviteForm(display, parentView, contact);
                     return;
 //#endif
                 case MI_SEND_PRESENCE:
-                    new StatusSelect(display, this, contact);
+                    new StatusSelect(display, parentView, contact);
                     return;
 //#ifdef FILE_IO
 //#ifdef FILE_TRANSFER
                  case MI_SEND_FILE:
-                     new TransferSendFile(display, this, contact.getJid());
+                     new TransferSendFile(display, parentView, contact.getJid());
                      return;
                 case MI_SEND_PHOTO:
-                    new TransferImage(display, this, contact.getJid());
+                    new TransferImage(display, parentView, contact.getJid());
                     return;
 //#endif
 //#endif
@@ -627,35 +607,39 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                 MucContact mcontact = (MucContact) contact;
                 String myNick = ((ConferenceGroup) contact.group).selfContact.getName();
 
+                int action;
                 switch (mItem.index) {
                     case MI_KICK:
-                        new ConferenceQuickPrivelegeModify(display, this, mcontact, ConferenceQuickPrivelegeModify.KICK, myNick);
+                        action = QuickPrivelegyEditForm.KICK;
                         return;
                     case MI_BAN:
-                        new ConferenceQuickPrivelegeModify(display, this, mcontact, ConferenceQuickPrivelegeModify.OUTCAST, myNick);
+                        action = QuickPrivelegyEditForm.OUTCAST;
                         return;
                     case MI_VOICE:
-                        new ConferenceQuickPrivelegeModify(display, this, mcontact, ConferenceQuickPrivelegeModify.PARTICIPANT, myNick);
+                        action = QuickPrivelegyEditForm.PARTICIPANT;
                         return;
                     case MI_DEVOICE:
-                        new ConferenceQuickPrivelegeModify(display, this, mcontact, ConferenceQuickPrivelegeModify.VISITOR, myNick);
+                        action = QuickPrivelegyEditForm.VISITOR;
                         return;
                     case MI_ADD_MODER:
-                        new ConferenceQuickPrivelegeModify(display, this, mcontact, ConferenceQuickPrivelegeModify.MODERATOR, myNick);
+                        action = QuickPrivelegyEditForm.MODERATOR;
                         return;
                     case MI_MEMBER:
-                        new ConferenceQuickPrivelegeModify(display, this, mcontact, ConferenceQuickPrivelegeModify.MEMBER, myNick);
+                        action = QuickPrivelegyEditForm.MEMBER;
                         break;
                     case MI_UNMEMBER:
-                        new ConferenceQuickPrivelegeModify(display, this, mcontact, ConferenceQuickPrivelegeModify.NONE, myNick);
+                        action = QuickPrivelegyEditForm.NONE;
                         break;
                     case MI_ADMIN:
-                        new ConferenceQuickPrivelegeModify(display, this, mcontact, ConferenceQuickPrivelegeModify.ADMIN, myNick);
+                        action = QuickPrivelegyEditForm.ADMIN;
                         break;
                     case MI_OWNER:
-                        new ConferenceQuickPrivelegeModify(display, this, mcontact, ConferenceQuickPrivelegeModify.OWNER, myNick);
+                        action = QuickPrivelegyEditForm.OWNER;
                         break;
+                    default:
+                        return;
                 }
+                new QuickPrivelegyEditForm(display, parentView, mcontact, action, myNick);
             }
         } else if (item instanceof Group) {
             final Group group = (Group) item;
@@ -679,16 +663,16 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                         new QueryConfigForm(display, roomjid);
                         return;
                     case MI_BANLIST:
-                        new Affiliations(display, this, roomjid, AffiliationItem.AFFILIATION_OUTCAST);
+                        new AffiliationList(display, this, roomjid, AffiliationItem.AFFILIATION_OUTCAST);
                         return;
                     case MI_MEMBERLIST:
-                        new Affiliations(display, this, roomjid, AffiliationItem.AFFILIATION_MEMBER);
+                        new AffiliationList(display, this, roomjid, AffiliationItem.AFFILIATION_MEMBER);
                         return;
                     case MI_ADMINLIST:
-                        new Affiliations(display, this, roomjid, AffiliationItem.AFFILIATION_ADMIN);
+                        new AffiliationList(display, this, roomjid, AffiliationItem.AFFILIATION_ADMIN);
                         return;
                     case MI_OWNERLIST:
-                        new Affiliations(display, this, roomjid, AffiliationItem.AFFILIATION_OWNER);
+                        new AffiliationList(display, this, roomjid, AffiliationItem.AFFILIATION_OWNER);
                         return;
                     case MI_LEAVE:
                         ((ConferenceGroup) group).leaveRoom();

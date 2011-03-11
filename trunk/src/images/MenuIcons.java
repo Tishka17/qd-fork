@@ -27,7 +27,6 @@
 package images;
 
 import javax.microedition.lcdui.Graphics;
-import ui.ImageList;
 
 /**
  *

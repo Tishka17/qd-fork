@@ -47,13 +47,13 @@ import ui.controls.form.CheckBox;
 import ui.controls.form.DefForm;
 import ui.controls.form.TextInput;
 //#ifdef GRAPHICS_MENU
-//# import ui.GMenu;
-//# import ui.GMenuConfig;
+import ui.GMenu;
+import ui.GMenuConfig;
 //#endif
 import ui.controls.form.NumberInput;
 import ui.controls.form.SpacerItem;
 import javax.microedition.lcdui.Image;
-import ui.ImageList;
+import images.ImageList;
 import ui.controls.form.LinkString;
 import java.util.Vector;
 //#ifdef FILE_IO
@@ -226,7 +226,7 @@ public class ConfigAvatar
 //#endif
 
 //#ifndef GRAPHICS_MENU
-    super.commandState();
+//#     super.commandState();
 //#endif
         removeCommand(cmdCancel);
 //#ifdef FILE_IO
@@ -237,7 +237,7 @@ public class ConfigAvatar
 //#endif
         addCommand(cmdOkey);
 //#ifndef GRAPHICS_MENU
-     addCommand(cmdCancel);
+//#      addCommand(cmdCancel);
 //#endif
     }
 
@@ -359,26 +359,26 @@ public class ConfigAvatar
     public String touchLeftCommand(){ return SR.get(SR.MS_MENU); }
 
 //#ifdef GRAPHICS_MENU
-//#     public void touchLeftPressed(){
-//#         showGraphicsMenu();
-//#     }
-//#     public int showGraphicsMenu() {
-//#         commandState();
-//#         menuItem = new GMenu(display, parentView, this, null, menuCommands);
-//#         GMenuConfig.getInstance().itemGrMenu = GMenu.HISTORY_CONFIG;
-//#         redraw();
-//#         return GMenu.HISTORY_CONFIG;
-//#     }
-//# 
-//#else
     public void touchLeftPressed(){
-        showMenu();
+        showGraphicsMenu();
+    }
+    public int showGraphicsMenu() {
+        commandState();
+        menuItem = new GMenu(display, parentView, this, null, menuCommands);
+        GMenuConfig.getInstance().itemGrMenu = GMenu.HISTORY_CONFIG;
+        redraw();
+        return GMenu.HISTORY_CONFIG;
     }
 
-    public void showMenu() {
-        commandState();
-        new MyMenu(display, parentView, this, SR.get(SR.MS_HISTORY_OPTIONS), null, menuCommands);
-   }
+//#else
+//#     public void touchLeftPressed(){
+//#         showMenu();
+//#     }
+//# 
+//#     public void showMenu() {
+//#         commandState();
+//#         new MyMenu(display, parentView, this, SR.get(SR.MS_HISTORY_OPTIONS), null, menuCommands);
+//#    }
 //#endif
 
 

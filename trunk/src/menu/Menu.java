@@ -27,6 +27,7 @@
  */
 
 package menu;
+import images.ImageList;
 import client.Config;
 import java.util.*;
 //#ifndef MENU_LISTENER

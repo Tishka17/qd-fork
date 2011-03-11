@@ -32,7 +32,6 @@ package images;
 
 import client.Config;
 import message.MessageParser;
-import ui.ImageList;
 
 /**
  *

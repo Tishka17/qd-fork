@@ -29,6 +29,7 @@
 package message;
 
 //#ifdef SMILES
+import images.ImageList;
 import images.SmilesIcons;
 //#endif
 import font.FontCache;

@@ -48,49 +48,40 @@ import menu.Command;
  *
  * @author Evg_S
  */
-public class ConferenceQuickPrivelegeModify 
-        extends DefForm {
-    
+public final class QuickPrivelegyEditForm extends DefForm {
     public final static int KICK=1;
     public final static int VISITOR=2;
     public final static int PARTICIPANT=3;
     public final static int MODERATOR=4;
-    
+
     public final static int OUTCAST=5;
     public final static int NONE=6;
     public final static int MEMBER=7;
     public final static int ADMIN=8;
     public final static int OWNER=9;
 
-    private Display display;
-
     private TextInput reason;
     private MucContact victim;
-    
+
     private Command cmdNoReason;
 
     private int action;
 
     private String myNick;
 
-    /**
-     * Creates a new instance of ConferenceQuickPrivelegeModify
-     */
-    public ConferenceQuickPrivelegeModify(Display display, Displayable pView, MucContact victim, int action, String myNick) {
+    public QuickPrivelegyEditForm(Display display, Displayable pView, MucContact victim, int action, String myNick) {
         super(display, pView, null);
-        
+
         cmdNoReason=new Command(SR.get(SR.MS_NO_REASON), Command.SCREEN, 2);
-        
-        this.display=display;
-        
+
         this.victim=victim;
         this.action=action;
         this.myNick=myNick;
-        
+
 	String okName = SR.get(SR.MS_OK);
-        
+
         switch (action) {
-            case KICK: 
+            case KICK:
 		okName=SR.get(SR.MS_KICK);
                 break;
             case OUTCAST:
@@ -101,30 +92,29 @@ public class ConferenceQuickPrivelegeModify
                 break;
             case PARTICIPANT:
 		okName=SR.get(SR.MS_OK);
-                break;                
+                break;
             default:
                 setMucMod();
                 return;
         } // switch
 
         getMainBarItem().setElementAt(okName, 0);
-        
+
         StringBuffer user=new StringBuffer(victim.getNick());
         if (victim.jid!=null) {
             user.append(" (")
             .append(victim.realJid)
             .append(")");
         }
-        itemsList.addElement(new MultiLine(SR.get(SR.MS_USER), user.toString(), super.superWidth));
+        addControl(new MultiLine(SR.get(SR.MS_USER), user.toString(), super.superWidth));
 
-        
+
         reason=new TextInput(display, SR.get(SR.MS_REASON), "", "reason", TextField.ANY);
-        itemsList.addElement(reason);
-        
+        addControl(reason);
+
 //#ifndef MENU
         addCommand(cmdNoReason);
 //#endif
-        user=null;
         attachDisplay(display);
         this.parentView=pView;
     }
@@ -133,13 +123,14 @@ public class ConferenceQuickPrivelegeModify
         setMucMod();
         destroyView();
     }
-    
+
     public void destroyView(){
         display.setCurrent(StaticData.getInstance().roster);
     }
+
 //#ifndef MENU
     public void commandAction(Command c, Displayable d) {
-        if (c==cmdNoReason) { 
+        if (c==cmdNoReason) {
             reason.setValue("");
             cmdOk();
             return;
@@ -153,7 +144,7 @@ public class ConferenceQuickPrivelegeModify
 //#endif
     private void setMucMod(){
         JabberDataBlock iq=new Iq(victim.jid.getBareJid(), Iq.TYPE_SET, "itemmuc");
-        JabberDataBlock query=iq.addChildNs("query", "http://jabber.org/protocol/muc#admin"); 
+        JabberDataBlock query=iq.addChildNs("query", "http://jabber.org/protocol/muc#admin");
         //TODO: separate usecases to muc#owner, muc#admin and muc#moderator
         JabberDataBlock item=new JabberDataBlock("item", null, null);
         query.addChild(item);
@@ -164,7 +155,7 @@ public class ConferenceQuickPrivelegeModify
             if (rzn.startsWith("!")) {
                 rzn=rzn.substring(1);
             } else {
-                Nick=(myNick==null)?myNick:myNick+": ";                
+                Nick=(myNick==null)?myNick:myNick+": ";
             }
             if (rzn.length()!=0 && myNick!=null) {
                item.addChild("reason",Nick+rzn);
@@ -172,9 +163,9 @@ public class ConferenceQuickPrivelegeModify
                 item.addChild("reason", Nick);
             }
         } catch (Exception e) {}
-        
+
         switch (action) {
-            case KICK: 
+            case KICK:
                 item.setAttribute("role", "none");
                 item.setAttribute("nick", victim.getNick());
                 break;
@@ -183,44 +174,44 @@ public class ConferenceQuickPrivelegeModify
                 item.setAttribute("affiliation", "outcast");
                 item.setAttribute("jid", victim.realJid);
                 break;
-                
+
             case PARTICIPANT:
                 item.setAttribute("role", "participant");
                 item.setAttribute("nick", victim.getNick());
                 break;
-                
+
             case VISITOR:
                 item.setAttribute("role", "visitor");
                 item.setAttribute("nick", victim.getNick());
                 break;
-                
+
             case MODERATOR:
                 item.setAttribute("role", "moderator");
                 item.setAttribute("nick", victim.getNick());
                 break;
-                
+
             case MEMBER:
                 item.setAttribute("affiliation", "member");
                 item.setAttribute("jid", victim.realJid);
                 break;
-                
+
             case NONE:
                 item.setAttribute("affiliation", "none");
                 item.setAttribute("jid", victim.realJid);
                 break;
-                
+
             case ADMIN:
                 item.setAttribute("affiliation", "admin");
                 item.setAttribute("jid", victim.realJid);
                 break;
-                
+
             case OWNER:
                 item.setAttribute("affiliation", "owner");
                 item.setAttribute("jid", victim.realJid);
 
         }
-        //System.out.println(">>"+iq);
+
         StaticData.getInstance().roster.theStream.send(iq);
-        iq=null;
+
     }
 }

@@ -27,8 +27,7 @@
 
 package menu;
 //#ifdef MENU_LISTENER
-import client.Config;
-import font.FontCache;
+import images.ImageList;
 import javax.microedition.lcdui.Graphics;
 //#endif
 import client.Config;
@@ -49,14 +48,12 @@ public class MenuItem
     public int pos;
     private int iconIndex;
     private Font font;
-    private boolean inCommand = false;
     
     public MenuItem(String name, int index, int iconIndex, ImageList il, boolean inCommand) {
         super(il);
         this.index=index;
 	this.name=name;
         this.iconIndex=iconIndex;
-        this.inCommand = inCommand;
         this.font=FontCache.getFont(false, FontCache.msg);
     }
 
@@ -70,7 +67,7 @@ public class MenuItem
               g.setFont(font);
               g.drawString(Integer.toString((pos<9)?pos+1:0), w, 0, Graphics.TOP|Graphics.RIGHT);
           }
-        super.drawItem(view, g, ofs, sel, inCommand); 
+        super.drawItem(view, g, ofs, sel); 
     }
 //#endif
 }

@@ -25,6 +25,7 @@
  *
  */
 package ui;
+import images.ImageList;
 import javax.microedition.lcdui.*;
 import client.Config;
 import colors.ColorTheme;

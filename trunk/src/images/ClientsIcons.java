@@ -28,7 +28,6 @@
 //#ifdef CLIENTS_ICONS
 package images;
 
-import ui.ImageList;
 import javax.microedition.lcdui.Graphics;
 /**
  *

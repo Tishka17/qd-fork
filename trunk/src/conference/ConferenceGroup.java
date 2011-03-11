@@ -77,7 +77,7 @@ public final class ConferenceGroup extends Group{
 
     public long conferenceJoinTime;
     
-    public void updateDinamicInfo() {
+    public void updateDynamicInfo() {
         toStringValue = mainbar((null == desc) ? label : desc);
     }
 

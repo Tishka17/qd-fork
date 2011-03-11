@@ -45,20 +45,20 @@ import images.RosterIcons;
 import java.util.Vector;
 import javax.microedition.lcdui.*;
 import locale.SR;
+import midlet.Commands;
 import ui.MainBar;
 import ui.VirtualElement;
 import ui.VirtualList;
 //#ifdef CLIPBOARD
-//# import util.ClipBoard;
+import util.ClipBoard;
 //#endif
 
 /**
  *
  * @author EvgS
  */
-public class Affiliations
-        extends VirtualList
-		implements
+
+public final class AffiliationList extends VirtualList implements
 //#ifndef MENU_LISTENER
 //#         CommandListener,
 //#else
@@ -68,26 +68,17 @@ public class Affiliations
 {
 
     private Vector items;
-    private String id="admin";
+    private String affiliation;
     private String namespace="http://jabber.org/protocol/muc#admin";
     private String room;
 
     private JabberStream stream=StaticData.getInstance().roster.theStream;
 
-    private Command cmdCancel;
     private Command cmdModify;
     private Command cmdNew;
-//#ifdef CLIPBOARD
-//#     private Command cmdCopy;
-//#endif
 
-    protected VirtualElement getItemRef(int index) { return (VirtualElement) items.elementAt(index); }
-    protected int getItemCount() { return items.size(); }
-
-
-    /** Creates a new instance of AffiliationList */
-    public Affiliations(Display display, Displayable pView, String room, short affiliationIndex) {
-        super ();
+    public AffiliationList(Display display, Displayable pView, String room, int affiliationIndex) {
+        super();
         this.room=room;
 
 	//fix for old muc
@@ -97,15 +88,19 @@ public class Affiliations
 		if (!Config.getInstance().muc119) namespace="http://jabber.org/protocol/muc#owner";
 	}
 
-        this.id=AffiliationItem.getAffiliationName(affiliationIndex);
+        this.affiliation = AffiliationItem.getAffiliationName(affiliationIndex);
 
         setMainBarItem(new MainBar(2, null, " ", false));
-        getMainBarItem().addElement(id);
+        getMainBarItem().addElement(affiliation);
 
         items=null;
         items=new Vector(0);
 
-        initCommands();
+        cmdModify = new Command (SR.get(SR.MS_MODIFY), Command.SCREEN, 1);
+        cmdModify.setImg(0x03);
+
+        cmdNew    = new Command (SR.get(SR.MS_NEW_JID), Command.SCREEN, 2);
+        cmdNew.setImg(0x02);
 
         setCommandListener(this);
         attachDisplay(display);
@@ -113,69 +108,66 @@ public class Affiliations
         getList();
     }
 
-    public void initCommands() {
-        cmdCancel = new Command (SR.get(SR.MS_BACK), Command.BACK, 99);
-        cmdModify = new Command (SR.get(SR.MS_MODIFY), Command.SCREEN, 1);
-        cmdNew    = new Command (SR.get(SR.MS_NEW_JID), Command.SCREEN, 2);
-        //#ifdef CLIPBOARD
-//#             cmdCopy   = new Command(SR.get(SR.MS_COPY), Command.SCREEN, 3);
-        //#endif
-    }
-
     public void commandState() {
-        //#ifdef MENU_LISTENER
+//#ifdef MENU_LISTENER
             menuCommands.removeAllElements();
             cmdfirstList.removeAllElements();
             cmdsecondList.removeAllElements();
             cmdThirdList.removeAllElements();
-        //#endif
-        //addCommand(cmdCancel);
-        addCommand(cmdModify);
-        cmdModify.setImg(0x03);
+//#endif
         addCommand(cmdNew);
-        cmdNew.setImg(0x02);
-        //#ifdef CLIPBOARD
-//#             if (Config.getInstance().useClipBoard) {
-//#                 addCommand(cmdCopy);
-//#                 cmdCopy.setImg(0x23);
-//#             }
-        //#endif
+        addCommand(cmdModify);
+
+//#ifdef CLIPBOARD
+        if (getItemCount() != 0) {
+            if (Config.getInstance().useClipBoard) {
+                addCommand(Commands.cmdCopy);
+            }
+        }
+ //#endif
     }
 
-    public void getList() {
+    public final void getList() {
         JabberDataBlock item=new JabberDataBlock("item", null, null);
-        item.setAttribute("affiliation", id);
-        listRq(false, item, id);
+        item.setAttribute("affiliation", affiliation);
+        listRq(false, item, affiliation);
     }
 
     public void commandAction(Command c, Displayable d){
-        if (c==cmdNew) new AffiliationModify(display, this, room, null, "none", "");
-        if (c==cmdModify) eventOk();
+        if (c == cmdNew) {
+            new AffiliationEditForm(display, this, room, null, affiliation, "");
+        }
+        if (c == cmdModify) {
+            eventOk();
+        }
 //#ifdef CLIPBOARD
-//#         if (c==cmdCopy) {
-//#             try {
-//#                 AffiliationItem item=(AffiliationItem)getFocusedObject();
-//#                 if (item.jid!=null)
-//#                     ClipBoard.setClipBoard(item.jid);
-//#             } catch (Exception e) {/*no messages*/}
-//#         }
+        if (c == Commands.cmdCopy) {
+            AffiliationItem item = (AffiliationItem)getFocusedObject();
+            if (item.jid != null) {
+                ClipBoard.setClipBoard(item.jid);
+            }
+        }
 //#endif
-        if (c!=cmdCancel)
-            return;
-
-        destroyView();
     }
 
     public void destroyView(){
-	super.destroyView();
 	stream.cancelBlockListener(this);
+        super.destroyView();
+    }
+
+    protected VirtualElement getItemRef(int index) {
+        return (VirtualElement)items.elementAt(index);
+    }
+
+    protected int getItemCount() {
+        return items.size();
     }
 
     public void eventOk(){
         try {
             AffiliationItem item=(AffiliationItem)getFocusedObject();
-            new AffiliationModify(display, this, room, item.jid,
-					AffiliationItem.getAffiliationName( (short)item.affiliation),
+            new AffiliationEditForm(display, this, room, item.jid,
+					AffiliationItem.getAffiliationName(item.affiliation),
                                         (item.reason==null)? "":item.reason
                     );
         } catch (Exception e) { }
@@ -191,30 +183,38 @@ public class Affiliations
 
     public int blockArrived(JabberDataBlock data) {
         try {
-            if (data.getAttribute("id").equals(id)) {
-                JabberDataBlock query=data.findNamespace("query", namespace);
-                Vector tempItems=new Vector(0);
-                try {
-                  int size=query.getChildBlocks().size();
-                    for(int i=0;i<size;i++){
-                        tempItems.addElement(new AffiliationItem((JabberDataBlock)query.getChildBlocks().elementAt(i)));
-                    }
-                } catch (Exception e) { /* no any items */}
-                sort(tempItems);
-                items=tempItems;
-                tempItems=null;
+            if (data.getAttribute("id").equals(affiliation)) {
+                JabberDataBlock query = data.findNamespace("query", namespace);
+                if (query != null) {
+                    Vector children = query.getChildBlocks();
+                    Vector tempItems = new Vector(0);
 
-                if (display!=null) redraw();
+                    if (children != null) {
+                        for (int i = 0; i < children.size(); i++) {
+                            JabberDataBlock block = (JabberDataBlock)children.elementAt(i);
+                            String jid = block.getAttribute("jid");
+                            if (jid != null) {
+                                tempItems.addElement(new AffiliationItem(block));
+                            }
+                        }
+                        sort(tempItems);
+                        items = tempItems;
+                    }
+                }
+                if (display != null) {
+                    redraw();
+                }
 
                 processIcon(false);
                 return JabberBlockListener.NO_MORE_BLOCKS;
             }
-        } catch (Exception e) { }
+        } catch (Exception e) {
+            //e.printStackTrace();
+        }
         return JabberBlockListener.BLOCK_REJECTED;
     }
 
     public void listRq(boolean set, JabberDataBlock child, String id) {
-
         JabberDataBlock request=new Iq(room, (set)? Iq.TYPE_SET: Iq.TYPE_GET, id);
         JabberDataBlock query=request.addChildNs("query", namespace);
         query.addChild(child);
@@ -225,11 +225,11 @@ public class Affiliations
     }
 
 //#ifdef GRAPHICS_MENU
-//#     public int showGraphicsMenu() {
-//#         commandState();
-//#         menuItem = new GMenu(display, parentView, this, null, menuCommands, cmdfirstList, cmdsecondList, cmdThirdList);
-//#         GMenuConfig.getInstance().itemGrMenu = GMenu.AFFILIATIONS_EDIT;
-//#         return GMenu.AFFILIATIONS_EDIT;
-//#     }
+    public int showGraphicsMenu() {
+        commandState();
+        menuItem = new GMenu(display, parentView, this, null, menuCommands, cmdfirstList, cmdsecondList, cmdThirdList);
+        GMenuConfig.getInstance().itemGrMenu = GMenu.AFFILIATIONS_EDIT;
+        return GMenu.AFFILIATIONS_EDIT;
+    }
 //#endif
 }

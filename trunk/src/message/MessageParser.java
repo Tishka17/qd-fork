@@ -42,41 +42,35 @@ import ui.*;
 import util.Strconv;
 import images.RosterIcons;
 
-public final class MessageParser // implements Runnable
-{
-    private final static int BOLD=-3;
+public final class MessageParser {
     private final static byte URL=-2;
     private final static byte NOSMILE=-1;
-    //Config cf = Config.getInstance();
+
     private Vector smileTable;
 
     private Leaf root;
     private Leaf emptyRoot;
 
-    // Singleton
     private static MessageParser instance=null;
 
-    private int width; // window width
 //#ifdef SMILES
     private ImageList smileImages;
 //#endif
 
-    //private Vector tasks=new Vector();
-    //private Thread thread;
-
     boolean wordsWrap;
     private static String wrapSeparators=" .,-=/\\;:+()[]<>~!@#%^_&";
-    public static boolean animated = false;
 
-    public static void restart() {
-       if(instance!=null) instance = null;
-       animated = midlet.BombusQD.cf.animatedSmiles;
-       getInstance();
+    public boolean animated = true;
+
+    public void restart(boolean animated) {
+        this.animated = animated;
+        loadSmiles();
     }
 
     public static MessageParser getInstance() {
-        if (instance==null)
-            instance=new MessageParser(animated?"/images/smiles/ani_smiles.txt":"/images/smiles/smiles.txt");
+        if (instance == null) {
+            instance = new MessageParser();
+        }
         return instance;
     }
 
@@ -136,8 +130,10 @@ public final class MessageParser // implements Runnable
             //messageItem.notifyRepaint();
     }
 
+    public void loadSmiles() {
+        String res = animated ? "/images/smiles/ani_smiles.txt" : "/images/smiles/smiles.txt";
+        //String res = "/images/smiles/smiles.txt";
 
-    private MessageParser(String res) {
         smileTable=null;
         smileTable=new Vector(0);
         root=new Leaf();
@@ -210,6 +206,10 @@ public final class MessageParser // implements Runnable
         addSmile(emptyRoot, "<nick>", ComplexString.NICK_ON);
         addSmile(emptyRoot, "</nick>", ComplexString.NICK_OFF);
 //#endif
+    }
+
+    private MessageParser() {
+        loadSmiles();
     }
 
     private static StringBuffer s;

@@ -27,12 +27,15 @@
 
 package client;
 
+//#ifdef COLOR_TUNE
 import colors.ColorTheme;
+//#endif
 import java.util.Vector;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import menu.MenuListener;
+import message.MessageParser;
 import midlet.BombusQD;
 import midlet.Commands;
 import ui.VirtualList;
@@ -300,7 +303,7 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 //#ifdef SMILES
             smiles = new CheckBox(SR.get(SR.MS_SMILES), config.smiles);
             addControl(smiles);
-            if(Config.ANIsmilesDetect) {
+            if(Config.hasAniSmiles) {
                 animatedSmiles = new CheckBox(SR.get(SR.MS_ANI_SMILES), config.animatedSmiles);
                 addControl(animatedSmiles);
             }
@@ -530,13 +533,13 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 //#ifdef CLASSIC_CHAT
 //#         } else if (type.equals(SR.get(SR.MS_clchatStr))) {
 //#             addControl(new SimpleString(SR.get(SR.MS_CLCHAT_ON), true));
-//# 
+//#
 //#             usePhoneTheme = new CheckBox(SR.get(SR.MS_CLCHAT_BGNG_PHONE), config.usePhoneTheme);
 //#             addControl(usePhoneTheme);
-//# 
+//#
 //#             classicChatHeight = new NumberInput(display,SR.get(SR.MS_CLCHAT_HEIGHT), Integer.toString(config.classicChatHeight), 80, 320);
 //#             addControl(classicChatHeight);
-//# 
+//#
 //#             lineCount = new NumberInput(display, SR.get(SR.MS_CLCHAT_MSGLIMIT), Integer.toString(config.lineCount), 1, 1000);
 //#             itemsList.addElement(lineCount);
 //#             itemsList.addElement(new SpacerItem(10));
@@ -610,12 +613,15 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 
 //#ifdef SMILES
             config.smiles=smiles.getValue();
-            if(Config.ANIsmilesDetect) {
-                config.animatedSmiles=animatedSmiles.getValue();
+            if(Config.hasAniSmiles) {
+                config.animatedSmiles = animatedSmiles.getValue();
             }
-            boolean aniSmiles = message.MessageParser.animated;
-            if(!aniSmiles && config.animatedSmiles || aniSmiles && !config.animatedSmiles) {
-                 message.MessageParser.restart();
+            MessageParser parser = MessageParser.getInstance();
+            boolean aniSmiles = parser.animated;
+            if(aniSmiles != config.animatedSmiles) {
+                // for SE
+                parser.restart(config.animatedSmiles);
+                System.out.println("restart parser");
             }
 //#endif
 

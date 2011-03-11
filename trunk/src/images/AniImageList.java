@@ -29,21 +29,20 @@
  * and open the template in the editor.
  */
 
+//#ifdef SMILES
 package images;
 
+import java.io.IOException;
 import java.io.InputStream;
-import java.util.Vector;
-import javax.microedition.lcdui.Form;
 import javax.microedition.lcdui.*;
 import ui.ImageList;
-import ui.VirtualList;
 
 /**
  *
  * @author vladimir
  */
 public class AniImageList extends ImageList implements Runnable {
-    
+
     private AniIcon[] icons;
     private Thread thread;
 
@@ -57,13 +56,13 @@ public class AniImageList extends ImageList implements Runnable {
     private int size() {
         return icons != null ? icons.length : 0;
     }
-    
+
     public AniImageList() { }
 
     public void drawImage(Graphics g, int index, int x, int y) {
        if (0 <= index && index < icons.length) icons[index].drawImage(g, x, y);
     }
-    
+
     private String getAnimationFile(String resName, int i) {
         return resName + "/" + (i + 1) + ".png";
     }
@@ -71,6 +70,9 @@ public class AniImageList extends ImageList implements Runnable {
     public boolean load(String resName) {
         try {
             InputStream is = getClass().getResourceAsStream(resName + "/animate.bin");
+            if (is == null) {
+                return false;
+            }
             int smileCount = is.read();
             icons = new AniIcon[smileCount];
             aniWidth = new int[smileCount + 1];
@@ -100,7 +102,7 @@ public class AniImageList extends ImageList implements Runnable {
             System.out.println("Load Ani OutofMem");
             return false;
         }
-        catch (Exception e) {
+        catch (IOException e) {
             System.out.println("Error Loading animated.bin");
             return false;
         }
@@ -138,3 +140,4 @@ public class AniImageList extends ImageList implements Runnable {
         }
     }
 }
+//#endif

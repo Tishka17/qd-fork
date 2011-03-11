@@ -297,7 +297,7 @@ public class Config {
     public boolean debug=false;
 
     public int ANIsmilesHeight=-1;
-    public static boolean ANIsmilesDetect = true;
+    public static boolean hasAniSmiles = true;
     public boolean showCollapsedPresences=false;
     public boolean networkAnnotation=true;
     public boolean metaContacts=false;
@@ -348,10 +348,11 @@ public class Config {
                 ActionsIcons.getInstance();
 //#ifdef SMILES
                 if (smiles) {
-                    if(animatedSmiles)
+                    if (animatedSmiles) {
                         SmilesIcons.getInstance();
-                    else
+                    } else {
                         SmilesIcons.getStaticInstance();
+                    }
                 }
 //#endif
                 System.gc();
@@ -501,7 +502,9 @@ public class Config {
         try {
             showOfflineContacts = inputStream.readBoolean();
             fullscreen = inputStream.readBoolean();
+//#ifdef SMILES
             smiles = inputStream.readBoolean();
+//#endif
             showTransports = inputStream.readBoolean();
             selfContact = inputStream.readBoolean();
             collapsedGroups = inputStream.readBoolean();
@@ -779,9 +782,11 @@ public class Config {
    public boolean saveBoolean(){
        	DataOutputStream outputStream=NvStorage.CreateDataOutputStream();
 	try {
-	    outputStream.writeBoolean(showOfflineContacts);//1
+	    outputStream.writeBoolean(showOfflineContacts);
 	    outputStream.writeBoolean(fullscreen);
+//#ifdef SMILES
 	    outputStream.writeBoolean(smiles);
+//#endif
 	    outputStream.writeBoolean(showTransports);
 	    outputStream.writeBoolean(selfContact);
 	    outputStream.writeBoolean(collapsedGroups);
@@ -821,11 +826,11 @@ public class Config {
             outputStream.writeBoolean(queryExit);
             outputStream.writeBoolean(notifyPicture);
             outputStream.writeBoolean(showBalloons);
-            //outputStream.writeBoolean(user-Keys);
-            outputStream.writeBoolean(useTabs);
-            outputStream.writeBoolean(useBoldFont);//40
 
-            outputStream.writeBoolean(IQNotify); //IRC_LIKE
+            outputStream.writeBoolean(useTabs);
+            outputStream.writeBoolean(useBoldFont);
+
+            outputStream.writeBoolean(IQNotify);
 //#ifdef PEP
             outputStream.writeBoolean(sndrcvmood);
 //#endif
@@ -851,7 +856,7 @@ public class Config {
 
             outputStream.writeBoolean(swapSendAndSuspend);
 
-	} catch (Exception e) { }
+	} catch (IOException e) { }
 	return NvStorage.writeFileRecord(outputStream, "confBoolean", 0, true);
    }
 
@@ -884,7 +889,7 @@ public class Config {
 
             outputStream.writeBoolean(isLegal);
             outputStream.writeBoolean(iconsLeft);
-            //outputStream.writeBoolean(useClassicChat);
+
             outputStream.writeBoolean(usePhoneTheme);
             outputStream.writeBoolean(gradient_cursor);
             outputStream.writeBoolean(autoSaveVcard);
@@ -926,9 +931,8 @@ public class Config {
             outputStream.writeBoolean(showCollapsedPresences);
             outputStream.writeBoolean(networkAnnotation);
             outputStream.writeBoolean(metaContacts);
-            //outputStream.writeBoolean(graphicsMenu);
 
-	} catch (Exception e) { }
+	} catch (IOException e) { }
 	return NvStorage.writeFileRecord(outputStream, "confBoolean_", 0, true);
    }
 
@@ -936,10 +940,10 @@ public class Config {
    public boolean saveInt(){
        	DataOutputStream outputStream=NvStorage.CreateDataOutputStream();
 	try {
-	    outputStream.writeInt(accountIndex);//1
+	    outputStream.writeInt(accountIndex);
 	    outputStream.writeInt(def_profile);
 	    outputStream.writeInt(gmtOffset);
-	    //outputStream.writeInt(0); //locOffset
+
             outputStream.writeInt(rosterFont);
             outputStream.writeInt(msgFont);
             outputStream.writeInt(notInListDropLevel);
@@ -973,15 +977,14 @@ public class Config {
             outputStream.writeInt(popup_bgnd);
             outputStream.writeInt(cursor_bgnd);
             outputStream.writeInt(avatar_cashe_size);
-            //outputStream.writeInt(difficulty_level);
-            outputStream.writeInt(maxAvatarWidth);//32
+            outputStream.writeInt(maxAvatarWidth);
             outputStream.writeInt(msgEditType);
             outputStream.writeInt(graphicsMenuPosition);
             outputStream.writeInt(gradientBarLight1);
             outputStream.writeInt(gradientBarLight2);
             outputStream.writeInt(userAppLevel);
             outputStream.writeInt(graphicsMenuFont);
-	} catch (Exception e) { }
+	} catch (IOException e) { }
 	return NvStorage.writeFileRecord(outputStream, "confInt", 0, true);
     }
 
@@ -1001,7 +1004,7 @@ public class Config {
             outputStream.writeUTF(actCat);
             outputStream.writeUTF(drwd_fontname);
             outputStream.writeUTF(path_skin);
-	} catch (Exception e) { }
+	} catch (IOException e) { }
 	return NvStorage.writeFileRecord(outputStream, "confUtf", 0, true);
     }
 

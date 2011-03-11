@@ -28,11 +28,10 @@
 //# package client;
 //# 
 //# import javax.microedition.lcdui.*;
-//# import java.util.Timer;
 //# import ui.Gradient;
 //# import colors.ColorTheme;
 //# import font.*;
-//# import ui.ImageList;
+//# import images.ImageList;
 //# import ui.GMenuConfig;
 //# import ui.VirtualList;
 //# 

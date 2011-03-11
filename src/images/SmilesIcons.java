@@ -26,9 +26,11 @@
  * along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
- 
+
+//#ifdef SMILES
 package images;
 
+import client.Config;
 import message.MessageParser;
 import ui.ImageList;
 
@@ -37,59 +39,59 @@ import ui.ImageList;
  * @author EvgS
  */
 public class SmilesIcons {
-    
+
     private static String res= "/images/smiles/smiles.png";
     private final static int SMILES_IN_ROW=16;
     private static int cols;
-    
+
     private static ImageList animatedInstance = null;
     private static ImageList staticInstance = null;
-    
+
     public static ImageList getStaticInstance() {
-//#ifdef SMILES
-       if(staticInstance==null){
-           try {
-              int smilesCount = MessageParser.getInstance().getSmileTable().size();
-              cols = ceil(SMILES_IN_ROW, smilesCount);
-           } catch (Exception e) {
-//#ifdef DEBUG
-//#               System.out.print("Can't load res");
-//#endif
-           }
-           staticInstance = new ImageList(res, cols, SMILES_IN_ROW);
-       }
-//#endif
-       return staticInstance;
-    }
-    
-    public static ImageList getInstance() {
-//#ifdef SMILES
-        if (null == animatedInstance){
-            int smilesCount = -1;
-             try {
-                 smilesCount = MessageParser.getInstance().getSmileTable().size();
-                 cols = ceil(SMILES_IN_ROW, smilesCount);
-             } catch (Exception e) {
-//#ifdef DEBUG
-//#                  System.out.print("Can't load res");
-//#endif
-             }
-             animatedInstance=new AniImageList();
-             boolean load = ((AniImageList)animatedInstance).load("/images/smiles");
-             if(!load) {
-                 midlet.BombusQD.cf.ANIsmilesDetect = midlet.BombusQD.cf.animatedSmiles = false;
-                 MessageParser.restart();
-                 images.SmilesIcons.getStaticInstance();
-             }
+        if (staticInstance == null) {
+            try {
+                int smilesCount = MessageParser.getInstance().getSmileTable().size();
+                cols = ceil(SMILES_IN_ROW, smilesCount);
+            } catch (Exception e) {
 
-             if (0 == animatedInstance.getWidth())
-                 animatedInstance=new ImageList(res, cols, SMILES_IN_ROW);
-
+            }
+            staticInstance = new ImageList(res, cols, SMILES_IN_ROW);
         }
-//#endif
-        return animatedInstance;
+        return staticInstance;
     }
-    
+
+    public static ImageList getInstance() {
+        if (Config.hasAniSmiles) {
+            if (null == animatedInstance) {
+                int smilesCount = -1;
+                try {
+                    smilesCount = MessageParser.getInstance().getSmileTable().size();
+                    cols = ceil(SMILES_IN_ROW, smilesCount);
+                } catch (Exception e) {
+
+                }
+
+                animatedInstance = new AniImageList();
+                boolean load = ((AniImageList)animatedInstance).load("/images/smiles");
+                if (load && animatedInstance.getWidth() != 0) {
+                    return animatedInstance;
+                } else {
+                    Config.hasAniSmiles = false;
+                    Config.getInstance().animatedSmiles = false;
+                    animatedInstance = null;
+
+                    // for SE
+                    MessageParser.getInstance().restart(false);
+                    return getStaticInstance();
+                }
+            }
+
+            return animatedInstance;
+        } else {
+            return getStaticInstance();
+        }
+    }
+
     private static int ceil(int rows, int count){
         int tempCols=count/rows;
         if (count>(tempCols*rows))
@@ -97,3 +99,4 @@ public class SmilesIcons {
         return tempCols;
     }
 }
+//#endif

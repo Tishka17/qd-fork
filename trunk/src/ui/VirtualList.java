@@ -810,46 +810,6 @@ public abstract class VirtualList
     }
 //#endif
 
-/*
-    private Timer timer;
-    int posX = 0;
-
-	private static final int anim_time = 50;
-	private void startTimer()//,int cursorPosNew,boolean isKeyDwn)
-	{
-                posX=0;
-		if ( timer == null && midlet.BombusQD.cf.animateMenuAndRoster)
-		{
-			timer = new Timer();
-         		timer.schedule( new AnimTask(), 0, anim_time );
-		}
-	}
-	private void stopTimer()
-	{
-		if ( timer != null )
-		{
-                        System.out.println("stop!");
-			timer.cancel();
-                        timer = null;
-		}
-	}
-
-	private final class AnimTask
-		extends TimerTask
-	{
-		public void run ()
-		{
-                  posX+=5;
-                  System.out.println(posX);
-                  if(posX==100){
-                    stopTimer();
-                  }
-  		}
-	}
- */
-
-
-
     private static int getARGB() {
       int ccolor = ColorTheme.getColor(ColorTheme.CURSOR_BGND);
       int red, green, blue,alpha;
@@ -1747,14 +1707,7 @@ public abstract class VirtualList
          repaint();
      }
      else{
-       if(midlet.BombusQD.cf.isOptionsSel){
-        isSel=false;
-        if (keyCode==KEY_NUM5) {
-            eventOk();
-            redraw();
-            return;
-         }
-       }
+
 //#if DEBUG
 //#    System.out.println(keyCode);
 //#endif
@@ -1939,14 +1892,6 @@ public abstract class VirtualList
         repaint();
      }
 //#else
-//#        if(midlet.BombusQD.cf.isOptionsSel){
-//#         isSel=false;
-//#         if (keyCode==KEY_NUM5) {
-//#             eventOk();
-//#             redraw();
-//#             return;
-//#          }
-//#        }
 //#if DEBUG
 //#    System.out.println(keyCode);
 //#endif

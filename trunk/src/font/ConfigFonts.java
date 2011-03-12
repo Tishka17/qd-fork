@@ -104,23 +104,6 @@ public class ConfigFonts
         itemsList.addElement(font5);
         
         cursivUse = new CheckBox(SR.get(SR.MS_Italic), cf.cursivUse); itemsList.addElement(cursivUse); 
-         /*
-        item=new MultiLine(SR.get(SR.MS_DRAWED_FONT)+":", (cf.use_drawed_font)?cf.drwd_fontname:"<..>", super.superWidth); 
-        item.selectable=true;
-        itemsList.addElement(item);    
-       
-        try {
-            files=new StringLoader().stringLoader("/images/fonts/fonts.txt",2);
-            if (files[0].size()>0) {
-                drawedfonts=new DropChoiceBox(display, SR.get(SR.MS_SELECT));
-                for (int i=0; i<files[0].size(); i++) {
-                    drawedfonts.append((String)files[1].elementAt(i));
-                }
-                drawedfonts.setSelectedIndex(0);
-                itemsList.addElement(drawedfonts);
-            }
-        } catch (Exception e) {}  
-         */
 
         attachDisplay(display);
         this.parentView=pView;
@@ -134,21 +117,6 @@ public class ConfigFonts
 
         cf.graphicsMenuFont=font5.getValue();
         cf.cursivUse=cursivUse.getValue();
-        /*
-        try {
-            if (drawedfonts.getSelectedIndex()>-1) {
-                cf.drwd_fontname = (String)files[0].elementAt(drawedfonts.getSelectedIndex());
-            }
-        } catch (Exception ex) {}
-         
-
-        if(cf.drwd_fontname.equals("no")==true){
-           cf.use_drawed_font = false;
-        }else{
-           cf.use_drawed_font = true;
-           FontClass.getInstance().Init(cf.drwd_fontname);
-        }
-        */
         
         sd.roster.updateBarsFont();
         sd.roster.reEnumRoster();

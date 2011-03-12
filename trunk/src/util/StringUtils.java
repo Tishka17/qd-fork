@@ -203,7 +203,7 @@ public class StringUtils {
                       .append('.')
                       .append(ratio.substring(dotpos))
 
-                      .append(" mb");
+                      .append("mb");
             } else if ( number > 1024 ) {
                 ratio=Long.toString(number/100);
 
@@ -213,10 +213,10 @@ public class StringUtils {
                       .append('.')
                       .append(ratio.substring(dotpos))
 
-                      .append(" kb");
+                      .append("kb");
             } else {
                 suffix.append(number)
-                      .append(" b");
+                      .append("b");
             }
             suffix.append(midlet.BombusQD.sd.roster.theStream.getStreamStatsBar());
         } catch (Exception e) { }

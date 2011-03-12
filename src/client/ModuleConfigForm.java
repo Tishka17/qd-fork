@@ -137,7 +137,7 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 //#endif
     private CheckBox gradientBarLigth;
     private CheckBox shadowBar;
-    private CheckBox drawMenuCommand;
+    private CheckBox showTimeAndTraffic;
     private TrackItem gradientBarLight1;
     private TrackItem gradientBarLight2;
     private NumberInput scrollWidth;
@@ -371,7 +371,7 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 //#endif
 //#ifdef ADHOC
             adhoc = new CheckBox(SR.get(SR.MS_ADHOC), config.adhoc);
-            itemsList.addElement(adhoc);
+            addControl(adhoc);
 //#endif
             }
         } else if (type.equals(SR.get(SR.MS_grStr))) {
@@ -422,8 +422,8 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
             scrollWidth = new NumberInput(display, SR.get(SR.MS_SCROLL_WIDTH), Integer.toString(config.scrollWidth), 3, 25);
             addControl(scrollWidth);
 
-			minItemHeight = new NumberInput(display, SR.get(SR.MS_MIN_ITEM_HEIGHT), Integer.toString(config.minItemHeight), 0, 100);
-			addControl(minItemHeight);
+            minItemHeight = new NumberInput(display, SR.get(SR.MS_MIN_ITEM_HEIGHT), Integer.toString(config.minItemHeight), 0, 100);
+            addControl(minItemHeight);
             addControl(new SpacerItem(3));
 
             if(config.userAppLevel == 1) {
@@ -435,8 +435,8 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
                 addControl(shadowBar);
             }
 
-            drawMenuCommand = new CheckBox(SR.get(SR.MS_SHOW_TIME_TRAFFIC), config.showTimeTraffic);
-            addControl(drawMenuCommand);
+            showTimeAndTraffic = new CheckBox(SR.get(SR.MS_SHOW_TIME_TRAFFIC), config.showTimeTraffic);
+            addControl(showTimeAndTraffic);
 
 //#ifdef POPUPS
             popUps = new CheckBox(SR.get(SR.MS_POPUPS), config.popUps);
@@ -682,7 +682,7 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
                 config.shadowBar = shadowBar.getValue();
             }
 
-            config.showTimeTraffic = VirtualList.showTimeTraffic = drawMenuCommand.getValue();
+            config.showTimeTraffic = VirtualList.showTimeTraffic = showTimeAndTraffic.getValue();
 //#ifdef POPUPS
             config.popUps = popUps.getValue();
 //#endif

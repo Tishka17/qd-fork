@@ -202,7 +202,6 @@ public class BombusQD extends MIDlet implements Runnable {
 //#ifdef HISTORY
         HistoryConfig.getInstance().loadFromStorage();
 //#endif
-        FontClass.getInstance().Init(cf.drwd_fontname);
 
 //#ifdef LIGHT_CONTROL
         lcf=LightConfig.getInstance();

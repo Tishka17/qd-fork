@@ -225,11 +225,7 @@ public class Roster
 
     public final void showActionsMenu(Displayable pView, Object object) {
        if (isLoggedIn()) {
-           if (object instanceof Contact) {
-               if (((Contact)object).origin == Constants.ORIGIN_GROUPCHAT) {
-                   return;
-               }
-           } else if (object instanceof Group) {
+           if (object instanceof Group) {
                if (((Group)object).type == Groups.TYPE_TRANSP) {
                    return;
                }

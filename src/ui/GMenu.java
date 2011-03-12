@@ -357,20 +357,19 @@ public class GMenu extends Canvas {
          g.setClip(0,0,w+1,mHfh+40);//?
 
         if(midlet.BombusQD.cf.gradient_cursor){ //Tishka17
-            int yc = 1 + (midlet.BombusQD.cf.animateMenuAndRoster?cursorY:itemCursorIndex*fh);
+            int yc = 1 + (itemCursorIndex*fh);
             fon=new Gradient(0, yc, w+2, yc+fh, ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_1),
                   ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_2), false);
             fon.paintHRoundRect(g, 4);
              g.setColor(ColorTheme.getColor(ColorTheme.CURSOR_OUTLINE));
-             g.drawRoundRect(0, (midlet.BombusQD.cf.animateMenuAndRoster?cursorY:itemCursorIndex*fh), w , fh+1, 8, 8);
+             g.drawRoundRect(0, (itemCursorIndex*fh), w , fh+1, 8, 8);
             //fon.paint(g);
             g.setColor(0x000000);
-            //g.drawRect(1, 1 + (cf.animateMenuAndRoster?cursorY:itemCursorIndex*fh), w - 1 , fh - 1);
         }else {
             g.setColor(ColorTheme.getColor(ColorTheme.CURSOR_BGND));
-            g.fillRoundRect(0, (midlet.BombusQD.cf.animateMenuAndRoster?cursorY:itemCursorIndex*fh), w  , fh+1, 8, 8);
+            g.fillRoundRect(0, (itemCursorIndex*fh), w  , fh+1, 8, 8);
             g.setColor(ColorTheme.getColor(ColorTheme.CURSOR_OUTLINE));
-            g.drawRoundRect(0, (midlet.BombusQD.cf.animateMenuAndRoster?cursorY:itemCursorIndex*fh), w , fh+1, 8, 8);
+            g.drawRoundRect(0, (itemCursorIndex*fh), w , fh+1, 8, 8);
 
         }
 
@@ -435,61 +434,6 @@ public class GMenu extends Canvas {
    long s1,s2;
    boolean isDown;
 
-   /*
-	private static final int ani_msed = 25;
-	private void startTimer (boolean isdownpress)
-	{
-            /*temp closed
-		if ( timer == null && midlet.BombusQD.cf.animateMenuAndRoster )
-		{
-                        isDown=isdownpress;
-                        cursorY =
-                                isDown ?
-                                ( (eventMenu ? gm.itemCursorIndexIn*fh : gm.itemCursorIndex*fh) - fh)
-                                :
-                                ( (eventMenu ? gm.itemCursorIndexIn*fh : gm.itemCursorIndex*fh)  + fh);
-                        s1 = System.currentTimeMillis();
-			timer = new Timer();
-			timer.schedule( new anTask(), 0, ani_msed );
-		}
-             *
-
-	}
-	private void stopTimer ()
-	{
-		if ( timer != null )
-		{
-                        s2 = System.currentTimeMillis();
-			timer.cancel();
-                        timer = null;
-		}
-	}
-
-	private final class anTask extends TimerTask
-	{
-		public void run ()
-		{
-                        if(isDown){
-                            cursorY+=4;
-                            if(eventMenu){
-                               if(cursorY>=gm.itemCursorIndexIn*fh) { cursorY = gm.itemCursorIndexIn*fh;  stopTimer(); }
-                            }else {
-                               if(cursorY>=gm.itemCursorIndex*fh) { cursorY = gm.itemCursorIndex*fh;  stopTimer(); }
-                            }
-                        }else{
-                            cursorY-=4;
-                            if(eventMenu){
-                               if(cursorY<=gm.itemCursorIndexIn*fh) { cursorY = gm.itemCursorIndexIn*fh;  stopTimer(); }
-                            }else {
-                               if(cursorY<=gm.itemCursorIndex*fh) { cursorY = gm.itemCursorIndex*fh;  stopTimer(); }
-                            }
-                        }
-                    //System.out.println(gm.xcoodr +"," + gm.ycoodr+ ","+gm.maxWidth+","+gm.maxHeight);
-                    view.redrawAni(gm.xcoodr,gm.ycoodr,gm.maxWidth,gm.maxHeight-1);
-  		}
-	}
-
-*/
    public void keyPressed(int keyCode) {
      if (eventMenu==true) {
          eventMenu = sendEvent(keyCode);

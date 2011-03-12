@@ -145,24 +145,27 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
             int groupType = contact.getGroupType();
 
             boolean isMucContact = (contact instanceof MucContact);
+            boolean isConference = (contact.origin == Constants.ORIGIN_GROUPCHAT);
 
-            if (groupType == Groups.TYPE_TRANSP) {
-                addItem(SR.get(SR.MS_LOGIN), MI_LOGIN, ActionsIcons.ICON_ON);
-                addItem(SR.get(SR.MS_LOGOFF), MI_LOGOUT, ActionsIcons.ICON_OFF);
-                addItem(SR.get(SR.MS_RESOLVE_NICKNAMES), MI_RESOLVE_NICKS, ActionsIcons.ICON_NICK_RESOLVE);
+            if (!isConference) {
+                if (groupType == Groups.TYPE_TRANSP) {
+                    addItem(SR.get(SR.MS_LOGIN), MI_LOGIN, ActionsIcons.ICON_ON);
+                    addItem(SR.get(SR.MS_LOGOFF), MI_LOGOUT, ActionsIcons.ICON_OFF);
+                    addItem(SR.get(SR.MS_RESOLVE_NICKNAMES), MI_RESOLVE_NICKS, ActionsIcons.ICON_NICK_RESOLVE);
 //#ifdef CHANGE_TRANSPORT
-                addItem(SR.get(SR.MS_CHANGE_TRANSPORT), MI_CHTRANSPORT, ActionsIcons.ICON_NICK_RESOLVE);
+                    addItem(SR.get(SR.MS_CHANGE_TRANSPORT), MI_CHTRANSPORT, ActionsIcons.ICON_NICK_RESOLVE);
 //#endif
-            }
+                }
 
-            addItem(SR.get(SR.MS_VCARD), MI_VCARD, ActionsIcons.ICON_VCARD);
-            if (contact.vcard != null) {
-                addItem(SR.get(SR.MS_DELETE_VCARD), MI_DELVCARD, ActionsIcons.ICON_VCARD, true);
-                addItem(SR.get(SR.MS_DELETE_ALL_VCARD), MI_DELALLVCARD, ActionsIcons.ICON_VCARD, true);
-            }
-            if (contact.img_vcard != null) {
-                addItem(SR.get(SR.MS_DELETE_AVATAR_VCARD), MI_DELAVATAR, ActionsIcons.ICON_VCARD, true);
-                addItem(SR.get(SR.MS_DELETE_ALL_AVATAR_VCARD), MI_DELALLAVATAR, ActionsIcons.ICON_VCARD, true);
+                addItem(SR.get(SR.MS_VCARD), MI_VCARD, ActionsIcons.ICON_VCARD);
+                if (contact.vcard != null) {
+                    addItem(SR.get(SR.MS_DELETE_VCARD), MI_DELVCARD, ActionsIcons.ICON_VCARD, true);
+                    addItem(SR.get(SR.MS_DELETE_ALL_VCARD), MI_DELALLVCARD, ActionsIcons.ICON_VCARD, true);
+                }
+                if (contact.img_vcard != null) {
+                    addItem(SR.get(SR.MS_DELETE_AVATAR_VCARD), MI_DELAVATAR, ActionsIcons.ICON_VCARD, true);
+                    addItem(SR.get(SR.MS_DELETE_ALL_AVATAR_VCARD), MI_DELALLAVATAR, ActionsIcons.ICON_VCARD, true);
+                }
             }
             if (midlet.BombusQD.cf.userAppLevel == 1) {
                 addItem(SR.get(SR.MS_FEATURES), MI_FEATURES, ActionsIcons.ICON_INFO);
@@ -170,139 +173,141 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
 //#ifdef POPUPS
             addItem(SR.get(SR.MS_INFO), MI_INFO, ActionsIcons.ICON_INFO);
 //#endif
-            if (!isMucContact && BombusQD.cf.networkAnnotation) {
-                // XEP-0145: Annotations
-                if (groupType != Groups.TYPE_TRANSP && groupType != Groups.TYPE_SELF) {
-                    addItem(SR.get(SR.MS_CREATE_ANNOTATION), MI_ANNOTATION, ActionsIcons.ICON_VOICE);
-                    if (contact.annotations != null) {
-                        addItem(SR.get(SR.MS_REMOVE_ANNOTATION), MI_DEL_ANNOTATION, ActionsIcons.ICON_VOICE);
+            if (!isConference) {
+                if (!isMucContact && BombusQD.cf.networkAnnotation) {
+                    // XEP-0145: Annotations
+                    if (groupType != Groups.TYPE_TRANSP && groupType != Groups.TYPE_SELF) {
+                        addItem(SR.get(SR.MS_CREATE_ANNOTATION), MI_ANNOTATION, ActionsIcons.ICON_VOICE);
+                        if (contact.annotations != null) {
+                            addItem(SR.get(SR.MS_REMOVE_ANNOTATION), MI_DEL_ANNOTATION, ActionsIcons.ICON_VOICE);
+                        }
                     }
                 }
-            }
 //#ifdef HISTORY
-            if (groupType != Groups.TYPE_TRANSP && !(contact instanceof MucContact)) {
-                if (midlet.BombusQD.cf.module_history) {
-                    if (HistoryConfig.historyTypeIndex == HistoryConfig.TYPE_RMS) {
-                        addItem(SR.get(SR.MS_HISTORY_SHOW), MI_HISTORY, ActionsIcons.ICON_VERSION);
+                if (groupType != Groups.TYPE_TRANSP && !(contact instanceof MucContact)) {
+                    if (midlet.BombusQD.cf.module_history) {
+                        if (HistoryConfig.historyTypeIndex == HistoryConfig.TYPE_RMS) {
+                            addItem(SR.get(SR.MS_HISTORY_SHOW), MI_HISTORY, ActionsIcons.ICON_VERSION);
+                        }
                     }
                 }
-            }
 //#endif
-            addItem(SR.get(SR.MS_CLIENT_INFO), MI_VERSION, ActionsIcons.ICON_VERSION);
+                addItem(SR.get(SR.MS_CLIENT_INFO), MI_VERSION, ActionsIcons.ICON_VERSION);
 //#ifdef SERVICE_DISCOVERY
-            addItem(SR.get(SR.MS_COMMANDS), MI_COMMANDS, ActionsIcons.ICON_COMMAND);
+                addItem(SR.get(SR.MS_COMMANDS), MI_COMMANDS, ActionsIcons.ICON_COMMAND);
 //#endif
+            }
+
 //#ifdef CLIPBOARD
             if (midlet.BombusQD.cf.useClipBoard) {
                 addItem(SR.get(SR.MS_COPY_JID), MI_COPY_JID, ActionsIcons.ICON_COPY_JID);
+                if (isConference) {
+                    addItem(SR.get(SR.MS_COPY_TOPIC), MI_COPY_TOPIC, ActionsIcons.ICON_COPY_JID);
+                }
                 if (!ClipBoard.isEmpty()) {
                     addItem(SR.get(SR.MS_SEND_BUFFER), MI_SEND_BUFFER, ActionsIcons.ICON_SEND_BUFFER);
                 }
             }
 //#endif
-            if (groupType != Groups.TYPE_SELF) {
-                addItem(SR.get(SR.MS_SEND_COLOR_SCHEME), MI_SEND_SCHEME, ActionsIcons.ICON_SEND_COLORS);
-            }
-            if (contact.status < Constants.PRESENCE_OFFLINE) {
-                addItem(SR.get(SR.MS_TIME), MI_TIME, ActionsIcons.ICON_TIME);
-                addItem(SR.get(SR.MS_IDLE), MI_IDLE, ActionsIcons.ICON_IDLE);
-                addItem(SR.get(SR.MS_PING), MI_PING, ActionsIcons.ICON_PING);
-                if (AlertCustomize.getInstance().enableAttention) {
-                    addItem(SR.get(SR.LA_REQUEST), MI_ATTENTION, ActionsIcons.ICON_TIME);
+            if (!isConference) {
+                if (groupType != Groups.TYPE_SELF) {
+                    addItem(SR.get(SR.MS_SEND_COLOR_SCHEME), MI_SEND_SCHEME, ActionsIcons.ICON_SEND_COLORS);
                 }
-            }
-            if (groupType != Groups.TYPE_SELF
-                    && groupType != Groups.TYPE_SEARCH_RESULT) {
-                    if (!isMucContact) {
-                        if (contact.status < Constants.PRESENCE_OFFLINE) {
-                            addItem(SR.get(SR.MS_ONLINE_TIME), MI_ONLINE, ActionsIcons.ICON_ONLINE);
-                        } else {
-                            addItem(SR.get(SR.MS_SEEN), MI_SEEN, ActionsIcons.ICON_ONLINE);
-                        }
+                if (contact.status < Constants.PRESENCE_OFFLINE) {
+                    addItem(SR.get(SR.MS_TIME), MI_TIME, ActionsIcons.ICON_TIME);
+                    addItem(SR.get(SR.MS_IDLE), MI_IDLE, ActionsIcons.ICON_IDLE);
+                    addItem(SR.get(SR.MS_PING), MI_PING, ActionsIcons.ICON_PING);
+                    if (AlertCustomize.getInstance().enableAttention) {
+                        addItem(SR.get(SR.LA_REQUEST), MI_ATTENTION, ActionsIcons.ICON_TIME);
                     }
-                addItem(SR.get(SR.MS_DIRECT_PRESENCE), MI_SEND_PRESENCE, ActionsIcons.ICON_SET_STATUS);
-            }
+                }
+                if (groupType != Groups.TYPE_SELF
+                        && groupType != Groups.TYPE_SEARCH_RESULT) {
+                        if (!isMucContact) {
+                            if (contact.status < Constants.PRESENCE_OFFLINE) {
+                                addItem(SR.get(SR.MS_ONLINE_TIME), MI_ONLINE, ActionsIcons.ICON_ONLINE);
+                            } else {
+                                addItem(SR.get(SR.MS_SEEN), MI_SEEN, ActionsIcons.ICON_ONLINE);
+                            }
+                        }
+                    addItem(SR.get(SR.MS_DIRECT_PRESENCE), MI_SEND_PRESENCE, ActionsIcons.ICON_SET_STATUS);
+                }
 
 //#ifndef WMUC
-            if (isMucContact) {
-                MucContact self = ((ConferenceGroup) contact.group).selfContact;
-                MucContact mcontact = (MucContact) contact;
+                if (isMucContact) {
+                    MucContact self = ((ConferenceGroup) contact.group).selfContact;
+                    MucContact mcontact = (MucContact) contact;
 
-                int myRole = self.roleCode;
-                int myAff = self.affiliationCode;
+                    int myRole = self.roleCode;
+                    int myAff = self.affiliationCode;
 
-                if (mcontact.realJid != null) {
-                    if (myAff >= Constants.AFFILIATION_MEMBER) {
+                    if (mcontact.realJid != null) {
+                        if (myAff >= Constants.AFFILIATION_MEMBER) {
+                            addItem(SR.get(SR.MS_INVITE), MI_INVITE, ActionsIcons.ICON_INVITE);
+                        }
+                    }
+                    if (myRole == Constants.ROLE_MODERATOR) {
+                        if (mcontact.roleCode < Constants.ROLE_MODERATOR) {
+                            addItem(SR.get(SR.MS_KICK), MI_KICK, ActionsIcons.ICON_KICK);
+                        }
+                        if (myAff >= Constants.AFFILIATION_ADMIN && mcontact.affiliationCode < myAff) {
+                            addItem(SR.get(SR.MS_BAN), MI_BAN, ActionsIcons.ICON_BAN);
+                        }
+
+                        if (mcontact.affiliationCode < Constants.AFFILIATION_ADMIN) {
+                            if (mcontact.roleCode == Constants.ROLE_VISITOR) {
+                                addItem(SR.get(SR.MS_GRANT_VOICE), MI_VOICE, ActionsIcons.ICON_VOICE);
+                            } else {
+                                addItem(SR.get(SR.MS_REVOKE_VOICE), MI_DEVOICE, ActionsIcons.ICON_DEVOICE);
+                            }
+                        }
+                    }
+                    if (myAff >= Constants.AFFILIATION_ADMIN) {
+                        if (mcontact.affiliationCode < Constants.AFFILIATION_ADMIN) {
+                            if (mcontact.roleCode == Constants.ROLE_MODERATOR) {
+                                addItem(SR.get(SR.MS_REVOKE_MODERATOR), MI_ADD_MODER, ActionsIcons.ICON_MEMBER);
+                            } else {
+                                addItem(SR.get(SR.MS_GRANT_MODERATOR), MI_DEL_MODER, ActionsIcons.ICON_ADMIN);
+                            }
+                        }
+                        if (mcontact.affiliationCode < myAff) {
+                            if (mcontact.affiliationCode != Constants.AFFILIATION_NONE) {
+                                addItem(SR.get(SR.MS_UNAFFILIATE), MI_UNMEMBER, ActionsIcons.ICON_DEMEMBER);
+                            }
+                            if (mcontact.affiliationCode != Constants.AFFILIATION_MEMBER) {
+                                addItem(SR.get(SR.MS_GRANT_MEMBERSHIP), MI_MEMBER, ActionsIcons.ICON_MEMBER);
+                            }
+                        }
+                    }
+                    if (myAff == Constants.AFFILIATION_OWNER) {
+                        if (mcontact.affiliationCode != Constants.AFFILIATION_ADMIN) {
+                            addItem(SR.get(SR.MS_GRANT_ADMIN), MI_ADMIN, ActionsIcons.ICON_ADMIN);
+                        }
+
+                        if (mcontact.affiliationCode != Constants.AFFILIATION_OWNER) {
+                            addItem(SR.get(SR.MS_GRANT_OWNERSHIP), MI_OWNER, ActionsIcons.ICON_OWNER);
+                        }
+                    }
+                } else if (groupType != Groups.TYPE_SEARCH_RESULT && groupType != Groups.TYPE_SELF) {
+                    if (groupType != Groups.TYPE_TRANSP) {
                         addItem(SR.get(SR.MS_INVITE), MI_INVITE, ActionsIcons.ICON_INVITE);
                     }
+                    addItem(SR.get(SR.MS_EDIT), MI_EDIT, ActionsIcons.ICON_RENAME);
+                    addItem(SR.get(SR.MS_SUBSCRIPTION), MI_SUBSCRIBTION, ActionsIcons.ICON_SUBSCR);
+                    addItem(SR.get(SR.MS_DELETE), MI_DELETE, ActionsIcons.ICON_DELETE);
                 }
-                if (myRole == Constants.ROLE_MODERATOR) {
-                    if (mcontact.roleCode < Constants.ROLE_MODERATOR) {
-                        addItem(SR.get(SR.MS_KICK), MI_KICK, ActionsIcons.ICON_KICK);
-                    }
-                    if (myAff >= Constants.AFFILIATION_ADMIN && mcontact.affiliationCode < myAff) {
-                        addItem(SR.get(SR.MS_BAN), MI_BAN, ActionsIcons.ICON_BAN);
-                    }
-
-                    if (mcontact.affiliationCode < Constants.AFFILIATION_ADMIN) {
-                        if (mcontact.roleCode == Constants.ROLE_VISITOR) {
-                            addItem(SR.get(SR.MS_GRANT_VOICE), MI_VOICE, ActionsIcons.ICON_VOICE);
-                        } else {
-                            addItem(SR.get(SR.MS_REVOKE_VOICE), MI_DEVOICE, ActionsIcons.ICON_DEVOICE);
-                        }
-                    }
-                }
-                if (myAff >= Constants.AFFILIATION_ADMIN) {
-                    if (mcontact.affiliationCode < Constants.AFFILIATION_ADMIN) {
-                        if (mcontact.roleCode == Constants.ROLE_MODERATOR) {
-                            addItem(SR.get(SR.MS_REVOKE_MODERATOR), MI_ADD_MODER, ActionsIcons.ICON_MEMBER);
-                        } else {
-                            addItem(SR.get(SR.MS_GRANT_MODERATOR), MI_DEL_MODER, ActionsIcons.ICON_ADMIN);
-                        }
-                    }
-                    if (mcontact.affiliationCode < myAff) {
-                        if (mcontact.affiliationCode != Constants.AFFILIATION_NONE) {
-                            addItem(SR.get(SR.MS_UNAFFILIATE), MI_UNMEMBER, ActionsIcons.ICON_DEMEMBER);
-                        }
-                        if (mcontact.affiliationCode != Constants.AFFILIATION_MEMBER) {
-                            addItem(SR.get(SR.MS_GRANT_MEMBERSHIP), MI_MEMBER, ActionsIcons.ICON_MEMBER);
-                        }
-                    }
-                }
-                if (myAff == Constants.AFFILIATION_OWNER) {
-                    if (mcontact.affiliationCode != Constants.AFFILIATION_ADMIN) {
-                        addItem(SR.get(SR.MS_GRANT_ADMIN), MI_ADMIN, ActionsIcons.ICON_ADMIN);
-                    }
-
-                    if (mcontact.affiliationCode != Constants.AFFILIATION_OWNER) {
-                        addItem(SR.get(SR.MS_GRANT_OWNERSHIP), MI_OWNER, ActionsIcons.ICON_OWNER);
-                    }
-                }
-            } else if (groupType != Groups.TYPE_SEARCH_RESULT && groupType != Groups.TYPE_SELF) {
-                if (groupType != Groups.TYPE_TRANSP) {
-                    addItem(SR.get(SR.MS_INVITE), MI_INVITE, ActionsIcons.ICON_INVITE);
-                }
-                addItem(SR.get(SR.MS_EDIT), MI_EDIT, ActionsIcons.ICON_RENAME);
-                addItem(SR.get(SR.MS_SUBSCRIPTION), MI_SUBSCRIBTION, ActionsIcons.ICON_SUBSCR);
-                addItem(SR.get(SR.MS_DELETE), MI_DELETE, ActionsIcons.ICON_DELETE);
-            }
 //#endif
 
 //#ifdef FILE_IO
 //#ifdef FILE_TRANSFER
-            if (groupType != Groups.TYPE_TRANSP && midlet.BombusQD.cf.fileTransfer) {
-                if (groupType != Groups.TYPE_SELF) {
-//#ifdef PLUGINS
-//#                     if (sd.FileTransfer)
-//#endif
-                    addItem(SR.get(SR.MS_SEND_FILE), MI_SEND_FILE, ActionsIcons.ICON_SEND_FILE);
-                    String cameraAvailable = System.getProperty("supports.video.capture");
-                    if (cameraAvailable != null) {
-                        if (cameraAvailable.startsWith("true")) {
-//#ifdef PLUGINS
-//#                         if (sd.ImageTransfer)
-//#endif
-                            addItem(SR.get(SR.MS_SEND_PHOTO), MI_SEND_PHOTO, ActionsIcons.ICON_SEND_FILE);
+                if (groupType != Groups.TYPE_TRANSP && midlet.BombusQD.cf.fileTransfer) {
+                    if (groupType != Groups.TYPE_SELF) {
+                        addItem(SR.get(SR.MS_SEND_FILE), MI_SEND_FILE, ActionsIcons.ICON_SEND_FILE);
+                        String cameraAvailable = System.getProperty("supports.video.capture");
+                        if (cameraAvailable != null) {
+                            if (cameraAvailable.startsWith("true")) {
+                                addItem(SR.get(SR.MS_SEND_PHOTO), MI_SEND_PHOTO, ActionsIcons.ICON_SEND_FILE);
+                            }
                         }
                     }
                 }
@@ -324,11 +329,6 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                 if (self.status == Constants.PRESENCE_OFFLINE) {
                     addItem(SR.get(SR.MS_REENTER), MI_REJOIN, ActionsIcons.ICON_CHANGE_NICK);
                 } else {
-//#ifdef CLIPBOARD
-                    addItem(SR.get(SR.MS_COPY_JID), MI_COPY_JID, ActionsIcons.ICON_COPY_JID);
-                    addItem(SR.get(SR.MS_COPY_TOPIC), MI_COPY_TOPIC, ActionsIcons.ICON_COPY_JID);
-//#endif
-
                     addItem(SR.get(SR.MS_DIRECT_PRESENCE), MI_SEND_PRESENCE, ActionsIcons.ICON_SET_STATUS);
                     addItem(SR.get(SR.MS_CHANGE_NICKNAME), MI_CHANGE_NICK, ActionsIcons.ICON_CHANGE_NICK);
                     if (self.affiliationCode == Constants.AFFILIATION_OWNER) {
@@ -392,6 +392,10 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
         Config.getInstance().cursorPos[1] = super.cursor;
         if (item instanceof Contact) {
             Contact contact = (Contact) item;
+
+            boolean isMucContact = (contact instanceof MucContact);
+            boolean isConference = (contact.origin == Constants.ORIGIN_GROUPCHAT);
+
             switch (mItem.index) {
                 case MI_VERSION:
                     BombusQD.sd.roster.setQuerySign(true);
@@ -554,15 +558,25 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                     break;
 //#ifdef CLIPBOARD
                 case MI_COPY_JID:
-                    if (contact instanceof MucContact) {
-                        MucContact c = (MucContact)contact;
-                        if (c.realJid != null) {
-                            ClipBoard.setClipBoard(c.realJid);
+                    if (!isConference) {
+                        if (contact instanceof MucContact) {
+                            MucContact c = (MucContact)contact;
+                            if (c.realJid != null) {
+                                ClipBoard.setClipBoard(c.realJid);
+                            } else {
+                                ClipBoard.setClipBoard(c.getJid());
+                            }
+                        } else {
+                            ClipBoard.setClipBoard(contact.getJid());
                         }
                     } else {
-                        if (contact.bareJid != null) {
-                            ClipBoard.setClipBoard(contact.bareJid);
-                        }
+                        ClipBoard.setClipBoard(contact.bareJid);
+                    }
+                    break;
+                case MI_COPY_TOPIC:
+                    String topic = contact.getStatus();
+                    if (topic != null) {
+                        ClipBoard.setClipBoard(topic);
                     }
                     break;
                 case MI_SEND_BUFFER: {
@@ -603,7 +617,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
 //#endif
 //#endif
             }
-            if (contact instanceof MucContact) {
+            if (isMucContact) {
                 MucContact mcontact = (MucContact) contact;
                 String myNick = ((ConferenceGroup) contact.group).selfContact.getName();
 
@@ -650,17 +664,6 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                 String roomjid = cgroup.confContact.getJid();
 
                 switch (mItem.index) {
-//#ifdef CLIPBOARD
-                    case MI_COPY_JID:
-                        ClipBoard.setClipBoard(roomjid);
-                        break;
-                    case MI_COPY_TOPIC:
-                        String topic = cgroup.confContact.getStatus();
-                        if (topic != null) {
-                            ClipBoard.setClipBoard(cgroup.confContact.getStatus());
-                        }
-                        break;
-//#endif
                     case MI_CONFIG: // room config
                         new QueryConfigForm(display, roomjid);
                         return;

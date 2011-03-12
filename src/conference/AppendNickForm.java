@@ -56,7 +56,6 @@ import ui.controls.form.DefForm;
  * @author EvgS,aqent
  */
 public class AppendNickForm extends DefForm {
-    Vector nicknames;
     private int caretPos;
 
     private TextField tf;
@@ -78,16 +77,20 @@ public class AppendNickForm extends DefForm {
             this.tb = tb;
         }
 
-        nicknames = new Vector(0);
+        Vector nicknames = new Vector(0);
         Vector contacts = StaticData.getInstance().roster.getHContacts();
 
         for (int i = 0; i < contacts.size(); ++i) {
             Contact c = (Contact)contacts.elementAt(i);
             if (c.group == to.group && c.origin > Constants.ORIGIN_GROUPCHAT && c.status < Constants.PRESENCE_OFFLINE) {
-                addControl(c);
+                //addControl(c);
+                nicknames.addElement(c);
             }
         }
         sort(nicknames);
+        for (int i = 0; i < nicknames.size(); ++i) {
+            addControl(nicknames.elementAt(i));
+        }
 
         attachDisplay(display);
         this.parentView = pView;

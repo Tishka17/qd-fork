@@ -144,14 +144,13 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
             Contact contact = (Contact) item;
             int groupType = contact.getGroupType();
 
+            boolean isMucContact = (contact instanceof MucContact);
+
             if (groupType == Groups.TYPE_TRANSP) {
                 addItem(SR.get(SR.MS_LOGIN), MI_LOGIN, ActionsIcons.ICON_ON);
                 addItem(SR.get(SR.MS_LOGOFF), MI_LOGOUT, ActionsIcons.ICON_OFF);
                 addItem(SR.get(SR.MS_RESOLVE_NICKNAMES), MI_RESOLVE_NICKS, ActionsIcons.ICON_NICK_RESOLVE);
 //#ifdef CHANGE_TRANSPORT
-//#ifdef PLUGINS
-//#                if (sd.ChangeTransport);
-//#endif
                 addItem(SR.get(SR.MS_CHANGE_TRANSPORT), MI_CHTRANSPORT, ActionsIcons.ICON_NICK_RESOLVE);
 //#endif
             }
@@ -171,7 +170,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
 //#ifdef POPUPS
             addItem(SR.get(SR.MS_INFO), MI_INFO, ActionsIcons.ICON_INFO);
 //#endif
-            if (!(contact instanceof MucContact) && BombusQD.cf.networkAnnotation) {
+            if (!isMucContact && BombusQD.cf.networkAnnotation) {
                 // XEP-0145: Annotations
                 if (groupType != Groups.TYPE_TRANSP && groupType != Groups.TYPE_SELF) {
                     addItem(SR.get(SR.MS_CREATE_ANNOTATION), MI_ANNOTATION, ActionsIcons.ICON_VOICE);
@@ -214,17 +213,18 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
             }
             if (groupType != Groups.TYPE_SELF
                     && groupType != Groups.TYPE_SEARCH_RESULT) {
-
-                if (contact.status < Constants.PRESENCE_OFFLINE) {
-                    addItem(SR.get(SR.MS_ONLINE_TIME), MI_ONLINE, ActionsIcons.ICON_ONLINE);
-                } else {
-                    addItem(SR.get(SR.MS_SEEN), MI_SEEN, ActionsIcons.ICON_ONLINE);
-                }
+                    if (!isMucContact) {
+                        if (contact.status < Constants.PRESENCE_OFFLINE) {
+                            addItem(SR.get(SR.MS_ONLINE_TIME), MI_ONLINE, ActionsIcons.ICON_ONLINE);
+                        } else {
+                            addItem(SR.get(SR.MS_SEEN), MI_SEEN, ActionsIcons.ICON_ONLINE);
+                        }
+                    }
                 addItem(SR.get(SR.MS_DIRECT_PRESENCE), MI_SEND_PRESENCE, ActionsIcons.ICON_SET_STATUS);
             }
 
 //#ifndef WMUC
-            if (contact instanceof MucContact) {
+            if (isMucContact) {
                 MucContact self = ((ConferenceGroup) contact.group).selfContact;
                 MucContact mcontact = (MucContact) contact;
 
@@ -278,11 +278,11 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                         addItem(SR.get(SR.MS_GRANT_OWNERSHIP), MI_OWNER, ActionsIcons.ICON_OWNER);
                     }
                 }
-            } else if (groupType != Groups.TYPE_TRANSP && groupType != Groups.TYPE_SEARCH_RESULT && groupType != Groups.TYPE_SELF) {
-                addItem(SR.get(SR.MS_INVITE), MI_INVITE, ActionsIcons.ICON_INVITE);
+            } else if (groupType != Groups.TYPE_SEARCH_RESULT && groupType != Groups.TYPE_SELF) {
                 if (groupType != Groups.TYPE_TRANSP) {
-                    addItem(SR.get(SR.MS_EDIT), MI_EDIT, ActionsIcons.ICON_RENAME);
+                    addItem(SR.get(SR.MS_INVITE), MI_INVITE, ActionsIcons.ICON_INVITE);
                 }
+                addItem(SR.get(SR.MS_EDIT), MI_EDIT, ActionsIcons.ICON_RENAME);
                 addItem(SR.get(SR.MS_SUBSCRIPTION), MI_SUBSCRIBTION, ActionsIcons.ICON_SUBSCR);
                 addItem(SR.get(SR.MS_DELETE), MI_DELETE, ActionsIcons.ICON_DELETE);
             }
@@ -530,6 +530,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                     BombusQD.sd.roster.theStream.send(IqLast.query(contact.getJid(), "idle"));
                     break;
                 case MI_ONLINE:
+                    System.out.println(contact.bareJid);
                     BombusQD.sd.roster.setQuerySign(true);
                     BombusQD.sd.roster.theStream.send(IqLast.query(contact.bareJid, "online_" + contact.getResource()));
                     break;

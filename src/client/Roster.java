@@ -1618,6 +1618,7 @@ public class Roster
         theStream.resetBlockListners();
 
         theStream.addBlockListener(new IqVersionReply());
+        theStream.addBlockListener(new IqVersionReply());
         theStream.addBlockListener(new IqPing());
         theStream.addBlockListener(new EntityCaps());
 

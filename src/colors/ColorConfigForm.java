@@ -75,7 +75,7 @@ public class ColorConfigForm extends DefForm
             int size = files[0].size();
 
             if (size > 0) {
-                skinFiles = new ColorThemeSelector(display, "Color schemes");
+                skinFiles = new ColorThemeSelector(display, SR.get(SR.MS_COLOR_SCHEMES));
 
                 for (int i = 0; i < size; ++i) {
                     String themeName = (String)files[1].elementAt(i);

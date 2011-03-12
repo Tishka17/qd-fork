@@ -51,7 +51,6 @@ import io.file.transfer.TransferImage;
 import io.file.transfer.TransferSendFile;
 //#endif
 //#endif
-import java.util.Enumeration;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
@@ -222,11 +221,6 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                     addItem(SR.get(SR.MS_SEEN), MI_SEEN, ActionsIcons.ICON_ONLINE);
                 }
                 addItem(SR.get(SR.MS_DIRECT_PRESENCE), MI_SEND_PRESENCE, ActionsIcons.ICON_SET_STATUS);
-                if (groupType != Groups.TYPE_TRANSP) {
-                    addItem(SR.get(SR.MS_EDIT), MI_EDIT, ActionsIcons.ICON_RENAME);
-                }
-                addItem(SR.get(SR.MS_SUBSCRIPTION), MI_SUBSCRIBTION, ActionsIcons.ICON_SUBSCR);
-                addItem(SR.get(SR.MS_DELETE), MI_DELETE, ActionsIcons.ICON_DELETE);
             }
 
 //#ifndef WMUC
@@ -286,6 +280,11 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                 }
             } else if (groupType != Groups.TYPE_TRANSP && groupType != Groups.TYPE_SEARCH_RESULT && groupType != Groups.TYPE_SELF) {
                 addItem(SR.get(SR.MS_INVITE), MI_INVITE, ActionsIcons.ICON_INVITE);
+                if (groupType != Groups.TYPE_TRANSP) {
+                    addItem(SR.get(SR.MS_EDIT), MI_EDIT, ActionsIcons.ICON_RENAME);
+                }
+                addItem(SR.get(SR.MS_SUBSCRIPTION), MI_SUBSCRIBTION, ActionsIcons.ICON_SUBSCR);
+                addItem(SR.get(SR.MS_DELETE), MI_DELETE, ActionsIcons.ICON_DELETE);
             }
 //#endif
 

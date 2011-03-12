@@ -32,6 +32,10 @@ import com.jcraft.jzlib.JZlib;
 import com.jcraft.jzlib.ZInputStream;
 import com.jcraft.jzlib.ZOutputStream;
 //#endif
+//#ifdef TLS
+import bwmorg.bouncycastle.crypto.tls.TlsProtocolHandler;
+import bwmorg.bouncycastle.crypto.tls.AlwaysValidVerifyer;
+//#endif
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -48,11 +52,14 @@ public class Utf8IOStream {
     private InputStream inpStream;
     private OutputStream outStream;
 
-    private boolean iStreamWaiting;
-
     private static int bytesRecv;
     private static int bytesSent;
     private boolean isZlib = false;
+
+//#if TLS
+    private TlsProtocolHandler tls;
+    public boolean tlsExclusive = false;
+ //#endif    
 
 //#if (ZLIB)
      public void setStreamCompression(){
@@ -92,7 +99,6 @@ public class Utf8IOStream {
 //#endif
 	synchronized (outStream) {
             byte[] bytes = Strconv.stringToByteArray(data.toString());
-            int outLen=bytes.length;
 	    outStream.write(bytes);
 
 	    outStream.flush();
@@ -117,6 +123,10 @@ public class Utf8IOStream {
     int lenbuf=0;
 
     public int read(byte buf[]) throws IOException {
+//#ifdef TLS
+        if (tlsExclusive)
+            return 0;
+//#endif     
         avail=inpStream.available();
 
         if (avail==0) return 0;
@@ -150,8 +160,18 @@ public class Utf8IOStream {
         midlet.BombusQD.sd.updateTrafficOut();
      }
 
+//#if TLS
+    public void setTls() throws IOException {
+        tlsExclusive=true;
+        tls=new TlsProtocolHandler(inpStream, outStream);
+        tls.connect(new AlwaysValidVerifyer());
+        inpStream=tls.getTlsInputStream();
+        outStream=tls.getTlsOuputStream();
+        tlsExclusive=false;
+        length=pbyte=0;
+    }
+//#endif 
 
-     private static final int TCP_SERVICEINFO_OUT_PROCENT = 75;
      private static final int TCP_SERVICEINFO_IN_PROCENT = 80;
 
      private static int getBytes(int bytes){

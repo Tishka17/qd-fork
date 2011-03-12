@@ -62,7 +62,7 @@ public class ConfigForm extends DefForm implements MenuListener {
 //#ifdef USER_KEYS
         addControl(new PluginBox(SR.get(SR.MS_hotkeysStr), config.userKeys, PluginBox.USERKEYS));
 //#endif
-        addControl(new PluginBox(SR.get(SR.MS_avatarStr), config.module_avatars, PluginBox.AVATARS));
+        addControl(new PluginBox(SR.get(SR.MS_AVATARS), config.module_avatars, PluginBox.AVATARS));
 //#ifdef HISTORY
         addControl(new PluginBox(SR.get(SR.MS_historyStr), config.module_history, PluginBox.HISTORY));
 //#endif
@@ -132,7 +132,7 @@ public class ConfigForm extends DefForm implements MenuListener {
                 return null;
             }
 //#endif
-        } else if(text.equals(SR.get(SR.MS_avatarStr))) {
+        } else if(text.equals(SR.get(SR.MS_AVATARS))) {
             if (!config.module_avatars) {
                 return null;
             }
@@ -173,7 +173,7 @@ public class ConfigForm extends DefForm implements MenuListener {
         } else if (type.equals(SR.get(SR.MS_taskstr))) {
             new autotask.AutoTaskForm(display, this);
 //#endif
-        } else if (type.equals(SR.get(SR.MS_avatarStr))) {
+        } else if (type.equals(SR.get(SR.MS_AVATARS))) {
            display.setCurrent(new ConfigAvatar(display,this));
         } else {
             new ModuleConfigForm(display, this, type);

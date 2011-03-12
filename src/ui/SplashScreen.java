@@ -37,8 +37,9 @@ import images.RosterIcons;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.microedition.lcdui.*;
-import javax.microedition.lcdui.game.GameCanvas;
+//import javax.microedition.lcdui.game.GameCanvas;
 import colors.ColorTheme;
+import java.io.IOException;
 import ui.controls.Progress;
 
 /**
@@ -88,7 +89,7 @@ public class SplashScreen extends Canvas implements CommandListener {
                 img=Image.createImage("/images/splash.png");
                 //this.img=img;
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
            System.out.println("splash NOT created ");
         }
         display.setCurrent(this);
@@ -178,7 +179,7 @@ public class SplashScreen extends Canvas implements CommandListener {
 
     public void setProgress(String caption, int progress){
         capt=caption;
-        System.out.println(capt);
+        //System.out.println(capt);
 	setProgress(progress);
     }
 

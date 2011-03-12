@@ -28,28 +28,36 @@
 
 package info;
 
-import client.Config;
 import locale.SR;
+import midlet.BombusQD;
 
-public class Version {
-    public static String version = "$MIDLETVERSION$ (r$BOMBUSVERSION$)" + midlet.BombusQD.cf.getStringProperty("build", "") ;
-    public final static String NAME="BombusQD";
-    public final static String BOMBUS_SITE_URL="http://bombusmod-qd.wen.ru";
+public final class Version {
+    public final static String version = "$MIDLETVERSION$ (r$BOMBUSVERSION$)" + BombusQD.getInstance().getStrProperty("BombusQD-Build", "");
+    public final static String NAME = "BombusQD";
+    public final static String BOMBUS_SITE_URL = "http://bombusmod-qd.wen.ru";
 
-    public static String getBuildNum () {
-        String build=Config.getInstance().getStringProperty("BombusQD-Build", "0");
-        return (build!=null && !build.equals("0"))?" ["+build+"]":"";
+    public static String getBuildNum() {
+        String build = BombusQD.getInstance().getStrProperty("BombusQD-Build", "0");
+        return (build != null && !build.equals("0")) ? " [" + build + "]" : "";
     }
 
     public static String getVersionLang() {
-        return version+" ("+SR.get(SR.MS_IFACELANG)+")"+getBuildNum();
+        return version + " (" + SR.get(SR.MS_IFACELANG) + ")" + getBuildNum();
     }
 
-    public static String getVersionNumber() { return version; }
-    public static String getName() { return NAME; }
-    public static String getNameVersion() { return NAME+" "+version; }
+    public static String getVersionNumber() {
+        return version;
+    }
 
-    public static String getUrl() { return BOMBUS_SITE_URL; }
+    public static String getName() {
+        return NAME;
+    }
 
+    public static String getNameVersion() {
+        return NAME + " " + version;
+    }
 
+    public static String getUrl() {
+        return BOMBUS_SITE_URL;
+    }
 }

@@ -71,11 +71,11 @@ import java.io.DataOutputStream;
 
 public class BombusQD extends MIDlet implements Runnable {
 
-    public Display display  = Display.getDisplay(this);
+    public Display display;//  = Display.getDisplay(this);
     private boolean isRunning;
 
-    public final static StaticData sd = StaticData.getInstance();
-    public final static Config cf = Config.getInstance();
+    public static StaticData sd;// = StaticData.getInstance();
+    public static Config cf;// cf = Config.getInstance();
 
 //#ifdef DEBUG_CONSOLE
 //#     public final static DebugList debug = DebugList.get();
@@ -92,27 +92,12 @@ public class BombusQD extends MIDlet implements Runnable {
    LightConfig lcf;
 //#endif
 
-    public BombusQD() {
-        SR.changeLocale();
-
-        ColorTheme.initColors();
-        Commands.initCommands();
-//#ifdef CLIENTS_ICONS
-        ClientsIconsData.initClients();
-//#endif
-
-        instance = this;
-
-        s = SplashScreen.getInstance(display);
-        s.setProgress("Loading", 3);
-    }
-
     public void startApp() {
         if (isRunning) {
-	        hideApp(false,null);
+	        hideApp(false, null);
             return;
         }
-        isRunning=true;
+        isRunning = true;
         new Thread(this).start();
     }
 
@@ -165,13 +150,30 @@ public class BombusQD extends MIDlet implements Runnable {
     }
 
     public void run(){
+        instance = this;
+        display = Display.getDisplay(this);
+        
+        sd = StaticData.getInstance();
+        cf = Config.getInstance();
+
+        SR.changeLocale();
+
+        ColorTheme.initColors();
+        Commands.initCommands();
+//#ifdef CLIENTS_ICONS
+        ClientsIconsData.initClients();
+//#endif
+
+        s = SplashScreen.getInstance(display);
+        s.setProgress("Loading", 3);
+
         if (sd.roster == null) {
             sd.roster = new Roster(display);
         }
 
         s.getKeys();
-        width=s.width;
-        height=s.height;
+        width = s.width;
+        height = s.height;
 
         boolean selAccount=((cf.accountIndex<0));
         if (!selAccount && cf.autoLogin) {
@@ -242,5 +244,19 @@ public class BombusQD extends MIDlet implements Runnable {
 
     public static BombusQD getInstance() {
         return instance;
+    }
+
+    public final String getStrProperty(final String key, final String def) {
+        String str = getAppProperty(key);
+        return (str == null) ? def : str;
+    }
+
+    public final int getIntProperty(final String key, final int def) {
+        try {
+            String str = getAppProperty(key);
+            return (str == null) ? def : Integer.parseInt(str);
+        } catch (NumberFormatException e) {
+        }
+        return def;
     }
 }

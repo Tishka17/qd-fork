@@ -98,15 +98,16 @@ public class Group extends IconTextElement {
     public final void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {
         g.setFont(getFont());
 
-        int xOffset = getOffset();
-        int clipWidth = g.getClipWidth();
-
+        int xOffset = getOffset();  
         if (null != il) {
             if (getImageIndex() != -1) {
                 il.drawImage(g, getImageIndex(), xOffset , (itemHeight - imgHeight) / 2);
                 xOffset += imgHeight;
             }
         }
+
+        int clipWidth = g.getClipWidth() - xOffset;
+
         if (collapsed && hasNewMsgs()) {
             il.drawImage(g, RosterIcons.ICON_MESSAGE_INDEX, g.getClipWidth() - imgWidth, (itemHeight - imgHeight) / 2);
             clipWidth -= imgWidth;

@@ -607,7 +607,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                 MucContact mcontact = (MucContact) contact;
                 String myNick = ((ConferenceGroup) contact.group).selfContact.getName();
 
-                int action;
+                int action = -1;
                 switch (mItem.index) {
                     case MI_KICK:
                         action = QuickPrivelegyEditForm.KICK;
@@ -637,9 +637,11 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                         action = QuickPrivelegyEditForm.OWNER;
                         break;
                     default:
-                        return;
+                        break;
                 }
-                new QuickPrivelegyEditForm(display, parentView, mcontact, action, myNick);
+                if (action != -1) {
+                    new QuickPrivelegyEditForm(display, parentView, mcontact, action, myNick);
+                }
             }
         } else if (item instanceof Group) {
             final Group group = (Group) item;

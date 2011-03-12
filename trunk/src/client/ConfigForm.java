@@ -33,7 +33,7 @@ import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import menu.MenuListener;
 //#ifdef HISTORY
-//# import history.HistoryConfig;
+import history.HistoryConfig;
 //#endif
 
 /**
@@ -57,24 +57,24 @@ public class ConfigForm extends DefForm implements MenuListener {
         addControl(new PluginBox(SR.get(SR.MS_fontsStr)));
 
 //#ifdef AUTOSTATUS
-//#         addControl(new PluginBox(SR.get(SR.MS_AUTOSTATUS), config.module_autostatus, PluginBox.AUTOSTATUS));
+        addControl(new PluginBox(SR.get(SR.MS_AUTOSTATUS), config.module_autostatus, PluginBox.AUTOSTATUS));
 //#endif
 //#ifdef USER_KEYS
-//#         addControl(new PluginBox(SR.get(SR.MS_hotkeysStr), config.userKeys, PluginBox.USERKEYS));
+        addControl(new PluginBox(SR.get(SR.MS_hotkeysStr), config.userKeys, PluginBox.USERKEYS));
 //#endif
         addControl(new PluginBox(SR.get(SR.MS_avatarStr), config.module_avatars, PluginBox.AVATARS));
 //#ifdef HISTORY
-//#         addControl(new PluginBox(SR.get(SR.MS_historyStr), config.module_history, PluginBox.HISTORY));
+        addControl(new PluginBox(SR.get(SR.MS_historyStr), config.module_history, PluginBox.HISTORY));
 //#endif
 
 //#ifdef IMPORT_EXPORT
 //#ifdef FILE_IO
-//#         addControl(new PluginBox(SR.get(SR.MS_ieStr), config.module_ie, PluginBox.IMPORT_EXPORT));
+        addControl(new PluginBox(SR.get(SR.MS_ieStr), config.module_ie, PluginBox.IMPORT_EXPORT));
 //#endif
 //#endif
         if(config.userAppLevel == 1) {
 //#ifdef AUTOTASK
-//#             addControl(new PluginBox(SR.get(SR.MS_taskstr), config.module_tasks, PluginBox.TASKS));
+            addControl(new PluginBox(SR.get(SR.MS_taskstr), config.module_tasks, PluginBox.TASKS));
 //#endif
 //#ifdef CLASSIC_CHAT
 //#             addControl(new PluginBox(SR.get(SR.MS_clchatStr), config.module_classicchat, PluginBox.CLASSIC_CHAT));
@@ -101,10 +101,10 @@ public class ConfigForm extends DefForm implements MenuListener {
                 return null;
             }
 //#ifdef AUTOSTATUS
-//#         } else if (text.equals(SR.get(SR.MS_astatusStr))) {
-//#             if (!config.module_autostatus) {
-//#                 return null;
-//#             }
+        } else if (text.equals(SR.get(SR.MS_astatusStr))) {
+            if (!config.module_autostatus) {
+                return null;
+            }
 //#endif
 //#ifdef CLASSIC_CHAT
 //#         } else if (text.equals(SR.get(SR.MS_clchatStr))) {
@@ -113,24 +113,24 @@ public class ConfigForm extends DefForm implements MenuListener {
 //#             }
 //#endif
 //#ifdef HISTORY
-//#         } else if (text.equals(SR.get(SR.MS_historyStr))) {
-//#             if (!config.module_history) {
-//#                 return null;
-//#             }
+        } else if (text.equals(SR.get(SR.MS_historyStr))) {
+            if (!config.module_history) {
+                return null;
+            }
 //#endif
 //#ifdef IMPORT_EXPORT
 //#ifdef FILE_IO
-//#         } else if(text.equals(SR.get(SR.MS_ieStr))) {
-//#             if (!config.module_ie) {
-//#                 return null;
-//#             }
+        } else if(text.equals(SR.get(SR.MS_ieStr))) {
+            if (!config.module_ie) {
+                return null;
+            }
 //#endif
 //#endif
 //#ifdef AUTOTASK
-//#         } else if(text.equals(SR.get(SR.MS_taskstr))) {
-//#             if (!config.module_tasks) {
-//#                 return null;
-//#             }
+        } else if(text.equals(SR.get(SR.MS_taskstr))) {
+            if (!config.module_tasks) {
+                return null;
+            }
 //#endif
         } else if(text.equals(SR.get(SR.MS_avatarStr))) {
             if (!config.module_avatars) {
@@ -152,26 +152,26 @@ public class ConfigForm extends DefForm implements MenuListener {
         if (type.equals(SR.get(SR.MS_COLOR_TUNE))) {
             display.setCurrent(new colors.ColorConfigForm(display, this));
 //#ifdef USER_KEYS
-//#       } else if (type.equals(SR.get(SR.MS_hotkeysStr))) {
-//#             display.setCurrent(new ui.keys.UserKeysList(display));
+      } else if (type.equals(SR.get(SR.MS_hotkeysStr))) {
+            display.setCurrent(new ui.keys.UserKeysList(display));
 //#endif
 //#ifdef HISTORY
-//#         } else if (type.equals(SR.get(SR.MS_historyStr))) {
-//#             display.setCurrent(new HistoryConfig(display, this));
+        } else if (type.equals(SR.get(SR.MS_historyStr))) {
+            display.setCurrent(new HistoryConfig(display, this));
 //#endif
         } else if (type.equals(SR.get(SR.MS_fontsStr))) {
             display.setCurrent(new font.ConfigFonts(display, this));
 //#ifdef IMPORT_EXPORT
 //#ifdef FILE_IO
-//#         } else if(type.equals(SR.get(SR.MS_ieStr))) {
-//#             new impexp.IEMenu(display, this);
+        } else if(type.equals(SR.get(SR.MS_ieStr))) {
+            new impexp.ImportExportForm(display, this);
 //#endif
 //#endif
         } else if (type.equals(SR.get(SR.MS_notifyStr))) {
             display.setCurrent(new alert.AlertCustomizeForm(display, this));
 //#ifdef AUTOTASK
-//#         } else if (type.equals(SR.get(SR.MS_taskstr))) {
-//#             new autotask.AutoTaskForm(display, this);
+        } else if (type.equals(SR.get(SR.MS_taskstr))) {
+            new autotask.AutoTaskForm(display, this);
 //#endif
         } else if (type.equals(SR.get(SR.MS_avatarStr))) {
            display.setCurrent(new ConfigAvatar(display,this));

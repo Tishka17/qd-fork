@@ -117,7 +117,8 @@ public class Config {
 
     public boolean cp1251=true;
 //#ifndef WMUC
-    public String defGcRoom=getStringProperty("defroom", "qd@conference.jabber.ru");
+    public static String defConference = BombusQD.getInstance().getStrProperty("Def-Room", "qd@conference.jabber.ru");
+
     public boolean storeConfPresence=false;
     public boolean autoJoinConferences=false;
     public int confMessageCount=20;
@@ -211,7 +212,6 @@ public class Config {
     public boolean showTimeTraffic=false;
     public boolean useLowMemory_msgedit=true;
     public boolean useLowMemory_iconmsgcollapsed=false;
-    //public boolean drawCPhoto=true;
     public boolean auto_queryPhoto=false;
 
     public boolean sendMoodInMsg=false;
@@ -257,7 +257,6 @@ public class Config {
     public boolean iconsLeft = true;
     public String path_skin = "";
     public int width_classic=-1;
-    //public boolean useClassicChat=false;
 
     //classic chat
     public int classicChatHeight=140;
@@ -311,11 +310,11 @@ public class Config {
     public int gradientBarLight2=5;
     public boolean autoLoadTransports = true;
 
-    public boolean simpleContacts = false;//fast contact draw
-    public int userAppLevel = 0; //0-simple, 1-advanced
+    public boolean simpleContacts = false;
+    public int userAppLevel = BombusQD.getInstance().getIntProperty("Diff-Level", 0);
 
-    public boolean swapSendAndSuspend = false;
-    public boolean cleanConfContacts = false;
+    public static boolean swapSendAndSuspend = false;
+    public static boolean cleanConfContacts = false;
 
     public static Config getInstance(){
 	if (instance==null) {
@@ -735,7 +734,7 @@ public class Config {
         DataInputStream inputStream=NvStorage.ReadFileRecord("confUtf", 0);
 	try {
             msgAvatarPath=inputStream.readUTF();
-            defGcRoom=inputStream.readUTF();
+            defConference=inputStream.readUTF();
             lang=inputStream.readUTF();
             //""=inputStream.readUTF();//scheme
             verHash=inputStream.readUTF();
@@ -992,7 +991,7 @@ public class Config {
        	DataOutputStream outputStream=NvStorage.CreateDataOutputStream();
 	try {
             outputStream.writeUTF(msgAvatarPath);
-            outputStream.writeUTF(defGcRoom);
+            outputStream.writeUTF(defConference);
             outputStream.writeUTF(lang);
             outputStream.writeUTF("");//scheme
             outputStream.writeUTF(verHash);
@@ -1208,38 +1207,4 @@ public class Config {
             platformName = platformName.substring(0, index);
       }
     }
-
-    public final String getStringProperty(final String key, final String defvalue) {
-	try {
-	    String s=BombusQD.getInstance().getAppProperty(key);
-	    return (s==null)?defvalue:s;
-	} catch (Exception e) {	}
-        return defvalue;
-    }
-
-    // it doesn't work
-    /*public final int getIntFromManifest(final String key, final int defvalue) {
-	try {
-	    String s=BombusQD.getInstance().getAppProperty(key);
-	    return (s==null)?defvalue:Integer.parseInt(s);
-	} catch (Exception e) {	}
-        return defvalue;
-    }*/
-
-    public final int getIntProperty(final String key, final int defvalue) {
-	try { return Integer.parseInt(key); } catch (Exception e) { }
-	return defvalue;
-    }
-
-
-    public final boolean getBooleanProperty(final String key, final boolean defvalue) {
-	try {
-	    if (key.equals("true")) return true;
-	    if (key.equals("yes")) return true;
-	    if (key.equals("1")) return true;
-            return false;
-	} catch (Exception e) { }
-        return defvalue;
-    }
-
 }

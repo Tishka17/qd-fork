@@ -50,8 +50,8 @@ import menu.Command;
 import menu.MyMenu;
 //#endif
 //#ifdef GRAPHICS_MENU
-//# import ui.GMenu;
-//# import ui.GMenuConfig;
+import ui.GMenu;
+import ui.GMenuConfig;
 //#endif
 /**
  *
@@ -148,7 +148,7 @@ public final class ConferenceForm
         super(display, pView, SR.get(SR.MS_JOIN_CONFERENCE));
 
         initCommands();
-        String room=midlet.BombusQD.cf.defGcRoom;
+        String room = Config.defConference;
         String server=null;
         // trying to split string like room@server
         int roomE=room.indexOf('@');
@@ -235,7 +235,7 @@ public final class ConferenceForm
             new Bookmarks(display, midlet.BombusQD.sd.roster, new BookmarkItem(name, gchat.toString(), nick, pass, autojoin));
         } else if (c==cmdJoin) {
             try {
-                midlet.BombusQD.cf.defGcRoom=room+"@"+host;
+                Config.defConference = room + "@" + host;
                 //cf.saveToStorage();//?
                 gchat.append('/').append(nick);
                 join(name, gchat.toString(),pass, msgLimit);
@@ -259,7 +259,7 @@ public final class ConferenceForm
         addCommand(cmdAdd); cmdAdd.setImg(0x42);
         addCommand(cmdEdit); cmdEdit.setImg(0x40);
 //#ifndef GRAPHICS_MENU
-     addCommand(cmdCancel);
+//#      addCommand(cmdCancel);
 //#endif
     }
 
@@ -269,24 +269,24 @@ public final class ConferenceForm
 
 
 //#ifdef GRAPHICS_MENU
-//#     public void touchLeftPressed(){
-//#         showGraphicsMenu();
-//#     }
-//#     public int showGraphicsMenu() {
-//#         commandState();
-//#         menuItem = new GMenu(display, parentView, this, null, menuCommands);
-//#         GMenuConfig.getInstance().itemGrMenu = GMenu.CONFERENCE_FORM;
-//#         redraw();
-//#         return GMenu.CONFERENCE_FORM;
-//#     }
-//#else
     public void touchLeftPressed(){
-        showMenu();
+        showGraphicsMenu();
     }
-    public void showMenu() {
+    public int showGraphicsMenu() {
         commandState();
-        new MyMenu(display, parentView, this, SR.get(SR.MS_JOIN_CONFERENCE), null, menuCommands);
-   }
+        menuItem = new GMenu(display, parentView, this, null, menuCommands);
+        GMenuConfig.getInstance().itemGrMenu = GMenu.CONFERENCE_FORM;
+        redraw();
+        return GMenu.CONFERENCE_FORM;
+    }
+//#else
+//#     public void touchLeftPressed(){
+//#         showMenu();
+//#     }
+//#     public void showMenu() {
+//#         commandState();
+//#         new MyMenu(display, parentView, this, SR.get(SR.MS_JOIN_CONFERENCE), null, menuCommands);
+//#    }
 //#endif
 
 

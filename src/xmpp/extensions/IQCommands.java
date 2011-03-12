@@ -28,42 +28,29 @@
  
 package xmpp.extensions;
 
+import client.Constants;
 import client.Contact;
 import client.Jid;
 import client.StaticData;
-import conference.ConferenceGroup;
-import conference.MucContact;
 import com.alsutton.jabber.JabberBlockListener;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.Iq;
+import conference.ConferenceGroup;
+import conference.MucContact;
 import java.util.Enumeration;
 import ui.Time;
-import client.Constants;
+
+
 /**
  *
  * @author ad
  */
-public class IQCommands implements JabberBlockListener {
-//#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_ADHOC");
-//#endif
-    
-    /** Singleton */
-    private static IQCommands instance;
-    
-    public static IQCommands getInstance() {
-        if (instance==null) instance=new IQCommands();
-        return instance;
-    }
+
+public final class IQCommands implements JabberBlockListener {
+    private StaticData sd = StaticData.getInstance();
+
     public void destroy() {
-    }
-    StaticData sd = StaticData.getInstance();
-    
-    /** Creates a new instance of PepListener */
-    private IQCommands() { }
-    
-    public void addBlockListener() {
-        sd.roster.theStream.addBlockListener(instance);
+
     }
         
     public int blockArrived(JabberDataBlock data) {

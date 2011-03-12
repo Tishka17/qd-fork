@@ -25,7 +25,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-
 package archive;
 
 import client.Msg;
@@ -41,12 +40,11 @@ import menu.Command;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
-import client.Contact;
 import ui.controls.AlertBox;
 import message.MessageItem;
 //#ifdef IMPORT_EXPORT
 //#ifdef FILE_IO
-import impexp.IEMenu;
+import impexp.ImportExportForm;
 //#endif
 //#endif
 
@@ -55,7 +53,7 @@ import impexp.IEMenu;
  * @author EvgS,aqent
  */
 public class ArchiveList
-    extends MessageList {
+        extends MessageList {
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_ARCHIVE");
 //#endif
@@ -70,85 +68,86 @@ public class ArchiveList
 //#ifdef IMPORT_EXPORT
     Command cmdExport;
 //#endif
-
     MessageArchive archive;
-
     private int caretPos;
-
     private TextField tf;
     private TextBox tb;
-
-    public void eventOk(){
-       MessageItem mi = (MessageItem)messages.elementAt(cursor);
-       mi.onSelect(this);
+    public void eventOk() {
+        MessageItem mi = (MessageItem)messages.elementAt(cursor);
+        mi.onSelect(this);
     }
 
-    /** Creates a new instance of ArchiveList */
     public ArchiveList(Display display, int caretPos, TextField tf, TextBox tb) {
- 	super();
-        this.caretPos=caretPos;
-        if(midlet.BombusQD.cf.msgEditType>0){
-           this.tf=tf;
-        }else{
-           this.tb=tb;
-        };
+        super();
 
-       cmdPaste = new Command(SR.get(SR.MS_PASTE_BODY), Command.SCREEN, 1);
-       cmdJid = new Command(SR.get(SR.MS_PASTE_JID), Command.SCREEN, 2);
-       cmdSubj = new Command(SR.get(SR.MS_PASTE_SUBJECT), Command.SCREEN, 3);
-       cmdEdit = new Command(SR.get(SR.MS_EDIT), Command.SCREEN, 4);
+        this.caretPos = caretPos;
+        if (midlet.BombusQD.cf.msgEditType > 0) {
+            this.tf = tf;
+        } else {
+            this.tb = tb;
+        }
 
-       cmdNew = new Command(SR.get(SR.MS_NEW), Command.SCREEN, 5);
-       cmdNew.setImg(0x47);
+        cmdPaste = new Command(SR.get(SR.MS_PASTE_BODY), Command.SCREEN, 1);
+        cmdPaste.setImg(0x60);
 
-       cmdDelete = new Command(SR.get(SR.MS_DELETE), Command.SCREEN, 9);
-       cmdDeleteAll = new Command(SR.get(SR.MS_DELETE_ALL), Command.SCREEN, 10);
+        cmdJid = new Command(SR.get(SR.MS_PASTE_JID), Command.SCREEN, 2);
+        cmdJid.setImg(0x60);
+
+        cmdSubj = new Command(SR.get(SR.MS_PASTE_SUBJECT), Command.SCREEN, 3);
+        cmdSubj.setImg(0x81);
+
+        cmdEdit = new Command(SR.get(SR.MS_EDIT), Command.SCREEN, 4);
+        cmdEdit.setImg(0x40);
+
+        cmdNew = new Command(SR.get(SR.MS_NEW), Command.SCREEN, 5);
+        cmdNew.setImg(0x47);
+
+        cmdDelete = new Command(SR.get(SR.MS_DELETE), Command.SCREEN, 9);
+        cmdDelete.setImg(0x41);
+
+        cmdDeleteAll = new Command(SR.get(SR.MS_DELETE_ALL), Command.SCREEN, 10);
+        cmdDeleteAll.setImg(0x41);
+
 //#ifdef IMPORT_EXPORT
         cmdExport = new Command(SR.get(SR.MS_ieStr), Command.SCREEN, 11);
+        cmdExport.setImg(0x60);
 //#endif
 
-        archive=new MessageArchive();
-	MainBar mainbar=new MainBar(SR.get(SR.MS_ARCHIVE));
-	mainbar.addElement(null);
-	mainbar.addRAlign();
-	mainbar.addElement(null);
-	mainbar.addElement(SR.get(SR.MS_FREE) /*"free "*/);
+        archive = new MessageArchive();
+        MainBar mainbar = new MainBar(SR.get(SR.MS_ARCHIVE));
+        mainbar.addElement(null);
+        mainbar.addRAlign();
+        mainbar.addElement(null);
+        mainbar.addElement(SR.get(SR.MS_FREE) /*"free "*/);
         setMainBarItem(mainbar);
 
         commandState();
-        addCommands();
         setCommandListener(this);
 
         attachDisplay(display);
     }
 
-    public void commandState() {
+    public final void commandState() {
 //#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
 //#endif
 
         addCommand(cmdNew);
-        if (getItemCount()>0) {
-            addCommand(cmdEdit); cmdEdit.setImg(0x40);
-            if(midlet.BombusQD.cf.msgEditType>0){
-             if (tf!=null) {
-                addCommand(cmdPaste); cmdPaste.setImg(0x60);
-                addCommand(cmdJid); cmdJid.setImg(0x60);
-                addCommand(cmdSubj); cmdSubj.setImg(0x81);
-              }
-            }else{
-              if (tb!=null) {
-                addCommand(cmdPaste); cmdPaste.setImg(0x60);
-                addCommand(cmdJid); cmdJid.setImg(0x60);
-                addCommand(cmdSubj); cmdSubj.setImg(0x81);
-              }
-            };
+        if (getItemCount() > 0) {
+            addCommand(cmdEdit);
 
-            addCommand(cmdDelete); cmdDelete.setImg(0x41);
-            addCommand(cmdDeleteAll); cmdDeleteAll.setImg(0x41);
+            if (tf != null || tb != null) {
+                addCommand(cmdPaste);
+                addCommand(cmdJid);
+                addCommand(cmdSubj);
+            }
+
+            addCommand(cmdDelete);
+            addCommand(cmdDeleteAll);
         }
+
 //#ifdef IMPORT_EXPORT
-        addCommand(cmdExport); cmdExport.setImg(0x60);
+            addCommand(cmdExport);
 //#endif
 
 //#ifdef MENU_LISTENER
@@ -157,59 +156,60 @@ public class ArchiveList
     }
 
     protected void beginPaint() {
-        getMainBarItem().setElementAt(" ("+getItemCount()+")",1);
-	getMainBarItem().setElementAt(String.valueOf(getFreeSpace()),3);
+        getMainBarItem().setElementAt(" (" + getItemCount() + ")", 1);
+        getMainBarItem().setElementAt(String.valueOf(getFreeSpace()), 3);
     }
 
     public int getItemCount() {
-	return archive.size();
+        return archive.size();
     }
 
     protected Msg getMessage(int index) {
-	return archive.msg(index);
+        return archive.msg(index);
     }
 
 //#ifdef MENU_LISTENER
-    public void userKeyPressed(int keyCode){
-     switch (keyCode) {
-        case KEY_NUM4:
-            pageLeft();
-            break;
-        case KEY_NUM6:
-            pageRight();
-            break;
-     }
+    public void userKeyPressed(int keyCode) {
+        switch (keyCode) {
+            case KEY_NUM4:
+                pageLeft();
+                break;
+            case KEY_NUM6:
+                pageRight();
+                break;
+        }
     }
 //#endif
 
     public void commandAction(Command c, Displayable d) {
-        super.commandAction(c,d);
+        super.commandAction(c, d);
 
-	Msg m=getMessage(cursor);
+        if (c == cmdNew) {
+            new ArchiveEdit(display, this, -1, this);
+        } else if (c == cmdDelete) {
+            keyClear();
+        } else if (c == cmdDeleteAll) {
+            deleteAllMessages();
+            redraw();
+        } else if (c == cmdPaste) {
+            pasteData(0);
+        } else if (c == cmdSubj) {
+            pasteData(1);
+        } else if (c == cmdJid) {
+            pasteData(2);
+        } else if (c == cmdEdit) {
+            new ArchiveEdit(display, this, cursor, this);
 //#ifdef IMPORT_EXPORT
 //#ifdef FILE_IO
-    if(c==cmdExport) {
-        display.setCurrent(new impexp.IEMenu(display, this));
-    }
+        } else if (c == cmdExport) {
+            new impexp.ImportExportForm(display, this);
 //#endif
 //#endif
-        if (c==cmdNew) { new ArchiveEdit(display, this, -1, this); }
-	if (m==null) return;
-
-	if (c==cmdDelete) { keyClear(); }
-        if (c==cmdDeleteAll) { deleteAllMessages(); redraw(); }
-	if (c==cmdPaste) { pasteData(0); }
-	if (c==cmdSubj) { pasteData(1); }
-	if (c==cmdJid) { pasteData(2); }
-        if (c==cmdEdit) {
-            try {
-                new ArchiveEdit(display, this, cursor, this);
-            } catch (Exception e) {/*no messages*/}
         }
     }
 
     public void reFresh() {
-        archive=new MessageArchive();
+        archive = new MessageArchive();
         messages.removeAllElements();
     }
 
@@ -219,57 +219,75 @@ public class ArchiveList
     }
 
     private void deleteAllMessages() {
-        new AlertBox(SR.get(SR.MS_ACTION), SR.get(SR.MS_DELETE_ALL)+"?", display, this, false) {
+        new AlertBox(SR.get(SR.MS_ACTION), SR.get(SR.MS_DELETE_ALL) + "?", display, this, false) {
+
             public void yes() {
                 archive.deleteAll();
                 messages.removeAllElements();
             }
-            public void no() { }
+
+            public void no() {
+            }
+
         };
     }
 
     private void pasteData(int field) {
-        if(midlet.BombusQD.cf.msgEditType>0){
-           if (tf==null) return;
-        }else{
-           if (tb==null) return;
-        };
-	Msg m=getMessage(cursor);
-	if (m==null) return;
-	String data;
-	switch (field) {
-	case 1:
-	    data=m.subject;
-	    break;
-	case 2:
-	    data=m.from;
-	    break;
-	default:
-	    data=util.StringUtils.quoteString(m);
-	}
-        if(midlet.BombusQD.cf.msgEditType>0){
-           tf.insert(data, caretPos);
-        }else{
-           tb.insert(data, caretPos);
-        };
-	destroyView();
+        if (midlet.BombusQD.cf.msgEditType > 0) {
+            if (tf == null) {
+                return;
+            }
+        } else {
+            if (tb == null) {
+                return;
+            }
+        }
+        ;
+        Msg m = getMessage(cursor);
+        if (m == null) {
+            return;
+        }
+        String data;
+        switch (field) {
+            case 1:
+                data = m.subject;
+                break;
+            case 2:
+                data = m.from;
+                break;
+            default:
+                data = util.StringUtils.quoteString(m);
+        }
+        if (midlet.BombusQD.cf.msgEditType > 0) {
+            tf.insert(data, caretPos);
+        } else {
+            tb.insert(data, caretPos);
+        }
+        ;
+        destroyView();
     }
 
-    public void keyGreen() { pasteData(0); }
+    public void keyGreen() {
+        pasteData(0);
+    }
 
     public void keyClear() {
-        if (getItemCount()>0) {
+        if (getItemCount() > 0) {
             new AlertBox(SR.get(SR.MS_DELETE), SR.get(SR.MS_SURE_DELETE), display, this, false) {
+
                 public void yes() {
                     deleteMessage();
                 }
-                public void no() { }
+
+                public void no() {
+                }
+
             };
             redraw();
         }
     }
 
-    public void destroyView(){
+    public void destroyView() {
         super.destroyView();
         archive.close();
     }
@@ -277,4 +295,5 @@ public class ArchiveList
     private int getFreeSpace() {
         return archive.freeSpace();
     }
+
 }

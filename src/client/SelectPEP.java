@@ -56,6 +56,7 @@ import mood.MoodPublishResult;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.Iq;
 import locale.Activity;
+import midlet.BombusQD;
 
 /**
  *
@@ -268,7 +269,7 @@ public final class SelectPEP extends VirtualList implements
                 case 12: category=null; break;                                                                
         }
         if(type>0){
-          new ActivityText(display, this, category, descr, getTipString() );
+          new ActivityText(display, BombusQD.sd.roster, category, descr, getTipString() );
           return;
         }
     }

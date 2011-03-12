@@ -45,7 +45,7 @@ import ui.controls.Progress;
  *
  * @author Eugene Stahov
  */
-public class SplashScreen extends GameCanvas implements CommandListener {
+public class SplashScreen extends Canvas implements CommandListener {
 
     private Display display;
     private Displayable parentView;
@@ -80,7 +80,7 @@ public class SplashScreen extends GameCanvas implements CommandListener {
 
     /** Creates a new instance of SplashScreen */
     public SplashScreen(Display display) {
-        super(false);//true - getKeyState,false - keyPressed
+        super();//true - getKeyState,false - keyPressed
         this.display = display;
         setFullScreenMode(midlet.BombusQD.cf.fullscreen);
         try {
@@ -95,7 +95,7 @@ public class SplashScreen extends GameCanvas implements CommandListener {
     }
 
    public SplashScreen(Display display, ComplexString status, char exitKey) {
-        super(false);
+        super();
         this.status=status;
         this.display=display;
         this.exitKey=exitKey;
@@ -108,7 +108,7 @@ public class SplashScreen extends GameCanvas implements CommandListener {
         run();
 
         tc=new TimerTaskClock();
-        setFullScreenMode(midlet.BombusQD.cf.fullscreen);
+        //setFullScreenMode(midlet.BombusQD.cf.fullscreen);
 
         System.gc();
         try { Thread.sleep(50); } catch (InterruptedException ex) { }
@@ -145,13 +145,13 @@ public class SplashScreen extends GameCanvas implements CommandListener {
 
         //todo: fix memory leak in getTimeWeekDay
         if (pos==-1) {
-            g.setColor(ColorTheme.getColor(ColorTheme.BLK_INK));
-            status.drawItem(null, g, 0, false);
+            if (status != null) {
+                g.setColor(ColorTheme.getColor(ColorTheme.BLK_INK));
+                status.drawItem(null, g, 0, false);
+            }
 
             g.setFont(clockFont);
-            int h=clockFont.getHeight()+1;
-             String time = /*"Happy new year!"; */ Time.getTimeWeekDay();
-             int tw=clockFont.stringWidth(time);
+             String time = Time.getTimeWeekDay();
              g.drawString(time, width/2, height - 5, Graphics.BOTTOM | Graphics.HCENTER);
 
         } else {

@@ -85,7 +85,7 @@ public final class AffiliationEditForm extends DefForm {
         JabberDataBlock query=request.addChildNs("query", "http://jabber.org/protocol/muc#admin");
         JabberDataBlock child=query.addChild("item", null);
         child.setAttribute("jid", jidItem.getValue());
-        child.setAttribute("affiliation", AffiliationItem.getAffiliationName((short)affiliationItem.getSelectedIndex()));
+        child.setAttribute("affiliation", AffiliationItem.getAffiliationName(affiliationItem.getSelectedIndex()));
 
         String rs=reasonItem.getValue();
         if (!rs.equals("")) child.addChild("reason", rs);

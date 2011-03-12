@@ -457,7 +457,7 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
             autoJoinConferences = new CheckBox(SR.get(SR.MS_AUTO_CONFERENCES), config.autoJoinConferences);
             addControl(autoJoinConferences);
 
-            cleanConfContacts = new CheckBox("Delete contacts, who leave MUC", config.cleanConfContacts);
+            cleanConfContacts = new CheckBox("Delete contacts, who leave MUC", Config.cleanConfContacts);
             addControl(cleanConfContacts);
 
             if (config.userAppLevel == 1) {
@@ -533,13 +533,13 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 //#ifdef CLASSIC_CHAT
 //#         } else if (type.equals(SR.get(SR.MS_clchatStr))) {
 //#             addControl(new SimpleString(SR.get(SR.MS_CLCHAT_ON), true));
-//#
+//# 
 //#             usePhoneTheme = new CheckBox(SR.get(SR.MS_CLCHAT_BGNG_PHONE), config.usePhoneTheme);
 //#             addControl(usePhoneTheme);
-//#
+//# 
 //#             classicChatHeight = new NumberInput(display,SR.get(SR.MS_CLCHAT_HEIGHT), Integer.toString(config.classicChatHeight), 80, 320);
 //#             addControl(classicChatHeight);
-//#
+//# 
 //#             lineCount = new NumberInput(display, SR.get(SR.MS_CLCHAT_MSGLIMIT), Integer.toString(config.lineCount), 1, 1000);
 //#             itemsList.addElement(lineCount);
 //#             itemsList.addElement(new SpacerItem(10));
@@ -631,7 +631,7 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
                 config.useClipBoard = useClipBoard.getValue();
 //#endif
             }
-            config.swapSendAndSuspend = swapSendAndSuspend.getValue();
+            Config.swapSendAndSuspend = swapSendAndSuspend.getValue();
        } else if (type.equals(SR.get(SR.MS_netStr))) {
             if (config.userAppLevel == 1) {
                 config.autoLoadTransports = autoLoadTransports.getValue();
@@ -696,7 +696,7 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
         } else if (type.equals(SR.get(SR.MS_appStr))) {
             config.autoLogin = autoLogin.getValue();
             config.autoJoinConferences = autoJoinConferences.getValue();
-            config.cleanConfContacts = cleanConfContacts.getValue();
+            Config.cleanConfContacts = cleanConfContacts.getValue();
 
             if (config.userAppLevel == 1) {
                 config.collapsedGroups = collapsedGroups.getValue();

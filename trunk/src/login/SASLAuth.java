@@ -28,7 +28,9 @@
 package login;
 
 import account.Account;
+//#ifdef TLS
 import client.StaticData;
+//#endif
 import com.alsutton.jabber.JabberBlockListener;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.JabberStream;
@@ -67,15 +69,25 @@ public class SASLAuth implements JabberBlockListener{
     }
     
 //#if SASL_XGOOGLETOKEN
-//#     private String token;
-//#     public void setToken(String token) { this.token=token; }
+    private String token;
+    public void setToken(String token) { this.token=token; }
 //#endif
 
     public int blockArrived(JabberDataBlock data) {
         JabberStream stream=midlet.BombusQD.sd.roster.theStream;
         //System.out.println(data.toString());
         if (data.getTagName().equals("stream:features")) {
-//#if ZLIB
+//#if TLS
+            JabberDataBlock starttls=data.getChildBlock("starttls");
+            if (starttls!=null && starttls.isJabberNameSpace("urn:ietf:params:xml:ns:xmpp-tls")) {
+                JabberDataBlock askTls=new JabberDataBlock("starttls", null, null);
+                askTls.setNameSpace("urn:ietf:params:xml:ns:xmpp-tls");
+                stream.send(askTls);
+                StaticData.getInstance().roster.setProgress("TLS negotiation", 39);
+                return JabberBlockListener.BLOCK_PROCESSED;
+            }
+//#endif
+//#ifdef ZLIB
             JabberDataBlock compr=data.getChildBlock("compression");
             if (compr!=null && account.useCompression()) {
                 if (compr.getChildBlockByText("zlib")!=null) {
@@ -108,18 +120,18 @@ public class SASLAuth implements JabberBlockListener{
                 }
                 
 //#if SASL_XGOOGLETOKEN
-//#                 // X-GOOGLE-TOKEN mechanism
-//#                 if (mech.getChildBlockByText("X-GOOGLE-TOKEN")!=null  && token!=null) {
-//#                     auth.setAttribute("mechanism", "X-GOOGLE-TOKEN");
-//#                     auth.setText(token);
-//#                     
-//#                     //System.out.println(auth.toString());
-//#                     
-//#                     stream.send(auth);
-//#                     listener.loginMessage(SR.get(SR.MS_AUTH), 42);
-//#                     return JabberBlockListener.BLOCK_PROCESSED;
-//#                     
-//#                 }
+                // X-GOOGLE-TOKEN mechanism
+                if (mech.getChildBlockByText("X-GOOGLE-TOKEN")!=null  && token!=null) {
+                    auth.setAttribute("mechanism", "X-GOOGLE-TOKEN");
+                    auth.setText(token);
+                    
+                    //System.out.println(auth.toString());
+                    
+                    stream.send(auth);
+                    listener.loginMessage(SR.get(SR.MS_AUTH), 42);
+                    return JabberBlockListener.BLOCK_PROCESSED;
+                    
+                }
 //#endif
 
                 if (mech.getChildBlockByText("PLAIN")!=null) {
@@ -201,6 +213,21 @@ public class SASLAuth implements JabberBlockListener{
             stream.send(resp);
             return JabberBlockListener.BLOCK_PROCESSED;
         }
+//#ifdef TLS
+        else if ( data.getTagName().equals("proceed")) {
+            try {
+                stream.setTls();
+                stream.initiateStream();
+            } catch (IOException ex) {
+                //ex.printStackTrace();
+                listener.loginFailed("TLS negotiation failed: " + ex.getMessage());
+            }
+            return JabberBlockListener.NO_MORE_BLOCKS;
+        }
+        else if ( data.getTagName().equals("failure") && data.isJabberNameSpace("urn:ietf:params:xml:ns:xmpp-tls")) {
+            listener.loginFailed("TLS failed");
+        }
+//#endif
 //#if ZLIB
         else if ( data.getTagName().equals("compressed")) {
                 stream.setZlibCompression();

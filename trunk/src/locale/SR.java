@@ -647,7 +647,7 @@ public class SR {
      public final static short AVATAR_ROSTER_LOADFS  = 614; //Roster:Load all Avatars from FS
      public final static short AVATAR_MUC_LOADFS  = 615; //Muc:Load all Avatars from FS
      public final static short MS_AVATARS  = 616; //Avatars
-     public final static short MS_avatarStr  = 617; //Avatars
+     public final static short MS_AUTOCLEAN_MUC  = 617; //Delete contacts, who leave MUC
      public final static short MS_QD_NEWS  = 618; //News
      public final static short MS_SHOW_PRS_TIME = 619; //Show Presence Time
      public final static short MS_ANIMATION_MENU_ROSTER  = 620; //Animation of Graphics Menu&Roster
@@ -676,7 +676,7 @@ public class SR {
      public final static short MS_astatusStr  = 643; //Autostatus
      public final static short MS_CLCHAT_ON_  = 644; //Classic Chat
      public final static short MS_clchatStr_  = 645; //Classic Chat
-     public final static short MS_cthemesStr  = 646; //Color Themes
+     public final static short MS_COLOR_SCHEMES  = 646; //Color Themes
      public final static short MS_casheStr  = 647; //Cashe
      public final static short MS_historyStr  = 648; //History
      public final static short MS_fontsStr  = 649; //Fonts
@@ -1410,7 +1410,7 @@ public class SR {
         "Roster:Load all Avatars from FS",
         "Muc:Load all Avatars from FS",
         "Avatars",
-        "Avatars",
+        "Delete contacts, who leave MUC",
         "News",
         "Show Presence Time",
         "Animation of Graphics Menu&Roster",

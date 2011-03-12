@@ -543,9 +543,6 @@ Contact Helper	Контакт-помощник
 Change password	Сменить пароль
 Remove from server	Удалить с сервера
 New password	Новый пароль
-Send Evil Message	Послать злобное сообщение
-BredoGEN On	(вкл)Бредогенератор
-BredoGEN Off	(выкл)Бредогенератор
 deselect all	Снять выделение
 save selection to archive	Выделенное в архив
 To Clipboard	Копировать
@@ -650,7 +647,6 @@ Fonts	Шрифты
 Import/Export	Импорт/Экспорт данных
 Notifications&Light Control	Звуки,уведомления и подсветка
 Tasks	Планировщик
-Avatars	Аватары
 Config	Настроить
 Use animated smiles	Анимированные смайлы
 Nokia Reconnect Hack	Nokia Reconnect Hack%Исключает проблему зависания после переподключения и ускоряет работу приложения на некоторых телефонах Nokia
@@ -742,3 +738,4 @@ Send <-> Suspend	Отправить <-> Отложить
 You're waking up	Вы будите
 Color scheme has been sent	Цветовая схема отправлена
 Enable/Disable	Включить/Выключить
+Delete contacts, who leave MUC	Автоотчистка групп

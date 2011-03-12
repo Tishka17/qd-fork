@@ -457,7 +457,7 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
             autoJoinConferences = new CheckBox(SR.get(SR.MS_AUTO_CONFERENCES), config.autoJoinConferences);
             addControl(autoJoinConferences);
 
-            cleanConfContacts = new CheckBox("Delete contacts, who leave MUC", Config.cleanConfContacts);
+            cleanConfContacts = new CheckBox(SR.get(SR.MS_AUTOCLEAN_MUC), Config.cleanConfContacts);
             addControl(cleanConfContacts);
 
             if (config.userAppLevel == 1) {

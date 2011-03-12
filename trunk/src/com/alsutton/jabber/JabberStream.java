@@ -40,8 +40,6 @@ import locale.SR;
 import xmpp.XmppError;
 import xmpp.XmppParser;
 import xmpp.extensions.IqPing;
-//import Client.Contact;
-import client.Config;
 
 public class JabberStream extends XmppParser implements Runnable {
 
@@ -370,7 +368,11 @@ public class JabberStream extends XmppParser implements Runnable {
         return iostream.getStreamStatsBar();
     }
 
-
+//#if TLS
+    public void setTls() throws IOException {
+        iostream.setTls();
+    }
+//#endif  
 
     public String getConnectionData() {
         if(null == iostream) return "";

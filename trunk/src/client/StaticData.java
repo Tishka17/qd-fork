@@ -29,19 +29,21 @@ package client;
 
 import account.Account;
 //#ifdef AUTOTASK
-//# import autotask.AutoTask;
+import autotask.AutoTask;
 //#endif
+
 /**
  *
  * @author Eugene Stahov 
  */
+
 public class StaticData {    
     private static StaticData sd;    
     public Roster roster;    
     public Account account;
 
 //#ifdef AUTOTASK
-//#     public AutoTask autoTask;
+    public AutoTask autoTask;
 //#endif
     
 //#ifdef FILE_IO
@@ -51,6 +53,9 @@ public class StaticData {
     public long traffic = 0;    
     private long trafficOut;
     private long trafficIn;
+
+    public static int incPacketCount = 0;
+    public static int outPacketCount = 0;
 
     private StaticData() {
     

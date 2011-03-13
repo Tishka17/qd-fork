@@ -97,7 +97,7 @@ public class InfoWindow extends DefForm {
         super.keyPressed(keyCode);
     }
 
-    public InfoWindow(Display display, Displayable pView) {
+    public InfoWindow(final Display display, Displayable pView) {
         super(display, pView, SR.get(SR.MS_ABOUT));
 
         IconTextElement item;
@@ -109,37 +109,31 @@ public class InfoWindow extends DefForm {
         ((MultiLine)item).setSelectable(true);
         addControl(item);
 
-        final InfoWindow window = this;
-        item = new LinkString("QD ".concat(SR.get(SR.MS_QD_NEWS))) {
+        addControl(new LinkString("QD ".concat(SR.get(SR.MS_QD_NEWS))) {
             public void doAction() {
-                new GetFileServer(midlet.BombusQD.getInstance().display, window);
+                new GetFileServer(display, BombusQD.sd.roster);
             }
-
-        };
-        addControl(item);
+        });
 
         if (midlet.BombusQD.sd.roster.isLoggedIn()) {
-            addControl(
-                    new LinkString(SR.get(SR.MS_SUPPORT)) {
-
-                        public void doAction() {
-                            new ConferenceForm(
-                                    midlet.BombusQD.getInstance().display,
-                                    midlet.BombusQD.sd.roster,
-                                    "BombusQD@",
-                                    "qd@conference.jabber.ru", null, false);
-                        }
-
-                    });
+            addControl( new LinkString(SR.get(SR.MS_SUPPORT)) {
+                public void doAction() {
+                    new ConferenceForm(
+                            display,
+                            BombusQD.sd.roster,
+                            "BombusQD@",
+                            "qd@conference.jabber.ru", null, false);
+                }
+            });
         }
 
 //#ifdef STATS
-//#         addControl(new LinkString(SR.get(SR.MS_STATS)) {
-//#             public void doAction() {
-//#                 new stats.StatsWindow(midlet.BombusQD.getInstance().display);
-//#             }
-//# 
-//#         });
+        addControl(new LinkString(SR.get(SR.MS_STATS)) {
+            public void doAction() {
+                new stats.StatsWindow(display);
+            }
+
+        });
 //#endif
 
         /*

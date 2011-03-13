@@ -71,11 +71,11 @@ import java.io.DataOutputStream;
 
 public class BombusQD extends MIDlet implements Runnable {
 
-    public Display display;//  = Display.getDisplay(this);
-    private boolean isRunning;
+    public Display display;
+    private boolean isRunning = false;
 
-    public static StaticData sd;// = StaticData.getInstance();
-    public static Config cf;// cf = Config.getInstance();
+    public static StaticData sd;
+    public static Config cf;
 
 //#ifdef DEBUG_CONSOLE
 //#     public final static DebugList debug = DebugList.get();
@@ -94,11 +94,11 @@ public class BombusQD extends MIDlet implements Runnable {
 
     public void startApp() {
         if (isRunning) {
-	        hideApp(false, null);
-            return;
+			 hideApp(false, null);
+		} else {
+            isRunning = true;
+            new Thread(this).start();
         }
-        isRunning = true;
-        new Thread(this).start();
     }
 
     /**
@@ -122,7 +122,7 @@ public class BombusQD extends MIDlet implements Runnable {
                String ver = is.readUTF();
                if(ver.indexOf(key) == -1 ) {
                   //alerbox
-                  AlertBox alert = new AlertBox( "WARNING", SR.get(SR.MS_WARNING_MESSAGE_INSTALL) , display, parentView, true) {
+                  new AlertBox( "WARNING", SR.get(SR.MS_WARNING_MESSAGE_INSTALL) , display, parentView, true) {
                       public void yes() { notifyDestroyed(); }
                       public void no() {}
                   };
@@ -208,9 +208,6 @@ public class BombusQD extends MIDlet implements Runnable {
         CustomLight.switchOn(lcf.light_control);
 //#endif
 
-//#ifdef HISTORY
-        HistoryStorage hs = new HistoryStorage();
-//#endif
 //#ifdef PEP
         Activity.loaded();
 //#endif
@@ -245,14 +242,14 @@ public class BombusQD extends MIDlet implements Runnable {
         return instance;
     }
 
-    public final String getStrProperty(final String key, final String def) {
-        String str = getAppProperty(key);
+    public static String getStrProperty(final String key, final String def) {
+        String str = instance.getAppProperty(key);
         return (str == null) ? def : str;
     }
 
-    public final int getIntProperty(final String key, final int def) {
+    public static int getIntProperty(final String key, final int def) {
         try {
-            String str = getAppProperty(key);
+            String str = instance.getAppProperty(key);
             return (str == null) ? def : Integer.parseInt(str);
         } catch (NumberFormatException e) {
         }

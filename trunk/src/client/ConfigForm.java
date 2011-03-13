@@ -150,7 +150,7 @@ public class ConfigForm extends DefForm implements MenuListener {
         }
         String type = getFocusedObject().toString();
         if (type.equals(SR.get(SR.MS_COLOR_TUNE))) {
-            display.setCurrent(new colors.ColorConfigForm(display, this));
+            new colors.ColorConfigForm(display, this);
 //#ifdef USER_KEYS
       } else if (type.equals(SR.get(SR.MS_hotkeysStr))) {
             display.setCurrent(new ui.keys.UserKeysList(display));
@@ -168,7 +168,7 @@ public class ConfigForm extends DefForm implements MenuListener {
 //#endif
 //#endif
         } else if (type.equals(SR.get(SR.MS_notifyStr))) {
-            display.setCurrent(new alert.AlertCustomizeForm(display, this));
+           new alert.AlertCustomizeForm(display, this);
 //#ifdef AUTOTASK
         } else if (type.equals(SR.get(SR.MS_taskstr))) {
             new autotask.AutoTaskForm(display, this);

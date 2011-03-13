@@ -90,28 +90,29 @@ public class Config {
     public boolean isTouchPhone;
 //#endif
 
-    public boolean ghostMotor=false;
-    public boolean flagQuerySign=false;
+    public boolean flagQuerySign = false;
 
+    public boolean ghostMotor = false;
     public boolean muc119=true;	// before muc 1.19 use muc#owner instead of muc#admin
 
     public char keyLock='*';
     public char keyVibra='#';
 
 //#ifdef AUTOSTATUS
-    public final static int AWAY_OFF=0;
-    public final static int AWAY_LOCK=1;
-    public final static int AWAY_MESSAGE=2;
-    public final static int AWAY_IDLE=3;
+    public final static int AWAY_OFF = 0;
+    public final static int AWAY_LOCK = 1;
+    public final static int AWAY_MESSAGE = 2;
+    public final static int AWAY_IDLE = 3;
 
-    public int autoAwayType=0;
-    public int autoAwayDelay=5; //5 minutes
-    public boolean setAutoStatusMessage=true;
+    public int autoAwayType = 0;
+    public int autoAwayDelay = 5; //5 minutes
+    public boolean setAutoStatusMessage = true;
 //#endif
 
-    public boolean cp1251=true;
+    public boolean cp1251 = true;
+
 //#ifndef WMUC
-    public static String defConference = BombusQD.getInstance().getStrProperty("Def-Room", "qd@conference.jabber.ru");
+    public static String defConference = BombusQD.getStrProperty("Def-Room", "qd@conference.jabber.ru");
 
     public boolean storeConfPresence=false;
     public boolean autoJoinConferences=false;
@@ -124,16 +125,17 @@ public class Config {
     public int def_profile=0;
 
 //#ifdef SMILES
-    public boolean smiles=true;
+    public boolean smiles = true;
 //#endif
+
     public boolean showOfflineContacts=false;
     public boolean showTransports=true;
     public boolean selfContact=true;
     public boolean ignore=false;
-    public boolean eventComposing=true;//����������� � ������ ������
+    public boolean eventComposing=true;
     public boolean autoLogin=false;
     public boolean autoFocus=false;
-    public int loginstatus=0;//loginstatus
+    public int loginstatus=0;
     public int gmtOffset;
     public boolean popupFromMinimized=false;
 //#ifdef MEMORY_MONITOR
@@ -156,66 +158,70 @@ public class Config {
     public boolean allowMinimize=false;
     public int profile=0;
     public int lastProfile=0;
-    public int panelsState= 2; //default state both panels show, reverse disabled
     public boolean lightState=false;
 
+    //default state both panels show, reverse disabled
+    public static int panelsState = 2;
+
 //#ifdef POPUPS
-    public boolean popUps=false;
+    public boolean popUps = false;
 //#endif
 
-    public boolean showResources=true;
-    public boolean enableVersionOs=true;
-    public boolean collapsedGroups=true;
-    public int messageLimit=512;
-    public boolean eventDelivery=true;
+    public boolean rosterStatus = false;
+    public boolean showResources = true;
+    public boolean enableVersionOs = true;
+    public boolean collapsedGroups = true;
+    public boolean eventDelivery = true;
+    public int messageLimit = 512;
 
     // TODO use DETRANSLIT directive
     public boolean transliterateFilenames=false;
     public boolean autoDeTranslit=false;
 
-    public boolean rosterStatus=false;
 //#ifdef PEP
     public boolean sndrcvmood = true;
     public boolean rcvtune = true;
     public boolean rcvactivity = true;
 //#endif
+
     public boolean queryExit = false;
-    public int notInListDropLevel=NotInListFilter.ALLOW_ALL;//enable all
+    public int notInListDropLevel = NotInListFilter.ALLOW_ALL;
     public boolean showBalloons = false;
 
-    public int msglistLimit=50;
+    public int msglistLimit = 50;
 
-    public boolean useTabs=false;
-    public boolean notifyBlink=true;
-    public boolean notifySound=false;
-    public boolean notifyPicture=false;
-    public boolean useBoldFont=false;
+    public boolean useTabs = false;
+    public boolean notifyBlink = true;
+    public boolean notifySound = false;
+    public boolean notifyPicture = false;
+    public boolean useBoldFont = false;
 
 //#ifdef CLIPBOARD
     public boolean useClipBoard = true;
 //#endif
-    public String verHash="";
-    public String resolvedHost="";
-    public int resolvedPort=0;
-    public boolean IQNotify=false;
+
+    public String verHash = "";
+    public String resolvedHost = "";
+    public int resolvedPort = 0;
+
+    public boolean IQNotify = false;
 //#ifdef CLIENTS_ICONS
     public boolean showClientIcon=true;
 //#endif
-    public int reconnectCount=30;
-    public int reconnectTime=10;
+
+    public int reconnectCount = 30;
+    public int reconnectTime = 10;
+
     public boolean executeByNum = false;
     public boolean showNickNames = true;
-    public boolean fileTransfer=true;
-    public boolean adhoc=false;
+    public boolean fileTransfer = true;
+    public boolean adhoc = false;
 
-    public boolean oldSE=false;
+    public boolean oldSE = false;
 
-    public boolean showTimeTraffic=false;
-    public boolean useLowMemory_msgedit=true;
-    public boolean useLowMemory_iconmsgcollapsed=false;
-    public boolean auto_queryPhoto=false;
+    public static boolean showTimeTraffic = false;
+    public boolean useLowMemory_iconmsgcollapsed = false;
 
-    public boolean sendMoodInMsg=false;
     public String moodText="";
     public String moodName="";
     public String actText="";
@@ -265,11 +271,9 @@ public class Config {
     public int popup_bgnd = 0;
     public int cursor_bgnd = 0;
 
-    public int incPacketCount = 0;
-    public int outPacketCount = 0;
-
     public String msgAvatarPath = "";
     public int avatar_cashe_size = 0;
+    public boolean auto_queryPhoto = false;
     public boolean autoSaveVcard = false;
     public boolean showAvatarRect = false;
     public boolean autoload_FSPhoto = false;
@@ -278,21 +282,19 @@ public class Config {
 
     public boolean nokiaReconnectHack = false;
     public boolean timePresence = false;
-    public boolean animateMenuAndRoster = false;
     public boolean isStatusFirst = false;
 
-    public boolean animatedSmiles=true;
+    public static boolean animatedSmiles = true;
 
-    public int msgEditType=0;
-    public boolean runningMessage=false;
-    public boolean debug=false;
+    public int msgEditType = 0;
+    public boolean runningMessage = false;
+    public boolean debug = false;
 
     public static boolean hasAniSmiles = true;
-    public boolean showCollapsedPresences=false;
-    public boolean networkAnnotation=true;
-    public boolean metaContacts=false;
-    public boolean graphicsMenu=true;
-    public int graphicsMenuPosition=0;//0-center
+    public boolean showCollapsedPresences = false;
+    public boolean networkAnnotation = true;
+    public boolean graphicsMenu = true;
+    public int graphicsMenuPosition = 0;
 
     public boolean createMessageByFive = true;
     public boolean gradientBarLigth = false;
@@ -302,7 +304,7 @@ public class Config {
     public boolean autoLoadTransports = true;
 
     public boolean simpleContacts = false;
-    public int userAppLevel = BombusQD.getInstance().getIntProperty("Diff-Level", 0);
+    public int userAppLevel = BombusQD.getIntProperty("Diff-Level", 0);
 
     public static boolean swapSendAndSuspend = false;
     public static boolean cleanConfContacts = false;
@@ -386,49 +388,19 @@ public class Config {
 	VirtualList.greenKeyCode=greenKeyCode;
     }
 
-
     protected void loadFromStorage(){
         loadBoolean();
         loadBoolean_();
         loadInt();
         loadUTF();
 
-	lastProfile=profile=def_profile;
-        if (lastProfile==AlertProfile.VIBRA) lastProfile=0;
+        lastProfile = profile = def_profile;
+        if (lastProfile == AlertProfile.VIBRA) {
+            lastProfile = 0;
+        }
 	updateTime();
-	VirtualList.fullscreen=fullscreen;
 //#ifdef MEMORY_MONITOR
 //# 	VirtualList.memMonitor=memMonitor;
-//#endif
-        VirtualList.showBalloons=showBalloons;
-        VirtualList.panelsState=panelsState;
-        VirtualList.showTimeTraffic=showTimeTraffic;
-//#ifdef USER_KEYS
-//#ifdef PLUGINS
-//#         if(!sd.UserKeys) userKeys=false;
-//#endif
-        VirtualList.userKeys=userKeys;
-//#endif
-
-//#ifdef PLUGINS
-//#ifdef FILE_TRANSFER
-//#         if(!sd.FileTransfer) fileTransfer=false;
-//#endif
-//#ifdef PEP
-//#         if(!sd.PEP) sndrcvmood=false;
-//#endif
-//#ifdef PEP
-//#         if(!sd.PEP) rcvtune=false;
-//#endif
-//#ifdef PEP
-//#         if (!sd.PEP) rcvactivity=false;
-//#endif
-//#ifdef ADHOC
-//#         if(!sd.Adhoc) adhoc=false;
-//#endif
-//#ifdef CLIENTS_ICONS
-//#         if(!sd.ClientsIcons) showClientIcon=false;
-//#endif
 //#endif
     }
 
@@ -436,9 +408,6 @@ public class Config {
 //#ifdef TOUCH
     public void initTouchOptions() {
          if(isTouchPhone) {
-           VirtualList.fullscreen = false;
-           fullscreen = false;
-           VirtualList.setFullScreen();
            graphicsMenuPosition = 1; //left
            rosterFont = 16;
            msgFont = 16;
@@ -449,7 +418,7 @@ public class Config {
            FontCache.bar = barFont;
            FontCache.baloon = baloonFont;
            graphicsMenuFont = 2; //Large
-           scrollWidth = 18;
+           scrollWidth = 12;
            midlet.BombusQD.sd.roster.updateBarsFont();
            saveToStorage();
          }
@@ -526,11 +495,10 @@ public class Config {
             queryExit = inputStream.readBoolean();
             notifyPicture = inputStream.readBoolean();
             showBalloons = inputStream.readBoolean();
-            //user-Keys=inputStream.readBoolean();
             useTabs = inputStream.readBoolean();
             useBoldFont = inputStream.readBoolean();
 
-            IQNotify = inputStream.readBoolean(); //IRC_LIKE
+            IQNotify = inputStream.readBoolean();
 //#ifdef PEP
             sndrcvmood = inputStream.readBoolean();
 //#endif
@@ -573,23 +541,23 @@ public class Config {
         DataInputStream inputStream=NvStorage.ReadFileRecord("confBoolean_", 0);
 	try {
 //#ifdef PEP
-            rcvactivity=inputStream.readBoolean();
+            rcvactivity = inputStream.readBoolean();
 //#endif
-            oldSE=inputStream.readBoolean();
-            showTimeTraffic=inputStream.readBoolean();
-            useLowMemory_msgedit=inputStream.readBoolean();
+            oldSE = inputStream.readBoolean();
+            showTimeTraffic = inputStream.readBoolean();
 
             // free
             inputStream.readBoolean();
+            inputStream.readBoolean();
 
-            useLowMemory_iconmsgcollapsed=inputStream.readBoolean();
-            auto_queryPhoto=inputStream.readBoolean();
-            sendMoodInMsg=inputStream.readBoolean();
+            useLowMemory_iconmsgcollapsed = inputStream.readBoolean();
+            auto_queryPhoto = inputStream.readBoolean();
 
             // free
             inputStream.readBoolean();
+            inputStream.readBoolean();
 
-            savePos=inputStream.readBoolean();
+            savePos = inputStream.readBoolean();
 
             // free
             inputStream.readBoolean();
@@ -605,7 +573,10 @@ public class Config {
             autoload_FSPhoto=inputStream.readBoolean();
             nokiaReconnectHack=inputStream.readBoolean();
             timePresence=inputStream.readBoolean();
-            animateMenuAndRoster=inputStream.readBoolean();
+
+            // free
+            inputStream.readBoolean();
+
             cursivUse=inputStream.readBoolean();
 
             // free
@@ -637,8 +608,8 @@ public class Config {
             // free
             inputStream.readBoolean();
 
-            showCollapsedPresences=inputStream.readBoolean();
-            networkAnnotation=inputStream.readBoolean();
+            showCollapsedPresences = inputStream.readBoolean();
+            networkAnnotation = inputStream.readBoolean();
 
             // free
             inputStream.readBoolean();
@@ -661,7 +632,6 @@ public class Config {
 	    accountIndex=inputStream.readInt();
 	    def_profile=inputStream.readInt();
 	    gmtOffset=inputStream.readInt();
-	    //0=inputStream.readInt(); //locOffset
             rosterFont=inputStream.readInt();
             msgFont=inputStream.readInt();
             notInListDropLevel=inputStream.readInt();
@@ -695,7 +665,6 @@ public class Config {
             popup_bgnd=inputStream.readInt();
             cursor_bgnd=inputStream.readInt();
             avatar_cashe_size=inputStream.readInt();
-            //difficulty_level=inputStream.readInt();
             maxAvatarWidth=inputStream.readInt();
             msgEditType=inputStream.readInt();
             graphicsMenuPosition=inputStream.readInt();
@@ -745,21 +714,21 @@ public class Config {
 	}
     }
 
-    public boolean module_contacts = true;
-    public boolean module_messages = true;
-    public boolean module_network = true;
-    public boolean module_graphics = true;
-    public boolean module_app = true;
-    public boolean userKeys = false;
-    public boolean module_autostatus = false;
-    public boolean module_classicchat = false;
-    public boolean module_theme = true;
-    public boolean module_history = false;
-    public boolean module_fonts = true;
-    public boolean module_ie = false;
-    public boolean module_notify = true;
-    public boolean module_tasks = false;
-    public boolean module_avatars = false;
+    public static boolean module_contacts = true;
+    public static boolean module_messages = true;
+    public static boolean module_network = true;
+    public static boolean module_graphics = true;
+    public static boolean module_app = true;
+    public static boolean userKeys = false;
+    public static boolean module_autostatus = false;
+    public static boolean module_classicchat = false;
+    public static boolean module_theme = true;
+    public static boolean module_history = false;
+    public static boolean module_fonts = true;
+    public static boolean module_ie = false;
+    public static boolean module_notify = true;
+    public static boolean module_tasks = false;
+    public static boolean module_avatars = false;
 
     private boolean saveBoolean() {
        	DataOutputStream outputStream=NvStorage.CreateDataOutputStream();
@@ -850,16 +819,16 @@ public class Config {
 //#endif
             outputStream.writeBoolean(oldSE);
             outputStream.writeBoolean(showTimeTraffic);
-            outputStream.writeBoolean(useLowMemory_msgedit);
 
             // free
+            outputStream.writeBoolean(false);
             outputStream.writeBoolean(false);
 
             outputStream.writeBoolean(useLowMemory_iconmsgcollapsed);
             outputStream.writeBoolean(auto_queryPhoto);
-            outputStream.writeBoolean(sendMoodInMsg);
 
             // free
+            outputStream.writeBoolean(false);
             outputStream.writeBoolean(false);
 
             outputStream.writeBoolean(savePos);
@@ -878,7 +847,10 @@ public class Config {
             outputStream.writeBoolean(autoload_FSPhoto);
             outputStream.writeBoolean(nokiaReconnectHack);
             outputStream.writeBoolean(timePresence);
-            outputStream.writeBoolean(animateMenuAndRoster);
+
+            // free
+            outputStream.writeBoolean(false);
+
             outputStream.writeBoolean(cursivUse);
 
             // free
@@ -914,7 +886,7 @@ public class Config {
             outputStream.writeBoolean(networkAnnotation);
 
             // free
-            outputStream.writeBoolean(metaContacts);
+            outputStream.writeBoolean(false);
 
 	} catch (IOException e) { }
 	return NvStorage.writeFileRecord(outputStream, "confBoolean_", 0, true);
@@ -993,39 +965,43 @@ public class Config {
 	return NvStorage.writeFileRecord(outputStream, "confUtf", 0, true);
     }
 
-
-    private Timer timer=null;
-    private int count=0;
+    private Timer timer = null;
 
     private class Saver extends TimerTask {
-	public void run () {
-          count++;
-          //System.out.println("save..");
-          switch(count){
-              case 1: break;
-              case 2: saveBoolean();  break;
-              case 3: saveBoolean_(); break;
-              case 4: saveUTF(); break;
-              case 5: saveInt(); break;
-              case 6: timer.cancel(); timer = null; count = 0; break;
-          }
-  	}
+        private int count = 0;
+        public void run() {
+            count++;
+            switch (count) {
+                case 1:
+                    break;
+                case 2:
+                    saveBoolean();
+                    break;
+                case 3:
+                    saveBoolean_();
+                    break;
+                case 4:
+                    saveUTF();
+                    break;
+                case 5:
+                    saveInt();
+                    break;
+                case 6:
+                    timer.cancel();
+                    timer = null;
+                    count = 0;
+                    break;
+            }
+        }
     }
 
-
-    public void saveToStorage(){
-        if(timer==null){
-          timer = new Timer();
-          timer.schedule(new Saver() , 10 , 100);
-        }else{
-          timer.cancel();
+    public void saveToStorage() {
+        if (timer == null) {
+            timer = new Timer();
+            timer.schedule(new Saver(), 10, 100);
+        } else {
+            timer.cancel();
         }
-//#ifdef USER_KEYS
-//#ifdef PLUGINS
-//#         if(!sd.UserKeys) userKeys=false;
-//#endif
-        VirtualList.userKeys=userKeys;
-//#endif
     }
 
     public void updateTime(){

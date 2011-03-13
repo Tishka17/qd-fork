@@ -88,9 +88,6 @@ public abstract class VirtualList
     Gradient fon;
 //#endif
 
-
-
-    public static int panelsState=2;
     private static boolean reverse=false;
     private static boolean paintTop=true;
     private static boolean paintBottom=true;
@@ -99,8 +96,7 @@ public abstract class VirtualList
     public boolean isServiceDiscoWindow;
 
     public static void changeOrient(int newOrient) {
-        panelsState=newOrient;
-        switch (panelsState) {
+        switch (newOrient) {
             case 0: paintTop=false; paintBottom=false; reverse=false; break;
             case 1: paintTop=true;  paintBottom=false; reverse=false; break;
             case 2: paintTop=true;  paintBottom=true;  reverse=false; break;
@@ -193,16 +189,11 @@ public abstract class VirtualList
     public static byte keyBack=-11;
     public static short greenKeyCode=SIEMENS_GREEN;
 
-    public static boolean fullscreen=true;
 //#ifdef MEMORY_MONITOR
 //#     public static boolean memMonitor;
 //#endif
-    public static boolean showBalloons;
     public static boolean showTimeTraffic = true;
 
-//#ifdef USER_KEYS
-    public static boolean userKeys;
-//#endif
     public static boolean canBack=true;
 
     public int width;
@@ -385,12 +376,6 @@ public abstract class VirtualList
     }
 */
 
-    public static void setFullScreen() {
-        Displayable d = midlet.BombusQD.getInstance().display.getCurrent();
-        if (d instanceof Canvas) ((Canvas)d).setFullScreenMode(fullscreen);
-    }
-
-
     public VirtualList() {
         width=getWidth();
         height=getHeight();
@@ -412,7 +397,7 @@ public abstract class VirtualList
 //#ifdef TOUCH
         midlet.BombusQD.cf.isTouchPhone = hasPointerEvents();
 //#endif
-        setFullScreenMode(fullscreen);
+        setFullScreenMode(midlet.BombusQD.cf.fullscreen);
 
         itemBorder=null;
         itemBorder=new int[32];
@@ -1698,8 +1683,6 @@ public abstract class VirtualList
     public void touchMiddlePressed(){
     }
 
-    private static StringBuffer mem;
-
     private void key(int keyCode) {
 //#ifdef GRAPHICS_MENU
      if(gm.itemGrMenu>0 && midlet.BombusQD.cf.graphicsMenu ) { //�������� ����
@@ -1774,7 +1757,7 @@ public abstract class VirtualList
             return;
         }
 //#ifdef USER_KEYS
-        if (userKeys) {
+        if (Config.userKeys) {
             switch (additionKeyState) {
                 case USER_OTHER_KEY_PRESSED:
                 case USER_KEY_EXECUTED:
@@ -1804,59 +1787,38 @@ public abstract class VirtualList
             userKeyPressed(keyCode);
             break;
         case KEY_NUM7:
-/*
-            if(running_animation==true){
-                midlet.BombusQD.cf.flagQuerySign=false;
-                at.stop();
-            }else{
-                midlet.BombusQD.cf.flagQuerySign=true;
-                at.start();
-            }
- */
             moveCursorEnd();
             break;
         case KEY_NUM8:
             keyDwn();
             break;
         case KEY_STAR:
-            if(!isServiceDiscoWindow) midlet.BombusQD.sd.roster.systemGC();
+            if (!isServiceDiscoWindow) {
+                midlet.BombusQD.sd.roster.systemGC();
+            }
 //#ifdef POPUPS
-            mem = new StringBuffer(0);
-            mem.append(Time.getTimeWeekDay())
-                .append("\nTraffic: ")
-                .append(getTraffic());
-            if(midlet.BombusQD.cf.userAppLevel == 1) {
-              mem.append('\n');
-                  long free = Runtime.getRuntime().freeMemory()>>10;
-                  long total = Runtime.getRuntime().totalMemory()>>10;
-                  long qd_use = total - free;
-              /* do we really need MathFP? //Tishka17
-               * hmmm,maybe in the future?
-                  long a = MathFP.toFP(qd_use);
-                  long b = MathFP.toFP(total);
-                  long res = MathFP.mul( MathFP.div(a,b) , MathFP.toFP(100) ); // (use/total)*100
-              */
-               mem.append( "QD use: " + qd_use + " kb ")
-              // .append( "Memory using: " + MathFP.toString(res,1) + "%\n" )
-                .append('(')
-                .append((100*qd_use/total))
-                .append("%)")
-                .append('\n')
-                .append("*Stanzas(in/out): "+Integer.toString(midlet.BombusQD.cf.incPacketCount)+"/"+Integer.toString(midlet.BombusQD.cf.outPacketCount));
+            StringBuffer mem = new StringBuffer(0);
+            mem.append(Time.getTimeWeekDay()).append("\nTraffic: ").append(getTraffic());
+            if (midlet.BombusQD.cf.userAppLevel == 1) {
+                mem.append('\n');
+
+                long free = Runtime.getRuntime().freeMemory() >> 10;
+                long total = Runtime.getRuntime().totalMemory() >> 10;
+                long inUse = total - free;
+                mem.append("QD use: ").append(inUse).append("kb ").append('(').append((100 * inUse / total)).append("%)\n").append("Stanzas(in/out): ").append(StaticData.incPacketCount).append("/").append(StaticData.outPacketCount);
             }
             setWobble(1, null, mem.toString());
 //#endif
             break;
 //#ifdef POPUPS
         case KEY_POUND:
-            //if (midlet.BombusQD.cf.popUps) {
-                try {
-                    String text=((VirtualElement)getFocusedObject()).getTipString();
-                    if (text!=null) {
-                        setWobble(1, null, text);
-                    }
-                } catch (Exception e) { }
-            //}
+            try {
+                String text = ((VirtualElement)getFocusedObject()).getTipString();
+                if (text != null) {
+                    setWobble(1, null, text);
+                }
+            } catch (Exception e) {
+            }
             break;
 //#endif
 
@@ -1942,7 +1904,7 @@ public abstract class VirtualList
 //#             return;
 //#         }
 //#ifdef USER_KEYS
-//#         if (userKeys) {
+//#         if (Config.userKeys) {
 //#             switch (additionKeyState) {
 //#                 case USER_OTHER_KEY_PRESSED:
 //#                 case USER_KEY_EXECUTED:
@@ -2251,8 +2213,8 @@ public abstract class VirtualList
 
 
     public void setInfo() {
-        getInfoBarItem().setElementAt((!showTimeTraffic)?touchLeftCommand():Time.timeLocalString(Time.utcTimeMillis()), 1);
-        getInfoBarItem().setElementAt((!showTimeTraffic)?touchRightCommand():getTraffic(), 3);
+        getInfoBarItem().setElementAt((!Config.showTimeTraffic) ? touchLeftCommand() : Time.timeLocalString(Time.utcTimeMillis()), 1);
+        getInfoBarItem().setElementAt((!Config.showTimeTraffic) ? touchRightCommand() : getTraffic(), 3);
     }
 
     public String getTraffic() {

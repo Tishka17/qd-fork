@@ -29,6 +29,7 @@
 package message;
 
 //#ifdef SMILES
+import client.Config;
 import images.ImageList;
 import images.SmilesIcons;
 //#endif
@@ -63,8 +64,7 @@ public final class MessageParser {
 
     public boolean animated = true;
 
-    public void restart(boolean animated) {
-        this.animated = animated;
+    public void restart() {
         loadSmiles();
     }
 
@@ -122,7 +122,7 @@ public final class MessageParser {
             wordsWrap=midlet.BombusQD.cf.textWrap==1;
             messageItem.msgLines=new Vector(0);
 //#ifdef SMILES
-            this.smileImages = midlet.BombusQD.cf.animatedSmiles?SmilesIcons.getInstance():SmilesIcons.getStaticInstance();
+            this.smileImages = Config.animatedSmiles?SmilesIcons.getInstance():SmilesIcons.getStaticInstance();
 //#endif
             if (null != messageItem.msg.subject) {//fixes by aspro
              parseMessage(messageItem, width, messageItem.msg.subject, true);
@@ -132,8 +132,8 @@ public final class MessageParser {
     }
 
     public void loadSmiles() {
-        String res = animated ? "/images/smiles/ani_smiles.txt" : "/images/smiles/smiles.txt";
-        //String res = "/images/smiles/smiles.txt";
+        String res = Config.animatedSmiles ? "/images/smiles/ani_smiles.txt" : "/images/smiles/smiles.txt";
+        animated = Config.animatedSmiles;
 
         smileTable=null;
         smileTable=new Vector(0);

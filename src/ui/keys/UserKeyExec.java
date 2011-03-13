@@ -201,7 +201,7 @@ public class UserKeyExec {
             case 17:
                 cf.fullscreen=!cf.fullscreen;
                 cf.saveToStorage();
-                VirtualList.fullscreen=cf.fullscreen;
+                //VirtualList.fullscreen=cf.fullscreen;
                 sd.roster.setFullScreenMode(cf.fullscreen);
                 break;
         }

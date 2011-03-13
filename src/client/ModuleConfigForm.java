@@ -614,13 +614,13 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 //#ifdef SMILES
             config.smiles=smiles.getValue();
             if(Config.hasAniSmiles) {
-                config.animatedSmiles = animatedSmiles.getValue();
+                Config.animatedSmiles = animatedSmiles.getValue();
             }
             MessageParser parser = MessageParser.getInstance();
             boolean aniSmiles = parser.animated;
-            if(aniSmiles != config.animatedSmiles) {
+            if(aniSmiles != Config.animatedSmiles) {
                 // for SE
-                parser.restart(config.animatedSmiles);
+                parser.restart();
                 System.out.println("restart parser");
             }
 //#endif
@@ -661,7 +661,8 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
             }
             EntityCaps.initCaps();
          } else if(type.equals(SR.get(SR.MS_grStr))) {
-            config.panelsState = panels.getSelectedIndex();
+            Config.panelsState = panels.getSelectedIndex();
+            VirtualList.changeOrient(Config.panelsState);
 
             config.gradientBarLigth = gradientBarLigth.getValue();
             config.gradientBarLight1=gradientBarLight1.getValue() * 10;
@@ -682,14 +683,13 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
                 config.shadowBar = shadowBar.getValue();
             }
 
-            config.showTimeTraffic = VirtualList.showTimeTraffic = showTimeAndTraffic.getValue();
+            Config.showTimeTraffic = showTimeAndTraffic.getValue();
 //#ifdef POPUPS
             config.popUps = popUps.getValue();
 //#endif
             config.showBalloons = showBaloons.getValue();
             config.gradient_cursor = gradient_cursor.getValue();
 
-            VirtualList.changeOrient(config.panelsState);
 //#ifdef BACK_IMAGE
             VirtualList.createImage(false);
 //#endif
@@ -704,7 +704,7 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
                 config.queryExit = queryExit.getValue();
             }
 
-            VirtualList.fullscreen = config.fullscreen = fullscr.getValue();
+            config.fullscreen = fullscr.getValue();
 
             if (phoneManufacturer == Config.SONYE) {
                 config.oldSE = oldSE.getValue();

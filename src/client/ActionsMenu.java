@@ -311,9 +311,9 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                         }
                     }
                 }
+//#endif
+//#endif
             }
-//#endif
-//#endif
         } else {
             Group group = (Group) item;
             if (group.type == Groups.TYPE_SEARCH_RESULT) {

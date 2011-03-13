@@ -27,6 +27,7 @@
 package com.alsutton.jabber;
 //import Account.Account;
 //import Client.Config;
+import client.Config;
 import client.StaticData;
 //#ifdef XML_CONSOLE
 //# import console.xml.XMLList;
@@ -51,8 +52,6 @@ public class JabberStream extends XmppParser implements Runnable {
 
     private JabberDataBlockDispatcher dispatcher;
 
-    private boolean rosterNotify;
-
     private String server; // for ping
 
     public boolean pingSent;
@@ -62,8 +61,6 @@ public class JabberStream extends XmppParser implements Runnable {
     private boolean xmppV1;
 
     private String sessionId;
-
-    public void enableRosterNotify(boolean en){ rosterNotify=en; }
 
     /**
      * Constructor. Connects to the server and sends the jabber welcome message.
@@ -150,6 +147,7 @@ public class JabberStream extends XmppParser implements Runnable {
     }
 
     protected void dispatchXmppStanza(JabberDataBlock currentBlock) {
+        ++StaticData.incPacketCount;
         dispatcher.broadcastJabberDataBlock( currentBlock );
     }
 
@@ -281,7 +279,7 @@ public class JabberStream extends XmppParser implements Runnable {
 //#             addLog(data.toString(), 1);
 //#         }
 //#endif
-        ++midlet.BombusQD.cf.outPacketCount;
+        ++StaticData.outPacketCount;
         data = new StringBuffer(0); //Tishka17
     }
 
@@ -369,9 +367,9 @@ public class JabberStream extends XmppParser implements Runnable {
     }
 
 //#if TLS
-    public void setTls() throws IOException {
-        iostream.setTls();
-    }
+//#     public void setTls() throws IOException {
+//#         iostream.setTls();
+//#     }
 //#endif  
 
     public String getConnectionData() {

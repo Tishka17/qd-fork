@@ -97,6 +97,8 @@ public class SplashScreen extends Canvas implements CommandListener {
 
    public SplashScreen(Display display, ComplexString status, char exitKey) {
         super();
+        setFullScreenMode(midlet.BombusQD.cf.fullscreen);
+
         this.status=status;
         this.display=display;
         this.exitKey=exitKey;

@@ -31,7 +31,6 @@ import client.*;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
-import midlet.BombusQD;
 import ui.*;
 import java.io.*;
 import java.util.*;
@@ -49,9 +48,7 @@ import ui.controls.AlertBox;
 import ui.GMenu;
 //#endif
 
-public class AccountSelect
-        extends VirtualList
-        implements
+public class AccountSelect extends VirtualList implements
 //#ifndef MENU_LISTENER
 //#         CommandListener
 //#else
@@ -87,7 +84,6 @@ public class AccountSelect
 
     int status;
 
-    /** Creates a new instance of AccountPicker */
     public AccountSelect(Display display, Displayable pView, boolean enableQuit, int status) {
         super();
 
@@ -247,57 +243,52 @@ public class AccountSelect
         }
 //#ifdef GRAPHICS_MENU
         if (c == cmdServ1_reg) {
-            new AccountForm(display, this, this, null, 1, true, "jabber.ru");
+            new AccountForm(display, this, "jabber.ru");
         }
         if (c == cmdServ2_reg) {
-            new AccountForm(display, this, this, null, 1, true, "silper.cz");
+            new AccountForm(display, this, "silper.cz");
         }
         if (c == cmdServ3_reg) {
-            new AccountForm(display, this, this, null, 1, true, "jabbus.org");
+            new AccountForm(display, this, "jabbus.org");
         }
         if (c == cmdServ4_reg) {
-            new AccountForm(display, this, this, null, 1, true, "mytlt.ru");
+            new AccountForm(display, this, "mytlt.ru");
         }
         if (c == cmdServ5_reg) {
-            new AccountForm(display, this, this, null, 1, true, "jabbim.com");
+            new AccountForm(display, this, "jabbim.com");
         }
         if (c == cmdServ6_reg) {
-            new AccountForm(display, this, this, null, 1, true, "");
+            new AccountForm(display, this, "");
         }
 
         if (c == cmdJabber) {
-//#ifdef DEBUG_CONSOLE
-//#             midlet.BombusQD.debug.add("::add profile", 10);
-//#endif
-            new AccountForm(display, this, this, null, 1, false, null);
+            new AccountForm(display, this, null, AccountForm.PROFILE_JABBER);
         }
         if (c == cmdYaru) {
-            new AccountForm(display, this, this, null, 2, false, null);
+            new AccountForm(display, this, null, AccountForm.PROFILE_YANDEX);
         }
 
         if (c == cmdGTalk_SSL) {
-            new AccountForm(display, this, this, null, 3, false, null);
+            new AccountForm(display, this, null, AccountForm.PROFILE_GTALK_SSL);
         }
         if (c == cmdGTalk_HTTPS) {
-            new AccountForm(display, this, this, null, 6, false, null);
+            new AccountForm(display, this, null, AccountForm.PROFILE_GTALK_HTTPS);
         }
-
 
         if (c == cmdLj) {
-            new AccountForm(display, this, this, null, 4, false, null);
+            new AccountForm(display, this, null, AccountForm.PROFILE_LIVEJOURNAL);
         }
         if (c == cmdQip) {
-            new AccountForm(display, this, this, null, 5, false, null);
+            new AccountForm(display, this, null, AccountForm.PROFILE_QIP);
         }
         if (c == cmdVk) {
-            new AccountForm(display, this, this, null, 7, false, null);
+            new AccountForm(display, this, null, AccountForm.PROFILE_VKONTAKTE);
         }
 //#else
 //#         if (c==cmdAdd) {
 //#             new AccountForm(display, this, this, null);
 //#         }
 //#endif
-        //if (c==cmdConfig) new ConfigForm(display, this);
         if (c == cmdConfigurationMaster) {
             new ConfigurationMaster(display, this);
         }
@@ -305,7 +296,7 @@ public class AccountSelect
             switchAccount(true);
         }
         if (c == cmdEdit) {
-            new AccountForm(display, this, this, (Account) getFocusedObject(), -1, false, null);
+            new AccountForm(display, this, (Account)getFocusedObject(), -1);
         }
         if (c == cmdChangePass) {
             Object cursor_acc = getFocusedObject();
@@ -406,19 +397,4 @@ public class AccountSelect
 //#endif
 
 //#endif
-    protected void keyRepeated(int keyCode) {
-        super.keyRepeated(keyCode);
-        if (kHold == keyCode) {
-            return;
-        }
-        kHold = keyCode;
-        if (keyCode == KEY_NUM6) {
-            midlet.BombusQD.cf.fullscreen = !midlet.BombusQD.cf.fullscreen;
-            midlet.BombusQD.cf.saveToStorage();
-            VirtualList.fullscreen = midlet.BombusQD.cf.fullscreen;
-            if (midlet.BombusQD.sd.roster != null) {
-                StaticData.getInstance().roster.setFullScreenMode(midlet.BombusQD.cf.fullscreen);
-            }
-        }
-    }
 }

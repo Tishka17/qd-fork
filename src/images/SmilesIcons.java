@@ -76,11 +76,11 @@ public class SmilesIcons {
                     return animatedInstance;
                 } else {
                     Config.hasAniSmiles = false;
-                    Config.getInstance().animatedSmiles = false;
+                    Config.animatedSmiles = false;
                     animatedInstance = null;
 
                     // for SE
-                    MessageParser.getInstance().restart(false);
+                    MessageParser.getInstance().restart();
                     return getStaticInstance();
                 }
             }

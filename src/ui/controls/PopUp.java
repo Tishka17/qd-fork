@@ -26,24 +26,20 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+//#ifdef POPUPS
 package ui.controls;
 
-import client.Contact;
 import colors.ColorTheme;
 import images.RosterIcons;
-import java.util.Enumeration;
 import java.util.Vector;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import font.*;
 import util.StringUtils;
-import client.StaticData;
-import client.Config;
 
 public class PopUp {
     private final static int TYPE_SYSTEM = 1;
     private final static int TYPE_MESSAGE = 2;
-    private final static int TYPE_ALERT = 3;
 
     private final static int COLOR_ALERT_INK = 0xffffff;
     private final static int COLOR_ALERT_BGND = 0xff0000;
@@ -246,10 +242,6 @@ public class PopUp {
       tmp = (alpha_ << 24) | (red << 16) | (green << 8) | blue;
       return (int)tmp;
     }     
-    
-//paint
-    private static int[] alphaBuffer = null;
-
 
     public void paintCustom(Graphics graph) {
 	if(size()<1)
@@ -331,3 +323,4 @@ public class PopUp {
         public String getContact() { return from; }
     }
 }
+//#endif

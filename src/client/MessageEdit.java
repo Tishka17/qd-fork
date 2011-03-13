@@ -254,14 +254,7 @@ public final class MessageEdit
         t.addCommand(cmdPaste);
 //#endif
         t.setCommandListener(this);
-//#ifdef RUNNING_MESSAGE
-        /*
-       if(midlet.BombusQD.cf.useLowMemory_msgedit==false){
-         if (thread==null) (thread=new Thread(this)).start() ;
-       }
-         */
-
-//#else
+//#ifndef RUNNING_MESSAGE
 //#     new Thread(this).start() ;
 //#endif
     }

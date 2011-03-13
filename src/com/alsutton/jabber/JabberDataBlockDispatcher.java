@@ -28,6 +28,7 @@ package com.alsutton.jabber;
 //#ifdef XML_CONSOLE
 //# import console.xml.XMLList;
 //#endif
+import client.Config;
 import com.alsutton.jabber.datablocks.Iq;
 import java.util.*;
 import xmpp.XmppError;
@@ -116,8 +117,6 @@ public class JabberDataBlockDispatcher
 //#                     stream.addLog(dataBlock.toString(), 10);
 //#                 }
 //#endif
-                ++midlet.BombusQD.cf.incPacketCount;
-
                 int processResult=JabberBlockListener.BLOCK_REJECTED;
                 int block_size = blockListeners.size();
                 //System.out.println("  -----S:blockListeners>> " + blockListeners.toString());

@@ -1662,7 +1662,6 @@ public class Roster
             return;
         }
         //
-        theStream.enableRosterNotify(true);
         rpercent=50;
 
         if (midlet.BombusQD.sd.account.isMucOnly()) {
@@ -2085,7 +2084,6 @@ public class Roster
 				if (!from.equals(midlet.BombusQD.sd.account.getBareJid()))
 					return JabberBlockListener.BLOCK_REJECTED;
 			}
-                        theStream.enableRosterNotify(false);
                         processRoster(data, true);
 
                         if(!midlet.BombusQD.cf.collapsedGroups)
@@ -3576,8 +3574,7 @@ public class Roster
         else if (keyCode==KEY_NUM6) {
             midlet.BombusQD.cf.fullscreen=!midlet.BombusQD.cf.fullscreen;
             midlet.BombusQD.cf.saveToStorage();
-            VirtualList.fullscreen=midlet.BombusQD.cf.fullscreen;
-            midlet.BombusQD.sd.roster.setFullScreenMode(midlet.BombusQD.cf.fullscreen);
+            setFullScreenMode(midlet.BombusQD.cf.fullscreen);
         }
 //#ifdef SERVICE_DISCOVERY
         else if (keyCode==KEY_NUM7 && isLoggedIn())

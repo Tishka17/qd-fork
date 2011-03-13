@@ -27,12 +27,10 @@
  */
 package account;
 
-import client.*;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
-import ui.VirtualList;
 import ui.controls.form.CheckBox;
 import ui.controls.form.DropChoiceBox;
 import ui.controls.form.DefForm;
@@ -80,25 +78,32 @@ public class AccountForm extends DefForm {
     boolean createSimpleAddForm = false;
     String serverReg = "";
 
-    private static final byte JABBER_PROFILE = 1;
-    private static final byte YARU_PROFILE = 2;
-    private static final byte GTALK_SSL_PROFILE = 3;
-    private static final byte LJ_PROFILE = 4;
-    private static final byte QIP_PROFILE = 5;
-    private static final byte GTALK_HTTPS_PROFILE = 6;
-    private static final byte VK_PROFILE = 7;
+    public static final byte PROFILE_JABBER = 1;
+    public static final byte PROFILE_YANDEX = 2;
+    public static final byte PROFILE_GTALK_SSL = 3;
+    public static final byte PROFILE_LIVEJOURNAL = 4;
+    public static final byte PROFILE_QIP = 5;
+    public static final byte PROFILE_GTALK_HTTPS = 6;
+    public static final byte PROFILE_VKONTAKTE = 7;
 
     private StringBuffer uid;
 
-    public AccountForm(Display display, Displayable pView, AccountSelect accountSelect, Account account, int type_profile,
+    public AccountForm(Display display, AccountSelect accountSelect, Account account, int type_profile) {
+        this(display, accountSelect, account, type_profile, false, null);
+    }
+
+    public AccountForm(Display display, AccountSelect accountSelect, String regServer) {
+        this(display, accountSelect, null, 1, true, regServer);
+    }
+
+    public AccountForm(Display display, AccountSelect accountSelect, Account account, int type_profile,
             boolean register, String serverReg) {
-        super(display, pView, null);
+        super(display, accountSelect, null);
         this.type_profile = type_profile;
         this.register = register;
         this.serverReg = serverReg;
 
         this.accountSelect = accountSelect;
-        this.display = display;
 
         newaccount = (account == null);
         if (newaccount) {
@@ -126,24 +131,24 @@ public class AccountForm extends DefForm {
                     server = account.getServer();
                     port_box = account.getPort();
                     break;
-                case JABBER_PROFILE:
+                case PROFILE_JABBER:
                     server = "";
                     break;
-                case YARU_PROFILE:
+                case PROFILE_YANDEX:
                     server = "ya.ru";
                     break;
-                case GTALK_HTTPS_PROFILE:
-                case GTALK_SSL_PROFILE:
+                case PROFILE_GTALK_HTTPS:
+                case PROFILE_GTALK_SSL:
                     server = "gmail.com";
                     port_box = 5223;
                     break;
-                case LJ_PROFILE:
+                case PROFILE_LIVEJOURNAL:
                     server = "livejournal.com";
                     break;
-                case QIP_PROFILE:
+                case PROFILE_QIP:
                     server = "qip.ru";
                     break;
-                case VK_PROFILE:
+                case PROFILE_VKONTAKTE:
                     server = "vk.com";
                     break;
             }
@@ -158,9 +163,7 @@ public class AccountForm extends DefForm {
             if (uname.length() > 0) {
                 uid.append(account.getUserName());
             }
-            /*else {
-            uid.append('.');
-            }*/
+
             uid.append('@');
             uid.append(server);
             if (res.length() > 0) {
@@ -222,20 +225,12 @@ public class AccountForm extends DefForm {
         }
 //#endif
 
-/*
-        registerbox = new CheckBox(SR.get(SR.MS_REGISTER_ACCOUNT), register);
-
-        if (newaccount && register) {
-            itemsList.addElement(registerbox);
-        }
-*/
-
         if (!register) {
             showExtended();
         }
 
         attachDisplay(display);
-        this.parentView = pView;
+        this.parentView = accountSelect;
     }
 
     protected void beginPaint() {
@@ -309,43 +304,43 @@ public class AccountForm extends DefForm {
                 plainPwdbox_ = account.getPlainAuth();
                 compressionBox_ = account.useCompression();
                 break;
-            case JABBER_PROFILE://
+            case PROFILE_JABBER://
                 ip_box = "";
                 sslbox_ = false;
                 plainPwdbox_ = false;
                 compressionBox_ = !register;//true;
                 break;
-            case YARU_PROFILE:
+            case PROFILE_YANDEX:
                 ip_box = "xmpp.yandex.ru";
                 sslbox_ = false;
                 plainPwdbox_ = true;
                 compressionBox_ = true;
                 break;
-            case GTALK_HTTPS_PROFILE:
+            case PROFILE_GTALK_HTTPS:
                 ip_box = "talk.google.com";
                 sslbox_ = false;
                 plainPwdbox_ = false;
                 compressionBox_ = false;
                 break;
-            case GTALK_SSL_PROFILE:
+            case PROFILE_GTALK_SSL:
                 ip_box = "talk.google.com";
                 sslbox_ = true;
                 plainPwdbox_ = true;
                 compressionBox_ = false;
                 break;
-            case LJ_PROFILE:
+            case PROFILE_LIVEJOURNAL:
                 ip_box = "xmpp.services.livejournal.com";
                 sslbox_ = false;
                 plainPwdbox_ = true;
                 compressionBox_ = false;
                 break;
-            case QIP_PROFILE:
+            case PROFILE_QIP:
                 ip_box = "webim.qip.ru";
                 sslbox_ = false;
                 plainPwdbox_ = false;
                 compressionBox_ = true;
                 break;
-            case VK_PROFILE:
+            case PROFILE_VKONTAKTE:
                 ip_box = "vkmessenger.com";
                 sslbox_ = false;
                 plainPwdbox_ = false;
@@ -406,7 +401,6 @@ public class AccountForm extends DefForm {
     }
 
     public void cmdOk() {
-        //midlet.BombusQD.debug.add("::saved",10);
         String value = fulljid.getValue().trim();
         String pass = passbox.getValue();
         String nick = nickbox.getValue();
@@ -445,15 +439,7 @@ public class AccountForm extends DefForm {
         account.setNick(nick);
         account.setResource(resource);
 
-
-        //boolean registerNew = false;
-
-        if (newaccount) {
-            //registerNew = registerbox.getValue();
-        }
-
         if (showExtended) {
-            //registerNew = registerbox.getValue();
             account.setHostAddr(ipbox.getValue());
             account.setUseSSL(sslbox.getValue());
             account.setPlainAuth(plainPwdbox.getValue());
@@ -476,47 +462,7 @@ public class AccountForm extends DefForm {
         accountSelect.rmsUpdate();
         accountSelect.commandState();
 
-/*
-        if (registerNew) {
-            new AccountRegister(account, display, parentView);
-        } else {
-            destroyView();
-        }
-*/
         destroyView();
         account = null;
-    }
-
-    public void destroyView() {
-        display.setCurrent(accountSelect);
-    }
-
-//#ifdef MENU_LISTENER
-    public void userKeyPressed(int keyCode) {
-        switch (keyCode) {
-            case KEY_NUM4:
-                pageLeft();
-                break;
-            case KEY_NUM6:
-                pageRight();
-                break;
-        }
-    }
-//#endif
-
-    protected void keyRepeated(int keyCode) {
-        super.keyRepeated(keyCode);
-        if (kHold == keyCode) {
-            return;
-        }
-        kHold = keyCode;
-
-        if (keyCode == KEY_NUM6) {
-            Config cf = Config.getInstance();
-            cf.fullscreen = !cf.fullscreen;
-            cf.saveToStorage();
-            VirtualList.fullscreen = cf.fullscreen;
-            StaticData.getInstance().roster.setFullScreenMode(cf.fullscreen);
-        }
     }
 }

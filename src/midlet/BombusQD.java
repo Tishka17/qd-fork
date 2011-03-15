@@ -34,6 +34,7 @@ package midlet;
 import autotask.AutoTask;
 //#endif
 import account.Account;
+import account.AccountSelect;
 import colors.ColorTheme;
 //#ifdef STATS
 import stats.Stats;
@@ -178,9 +179,11 @@ public class BombusQD extends MIDlet implements Runnable {
         boolean selAccount=((cf.accountIndex<0));
         if (!selAccount && cf.autoLogin) {
             Account.loadAccount(cf.autoLogin, cf.accountIndex, -1);
-        }
+	    display.setCurrent(sd.roster);
+	} else {
+	    new AccountSelect(display, sd.roster, false, 0);
+	}
 
-        display.setCurrent(sd.roster);
         rmsVersion(false, sd.roster);
 
 //#ifdef DEBUG_CONSOLE

@@ -173,8 +173,10 @@ public class StatusSelect
                 midlet.BombusQD.sd.roster.sendDirectPresence(status, to, null);
                 midlet.BombusQD.sd.roster.setOfflineTransport();
             } else {
-                //sd.roster.sendPresence(status, null);
-                new AccountSelect(display, this, false,status);
+		if (midlet.BombusQD.sd.account==null)
+		    new AccountSelect(display, this, false,status);
+		else
+		    midlet.BombusQD.sd.roster.sendPresence(status, null);
                 midlet.BombusQD.cf.isStatusFirst=true;
             }
         } catch (Exception e) {}

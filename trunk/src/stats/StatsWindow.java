@@ -33,6 +33,7 @@ import client.Config;
 //# import javax.microedition.lcdui.CommandListener;
 //# import javax.microedition.lcdui.Command;
 //#else
+import client.Roster;
 import menu.Command;
 //#endif
 import javax.microedition.lcdui.Display;
@@ -71,8 +72,12 @@ public class StatsWindow
     public StatsWindow(Display display) {
         super(display, midlet.BombusQD.sd.roster , SR.get(SR.MS_STATS));
         StringBuffer sb = new StringBuffer(0);
+
         cmdClear = new Command(SR.get(SR.MS_CLEAR), Command.SCREEN, 2);
+        cmdClear.setImg(0x13);
+
         cmdSave = new Command(SR.get(SR.MS_SAVE), Command.OK, 3);
+        cmdSave.setImg(0x44);
 
         this.display=display;
 
@@ -105,7 +110,7 @@ public class StatsWindow
           .append(st.getSessionsCount())
           .append('\n');
         sb.append(SR.get(SR.MS_STARTED))
-          .append(midlet.BombusQD.sd.roster.startTime)
+          .append(Roster.startTime)
           .append('\n');
         sb.append(SR.get(SR.MS_APPRUN_COUNT))
           .append(st.appRunCount);
@@ -113,9 +118,6 @@ public class StatsWindow
         MultiLine item = new MultiLine( null, sb.toString(), super.superWidth);
         item.selectable=true;
         itemsList.addElement(item);
-
-        sb = new StringBuffer(0);
-        commandState();
 
         attachDisplay(display);
         this.parentView=midlet.BombusQD.sd.roster;
@@ -167,8 +169,8 @@ public class StatsWindow
             addCommand(Commands.cmdCopy);
         }
 //#endif
-        addCommand(cmdClear); cmdClear.setImg(0x13);
-        addCommand(cmdSave); cmdSave.setImg(0x44);//SAVE
+        addCommand(cmdClear);
+        addCommand(cmdSave); //SAVE
 //#ifndef GRAPHICS_MENU
 //#      addCommand(cmdCancel);
 //#endif

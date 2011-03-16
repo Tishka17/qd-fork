@@ -49,7 +49,7 @@ import menu.Command;
 import menu.MyMenu;
 //#endif
 //#ifdef GRAPHICS_MENU        
-//# import ui.GMenu;
+import ui.GMenu;
 //#endif   
 import account.AccountSelect;
 /**
@@ -114,7 +114,7 @@ public class StatusSelect
         }
         addCommand(cmdOk); cmdOk.setImg(0x43);
 //#ifndef GRAPHICS_MENU        
-     addCommand(cmdCancel);
+//#      addCommand(cmdCancel);
 //#endif     
     }
     
@@ -127,10 +127,10 @@ public class StatusSelect
     private boolean selectAdvancedStatus() {
        ExtendedStatus ex = (ExtendedStatus)getFocusedObject();
 //#ifdef PEP
-//#        if(-1 != ex.getName().indexOf("pep")) {
-//#           midlet.BombusQD.sd.roster.selectPEP.show(this, ex.usermood);
-//#           return true;
-//#        }
+       if(-1 != ex.getName().indexOf("pep")) {
+          midlet.BombusQD.sd.roster.selectPEP.show(this, ex.usermood);
+          return true;
+       }
 //#endif
        return false;
     }
@@ -164,9 +164,9 @@ public class StatusSelect
     public void send(){
         int status=getSel().getImageIndex();
 //#ifdef AUTOSTATUS
-//#         midlet.BombusQD.sd.roster.autoAway=false;
-//#         midlet.BombusQD.sd.roster.autoXa=false;
-//#         midlet.BombusQD.sd.roster.messageActivity();
+        midlet.BombusQD.sd.roster.autoAway=false;
+        midlet.BombusQD.sd.roster.autoXa=false;
+        midlet.BombusQD.sd.roster.messageActivity();
 //#endif
         try {
             if (midlet.BombusQD.sd.roster.isLoggedIn()) {
@@ -191,26 +191,23 @@ public class StatusSelect
 //#ifdef MENU_LISTENER
     
 //#ifdef GRAPHICS_MENU        
-//#     public int showGraphicsMenu() {
-//#         commandState();
-//#         menuItem = new GMenu(display, parentView, this, null, menuCommands);
-//#         GMenuConfig.getInstance().itemGrMenu = GMenu.STATUS_SELECT;
-//#         return GMenu.STATUS_SELECT;
-//#     }
-//#else
-    public void showMenu() {
+    public int showGraphicsMenu() {
         commandState();
-        new MyMenu(display, parentView, this, SR.get(SR.MS_STATUS), null, menuCommands);
-    }  
+        menuItem = new GMenu(display, parentView, this, null, menuCommands);
+        GMenuConfig.getInstance().itemGrMenu = GMenu.STATUS_SELECT;
+        return GMenu.STATUS_SELECT;
+    }
+//#else
+//#     public void showMenu() {
+//#         commandState();
+//#         new MyMenu(display, parentView, this, SR.get(SR.MS_STATUS), null, menuCommands);
+//#     }  
 //#endif      
     
 
 //#endif
     
-    class StatusForm 
-        extends DefForm {
-        
-        private Display display;
+    class StatusForm extends DefForm {
 
         private NumberInput tfPriority;
         private TextInput tfMessage;
@@ -222,7 +219,6 @@ public class StatusSelect
         
         public StatusForm(Display display, Displayable pView, ExtendedStatus status){
             super(display, pView, SR.get(SR.MS_STATUS)+": "+status.getScreenName());
-            this.display=display;
             this.status=status;
             
             tfMessage = new TextInput(display, SR.get(SR.MS_MESSAGE), status.getMessage(), "ex_status_list", TextField.ANY); //, 100, TextField.ANY "ex_status_list"
@@ -262,10 +258,6 @@ public class StatusSelect
             save();
 
             destroyView();
-        }
-        
-        public void touchLeftPressed(){
-            cmdOk();
         }
     }
 }

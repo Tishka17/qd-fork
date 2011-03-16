@@ -290,8 +290,6 @@ public class Roster
         mainbar.addElement(null); //ft
         updateMainBar();
 
-
-        commandState();
         setCommandListener(this);
 
         //message.MessageParser.restart();
@@ -3959,13 +3957,6 @@ public class Roster
 //#ifdef MENU_LISTENER
 
 //#ifdef GRAPHICS_MENU
-     public void clearMenu(){
-          GMenuConfig.getInstance().itemGrMenu = GMenu.MAIN_MENU_ROSTER;
-          commandState();
-          menuItem = new GMenu(display, parentView, this, MenuIcons.getInstance(), menuCommands, cmdfirstList, cmdsecondList, cmdThirdList);
-          redraw();
-     }
-
     public int showGraphicsMenu() {
          GMenuConfig.getInstance().itemGrMenu = GMenu.MAIN_MENU_ROSTER;
          commandState();

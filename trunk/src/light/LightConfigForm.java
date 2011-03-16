@@ -23,10 +23,7 @@ import ui.controls.form.TrackItem;
 //#ifdef GRAPHICS_MENU
 //#endif
 
-public class LightConfigForm
-        extends DefForm {
-
-    private Display display;
+public class LightConfigForm extends DefForm {
 
     private CheckBox config_enabled;
 
@@ -62,7 +59,6 @@ public class LightConfigForm
     /** Creates a new instance of ConfigForm */
     public LightConfigForm(Display display, Displayable pView) {
         super(display, pView, SR.get(SR.L_CONFIG));
-        this.display=display;
 
         for( int i = 0; i < lvarray_len; i++)
             lvsteps.addElement(light_lvarray);
@@ -103,18 +99,8 @@ public class LightConfigForm
            || phoneManufacturer==Config.SONYE || phoneManufacturer==Config.NOKIA) itemsList.addElement(lightState);
          */
 
-        commandState();
-
         attachDisplay(display);
         this.parentView=pView;
-    }
-
-    public void commandState() {
-//#ifdef MENU_LISTENER
-        menuCommands.removeAllElements();
-//#endif
-        addCommand(Commands.cmdOk);
-        addCommand(cmdCancel);
     }
 
     public void cmdOk() {
@@ -134,5 +120,4 @@ public class LightConfigForm
 	CustomLight.switchOn(light.light_control);
         destroyView();
     }
-
 }

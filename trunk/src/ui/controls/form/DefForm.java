@@ -44,7 +44,7 @@ import ui.MainBar;
 import ui.VirtualElement;
 import ui.VirtualList;
 //#ifdef GRAPHICS_MENU
-//# import ui.GMenu;
+import ui.GMenu;
 //#endif
 /**
  *
@@ -79,13 +79,6 @@ public class DefForm
         setMainBarItem(new MainBar(caption));
 
         superWidth=super.getWidth();
-
-//#ifdef GRAPHICS_MENU
-//#         //commandState();
-//#else
-    super.commandState();
-//#endif
-
 
 	setCommandListener(this);
 
@@ -158,28 +151,28 @@ public class DefForm
 //#endif
 
 //#ifdef GRAPHICS_MENU
-//# 
-//#  //   public void commandState() {
+
+ //   public void commandState() {
 //#ifdef MENU_LISTENER
-//#         //menuCommands.removeAllElements();
+        //menuCommands.removeAllElements();
 //#endif
-//# 	//addCommand(cmdOk); //cmdOk.setImg(0x43);
+	//addCommand(cmdOk); //cmdOk.setImg(0x43);
 //#ifndef GRAPHICS_MENU
 //#      addCommand(cmdCancel);
 //#endif
-//# //    }
-//# 
+//    }
+
 //#else
-
-
-    public void commandState() {
+//# 
+//# 
+//#     public void commandState() {
 //#ifdef MENU_LISTENER
-        menuCommands.removeAllElements();
+//#         menuCommands.removeAllElements();
 //#endif
-	addCommand(cmdOk);
-    addCommand(cmdCancel);
-   }
-
+//# 	addCommand(cmdOk);
+//#     addCommand(cmdCancel);
+//#    }
+//# 
 //#endif
 
 
@@ -187,23 +180,23 @@ public class DefForm
 //#ifdef MENU_LISTENER
 
 //#ifdef GRAPHICS_MENU
-//# 
-//#     public int showGraphicsMenu() {
-//#         //System.out.println("1");
-//#         return GMenu.DEF_FORM;
-//#     }
-//# 
-//#else
-    public void showMenu() {
-        commandState();
-        if (menuCommands.size()==2) {
-            if (menuCommands.elementAt(0).equals(cmdOk) && menuCommands.elementAt(1).equals(cmdCancel)) {
-                cmdOk();
-                return;
-            }
-        }
-        new MyMenu(display, parentView, this, "", null, menuCommands);
+
+    public int showGraphicsMenu() {
+        //System.out.println("1");
+        return GMenu.DEF_FORM;
     }
+
+//#else
+//#     public void showMenu() {
+//#         commandState();
+//#         if (menuCommands.size()==2) {
+//#             if (menuCommands.elementAt(0).equals(cmdOk) && menuCommands.elementAt(1).equals(cmdCancel)) {
+//#                 cmdOk();
+//#                 return;
+//#             }
+//#         }
+//#         new MyMenu(display, parentView, this, "", null, menuCommands);
+//#     }
 //#endif
 
 

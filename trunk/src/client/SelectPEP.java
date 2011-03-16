@@ -174,7 +174,6 @@ public final class SelectPEP extends VirtualList implements
         if (xLastCnt>0) lines++; else xLastCnt=xCnt;
 
         xBorder=(realWidth-(xCnt*imgWidth))/2;
-        commandState();
         attachDisplay(display);
         this.parentView=pView;
     }

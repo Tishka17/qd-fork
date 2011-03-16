@@ -122,7 +122,6 @@ public class ArchiveList
         bar.addElement(SR.get(SR.MS_FREE));
         setMainBarItem(bar);
 
-        commandState();
         setCommandListener(this);
 
         attachDisplay(display);
@@ -168,19 +167,6 @@ public class ArchiveList
     protected Msg getMessage(int index) {
         return archive.msg(index);
     }
-
-//#ifdef MENU_LISTENER
-    public void userKeyPressed(int keyCode) {
-        switch (keyCode) {
-            case KEY_NUM4:
-                pageLeft();
-                break;
-            case KEY_NUM6:
-                pageRight();
-                break;
-        }
-    }
-//#endif
 
     public void commandAction(Command c, Displayable d) {
         super.commandAction(c, d);

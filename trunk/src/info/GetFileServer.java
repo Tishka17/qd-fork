@@ -47,10 +47,10 @@ import ui.MainBar;
 import client.DiscoSearchForm;
 import ui.controls.form.DefForm;
 //#ifdef GRAPHICS_MENU
-//# import ui.GMenu;
-//# import ui.GMenuConfig;
-//# import ui.controls.form.MultiLine;
-//# import ui.controls.form.CollapsibleItem;
+import ui.GMenu;
+import ui.GMenuConfig;
+import ui.controls.form.MultiLine;
+import ui.controls.form.CollapsibleItem;
 //#endif
 
 /**
@@ -94,7 +94,6 @@ public class GetFileServer extends DefForm implements Runnable {
         mainbar.addElement(null);
         mainbar.addRAlign();
         mainbar.addElement(null);
-        commandState();
 
         attachDisplay(display);
         this.parentView = pView;
@@ -196,11 +195,6 @@ public class GetFileServer extends DefForm implements Runnable {
         cmdsecondList.removeAllElements();
         cmdThirdList.removeAllElements();
 //#endif
-//#ifdef GRAPHICS_MENU
-//#         //super.commandState();
-//#else
-    super.commandState();
-//#endif
         addCommand(cmdICQ);
         cmdICQ.setImg(0x04);
         addCommand(cmdMrim);
@@ -210,7 +204,7 @@ public class GetFileServer extends DefForm implements Runnable {
         addCommand(cmdVk);
         cmdVk.setImg(0x04);
 //#ifndef GRAPHICS_MENU
-     addCommand(cmdCancel);
+//#      addCommand(cmdCancel);
 //#endif
     }
 
@@ -220,27 +214,27 @@ public class GetFileServer extends DefForm implements Runnable {
     }
 
 //#ifdef GRAPHICS_MENU
-//#     public void touchLeftPressed() {
-//#         showGraphicsMenu();
-//#     }
-//# 
-//#     public int showGraphicsMenu() {
-//#         commandState();
-//#         menuItem = new GMenu(display, parentView, this, null, menuCommands);
-//#         GMenuConfig.getInstance().itemGrMenu = 123;
-//#         redraw();
-//#         return 123;
-//#     }
-//# 
-//#else
-    public void touchLeftPressed(){
-        showMenu();
+    public void touchLeftPressed() {
+        showGraphicsMenu();
     }
 
-    public void showMenu() {
+    public int showGraphicsMenu() {
         commandState();
-        new MyMenu(display, parentView, this, SR.get(SR.MS_HISTORY_OPTIONS), null, menuCommands);
-   }
+        menuItem = new GMenu(display, parentView, this, null, menuCommands);
+        GMenuConfig.getInstance().itemGrMenu = 123;
+        redraw();
+        return 123;
+    }
+
+//#else
+//#     public void touchLeftPressed(){
+//#         showMenu();
+//#     }
+//# 
+//#     public void showMenu() {
+//#         commandState();
+//#         new MyMenu(display, parentView, this, SR.get(SR.MS_HISTORY_OPTIONS), null, menuCommands);
+//#    }
 //#endif
 //#endif
 }

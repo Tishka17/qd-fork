@@ -173,13 +173,14 @@ public class AccountSelect extends VirtualList implements
         if (!accountList.isEmpty()) {
             moveCursorTo(activeAccount);
         }
-        commandState();
+
         setCommandListener(this);
         display.setCurrent(this);
         this.parentView = pView;
     }
 
     public void commandState() {
+        System.out.println("ololo");
 //#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
         cmdfirstList.removeAllElements();
@@ -353,7 +354,7 @@ public class AccountSelect extends VirtualList implements
         accountList.removeElement(getFocusedObject());
         rmsUpdate();
         moveCursorHome();
-        commandState();
+
         redraw();
     }
 

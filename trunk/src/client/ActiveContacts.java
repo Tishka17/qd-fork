@@ -117,8 +117,6 @@ public final class ActiveContacts extends VirtualList implements
 
         setMainBarItem(new MainBar(SR.get(SR.MS_ACTIVE_CONTACTS) + " (" + getItemCount() + ")"));
 
-        commandState();
-
         attachDisplay(display);
         super.parentView = pView;
     }
@@ -158,6 +156,8 @@ public final class ActiveContacts extends VirtualList implements
         if (contacts.isEmpty()) {
             return 0;
         }
+        commandState();
+
         menuItem = new GMenu(display, parentView, this, null, menuCommands, cmdfirstList, null, null);
         GMenuConfig.getInstance().itemGrMenu = GMenu.ACTIVE_CONTACTS;
         return GMenu.ACTIVE_CONTACTS;

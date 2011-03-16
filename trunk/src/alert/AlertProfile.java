@@ -44,7 +44,7 @@ import menu.MyMenu;
 //#endif
 import ui.MainBar;
 //#ifdef GRAPHICS_MENU        
-//# import ui.GMenu;
+import ui.GMenu;
 //#endif  
 /**
  *
@@ -69,24 +69,24 @@ public class AlertProfile extends VirtualList implements
     int defp;
     Config cf;
     
-    /** Creates a new instance of Profile */
-    
     private Command cmdOk;
     private Command cmdDef;
     private Command cmdCancel;
-    /** Creates a new instance of SelectStatus */
+
     public AlertProfile(Display d, Displayable pView) {
         super();
         
         cf=midlet.BombusQD.cf;
         
         cmdOk=new Command(SR.get(SR.MS_SELECT),Command.OK,1);
+        cmdOk.setImg(0x43);
+
         cmdDef=new Command(SR.get(SR.MS_SETDEFAULT),Command.OK,2);
+        cmdDef.setImg(0x24);
+
         cmdCancel=new Command(SR.get(SR.MS_BACK),Command.BACK,99);
         
         setMainBarItem(new MainBar(SR.get(SR.MS_ALERT_PROFILE)));
-        
-        commandState();
 
         setCommandListener(this);
         
@@ -102,26 +102,26 @@ public class AlertProfile extends VirtualList implements
 //#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
 //#endif
-        addCommand(cmdOk); cmdOk.setImg(0x43);
-        addCommand(cmdDef);  cmdDef.setImg(0x24);
+        addCommand(cmdOk); 
+        addCommand(cmdDef);  
 //#ifndef GRAPHICS_MENU        
-     addCommand(cmdCancel);
+//#      addCommand(cmdCancel);
 //#endif     
     }
     
 //#ifdef MENU_LISTENER
     
 //#ifdef GRAPHICS_MENU        
-//#     public int showGraphicsMenu() {
-//#         commandState();
-//#         menuItem = new GMenu(display, parentView, this,null, menuCommands);        
-//#         return GMenu.ALERT_PROFILE;
-//#     }
-//#else
-    public void showMenu() {
+    public int showGraphicsMenu() {
         commandState();
-        new MyMenu(display, parentView, this, SR.get(SR.MS_STATUS), null, menuCommands);
-   }   
+        menuItem = new GMenu(display, parentView, this,null, menuCommands);        
+        return GMenu.ALERT_PROFILE;
+    }
+//#else
+//#     public void showMenu() {
+//#         commandState();
+//#         new MyMenu(display, parentView, this, SR.get(SR.MS_STATUS), null, menuCommands);
+//#    }   
 //#endif       
 //#endif
     

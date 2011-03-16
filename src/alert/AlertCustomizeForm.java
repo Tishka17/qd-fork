@@ -29,6 +29,7 @@
 
 package alert;
 
+import midlet.Commands;
 import xmpp.EntityCaps;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
@@ -56,7 +57,6 @@ import ui.GMenuConfig;
 //#endif
 //#ifdef LIGHT_CONTROL
 import light.*;
-import midlet.Commands;
 import ui.controls.form.LinkString;
 //#endif
 

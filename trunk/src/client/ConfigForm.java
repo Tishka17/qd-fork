@@ -152,7 +152,7 @@ public class ConfigForm extends DefForm implements MenuListener {
         if (type.equals(SR.get(SR.MS_COLOR_TUNE))) {
             new colors.ColorConfigForm(display, this);
 //#ifdef USER_KEYS
-      } else if (type.equals(SR.get(SR.MS_hotkeysStr))) {
+        } else if (type.equals(SR.get(SR.MS_hotkeysStr))) {
             display.setCurrent(new ui.keys.UserKeysList(display));
 //#endif
 //#ifdef HISTORY

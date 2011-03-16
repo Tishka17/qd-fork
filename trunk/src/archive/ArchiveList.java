@@ -103,7 +103,7 @@ public class ArchiveList
         cmdNew.setImg(0x47);
 
         cmdDelete = new Command(SR.get(SR.MS_DELETE), Command.SCREEN, 9);
-        cmdDelete.setImg(0x41);
+        cmdDelete.setImg(0x76);
 
         cmdDeleteAll = new Command(SR.get(SR.MS_DELETE_ALL), Command.SCREEN, 10);
         cmdDeleteAll.setImg(0x41);
@@ -114,12 +114,13 @@ public class ArchiveList
 //#endif
 
         archive = new MessageArchive();
-        MainBar mainbar = new MainBar(SR.get(SR.MS_ARCHIVE));
-        mainbar.addElement(null);
-        mainbar.addRAlign();
-        mainbar.addElement(null);
-        mainbar.addElement(SR.get(SR.MS_FREE) /*"free "*/);
-        setMainBarItem(mainbar);
+
+        MainBar bar = new MainBar(SR.get(SR.MS_ARCHIVE));
+        bar.addElement(null);
+        bar.addRAlign();
+        bar.addElement(null);
+        bar.addElement(SR.get(SR.MS_FREE));
+        setMainBarItem(bar);
 
         commandState();
         setCommandListener(this);
@@ -202,7 +203,7 @@ public class ArchiveList
 //#ifdef IMPORT_EXPORT
 //#ifdef FILE_IO
         } else if (c == cmdExport) {
-            new impexp.ImportExportForm(display, this);
+            new ImportExportForm(display, this);
 //#endif
 //#endif
         }

@@ -37,21 +37,28 @@ import ui.VirtualList;
  *
  * @author ad,aqent
  */
+
 public class ColorVisualItem extends IconTextElement {
-    private String name;
+    private int index;
     private int color;
 
-    private String locale = "";
-    public ColorVisualItem(String name, String locale, int color) {
+    private String locale;
+
+    public ColorVisualItem(String locale, int index) {
         super(null);
 
-        this.name = name;
-        this.color = color;
+        this.index = index;
+        this.color = ColorTheme.getColor(index);
+
         this.locale = locale;
     }
 
     public void setColor(int color) {
         this.color = color;
+    }
+
+    public int getIndex() {
+        return index;
     }
 
     public String toString() {
@@ -99,5 +106,8 @@ public class ColorVisualItem extends IconTextElement {
         return true;
     }
 
+    public String getTipString() {
+        return ColorTheme.getColorString(color);
+    }
 }
 //#endif

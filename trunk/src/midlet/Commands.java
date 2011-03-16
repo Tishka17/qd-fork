@@ -9,6 +9,7 @@
 
 package midlet;
 
+import images.MenuIcons;
 import menu.Command;
 import locale.SR;
 
@@ -28,45 +29,53 @@ public class Commands {
     public static Command cmdResume;
     public static Command cmdReply;
     public static Command cmdQuote;
+
 //#ifdef ARCHIVE
     public static Command cmdArch;
 //#endif
+
     public static Command cmdPurge;
     public static Command cmdSelect;
     public static Command cmdActions;
-    public static Command cmdActive;
+
 //#ifdef FILE_IO
     public static Command cmdSaveChat;
 //#endif
 
     public static Command cmdAddSearchQuery;
     public static Command cmdClrPresences;
+
 //#if BREDOGENERATOR
 //#     public static Command cmdAutoGenON; //MS_BREDO_ON),Command.SCREEN,87);
 //#     public static Command cmdAutoGenOff; //MS_BREDO_OFF),Command.SCREEN,88);
 //#endif
+
     public static Command cmdMyService;
+    
 //#ifdef CLIPBOARD
-//#     public static Command cmdCopy;
-//#     public static Command cmdCopyPlus;
-//#     public static Command cmdSendBuffer;
-//#     public static Command cmdPaste;
+    public static Command cmdCopy;
+    public static Command cmdCopyPlus;
+    public static Command cmdSendBuffer;
+    public static Command cmdPaste;
 //#endif
+
     public static Command cmdxmlSkin;
     public static Command cmdUrl;
     public static Command cmdBack;
+
 //#ifdef HISTORY
-//#     public static Command cmdHistory;
+    public static Command cmdHistory;
 //#endif
+    
 //#ifdef JUICK.COM
-//#     /*
-//#     public static Command cmdJuickLastPopular ; //"", Command.SCREEN, 101);//#
-//#     public static Command cmdJuickLastMsgs ; //"", Command.SCREEN, 102);//#+
-//#     public static Command cmdJuickSubscribe ; //"", Command.SCREEN, 103);//S #
-//#     public static Command cmdJuickUnsubscribe ; //"", Command.SCREEN, 104);//U #
-//#     public static Command cmdJuickSendPM ; //"", Command.SCREEN, 105);//PM @nick msg
-//#     public static Command cmdJuickUsersMsgs ; //"", Command.SCREEN, 106); //@nick+
-//#     */
+    /*
+    public static Command cmdJuickLastPopular ; //"", Command.SCREEN, 101);//#
+    public static Command cmdJuickLastMsgs ; //"", Command.SCREEN, 102);//#+
+    public static Command cmdJuickSubscribe ; //"", Command.SCREEN, 103);//S #
+    public static Command cmdJuickUnsubscribe ; //"", Command.SCREEN, 104);//U #
+    public static Command cmdJuickSendPM ; //"", Command.SCREEN, 105);//PM @nick msg
+    public static Command cmdJuickUsersMsgs ; //"", Command.SCREEN, 106); //@nick+
+    */
 //#endif
 
     public static void initCommands() {
@@ -105,7 +114,6 @@ public class Commands {
         cmdActions = new Command(SR.get(SR.MS_CONTACT), Command.SCREEN, 9);
         cmdActions.setImg(0x16);
 
-        cmdActive = new Command(SR.get(SR.MS_ACTIVE_CONTACTS), Command.SCREEN, 10);
 //#ifdef FILE_IO
         cmdSaveChat = new Command(SR.get(SR.MS_SAVE_CHAT), Command.SCREEN, 12);
         cmdSaveChat.setImg(0x44);
@@ -124,27 +132,27 @@ public class Commands {
         cmdxmlSkin.setImg(0x07);
 
         cmdUrl = new Command(SR.get(SR.MS_GOTO_URL), Command.SCREEN, 80);
-        cmdUrl.setImg(0x15);
+        cmdUrl.setImg(MenuIcons.ICON_GOTO_URL);
 
         cmdBack = new Command(SR.get(SR.MS_BACK), Command.BACK, 99);
 
 //#ifdef CLIPBOARD
-//#         cmdCopy = new Command(SR.get(SR.MS_COPY), Command.SCREEN, 20);
-//#         cmdCopy.setImg(0x23);
-//# 
-//#         cmdCopyPlus = new Command("+ " + SR.get(SR.MS_COPY), Command.SCREEN, 30);
-//#         cmdCopyPlus.setImg(0x23);
-//# 
-//#         cmdSendBuffer = new Command(SR.get(SR.MS_SEND_BUFFER), Command.SCREEN, 14);
-//#         cmdSendBuffer.setImg(0x84);
-//# 
-//#         cmdPaste = new Command(SR.get(SR.MS_PASTE), Command.SCREEN, 31);
-//#         cmdPaste.setImg(0x84);
+        cmdCopy = new Command(SR.get(SR.MS_COPY), Command.SCREEN, 20);
+        cmdCopy.setImg(0x23);
+
+        cmdCopyPlus = new Command("+ " + SR.get(SR.MS_COPY), Command.SCREEN, 30);
+        cmdCopyPlus.setImg(0x23);
+
+        cmdSendBuffer = new Command(SR.get(SR.MS_SEND_BUFFER), Command.SCREEN, 14);
+        cmdSendBuffer.setImg(0x84);
+
+        cmdPaste = new Command(SR.get(SR.MS_PASTE), Command.SCREEN, 31);
+        cmdPaste.setImg(0x84);
 //#endif
 
 //#ifdef HISTORY
-//#         cmdHistory = new Command(SR.get(SR.MS_historyStr), Command.SCREEN, 101);
-//#         cmdHistory.setImg(0x64);
+        cmdHistory = new Command(SR.get(SR.MS_historyStr), Command.SCREEN, 101);
+        cmdHistory.setImg(0x64);
 //#endif
 
 //#ifdef ARCHIVE
@@ -158,14 +166,14 @@ public class Commands {
 //#endif
 
 //#ifdef JUICK.COM
-//#     /*
-//#               cmdJuickLastPopular = new Command("", Command.SCREEN, 101);//#
-//#               cmdJuickLastMsgs = new Command("", Command.SCREEN, 102);//#+
-//#               cmdJuickSubscribe = new Command("", Command.SCREEN, 103);//S #
-//#               cmdJuickUnsubscribe = new Command("", Command.SCREEN, 104);//U #
-//#               cmdJuickSendPM = new Command("", Command.SCREEN, 105);//PM @nick msg
-//#               cmdJuickUsersMsgs = new Command("", Command.SCREEN, 106); //@nick+
-//#     */
+    /*
+              cmdJuickLastPopular = new Command("", Command.SCREEN, 101);//#
+              cmdJuickLastMsgs = new Command("", Command.SCREEN, 102);//#+
+              cmdJuickSubscribe = new Command("", Command.SCREEN, 103);//S #
+              cmdJuickUnsubscribe = new Command("", Command.SCREEN, 104);//U #
+              cmdJuickSendPM = new Command("", Command.SCREEN, 105);//PM @nick msg
+              cmdJuickUsersMsgs = new Command("", Command.SCREEN, 106); //@nick+
+    */
 //#endif
     }
 }

@@ -29,6 +29,7 @@
 package message; 
 
 //import Client.Config;
+import client.Config;
 import client.Msg;
 import images.RosterIcons;
 //import java.util.Enumeration;
@@ -106,62 +107,60 @@ public class MessageItem
     }
 
     public void drawItem(VirtualList view, Graphics g, int ofs, boolean selected) {
-        int xorg=g.getTranslateX();
-        int yorg=g.getTranslateY();
-        g.translate(2,0);
-        if (msgLines==null) {
+        if (msgLines == null) {
             parse(view);
             return;
         }
-        int size = msg.itemCollapsed ? 1 : msgLines.size();
-        for(int i=0;i<size;++i){
-            if (((ComplexString)msgLines.elementAt(i)).isEmpty()) break;
-            int h=((ComplexString)msgLines.elementAt(i)).getVHeight();
-            int cy=g.getClipY();
+        int xorg = g.getTranslateX();
+        int yorg = g.getTranslateY();
+        
+        g.translate(2, 0);
 
-            if (cy <= h && cy+g.getClipHeight()>0 ) {
-              ofs=0;
-              boolean cols = (msg.itemCollapsed && msgLines.size()>1);
-              if(midlet.BombusQD.cf.useLowMemory_iconmsgcollapsed==false) { 
-                 if(i==0 && !msg.isPresence() && !msg.MucChat){
-                          if (msg.delivered) {
-                             RosterIcons.getInstance().drawImage(g, RosterIcons.ICON_DELIVERED_INDEX, 0,0);
-                             ofs+=RosterIcons.getInstance().getWidth()+4;
-                          }else{
-                             RosterIcons.getInstance().drawImage(g, RosterIcons.ICON_MESSAGE_INDEX, 0,0);
-                             ofs+=RosterIcons.getInstance().getWidth()+4;
-                          }
-                          if (cols) RosterIcons.getInstance().drawImage(g, RosterIcons.ICON_MSGCOLLAPSED_INDEX, 0,0);
-                 }
-                 else{
-                   if (cols) {
-                             RosterIcons.getInstance().drawImage(g, RosterIcons.ICON_MSGCOLLAPSED_INDEX, 0,0);
-                             g.translate(8,0);
-                             //ofs=8;
-                   }
+        int size = msg.itemCollapsed ? 1 : msgLines.size();
+        for (int i = 0; i < size; ++i) {
+            ComplexString string = (ComplexString)msgLines.elementAt(i);
+
+            if (string.isEmpty()) {
+                break;
+            }
+            int h = string.getVHeight();
+            int cy = g.getClipY();
+
+            if (cy <= h && cy + g.getClipHeight() > 0) {
+                ofs = 0;
+                boolean cols = (msg.itemCollapsed && msgLines.size() > 1);
+                if (!Config.hideMessageIcon) {
+                    if (i == 0 && !msg.isPresence() && !msg.MucChat) {
+                        if (msg.delivered) {
+                            RosterIcons.getInstance().drawImage(g, RosterIcons.ICON_DELIVERED_INDEX, 0, 0);
+                        } else {
+                            RosterIcons.getInstance().drawImage(g, RosterIcons.ICON_MESSAGE_INDEX, 0, 0);
+                        }
+                        ofs += RosterIcons.getInstance().getWidth() + 4;
+                    }
                 }
-              }
-              else{
-                   if (cols) {
-                             RosterIcons.getInstance().drawImage(g, RosterIcons.ICON_MSGCOLLAPSED_INDEX, 0,0);
-                             g.translate(8,0);
-                             //ofs=8;
-                   }                  
-              }
-              ((ComplexString)msgLines.elementAt(i)).drawItem(view, g, ofs, selected);
+                if (cols) {
+                    RosterIcons.getInstance().drawImage(g, RosterIcons.ICON_MSGCOLLAPSED_INDEX, 0, 0);
+                    if (Config.hideMessageIcon) {
+                        g.translate(8, 0);
+                    }
+                }
+                string.drawItem(view, g, ofs, selected);
             }
             g.translate(0, h);
-            if (msg.itemCollapsed) break;            
-        }        
+            if (msg.itemCollapsed) {
+                break;
+            }
+        }
 
-        g.translate(xorg-g.getTranslateX(), yorg-g.getTranslateY());
+        g.translate(xorg - g.getTranslateX(), yorg - g.getTranslateY());
 
         if (msg.search_word) {
-            int right=g.getClipX()+g.getClipWidth();
+            int right = g.getClipX() + g.getClipWidth();
             RosterIcons.getInstance().drawImage(
-                    g, RosterIcons.ICON_PRIVACY_ALLOW, 
-                    right-RosterIcons.getInstance().getWidth()-3 - 16, 0);
-        }  
+                    g, RosterIcons.ICON_PRIVACY_ALLOW,
+                    right - RosterIcons.getInstance().getWidth() - 3 - 16, 0);
+        }
     }
     
     public void onSelect(VirtualList view) {

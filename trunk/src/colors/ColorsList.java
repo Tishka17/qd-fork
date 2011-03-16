@@ -29,126 +29,103 @@
 //#ifdef COLOR_TUNE
 package colors;
 
-import java.util.Enumeration;
 import java.util.Vector;
-import javax.microedition.lcdui.*;
+import javax.microedition.lcdui.Display;
 import locale.SR;
-import ui.MainBar;
 import ui.VirtualElement;
-import ui.VirtualList;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
-import menu.MenuListener;
-import menu.Command;
-import menu.MyMenu;
-//#endif
+import ui.controls.form.DefForm;
 
-//#ifdef GRAPHICS_MENU
-import ui.GMenu;
-import ui.GMenuConfig;
-//#endif
 /**
  *
  * @author ad,aqent
  */
-public class ColorsList
-        extends VirtualList implements
-//#ifndef MENU_LISTENER
-//#         CommandListener,
-//#else
-        MenuListener
-//#endif
-    {
-//#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_COLORS");
-//#endif
 
-
-    static void setColor(int paramName, int value) {
-        ((ColorVisualItem)itemsList.elementAt(paramName)).setColor(value);
-    }
-
-
-    static Vector itemsList;
-
-    public Command cmdOk;
-    Command cmdBack;
-
-    /**
-     * Creates a new instance of ColorsList
-     */
+public class ColorsList extends DefForm {
     public ColorsList(Display display) {
-        super(display);
+        super(display, null, SR.get(SR.MS_COLOR_TUNE));
 
-        cmdOk = new Command(SR.get(SR.MS_EDIT), Command.OK, 1);
-        cmdBack=new Command(SR.get(SR.MS_BACK),Command.BACK,99);
+        addControl(new ColorVisualItem(SR.get(SR.MS_BALLOON_INK), ColorTheme.BALLOON_INK));
+        addControl(new ColorVisualItem(SR.get(SR.MS_BALLOON_BGND), ColorTheme.BALLOON_BGND));
+        addControl(new ColorVisualItem(SR.get(SR.MS_LIST_BGND), ColorTheme.LIST_BGND));
+        addControl(new ColorVisualItem(SR.get(SR.MS_LIST_BGND_EVEN), ColorTheme.LIST_BGND_EVEN));
+        addControl(new ColorVisualItem(SR.get(SR.MS_LIST_INK), ColorTheme.LIST_INK));
+        addControl(new ColorVisualItem(SR.get(SR.MS_MSG_SUBJ), ColorTheme.MSG_SUBJ));
+        addControl(new ColorVisualItem(SR.get(SR.MS_MSG_HIGHLIGHT), ColorTheme.MSG_HIGHLIGHT));
+        addControl(new ColorVisualItem(SR.get(SR.MS_DISCO_CMD), ColorTheme.DISCO_CMD));
+        addControl(new ColorVisualItem(SR.get(SR.MS_BAR_BGND), ColorTheme.BAR_BGND));
+        addControl(new ColorVisualItem(SR.get(SR.MS_BAR_BGND) + " 2", ColorTheme.BAR_BGND_BOTTOM));
+        addControl(new ColorVisualItem(SR.get(SR.MS_BAR_INK), ColorTheme.BAR_INK));
+        addControl(new ColorVisualItem(SR.get(SR.MS_CONTACT_DEFAULT), ColorTheme.CONTACT_DEFAULT));
+        addControl(new ColorVisualItem(SR.get(SR.MS_CONTACT_CHAT), ColorTheme.CONTACT_CHAT));
+        addControl(new ColorVisualItem(SR.get(SR.MS_CONTACT_AWAY), ColorTheme.CONTACT_AWAY));
+        addControl(new ColorVisualItem(SR.get(SR.MS_CONTACT_XA), ColorTheme.CONTACT_XA));
+        addControl(new ColorVisualItem(SR.get(SR.MS_CONTACT_DND), ColorTheme.CONTACT_DND));
+        addControl(new ColorVisualItem(SR.get(SR.MS_CONTACT) + " J2J", ColorTheme.CONTACT_J2J));
+        addControl(new ColorVisualItem(SR.get(SR.MS_GROUP_INK), ColorTheme.GROUP_INK));
+        addControl(new ColorVisualItem(SR.get(SR.MS_BLK_INK), ColorTheme.BLK_INK));
+        addControl(new ColorVisualItem(SR.get(SR.MS_BLK_BGND), ColorTheme.BLK_BGND));
+        addControl(new ColorVisualItem(SR.get(SR.MS_MESSAGE_IN), ColorTheme.MESSAGE_IN));
+        addControl(new ColorVisualItem(SR.get(SR.MS_MESSAGE_OUT), ColorTheme.MESSAGE_OUT));
+        addControl(new ColorVisualItem(SR.get(SR.MS_MESSAGE_PRESENCE), ColorTheme.MESSAGE_PRESENCE));
+        addControl(new ColorVisualItem(SR.get(SR.MS_MESSAGE_AUTH), ColorTheme.MESSAGE_AUTH));
+        addControl(new ColorVisualItem(SR.get(SR.MS_MESSAGE_HISTORY), ColorTheme.MESSAGE_HISTORY));
+        addControl(new ColorVisualItem(SR.get(SR.MS_MESSAGE_IN_S), ColorTheme.MESSAGE_IN_S));
+        addControl(new ColorVisualItem(SR.get(SR.MS_MESSAGE_OUT_S), ColorTheme.MESSAGE_OUT_S));
+        addControl(new ColorVisualItem(SR.get(SR.MS_MESSAGE_PRESENCE_S), ColorTheme.MESSAGE_PRESENCE_S));
+        addControl(new ColorVisualItem(SR.get(SR.MS_PGS_REMAINED), ColorTheme.PGS_REMAINED));
+        addControl(new ColorVisualItem(SR.get(SR.MS_PGS_COMPLETE), ColorTheme.PGS_COMPLETE_TOP));
+        addControl(new ColorVisualItem(SR.get(SR.MS_PGS_COMPLETE) + " 2", ColorTheme.PGS_COMPLETE_BOTTOM));
+        addControl(new ColorVisualItem(SR.get(SR.MS_PGS_INK), ColorTheme.PGS_INK));
 
-        setMainBarItem(new MainBar(SR.get(SR.MS_COLOR_TUNE)));
-        addCommand(cmdBack);
-        addCommand(cmdOk);
-        setCommandListener(this);
+//#ifdef MEMORY_MONITOR
+//#         addControl(new ColorVisualItem(SR.get(SR.MS_HEAP_TOTAL), ColorTheme.HEAP_TOTAL));
+//#         addControl(new ColorVisualItem(SR.get(SR.MS_HEAP_FREE), ColorTheme.HEAP_FREE));
+//#endif
 
-        itemsList=new Vector(0);
-        int cnt=0;
-        int size = ColorTheme.size();
-        ColorVisualItem item;
-        int[] colors = ColorTheme.getColors();
-        for (int i=0;i<=size;++i) {
-            ColorItem c=(ColorItem)ColorTheme.getItem(i);
-            item = new ColorVisualItem(c.name, ColorTheme.NAMES[cnt], colors[i]);
-            itemsList.addElement(item);
-            ++cnt;
-        }
-        item = null;
-        commandState();
+        addControl(new ColorVisualItem(SR.get(SR.MS_CURSOR_BGND), ColorTheme.CURSOR_BGND));
+        addControl(new ColorVisualItem(SR.get(SR.MS_CURSOR_OUTLINE), ColorTheme.CURSOR_OUTLINE));
+        addControl(new ColorVisualItem(SR.get(SR.MS_SCROLL_BRD), ColorTheme.SCROLL_BRD));
+        addControl(new ColorVisualItem(SR.get(SR.MS_SCROLL_BAR), ColorTheme.SCROLL_BAR));
+        addControl(new ColorVisualItem(SR.get(SR.MS_SCROLL_BGND), ColorTheme.SCROLL_BGND));
+
+        addControl(new ColorVisualItem(SR.get(SR.MS_POPUP_MESSAGE), ColorTheme.POPUP_MESSAGE_INK));
+        addControl(new ColorVisualItem(SR.get(SR.MS_POPUP_MESSAGE_BGND), ColorTheme.POPUP_MESSAGE_BGND));
+        addControl(new ColorVisualItem(SR.get(SR.MS_POPUP_SYSTEM), ColorTheme.POPUP_SYSTEM_INK));
+        addControl(new ColorVisualItem(SR.get(SR.MS_POPUP_SYSTEM_BGND), ColorTheme.POPUP_SYSTEM_BGND));
+        addControl(new ColorVisualItem(SR.get(SR.MS_CONTACT_STATUS), ColorTheme.SECOND_LINE));
+        addControl(new ColorVisualItem(SR.get(SR.MS_CONTROL_ITEM), ColorTheme.CONTROL_ITEM));
+        addControl(new ColorVisualItem(SR.get(SR.MS_GRADIENT_BGND_LEFT), ColorTheme.GRADIENT_BGND_LEFT));
+        addControl(new ColorVisualItem(SR.get(SR.MS_GRADIENT_BGND_RIGHT), ColorTheme.GRADIENT_BGND_RIGHT));
+        addControl(new ColorVisualItem(SR.get(SR.MS_GRADIENT_CURSOR_1), ColorTheme.GRADIENT_CURSOR_1));
+        addControl(new ColorVisualItem(SR.get(SR.MS_GRADIENT_CURSOR_2), ColorTheme.GRADIENT_CURSOR_2));
+
+        addControl(new ColorVisualItem(SR.get(SR.MS_TRANSPARENCY_ARGB), ColorTheme.TRANSPARENCY_ARGB));
+        addControl(new ColorVisualItem(SR.get(SR.MS_GRAPHICS_MENU_BGNG_ARGB), ColorTheme.GRAPHICS_MENU_BGNG_ARGB));
+        addControl(new ColorVisualItem(SR.get(SR.MS_GRAPHICS_MENU_FONT), ColorTheme.GRAPHICS_MENU_FONT));
+
         attachDisplay(display);
-        repaint();
     }
 
-    protected int getItemCount() { return itemsList.size(); }
-
-    protected VirtualElement getItemRef(int index) {
-        return (VirtualElement)itemsList.elementAt(index);
+    public final void setColor(int index, int value) {
+        ((ColorVisualItem)itemsList.elementAt(index)).setColor(value);
     }
 
-    public void commandState(){
-//#ifdef MENU_LISTENER
-        menuCommands.removeAllElements();
-//#endif
+    public String touchLeftCommand() {
+        return SR.get(SR.MS_SELECT);
     }
 
-//#ifdef MENU_LISTENER
-    public String touchLeftCommand(){ return SR.get(SR.MS_SELECT); }
-
-//#ifdef GRAPHICS_MENU
-    public int showGraphicsMenu() {
-         commandState();
-         menuItem = new GMenu(display, parentView, this, null, menuCommands);
-         GMenuConfig.getInstance().itemGrMenu = -1;
-         eventOk();
-         return -1;
+    public void cmdOk() {
+        showColorSelector();
     }
-//#else
-//#     public void showMenu() {
-//#         commandState();
-//#         new MyMenu(display, parentView, this, SR.get(SR.MS_DISCO), null, menuCommands);
-//#     }
-//#endif
-
-//#endif
-
-   public void commandAction(Command command, Displayable displayable) {
-        if (command==cmdBack) destroyView();
-        else eventOk();
-   }
-
 
     public void eventOk() {
-//#ifdef COLOR_TUNE
-         new ColorSelector(display, cursor);
-//#endif
+         showColorSelector();
+    }
+
+    private void showColorSelector() {
+        ColorVisualItem item = (ColorVisualItem)getFocusedObject();
+
+        new ColorSelector(display, this, item.toString(), item.getIndex());
     }
 }
 //#endif

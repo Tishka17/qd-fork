@@ -282,7 +282,7 @@ public class GMenu extends Canvas {
         maxwidth=0;
         int len_str=0;
         for (int index=size; index>=0; index--) {
-             if(midlet.BombusQD.cf.executeByNum){
+             if(Config.executeByNum){
                   len_str  = font.stringWidth(index+"-"+drawCommands[index]);
              }else{
                   len_str  = font.stringWidth(drawCommands[index]);
@@ -391,7 +391,7 @@ public class GMenu extends Canvas {
              cmd=null;
            }
 	   ty=(fh-g.getFont().getHeight())>>1;
-            if(midlet.BombusQD.cf.executeByNum){
+            if(Config.executeByNum){
                 g.drawString( (index<=9 ? Integer.toString(index)+"-" : "") + drawCommands[index], x_start, fh*index + 1 + ty, g.LEFT|g.TOP);
            } else {
                 g.drawString(drawCommands[index], x_start, fh*index + 1 + ty, g.LEFT|g.TOP);
@@ -455,7 +455,7 @@ public class GMenu extends Canvas {
          }
          else
          {
-            if(midlet.BombusQD.cf.executeByNum){
+            if(Config.executeByNum){
               switch (keyCode)
               {
                 case KEY_NUM0: gm.itemCursorIndex=0; eventOk(); break;
@@ -569,7 +569,7 @@ public class GMenu extends Canvas {
          }
          else
          {
-            if(midlet.BombusQD.cf.executeByNum){
+            if(Config.executeByNum){
               switch (keyCode)
               {
                 case KEY_NUM0: gm.itemCursorIndexIn=0; closeEvent(); return false;

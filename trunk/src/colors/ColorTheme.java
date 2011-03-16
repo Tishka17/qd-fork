@@ -36,17 +36,16 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Hashtable;
-import java.util.Vector;
 import util.StringLoader;
 //#ifdef DETRANSLIT
 //# import util.DeTranslit;
 //#endif
-import locale.SR;
 
 /**
  *
  * @author ad,aqent
  */
+
 public class ColorTheme {
     public final static byte BALLOON_INK = 0;
     public final static byte BALLOON_BGND = 1;
@@ -125,36 +124,18 @@ public class ColorTheme {
     };
 
     private static int[] colorsArray;
-    private static Vector colorsContainer;
 
     public static void initColors() {
-        init();
-        loadFromStorage();
-//#ifdef COLOR_TUNE
-        initNames();
-//#endif
-    }
-
-    public static void init() {
-        colorsContainer = new Vector();
-
         colorsArray = new int[defColors.length];
 
         for (int i = 0; i < defColors.length; ++i) {
-            colorsContainer.addElement(new ColorItem(items[i], defColors[i]));
             colorsArray[i] = defColors[i];
         }
     }
 
-//#ifdef COLOR_TUNE
     public static int size() {
-        return colorsContainer.size();
+        return defColors.length;
     }
-
-    public static ColorItem getItem(int index) {
-        return (ColorItem)colorsContainer.elementAt(index);
-    }
-//#endif
 
     public static int[] getColors() {
         return colorsArray;
@@ -183,66 +164,6 @@ public class ColorTheme {
         "TRANSPARENCY_ARGB", "GRAPHICS_MENU_BGNG_ARGB", "GRAPHICS_MENU_FONT"
     };
 
-//#ifdef COLOR_TUNE
-    public static String[] NAMES;
-    public static void initNames() {
-        NAMES = new String[]{
-            SR.get(SR.MS_BALLOON_INK),
-            SR.get(SR.MS_BALLOON_BGND),
-            SR.get(SR.MS_LIST_BGND),
-            SR.get(SR.MS_LIST_BGND_EVEN),
-            SR.get(SR.MS_LIST_INK),
-            SR.get(SR.MS_MSG_SUBJ),
-            SR.get(SR.MS_MSG_HIGHLIGHT),
-            SR.get(SR.MS_DISCO_CMD),
-            SR.get(SR.MS_BAR_BGND),
-            SR.get(SR.MS_BAR_BGND) + " 2",
-            SR.get(SR.MS_BAR_INK),
-            SR.get(SR.MS_CONTACT_DEFAULT),
-            SR.get(SR.MS_CONTACT_CHAT),
-            SR.get(SR.MS_CONTACT_AWAY),
-            SR.get(SR.MS_CONTACT_XA),
-            SR.get(SR.MS_CONTACT_DND),
-            SR.get(SR.MS_CONTACT) + " J2J",
-            SR.get(SR.MS_GROUP_INK),
-            SR.get(SR.MS_BLK_INK),
-            SR.get(SR.MS_BLK_BGND),
-            SR.get(SR.MS_MESSAGE_IN),
-            SR.get(SR.MS_MESSAGE_OUT),
-            SR.get(SR.MS_MESSAGE_PRESENCE),
-            SR.get(SR.MS_MESSAGE_AUTH),
-            SR.get(SR.MS_MESSAGE_HISTORY),
-            SR.get(SR.MS_MESSAGE_IN_S),
-            SR.get(SR.MS_MESSAGE_OUT_S),
-            SR.get(SR.MS_MESSAGE_PRESENCE_S),
-            SR.get(SR.MS_PGS_REMAINED),
-            SR.get(SR.MS_PGS_COMPLETE),
-            SR.get(SR.MS_PGS_COMPLETE) + " 2",
-            SR.get(SR.MS_PGS_INK),
-            SR.get(SR.MS_HEAP_TOTAL),
-            SR.get(SR.MS_HEAP_FREE),
-            SR.get(SR.MS_CURSOR_BGND),
-            SR.get(SR.MS_CURSOR_OUTLINE),
-            SR.get(SR.MS_SCROLL_BRD),
-            SR.get(SR.MS_SCROLL_BAR),
-            SR.get(SR.MS_SCROLL_BGND),
-            SR.get(SR.MS_POPUP_MESSAGE),
-            SR.get(SR.MS_POPUP_MESSAGE_BGND),
-            SR.get(SR.MS_POPUP_SYSTEM),
-            SR.get(SR.MS_POPUP_SYSTEM_BGND),
-            SR.get(SR.MS_CONTACT_STATUS),
-            SR.get(SR.MS_CONTROL_ITEM),
-            SR.get(SR.MS_GRADIENT_BGND_LEFT),
-            SR.get(SR.MS_GRADIENT_BGND_RIGHT),
-            SR.get(SR.MS_GRADIENT_CURSOR_1),
-            SR.get(SR.MS_GRADIENT_CURSOR_2),
-            SR.get(SR.MS_TRANSPARENCY_ARGB),
-            SR.get(SR.MS_GRAPHICS_MENU_BGNG_ARGB),
-            SR.get(SR.MS_GRAPHICS_MENU_FONT)
-        };
-    }
-//#endif
-
     public static void setColor(int id, int color) {
         colorsArray[id] = color;
     }
@@ -254,10 +175,8 @@ public class ColorTheme {
     public static void invertSkin() {
         int size = colorsArray.length;
         for (int i = 0; i < size; ++i) {
-            ColorItem c = (ColorItem)colorsContainer.elementAt(i);
-            c.color = colorsArray[i];
-            if (c.color != 0x010101) {
-                colorsArray[i] = 0xFFFFFF - c.color;
+            if (colorsArray[i] != 0x010101) {
+                colorsArray[i] = 0xFFFFFF - colorsArray[i];
             }
         }
         saveToStorage();
@@ -283,8 +202,7 @@ public class ColorTheme {
     public static void loadFromStorage() {
         try {
             DataInputStream inputStream = NvStorage.ReadFileRecord("ColorDB", 0);
-            int size = colorsContainer.size();
-            for (int i = 0; i < size; ++i) {
+            for (int i = 0; i < size(); ++i) {
                 colorsArray[i] = inputStream.readInt();
             }
             inputStream.close();
@@ -314,8 +232,7 @@ public class ColorTheme {
         body.append(StaticData.getInstance().account.getNickName());
 //#endif
         body.append("\r\n");
-        int size = colorsContainer.size();
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size(); i++) {
             body.append(items[i] + "\t" + getColorString(colorsArray[i]) + "\r\n");
         }
         return body.toString();
@@ -325,10 +242,9 @@ public class ColorTheme {
         skinFile = skinF;
         resourceType = resourceT;
         try {
-            int size = colorsContainer.size();
             colorsArray = null;
-            colorsArray = new int[size];
-            for (int i = 0; i < size; ++i) {
+            colorsArray = new int[size()];
+            for (int i = 0; i < size(); ++i) {
                 int color = colorsArray[i];
                 colorsArray[i] = loadInt(items[i], color);
             }

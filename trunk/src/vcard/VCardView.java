@@ -30,6 +30,7 @@ package vcard;
 import client.Config;
 import client.Contact;
 //#if FILE_IO
+import images.MenuIcons;
 import io.file.FileIO;
 import io.file.browse.Browser;
 import io.file.browse.BrowserListener;
@@ -60,6 +61,7 @@ import util.ClipBoard;
 import midlet.BombusQD;
 import javax.microedition.io.ConnectionNotFoundException;
 //#ifdef GRAPHICS_MENU
+import midlet.Commands;
 import ui.GMenu;
 import ui.GMenuConfig;
 import ui.MainBar;
@@ -85,10 +87,6 @@ public class VCardView extends DefForm
 
     private String url;
 
-//#ifdef CLIPBOARD
-    private Command cmdCopy;
-    private Command cmdCopyPlus;
-//#endif
     private Command cmdRefresh;
 //#if FILE_IO
     private Command cmdSavePhoto;
@@ -109,18 +107,11 @@ public class VCardView extends DefForm
     public VCardView(Display display, Displayable pView, Contact contact, final VCard vcard) {
         super(display, pView, null);
 
-//#ifdef CLIPBOARD
-        cmdCopy = new Command(SR.get(SR.MS_COPY), Command.SCREEN, 1);
-        cmdCopy.setImg(0x13);
-
-        cmdCopyPlus = new Command("+ " + SR.get(SR.MS_COPY), Command.SCREEN, 2);
-        cmdCopyPlus.setImg(0x23);
-//#endif
         cmdRefresh = new Command(SR.get(SR.MS_REFRESH), Command.SCREEN, 3);
         cmdRefresh.setImg(0x10);
 //#if FILE_IO
         cmdSavePhoto = new Command(SR.get(SR.MS_SAVE_PHOTO), Command.SCREEN, 4);
-        cmdSavePhoto.setImg(0x15);
+        cmdSavePhoto.setImg(MenuIcons.ICON_SAVE_PHOTO);
 //#endif
         cmdDelPhoto = new Command(SR.get(SR.MS_CLEAR_PHOTO), Command.SCREEN, 5);
         cmdDelPhoto.setImg(0x41);
@@ -240,13 +231,13 @@ public class VCardView extends DefForm
             new Browser(null, display, this, this, true);
 //#endif
 //#ifdef CLIPBOARD
-        } else if (c == cmdCopy) {
+        } else if (c == Commands.cmdCopy) {
             String lineValue = ((MultiLine)getFocusedObject()).getValue();
 
             if (lineValue != null) {
                 ClipBoard.setClipBoard(lineValue);
             }
-        } else if (c == cmdCopyPlus) {
+        } else if (c == Commands.cmdCopyPlus) {
             String lineValue = ((MultiLine)getFocusedObject()).getValue();
 
             if (lineValue != null) {
@@ -322,9 +313,9 @@ public class VCardView extends DefForm
             }
 //#ifdef CLIPBOARD
             if (Config.getInstance().useClipBoard) {
-                addCommand(cmdCopy);
+                addCommand(Commands.cmdCopy);
                 if (!ClipBoard.isEmpty()) {
-                    addCommand(cmdCopyPlus);
+                    addCommand(Commands.cmdCopyPlus);
                 }
             }
 //#endif

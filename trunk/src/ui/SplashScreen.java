@@ -83,7 +83,7 @@ public class SplashScreen extends Canvas implements CommandListener {
     public SplashScreen(Display display) {
         super();//true - getKeyState,false - keyPressed
         this.display = display;
-        setFullScreenMode(midlet.BombusQD.cf.fullscreen);
+        setFullScreenMode(Config.fullscreen);
         try {
             if (img==null) {
                 img=Image.createImage("/images/splash.png");
@@ -92,12 +92,11 @@ public class SplashScreen extends Canvas implements CommandListener {
         } catch (IOException e) {
            System.out.println("splash NOT created ");
         }
-        display.setCurrent(this);
     }
 
    public SplashScreen(Display display, ComplexString status, char exitKey) {
         super();
-        setFullScreenMode(midlet.BombusQD.cf.fullscreen);
+        setFullScreenMode(Config.fullscreen);
 
         this.status=status;
         this.display=display;

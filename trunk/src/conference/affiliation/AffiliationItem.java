@@ -24,7 +24,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-
 package conference.affiliation;
 
 import com.alsutton.jabber.JabberDataBlock;
@@ -35,60 +34,71 @@ import ui.IconTextElement;
  *
  * @author EvgS
  */
-public class AffiliationItem extends IconTextElement{
-    public final static byte AFFILIATION_NONE=0;
-    public final static byte AFFILIATION_OWNER=1;
-    public final static byte AFFILIATION_ADMIN=2;
-    public final static byte AFFILIATION_MEMBER=3;
-    public final static byte AFFILIATION_OUTCAST=4;
+public class AffiliationItem extends IconTextElement {
+    public final static byte AFFILIATION_NONE = 0;
+    public final static byte AFFILIATION_OWNER = 1;
+    public final static byte AFFILIATION_ADMIN = 2;
+    public final static byte AFFILIATION_MEMBER = 3;
+    public final static byte AFFILIATION_OUTCAST = 4;
 
-    public static String getAffiliationName(int index){
+    public static String getAffiliationName(int index) {
         switch (index) {
-            case AFFILIATION_OWNER: return "owner";
-            case AFFILIATION_ADMIN: return "admin";
-            case AFFILIATION_MEMBER: return "member";
-            case AFFILIATION_OUTCAST: return "outcast";
+            case AFFILIATION_OWNER:
+                return "owner";
+            case AFFILIATION_ADMIN:
+                return "admin";
+            case AFFILIATION_MEMBER:
+                return "member";
+            case AFFILIATION_OUTCAST:
+                return "outcast";
         }
         return "none";
-    };
+    }
 
-    public int getImageIndex(){
+    public int getImageIndex() {
         switch (affiliation) {
-            case AFFILIATION_OWNER: return RosterIcons.ICON_REGISTER_INDEX;
-            case AFFILIATION_ADMIN: return RosterIcons.ICON_MODERATOR_INDEX;
-            case AFFILIATION_MEMBER: return 0;
-            case AFFILIATION_OUTCAST: return RosterIcons.ICON_ERROR_INDEX;
+            case AFFILIATION_OWNER:
+                return RosterIcons.ICON_REGISTER_INDEX;
+            case AFFILIATION_ADMIN:
+                return RosterIcons.ICON_MODERATOR_INDEX;
+            case AFFILIATION_MEMBER:
+                return 0;
+            case AFFILIATION_OUTCAST:
+                return RosterIcons.ICON_ERROR_INDEX;
         }
         return RosterIcons.ICON_INVISIBLE_INDEX;
     }
 
     public String jid;
-    public int affiliation;
     public String reason;
+    public int affiliation;
 
-    /** Creates a new instance of AffiliationItem */
     public AffiliationItem(String jid, String affiliation) {
         super(RosterIcons.getInstance());
-        this.jid=jid;
-        for (short index=1; index<5; index++) {
-            if (affiliation.equals(getAffiliationName(index)))
-                this.affiliation=index;
+        this.jid = jid;
+        for (short index = 1; index < 5; index++) {
+            if (affiliation.equals(getAffiliationName(index))) {
+                this.affiliation = index;
+            }
         }
-	reason="";
+        reason = "";
     }
 
     public AffiliationItem(JabberDataBlock item) {
         this(item.getAttribute("jid"), item.getAttribute("affiliation"));
-        reason=item.getChildBlockText("reason");
+        reason = item.getChildBlockText("reason");
 
-	if (reason.length()==0)
-            reason=null;
+        if (reason.length() == 0) {
+            reason = null;
+        }
     }
 
-    public String toString() { return (reason!=null)? jid+" *" : jid; }
+    public String toString() {
+        return (reason != null) ? jid + " *" : jid;
+    }
 
     public int compare(IconTextElement temp2) {
-        return jid.compareTo( ((AffiliationItem)temp2).jid);
+        return jid.compareTo(((AffiliationItem)temp2).jid);
     }
 
     public String getTipString() {

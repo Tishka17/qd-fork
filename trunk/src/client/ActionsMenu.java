@@ -159,12 +159,12 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
 
                 addItem(SR.get(SR.MS_VCARD), MI_VCARD, ActionsIcons.ICON_VCARD);
                 if (contact.vcard != null) {
-                    addItem(SR.get(SR.MS_DELETE_VCARD), MI_DELVCARD, ActionsIcons.ICON_VCARD, true);
-                    addItem(SR.get(SR.MS_DELETE_ALL_VCARD), MI_DELALLVCARD, ActionsIcons.ICON_VCARD, true);
+                    addItem(SR.get(SR.MS_DELETE_VCARD), MI_DELVCARD, ActionsIcons.ICON_VCARD);
+                    addItem(SR.get(SR.MS_DELETE_ALL_VCARD), MI_DELALLVCARD, ActionsIcons.ICON_VCARD);
                 }
                 if (contact.img_vcard != null) {
-                    addItem(SR.get(SR.MS_DELETE_AVATAR_VCARD), MI_DELAVATAR, ActionsIcons.ICON_VCARD, true);
-                    addItem(SR.get(SR.MS_DELETE_ALL_AVATAR_VCARD), MI_DELALLAVATAR, ActionsIcons.ICON_VCARD, true);
+                    addItem(SR.get(SR.MS_DELETE_AVATAR_VCARD), MI_DELAVATAR, ActionsIcons.ICON_VCARD);
+                    addItem(SR.get(SR.MS_DELETE_ALL_AVATAR_VCARD), MI_DELALLAVATAR, ActionsIcons.ICON_VCARD);
                 }
             }
             if (midlet.BombusQD.cf.userAppLevel == 1) {
@@ -185,7 +185,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                 }
 //#ifdef HISTORY
                 if (groupType != Groups.TYPE_TRANSP && !(contact instanceof MucContact)) {
-                    if (midlet.BombusQD.cf.module_history) {
+                    if (Config.module_history) {
                         if (HistoryConfig.historyTypeIndex == HistoryConfig.TYPE_RMS) {
                             addItem(SR.get(SR.MS_HISTORY_SHOW), MI_HISTORY, ActionsIcons.ICON_VERSION);
                         }
@@ -333,7 +333,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                     addItem(SR.get(SR.MS_CHANGE_NICKNAME), MI_CHANGE_NICK, ActionsIcons.ICON_CHANGE_NICK);
                     if (self.affiliationCode == Constants.AFFILIATION_OWNER) {
                         addItem(SR.get(SR.MS_CONFIG_ROOM), MI_CONFIG, ActionsIcons.ICON_CONFIGURE);
-                        addItem(SR.get(SR.MS_DESTROY_ROOM), MI_DELETE, ActionsIcons.ICON_OUTCASTS);
+                        addItem(SR.get(SR.MS_DESTROY_ROOM), MI_DELETE, ActionsIcons.ICON_DESTROY);
                     }
                     if (self.affiliationCode >= Constants.AFFILIATION_ADMIN) {
                         addItem(SR.get(SR.MS_OWNERS), MI_OWNERLIST, ActionsIcons.ICON_OWNERS);

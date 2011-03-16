@@ -24,18 +24,18 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
+
 package conference.bookmark;
 
-import client.Config;
 import com.alsutton.jabber.JabberDataBlock;
 import images.RosterIcons;
-import ui.*;
-import client.StaticData;
+import ui.IconTextElement;
 
 /**
  *
  * @author EvgS
  */
+
 public final class BookmarkItem extends IconTextElement {
     private String desc;
     private String jid;

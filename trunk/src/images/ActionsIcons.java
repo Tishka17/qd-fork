@@ -27,30 +27,27 @@
  
 package images;
 
-import javax.microedition.lcdui.Graphics;
-
 /**
  *
  * @author ad
  */
 public class ActionsIcons extends ImageList {
-    
+    private final static String ACTION_ICONS_PATH = "/images/actions.png";
+
+    private final static int ICONS_IN_ROW = 8;
+    private final static int ICONS_IN_COL = 5;
+
     private static ActionsIcons instance;
+
     public static ActionsIcons getInstance() {
-	if (instance==null) instance=new ActionsIcons();
+	if (instance == null) {
+            instance = new ActionsIcons();
+        }
 	return instance;
     }
 
-    private final static int ICONS_IN_ROW=8;
-    private final static int ICONS_IN_COL=5;
-
-    /** Creates a new instance of RosterIcons */
     private ActionsIcons() {
-	super("/images/actions.png", ICONS_IN_COL, ICONS_IN_ROW);
-    }
-
-    public void drawImage(Graphics g, int index, int x, int y) {
-        super.drawImage(g, index, x, y);
+	super(ACTION_ICONS_PATH, ICONS_IN_COL, ICONS_IN_ROW);
     }
     
     public static final byte ICON_ON             = 0x00; //Подключить
@@ -80,7 +77,7 @@ public class ActionsIcons extends ImageList {
     public static final byte ICON_ADMINS         = 0x26; //Администраторы
     public static final byte ICON_MEMBERS        = 0x27; //Члены
     
-    public static final byte ICON_OUTCASTS       = 0x30; //�?згои(Ban)
+    public static final byte ICON_OUTCASTS       = 0x30; //Изгои(Ban)
     public static final byte ICON_KICK           = 0x31; //Выгнать (kick)
     public static final byte ICON_BAN            = 0x32; //Бан (ban)
     public static final byte ICON_DEVOICE        = 0x33; //Отнять право голоса
@@ -94,6 +91,5 @@ public class ActionsIcons extends ImageList {
     public static final byte ICON_SEND_FILE      = 0x42; //Послать файл
     public static final byte ICON_RENAME         = 0x43; //Переименовать
     public static final byte ICON_CONSOLE        = 0x44; //Консоль
-    //public static final byte ICON_      = 0x45; //
-   // public static final byte ICON_      = 0x46; //
+    public static final byte ICON_DESTROY        = 0x45; //Удалить комнату
 }

@@ -234,7 +234,7 @@ public final class MessageParser {
 
         int w=0;
         if (!task.msg.MucChat) {
-            if (!midlet.BombusQD.cf.useLowMemory_iconmsgcollapsed)
+            if (!Config.hideMessageIcon)
                 w+=RosterIcons.getInstance().getWidth()+4;
         }
         else if (!task.msg.highlite && !isSubj)

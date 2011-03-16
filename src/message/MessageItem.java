@@ -141,9 +141,7 @@ public class MessageItem
                 }
                 if (cols) {
                     RosterIcons.getInstance().drawImage(g, RosterIcons.ICON_MSGCOLLAPSED_INDEX, 0, 0);
-                    if (Config.hideMessageIcon) {
-                        g.translate(8, 0);
-                    }
+                    g.translate(8, 0);
                 }
                 string.drawItem(view, g, ofs, selected);
             }

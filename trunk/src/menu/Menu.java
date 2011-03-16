@@ -144,6 +144,17 @@ public class Menu extends VirtualList
         }
         super.keyPressed(keyCode);
     }
+
+    public void userKeyPressed(int keyCode){
+     switch (keyCode) {
+        case KEY_NUM4:
+            pageLeft();
+            break;
+        case KEY_NUM6:
+            pageRight();
+            break;
+     }
+    }
     
     private void executeCommand(int index) {
         moveCursorTo(index);

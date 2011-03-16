@@ -45,8 +45,8 @@ import ui.Time;
 import ui.VirtualElement;
 import ui.VirtualList;
 //#ifdef GRAPHICS_MENU
-//# import ui.GMenu;
-//# import ui.GMenuConfig;
+import ui.GMenu;
+import ui.GMenuConfig;
 //#endif
 /**
  *
@@ -85,7 +85,6 @@ public class TransferManager
         cmdInfo=new Command(SR.get(SR.MS_INFO), Command.SCREEN, 12);
 //#endif
 
-        commandState();
         setCommandListener(this);
         setMainBarItem(new MainBar(2, null, SR.get(SR.MS_TRANSFERS), false));
 
@@ -174,29 +173,29 @@ public class TransferManager
     public String touchLeftCommand(){ return SR.get(SR.MS_MENU); }
 
 //#ifdef GRAPHICS_MENU
-//#     public void touchLeftPressed(){
-//#         if (getItemCount()>0){
-//#            showGraphicsMenu();
-//#         }
-//#     }
-//#     public int showGraphicsMenu() {
-//#         if (getItemCount()>0){
-//#           commandState();
-//#           menuItem = new GMenu(display, parentView, this, null, menuCommands);
-//#           GMenuConfig.getInstance().itemGrMenu = GMenu.TRANSFER_MANAGER;
-//#           redraw();
-//#         }
-//#         return GMenu.TRANSFER_MANAGER;
-//#     }
-//#else
     public void touchLeftPressed(){
-        showMenu();
+        if (getItemCount()>0){
+           showGraphicsMenu();
+        }
     }
-
-    public void showMenu() {
-        commandState();
-        new MyMenu(display, parentView, this, SR.get(SR.MS_VCARD), null, menuCommands);
-   }
+    public int showGraphicsMenu() {
+        if (getItemCount()>0){
+          commandState();
+          menuItem = new GMenu(display, parentView, this, null, menuCommands);
+          GMenuConfig.getInstance().itemGrMenu = GMenu.TRANSFER_MANAGER;
+          redraw();
+        }
+        return GMenu.TRANSFER_MANAGER;
+    }
+//#else
+//#     public void touchLeftPressed(){
+//#         showMenu();
+//#     }
+//# 
+//#     public void showMenu() {
+//#         commandState();
+//#         new MyMenu(display, parentView, this, SR.get(SR.MS_VCARD), null, menuCommands);
+//#    }
 //#endif
 
 

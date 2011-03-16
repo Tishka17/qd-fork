@@ -46,7 +46,7 @@ import ui.*;
 import java.util.*;
 import com.alsutton.jabber.*;
 //#ifdef GRAPHICS_MENU        
-//# import ui.GMenu;
+import ui.GMenu;
 //#endif 
 /**
  *
@@ -92,7 +92,6 @@ public class PrivacyModifyList
         
         setMainBarItem(new MainBar(2, null, SR.get(SR.MS_PRIVACY_LISTS), false));
 
-        commandState();
         setCommandListener(this);
 
         plist=privacyList;
@@ -105,7 +104,7 @@ public class PrivacyModifyList
         menuCommands.removeAllElements();
 //#endif
 //#ifndef GRAPHICS_MENU        
-     addCommand(cmdCancel);
+//#      addCommand(cmdCancel);
 //#endif     
         addCommand(cmdEdit); cmdEdit.setImg(0x40);//EDIT
         addCommand(cmdAdd); cmdAdd.setImg(0x47);
@@ -118,17 +117,17 @@ public class PrivacyModifyList
 //#ifdef MENU_LISTENER
     
 //#ifdef GRAPHICS_MENU        
-//#     public int showGraphicsMenu() {
-//#         commandState();
-//#         menuItem = new GMenu(display, parentView, this,  null, menuCommands);
-//#         GMenuConfig.getInstance().itemGrMenu = GMenu.PRIVACY_MODIFY_LIST;        
-//#         return GMenu.PRIVACY_MODIFY_LIST;
-//#     }
-//#else
-    public void showMenu() {
+    public int showGraphicsMenu() {
         commandState();
-        new MyMenu(display, parentView, this, SR.get(SR.MS_STATUS), null, menuCommands);
-    }  
+        menuItem = new GMenu(display, parentView, this,  null, menuCommands);
+        GMenuConfig.getInstance().itemGrMenu = GMenu.PRIVACY_MODIFY_LIST;        
+        return GMenu.PRIVACY_MODIFY_LIST;
+    }
+//#else
+//#     public void showMenu() {
+//#         commandState();
+//#         new MyMenu(display, parentView, this, SR.get(SR.MS_STATUS), null, menuCommands);
+//#     }  
 //#endif   
 
 //#endif

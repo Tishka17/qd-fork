@@ -224,11 +224,7 @@ public abstract class MessageList extends VirtualList
 
 //#ifdef GRAPHICS_MENU
     public int showGraphicsMenu() {
-         commandState();
-         String capt="";
-         try {
-             capt=getMainBarItem().elementAt(0).toString();
-         } catch (Exception ex){ }
+        commandState();
         menuItem = new GMenu(display, parentView, this,  null, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.MESSAGE_LIST;
         return GMenu.MESSAGE_LIST;

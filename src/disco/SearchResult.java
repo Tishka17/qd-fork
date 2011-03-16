@@ -44,8 +44,8 @@ import com.alsutton.jabber.datablocks.*;
 import client.*;
 import ui.MainBar;
 //#ifdef GRAPHICS_MENU        
-//# import ui.GMenu;
-//# import ui.GMenuConfig;
+import ui.GMenu;
+import ui.GMenuConfig;
 //#endif
 /**
  *
@@ -149,7 +149,6 @@ public class SearchResult
         queryElements = new Vector(0);
         childBlocks = new Vector(0);
         sd.roster.reEnumRoster();
-        commandState();
         attachDisplay(display);
     }
     
@@ -170,18 +169,18 @@ public class SearchResult
     }
     
 //#ifdef GRAPHICS_MENU        
-//#     public int showGraphicsMenu() {
-//#          commandState();
-//#          menuItem = new GMenu(display, parentView, this, null, menuCommands);
-//#          GMenuConfig.getInstance().itemGrMenu = -1;        
-//#          eventOk();
-//#          return -1;
-//#     }
+    public int showGraphicsMenu() {
+         commandState();
+         menuItem = new GMenu(display, parentView, this, null, menuCommands);
+         GMenuConfig.getInstance().itemGrMenu = -1;        
+         eventOk();
+         return -1;
+    }
 //#else
-    public void showMenu() {
-        commandState();
-        new MyMenu(display, parentView, this, SR.get(SR.MS_DISCO), null, menuCommands);
-    } 
+//#     public void showMenu() {
+//#         commandState();
+//#         new MyMenu(display, parentView, this, SR.get(SR.MS_DISCO), null, menuCommands);
+//#     } 
 //#endif
 
 //#endif        

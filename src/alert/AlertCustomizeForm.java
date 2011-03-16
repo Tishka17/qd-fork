@@ -50,25 +50,19 @@ import java.util.Enumeration;
 //#else
 //#endif
 //#ifdef GRAPHICS_MENU
-//# import midlet.Commands;
-//# import menu.Command;
-//# import ui.GMenu;
-//# import ui.GMenuConfig;
+import menu.Command;
+import ui.GMenu;
+import ui.GMenuConfig;
 //#endif
 //#ifdef LIGHT_CONTROL
-//# import light.*;
-//# import midlet.Commands;
-//# import ui.controls.form.LinkString;
+import light.*;
+import midlet.Commands;
+import ui.controls.form.LinkString;
 //#endif
 
-public class AlertCustomizeForm
-        extends DefForm {
-
-    private Display display;
-
+public class AlertCustomizeForm extends DefForm {
     private CheckBox statusBox;
     private CheckBox blinkBox;
-    private CheckBox soundBox;
 
     private DropChoiceBox MessageFile;
     private DropChoiceBox OnlineFile;
@@ -92,7 +86,7 @@ public class AlertCustomizeForm
     private DropChoiceBox AttentionFile;
     private CheckBox enableAttention;
     //#ifdef LIGHT_CONTROL
-//#     LinkString linkLight;
+    LinkString linkLight;
     //#endif
     AlertCustomize ac;
     Vector files[];
@@ -103,14 +97,18 @@ public class AlertCustomizeForm
     Command cmdTest;
     Command cmdTestVibro;
 
-    /** Creates a new instance of ConfigForm */
     public AlertCustomizeForm(Display display, Displayable pView) {
         super(display, pView, SR.get(SR.MS_NOTICES_OPTIONS));
         this.display=display;
 
         cmdSave=new Command(SR.get(SR.MS_SAVE), Command.OK, 1);
+        cmdSave.setImg(0x44);
+
         cmdTest=new Command(SR.get(SR.MS_TEST_SOUND), Command.SCREEN, 2);
+        cmdTest.setImg(0x54);
+
         cmdTestVibro=new Command(SR.get(SR.MS_TEST_VIBRATION), Command.SCREEN, 3);
+        cmdTestVibro.setImg(0x43);
 
         isVibroProfile = (midlet.BombusQD.cf.profile==AlertProfile.ALL || midlet.BombusQD.cf.profile==AlertProfile.VIBRA);
 
@@ -184,17 +182,13 @@ public class AlertCustomizeForm
           IQNotify=new CheckBox(SR.get(SR.MS_SHOW_IQ_REQUESTS), midlet.BombusQD.cf.IQNotify); itemsList.addElement(IQNotify);
         }
 
-
-
-
         //#ifdef LIGHT_CONTROL
-//#         itemsList.addElement(new SpacerItem(5));
-//#         linkLight = new LinkString(SR.get(SR.L_CONFIG)) { public void doAction() {
-//#             new LightConfigForm(midlet.BombusQD.getInstance().display, midlet.BombusQD.getInstance().display.getCurrent());
-//#         } };
-//#         itemsList.addElement(linkLight);
+        itemsList.addElement(new SpacerItem(5));
+        linkLight = new LinkString(SR.get(SR.L_CONFIG)) { public void doAction() {
+            new LightConfigForm(midlet.BombusQD.getInstance().display, midlet.BombusQD.getInstance().display.getCurrent());
+        } };
+        itemsList.addElement(linkLight);
         //#endif
-        commandState();
 
         attachDisplay(display);
         this.parentView=pView;
@@ -284,38 +278,24 @@ public class AlertCustomizeForm
         new EventNotify(display, soundType, soundFile, soundVol, 0).startNotify();
     }
 
-
-
-
-//#ifdef MENU_LISTENER
-    public void userKeyPressed(int keyCode){
-     switch (keyCode) {
-        case KEY_NUM4:
-            pageLeft();
-            break;
-        case KEY_NUM6:
-            pageRight();
-            break;
-     }
-    }
-//#endif
-
-
     public void commandState(){
 //#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
 //#endif
 //#ifndef GRAPHICS_MENU
-    super.commandState();
+//#     super.commandState();
 //#endif
         removeCommand(cmdCancel);
         removeCommand(Commands.cmdOk);
-        if (playable()>-1)
-            addCommand(cmdTest); cmdTest.setImg(0x54);
-        addCommand(cmdSave); cmdSave.setImg(0x44);
-        if(isVibroProfile) addCommand(cmdTestVibro); cmdTestVibro.setImg(0x43);
+        if (playable() > -1) {
+            addCommand(cmdTest);
+        }
+        addCommand(cmdSave);
+        if (isVibroProfile) {
+            addCommand(cmdTestVibro);
+        }
 //#ifndef GRAPHICS_MENU
-     addCommand(cmdCancel);
+//#      addCommand(cmdCancel);
 //#endif
     }
 
@@ -325,25 +305,26 @@ public class AlertCustomizeForm
 
 
 //#ifdef GRAPHICS_MENU
-//#     public void touchLeftPressed(){
-//#         showGraphicsMenu();
-//#     }
-//# 
-//#     public int showGraphicsMenu() {
-//#         commandState();
-//#         menuItem = new GMenu(display, parentView, this,null, menuCommands);
-//#         GMenuConfig.getInstance().itemGrMenu = GMenu.ALERT_CUSTOMIZE_FORM;
-//#         redraw();
-//#         return GMenu.ALERT_CUSTOMIZE_FORM;
-//#     }
-//#else
     public void touchLeftPressed(){
-        showMenu();
+        showGraphicsMenu();
     }
-    public void showMenu() {
+
+    public int showGraphicsMenu() {
         commandState();
-        new MyMenu(display, parentView, this, SR.get(SR.MS_NOTICES_OPTIONS), null, menuCommands);
-   }
+
+        menuItem = new GMenu(display, parentView, this,null, menuCommands);
+        GMenuConfig.getInstance().itemGrMenu = GMenu.ALERT_CUSTOMIZE_FORM;
+        redraw();
+        return GMenu.ALERT_CUSTOMIZE_FORM;
+    }
+//#else
+//#     public void touchLeftPressed(){
+//#         showMenu();
+//#     }
+//#     public void showMenu() {
+//#         commandState();
+//#         new MyMenu(display, parentView, this, SR.get(SR.MS_NOTICES_OPTIONS), null, menuCommands);
+//#    }
 //#endif
 
 //#endif

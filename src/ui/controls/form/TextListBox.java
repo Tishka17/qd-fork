@@ -46,8 +46,8 @@ import menu.MenuListener;
 import menu.Command;
 //#endif
 //#ifdef GRAPHICS_MENU
-//# import ui.GMenu;
-//# import ui.GMenuConfig;
+import ui.GMenu;
+import ui.GMenuConfig;
 //#endif
 /**
  *
@@ -74,25 +74,27 @@ public class TextListBox
         super(display);
 
         cmdOk=new Command(SR.get(SR.MS_OK), Command.OK,1);
+        cmdOk.setImg(0x43);
+
         cmdClear=new Command(SR.get(SR.MS_CLEAR), Command.SCREEN, 2);
+        cmdClear.setImg(0x13);
 
         this.ti=ti;
         this.recentList=ti.recentList;
         setMainBarItem(new MainBar(SR.get(SR.MS_SELECT)));
 
-        commandState();
+        setCommandListener(this);
     }
 
     public void commandState() {
 //#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
 //#endif
-        addCommand(cmdOk); cmdOk.setImg(0x43);
-        addCommand(cmdClear); cmdClear.setImg(0x13);
+        addCommand(cmdOk); 
+        addCommand(cmdClear); 
 //#ifndef GRAPHICS_MENU
-     addCommand(cmdCancel);
-//#endif
-        setCommandListener(this);
+//#      addCommand(cmdCancel);
+//#endif        
     }
 
     public void eventOk() {
@@ -123,22 +125,22 @@ public class TextListBox
 //#ifdef MENU_LISTENER
 
 //#ifdef GRAPHICS_MENU
-//#     public int showGraphicsMenu() {
-//#         commandState();
-//# 
-//#         menuItem = new GMenu(display, parentView, this,null, menuCommands);
-//#         GMenuConfig.getInstance().itemGrMenu = GMenu.TEXTLISTBOX;
-//#         return GMenu.TEXTLISTBOX;
-//#     }
-//#else
-    public void showMenu() {
+    public int showGraphicsMenu() {
         commandState();
-        String capt="";
-        try {
-            capt=getMainBarItem().elementAt(0).toString();
-        } catch (Exception ex){ }
-        new MyMenu(display, parentView, this, capt, null, menuCommands);
-   }
+
+        menuItem = new GMenu(display, parentView, this,null, menuCommands);
+        GMenuConfig.getInstance().itemGrMenu = GMenu.TEXTLISTBOX;
+        return GMenu.TEXTLISTBOX;
+    }
+//#else
+//#     public void showMenu() {
+//#         commandState();
+//#         String capt="";
+//#         try {
+//#             capt=getMainBarItem().elementAt(0).toString();
+//#         } catch (Exception ex){ }
+//#         new MyMenu(display, parentView, this, capt, null, menuCommands);
+//#    }
 //#endif
 
 //#endif

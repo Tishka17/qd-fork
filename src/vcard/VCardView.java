@@ -38,7 +38,7 @@ import util.StringUtils;
 import ui.Time;
 //#endif
 //#ifdef DETRANSLIT
-import util.DeTranslit;
+//# import util.DeTranslit;
 //#endif
 import javax.microedition.lcdui.Displayable;
 //#ifndef MENU_LISTENER
@@ -168,8 +168,6 @@ public class VCardView extends DefForm
                 }
         });
 
-        commandState();
-
         attachDisplay(display);
         this.parentView = pView;
     }
@@ -201,7 +199,7 @@ public class VCardView extends DefForm
                     }
                     insertControl(photoItem, 0);
                     if (contact != null) {
-                        if (Config.getInstance().module_avatars) {
+                        if (Config.module_avatars) {
                             //int width = photoImg.getWidth();
                             //int height = photoImg.getHeight();
                             midlet.BombusQD.sd.roster.setImageAvatar(contact, photoImg);
@@ -268,18 +266,18 @@ public class VCardView extends DefForm
         StringBuffer nickDate = new StringBuffer();
         nickDate.append("photo_");
 //#ifdef DETRANSLIT
-        String userName=(vcard.getNickName()!=null)?vcard.getNickName():vcard.getJid();
-        if (Config.getInstance().transliterateFilenames) {
-            nickDate.append(DeTranslit.translit(userName));
-        } else {
-            nickDate.append(userName);
-        }
-//#else
-//#         if (vcard.getNickName() != null) {
-//#             nickDate.append(vcard.getNickName());
+//#         String userName=(vcard.getNickName()!=null)?vcard.getNickName():vcard.getJid();
+//#         if (Config.getInstance().transliterateFilenames) {
+//#             nickDate.append(DeTranslit.translit(userName));
 //#         } else {
-//#             nickDate.append(vcard.getJid());
+//#             nickDate.append(userName);
 //#         }
+//#else
+        if (vcard.getNickName() != null) {
+            nickDate.append(vcard.getNickName());
+        } else {
+            nickDate.append(vcard.getJid());
+        }
 //#endif
         nickDate.append('_').append(Time.dayLocalString(Time.utcTimeMillis()).trim());
         return nickDate.toString();

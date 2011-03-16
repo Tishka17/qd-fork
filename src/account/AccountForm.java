@@ -28,7 +28,6 @@
 package account;
 
 import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
 import ui.controls.form.CheckBox;
@@ -460,7 +459,6 @@ public class AccountForm extends DefForm {
             accountSelect.addAccount(account);
         }
         accountSelect.rmsUpdate();
-        accountSelect.commandState();
 
         destroyView();
         account = null;

@@ -195,8 +195,6 @@ public final class ConferenceForm
         autoJoin=new CheckBox(SR.get(SR.MS_AUTOLOGIN), autojoin);
         itemsList.addElement(autoJoin);
 
-        commandState();
-
 	setCommandListener(this);
 
         moveCursorTo(getNextSelectableRef(-1));

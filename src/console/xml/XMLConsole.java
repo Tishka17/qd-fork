@@ -78,8 +78,6 @@
 //# 
 //#         stanzas = XMLList.getInstance();
 //# 
-//#         commandState();
-//#         addCommands();
 //#         setCommandListener(this);
 //# 
 //#         moveCursorHome();

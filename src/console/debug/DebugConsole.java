@@ -69,8 +69,6 @@
 //# 
 //#         super.smiles = false;
 //# 
-//#         commandState();
-//#         addCommands();
 //#         setCommandListener(this);
 //# 
 //#         moveCursorHome();

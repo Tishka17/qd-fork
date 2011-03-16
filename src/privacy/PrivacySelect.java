@@ -47,7 +47,7 @@ import ui.*;
 import java.util.*;
 import com.alsutton.jabber.*;
 //#ifdef GRAPHICS_MENU        
-//# import ui.GMenu;
+import ui.GMenu;
 //#endif 
 /**
  *
@@ -95,8 +95,7 @@ public class PrivacySelect
         setMainBarItem(new MainBar(2, null, SR.get(SR.MS_PRIVACY_LISTS), false));
 
         list.addElement(new PrivacyList(null));//none
-        
-        commandState();
+
         setCommandListener(this);
         
         getLists();
@@ -111,7 +110,7 @@ public class PrivacySelect
         addCommand(cmdActivate); cmdActivate.setImg(0x16);
         addCommand(cmdDefault); cmdDefault.setImg(0x24);
 //#ifndef GRAPHICS_MENU        
-     addCommand(cmdCancel);
+//#      addCommand(cmdCancel);
 //#endif     
         addCommand(cmdNewList); cmdNewList.setImg(0x13);
         addCommand(cmdDelete); cmdDelete.setImg(0x41);
@@ -171,17 +170,17 @@ public class PrivacySelect
 //#ifdef MENU_LISTENER
     
 //#ifdef GRAPHICS_MENU        
-//#     public int showGraphicsMenu() {
-//#         commandState();
-//#         menuItem = new GMenu(display, parentView, this, null, menuCommands);
-//#         GMenuConfig.getInstance().itemGrMenu = GMenu.PRIVACY_SELECT;         
-//#         return GMenu.PRIVACY_SELECT;
-//#     }
-//#else
-    public void showMenu() {
+    public int showGraphicsMenu() {
         commandState();
-        new MyMenu(display, parentView, this, SR.get(SR.MS_STATUS), null, menuCommands);
-    }   
+        menuItem = new GMenu(display, parentView, this, null, menuCommands);
+        GMenuConfig.getInstance().itemGrMenu = GMenu.PRIVACY_SELECT;         
+        return GMenu.PRIVACY_SELECT;
+    }
+//#else
+//#     public void showMenu() {
+//#         commandState();
+//#         new MyMenu(display, parentView, this, SR.get(SR.MS_STATUS), null, menuCommands);
+//#     }   
 //#endif    
 
 //#endif

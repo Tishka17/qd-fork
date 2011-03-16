@@ -129,7 +129,6 @@ public class SmilePicker
 
         xBorder=(realWidth-(xCnt*imgWidth))/2;
 
-        commandState();
         this.parentView=pView;
     }
     

@@ -32,24 +32,16 @@ import javax.microedition.lcdui.*;
 import com.alsutton.jabber.*;
 import com.alsutton.jabber.datablocks.*;
 import locale.SR;
-import menu.MenuListener;
-import menu.Command;
 import ui.controls.form.DefForm;
 import ui.controls.form.SimpleString;
-//#ifdef GRAPHICS_MENU        
-//# import ui.GMenu;
-//# import ui.GMenuConfig;
-//#endif 
 import client.StaticData;
+
 /**
  *
  * @author Evg_S,aqent
  */
-public class DiscoForm extends DefForm {
-    
-    private Display display;
-    private Displayable parentView;
-    
+
+public class DiscoForm extends DefForm {    
     private Vector fields;
     private String xmlns;
     private String service;
@@ -59,28 +51,18 @@ public class DiscoForm extends DefForm {
     
     private String childName;
     
-    //private Form form;
-    
     private boolean xData;
-    
-    private Command cmdOk;
-    private Command cmdCancel;
-    
+
     private String id;
-    
-    //Roster roster=StaticData.getInstance().roster;
-    JabberStream stream;
 
-    //private JabberBlockListener listener;
+    private JabberStream stream;
 
-    /** Creates a new instance of RegForm */
+    private boolean isExecutable = true;
+
     public DiscoForm(Display display,JabberDataBlock regform, JabberStream stream, String resultId, String childName) {
         super(display, StaticData.getInstance().roster , "Update");
         
-        cmdOk=new Command(SR.get(SR.MS_SEND), Command.OK /*Command.SCREEN*/, 1);
-        cmdCancel=new Command(SR.get(SR.MS_BACK), Command.BACK, 99);
-        
-        this.display=display;
+        this.stream = stream;
         service=regform.getAttribute("from");
         this.childName=childName;
         JabberDataBlock query=regform.getChildBlock(childName);
@@ -125,19 +107,25 @@ public class DiscoForm extends DefForm {
         if (childName.equals("command")) {
             if (query.getAttribute("status").equals("completed")) {
                 itemsList.addElement(new SimpleString("Complete.",true));
-            } else addCommand(cmdOk);
-        } else addCommand(cmdOk);
-        addCommand(cmdCancel);
-
-        commandState();
-        setCommandListener(this);
+                isExecutable = false;
+            }
+        }
         attachDisplay(display);
-        this.parentView=StaticData.getInstance().roster;        
-        this.stream=stream;
     }
-    
 
-    
+    public void cmdOk() {
+        if (isExecutable) {
+            sendForm(id);
+        }
+    }
+
+    public String touchLeftCommand() {
+        if (!isExecutable) {
+            return null;
+        }
+        return super.touchLeftCommand();
+    }
+
     private void sendForm(String id){
         JabberDataBlock req=new Iq(service, Iq.TYPE_SET, id);
         JabberDataBlock qry=req.addChildNs(childName, xmlns);
@@ -175,48 +163,6 @@ public class DiscoForm extends DefForm {
         req = null;
         qry = null;
         destroyView();
-    }
-
- 
-    public void commandAction(Command c, Displayable d){
-        if (c==cmdCancel) destroyView(); 
-        if (c==cmdOk) { 
-            sendForm(id);
-        }
-        super.commandAction(c,d);
-    }
-    
-    public void commandState(){
-//#ifdef MENU_LISTENER
-        menuCommands.removeAllElements();
-        cmdfirstList.removeAllElements();
-        cmdsecondList.removeAllElements();
-        cmdThirdList.removeAllElements();
-//#endif
-//#ifdef GRAPHICS_MENU               
-//#         //super.commandState();
-//#else
-    super.commandState(); 
-//#endif
-        addCommand(cmdOk);  cmdOk.setImg(0x04);
-//#ifndef GRAPHICS_MENU        
-     addCommand(cmdCancel);
-//#endif     
-    }    
-
-//#ifdef MENU_LISTENER
-    public String touchLeftCommand(){ return SR.get(SR.MS_MENU); }
-
-    public void touchLeftPressed(){
-        showGraphicsMenu();
-    }
-    public int showGraphicsMenu() {
-        commandState();
-        menuItem = new GMenu(display, parentView, this, null, menuCommands);
-        GMenuConfig.getInstance().itemGrMenu = 123;
-        redraw();
-        return 123;
-    }
-//#endif           
+    }         
 }
 //#endif 

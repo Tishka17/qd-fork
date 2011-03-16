@@ -121,8 +121,6 @@ public class VCardEdit extends DefForm implements Runnable
 
         setPhoto();
 
-        commandState();
-
         attachDisplay(display);
         this.parentView=pView;
     }

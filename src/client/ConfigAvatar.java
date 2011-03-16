@@ -152,7 +152,6 @@ public class ConfigAvatar extends DefForm
 
         addCommand(cmdOkey);
 
-        commandState();
         moveCursorTo(0);
 
         attachDisplay(display);

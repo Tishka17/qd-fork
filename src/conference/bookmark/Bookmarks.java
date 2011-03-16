@@ -162,8 +162,6 @@ public final class Bookmarks
 
         cmdMyService = new Command(SR.get(SR.MS_SERVICE), Command.SCREEN, 31);
         cmdMyService.setImg(0x27);
-
-        commandState();
     }
 
     public void commandState() {

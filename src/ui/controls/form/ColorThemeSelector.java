@@ -49,4 +49,13 @@ public class ColorThemeSelector extends DropChoiceBox {
         ColorTheme.loadSkin(themePath, 1, false);
         Config.getInstance().path_skin = themePath;
     }
+
+    public boolean handleEvent(int keyCode) {
+        boolean handled = super.handleEvent(keyCode);
+        if (handled) {
+            setSelectedIndex(index);
+            return true;
+        }
+        return false;
+    }
 }

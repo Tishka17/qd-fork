@@ -34,7 +34,6 @@ import java.util.*;
 //# import javax.microedition.lcdui.Command;
 //# import javax.microedition.lcdui.CommandListener;
 //#endif
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import ui.*;
 
@@ -47,121 +46,101 @@ public class Menu extends VirtualList
 //#         implements CommandListener
 //#endif
 {
-    Vector menuitems;
+    private Vector menuitems;
+
 //#ifndef MENU_LISTENER
 //#     Command cmdBack=new Command(SR.get(SR.MS_BACK),Command.BACK,99);
 //#     Command cmdOk=new Command(SR.get(SR.MS_OK),Command.OK,1);
 //#endif
-    private ImageList il,alt;
-//#ifdef MENU_LISTENER
-    private boolean executeByNum;
-//#endif
+    private ImageList il, alt;
+
     public Menu(String mainbar, ImageList il,ImageList alt) {
         super();
         setMainBarItem(new MainBar(mainbar));
-        menuitems=new Vector(0);
-        this.il=il;
-        this.alt=alt;
+        menuitems = new Vector(0);
+        this.il = il;
+        this.alt = alt;
 //#ifndef MENU_LISTENER
 //#         addCommand(cmdBack);
 //#         addCommand(cmdOk);
 //#         setCommandListener(this);
-//#else
-        executeByNum=midlet.BombusQD.cf.executeByNum;
 //#endif
     }
     
-    public VirtualElement getItemRef(int index){ 
-        return (VirtualElement)menuitems.elementAt(index); 
+    public VirtualElement getItemRef(int index) {
+        return (VirtualElement)menuitems.elementAt(index);
     }
-    public int getItemCount() { return menuitems.size(); }
-    
-    
-    
-    public void addItem(MenuItem mi){
-        mi.pos=getItemCount();
+
+    public int getItemCount() {
+        return menuitems.size();
+    }
+
+    public void addItem(MenuItem mi) {
+        mi.pos = getItemCount();
         menuitems.addElement(mi);
     }
-    
-    public void addItem(String label, int index, int iconIndex){
-      addItem(label, index, iconIndex, false); 
-    }
-    
-    public void addItem(String label, int index, int iconIndex, boolean inCommand){
-        if(alt!=null){
-          addItem(new MenuItem(label, index, iconIndex, alt, inCommand));  
-        }else{
-          addItem(new MenuItem(label, index, iconIndex, il, inCommand));
+
+    public void addItem(String label, int index, int iconIndex) {
+        if (alt != null) {
+            addItem(new MenuItem(label, index, iconIndex, alt));
+        } else {
+            addItem(new MenuItem(label, index, iconIndex, il));
         }
     }
-    public void addItem(String label, int index){
-        if(alt!=null){
-          addItem(new MenuItem(label, index, -1, alt, false)); 
-        }else{
-          addItem(new MenuItem(label, index, -1, il, false));
-        }        
-   }
-    
 
-//#ifdef MENU_LISTENER    
-    public void userKeyPressed(int keyCode){
-     switch (keyCode) {
-        case KEY_NUM4:
-            pageLeft();
-            break;
-        case KEY_NUM6:
-            pageRight();
-            break;  
-     }
+    public void addItem(String label, int index) {
+        addItem(label, index, -1);
     }
-//#endif 
-    
-    
-    
+
 //#ifndef MENU_LISTENER
 //#     public void commandAction(Command c, Displayable d) {
 //#         if (c==cmdBack) destroyView();
 //#         if (c==cmdOk) eventOk();
 //#     }
-//#else
+//#else    
+    public String touchLeftCommand() {
+        return SR.get(SR.MS_OK);
+    }
     
-    public String touchLeftCommand(){ return SR.get(SR.MS_OK); }
-    
-    public void touchLeftPressed(){
+    public void touchLeftPressed() {
         eventOk();
     }
      
     public void keyPressed(int keyCode) {
-        kHold=0;
-        if (keyCode==Config.SOFT_LEFT) {
-            eventOk();
-            return;
-        }
-        if (executeByNum && getItemCount()>0) {
+        kHold = 0;
+        if (Config.executeByNum && getItemCount() > 0) {
             switch (keyCode) {
                 case KEY_NUM0:
-                    executeCommand(9); return;
+                    executeCommand(9);
+                    return;
                 case KEY_NUM1:
-                    executeCommand(0); return;
+                    executeCommand(0);
+                    return;
                 case KEY_NUM2:
-                    executeCommand(1); return;
+                    executeCommand(1);
+                    return;
                 case KEY_NUM3:
-                    executeCommand(2); return;
+                    executeCommand(2);
+                    return;
                 case KEY_NUM4:
-                    executeCommand(3); return;
+                    executeCommand(3);
+                    return;
                 case KEY_NUM5:
-                    executeCommand(4); return;
+                    executeCommand(4);
+                    return;
                 case KEY_NUM6:
-                    executeCommand(5); return;
+                    executeCommand(5);
+                    return;
                 case KEY_NUM7:
-                    executeCommand(6); return;
+                    executeCommand(6);
+                    return;
                 case KEY_NUM8:
-                    executeCommand(7); return;
+                    executeCommand(7);
+                    return;
                 case KEY_NUM9:
-                    executeCommand(8); return;
+                    executeCommand(8);
+                    return;
             }
-        } else{
-           userKeyPressed(keyCode); 
         }
         super.keyPressed(keyCode);
     }

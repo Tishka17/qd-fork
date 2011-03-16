@@ -82,10 +82,6 @@ public class BombusQD extends MIDlet implements Runnable {
 //#     public final static DebugList debug = DebugList.get();
 //#endif
 
-    public int width = 0;
-    public int height = 0;
-    public int count = 0;
-
     public SplashScreen s;
     private static BombusQD instance;
 
@@ -95,17 +91,13 @@ public class BombusQD extends MIDlet implements Runnable {
 
     public void startApp() {
         if (isRunning) {
-			 hideApp(false, null);
-		} else {
+            hideApp(false, null);
+        } else {
             isRunning = true;
             new Thread(this).start();
         }
     }
 
-    /**
-     * Pause is a no-op since there are no background activities or
-     * record stores that need to be closed.
-     */
     public void pauseApp() {
     }
 
@@ -160,12 +152,16 @@ public class BombusQD extends MIDlet implements Runnable {
         SR.changeLocale();
 
         ColorTheme.initColors();
+        ColorTheme.loadFromStorage();
+
         Commands.initCommands();
 //#ifdef CLIENTS_ICONS
         ClientsIconsData.initClients();
 //#endif
 
         s = SplashScreen.getInstance(display);
+        display.setCurrent(s);
+
         s.setProgress("Loading", 3);
 
         if (sd.roster == null) {
@@ -173,8 +169,6 @@ public class BombusQD extends MIDlet implements Runnable {
         }
 
         s.getKeys();
-        width = s.width;
-        height = s.height;
 
         boolean selAccount=((cf.accountIndex<0));
         if (!selAccount && cf.autoLogin) {

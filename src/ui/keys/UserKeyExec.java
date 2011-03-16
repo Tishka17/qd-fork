@@ -199,10 +199,9 @@ public class UserKeyExec {
                 break;
                  */
             case 17:
-                cf.fullscreen=!cf.fullscreen;
+                Config.fullscreen = !Config.fullscreen;
+                sd.roster.setFullScreenMode(Config.fullscreen);
                 cf.saveToStorage();
-                //VirtualList.fullscreen=cf.fullscreen;
-                sd.roster.setFullScreenMode(cf.fullscreen);
                 break;
         }
     }

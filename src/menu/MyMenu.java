@@ -24,10 +24,8 @@
  * along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package menu;
 
-import java.util.Enumeration;
 import java.util.Vector;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
@@ -37,42 +35,43 @@ import images.ImageList;
  *
  * @author ad
  */
-public class MyMenu 
-     extends Menu       
-{
+public class MyMenu extends Menu {
+
     private MenuListener ml;
     private Vector commands;
 
-    /** Creates a new instance of MyMenu */
-
     public MyMenu(Display display, Displayable parentView, MenuListener menuListener, String caption, ImageList il, Vector menuCommands) {
-        super(caption, il,null);
-        this.ml=menuListener;
-        this.commands=menuCommands;
+        super(caption, il, null);
+        this.ml = menuListener;
+        this.commands = menuCommands;
 
-        this.parentView=parentView;
+        this.parentView = parentView;
         int size = commands.size();
-        for (int index=0; index<size; index++) {
-            Command c=(Command)commands.elementAt(index);
-            addItem(c.getName(), index, c.getImg(), c.inCommand);
+        for (int index = 0; index < size; index++) {
+            Command c = (Command)commands.elementAt(index);
+            addItem(c.getName(), index, c.getImg());
         }
         attachDisplay(display);
     }
-    
-    public void eventOk(){
-	destroyView();
-        MenuItem me=(MenuItem) getFocusedObject();
-	if (me==null)  return;
+
+    public void eventOk() {
+        destroyView();
+        MenuItem me = (MenuItem)getFocusedObject();
+        if (me == null) {
+            return;
+        }
         ml.commandAction(getCommand(me.index), parentView);
     }
-    
+
     public Command getCommand(int index) {
-         int size=commands.size();        
-            for(int i=0;i<size;i++){    
-              Command cmd =(Command)commands.elementAt(i);
-              if (cmd.getName().equals(getFocusedObject().toString()))
-                return cmd;             
-            }    
+        int size = commands.size();
+        for (int i = 0; i < size; i++) {
+            Command cmd = (Command)commands.elementAt(i);
+            if (cmd.getName().equals(getFocusedObject().toString())) {
+                return cmd;
+            }
+        }
         return null;
     }
+
 }

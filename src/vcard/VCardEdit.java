@@ -15,6 +15,7 @@ import client.StaticData;
 //# import util.DeTranslit;
 //# import client.Config;
 //#endif
+import images.MenuIcons;
 import io.file.FileIO;
 import io.file.browse.Browser;
 import io.file.browse.BrowserListener;
@@ -22,7 +23,6 @@ import io.file.browse.BrowserListener;
 
 import images.camera.*;
 
-import java.util.*;
 //#ifndef MENU_LISTENER
 //# import javax.microedition.lcdui.CommandListener;
 //# import javax.microedition.lcdui.Command;
@@ -34,7 +34,6 @@ import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
-import midlet.Commands;
 
 import ui.Time;
 import util.StringUtils;
@@ -46,16 +45,14 @@ import ui.controls.form.TextInput;
 import ui.controls.form.LinkString;
 
 //#ifdef GRAPHICS_MENU
-//# import ui.GMenu;
-//# import ui.GMenuConfig;
+import ui.GMenu;
+import ui.GMenuConfig;
 //#endif
 /**
  *
  * @author ad
  */
-public class VCardEdit
-        extends DefForm
-        implements Runnable
+public class VCardEdit extends DefForm implements Runnable
 //#if (FILE_IO)
         , BrowserListener
 //#endif
@@ -71,14 +68,12 @@ public class VCardEdit
     Command cmdDelPhoto;
     Command cmdCamera;
 
-    private Vector items=new Vector(0);
     private VCard vcard;
 
     private ImageItem photoItem;
 
     private int st=-1;
 
-    //private SimpleString endVCard=new SimpleString(SR.get(SR.MS_END_OF_VCARD), false);
     private SimpleString noPhoto=new SimpleString(SR.get(SR.MS_NO_PHOTO), false);
     private SimpleString badFormat=new SimpleString(SR.get(SR.MS_UNSUPPORTED_FORMAT), false);
     private SimpleString photoTooLarge=new SimpleString(SR.get(SR.MS_PHOTO_TOO_LARGE), false);
@@ -86,16 +81,27 @@ public class VCardEdit
     private LinkString publish;
 
     public VCardEdit(Display display, Displayable pView, VCard vcard) {
-        super(display, pView, SR.get(SR.MS_VCARD)+" "+vcard.getNickName());
+        super(display, pView, SR.get(SR.MS_VCARD) + " " + vcard.getNickName());
 
-        cmdPublish=new Command(SR.get(SR.MS_PUBLISH), Command.OK, 1);
-        cmdRefresh=new Command(SR.get(SR.MS_REFRESH), Command.SCREEN, 2);
+        cmdPublish = new Command(SR.get(SR.MS_PUBLISH), Command.OK, 1);
+        cmdPublish.setImg(0x50);
+
+        cmdRefresh = new Command(SR.get(SR.MS_REFRESH), Command.SCREEN, 2);
+        cmdRefresh.setImg(0x73);
+
 //#if FILE_IO
-        cmdLoadPhoto=new Command(SR.get(SR.MS_LOAD_PHOTO), Command.SCREEN,3);
-        cmdSavePhoto=new Command(SR.get(SR.MS_SAVE_PHOTO), Command.SCREEN,4);
+        cmdLoadPhoto=new Command(SR.get(SR.MS_LOAD_PHOTO), Command.SCREEN, 3);
+        cmdLoadPhoto.setImg(MenuIcons.ICON_LOAD_PHOTO);
+
+        cmdSavePhoto=new Command(SR.get(SR.MS_SAVE_PHOTO), Command.SCREEN, 4);
+        cmdSavePhoto.setImg(MenuIcons.ICON_SAVE_PHOTO);
 //#endif
-        cmdDelPhoto=new Command(SR.get(SR.MS_CLEAR_PHOTO), Command.SCREEN,5);
-        cmdCamera=new Command(SR.get(SR.MS_CAMERA), Command.SCREEN,6);
+
+        cmdDelPhoto = new Command(SR.get(SR.MS_CLEAR_PHOTO), Command.SCREEN, 5);
+        cmdDelPhoto.setImg(0x76);
+
+        cmdCamera = new Command(SR.get(SR.MS_CAMERA), Command.SCREEN, 6);
+        cmdCamera.setImg(MenuIcons.ICON_CAMERA);
 
         this.display=display;
         this.vcard=vcard;
@@ -105,7 +111,6 @@ public class VCardEdit
             String name=(String)VCard.vCardLabels.elementAt(index);
             //truncating large string
             if (data!=null) {
-                int len=data.length();
                 if (data.length()>500)
                     data=data.substring(0, 494)+"<...>";
             }
@@ -130,7 +135,6 @@ public class VCardEdit
                 vcard.setVCardData(index, field);
              } catch (Exception ex) { }
         }
-        //System.out.println(vcard.constructVCard().toString());
         new Thread(this).start();
         destroyView();
     }
@@ -172,7 +176,6 @@ public class VCardEdit
 
     public void run() {
         StaticData.getInstance().roster.theStream.send(vcard.constructVCard());
-        //System.out.println(vcard.constructVCard());
     }
 
 //#if (FILE_IO)
@@ -250,13 +253,9 @@ public class VCardEdit
         } else {
             itemsList.addElement(noPhoto);
         }
-        //itemsList.addElement(endVCard);
 
         itemsList.addElement(publish);
-     }
-
-
-
+    }
 
     public void commandState(){
 //#ifdef MENU_LISTENER
@@ -264,27 +263,26 @@ public class VCardEdit
 //#endif
 
 //#ifdef GRAPHICS_MENU
-//#         //super.commandState();
+        //super.commandState();
 //#else
-    super.commandState();
+//#     super.commandState();
 //#endif
-        removeCommand(Commands.cmdOk);
-        removeCommand(cmdCancel);
 
-        addCommand(cmdPublish); cmdPublish.setImg(0x50);
-        addCommand(cmdRefresh); cmdRefresh.setImg(0x73);
+        addCommand(cmdPublish); 
+        addCommand(cmdRefresh);
 //#if FILE_IO
-        addCommand(cmdLoadPhoto); cmdLoadPhoto.setImg(0x74);
-        addCommand(cmdSavePhoto); cmdSavePhoto.setImg(0x74);
+        addCommand(cmdLoadPhoto);
+        addCommand(cmdSavePhoto);
 //#endif
-        String cameraAvailable=System.getProperty("supports.video.capture");
-        if (cameraAvailable!=null) if (cameraAvailable.startsWith("true"))
-            addCommand(cmdCamera); cmdCamera.setImg(0x75);
-        addCommand(cmdDelPhoto); cmdDelPhoto.setImg(0x76);
-
-
+        String cameraAvailable = System.getProperty("supports.video.capture");
+        if (cameraAvailable != null) {
+            if (cameraAvailable.startsWith("true")) {
+                addCommand(cmdCamera); 
+            }
+        }
+        addCommand(cmdDelPhoto);
 //#ifndef GRAPHICS_MENU
-     addCommand(cmdCancel);
+//#      addCommand(cmdCancel);
 //#endif
     }
 
@@ -292,24 +290,24 @@ public class VCardEdit
     public String touchLeftCommand(){ return SR.get(SR.MS_MENU); }
 
  //#ifdef GRAPHICS_MENU
-//#     public void touchLeftPressed(){
-//#         showGraphicsMenu();
-//#     }
-//#     public int showGraphicsMenu() {
-//#         commandState();
-//#         menuItem = new GMenu(display, parentView, this, null, menuCommands);
-//#         GMenuConfig.getInstance().itemGrMenu = GMenu.VCARD_EDIT;
-//#         redraw();
-//#         return GMenu.VCARD_EDIT;
-//#     }
-//#else
     public void touchLeftPressed(){
-        showMenu();
+        showGraphicsMenu();
     }
-    public void showMenu() {
+    public int showGraphicsMenu() {
         commandState();
-        new MyMenu(display, parentView, this, SR.get(SR.MS_PUBLISH), null, menuCommands);
-   }
+        menuItem = new GMenu(display, parentView, this, null, menuCommands);
+        GMenuConfig.getInstance().itemGrMenu = GMenu.VCARD_EDIT;
+        redraw();
+        return GMenu.VCARD_EDIT;
+    }
+//#else
+//#     public void touchLeftPressed(){
+//#         showMenu();
+//#     }
+//#     public void showMenu() {
+//#         commandState();
+//#         new MyMenu(display, parentView, this, SR.get(SR.MS_PUBLISH), null, menuCommands);
+//#    }
 //#endif
 
 

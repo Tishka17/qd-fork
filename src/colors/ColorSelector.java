@@ -27,310 +27,296 @@
 //#ifdef COLOR_TUNE
 package colors;
 
+import font.FontCache;
 import javax.microedition.lcdui.*;
-import locale.SR;
+import ui.controls.form.DefForm;
 
 //#ifdef LIGHT_CONTROL
 import light.CustomLight;
 //#endif
 
-public class ColorSelector extends Canvas implements Runnable, CommandListener {
-//#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_COLORS");
-//#endif
+public class ColorSelector extends DefForm implements Runnable {
+    private Font font;
+    private int fontH;
 
-    static Font mfont = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_SMALL);
-    static int w, h;
-
-    private Display display;
-    Displayable parentView;
-    Graphics G;
+    private int w, h;
 
     int cpos;
-    String nowcolor;
     int alpha,red,green,blue;
-
-    String val;
 
     int dy;
     int timer;
     boolean exit;
 
     private int value;
-    int paramName;
-    int ncolor;
-
-    Command cmdOk;
-    Command cmdCancel;
+    private int paramName;
 
     private int color;
 
     private int py;
     private int ph;
 
+    private int boxY, boxW;
 
+    public ColorSelector(Display display, ColorsList list, String caption, int param) {
+        super(display, list, caption);
 
-    public ColorSelector(Display display, int paramName) {
-        super();
-        this.display=display;
+        this.paramName=param;
 
-        cmdOk = new Command(SR.get(SR.MS_OK), Command.OK, 1);
-        cmdCancel = new Command(SR.get(SR.MS_CANCEL) /*"Back"*/, Command.CANCEL, 99);
+        this.color=ColorTheme.getColor(param);
 
-        parentView=display.getCurrent();
-        this.paramName=paramName;
+        this.font = FontCache.getFont(false, FontCache.smallSize);
+        this.fontH= font.getHeight();
 
-        this.color=ColorTheme.getColor(paramName);
-
-        w = getWidth();
+        w = getWidth() - scrollbar.getScrollWidth();
         h = getHeight();
 
+        if (infobar != null) {
+            h -= infobar.getVHeight();
+        }
+        if (mainbar != null) {
+            h -= mainbar.getVHeight();
+        }
 
-        if(paramName==49){
-          alpha=midlet.BombusQD.cf.argb_bgnd;
-        }
-        else
-        if(paramName==50){
-          alpha=midlet.BombusQD.cf.gmenu_bgnd;
-        }
-        else if(paramName==40){
-          alpha=midlet.BombusQD.cf.popup_bgnd;
-        }
-        else if(paramName==42){
-          alpha=midlet.BombusQD.cf.popup_bgnd;
-        }
-        else if(paramName==34){
-          alpha=midlet.BombusQD.cf.cursor_bgnd;
+        boxY = h / 2 - 40;
+        boxW = w * 2 / 7;
+
+        py = h - h / 10;
+        ph = h - h * 3 / 10;
+
+        if (param == 49) {
+            alpha = midlet.BombusQD.cf.argb_bgnd;
+        } else if (param == 50) {
+            alpha = midlet.BombusQD.cf.gmenu_bgnd;
+        } else if (param == 40) {
+            alpha = midlet.BombusQD.cf.popup_bgnd;
+        } else if (param == 42) {
+            alpha = midlet.BombusQD.cf.popup_bgnd;
+        } else if (param == 34) {
+            alpha = midlet.BombusQD.cf.cursor_bgnd;
         }
 
         red=ColorTheme.getRed(color);
         green=ColorTheme.getGreen(color);
         blue=ColorTheme.getBlue(color);
 
-
         cpos = 0;
 
         exit = false;
         (new Thread(this)).start();
 
-        this.addCommand(cmdOk);
-        this.addCommand(cmdCancel);
-
-        this.setCommandListener(this);
-        display.setCurrent(this);
+        attachDisplay(display);
+        this.parentView = list;
     }
 
-    protected void paint(Graphics g) {
-        py = h - h/10;
-        ph = h - h*3/10;
-        g.setColor(0xffffff);
-        g.fillRect(0, 0, w, h);
-        g.setFont(mfont);
-        String s = ColorTheme.ColorToString(red, green, blue);
+    public void paint(Graphics g) {
+        super.paint(g);
 
-           g.setStrokeStyle(Graphics.SOLID);
-           g.setColor(0x000000);
-           g.drawRect(4, h/2-41, w*2/7+1, 81);
-           g.setColor(red,green,blue);
-           g.fillRect(5, h/2-40, w*2/7, 80);
-           g.setColor(0x80000300);
-//#ifdef COLOR_TUNE
-        g.drawString(s+" "+ColorTheme.NAMES[paramName], 5, 5, Graphics.TOP|Graphics.LEFT);
-//#endif
+        g.setFont(font);
+        g.setColor(ColorTheme.getColor(ColorTheme.LIST_INK));
+
+        String s = ColorTheme.ColorToString(red, green, blue);
+        g.drawString(s, 5, boxY - fontH, Graphics.TOP | Graphics.LEFT);
+
+        g.setStrokeStyle(Graphics.SOLID);
+
+        g.setColor(0x000000);
+        g.drawRect(4, boxY - 1, boxW + 1, 81);
+        g.setColor(red, green, blue);
+        g.fillRect(5, boxY, boxW, 80);
+        //g.setColor(0x80000300);
 
         //draw red
-        int pxred = (w*3/7);
-        int psred = (ph*red)/255;
+        int pxred = (w * 3 / 7);
+        int psred = (ph * red) / 255;
         g.setColor(0);
-        g.setStrokeStyle(Graphics.SOLID);
-        g.fillRect(pxred, py-ph, w/10, ph);
+        //g.setStrokeStyle(Graphics.SOLID);
+        g.fillRect(pxred, py - ph, w / 10, ph);
         g.setColor(0xff1111);
-        g.fillRect(pxred, py-psred, w/10, psred);
+        g.fillRect(pxred, py - psred, w / 10, psred);
         if (cpos != 0) {
             g.setColor(0xffbbbb);
         }
-        g.fillArc(pxred, py-ph-h*7/100, w/10-1, h/10-1, 0, 180);
-        g.fillArc(pxred, py-h*3/100, w/10-1, h/10-1, 180, 180);
+        g.fillArc(pxred, py - ph - h * 7 / 100, w / 10 - 1, h / 10 - 1, 0, 180);
+        g.fillArc(pxred, py - h * 3 / 100, w / 10 - 1, h / 10 - 1, 180, 180);
 
         //draw green
-        int pxgreen = (w*4/7);
-        int psgreen = (ph*green)/255;
+        int pxgreen = (w * 4 / 7);
+        int psgreen = (ph * green) / 255;
         g.setColor(0);
-        g.setStrokeStyle(Graphics.SOLID);
-        g.fillRect(pxgreen, py-ph, w/10, ph);
+        //g.setStrokeStyle(Graphics.SOLID);
+        g.fillRect(pxgreen, py - ph, w / 10, ph);
         g.setColor(0x00ee00);
-        g.fillRect(pxgreen, py-psgreen, w/10, psgreen);
+        g.fillRect(pxgreen, py - psgreen, w / 10, psgreen);
         if (cpos != 1) {
             g.setColor(0xbbffbb);
         }
-        g.fillArc(pxgreen, py-ph-h*7/100, w/10-1, h/10-1, 0, 180);
-        g.fillArc(pxgreen, py-h*3/100, w/10-1, h/10-1, 180, 180);
+        g.fillArc(pxgreen, py - ph - h * 7 / 100, w / 10 - 1, h / 10 - 1, 0, 180);
+        g.fillArc(pxgreen, py - h * 3 / 100, w / 10 - 1, h / 10 - 1, 180, 180);
 
         //draw blue
-        int pxblue = (w*5/7);
-        int psblue = (ph*blue)/255;
+        int pxblue = (w * 5 / 7);
+        int psblue = (ph * blue) / 255;
         g.setColor(0);
-        g.setStrokeStyle(Graphics.SOLID);
-        g.fillRect(pxblue, py-ph, w/10, ph);
+        //g.setStrokeStyle(Graphics.SOLID);
+        g.fillRect(pxblue, py - ph, w / 10, ph);
         g.setColor(0x3333ff);
-        g.fillRect(pxblue, py-psblue, w/10, psblue);
+        g.fillRect(pxblue, py - psblue, w / 10, psblue);
         if (cpos != 2) {
             g.setColor(0xbbbbff);
         }
-        g.fillArc(pxblue, py-ph-h*7/100, w/10-1, h/10-1, 0, 180);
-        g.fillArc(pxblue, py-h*3/100, w/10-1, h/10-1, 180, 180);
+        g.fillArc(pxblue, py - ph - h * 7 / 100, w / 10 - 1, h / 10 - 1, 0, 180);
+        g.fillArc(pxblue, py - h * 3 / 100, w / 10 - 1, h / 10 - 1, 180, 180);
 
-       if(paramName==49 || paramName==50 || paramName==40 || paramName==42 || paramName==34){
-        int pxalpha = (w*6/7);
-        int pspxalpha = (ph*alpha)/255;
-        g.setColor(0);
-        g.setStrokeStyle(Graphics.SOLID);
-        g.fillRect(pxalpha, py-ph, w/10, ph);
-        g.setColor(0x666666);
-        g.fillRect(pxalpha, py-pspxalpha, w/10, pspxalpha);
-        if (cpos != 3) {
-            g.setColor(0xaaaaaa);
+        if (paramName == 49 || paramName == 50 || paramName == 40 || paramName == 42 || paramName == 34) {
+            int pxalpha = (w * 6 / 7);
+            int pspxalpha = (ph * alpha) / 255;
+            g.setColor(0);
+            //g.setStrokeStyle(Graphics.SOLID);
+            g.fillRect(pxalpha, py - ph, w / 10, ph);
+            g.setColor(0x666666);
+            g.fillRect(pxalpha, py - pspxalpha, w / 10, pspxalpha);
+            if (cpos != 3) {
+                g.setColor(0xaaaaaa);
+            }
+            g.fillArc(pxalpha, py - ph - h * 7 / 100, w / 10 - 1, h / 10 - 1, 0, 180);
+            g.fillArc(pxalpha, py - h * 3 / 100, w / 10 - 1, h / 10 - 1, 180, 180);
         }
-        g.fillArc(pxalpha, py-ph-h*7/100, w/10-1, h/10-1, 0, 180);
-        g.fillArc(pxalpha, py-h*3/100, w/10-1, h/10-1, 180, 180);
-       }
     }
 
 //#ifdef TOUCH
     protected void pointerPressed(int x, int y) {
-        if ((y<py-ph-h*7/100) || (y>py+h*7/100))
-            return;
+        if ((y < py - ph - h * 7 / 100) || (y > py + h * 7 / 100)) {
+            super.pointerPressed(x, y);
+        }
 
-        if (x>3*w/7 && x<(3*w/7+w/10))
+        if (x > 3 * w / 7 && x < (3 * w / 7 + w / 10)) {
             cpos = 0;
-        else if (x>(4*w/7) && x<(4*w/7+w/10))
+        } else if (x > (4 * w / 7) && x < (4 * w / 7 + w / 10)) {
             cpos = 1;
-        else if (x>(5*w/7) && x<(5*w/7+w/10))
+        } else if (x > (5 * w / 7) && x < (5 * w / 7 + w / 10)) {
             cpos = 2;
-        else if ((paramName==49 || paramName==50 || paramName==40 || paramName==42 || paramName==34)
-            && (x>(6*w/7) && x<(6*w/7+w/10)))
-                cpos = 3;
-        else return;
+        } else if ((paramName == 49 || paramName == 50 || paramName == 40 || paramName == 42 || paramName == 34)
+                && (x > (6 * w / 7) && x < (6 * w / 7 + w / 10))) {
+            cpos = 3;
+        } else {
+            return;
+        }
 
-        if ((y<py-ph) || (y>py)) {
-            if (y<py-ph)
+        if ((y < py - ph) || (y > py)) {
+            if (y < py - ph) {
                 dy = 1;
-            else dy = -1;
+            } else {
+                dy = -1;
+            }
             movePoint();
             dy = 0;
-        }
-        else {
+        } else {
             switch (cpos) {
                 case 0:
-            red = (py-y)*255/ph;
+                    red = (py - y) * 255 / ph;
                     break;
                 case 1:
-            green = (py-y)*255/ph;
+                    green = (py - y) * 255 / ph;
                     break;
                 case 2:
-            blue = (py-y)*255/ph;
+                    blue = (py - y) * 255 / ph;
                     break;
                 case 3:
-                    alpha = (py-y)*255/ph;
+                    alpha = (py - y) * 255 / ph;
                     break;
+
             }
-        repaint();
-    }
-    }
+
+            repaint();
+        }
+     }
 //#endif
 
     protected void keyPressed(int key) {
 //#ifdef LIGHT_CONTROL
-    CustomLight.keyPressed();
+        CustomLight.keyPressed();
 //#endif
         switch (key) {
             case KEY_NUM2:
                 timer = 7;
                 dy = 1;
                 movePoint();
-                break;
+                return;
             case KEY_NUM8:
                 timer = 7;
                 dy = -1;
                 movePoint();
-                break;
+                return;
             case KEY_NUM4:
-                if(paramName==49 ||
-                        paramName==50 || paramName==40 || paramName==42 || paramName==34){
-                  cpos -= 1; if (cpos < 0) cpos = 3;
-                }else{
-                  cpos -= 1; if (cpos < 0) cpos = 2;
-                }
-                repaint();
-                break;
+                moveCursorLeft();
+                return;
             case KEY_NUM6:
-                if(paramName==49 ||
-                        paramName==50 || paramName==40 || paramName==42 || paramName==34){
-                  cpos += 1; if (cpos > 3) cpos = 0;
-                } else{
-                  cpos += 1; if (cpos > 2) cpos = 0;
-                }
-                repaint();
-                break;
-            case KEY_NUM5:
-                eventOk();
+                moveCursorRight();
+                return;
+            case KEY_NUM0:
                 exit = true;
                 destroyView();
                 break;
-            case KEY_NUM0:
-                exit = true;
-                display.setCurrent(parentView);
-                break;
             default:
-                try {
-                    switch (getGameAction(key)){
-                        case UP:
-                            timer = 7;
-                            dy = 1;
-                            movePoint();
-                            break;
-                        case DOWN:
-                            timer = 7;
-                            dy = -1;
-                            movePoint();
-                            break;
-                        case LEFT:
-                           if(paramName==49 ||
-                                   paramName==50 || paramName==40 || paramName==42 || paramName==34){
-                              cpos -= 1; if (cpos < 0) cpos = 3;
-                            }else{
-                              cpos -= 1; if (cpos < 0) cpos = 2;
-                            }
-                            break;
-                        case RIGHT:
-                           if(paramName==49 ||
-                                   paramName==50 || paramName==40 || paramName==42 || paramName==34){
-                              cpos += 1; if (cpos > 3) cpos = 0;
-                            }else{
-                              cpos += 1; if (cpos > 2) cpos = 0;
-                            }
-                            break;
-                        case FIRE:
-                            eventOk();
-                            exit = true;
-                            destroyView();
-                            break;
-                        default:
-                            if (key=='5') {
-                                eventOk();
-                                exit = true;
-                                destroyView();
-                                break;
-                            }
-                    }
-                } catch (Exception e) {/* IllegalArgumentException @ getGameAction */}
+                switch (getGameAction(key)) {
+                    case UP:
+                        timer = 7;
+                        dy = 1;
+                        movePoint();
+                        return;
+                    case DOWN:
+                        timer = 7;
+                        dy = -1;
+                        movePoint();
+                        return;
+                    case LEFT:
+                        moveCursorLeft();
+                        return;
+                    case RIGHT:
+                        moveCursorRight();
+                        return;
+                }
                 repaint();
-                serviceRepaints();
         }
+        super.keyPressed(key);
+    }
+
+    private void moveCursorLeft() {
+        if (paramName == 49
+                || paramName == 50 || paramName == 40 || paramName == 42 || paramName == 34) {
+            cpos -= 1;
+            if (cpos < 0) {
+                cpos = 3;
+            }
+        } else {
+            cpos -= 1;
+            if (cpos < 0) {
+                cpos = 2;
+            }
+        }
+        repaint();
+    }
+
+    private void moveCursorRight() {
+        if (paramName == 49
+                || paramName == 50 || paramName == 40 || paramName == 42 || paramName == 34) {
+            cpos += 1;
+            if (cpos > 3) {
+                cpos = 0;
+            }
+        } else {
+            cpos += 1;
+            if (cpos > 2) {
+                cpos = 0;
+            }
+        }
+        repaint();
     }
 
     protected void keyReleased(int key) {
             dy = 0;
+            super.keyReleased(key);
     }
 
     public void run() {
@@ -345,10 +331,9 @@ public class ColorSelector extends Canvas implements Runnable, CommandListener {
     public void setValue(int vall) {
         this.value=vall;
         ColorTheme.setColor(paramName, value);
-        ColorsList.setColor(paramName, value);
-//#ifdef COLOR_TUNE
         ColorTheme.saveToStorage();
-//#endif
+
+        ((ColorsList)parentView).setColor(paramName, value);
     }
 
     private void movePoint() {
@@ -378,44 +363,30 @@ public class ColorSelector extends Canvas implements Runnable, CommandListener {
         repaint();
     }
 
-    public void commandAction(Command c, Displayable d) {
-        if (c==cmdCancel) {
-            exit = true;
-            destroyView();
-            return;
-        }
-        if (c==cmdOk) {
-            eventOk();
-            destroyView();
-            return;
-        }
+    public void cmdOk() {
+        applyChanges();
+        destroyView();
     }
 
-    private void eventOk () {
-//#if COLOR_TUNE
-
-      if(paramName==49){
-         midlet.BombusQD.cf.argb_bgnd=alpha;
-      }
-      else if(paramName==50){
-         midlet.BombusQD.cf.gmenu_bgnd=alpha;
-      }
-      else if(paramName==40 || paramName==42){
-         midlet.BombusQD.cf.popup_bgnd=alpha;
-      }
-      else if(paramName==34){
-         midlet.BombusQD.cf.cursor_bgnd=alpha;
-      }
-      String val = ColorTheme.ColorToString(red, green, blue);
-      int finalColor=ColorTheme.getColorInt(val);
-      setValue(finalColor);
-      //midlet.BombusQD.cf.saveToStorage();
-//#endif
-      exit = true;
+    public void eventOk () {
+        applyChanges();
+        destroyView();
     }
 
-    public void destroyView()	{
-        if (display!=null)   display.setCurrent(parentView);
+    private void applyChanges() {
+        if (paramName == 49) {
+            midlet.BombusQD.cf.argb_bgnd = alpha;
+        } else if (paramName == 50) {
+            midlet.BombusQD.cf.gmenu_bgnd = alpha;
+        } else if (paramName == 40 || paramName == 42) {
+            midlet.BombusQD.cf.popup_bgnd = alpha;
+        } else if (paramName == 34) {
+            midlet.BombusQD.cf.cursor_bgnd = alpha;
+        }
+        String val = ColorTheme.ColorToString(red, green, blue);
+        int finalColor = ColorTheme.getColorInt(val);
+        setValue(finalColor);
+        exit = true;
     }
 }
 //#endif

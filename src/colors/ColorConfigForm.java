@@ -148,7 +148,7 @@ public class ColorConfigForm extends DefForm
                     }
 
                     public void no() {
-                        ColorTheme.init();
+                        ColorTheme.initColors();
                         ColorTheme.saveToStorage();
                     }
                 };

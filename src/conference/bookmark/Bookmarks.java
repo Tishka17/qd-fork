@@ -29,8 +29,7 @@
 package conference.bookmark;
 import conference.ConferenceForm;
 import conference.QueryConfigForm;
-import conference.bookmark.BookmarkItem;
-import conference.bookmark.BookmarkQuery;
+import conference.affiliation.AffiliationItem;
 import conference.affiliation.AffiliationList;
 //#ifdef SERVICE_DISCOVERY
 import disco.ServiceDiscovery;
@@ -65,31 +64,6 @@ public final class Bookmarks
         MenuListener
 //#endif
     {
-
-
-    public void initCommands() {
-          cmdCancel=new Command (SR.get(SR.MS_CANCEL), Command.BACK, 99);
-          cmdJoin=new Command (SR.get(SR.MS_SELECT), Command.OK, 1);
-          cmdAdvJoin=new Command (SR.get(SR.MS_EDIT_JOIN), Command.SCREEN, 2);
-          cmdDoAutoJoin=new Command(SR.get(SR.MS_DO_AUTOJOIN), Command.SCREEN, 3);
-          cmdNew=new Command (SR.get(SR.MS_NEW_BOOKMARK), Command.SCREEN, 4);
-          cmdConfigure=new Command (SR.get(SR.MS_CONFIG_ROOM), Command.SCREEN, 5);
-//#ifdef SERVICE_DISCOVERY
-          cmdDisco=new Command (SR.get(SR.MS_DISCO_ROOM), Command.SCREEN, 6);
-//#endif
-          cmdUp=new Command (SR.get(SR.MS_MOVE_UP), Command.SCREEN, 7);
-          cmdDwn=new Command (SR.get(SR.MS_MOVE_DOWN), Command.SCREEN, 8);
-          cmdSort=new Command (SR.get(SR.MS_SORT), Command.SCREEN, 9);
-          cmdSave=new Command (SR.get(SR.MS_SAVE_LIST), Command.SCREEN, 10);
-          cmdRoomOwners=new Command (SR.get(SR.MS_OWNERS), Command.SCREEN, 11);
-          cmdRoomAdmins=new Command (SR.get(SR.MS_ADMINS), Command.SCREEN, 12);
-          cmdRoomMembers=new Command (SR.get(SR.MS_MEMBERS), Command.SCREEN, 13);
-          cmdRoomBanned=new Command (SR.get(SR.MS_BANNED), Command.SCREEN, 14);
-          cmdDel=new Command (SR.get(SR.MS_DELETE), Command.SCREEN, 15);
-          cmdMyService=new Command(SR.get(SR.MS_SERVICE), Command.SCREEN, 31);
-          commandState();
-    }
-
 
     private Command cmdCancel;
     private Command cmdJoin;
@@ -137,6 +111,61 @@ public final class Bookmarks
         this.parentView=pView;
     }
 
+    public void initCommands() {
+        cmdCancel = new Command(SR.get(SR.MS_CANCEL), Command.BACK, 99);
+
+        cmdJoin = new Command(SR.get(SR.MS_SELECT), Command.OK, 1);
+        cmdJoin.setImg(0x60);
+
+        cmdAdvJoin = new Command(SR.get(SR.MS_EDIT_JOIN), Command.SCREEN, 2);
+        cmdAdvJoin.setImg(0x61);
+
+        cmdDoAutoJoin = new Command(SR.get(SR.MS_DO_AUTOJOIN), Command.SCREEN, 3);
+        cmdDoAutoJoin.setImg(0x60);
+
+        cmdNew = new Command(SR.get(SR.MS_NEW_BOOKMARK), Command.SCREEN, 4);
+        cmdNew.setImg(0x62);
+
+        cmdConfigure = new Command(SR.get(SR.MS_CONFIG_ROOM), Command.SCREEN, 5);
+        cmdConfigure.setImg(0x72);
+
+//#ifdef SERVICE_DISCOVERY
+        cmdDisco = new Command(SR.get(SR.MS_DISCO_ROOM), Command.SCREEN, 6);
+        cmdDisco.setImg(0x65);
+//#endif
+        cmdUp = new Command(SR.get(SR.MS_MOVE_UP), Command.SCREEN, 7);
+        cmdUp.setImg(0x45);
+
+        cmdDwn = new Command(SR.get(SR.MS_MOVE_DOWN), Command.SCREEN, 8);
+        cmdDwn.setImg(0x46);
+
+        cmdSort = new Command(SR.get(SR.MS_SORT), Command.SCREEN, 9);
+        cmdSort.setImg(0x64);
+
+        cmdSave = new Command(SR.get(SR.MS_SAVE_LIST), Command.SCREEN, 10);
+        cmdSave.setImg(0x44);
+
+        cmdRoomOwners = new Command(SR.get(SR.MS_OWNERS), Command.SCREEN, 11);
+        cmdRoomOwners.setImg(0x66);
+
+        cmdRoomAdmins = new Command(SR.get(SR.MS_ADMINS), Command.SCREEN, 12);
+        cmdRoomAdmins.setImg(0x67);
+
+        cmdRoomMembers = new Command(SR.get(SR.MS_MEMBERS), Command.SCREEN, 13);
+        cmdRoomMembers.setImg(0x70);
+
+        cmdRoomBanned = new Command(SR.get(SR.MS_BANNED), Command.SCREEN, 14);
+        cmdRoomBanned.setImg(0x71);
+
+        cmdDel = new Command(SR.get(SR.MS_DELETE), Command.SCREEN, 15);
+        cmdDel.setImg(0x41);
+
+        cmdMyService = new Command(SR.get(SR.MS_SERVICE), Command.SCREEN, 31);
+        cmdMyService.setImg(0x27);
+
+        commandState();
+    }
+
     public void commandState() {
 //#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
@@ -144,47 +173,51 @@ public final class Bookmarks
         cmdsecondList.removeAllElements();
         cmdThirdList.removeAllElements();
 //#endif
-        addCommand(cmdJoin); cmdJoin.setImg(0x60);
-        addCommand(cmdDoAutoJoin); cmdDoAutoJoin.setImg(0x60);
-        addCommand(cmdAdvJoin); cmdAdvJoin.setImg(0x61);
-	addCommand(cmdNew); cmdNew.setImg(0x62);
-        addCommand(cmdUp); cmdUp.setImg(0x45);
-        addCommand(cmdDwn); cmdDwn.setImg(0x46);
-        addCommand(cmdSave); cmdSave.setImg(0x44);
+        boolean notEmpty = (getItemCount() > 0);
 
-       addCommand(cmdMyService); cmdMyService.setImg(0x27);
-        addInCommand(3,cmdSort); cmdSort.setImg(0x64);
-        addInCommand(3,cmdDel); cmdDel.setImg(0x41);
-        addInCommand(3,cmdRoomOwners); cmdRoomOwners.setImg(0x66);
-        addInCommand(3,cmdRoomAdmins); cmdRoomAdmins.setImg(0x67);
-        addInCommand(3,cmdRoomMembers); cmdRoomMembers.setImg(0x70);
-        addInCommand(3,cmdRoomBanned); cmdRoomBanned.setImg(0x71);
-        addInCommand(3,cmdConfigure); cmdConfigure.setImg(0x72);
-//#ifdef SERVICE_DISCOVERY
-        addCommand(cmdDisco); cmdDisco.setImg(0x65);
-//#endif
+        if (notEmpty) {
+            addCommand(cmdJoin);
+            addCommand(cmdDoAutoJoin);
+            addCommand(cmdAdvJoin);
+        }
+
+        addCommand(cmdNew);
+
+        if (notEmpty) {
+            addCommand(cmdUp);
+            addCommand(cmdDwn);
+            addCommand(cmdSave);
+
+            addCommand(cmdMyService);
+            addInCommand(3, cmdSort);
+            addInCommand(3, cmdDel);
+            addInCommand(3, cmdRoomOwners);
+            addInCommand(3, cmdRoomAdmins);
+            addInCommand(3, cmdRoomMembers);
+            addInCommand(3, cmdRoomBanned);
+            addInCommand(3, cmdConfigure);
+    //#ifdef SERVICE_DISCOVERY
+            addCommand(cmdDisco);
+    //#endif
+        }
 //#ifndef GRAPHICS_MENU
 //#      addCommand(cmdCancel);
 //#endif
     }
 
     protected int getItemCount() {
-        Vector bookmarks=midlet.BombusQD.sd.roster.bookmarks;
-        return (bookmarks==null)?0: bookmarks.size();
+        Vector bookmarks = midlet.BombusQD.sd.roster.bookmarks;
+        return (bookmarks == null) ? 0 : bookmarks.size();
     }
 
     protected VirtualElement getItemRef(int index) {
         return (VirtualElement) midlet.BombusQD.sd.roster.bookmarks.elementAt(index);
     }
 
-    public void loadBookmarks() {
-    }
-
     private void addBookmark() {
-        if (toAdd!=null) {
+        if (toAdd != null) {
             Vector bm=midlet.BombusQD.sd.roster.bookmarks;
             bm.addElement(toAdd);
-            //sort(bm);
             saveBookmarks();
         }
     }
@@ -201,69 +234,85 @@ public final class Bookmarks
     }
 
     public void commandAction(Command c, Displayable d){
-        if (c==cmdCancel) exitBookmarks();
-        if (c==cmdNew) {
+        if (c == cmdCancel) {
+            destroyView();
+        } else if (c == cmdNew) {
             new ConferenceForm(display, this);
             return;
+        } else if (c == cmdJoin) {
+            eventOk();
         }
-        if (c==cmdJoin) eventOk();
 
-	if (getItemCount()==0) return;
-        String roomJid=((BookmarkItem)getFocusedObject()).getJid();
+	if (getItemCount() == 0) {
+            return;
+        }
 
-        if (c==cmdAdvJoin) {
-            BookmarkItem join=(BookmarkItem)getFocusedObject();
+        String roomJid = ((BookmarkItem)getFocusedObject()).getJid();
+
+        if (c == cmdAdvJoin) {
+            BookmarkItem join = (BookmarkItem)getFocusedObject();
             new ConferenceForm(display, this, join, cursor);
-        } else if (c==cmdDel) {
+        } else if (c == cmdDel) {
             deleteBookmark();
-            setMainBarItem(new MainBar(2, null, SR.get(SR.MS_BOOKMARKS)+" ("+getItemCount()+") ", false));
+            setMainBarItem(new MainBar(2, null, SR.get(SR.MS_BOOKMARKS) + " (" + getItemCount() + ") ", false));
             return;
         }
 //#ifdef SERVICE_DISCOVERY
-        else if (c==cmdDisco) new ServiceDiscovery(display, roomJid, null, false);
+        else if (c == cmdDisco) {
+            new ServiceDiscovery(display, roomJid, null, false);
+        }
 //#endif
-        else if (c==cmdConfigure) new QueryConfigForm(display,roomJid);
-        else if (c==cmdRoomOwners) new AffiliationList(display, this, roomJid, (short)1);
-        else if (c==cmdRoomAdmins) new AffiliationList(display, this, roomJid, (short)2);
-        else if (c==cmdRoomMembers) new AffiliationList(display, this, roomJid, (short)3);
-        else if (c==cmdRoomBanned) new AffiliationList(display, this, roomJid, (short)4);
-        else if (c==cmdSort) sort(midlet.BombusQD.sd.roster.bookmarks);
-        else if (c==cmdDoAutoJoin) {
-            for (Enumeration e=midlet.BombusQD.sd.roster.bookmarks.elements(); e.hasMoreElements();) {
-                BookmarkItem bm=(BookmarkItem) e.nextElement();
+        else if (c == cmdConfigure) {
+            new QueryConfigForm(display, roomJid);
+        } else if (c == cmdRoomOwners) {
+            new AffiliationList(display, this, roomJid, AffiliationItem.AFFILIATION_OWNER);
+        } else if (c == cmdRoomAdmins) {
+            new AffiliationList(display, this, roomJid, AffiliationItem.AFFILIATION_ADMIN);
+        } else if (c == cmdRoomMembers) {
+            new AffiliationList(display, this, roomJid, AffiliationItem.AFFILIATION_MEMBER);
+        } else if (c == cmdRoomBanned) {
+            new AffiliationList(display, this, roomJid, AffiliationItem.AFFILIATION_OUTCAST);
+        } else if (c == cmdSort) {
+            sort(midlet.BombusQD.sd.roster.bookmarks);
+        } else if (c == cmdDoAutoJoin) {
+            for (Enumeration e = midlet.BombusQD.sd.roster.bookmarks.elements(); e.hasMoreElements();) {
+                BookmarkItem bm = (BookmarkItem)e.nextElement();
                 if (bm.isAutoJoin()) {
                     ConferenceForm.join(bm.getDesc(), bm.getJidNick(), bm.getPassword(), midlet.BombusQD.cf.confMessageCount);
                 }
             }
             midlet.BombusQD.sd.roster.showRoster();
+        } else if (c == cmdSave) {
+            saveBookmarks();
+        } else if (c == cmdUp) {
+            move(-1);
+            keyUp();
+        } else if (c == cmdDwn) {
+            move(+1);
+            keyDwn();
         }
-
-        else if (c==cmdSave) saveBookmarks();
-        else if (c==cmdUp) { move(-1); keyUp(); }
-        else if (c==cmdDwn) { move(+1); keyDwn(); }
         redraw();
     }
 
-    private void deleteBookmark(){
-        BookmarkItem del=(BookmarkItem)getFocusedObject();
-        if (del==null)
+    private void deleteBookmark() {
+        BookmarkItem del = (BookmarkItem)getFocusedObject();
+        if (del == null) {
             return;
-        if (del.isURL())
+        }
+        if (del.isURL()) {
             return;
+        }
 
         midlet.BombusQD.sd.roster.bookmarks.removeElementAt(cursor);
-        if (getItemCount()<=cursor)
+        if (getItemCount() <= cursor) {
             moveCursorEnd();
+        }
         saveBookmarks();
         redraw();
     }
 
     private void saveBookmarks() {
         new BookmarkQuery(BookmarkQuery.SAVE);
-    }
-
-    private void exitBookmarks(){
-        midlet.BombusQD.sd.roster.showRoster();
     }
 
     public void move(int offset){
@@ -274,18 +323,12 @@ public final class Bookmarks
 
             midlet.BombusQD.sd.roster.bookmarks.setElementAt(p1, index+offset);
             midlet.BombusQD.sd.roster.bookmarks.setElementAt(p2, index);
-        } catch (Exception e) {/* IndexOutOfBounds */}
+        } catch (Exception e) {}
     }
 
     public void keyPressed(int keyCode) {
-        if (keyCode==KEY_NUM4){
-            pageLeft();
-        }
-        if (keyCode==KEY_NUM6){
-            pageRight();
-        }
 //#ifdef SERVICE_DISCOVERY
-        if (keyCode==KEY_POUND) {
+        if (keyCode == KEY_POUND) {
             new ServiceDiscovery(display, ((BookmarkItem)getFocusedObject()).getJid() , null, false);
             return;
         }
@@ -303,7 +346,6 @@ public final class Bookmarks
     }
 
 //#ifdef MENU_LISTENER
-
 //#ifdef GRAPHICS_MENU
     public int showGraphicsMenu() {
         commandState();
@@ -317,6 +359,5 @@ public final class Bookmarks
 //#         new MyMenu(display, parentView, this, SR.get(SR.MS_BOOKMARKS), null, menuCommands);
 //#     }
 //#endif
-
 //#endif
 }

@@ -26,48 +26,37 @@
  */
 
 package menu;
-//#ifdef MENU_LISTENER
+
 import images.ImageList;
-import javax.microedition.lcdui.Graphics;
-//#endif
 import client.Config;
-import font.FontCache;
-import javax.microedition.lcdui.Font;
-import ui.*;
+import ui.IconTextElement;
 
 /**
  *
  * @author Eugene Stahov
  */
-public class MenuItem
-    extends IconTextElement {
-
-    /** Creates a new instance of MenuItem */
-    public int index;
-    private String name;
+public class MenuItem extends IconTextElement {
     public int pos;
+    public int index;
     private int iconIndex;
-    private Font font;
-    
-    public MenuItem(String name, int index, int iconIndex, ImageList il, boolean inCommand) {
+
+    private String name;    
+
+    public MenuItem(String name, int index, int iconIndex, ImageList il) {
         super(il);
-        this.index=index;
-	this.name=name;
-        this.iconIndex=iconIndex;
-        this.font=FontCache.getFont(false, FontCache.msg);
+        this.index = index;
+        this.name = name;
+        this.iconIndex = iconIndex;
     }
 
-    public int getImageIndex() { return iconIndex; }
-    public String toString(){ return name; }
-    
-//#ifdef MENU_LISTENER
-    public void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {
-          if (pos<10 && Config.getInstance().executeByNum) {
-              int w=g.getClipWidth();
-              g.setFont(font);
-              g.drawString(Integer.toString((pos<9)?pos+1:0), w, 0, Graphics.TOP|Graphics.RIGHT);
-          }
-        super.drawItem(view, g, ofs, sel); 
+    public int getImageIndex() {
+        return iconIndex;
     }
-//#endif
+
+    public String toString() {
+        if (pos < 10 && Config.executeByNum) {
+            return ((pos < 9) ? pos + 1 : 0) + "-" + name;
+        }
+        return name;
+    }
 }

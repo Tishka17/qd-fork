@@ -121,8 +121,9 @@ public class Config {
 
     // non-volatile values
     public int accountIndex=-1;
-    public boolean fullscreen=true;
     public int def_profile=0;
+
+    public static boolean fullscreen = true;
 
 //#ifdef SMILES
     public boolean smiles = true;
@@ -212,7 +213,7 @@ public class Config {
     public int reconnectCount = 30;
     public int reconnectTime = 10;
 
-    public boolean executeByNum = false;
+    public static boolean executeByNum = false;
     public boolean showNickNames = true;
     public boolean fileTransfer = true;
     public boolean adhoc = false;
@@ -220,7 +221,7 @@ public class Config {
     public boolean oldSE = false;
 
     public static boolean showTimeTraffic = false;
-    public boolean useLowMemory_iconmsgcollapsed = false;
+    public static boolean hideMessageIcon = false;
 
     public String moodText="";
     public String moodName="";
@@ -550,7 +551,7 @@ public class Config {
             inputStream.readBoolean();
             inputStream.readBoolean();
 
-            useLowMemory_iconmsgcollapsed = inputStream.readBoolean();
+            hideMessageIcon = inputStream.readBoolean();
             auto_queryPhoto = inputStream.readBoolean();
 
             // free
@@ -824,7 +825,7 @@ public class Config {
             outputStream.writeBoolean(false);
             outputStream.writeBoolean(false);
 
-            outputStream.writeBoolean(useLowMemory_iconmsgcollapsed);
+            outputStream.writeBoolean(hideMessageIcon);
             outputStream.writeBoolean(auto_queryPhoto);
 
             // free

@@ -26,7 +26,6 @@
 
 package client;
 
-import client.Config;
 //#ifdef FILE_IO
 import io.file.browse.Browser;
 import io.file.browse.BrowserListener;
@@ -58,116 +57,106 @@ import ui.controls.form.LinkString;
 import java.util.Vector;
 //#ifdef FILE_IO
 import io.file.FileIO;
-import conference.MucContact;
 //#endif
 import util.StringUtils;
 import ui.controls.form.SimpleString;
 
-
-public class ConfigAvatar
-        extends DefForm
+public class ConfigAvatar extends DefForm
 //#ifdef FILE_IO
         implements BrowserListener
 //#endif
-    {
+{
 
-    Command cmdOk;
 //#ifdef FILE_IO
-    Command cmdPath;
+    private Command cmdPath;
 //#endif
-    Command cmdOkey;
-
+    private Command cmdOkey;
     private NumberInput maxAvatarHeight;
     private NumberInput maxAvatarWidth;
-
     private CheckBox auto_queryPhoto;
+    private CheckBox showAvatarRect;
 //#ifdef FILE_IO
     private CheckBox autoload_FSPhoto;
     private CheckBox autoSaveVcard;
     private TextInput avatarFolder;
 //#endif
-    private CheckBox showAvatarRect;
-//#ifdef FILE_IO
-    private LinkString saveChanges;
-//#endif
-
-
-    Config cf;
-
-    /** Creates a new instance of ConfigAvatar */
+    private Config config;
     public ConfigAvatar(Display display, Displayable pView) {
         super(display, pView, SR.get(SR.MS_AVATARS));
 
-        cmdOk=new Command(SR.get(SR.MS_OK), Command.SCREEN, 2);
 //#ifdef FILE_IO
-        cmdPath=new Command(SR.get(SR.AVATAR_FOLDER), Command.SCREEN, 1);
+        cmdPath = new Command(SR.get(SR.AVATAR_FOLDER), Command.SCREEN, 1);
+        cmdPath.setImg(0x34);
 //#endif
-        cmdOkey=new Command(SR.get(SR.MS_OK), Command.SCREEN, 3);
+        cmdOkey = new Command(SR.get(SR.MS_OK), Command.SCREEN, 3);
+        cmdOkey.setImg(0x43);
 
-        cf=midlet.BombusQD.cf;
+        config = Config.getInstance();
 
-        if (midlet.BombusQD.cf.userAppLevel == 1) {
-            auto_queryPhoto = new CheckBox(SR.get(SR.MS_AUTOLOAD_VCARD), cf.auto_queryPhoto);
+        if (config.userAppLevel == 1) {
+            auto_queryPhoto = new CheckBox(SR.get(SR.MS_AUTOLOAD_VCARD), config.auto_queryPhoto);
             itemsList.addElement(auto_queryPhoto);
 
 //#ifdef FILE_IO
-            autoload_FSPhoto = new CheckBox(SR.get(SR.MS_AUTOLOAD_VCARD_FROMFS), cf.autoload_FSPhoto);
+            autoload_FSPhoto = new CheckBox(SR.get(SR.MS_AUTOLOAD_VCARD_FROMFS), config.autoload_FSPhoto);
             itemsList.addElement(autoload_FSPhoto);
 //#endif
-            showAvatarRect = new CheckBox(SR.get(SR.AVATAR_DRAW_RECT), cf.showAvatarRect);
+            showAvatarRect = new CheckBox(SR.get(SR.AVATAR_DRAW_RECT), config.showAvatarRect);
             itemsList.addElement(showAvatarRect);
             itemsList.addElement(new SpacerItem(5));
         }
 
-        maxAvatarHeight=new NumberInput(display, SR.get(SR.MS_MAX_AVATAR_HEIGHT), Integer.toString(cf.maxAvatarHeight), 12, 100);
+        maxAvatarHeight = new NumberInput(display, SR.get(SR.MS_MAX_AVATAR_HEIGHT), Integer.toString(config.maxAvatarHeight), 12, 100);
         itemsList.addElement(maxAvatarHeight);
 
         itemsList.addElement(new SpacerItem(5));
-        maxAvatarWidth=new NumberInput(display, SR.get(SR.MS_MAX_AVATAR_WIDTH), Integer.toString(cf.maxAvatarWidth), 12, 100);
+        maxAvatarWidth = new NumberInput(display, SR.get(SR.MS_MAX_AVATAR_WIDTH), Integer.toString(config.maxAvatarWidth), 12, 100);
         itemsList.addElement(maxAvatarWidth);
 
 //#ifdef FILE_IO
-        if(midlet.BombusQD.cf.userAppLevel==1) {
-          itemsList.addElement(new SpacerItem(10));
-          autoSaveVcard = new CheckBox(SR.get(SR.AVATAR_AUTOSAVE_FS), cf.autoSaveVcard);
-          avatarFolder = new TextInput(display, SR.get(SR.AVATAR_FOLDER), cf.msgAvatarPath, null, TextField.ANY);
-           itemsList.addElement(autoSaveVcard);
-           itemsList.addElement(avatarFolder);
+        if (config.userAppLevel == 1) {
+            itemsList.addElement(new SpacerItem(10));
+            autoSaveVcard = new CheckBox(SR.get(SR.AVATAR_AUTOSAVE_FS), config.autoSaveVcard);
+            avatarFolder = new TextInput(display, SR.get(SR.AVATAR_FOLDER), config.msgAvatarPath, null, TextField.ANY);
+            itemsList.addElement(autoSaveVcard);
+            itemsList.addElement(avatarFolder);
         }
 //#endif
 
 //#ifdef FILE_IO
-        if(midlet.BombusQD.cf.userAppLevel==1) {
+        if (config.userAppLevel == 1) {
+            addControl(new LinkString(SR.get(SR.MS_UPDATE)) {
 
-        saveChanges = new LinkString(SR.get(SR.MS_UPDATE)) { public void doAction() {
-               cf.maxAvatarHeight=Integer.parseInt(maxAvatarHeight.getValue());
-               cf.maxAvatarWidth=Integer.parseInt(maxAvatarWidth.getValue());
-                    long s1=System.currentTimeMillis();
-                    long m1=Runtime.getRuntime().freeMemory()>>10;
+                public void doAction() {
+                    config.maxAvatarHeight = Integer.parseInt(maxAvatarHeight.getValue());
+                    config.maxAvatarWidth = Integer.parseInt(maxAvatarWidth.getValue());
+                    long s1 = System.currentTimeMillis();
 
                     int loadingAvatars_roster = applyAvatars(true);
                     int loadingAvatars_muc = applyAvatars(false);
                     UpdateAvatarsOnline();
 
-                    if(loadingAvatars_roster>-1 && loadingAvatars_muc>-1 ){
-                     long s2=System.currentTimeMillis();
-                     itemsList.addElement(new SpacerItem(10));
-                     itemsList.addElement(new SimpleString("Update Success!", true));
-                     itemsList.addElement(new SimpleString("Time: " + Long.toString(s2-s1) + " msec", true));
-                     itemsList.addElement(new SpacerItem(10));
-               repaint();
-          };
-        }};
-         itemsList.addElement(saveChanges);
-       }
+                    if (loadingAvatars_roster > -1 && loadingAvatars_muc > -1) {
+                        long s2 = System.currentTimeMillis();
+                        addControl(new SpacerItem(10));
+                        addControl(new SimpleString("Update Success!", true));
+                        addControl(new SimpleString("Time: " + Long.toString(s2 - s1) + " msec", true));
+                        addControl(new SpacerItem(10));
+                        repaint();
+                    }
+                }
+
+            });
+        }
 //#endif
 
-        addCommand(cmdOkey);  cmdOkey.setImg(0x43);
+        addCommand(cmdOkey);
+
         commandState();
         moveCursorTo(0);
 
         attachDisplay(display);
-        this.parentView=pView;
+        this.parentView = pView;
     }
 
 //#ifdef FILE_IO
@@ -178,49 +167,44 @@ public class ConfigAvatar
 
     public void commandAction(Command command, Displayable displayable) {
 //#ifdef FILE_IO
-        if (command==cmdPath) {
+        if (command == cmdPath) {
             new Browser(null, display, this, this, true);
             return;
         }
 //#endif
-        if (command==cmdOkey) {
+        if (command == cmdOkey) {
             cmdOk();
         }
-        //super.commandAction(command, displayable);
         destroyView();
     }
 
     public void cmdOk() {
-        if(midlet.BombusQD.cf.userAppLevel==1) {
-          cf.auto_queryPhoto=auto_queryPhoto.getValue();
+        if (config.userAppLevel == 1) {
+            config.auto_queryPhoto = auto_queryPhoto.getValue();
 //#ifdef FILE_IO
-          cf.autoload_FSPhoto=autoload_FSPhoto.getValue();
+            config.autoload_FSPhoto = autoload_FSPhoto.getValue();
 //#endif
-          cf.showAvatarRect=showAvatarRect.getValue();
+            config.showAvatarRect = showAvatarRect.getValue();
         }
 
-        int maxAvHeight=Integer.parseInt(maxAvatarHeight.getValue());
-        int maxAvWidth=Integer.parseInt(maxAvatarWidth.getValue());
+        int maxAvHeight = Integer.parseInt(maxAvatarHeight.getValue());
+        int maxAvWidth = Integer.parseInt(maxAvatarWidth.getValue());
 
-        if(maxAvHeight!=cf.maxAvatarHeight || maxAvWidth!=cf.maxAvatarWidth ){
-           cf.maxAvatarHeight=maxAvHeight;
-           cf.maxAvatarWidth=maxAvWidth;
-           //UpdateAvatarsOnline();
+        if (maxAvHeight != config.maxAvatarHeight || maxAvWidth != config.maxAvatarWidth) {
+            config.maxAvatarHeight = maxAvHeight;
+            config.maxAvatarWidth = maxAvWidth;
         }
 //#ifdef FILE_IO
-        if (midlet.BombusQD.cf.userAppLevel == 1) {
-            cf.autoSaveVcard = autoSaveVcard.getValue();
-            cf.msgAvatarPath = avatarFolder.getValue();
+        if (config.userAppLevel == 1) {
+            config.autoSaveVcard = autoSaveVcard.getValue();
+            config.msgAvatarPath = avatarFolder.getValue();
         }
 //#endif
 
-        //cf.updateTime();
-        //cf.saveToStorage();
         destroyView();
     }
 
-
-    public void commandState(){
+    public void commandState() {
 //#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
 //#endif
@@ -230,9 +214,8 @@ public class ConfigAvatar
 //#endif
         removeCommand(cmdCancel);
 //#ifdef FILE_IO
-        if(midlet.BombusQD.cf.userAppLevel == 1) {
+        if (config.userAppLevel == 1) {
             addCommand(cmdPath);
-            cmdPath.setImg(0x34);
         }
 //#endif
         addCommand(cmdOkey);
@@ -242,126 +225,130 @@ public class ConfigAvatar
     }
 
 //#ifdef FILE_IO
-    int countLoadedImages=0;
 
     public int applyAvatars(boolean isRoster) {
-        Image img=null;
         Contact c = null;
-        countLoadedImages=0;
+        int countLoadedImages = 0;
         try {
-            FileIO f=FileIO.createConnection(cf.msgAvatarPath);
+            FileIO f = FileIO.createConnection(config.msgAvatarPath);
             Vector e = f.fileList(false);
-            int size1=e.size()-1;
-            int size=midlet.BombusQD.sd.roster.contactList.contacts.size();
+            int size1 = e.size() - 1;
+            int size = midlet.BombusQD.sd.roster.contactList.contacts.size();
 
             StaticData.getInstance().roster.errorLog(e.toString());
-            for(int i=0;i<size1;i++){
-               for(int j=0;j<size;j++){
-                  c = (Contact)midlet.BombusQD.sd.roster.contactList.contacts.elementAt(j);
-                        if(isRoster){
-                          String checkBareJid = StringUtils.replaceBadChars("roster_"+c.bareJid);
-                          String fsName = e.elementAt(i).toString();
-                          if(fsName.startsWith("roster") && fsName.indexOf(checkBareJid)>-1){
-                             if(createContactImageFS(c,fsName)){
-                                 countLoadedImages+=1;
-                                 checkBareJid=null;
-                                 fsName=null;
-                                 Thread.sleep(50);
-                                 break;
-                             };
-                          }
-                        }else{
-                          String checkNick = StringUtils.replaceBadChars("muc_"+c.getNick());
-                          int len = checkNick.length()-1;
-                          String fsName = e.elementAt(i).toString();
-                          if(fsName.startsWith("muc") && fsName.indexOf(checkNick)>-1){
-                               if(createContactImageFS(c,fsName)){
-                                 countLoadedImages+=1;
-                                 checkNick=null;
-                                 fsName=null;
-                                 Thread.sleep(50);
-                                 break;
-                                };
+            for (int i = 0; i < size1; i++) {
+                for (int j = 0; j < size; j++) {
+                    c = (Contact)midlet.BombusQD.sd.roster.contactList.contacts.elementAt(j);
+                    if (isRoster) {
+                        String checkBareJid = StringUtils.replaceBadChars("roster_" + c.bareJid);
+                        String fsName = e.elementAt(i).toString();
+                        if (fsName.startsWith("roster") && fsName.indexOf(checkBareJid) > -1) {
+                            if (createContactImageFS(c, fsName)) {
+                                countLoadedImages += 1;
+                                checkBareJid = null;
+                                fsName = null;
+                                Thread.sleep(50);
+                                break;
+                            }
+                            ;
                         }
-                      }
-              }
+                    } else {
+                        String checkNick = StringUtils.replaceBadChars("muc_" + c.getNick());
+                        int len = checkNick.length() - 1;
+                        String fsName = e.elementAt(i).toString();
+                        if (fsName.startsWith("muc") && fsName.indexOf(checkNick) > -1) {
+                            if (createContactImageFS(c, fsName)) {
+                                countLoadedImages += 1;
+                                checkNick = null;
+                                fsName = null;
+                                Thread.sleep(50);
+                                break;
+                            }
+                            ;
+                        }
+                    }
+                }
             }
             return countLoadedImages;
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
         return -1;
     }
 
-
-    private boolean createContactImageFS(Contact c,String name){
-        Image photoImg=null;
+    private boolean createContactImageFS(Contact c, String name) {
+        Image photoImg = null;
         byte[] b;
-        int len=0;
-        long length=0;
+        int len = 0;
+
         try {
-            FileIO f=FileIO.createConnection(cf.msgAvatarPath+name);
+            FileIO f = FileIO.createConnection(config.msgAvatarPath + name);
             b = f.fileRead();
-            length = f.fileSize();
+
             len = b.length;
-            if(c.hasPhoto==false){
-                 try {
-                   photoImg=Image.createImage(b, 0, len);
-                    int newW=photoImg.getWidth();
-                    int newH=photoImg.getHeight();
-                        while(newW>cf.maxAvatarWidth || newH>cf.maxAvatarHeight){
-                            newW-=(newW*10)/100;
-                            newH-=(newH*10)/100;
-                        }
-                    c.img_vcard=resizeImage(photoImg,newW,newH);
-                    c.avatar_width=newW;
-                    c.avatar_height=newH;
-                 }  catch(OutOfMemoryError eom){
-                      StaticData.getInstance().roster.errorLog("createContactImage: OutOfMemoryError "+c.getJid());
-                  }  catch (Exception e) {
-                      StaticData.getInstance().roster.errorLog("createContactImage: Exception "+c.getJid());
-                 }
-             }
-        } catch (Exception e) {}
-      return true;
+            if (c.hasPhoto == false) {
+                try {
+                    photoImg = Image.createImage(b, 0, len);
+                    int newW = photoImg.getWidth();
+                    int newH = photoImg.getHeight();
+                    while (newW > config.maxAvatarWidth || newH > config.maxAvatarHeight) {
+                        newW -= (newW * 10) / 100;
+                        newH -= (newH * 10) / 100;
+                    }
+                    c.img_vcard = resizeImage(photoImg, newW, newH);
+                    c.avatar_width = newW;
+                    c.avatar_height = newH;
+                } catch (OutOfMemoryError eom) {
+                    StaticData.getInstance().roster.errorLog("createContactImage: OutOfMemoryError " + c.getJid());
+                } catch (Exception e) {
+                    StaticData.getInstance().roster.errorLog("createContactImage: Exception " + c.getJid());
+                }
+            }
+        } catch (Exception e) {
+        }
+        return true;
     }
 
     public void UpdateAvatarsOnline() {
-        Image photoImg=null;
-        int size=midlet.BombusQD.sd.roster.contactList.contacts.size();
+        Image photoImg = null;
+        int size = midlet.BombusQD.sd.roster.contactList.contacts.size();
         ImageList il = new ImageList();
-        Contact c=null;
-        int countAv=0;
-        for(int i=0;i<size;i++){
+        Contact c = null;
+        int countAv = 0;
+        for (int i = 0; i < size; i++) {
             c = (Contact)midlet.BombusQD.sd.roster.contactList.contacts.elementAt(i);
-            if(c.hasPhoto){
-                 try {
-                   photoImg=Image.createImage(c.vcard.getPhoto(), 0, c.vcard.getPhoto().length);
-                    int newW=photoImg.getWidth();
-                    int newH=photoImg.getHeight();
-                        while(newW>cf.maxAvatarWidth || newH>cf.maxAvatarHeight){
-                            newW-=(newW*10)/100;
-                            newH-=(newH*10)/100;
-                        }
-                    c.img_vcard=resizeImage(photoImg,newW,newH);
-                    c.avatar_width=newW;
-                    c.avatar_height=newH;
-                    countAv+=1;
-                 }  catch(OutOfMemoryError eom){
-                      //StaticData.getInstance().roster.errorLog("UpdateAvatars_menu: OutOfMemoryError "+c.getJid());
-                  }  catch (Exception e) {
-                      //StaticData.getInstance().roster.errorLog("UpdateAvatars_menu: Exception load vcard "+c.getJid());
-                 }
-             }
+            if (c.hasPhoto) {
+                try {
+                    photoImg = Image.createImage(c.vcard.getPhoto(), 0, c.vcard.getPhoto().length);
+                    int newW = photoImg.getWidth();
+                    int newH = photoImg.getHeight();
+                    while (newW > config.maxAvatarWidth || newH > config.maxAvatarHeight) {
+                        newW -= (newW * 10) / 100;
+                        newH -= (newH * 10) / 100;
+                    }
+                    c.img_vcard = resizeImage(photoImg, newW, newH);
+                    c.avatar_width = newW;
+                    c.avatar_height = newH;
+                    countAv += 1;
+                } catch (OutOfMemoryError eom) {
+                    //StaticData.getInstance().roster.errorLog("UpdateAvatars_menu: OutOfMemoryError "+c.getJid());
+                } catch (Exception e) {
+                    //StaticData.getInstance().roster.errorLog("UpdateAvatars_menu: Exception load vcard "+c.getJid());
+                }
+            }
         }
     }
 //#endif
 
 //#ifdef MENU_LISTENER
-    public String touchLeftCommand(){ return SR.get(SR.MS_MENU); }
+    public String touchLeftCommand() {
+        return SR.get(SR.MS_MENU);
+    }
 
 //#ifdef GRAPHICS_MENU
-    public void touchLeftPressed(){
+    public void touchLeftPressed() {
         showGraphicsMenu();
     }
+
     public int showGraphicsMenu() {
         commandState();
         menuItem = new GMenu(display, parentView, this, null, menuCommands);
@@ -380,7 +367,5 @@ public class ConfigAvatar
 //#         new MyMenu(display, parentView, this, SR.get(SR.MS_HISTORY_OPTIONS), null, menuCommands);
 //#    }
 //#endif
-
-
 //#endif
 }

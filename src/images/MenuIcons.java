@@ -26,39 +26,40 @@
 
 package images;
 
-import javax.microedition.lcdui.Graphics;
-
 /**
  *
  * @author ad
  */
-public class MenuIcons extends ImageList{
+
+public class MenuIcons extends ImageList {
+    private final static String MENU_ICONS_PATH = "/images/menu.png";
+
+    private final static int ICONS_IN_ROW = 8;
+    private final static int ICONS_IN_COL = 10;
 
     private static MenuIcons instance;
+
     public static MenuIcons getInstance() {
-	if (instance==null) instance=new MenuIcons();
+	if (instance == null) {
+            instance = new MenuIcons();
+        }
 	return instance;
     }
 
-    private final static int ICONS_IN_ROW=8;
-    private final static int ICONS_IN_COL=10;//4;
 
-    /** Creates a new instance of RosterIcons */
     private MenuIcons() {
-	super("/images/menu.png", ICONS_IN_COL, ICONS_IN_ROW);
-    }
-
-    public void drawImage(Graphics g, int index, int x, int y) {
-        super.drawImage(g, index, x, y);
+	super(MENU_ICONS_PATH, ICONS_IN_COL, ICONS_IN_ROW);
     }
 
     public static final byte ICON_VCARD      = 0x01;
     public static final byte ICON_ADD_CONTACT= 0x02;
     public static final byte ICON_FONTS      = 0x03;
+    public static final byte ICON_KEYS       = 0x03;
     public static final byte ICON_CHECK_UPD  = 0x04;
     public static final byte ICON_CONCOLE    = 0x07;
 
     public static final byte ICON_FILEMAN    = 0x10;
+    public static final byte ICON_MOOD       = 0x11;
     public static final byte ICON_ARCHIVE    = 0x12;
     public static final byte ICON_PRIVACY    = 0x13;
     public static final byte ICON_RECONNECT  = 0x15;
@@ -78,22 +79,27 @@ public class MenuIcons extends ImageList{
     public static final byte ICON_CLEAN_MESSAGES= 0x33;
     public static final byte ICON_FT         = 0x34;
 
-    public static final byte ICON_KEYS       = 0x03;
     public static final byte ICON_URL        = 0x15;
     public static final byte ICON_DISCO      = 0x15;
     public static final byte ICON_IE         = 0x24;
     public static final byte ICON_INVERSE    = 0x25;
 
     public static final byte ICON_USER_SEARCH    = 0x42;
-    public static final byte ICON_MOOD       = 0x11;
-    public static final byte ICON_USER_ACTIVITY    = 0x67;
-    public static final byte ICON_DISCO_SERVICE    = 0x65;
-    public static final byte ICON_ADD_SERVER    = 0x55;
-    public static final byte ICON_REMOVE_ICON    = 0x51;
+
+    public static final byte ICON_DISCO_SERVICE = 0x65;
+    public static final byte ICON_USER_ACTIVITY = 0x67;
 
     public static final short ICON_OTHER_ACCOUNT = 0x90;
     public static final short ICON_YANDEX_ACCOUNT = 0x91;
     public static final short ICON_GTALK_ACCOUNT = 0x92;
     public static final short ICON_LJ_ACCOUNT = 0x93;
     public static final short ICON_QIP_ACCOUNT = 0x94;
+
+    public static final byte ICON_REMOVE_ICON = 0x51;
+    public static final byte ICON_ADD_SERVER = 0x55;
+    public static final byte ICON_GOTO_URL = 0x56;
+
+    public static final short ICON_LOAD_PHOTO = 0x74;
+    public static final short ICON_SAVE_PHOTO = 0x74;
+    public static final short ICON_CAMERA = 0x75;
 }

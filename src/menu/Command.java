@@ -35,7 +35,7 @@ import ui.IconTextElement;
  */
 public class Command extends IconTextElement {
     String name="";
-    public boolean inCommand = false;
+
     int pos;
     int map;
     int img;
@@ -54,10 +54,6 @@ public class Command extends IconTextElement {
         this.pos=pos;
     }
 
-    public void setIn() {
-        this.inCommand = true;
-    }    
-    
     public void setImg(int img) {
         this.img=img;
     }

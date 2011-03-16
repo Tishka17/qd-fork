@@ -56,11 +56,11 @@ import ui.GMenuConfig;
 //#endif
 import colors.ColorTheme;
 //#ifdef HISTORY
-//# import history.HistoryConfig;
+import history.HistoryConfig;
 //#endif
 import javax.microedition.rms.RecordStore;
 //#ifdef HISTORY
-//# import history.HistoryStorage;
+import history.HistoryStorage;
 //#endif
 import midlet.BombusQD;
 import midlet.Commands;
@@ -100,11 +100,11 @@ public final class ContactMessageList extends VirtualList implements MenuListene
     }
 
 //#ifdef HISTORY
-//#     public void storeMessage(Msg msgObj) {
-//#         synchronized (this) {
-//#            HistoryStorage.addText(contact, msgObj, this);
-//#        }
-//#     }
+    public void storeMessage(Msg msgObj) {
+        synchronized (this) {
+           HistoryStorage.addText(contact, msgObj, this);
+       }
+    }
 //#endif
 
     public void updateMainBar(Contact contact){
@@ -129,7 +129,7 @@ public final class ContactMessageList extends VirtualList implements MenuListene
         cursor=0;
         contact.setIncoming(0);
 //#ifdef FILE_TRANSFER
-//#         contact.fileQuery=false;
+        contact.fileQuery=false;
 //#endif
         enableListWrapping(false);
 
@@ -170,13 +170,13 @@ public final class ContactMessageList extends VirtualList implements MenuListene
         }
 
 //#ifdef HISTORY
-//#         if (contact.origin != Constants.ORIGIN_GROUPCHAT) {
-//#             if (midlet.BombusQD.cf.module_history) {
-//#                 if (HistoryConfig.historyTypeIndex == HistoryConfig.TYPE_RMS) {
-//#                     addCommand(Commands.cmdHistory);
-//#                 }
-//#             }
-//#         }
+        if (contact.origin != Constants.ORIGIN_GROUPCHAT) {
+            if (midlet.BombusQD.cf.module_history) {
+                if (HistoryConfig.historyTypeIndex == HistoryConfig.TYPE_RMS) {
+                    addCommand(Commands.cmdHistory);
+                }
+            }
+        }
 //#endif
 
         if (contact.getChatInfo().getMessageCount()>0) {
@@ -293,26 +293,26 @@ public final class ContactMessageList extends VirtualList implements MenuListene
     }
 
 //#ifdef TOUCH
-//#     protected void touchMainPanelPressed(int x, int y) {
-//#         contact.setCursor(cursor);
-//#         if (x>50 && x< width-50) {
-//#                 contact.getChatInfo().opened = false;
-//#                 midlet.BombusQD.sd.roster.showActiveContacts(this, contact);
-//#                 contact.setCursor(cursor);
-//#         } else if (x<50){
-//#             midlet.BombusQD.sd.roster.searchActiveContact(contact, false);
-//#         } else {
-//#             midlet.BombusQD.sd.roster.searchActiveContact(contact, true);
-//#         }
-//#     }
+    protected void touchMainPanelPressed(int x, int y) {
+        contact.setCursor(cursor);
+        if (x>50 && x< width-50) {
+                contact.getChatInfo().opened = false;
+                midlet.BombusQD.sd.roster.showActiveContacts(this, contact);
+                contact.setCursor(cursor);
+        } else if (x<50){
+            midlet.BombusQD.sd.roster.searchActiveContact(contact, false);
+        } else {
+            midlet.BombusQD.sd.roster.searchActiveContact(contact, true);
+        }
+    }
 //#endif
 
     public void commandAction(Command c, Displayable d) {
 //#ifdef HISTORY
-//#         if (c == Commands.cmdHistory) {
-//#             BombusQD.sd.roster.showHistory(this, contact);
-//#             return;
-//#         }
+        if (c == Commands.cmdHistory) {
+            BombusQD.sd.roster.showHistory(this, contact);
+            return;
+        }
 //#endif
         if (c == Commands.cmdxmlSkin) {
             try {
@@ -458,10 +458,6 @@ public final class ContactMessageList extends VirtualList implements MenuListene
 //#endif
         if (c == Commands.cmdActions) {
             BombusQD.sd.roster.showActionsMenu(this, contact);
-        }
-        if (c == Commands.cmdActive) {
-            contact.getChatInfo().opened = false;
-            midlet.BombusQD.sd.roster.showActiveContacts(this, contact);
         }
 
         if (c == Commands.cmdSubscribe) {
@@ -630,9 +626,9 @@ public final class ContactMessageList extends VirtualList implements MenuListene
 //#ifdef RUNNING_MESSAGE
                String messg = msg.from+": ";
 //#ifdef JUICK.COM
-//#                if(msg.messageType==Constants.MESSAGE_TYPE_JUICK){
-//#                     messg=util.StringUtils.replaceNickTags(msg.id);
-//#                }
+               if(msg.messageType==Constants.MESSAGE_TYPE_JUICK){
+                    messg=util.StringUtils.replaceNickTags(msg.id);
+               }
 //#endif
              if(messg==null) messg = "";
 
@@ -700,11 +696,11 @@ public final class ContactMessageList extends VirtualList implements MenuListene
             }
 
 //#ifdef JUICK.COM
-//#             else{
-//#               if(contact.getJid().indexOf("juick@juick.com")>-1){
-//#                 reply(false); return;
-//#               }
-//#             }
+            else{
+              if(contact.getJid().indexOf("juick@juick.com")>-1){
+                reply(false); return;
+              }
+            }
 //#endif
 //#endif
             keyGreen();

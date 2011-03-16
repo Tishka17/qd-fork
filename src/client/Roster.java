@@ -1482,7 +1482,7 @@ public class Roster
 
 //#ifdef CLASSIC_CHAT
 //#            if(body!=null){
-//#
+//# 
 //#                if(midlet.BombusQD.cf.module_classicchat){
 //#                  if(!groupchat) {
 //#                  //forfix
@@ -3572,9 +3572,9 @@ public class Roster
               display.setCurrent(new ConfigForm(display, this));
         }
         else if (keyCode==KEY_NUM6) {
-            midlet.BombusQD.cf.fullscreen=!midlet.BombusQD.cf.fullscreen;
+            Config.fullscreen =! Config.fullscreen;
+            setFullScreenMode(Config.fullscreen);
             midlet.BombusQD.cf.saveToStorage();
-            setFullScreenMode(midlet.BombusQD.cf.fullscreen);
         }
 //#ifdef SERVICE_DISCOVERY
         else if (keyCode==KEY_NUM7 && isLoggedIn())

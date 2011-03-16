@@ -391,11 +391,11 @@ public abstract class VirtualList
             setTitle("BombusQD");
         }
 
-        changeOrient(midlet.BombusQD.cf.panelsState);
+        changeOrient(Config.panelsState);
 //#ifdef TOUCH
         midlet.BombusQD.cf.isTouchPhone = hasPointerEvents();
 //#endif
-        setFullScreenMode(midlet.BombusQD.cf.fullscreen);
+        setFullScreenMode(Config.fullscreen);
 
         itemBorder=null;
         itemBorder=new int[32];
@@ -1629,7 +1629,7 @@ public abstract class VirtualList
             if (cmdThirdList.indexOf(command)<0) cmdThirdList.addElement(command);
           }
         }else{
-            command.setIn();
+            //command.setIn();
             if (menuCommands.indexOf(command)<0) menuCommands.addElement(command);
         }
     }

@@ -81,7 +81,7 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
     private CheckBox savePos;
     private CheckBox capsState;
     private CheckBox useTabs;
-    private CheckBox useLowMemory_iconmsgcollapsed;
+    private CheckBox hideMessageIcon;
     private CheckBox swapSendAndSuspend;
 //#ifdef CLIPBOARD
     private CheckBox useClipBoard;
@@ -310,8 +310,8 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 //#endif
 
             if(config.userAppLevel == 1) {
-                useLowMemory_iconmsgcollapsed = new CheckBox(SR.get(SR.MS_ICON_COLP), config.useLowMemory_iconmsgcollapsed);
-                addControl(useLowMemory_iconmsgcollapsed);
+                hideMessageIcon = new CheckBox(SR.get(SR.MS_ICON_COLP), Config.hideMessageIcon);
+                addControl(hideMessageIcon);
 //#ifdef CLIPBOARD
                 useClipBoard = new CheckBox(SR.get(SR.MS_CLIPBOARD), config.useClipBoard);
                 addControl(useClipBoard);
@@ -471,7 +471,7 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
                 addControl(queryExit);
             }
 
-            fullscr = new CheckBox(SR.get(SR.MS_FULLSCREEN), config.fullscreen);
+            fullscr = new CheckBox(SR.get(SR.MS_FULLSCREEN), Config.fullscreen);
             addControl(fullscr);
 
             if (phoneManufacturer == Config.SONYE) {
@@ -626,7 +626,7 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 //#endif
 
             if(config.userAppLevel == 1) {
-                config.useLowMemory_iconmsgcollapsed = useLowMemory_iconmsgcollapsed.getValue();
+                config.hideMessageIcon = hideMessageIcon.getValue();
 //#ifdef CLIPBOARD
                 config.useClipBoard = useClipBoard.getValue();
 //#endif
@@ -704,7 +704,7 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
                 config.queryExit = queryExit.getValue();
             }
 
-            config.fullscreen = fullscr.getValue();
+            Config.fullscreen = fullscr.getValue();
 
             if (phoneManufacturer == Config.SONYE) {
                 config.oldSE = oldSE.getValue();
@@ -713,7 +713,7 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
                 config.popupFromMinimized = popupFromMinimized.getValue();
             }
 
-            config.executeByNum = executeByNum.getValue();
+            Config.executeByNum = executeByNum.getValue();
             config.gmtOffset = Integer.parseInt(fieldGmt.getValue());
 
             Vector langs[] = new StringLoader().stringLoader("/lang/res.txt", 3);
@@ -723,9 +723,6 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
                     config.lang= lang;
                     SR.changeLocale();
                     Commands.initCommands();
-//#ifdef COLOR_TUNE
-                    ColorTheme.initNames();
-//#endif
                     BombusQD.sd.roster.initCommands();
                     BombusQD.sd.roster.showRoster();
                     return;

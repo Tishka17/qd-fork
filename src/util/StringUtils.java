@@ -218,7 +218,7 @@ public class StringUtils {
                 suffix.append(number)
                       .append("b");
             }
-            suffix.append(midlet.BombusQD.sd.roster.theStream.getStreamStatsBar());
+            //suffix.append(midlet.BombusQD.sd.roster.theStream.getStreamStatsBar());
         } catch (Exception e) { }
 
         return suffix.toString();

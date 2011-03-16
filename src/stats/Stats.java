@@ -23,113 +23,113 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 //#ifdef STATS
-//# package stats; 
-//# 
-//# import client.*;
-//# import io.NvStorage;
-//# import java.io.DataInputStream;
-//# import java.io.DataOutputStream;
-//# import java.io.IOException;
-//# 
-//# public class Stats {
+package stats; 
+
+import client.*;
+import io.NvStorage;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+
+public class Stats {
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_STATS");
 //#endif
-//# 
-//#     private long latestTraffic=0;
-//#     private long traffic=0;
-//#     private int sessions=0;
-//#     public int appRunCount = 0;
-//#     
-//#     // Singleton
-//#     private static Stats instance;
-//#     
-//#     public static Stats getInstance(){
-//# 	if (instance==null) {
-//# 	    instance=new Stats();
-//#             instance.loadFromStorage();
-//# 	}
-//# 	return instance;
-//#     }
-//# 
-//#     public long getLatest(){
-//#         return latestTraffic;
-//#     }
-//#     
-//#     public long getAllTraffic(){
-//#         return traffic+getCurrentTraffic();
-//#     }
-//#     
-//#     public int getSessionsCount(){
-//#         return sessions;
-//#     }
-//#     
-//#     public void updateRunValue() {
-//#         appRunCount++;
+
+    private long latestTraffic=0;
+    private long traffic=0;
+    private int sessions=0;
+    public int appRunCount = 0;
+    
+    // Singleton
+    private static Stats instance;
+    
+    public static Stats getInstance(){
+	if (instance==null) {
+	    instance=new Stats();
+            instance.loadFromStorage();
+	}
+	return instance;
+    }
+
+    public long getLatest(){
+        return latestTraffic;
+    }
+    
+    public long getAllTraffic(){
+        return traffic+getCurrentTraffic();
+    }
+    
+    public int getSessionsCount(){
+        return sessions;
+    }
+    
+    public void updateRunValue() {
+        appRunCount++;
 //#ifdef TOUCH
-//#         if(appRunCount == 1) {
-//#             midlet.BombusQD.cf.initTouchOptions();
-//#         }
+        if(appRunCount == 1) {
+            midlet.BombusQD.cf.initTouchOptions();
+        }
 //#endif
-//#         saveToStorage(false,true);
-//#     }
-//#     
-//# 
-//#     public void loadFromStorage(){
-//#         DataInputStream inputStream=NvStorage.ReadFileRecord("stats", 0);
-//#         try {
-//#             traffic=inputStream.readLong();
-//#             latestTraffic=inputStream.readLong();
-//#             sessions=inputStream.readInt();
-//#             appRunCount=inputStream.readInt();
-//#     
-//#             inputStream.close();
-//#             inputStream=null;
-//# 	} catch (Exception e) {
-//#             try {
-//#                 if (inputStream!=null) {
-//#                     inputStream.close();
-//#                     inputStream=null;
-//#                 }
-//#             } catch (IOException ex) {}
-//# 	}
-//#         sessions++;//?
-//#     }
-//#     
-//#     public void saveToStorage(boolean reset, boolean appRun){
-//#         if(!appRun) loadFromStorage();
-//# 
-//#         long sessionTraffic;
-//#         long allTraffic;
-//#         
-//#         if (reset) {
-//#             sessionTraffic  =   0;
-//#             allTraffic      =   0;
-//#             latestTraffic   =   0;
-//#             traffic         =   0;
-//#             sessions        =   0;
-//#             appRunCount     =   0;
-//#          
-//#         } else {
-//#             sessionTraffic=getCurrentTraffic();
-//#             allTraffic=traffic+sessionTraffic;
-//#         }
-//#         
-//# 	try {
-//#             DataOutputStream outputStream=NvStorage.CreateDataOutputStream();
-//#          
-//#             outputStream.writeLong(allTraffic);
-//#             outputStream.writeLong(sessionTraffic);
-//#             outputStream.writeInt(sessions);
-//#             outputStream.writeInt(appRunCount);
-//#             
-//#             
-//#             NvStorage.writeFileRecord(outputStream, "stats", 0, true);
-//# 	} catch (IOException e) { }
-//#     }
-//#     
-//#     public static long getCurrentTraffic() {
-//#         return StaticData.getInstance().traffic;
-//#     }
-//# }
+        saveToStorage(false,true);
+    }
+    
+
+    public void loadFromStorage(){
+        DataInputStream inputStream=NvStorage.ReadFileRecord("stats", 0);
+        try {
+            traffic=inputStream.readLong();
+            latestTraffic=inputStream.readLong();
+            sessions=inputStream.readInt();
+            appRunCount=inputStream.readInt();
+    
+            inputStream.close();
+            inputStream=null;
+	} catch (Exception e) {
+            try {
+                if (inputStream!=null) {
+                    inputStream.close();
+                    inputStream=null;
+                }
+            } catch (IOException ex) {}
+	}
+        sessions++;//?
+    }
+    
+    public void saveToStorage(boolean reset, boolean appRun){
+        if(!appRun) loadFromStorage();
+
+        long sessionTraffic;
+        long allTraffic;
+        
+        if (reset) {
+            sessionTraffic  =   0;
+            allTraffic      =   0;
+            latestTraffic   =   0;
+            traffic         =   0;
+            sessions        =   0;
+            appRunCount     =   0;
+         
+        } else {
+            sessionTraffic=getCurrentTraffic();
+            allTraffic=traffic+sessionTraffic;
+        }
+        
+	try {
+            DataOutputStream outputStream=NvStorage.CreateDataOutputStream();
+         
+            outputStream.writeLong(allTraffic);
+            outputStream.writeLong(sessionTraffic);
+            outputStream.writeInt(sessions);
+            outputStream.writeInt(appRunCount);
+            
+            
+            NvStorage.writeFileRecord(outputStream, "stats", 0, true);
+	} catch (IOException e) { }
+    }
+    
+    public static long getCurrentTraffic() {
+        return StaticData.getInstance().traffic;
+    }
+}
 //#endif

@@ -37,7 +37,7 @@ import util.StringUtils;
 import ui.Time;
 //#endif
 //#ifdef DETRANSLIT
-//# import util.DeTranslit;
+import util.DeTranslit;
 //#endif
 import javax.microedition.lcdui.Displayable;
 //#ifndef MENU_LISTENER
@@ -252,8 +252,9 @@ public class VCardView extends DefForm
             if (lineValue != null) {
                 ClipBoard.addToClipBoard(lineValue);
             }
-        }
 //#endif
+        }
+
         //super.commandAction(c, d);
     }
 
@@ -276,18 +277,18 @@ public class VCardView extends DefForm
         StringBuffer nickDate = new StringBuffer();
         nickDate.append("photo_");
 //#ifdef DETRANSLIT
-//#         String userName=(vcard.getNickName()!=null)?vcard.getNickName():vcard.getJid();
-//#         if (Config.getInstance().transliterateFilenames) {
-//#             nickDate.append(DeTranslit.translit(userName));
-//#         } else {
-//#             nickDate.append(userName);
-//#         }
-//#else
-        if (vcard.getNickName() != null) {
-            nickDate.append(vcard.getNickName());
+        String userName=(vcard.getNickName()!=null)?vcard.getNickName():vcard.getJid();
+        if (Config.getInstance().transliterateFilenames) {
+            nickDate.append(DeTranslit.translit(userName));
         } else {
-            nickDate.append(vcard.getJid());
+            nickDate.append(userName);
         }
+//#else
+//#         if (vcard.getNickName() != null) {
+//#             nickDate.append(vcard.getNickName());
+//#         } else {
+//#             nickDate.append(vcard.getJid());
+//#         }
 //#endif
         nickDate.append('_').append(Time.dayLocalString(Time.utcTimeMillis()).trim());
         return nickDate.toString();

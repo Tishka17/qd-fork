@@ -30,7 +30,7 @@ package com.alsutton.jabber;
 import client.Config;
 import client.StaticData;
 //#ifdef XML_CONSOLE
-//# import console.xml.XMLList;
+import console.xml.XMLList;
 //#endif
 import io.Utf8IOStream;
 import java.io.*;
@@ -197,7 +197,7 @@ public class JabberStream extends XmppParser implements Runnable {
 //#             System.out.println("rException in parser:");
 //#endif
 //#ifdef DEBUG_CONSOLE
-//#             midlet.BombusQD.debug.add(" rException in parser" ,10);
+            midlet.BombusQD.debug.add(" rException in parser" ,10);
 //#endif
             //e.printStackTrace();
             dispatcher.broadcastTerminatedConnection(e);
@@ -275,9 +275,9 @@ public class JabberStream extends XmppParser implements Runnable {
         }
         if (null != iostream) iostream.send(data);
 //#ifdef XML_CONSOLE
-//#         if (console.xml.XMLList.enabled) {
-//#             addLog(data.toString(), 1);
-//#         }
+        if (console.xml.XMLList.enabled) {
+            addLog(data.toString(), 1);
+        }
 //#endif
         ++StaticData.outPacketCount;
         data = new StringBuffer(0); //Tishka17
@@ -303,7 +303,7 @@ public class JabberStream extends XmppParser implements Runnable {
     }
 
 //#ifdef XML_CONSOLE
-//#     public void addLog (String data, int type) {
+    public void addLog (String data, int type) {
 //#ifdef PLUGINS
 //#         if (canLog<1) {
 //#             if (StaticData.getInstance().Console) {
@@ -314,8 +314,8 @@ public class JabberStream extends XmppParser implements Runnable {
 //#             }
 //#         }
 //#endif
-//#         XMLList.getInstance().add(data, type);
-//#    }
+        XMLList.getInstance().add(data, type);
+   }
 //#endif
 
     /**

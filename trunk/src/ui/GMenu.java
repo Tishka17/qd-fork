@@ -173,7 +173,7 @@ public class GMenu extends Canvas {
        gm.ml=null;
       } catch (Exception e) { /* IndexOutOfBounds */
           //#ifdef DEBUG_CONSOLE
-//#         midlet.BombusQD.debug.add("GMenu::select IndexOutOfBounds->" + e.getMessage(), 10);
+        midlet.BombusQD.debug.add("GMenu::select IndexOutOfBounds->" + e.getMessage(), 10);
         //#endif
       }
       gm.itemCursorIndexIn = 0;
@@ -227,8 +227,9 @@ public class GMenu extends Canvas {
 
    boolean eventMenu=false;
    Vector inMenuItems = new Vector(0);
-
+//#ifdef GRADIENT
    Gradient fon;
+//#endif
 
    private void eventOk(){
     try {
@@ -258,7 +259,7 @@ public class GMenu extends Canvas {
     } catch (Exception e) {
         /* IndexOutOfBounds */
         //#ifdef DEBUG_CONSOLE
-//#         midlet.BombusQD.debug.add("GMenu::eventOk Exception->" + e.getMessage(), 10);
+        midlet.BombusQD.debug.add("GMenu::eventOk Exception->" + e.getMessage(), 10);
         //#endif
     }
    }
@@ -355,7 +356,7 @@ public class GMenu extends Canvas {
 
          g.translate(gm.xcoodr, gm.ycoodr);
          g.setClip(0,0,w+1,mHfh+40);//?
-
+//#ifdef GRADIENT
         if(midlet.BombusQD.cf.gradient_cursor){ //Tishka17
             int yc = 1 + (itemCursorIndex*fh);
             fon=new Gradient(0, yc, w+2, yc+fh, ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_1),
@@ -365,7 +366,9 @@ public class GMenu extends Canvas {
              g.drawRoundRect(0, (itemCursorIndex*fh), w , fh+1, 8, 8);
             //fon.paint(g);
             g.setColor(0x000000);
-        }else {
+        }else
+//#endif
+	{
             g.setColor(ColorTheme.getColor(ColorTheme.CURSOR_BGND));
             g.fillRoundRect(0, (itemCursorIndex*fh), w  , fh+1, 8, 8);
             g.setColor(ColorTheme.getColor(ColorTheme.CURSOR_OUTLINE));

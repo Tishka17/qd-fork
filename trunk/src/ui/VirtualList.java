@@ -33,7 +33,7 @@ import font.FontCache;
 import javax.microedition.lcdui.*;
 import client.Config;
 //#ifdef CLASSIC_CHAT
-//# import client.SimpleItemChat;
+import client.SimpleItemChat;
 //#endif
 import client.StaticData;
 import client.Contact;
@@ -83,9 +83,7 @@ public abstract class VirtualList
 //#endif
 
 //#ifdef GRADIENT
-    //Gradient grIB;
-    //Gradient grMB;
-    Gradient fon;
+   Gradient fon;
 //#endif
 
     private static boolean reverse=false;
@@ -361,7 +359,7 @@ public abstract class VirtualList
                }
            } catch (Exception e) {
 //#ifdef DEBUG_CONSOLE
-//#               midlet.BombusQD.debug.add("VL -> createImage Exception: "+e.getMessage(),10);
+              midlet.BombusQD.debug.add("VL -> createImage Exception: "+e.getMessage(),10);
 //#endif
            }
     }
@@ -455,7 +453,7 @@ public abstract class VirtualList
 
     protected void sizeChanged(int w, int h) {
 //#ifdef DEBUG_CONSOLE
-//#         midlet.BombusQD.debug.add("VirtualList::sizeChanged " + width+"x"+height + "->"+w+"x"+h ,10);
+        midlet.BombusQD.debug.add("VirtualList::sizeChanged " + width+"x"+height + "->"+w+"x"+h ,10);
 //#endif
         width=w;
         height=h;
@@ -544,11 +542,13 @@ public abstract class VirtualList
                         }
           }
         }
+//#ifdef GRADIENT
         else if(midlet.BombusQD.cf.bgnd_image==2) {
           fon=new Gradient(0, 0, width, height, ColorTheme.getColor(ColorTheme.GRADIENT_BGND_LEFT),
                   ColorTheme.getColor(ColorTheme.GRADIENT_BGND_RIGHT), true);
           fon.paint(g);
         }
+//#endif
         else if(midlet.BombusQD.cf.bgnd_image==3) {
           if(null != bgndImage) g.drawImage(bgndImage, 0, 0, Graphics.LEFT|Graphics.TOP);
         }
@@ -831,6 +831,7 @@ public abstract class VirtualList
       }
      else
      {
+//#ifdef GRADIENT
         if(midlet.BombusQD.cf.gradient_cursor){
              fon=new Gradient(x0, y0, width+x0, height+y0, ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_1),
                   ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_2), false);
@@ -839,6 +840,7 @@ public abstract class VirtualList
              g.drawRoundRect(x0, y0, width-1, height-1, 8, 8);
              //fon.paint(g);
         }else
+//#endif
         {
          int cursorBGnd=ColorTheme.getColor(ColorTheme.CURSOR_BGND);
          int cursorOutline=ColorTheme.getColor(ColorTheme.CURSOR_OUTLINE);
@@ -1699,9 +1701,9 @@ public abstract class VirtualList
            System.out.println("popupGreen");
             if (getPopUp().getContact()!=null) {
 //#ifdef CLASSIC_CHAT
-//#                    if(midlet.BombusQD.cf.module_classicchat){
-//#                       new SimpleItemChat(midlet.BombusQD.getInstance().display,sd.roster,sd.roster.getContact(popup.getContact(), false));
-//#                    } else {
+                   if(midlet.BombusQD.cf.module_classicchat){
+                      new SimpleItemChat(midlet.BombusQD.getInstance().display,sd.roster,sd.roster.getContact(popup.getContact(), false));
+                   } else {
 //#endif
                        Contact c = sd.roster.getContact(popup.getContact(), false);
                        if(c.getChatInfo().getMessageCount()<=0 ){
@@ -1710,7 +1712,7 @@ public abstract class VirtualList
                        }
                        midlet.BombusQD.getInstance().display.setCurrent(c.getMessageList());
 //#ifdef CLASSIC_CHAT
-//#                    }
+                   }
 //#endif
                 popup.next();
                 return;
@@ -2167,9 +2169,9 @@ public abstract class VirtualList
                             if(c!=null) c = null;
                          } catch(OutOfMemoryError eom) {
 //#ifdef DEBUG_CONSOLE
-//#                            if(midlet.BombusQD.cf.debug) {
-//#                                midlet.BombusQD.debug.add("::VList->sort->contactByMsgs",10);
-//#                            }
+                           if(midlet.BombusQD.cf.debug) {
+                               midlet.BombusQD.debug.add("::VList->sort->contactByMsgs",10);
+                           }
 //#endif
                          } catch (Exception e) {}
                          break;
@@ -2219,7 +2221,7 @@ public abstract class VirtualList
 
     public String getTraffic() {
         long traffic = StaticData.getInstance().traffic;
-        return StringUtils.getSizeString((traffic>0)?traffic:0);
+        return (traffic>0)?StringUtils.getSizeString(traffic)+midlet.BombusQD.sd.roster.theStream.getStreamStatsBar():"";
     }
 
     public String touchLeftCommand(){ return (midlet.BombusQD.cf.oldSE)?SR.get(SR.MS_BACK):SR.get(SR.MS_MENU); }

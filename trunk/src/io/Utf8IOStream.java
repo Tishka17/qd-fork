@@ -33,8 +33,8 @@ import com.jcraft.jzlib.ZInputStream;
 import com.jcraft.jzlib.ZOutputStream;
 //#endif
 //#ifdef TLS
-import bwmorg.bouncycastle.crypto.tls.TlsProtocolHandler;
-import bwmorg.bouncycastle.crypto.tls.AlwaysValidVerifyer;
+//# import bwmorg.bouncycastle.crypto.tls.TlsProtocolHandler;
+//# import bwmorg.bouncycastle.crypto.tls.AlwaysValidVerifyer;
 //#endif
 import java.io.IOException;
 import java.io.InputStream;
@@ -57,8 +57,8 @@ public class Utf8IOStream {
     private boolean isZlib = false;
 
 //#if TLS
-    private TlsProtocolHandler tls;
-    public boolean tlsExclusive = false;
+//#     private TlsProtocolHandler tls;
+//#     public boolean tlsExclusive = false;
  //#endif    
 
 //#if (ZLIB)
@@ -67,9 +67,9 @@ public class Utf8IOStream {
         outStream = new ZOutputStream(outStream, JZlib.Z_DEFAULT_COMPRESSION);
          ((ZOutputStream)outStream).setFlushMode(JZlib.Z_SYNC_FLUSH);
         this.isZlib = true;
-        //#ifdef DEBUG_CONSOLE
-//#         midlet.BombusQD.debug.add("::ZLIB->" + this.isZlib,10);
-        //#endif
+//#ifdef DEBUG_CONSOLE
+        midlet.BombusQD.debug.add("::ZLIB->" + this.isZlib,10);
+//#endif
      }
 //#endif
 
@@ -89,7 +89,7 @@ public class Utf8IOStream {
         pbyte=0;
     }
 
- //#if (ZLIB)
+//#if (ZLIB)
     public long countPocketsSend=0;
 //#endif
 
@@ -124,8 +124,8 @@ public class Utf8IOStream {
 
     public int read(byte buf[]) throws IOException {
 //#ifdef TLS
-        if (tlsExclusive)
-            return 0;
+//#         if (tlsExclusive)
+//#             return 0;
 //#endif     
         avail=inpStream.available();
 
@@ -161,15 +161,15 @@ public class Utf8IOStream {
      }
 
 //#if TLS
-    public void setTls() throws IOException {
-        tlsExclusive=true;
-        tls=new TlsProtocolHandler(inpStream, outStream);
-        tls.connect(new AlwaysValidVerifyer());
-        inpStream=tls.getTlsInputStream();
-        outStream=tls.getTlsOuputStream();
-        tlsExclusive=false;
-        length=pbyte=0;
-    }
+//#     public void setTls() throws IOException {
+//#         tlsExclusive=true;
+//#         tls=new TlsProtocolHandler(inpStream, outStream);
+//#         tls.connect(new AlwaysValidVerifyer());
+//#         inpStream=tls.getTlsInputStream();
+//#         outStream=tls.getTlsOuputStream();
+//#         tlsExclusive=false;
+//#         length=pbyte=0;
+//#     }
 //#endif 
 
      private static final int TCP_SERVICEINFO_IN_PROCENT = 80;
@@ -186,22 +186,28 @@ public class Utf8IOStream {
          bytesSent = 0;
          bytesRecv = 0;
  	try {
+//#ifdef ZLIB
              boolean outZ = (outStream instanceof ZOutputStream);
-             //#ifdef DEBUG_CONSOLE
-//#              midlet.BombusQD.debug.add("::CLOSE_OUT_ZLIB->"  + outZ,10);
-             //#endif
+//#ifdef DEBUG_CONSOLE
+             midlet.BombusQD.debug.add("::CLOSE_OUT_ZLIB->"  + outZ,10);
+//#endif
              if(outZ)
                  ((ZOutputStream)outStream).close();
-             else outStream.close();
+             else
+//#endif
+		 outStream.close();
          } catch (Exception e) {} finally {  outStream = null; }
  	try {
+//#ifdef ZLIB
              boolean inZ = (inpStream instanceof ZInputStream);
-             //#ifdef DEBUG_CONSOLE
-//#              midlet.BombusQD.debug.add("::CLOSE_IN_ZLIB->" +  inZ,10);
-             //#endif
+//#ifdef DEBUG_CONSOLE
+             midlet.BombusQD.debug.add("::CLOSE_IN_ZLIB->" +  inZ,10);
+//#endif
              if(inZ)
                  ((ZInputStream)inpStream).close();
-             else inpStream.close();
+             else
+//#endif
+		 inpStream.close();
          } catch (Exception e) {} finally {  inpStream = null; }
     }
 
@@ -217,7 +223,9 @@ public class Utf8IOStream {
         try {
             if (isZlib) {
                 ZInputStream z = (ZInputStream) inpStream;
-                String ratio=Long.toString((10*z.getTotalOut())/z.getTotalIn());
+		    ZOutputStream zo = (ZOutputStream) outStream;
+
+                String ratio=Long.toString((10*(bytesSent+bytesRecv)/(zo.getTotalOut()+z.getTotalIn())));
                 int dotpos=ratio.length()-1;
 
                 stats.append(' ')
@@ -246,8 +254,8 @@ public class Utf8IOStream {
             if (isZlib) {
                 ZInputStream z = (ZInputStream) inpStream;
                 ZOutputStream zo = (ZOutputStream) outStream;
-                stats.append("ZLib:\nin: "); appendZlibStats(stats, z.getTotalIn(), z.getTotalOut(), true);
-                stats.append("\nout: "); appendZlibStats(stats, zo.getTotalOut(), zo.getTotalIn(), false);
+                stats.append("ZLib:\nin: "); appendZlibStats(stats, z.getTotalIn(), bytesRecv, true);
+                stats.append("\nout: "); appendZlibStats(stats, zo.getTotalOut(), bytesSent, false);
             } else {
               stats.append("\nin: ")
                   .append(bytesRecv)
@@ -283,7 +291,7 @@ public class Utf8IOStream {
             stats.append(((SocketConnection)connection).getLocalAddress())
                  .append(":")
                  .append(((SocketConnection)connection).getLocalPort())
-                 .append("->")
+                 .append(" -> ")
                  .append(((SocketConnection)connection).getAddress())
                  .append(":")
                  .append(((SocketConnection)connection).getPort());
@@ -298,6 +306,7 @@ public class Utf8IOStream {
     }
 //#else
 //#      private StringBuffer stats = new StringBuffer(0);
+//#
 //#      public String getStreamStats() {
 //#          stats = new StringBuffer(0);
 //#          try {
@@ -310,12 +319,18 @@ public class Utf8IOStream {
 //#          }
 //#          return stats.toString();
 //#      }
+//#      public String getStreamStatsBar() {
+//# 	      return "";
+//#      }
 //#
 //#      public long getBytes() {
 //#          try {
 //#              return bytesSent+bytesRecv;
 //#          } catch (Exception e) { }
 //#          return 0;
+//#      }
+//#      public String getConnectionData() {
+//# 	 return "";
 //#      }
 //#endif
 }

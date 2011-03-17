@@ -33,10 +33,11 @@ import font.FontCache;
 import javax.microedition.lcdui.*;
 import client.Config;
 //#ifdef CLASSIC_CHAT
-import client.SimpleItemChat;
+//# import client.SimpleItemChat;
 //#endif
 import client.StaticData;
 import client.Contact;
+import io.file.FileIO;
 import locale.SR;
 //#ifdef POPUPS
 import ui.controls.PopUp;
@@ -334,45 +335,39 @@ public abstract class VirtualList
    }
 
 //#ifdef BACK_IMAGE
-    public static Image getImage(int type) {
-        System.out.println("getImage: " + type);
-        if(type == 1) return bgndJimmImage;
-        if(type == 3) return bgndImage;
-        return null;
-    }
-
-    private static Image bgndJimmImage = null;
     private static Image bgndImage = null;
 
     public static void createImage(boolean create) {
-           Config cf = midlet.BombusQD.cf;
-           //System.out.println(create + " [" + bgndImage + "/" + bgndJimmImage + "]");
            if(create) {
-               if(bgndImage != null || bgndJimmImage != null) return;
+               if (bgndImage != null) {
+                   return;
+               }
            }
            try {
-               switch(cf.bgnd_image) {
-                   case 0: bgndJimmImage = bgndImage = null; break;
-                   case 1: bgndJimmImage = Image.createImage("/images/back.png"); break;
-                   case 2: bgndJimmImage = bgndImage = null; break;
-                   case 3: bgndImage = Image.createImage("/images/bgnd.jpg"); break;
+               switch (Config.backImgType) {
+                   case 0:
+                   case 2:
+                       bgndImage = null;
+                       break;
+                   case 1:
+                       bgndImage = Image.createImage("/images/back.png");
+                       break;
+                   case 3:
+                       bgndImage = Image.createImage("/images/bgnd.jpg");
+                       break;
+                   case 4:
+                       FileIO f = FileIO.createConnection(Config.backImgPath);
+                       bgndImage = Image.createImage(f.openInputStream());
+                       f.close();
                }
            } catch (Exception e) {
+               e.printStackTrace();
 //#ifdef DEBUG_CONSOLE
-              midlet.BombusQD.debug.add("VL -> createImage Exception: "+e.getMessage(),10);
+//#               midlet.BombusQD.debug.add("VL -> createImage Exception: "+e.getMessage(),10);
 //#endif
            }
     }
 //#endif
-
-/*
-    public void redrawAni(int x,int y,int width,int height){
-        Displayable d=display.getCurrent();
-        if (d instanceof Canvas) {
-            ((Canvas)d).repaint(x,y,width,height);
-        }
-    }
-*/
 
     public VirtualList() {
         width=getWidth();
@@ -453,7 +448,7 @@ public abstract class VirtualList
 
     protected void sizeChanged(int w, int h) {
 //#ifdef DEBUG_CONSOLE
-        midlet.BombusQD.debug.add("VirtualList::sizeChanged " + width+"x"+height + "->"+w+"x"+h ,10);
+//#         midlet.BombusQD.debug.add("VirtualList::sizeChanged " + width+"x"+height + "->"+w+"x"+h ,10);
 //#endif
         width=w;
         height=h;
@@ -532,25 +527,28 @@ public abstract class VirtualList
         g.fillRect(0, 0, width, height);
 
 //#ifdef BACK_IMAGE
-
-        if(midlet.BombusQD.cf.bgnd_image==1){
-          if (null != bgndJimmImage) {
-                        int imgW = bgndJimmImage.getWidth();
-                        int imgH = bgndJimmImage.getHeight();
-			for (int xx = 0; xx < width; xx += imgW){
-			   for (int yy = 0; yy < height; yy += imgH) g.drawImage(bgndJimmImage, xx, yy, Graphics.LEFT|Graphics.TOP);
-                        }
-          }
+        if (Config.backImgType == 1) {
+            if (null != bgndImage) {
+                int imgW = bgndImage.getWidth();
+                int imgH = bgndImage.getHeight();
+                for (int xx = 0; xx < width; xx += imgW) {
+                    for (int yy = 0; yy < height; yy += imgH) {
+                        g.drawImage(bgndImage, xx, yy, Graphics.LEFT | Graphics.TOP);
+                    }
+                }
+            }
         }
 //#ifdef GRADIENT
-        else if(midlet.BombusQD.cf.bgnd_image==2) {
-          fon=new Gradient(0, 0, width, height, ColorTheme.getColor(ColorTheme.GRADIENT_BGND_LEFT),
-                  ColorTheme.getColor(ColorTheme.GRADIENT_BGND_RIGHT), true);
-          fon.paint(g);
+        else if (Config.backImgType == 2) {
+            fon = new Gradient(0, 0, width, height, ColorTheme.getColor(ColorTheme.GRADIENT_BGND_LEFT),
+                    ColorTheme.getColor(ColorTheme.GRADIENT_BGND_RIGHT), true);
+            fon.paint(g);
         }
 //#endif
-        else if(midlet.BombusQD.cf.bgnd_image==3) {
-          if(null != bgndImage) g.drawImage(bgndImage, 0, 0, Graphics.LEFT|Graphics.TOP);
+        else if (Config.backImgType == 3 || Config.backImgType == 4) {
+            if (null != bgndImage) {
+                g.drawImage(bgndImage, 0, 0, Graphics.LEFT | Graphics.TOP);
+            }
         }
 //#endif
 
@@ -630,7 +628,9 @@ public abstract class VirtualList
                     baloon=drawYpos;
                 } else {
 //#ifdef BACK_IMAGE
-                    if (bgndJimmImage==null && bgndImage==null && midlet.BombusQD.cf.bgnd_image!=2) g.fillRect(0, drawYpos, itemMaxWidth, lh);
+                    if (bgndImage==null && Config.backImgType != 2) {
+                        g.fillRect(0, drawYpos, itemMaxWidth, lh);
+                    }
 //#endif
                 }
                 g.translate(0, drawYpos);
@@ -653,7 +653,7 @@ public abstract class VirtualList
 
         if ( clrH>0
 //#ifdef BACK_IMAGE
-                && (bgndJimmImage==null && bgndImage==null && midlet.BombusQD.cf.bgnd_image!=2)
+                && (bgndImage==null && Config.backImgType!=2)
 //#endif
                 ) {
             setAbsOrg(g, 0,displayedBottom);
@@ -1701,9 +1701,9 @@ public abstract class VirtualList
            System.out.println("popupGreen");
             if (getPopUp().getContact()!=null) {
 //#ifdef CLASSIC_CHAT
-                   if(midlet.BombusQD.cf.module_classicchat){
-                      new SimpleItemChat(midlet.BombusQD.getInstance().display,sd.roster,sd.roster.getContact(popup.getContact(), false));
-                   } else {
+//#                    if(midlet.BombusQD.cf.module_classicchat){
+//#                       new SimpleItemChat(midlet.BombusQD.getInstance().display,sd.roster,sd.roster.getContact(popup.getContact(), false));
+//#                    } else {
 //#endif
                        Contact c = sd.roster.getContact(popup.getContact(), false);
                        if(c.getChatInfo().getMessageCount()<=0 ){
@@ -1712,7 +1712,7 @@ public abstract class VirtualList
                        }
                        midlet.BombusQD.getInstance().display.setCurrent(c.getMessageList());
 //#ifdef CLASSIC_CHAT
-                   }
+//#                    }
 //#endif
                 popup.next();
                 return;
@@ -2169,9 +2169,9 @@ public abstract class VirtualList
                             if(c!=null) c = null;
                          } catch(OutOfMemoryError eom) {
 //#ifdef DEBUG_CONSOLE
-                           if(midlet.BombusQD.cf.debug) {
-                               midlet.BombusQD.debug.add("::VList->sort->contactByMsgs",10);
-                           }
+//#                            if(midlet.BombusQD.cf.debug) {
+//#                                midlet.BombusQD.debug.add("::VList->sort->contactByMsgs",10);
+//#                            }
 //#endif
                          } catch (Exception e) {}
                          break;

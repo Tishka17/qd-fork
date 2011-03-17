@@ -197,7 +197,7 @@ public class BombusQD extends MIDlet implements Runnable {
         }
 
 //#ifdef HISTORY
-        HistoryConfig.getInstance().loadFromStorage();
+        HistoryConfigForm.loadSettings();
 //#endif
 
 //#ifdef LIGHT_CONTROL

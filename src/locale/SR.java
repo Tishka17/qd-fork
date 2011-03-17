@@ -614,7 +614,7 @@ public class SR {
      public final static short MS_SCROLL_WIDTH = 581; //Scroll Width
      public final static short MS_TYPE_BACKGROUND = 582; //Type of Background
      public final static short MS_BGND_NONE = 583; //Background Default
-     public final static short MS_BGND_GRADIENT_ = 584; //Background Gradient
+     public final static short MS_BGND_GRADIENT = 584; //Background Gradient
      public final static short MS_MY_BGND_IMAGE_ = 585; //Background image
      public final static short MS_MAX_AVATAR_WIDTH = 586; //Max Avatar Width
      public final static short MS_MAX_AVATAR_HEIGHT = 587; //Max Avatar Height
@@ -684,8 +684,8 @@ public class SR {
      public final static short MS_ieStr_  = 651; //Import/Export
      public final static short MS_notifyStr  = 652; //Notifications&Light Control
      public final static short MS_taskstr  = 653; //Tasks
-     public final static short MS_AVATARS_  = 654; //Avatars
-     public final static short MS_avatarStr_  = 655; //Avatars
+     public final static short MS_BACK_IMG_PATH = 654; //Background image path
+     public final static short MS_BGND_FROM_FS  = 655; //Background from FS
      public final static short MS_config  = 656; //Config
      public final static short MS_ANI_SMILES  = 657; //Use animated smiles
      public final static short MS_NOKIA_RECONNECT_HACK  = 658; //Nokia Reconnect Hack
@@ -758,7 +758,7 @@ public class SR {
      public final static short MS_SLASHME =  724;
      public final static short MS_VIP_GROUP =  725;
      public final static short MS_VISIBLE_GROUP =   726;
-     public final static short MS_BGND_GRADIENT =  727;
+     public final static short MS_PATH_NOT_SPECIFIED = 727;
      public final static short MS_GRMENU_LEFT =  728;
      public final static short MS_PEP =  729;
 
@@ -1447,8 +1447,8 @@ public class SR {
         "Import/Export",
         "Notifications&Light Control",
         "Tasks",
-        "Avatars",
-        "Avatars",
+        "Background image path",
+        "Background from FS",
         "Config",
         "Use animated smiles",
         "Nokia Reconnect Hack",
@@ -1521,7 +1521,7 @@ public class SR {
         "/me",
         "VIP",
         "Visible",
-        "MS_BGND_GRADIENT",
+        "[path is not specified]",
         "[Left:     ]",
         "Pubsub events",
 

@@ -231,7 +231,8 @@ public class Config {
     public boolean find_text=false;//fix
 
 //#ifdef BACK_IMAGE
-    public int bgnd_image = 0;
+    public static int backImgType = 0;
+    public static String backImgPath = "";
 //#endif
 
     public String add_contact_name="@.";
@@ -661,7 +662,7 @@ public class Config {
             reconnectTime=inputStream.readInt();
             maxAvatarHeight=inputStream.readInt();
 //#ifdef BACK_IMAGE
-            bgnd_image=inputStream.readInt();
+            backImgType=inputStream.readInt();
 //#endif
             scrollWidth=inputStream.readInt();
             classicChatHeight=inputStream.readInt();
@@ -678,36 +679,6 @@ public class Config {
             gradientBarLight2=inputStream.readInt();
             userAppLevel = inputStream.readInt();
             menuFont = inputStream.readInt();
-	    inputStream.close();
-            inputStream=null;
-	} catch (Exception e) {
-            try {
-                if (inputStream!=null) {
-                    inputStream.close();
-                    inputStream=null;
-                }
-            } catch (IOException ex) { }
-	}
-    }
-
-    protected void loadUTF(){
-        DataInputStream inputStream=NvStorage.ReadFileRecord("confUtf", 0);
-	try {
-            msgAvatarPath=inputStream.readUTF();
-            defConference=inputStream.readUTF();
-            lang=inputStream.readUTF();
-            verHash=inputStream.readUTF();
-            resolvedHost=inputStream.readUTF();
-            moodText=inputStream.readUTF();
-            moodName=inputStream.readUTF();
-            actText=inputStream.readUTF();
-            actDescr=inputStream.readUTF();
-            actCat=inputStream.readUTF();
-
-            // free
-            inputStream.readUTF();
-
-            path_skin = inputStream.readUTF();
 	    inputStream.close();
             inputStream=null;
 	} catch (Exception e) {
@@ -928,7 +899,7 @@ public class Config {
             outputStream.writeInt(reconnectTime);
             outputStream.writeInt(maxAvatarHeight);
 //#ifdef BACK_IMAGE
-            outputStream.writeInt(bgnd_image);
+            outputStream.writeInt(backImgType);
 //#endif
             outputStream.writeInt(scrollWidth);
             outputStream.writeInt(classicChatHeight);
@@ -949,9 +920,9 @@ public class Config {
 	return NvStorage.writeFileRecord(outputStream, "confInt", 0, true);
     }
 
-    public boolean saveUTF(){
-       	DataOutputStream outputStream=NvStorage.CreateDataOutputStream();
-	try {
+    public boolean saveUTF() {
+        DataOutputStream outputStream = NvStorage.CreateDataOutputStream();
+        try {
             outputStream.writeUTF(msgAvatarPath);
             outputStream.writeUTF(defConference);
             outputStream.writeUTF(lang);
@@ -964,11 +935,43 @@ public class Config {
             outputStream.writeUTF(actCat);
 
             // free
-            outputStream.writeUTF("");
+            outputStream.writeUTF(backImgPath);
 
             outputStream.writeUTF(path_skin);
-	} catch (IOException e) { }
-	return NvStorage.writeFileRecord(outputStream, "confUtf", 0, true);
+        } catch (IOException e) {
+        }
+        return NvStorage.writeFileRecord(outputStream, "confUtf", 0, true);
+    }
+
+    protected void loadUTF() {
+        DataInputStream inputStream = NvStorage.ReadFileRecord("confUtf", 0);
+        try {
+            msgAvatarPath = inputStream.readUTF();
+            defConference = inputStream.readUTF();
+            lang = inputStream.readUTF();
+            verHash = inputStream.readUTF();
+            resolvedHost = inputStream.readUTF();
+            moodText = inputStream.readUTF();
+            moodName = inputStream.readUTF();
+            actText = inputStream.readUTF();
+            actDescr = inputStream.readUTF();
+            actCat = inputStream.readUTF();
+
+            // free
+            backImgPath = inputStream.readUTF();
+
+            path_skin = inputStream.readUTF();
+            inputStream.close();
+            inputStream = null;
+        } catch (Exception e) {
+            try {
+                if (inputStream != null) {
+                    inputStream.close();
+                    inputStream = null;
+                }
+            } catch (IOException ex) {
+            }
+        }
     }
 
     private Timer timer = null;

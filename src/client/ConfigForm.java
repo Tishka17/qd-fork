@@ -33,7 +33,7 @@ import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import menu.MenuListener;
 //#ifdef HISTORY
-import history.HistoryConfig;
+import history.HistoryConfigForm;
 //#endif
 
 /**
@@ -157,7 +157,7 @@ public class ConfigForm extends DefForm implements MenuListener {
 //#endif
 //#ifdef HISTORY
         } else if (type.equals(SR.get(SR.MS_historyStr))) {
-            display.setCurrent(new HistoryConfig(display, this));
+            display.setCurrent(new HistoryConfigForm(display, this));
 //#endif
         } else if (type.equals(SR.get(SR.MS_fontsStr))) {
             display.setCurrent(new font.FontConfigForm(display, this));
@@ -174,7 +174,7 @@ public class ConfigForm extends DefForm implements MenuListener {
             new autotask.AutoTaskForm(display, this);
 //#endif
         } else if (type.equals(SR.get(SR.MS_AVATARS))) {
-           display.setCurrent(new ConfigAvatar(display,this));
+           display.setCurrent(new AvatarConfigForm(display,this));
         } else {
             new ModuleConfigForm(display, this, type);
         }

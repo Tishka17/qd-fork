@@ -27,14 +27,10 @@
 
 package client;
 
-//#ifdef COLOR_TUNE
-import colors.ColorTheme;
-//#endif
 import java.util.Vector;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
-import menu.MenuListener;
 import message.MessageParser;
 import midlet.BombusQD;
 import midlet.Commands;
@@ -43,13 +39,14 @@ import ui.controls.form.CheckBox;
 import ui.controls.form.DefForm;
 import ui.controls.form.DropChoiceBox;
 import ui.controls.form.NumberInput;
+import ui.controls.form.PathSelector;
 import ui.controls.form.SimpleString;
 import ui.controls.form.SpacerItem;
 import ui.controls.form.TrackItem;
 import util.StringLoader;
 import xmpp.EntityCaps;
 
-public class ModuleConfigForm extends DefForm implements MenuListener {
+public class ModuleConfigForm extends DefForm {
     private String type;
 
     // for contacts options
@@ -143,7 +140,10 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
     private NumberInput scrollWidth;
 	private NumberInput minItemHeight;
 //#ifdef BACK_IMAGE
-    private DropChoiceBox bgnd_image;
+    private DropChoiceBox backImgType;
+//#ifdef FILE_IO
+    private PathSelector backImgPath;
+//#endif
 //#endif
     private DropChoiceBox graphicsMenuPosition;
     private DropChoiceBox panels;
@@ -407,14 +407,22 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
             addControl(graphicsMenuPosition);
 
 //#ifdef BACK_IMAGE
-            itemsList.addElement(new SpacerItem(3));
-            bgnd_image = new DropChoiceBox(display, "*"+SR.get(SR.MS_TYPE_BACKGROUND));
-            bgnd_image.append(SR.get(SR.MS_BGND_NONE));
-            bgnd_image.append(SR.get(SR.MS_BGND_IMAGE));
-            bgnd_image.append(SR.get(SR.MS_BGND_GRADIENT_));
-            bgnd_image.append(SR.get(SR.MS_MY_BGND_IMAGE));
-            bgnd_image.setSelectedIndex(config.bgnd_image);
-            addControl(bgnd_image);
+            addControl(new SpacerItem(3));
+            backImgType = new DropChoiceBox(display, "*"+SR.get(SR.MS_TYPE_BACKGROUND));
+            backImgType.append(SR.get(SR.MS_BGND_NONE));
+            backImgType.append(SR.get(SR.MS_BGND_IMAGE));
+            backImgType.append(SR.get(SR.MS_BGND_GRADIENT));
+            backImgType.append(SR.get(SR.MS_MY_BGND_IMAGE));
+//#ifdef FILE_IO
+            backImgType.append(SR.get(SR.MS_BGND_FROM_FS));
+            backImgType.setSelectedIndex(Config.backImgType);
+//#endif
+            addControl(backImgType);
+
+//#ifdef FILE_IO
+            backImgPath = new PathSelector(SR.get(SR.MS_BACK_IMG_PATH), Config.backImgPath, true);
+            addControl(backImgPath);
+//#endif
 //#endif
 
             addControl(new SpacerItem(3));
@@ -626,7 +634,7 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 //#endif
 
             if(config.userAppLevel == 1) {
-                config.hideMessageIcon = hideMessageIcon.getValue();
+                Config.hideMessageIcon = hideMessageIcon.getValue();
 //#ifdef CLIPBOARD
                 config.useClipBoard = useClipBoard.getValue();
 //#endif
@@ -670,7 +678,10 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 
             config.graphicsMenuPosition = graphicsMenuPosition.getSelectedIndex();
 //#ifdef BACK_IMAGE
-            config.bgnd_image = bgnd_image.getSelectedIndex();
+            Config.backImgType = backImgType.getSelectedIndex();
+//#ifdef FILE_IO
+            Config.backImgPath = backImgPath.getValue();
+//#endif
 //#endif
 
             config.scrollWidth = Integer.parseInt(scrollWidth.getValue());
@@ -742,9 +753,5 @@ public class ModuleConfigForm extends DefForm implements MenuListener {
 //#endif
         }
         destroyView();
-    }
-
-    public void destroyView(){
-        display.setCurrent(parentView);
     }
 }

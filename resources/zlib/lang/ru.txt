@@ -739,3 +739,6 @@ You're waking up	Вы будите
 Color scheme has been sent	Цветовая схема отправлена
 Enable/Disable	Включить/Выключить
 Delete contacts, who leave MUC	Автоотчистка групп
+Background image path	Путь к изображению
+Background from FS	Фон из ФС
+[path is not specified]	[путь не указан]

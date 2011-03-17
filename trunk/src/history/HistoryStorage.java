@@ -65,12 +65,12 @@ public class HistoryStorage {
         if (midlet.BombusQD.cf.module_history==false) return;
         messageList = msgList;
 
-        switch(HistoryConfig.historyTypeIndex) {
-            case HistoryConfig.TYPE_RMS:
+        switch(HistoryConfigForm.historyTypeIndex) {
+            case HistoryConfigForm.TYPE_RMS:
                 addRMSrecord(c, message, messageList.getRecordStore() );
                 break;
 //#ifdef FILE_IO
-            case HistoryConfig.TYPE_FS:
+            case HistoryConfigForm.TYPE_FS:
                 addFSMessage(message, c.bareJid);
                 break;
 //#endif
@@ -117,7 +117,7 @@ public class HistoryStorage {
 //#endif
 
         StringBuffer buf = new StringBuffer(0);
-        buf.append(HistoryConfig.historyPath).append(StringUtils.replaceBadChars(filename)).append(".txt");
+        buf.append(HistoryConfigForm.historyPath).append(StringUtils.replaceBadChars(filename)).append(".txt");
 
         file = FileIO.createConnection(buf.toString());
 

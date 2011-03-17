@@ -42,7 +42,7 @@ import conference.affiliation.AffiliationList;
 import conference.affiliation.QuickPrivelegyEditForm;
 import disco.ServiceDiscovery;
 //#ifdef HISTORY
-import history.HistoryConfig;
+import history.HistoryConfigForm;
 //#endif
 import images.ActionsIcons;
 //#ifdef FILE_IO
@@ -186,7 +186,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
 //#ifdef HISTORY
                 if (groupType != Groups.TYPE_TRANSP && !(contact instanceof MucContact)) {
                     if (Config.module_history) {
-                        if (HistoryConfig.historyTypeIndex == HistoryConfig.TYPE_RMS) {
+                        if (HistoryConfigForm.historyTypeIndex == HistoryConfigForm.TYPE_RMS) {
                             addItem(SR.get(SR.MS_HISTORY_SHOW), MI_HISTORY, ActionsIcons.ICON_VERSION);
                         }
                     }

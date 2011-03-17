@@ -160,7 +160,7 @@ public class ConfigForm extends DefForm implements MenuListener {
             display.setCurrent(new HistoryConfig(display, this));
 //#endif
         } else if (type.equals(SR.get(SR.MS_fontsStr))) {
-            display.setCurrent(new font.ConfigFonts(display, this));
+            display.setCurrent(new font.FontConfigForm(display, this));
 //#ifdef IMPORT_EXPORT
 //#ifdef FILE_IO
         } else if(type.equals(SR.get(SR.MS_ieStr))) {

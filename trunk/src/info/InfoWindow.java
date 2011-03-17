@@ -46,67 +46,18 @@ import ui.controls.form.SpacerItem;
  */
 
 public class InfoWindow extends DefForm {
-    private void showMsg() {
-        String authMsg;
-        if (midlet.BombusQD.cf.userAppLevel == 0) {
-            midlet.BombusQD.cf.userAppLevel = 1;
-            authMsg = "Advanced Mode now ON";
-        } else {
-            midlet.BombusQD.cf.userAppLevel = 0;
-            authMsg = "Advanced Mode now OFF!";
-        }
-        midlet.BombusQD.cf.saveInt();
-        new AlertBox(SR.get(SR.MS_INFO), authMsg, display, parentView, false) {
-            public void yes() {
-            }
-
-            public void no() {
-            }
-
-        };
-    }
-
-    int auth = 0;
-
-    public void keyPressed(int keyCode) {
-        switch (auth) {
-            /*1*/ case 0:
-                if (keyCode == KEY_NUM5) {
-                    auth++;
-                }
-                break;
-            /*2*/ case 1:
-                if (keyCode == KEY_NUM1) {
-                    auth++;
-                } else {
-                    auth = 0;
-                }
-                break;
-            /*3*/ case 2:
-                if (keyCode == KEY_NUM2) {
-                    auth++;
-                } else {
-                    auth = 0;
-                }
-                break;
-        }
-        if (auth == 3) {
-            showMsg();
-            auth = 0;
-        }
-        super.keyPressed(keyCode);
-    }
+    private int auth = 0;
 
     public InfoWindow(final Display display, Displayable pView) {
         super(display, pView, SR.get(SR.MS_ABOUT));
 
-        IconTextElement item;
+        MultiLine item;
 
         item = new MultiLine(Version.getName(), Version.getVersionNumber()
                 + "\n" + Config.platformName
                 + "\nMobile Jabber client", super.superWidth);
 
-        ((MultiLine)item).setSelectable(true);
+        item.setSelectable(true);
         addControl(item);
 
         addControl(new LinkString("QD ".concat(SR.get(SR.MS_QD_NEWS))) {
@@ -173,7 +124,7 @@ public class InfoWindow extends DefForm {
 //#ifdef TOUCH
         if (midlet.BombusQD.cf.isTouchPhone) {
             item = new MultiLine("Easter Egg", "Press link under this text", super.superWidth);
-            ((MultiLine)item).setSelectable(true);
+            item.setSelectable(true);
             addControl(item);
 
             addControl(new LinkString("Yes,give me egg") {
@@ -188,15 +139,15 @@ public class InfoWindow extends DefForm {
 //#endif
         {
             item = new MultiLine("Easter Egg:", "Press 5-1-2 keys to lock/unlock new options", super.superWidth);
-            ((MultiLine)item).setSelectable(true);
+            item.setSelectable(true);
             addControl(item);
         }
 
-        item = new MultiLine("Copyright (c) 2005-2010",
+        item = new MultiLine("Copyright (c) 2005-2011",
                 "Eugene Stahov (evgs,Bombus);\nDaniel Apatin (ad,BombusMod);\nAlexej Kotov(aqent,BombusQD);\n"
                 + "Andrey Tikhonov(Tishka17,BombusQD)\n"
                 + "Distributed under GPL v2 License", super.superWidth);
-        ((MultiLine)item).setSelectable(true);
+        item.setSelectable(true);
         addControl(item);
 
         item = new MultiLine("Thanks to:", "Testing: zaetz,balor,demon(Dmitry Krylov),magnit,Sniffy,NNn,DsXack and many others\n"
@@ -208,7 +159,7 @@ public class InfoWindow extends DefForm {
                 + "Windows Fonts: magdelphi(mobilab.ru)"
                 + "\nMathFP library"
                 + "\nSmiles Author: Copyright (c) Aiwan. Kolobok smiles", super.superWidth);
-        ((MultiLine)item).setSelectable(true);
+        item.setSelectable(true);
         addControl(item);
 
         addControl(new LinkString("http://www.kolobok.us") {
@@ -218,7 +169,6 @@ public class InfoWindow extends DefForm {
                 } catch (ConnectionNotFoundException ex) {
                 }
             }
-
         });
 
         addControl(new LinkString("http://bombusmod-qd.wen.ru") {
@@ -228,7 +178,6 @@ public class InfoWindow extends DefForm {
                 } catch (ConnectionNotFoundException ex) {
                 }
             }
-
         });
 
         addControl(new LinkString("http://bombusmod.net.ru") {
@@ -238,7 +187,6 @@ public class InfoWindow extends DefForm {
                 } catch (ConnectionNotFoundException ex) {
                 }
             }
-
         });
 
         addControl(new SpacerItem(10));
@@ -253,12 +201,61 @@ public class InfoWindow extends DefForm {
         memInfo.append(SR.get(SR.MS_TOTAL)).append(totalmem);
 
         item = new MultiLine(SR.get(SR.MS_MEMORY), memInfo.toString(), super.superWidth);
-        ((MultiLine)item).setSelectable(true);
+        item.setSelectable(true);
         addControl(item);
 
         enableListWrapping(false);
 
         attachDisplay(display);
         this.parentView = pView;
+    }
+
+    private void showMsg() {
+        String authMsg;
+        if (midlet.BombusQD.cf.userAppLevel == 0) {
+            midlet.BombusQD.cf.userAppLevel = 1;
+            authMsg = "Advanced Mode now ON";
+        } else {
+            midlet.BombusQD.cf.userAppLevel = 0;
+            authMsg = "Advanced Mode now OFF!";
+        }
+        midlet.BombusQD.cf.saveInt();
+        new AlertBox(SR.get(SR.MS_INFO), authMsg, display, parentView, false) {
+            public void yes() {
+            }
+
+            public void no() {
+            }
+
+        };
+    }
+
+    public void keyPressed(int keyCode) {
+        switch (auth) {
+            /*1*/ case 0:
+                if (keyCode == KEY_NUM5) {
+                    auth++;
+                }
+                break;
+            /*2*/ case 1:
+                if (keyCode == KEY_NUM1) {
+                    auth++;
+                } else {
+                    auth = 0;
+                }
+                break;
+            /*3*/ case 2:
+                if (keyCode == KEY_NUM2) {
+                    auth++;
+                } else {
+                    auth = 0;
+                }
+                break;
+        }
+        if (auth == 3) {
+            showMsg();
+            auth = 0;
+        }
+        super.keyPressed(keyCode);
     }
 }

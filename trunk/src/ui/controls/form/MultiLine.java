@@ -26,7 +26,6 @@
  */
 package ui.controls.form;
 
-import client.Config;
 import font.FontCache;
 import java.util.Vector;
 import javax.microedition.lcdui.Font;
@@ -39,6 +38,7 @@ import ui.VirtualList;
  *
  * @author ad
  */
+
 public class MultiLine extends IconTextElement {
     private Vector lines = null;
     private String text;
@@ -89,9 +89,9 @@ public class MultiLine extends IconTextElement {
     public int getVHeight() {
         if (lines == null && width > 0) {
             lines = StringUtils.parseMessage(text, width - 10, font);
-            itemHeight = (fontHeight * lines.size()) + 2;
+            itemHeight = (fontHeight * lines.size());
             if (caption != null) {
-                itemHeight += 2 + captionFontHeight;
+                itemHeight += captionFontHeight;
             }
             parsed = true;
         }

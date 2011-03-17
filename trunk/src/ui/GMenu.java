@@ -29,6 +29,7 @@ import images.ImageList;
 import javax.microedition.lcdui.*;
 import client.Config;
 import colors.ColorTheme;
+import font.FontCache;
 import locale.SR;
 import midlet.BombusQD;
 import menu.MenuListener;
@@ -97,16 +98,6 @@ public class GMenu extends Canvas {
    private int size;
    private static int x1,y1,x2,y2;
 
-
-   private void updateFont() {
-       switch(midlet.BombusQD.cf.graphicsMenuFont){
-           case 0: font = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_MEDIUM); break;
-           case 1: font = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_SMALL);  break;
-           case 2: font = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_PLAIN, Font.SIZE_LARGE);  break;
-       }
-       fh = font.getHeight();
-   }
-
    public GMenu(Display display, Displayable parentView, MenuListener menuListener, ImageList il, Vector menuCommands) {
         gm.ml=menuListener;
         this.parentView=parentView;
@@ -119,32 +110,19 @@ public class GMenu extends Canvas {
             Command c=(Command)menuCommands.elementAt(index);
             gm.commandslist[index]=c.getName();
         }
-        updateFont();
+
+       font = FontCache.getFont(false, FontCache.menu);
+       fh = font.getHeight();
    }
 
+    public GMenu(Display display, Displayable parentView, MenuListener menuListener, ImageList il, Vector menuCommands,
+            Vector cmdfirstList, Vector cmdsecondList, Vector cmdThirdList) {
+        this(display, parentView, menuListener, il, menuCommands);
 
-   public GMenu(Display display,Displayable parentView,MenuListener menuListener,ImageList il,Vector menuCommands,
-           Vector cmdfirstList,Vector cmdsecondList,Vector cmdThirdList){
-        gm.ml=menuListener;
-        this.parentView=parentView;
-        this.display=display;
-        if(null == menuCommands){
-            gm.menuCommands=null;
-            return;
-        }
-        size = menuCommands.size();
-        gm.commandslist = new String[size];//3
-        gm.menuCommands=menuCommands;
-        for (int index=0; index<size; index++) {
-            Command c=(Command)menuCommands.elementAt(index);
-            gm.commandslist[index]=c.getName();
-        }
-        gm.cmdfirstList=cmdfirstList;
-        gm.cmdsecondList=cmdsecondList;
-        gm.cmdThirdList=cmdThirdList;
-        updateFont();
-   }
-
+        gm.cmdfirstList = cmdfirstList;
+        gm.cmdsecondList = cmdsecondList;
+        gm.cmdThirdList = cmdThirdList;
+    }
 
    private boolean GMenuIn(Vector getList) {
          size = getList.size();

@@ -70,7 +70,7 @@ public class SplashScreen extends Canvas implements CommandListener {
 
     public int keypressed=0;
 
-    private Font clockFont=FontCache.getFont(true,FontCache.bigSize);
+    private Font clockFont=FontCache.getFont(true,FontCache.LARGE);
 
     private Progress pb;
 

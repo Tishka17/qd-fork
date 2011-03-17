@@ -27,82 +27,90 @@
 
 package font;
 
-import javax.microedition.lcdui.Font;
 import client.Config;
+import javax.microedition.lcdui.Font;
+
 /**
  *
  * @author ad,aqent
  */
-public class FontCache {
 
+public class FontCache {
     private static Font small;
     private static Font smallBold;
-    
+
     private static Font middle;
     private static Font middleBold;
-    
+
     private static Font big;
     private static Font bigBold;
-    
-    public final static int smallSize=Font.SIZE_SMALL;
-    public final static int middleSize=Font.SIZE_MEDIUM;
-    public final static int bigSize=Font.SIZE_LARGE;
-    
-    public final static int plain=Font.STYLE_PLAIN;
-    public final static int bold=Font.STYLE_BOLD;
-    public final static int cursiv=Font.STYLE_ITALIC;
-    
-    public static int roster=0;
-    public static int msg=0;
-    public static int bar=0;
-    public static int baloon=0;
 
-    public final static int face=Font.FACE_PROPORTIONAL;    
-    public final static int face_system=Font.FACE_SYSTEM;
-    
-    private final static Font getSmallBoldFont() {
-        if (smallBold==null) smallBold=Font.getFont(face, Config.getInstance().cursivUse?(bold|cursiv):bold, smallSize);
+    public final static int SMALL = Font.SIZE_SMALL;
+    public final static int MEDIUM = Font.SIZE_MEDIUM;
+    public final static int LARGE = Font.SIZE_LARGE;
+
+    public final static int PLAIN = Font.STYLE_PLAIN;
+    public final static int BOLD = Font.STYLE_BOLD;
+    public final static int ITALIC = Font.STYLE_ITALIC;
+
+    // TODO remove or no?
+    public static int roster = 0;
+    public static int baloon = 0;
+    public static int menu = 0;
+    public static int msg = 0;
+    public static int bar = 0;
+
+    private static Font getSmallBoldFont() {
+        if (smallBold == null) {
+            smallBold = Font.getFont(Font.FACE_PROPORTIONAL, Config.useItalic ? (BOLD | ITALIC) : BOLD, SMALL);
+        }
         return smallBold;
     }
-    private final static Font getMiddleBoldFont() {
-        if (middleBold==null) middleBold=Font.getFont(face, Config.getInstance().cursivUse?(bold|cursiv):bold, middleSize);
+
+    private static Font getMiddleBoldFont() {
+        if (middleBold == null) {
+            middleBold = Font.getFont(Font.FACE_PROPORTIONAL, Config.useItalic ? (BOLD | ITALIC) : BOLD, MEDIUM);
+        }
         return middleBold;
     }
-    private final static Font getBigBoldFont() {
-        if (bigBold==null) bigBold=Font.getFont(face, Config.getInstance().cursivUse?(bold|cursiv):bold, bigSize);
+
+    private static Font getBigBoldFont() {
+        if (bigBold == null) {
+            bigBold = Font.getFont(Font.FACE_PROPORTIONAL, Config.useItalic ? (BOLD | ITALIC) : BOLD, LARGE);
+        }
         return bigBold;
-    }    
-    
-    
-    private final static Font getSmallFont() {
-        if (small==null) small=Font.getFont(face, Config.getInstance().cursivUse?(plain|cursiv):plain, smallSize);
+    }
+
+    private static Font getSmallFont() {
+        if (small == null) {
+            small = Font.getFont(Font.FACE_PROPORTIONAL, Config.useItalic ? ITALIC : PLAIN, SMALL);
+        }
         return small;
-    }    
-    private final static Font getMiddleFont() {
-        if (middle==null) middle=Font.getFont(face, Config.getInstance().cursivUse?(plain|cursiv):plain, middleSize);
+    }
+
+    private static Font getMiddleFont() {
+        if (middle == null) {
+            middle = Font.getFont(Font.FACE_PROPORTIONAL, Config.useItalic ? ITALIC : PLAIN, MEDIUM);
+        }
         return middle;
     }
-    private final static Font getBigFont() {
-        if (big==null) big=Font.getFont(face, Config.getInstance().cursivUse?(plain|cursiv):plain, bigSize);
+
+    private static Font getBigFont() {
+        if (big == null) {
+            big = Font.getFont(Font.FACE_PROPORTIONAL, Config.useItalic ? ITALIC : PLAIN, LARGE);
+        }
         return big;
     }
 
-    public static Font getRosterFont(boolean isBold) {
-        return FontCache.getFont(isBold, FontCache.roster);
-    }
-
-    public static Font contactSecondLineFont = FontCache.getFont(false, baloon);
-    
-    public final static Font getFont(boolean isBold, int size) {//bold,cursiv
+    public static Font getFont(boolean isBold, int size) {
         switch (size) {
-            case smallSize:
-                return (isBold)?getSmallBoldFont():getSmallFont();
-            case middleSize:
-                return (isBold)?getMiddleBoldFont():getMiddleFont();
-            case bigSize:
-                return (isBold)?getBigBoldFont():getBigFont();
+            case SMALL:
+                return (isBold) ? getSmallBoldFont() : getSmallFont();
+            case MEDIUM:
+                return (isBold) ? getMiddleBoldFont() : getMiddleFont();
+            case LARGE:
+                return (isBold) ? getBigBoldFont() : getBigFont();
         }
         return getSmallFont();
     }
-    //public final static void resetCache() { roster=msg=bar=baloon=0; }
 }

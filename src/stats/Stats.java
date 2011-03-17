@@ -68,7 +68,7 @@ public class Stats {
         appRunCount++;
 //#ifdef TOUCH
         if(appRunCount == 1) {
-            midlet.BombusQD.cf.initTouchOptions();
+            midlet.BombusQD.cf.menuFont();
         }
 //#endif
         saveToStorage(false,true);

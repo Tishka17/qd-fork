@@ -249,7 +249,7 @@ public final class Bookmarks
 
         if (c == cmdAdvJoin) {
             BookmarkItem join = (BookmarkItem)getFocusedObject();
-            new ConferenceForm(display, this, join, cursor);
+            new ConferenceForm(display, this, join);
         } else if (c == cmdDel) {
             deleteBookmark();
             setMainBarItem(new MainBar(2, null, SR.get(SR.MS_BOOKMARKS) + " (" + getItemCount() + ") ", false));

@@ -342,7 +342,7 @@ public final class SelectPEP extends VirtualList implements
     protected void drawBalloon(final Graphics g, int balloon, final String text) {
         if (cursor==0) balloon+=lineHeight+Balloon.getHeight();
         int x=xBorder+(xCursor*imgWidth);
-        int widthItem = FontCache.contactSecondLineFont.stringWidth(text);
+        int widthItem = FontCache.getFont(false, FontCache.baloon).stringWidth(text);
         int width = g.getClipWidth() - 10;
         if( widthItem + x > width) { //fix autoCorrect
            int dif = x - width;

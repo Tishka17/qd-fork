@@ -65,7 +65,7 @@ public class ColorSelector extends DefForm implements Runnable {
 
         this.color=ColorTheme.getColor(param);
 
-        this.font = FontCache.getFont(false, FontCache.smallSize);
+        this.font = FontCache.getFont(false, FontCache.SMALL);
         this.fontH= font.getHeight();
 
         w = getWidth() - scrollbar.getScrollWidth();

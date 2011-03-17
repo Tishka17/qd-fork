@@ -51,7 +51,6 @@ import io.NvStorage;
  */
 
 public class Config {
-    // Singleton
     private static Config instance;
 
     public static int KEY_BACK = -11;
@@ -143,12 +142,12 @@ public class Config {
 //#     public boolean memMonitor=false;
 //#endif
 
-    public int rosterFont = 0;
-    public int msgFont = 0;
-    public int barFont = 0;
-    public int baloonFont = 0;
-    public int graphicsMenuFont = 1;
-    public boolean cursivUse = false;
+    public static int rosterFont = FontCache.MEDIUM;
+    public static int baloonFont = FontCache.MEDIUM;
+    public static int menuFont = FontCache.MEDIUM;
+    public static int msgFont = FontCache.MEDIUM;
+    public static int barFont = FontCache.MEDIUM;
+    public static boolean useItalic = false;
 
     public String lang;
     public boolean capsState=false;
@@ -315,11 +314,11 @@ public class Config {
             instance = new Config();
             instance.loadFromStorage();
 
-            FontCache.roster = instance.rosterFont;
-            FontCache.msg = instance.msgFont;
-
-            FontCache.bar = instance.barFont;
-            FontCache.baloon = instance.baloonFont;
+            FontCache.roster = rosterFont;
+            FontCache.baloon = baloonFont;
+            FontCache.menu = menuFont;
+            FontCache.msg = msgFont;
+            FontCache.bar = barFont;
         }
         return instance;
     }
@@ -407,22 +406,27 @@ public class Config {
 
 
 //#ifdef TOUCH
-    public void initTouchOptions() {
-         if(isTouchPhone) {
-           graphicsMenuPosition = 1; //left
-           rosterFont = 16;
-           msgFont = 16;
-           barFont = 16;
-           baloonFont = 16;
-           FontCache.roster = rosterFont;
-           FontCache.msg = msgFont;
-           FontCache.bar = barFont;
-           FontCache.baloon = baloonFont;
-           graphicsMenuFont = 2; //Large
-           scrollWidth = 12;
-           midlet.BombusQD.sd.roster.updateBarsFont();
-           saveToStorage();
-         }
+    public void menuFont() {
+        if (isTouchPhone) {
+            graphicsMenuPosition = 1; //left
+
+            rosterFont = FontCache.LARGE;
+            baloonFont = FontCache.LARGE;
+            menuFont = FontCache.LARGE;
+            msgFont = FontCache.LARGE;
+            barFont = FontCache.LARGE;
+
+            FontCache.roster = rosterFont;
+            FontCache.baloon = baloonFont;
+            FontCache.menu = menuFont;
+            FontCache.msg = msgFont;
+            FontCache.bar = barFont;
+
+            scrollWidth = 12;
+
+            midlet.BombusQD.sd.roster.updateBarsFont();
+            saveToStorage();
+        }
     }
 //#endif
 
@@ -524,6 +528,7 @@ public class Config {
             minItemHeight = inputStream.readInt();
 
             swapSendAndSuspend = inputStream.readBoolean();
+
             inputStream.close();
             inputStream = null;
         } catch (Exception e) {
@@ -578,7 +583,7 @@ public class Config {
             // free
             inputStream.readBoolean();
 
-            cursivUse=inputStream.readBoolean();
+            useItalic=inputStream.readBoolean();
 
             // free
             inputStream.readBoolean();
@@ -672,7 +677,7 @@ public class Config {
             gradientBarLight1=inputStream.readInt();
             gradientBarLight2=inputStream.readInt();
             userAppLevel = inputStream.readInt();
-            graphicsMenuFont = inputStream.readInt();
+            menuFont = inputStream.readInt();
 	    inputStream.close();
             inputStream=null;
 	} catch (Exception e) {
@@ -852,7 +857,7 @@ public class Config {
             // free
             outputStream.writeBoolean(false);
 
-            outputStream.writeBoolean(cursivUse);
+            outputStream.writeBoolean(useItalic);
 
             // free
             outputStream.writeBoolean(false);
@@ -939,7 +944,7 @@ public class Config {
             outputStream.writeInt(gradientBarLight1);
             outputStream.writeInt(gradientBarLight2);
             outputStream.writeInt(userAppLevel);
-            outputStream.writeInt(graphicsMenuFont);
+            outputStream.writeInt(menuFont);
 	} catch (IOException e) { }
 	return NvStorage.writeFileRecord(outputStream, "confInt", 0, true);
     }

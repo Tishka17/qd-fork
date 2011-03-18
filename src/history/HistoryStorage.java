@@ -42,7 +42,7 @@ import java.io.OutputStream;
 import util.Strconv;
 //#endif
 //#ifdef DETRANSLIT
-//# import util.DeTranslit;
+import util.DeTranslit;
 //#endif
 import util.StringUtils;
 import client.ContactMessageList;
@@ -113,7 +113,7 @@ public class HistoryStorage {
             bodyMessage = createBody(m).getBytes();
         }
 //#ifdef DETRANSLIT
-//#        filename = (HistoryConfig.getInstance().transliterateFilenames) ? DeTranslit.getInstance().translit(filename) : filename;
+       filename = (HistoryConfigForm.transliterateFilenames) ? DeTranslit.getInstance().translit(filename) : filename;
 //#endif
 
         StringBuffer buf = new StringBuffer(0);

@@ -41,9 +41,10 @@ import ui.controls.form.LinkString;
 import java.util.Vector;
 //#ifdef FILE_IO
 import io.file.FileIO;
+import ui.controls.form.PathSelector;
 //#endif
 import util.StringUtils;
-import ui.controls.form.PathSelector;
+
 import ui.controls.form.SimpleString;
 
 public class AvatarConfigForm extends DefForm {

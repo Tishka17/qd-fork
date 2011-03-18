@@ -36,6 +36,7 @@ import locale.SR;
 import ui.controls.form.DefForm;
 import ui.controls.form.DropChoiceBox;
 import ui.controls.form.PathSelector;
+import ui.controls.form.CheckBox;
 
 /**
  *
@@ -51,14 +52,14 @@ public class HistoryConfigForm extends DefForm {
     private DropChoiceBox historyType;
     private PathSelector historyFolder;
 //#ifdef DETRANSLIT
-//#     private CheckBox translit;
+    private CheckBox translit;
 //#endif
 
     public static int historyTypeIndex = 0;
 //#ifdef FILE_IO
     public static String historyPath = "";
 //#ifdef DETRANSLIT
-//#     public static boolean transliterateFilenames = false;
+    public static boolean transliterateFilenames = false;
 //#endif
 //#endif
 
@@ -75,8 +76,8 @@ public class HistoryConfigForm extends DefForm {
 
 //#ifdef FILE_IO
 //#ifdef DETRANSLIT
-//#         translit = new CheckBox(SR.get(SR.MS_1251_TRANSLITERATE_FILENAMES), transliterateFilenames);
-//#         addControl(translit);
+        translit = new CheckBox(SR.get(SR.MS_1251_TRANSLITERATE_FILENAMES), transliterateFilenames);
+        addControl(translit);
 //#endif
         historyFolder = new PathSelector(SR.get(SR.MS_HISTORY_FOLDER), historyPath, false);
         addControl(historyFolder);
@@ -104,7 +105,7 @@ public class HistoryConfigForm extends DefForm {
             historyTypeIndex = stream.readInt();
 //#ifdef FILE_IO
 //#ifdef DETRANSLIT
-//#             transliterateFilenames=inputStream.readBoolean();
+            transliterateFilenames=stream.readBoolean();
 //#endif
 //#endif
             stream.close();
@@ -128,14 +129,14 @@ public class HistoryConfigForm extends DefForm {
             }
 
 //#ifdef DETRANSLIT
-//#             transliterateFilenames = translit.getValue();
+            transliterateFilenames = translit.getValue();
 //#endif
             stream.writeUTF(historyPath);
 //#endif
             stream.writeInt(historyTypeIndex);
 //#ifdef FILE_IO
 //#ifdef DETRANSLIT
-//#             outputStream.writeBoolean(transliterateFilenames);
+            stream.writeBoolean(transliterateFilenames);
 //#endif
 //#endif
             NvStorage.writeFileRecord(stream, HISTORY_DB_NAME, 0, true);

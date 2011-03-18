@@ -288,10 +288,11 @@ public class ServiceDiscovery
 
             XmppError xe=XmppError.findInStanza(data);
 
-            new AlertBox(data.getAttribute("from"), xe.toString(), display, this, false) {
+            AlertBox box = new AlertBox(data.getAttribute("from"), xe.toString(), false) {
                 public void yes() { };
                 public void no() { };
             };
+            box.show();
 
             return JabberBlockListener.BLOCK_PROCESSED;
           }
@@ -411,10 +412,11 @@ public class ServiceDiscovery
             if (text.equals(SR.get(SR.MS_DONE)) && id.endsWith("Search") ) {
                 new SearchResult(data).show();
             } else {
-                new AlertBox(typeAttr, text, display, null, false) {
+                AlertBox box = new AlertBox(typeAttr, text, false) {
                     public void yes() { }
                     public void no() { }
                 };
+                box.show();
             }
         }
         redraw();
@@ -491,7 +493,7 @@ public class ServiceDiscovery
         if (c == cmdSrv) {
             new ServerBox(service, serviceDisco).show();
         }
-        if (c==cmdFeatures) { new DiscoFeatures(display, service, features); }
+        if (c==cmdFeatures) { new DiscoFeatures(service, features); }
         if (c==cmdCancel) exitDiscovery(true);
         if (c==cmdShowStatistics) {
             Object o=getFocusedObject();
@@ -694,7 +696,7 @@ public class ServiceDiscovery
                         midlet.BombusQD.sd.roster.theStream.send(xmpp.extensions.IqGmail.query());
                         break;
                     case MenuIcons.ICON_RECONNECT:
-                        midlet.BombusQD.sd.roster.showRoster();
+                        midlet.BombusQD.sd.roster.show();
                         midlet.BombusQD.sd.roster.errorLog(SR.get(SR.MS_SIMULATED_BREAK));
                         midlet.BombusQD.sd.roster.doReconnect();
                         return;
@@ -718,7 +720,7 @@ public class ServiceDiscovery
 //#                           System.out.println("disco rms exception");
 //#endif
                         }
-                        midlet.BombusQD.sd.roster.showRoster();
+                        midlet.BombusQD.sd.roster.show();
                         break;
                 }
                 return;
@@ -792,7 +794,7 @@ public class ServiceDiscovery
 
 //#ifdef GRAPHICS_MENU
     public int showGraphicsMenu() {
-        menuItem = new GMenu(display, parentView, this, null, menuCommands);
+        menuItem = new GMenu(this, null, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.SERVICE_DISCOVERY;
         redraw();
         return GMenu.SERVICE_DISCOVERY;

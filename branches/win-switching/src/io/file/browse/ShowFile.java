@@ -28,31 +28,26 @@
 //#ifdef FILE_IO
 package io.file.browse;
 
-import client.Config;
 import io.file.FileIO;
 import java.io.IOException;
 import javax.microedition.lcdui.*;
 import javax.microedition.media.Manager;
 import javax.microedition.media.MediaException;
 import javax.microedition.media.Player;
-import javax.microedition.midlet.MIDlet;
 import locale.SR;
 import util.Strconv;
-import javax.microedition.io.ConnectionNotFoundException;
 import client.Config;
 //import Mood.EventPublish;
-import ui.controls.AlertBox;
 import ui.VirtualList;
 import ui.controls.AlertBox;
 import images.ImageList;
+import midlet.BombusQD;
 
 /**
  *
  * @author User
  */
 public class ShowFile implements CommandListener{
-
-    private Display display;
     private Displayable parentView;
 
     private Command back;
@@ -66,20 +61,18 @@ public class ShowFile implements CommandListener{
     private Player pl;
 
     private Config cf;
-    private long length=0;
+
     boolean play=false;
 
     int width;
     int height;
-    public ShowFile(Display display, final String fileName, int type,String trackname, int width, int height) {
-        this.display=display;
+    public ShowFile(final String fileName, int type,String trackname, int width, int height) {
         this.width=width;
         this.height=height;
 
         back = new Command(SR.get(SR.MS_BACK), Command.BACK, 2);
         stop = new Command(SR.get(SR.MS_STOP), Command.BACK, 3);
 
-        parentView=display.getCurrent();
         cf=Config.getInstance();
 
         load(fileName);
@@ -88,22 +81,18 @@ public class ShowFile implements CommandListener{
         }
         if (type==2) view(fileName); //images
         if (type==3) {
-            AlertBox alert = new AlertBox( "Info", "Windows cp1251?" , display, parentView, false) {
+            AlertBox box = new AlertBox( "Info", "Windows cp1251?" , false) {
                public void yes() { cf.cp1251 = true; read(fileName);  }
                public void no() { cf.cp1251 = false; read(fileName);  }
             };
-            alert = null;
+            box.show();
         }
     }
-
-    private ChoiceGroup resType;
-    private int replyIndex;       // Index of "reply" in choice group
 
     private void load(String file) {
         try {
             FileIO f=FileIO.createConnection(file);
             b = f.fileRead();
-            length = f.fileSize();
             len = b.length;
             f.close();
         } catch (Exception e) {}
@@ -132,7 +121,9 @@ public class ShowFile implements CommandListener{
         form.append(new ImageItem(null, photoImg, ImageItem.LAYOUT_CENTER | ImageItem.LAYOUT_NEWLINE_BEFORE, "[image]"));
         form.addCommand(back);
         form.setCommandListener(this);
-        display.setCurrent(form);
+
+        parentView = BombusQD.getCurrentView();
+        BombusQD.setCurrentView(form);
     }
 
     private void read(String file) {
@@ -158,7 +149,7 @@ public class ShowFile implements CommandListener{
                tf.setString(s);
             }
         }
-       display.setCurrent(form);
+        BombusQD.setCurrentView(form);
     }
 
     private void play(String file,String trackname,boolean play) {
@@ -176,11 +167,14 @@ public class ShowFile implements CommandListener{
         a.addCommand(stop);
         a.addCommand(back);
         a.setCommandListener(this);
-        display.setCurrent(a);
+
+        BombusQD.setCurrentView(a);
     }
 
     public void commandAction(Command c, Displayable d) {
-        if (c==back) display.setCurrent(parentView);
+        if (c==back) {
+            BombusQD.setCurrentView(parentView);
+        }
         if (c==stop) {
             try {
                 pl.stop();

@@ -186,7 +186,7 @@ public class StatusSelect extends VirtualList implements
 //#ifdef GRAPHICS_MENU        
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(display, parentView, this, null, menuCommands);
+        menuItem = new GMenu(this, null, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.STATUS_SELECT;
         return GMenu.STATUS_SELECT;
     }

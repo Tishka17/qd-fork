@@ -198,8 +198,7 @@ public class ArchiveList extends MessageList {
     }
 
     private void deleteAllMessages() {
-        new AlertBox(SR.get(SR.MS_ACTION), SR.get(SR.MS_DELETE_ALL) + "?", display, this, false) {
-
+        AlertBox box = new AlertBox(SR.get(SR.MS_ACTION), SR.get(SR.MS_DELETE_ALL) + "?", false) {
             public void yes() {
                 archive.deleteAll();
                 messages.removeAllElements();
@@ -207,8 +206,8 @@ public class ArchiveList extends MessageList {
 
             public void no() {
             }
-
         };
+        box.show();
     }
 
     private void pasteData(int field) {
@@ -252,16 +251,15 @@ public class ArchiveList extends MessageList {
 
     public void keyClear() {
         if (getItemCount() > 0) {
-            new AlertBox(SR.get(SR.MS_DELETE), SR.get(SR.MS_SURE_DELETE), display, this, false) {
-
+            AlertBox box = new AlertBox(SR.get(SR.MS_DELETE), SR.get(SR.MS_SURE_DELETE), false) {
                 public void yes() {
                     deleteMessage();
                 }
 
                 public void no() {
                 }
-
             };
+            box.show();
             redraw();
         }
     }

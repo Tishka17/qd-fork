@@ -50,7 +50,7 @@ public class RenameGroup extends DefForm {
         super(SR.get(SR.MS_RENAME));
         this.group = group;
 
-        groupName = new TextInput(display, null, group.getName(), "groups", TextField.ANY);
+        groupName = new TextInput(null, group.getName(), "groups", TextField.ANY);
         addControl(groupName);
     }
 

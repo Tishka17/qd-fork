@@ -52,7 +52,7 @@ public class InviteForm extends DefForm {
         this.contact = contact;
 
         addControl(new SimpleString(contact.getName(), true));
-        conferenceList = new DropChoiceBox(display, SR.get(SR.MS_CONFERENCE));
+        conferenceList = new DropChoiceBox(SR.get(SR.MS_CONFERENCE));
         for (Enumeration c = StaticData.getInstance().roster.getHContacts().elements(); c.hasMoreElements();) {
             try {
                 MucContact mc = (MucContact)c.nextElement();
@@ -64,7 +64,7 @@ public class InviteForm extends DefForm {
         }
         addControl(conferenceList);
 
-        reason = new TextInput(display, SR.get(SR.MS_REASON), null, "", TextField.ANY);
+        reason = new TextInput(SR.get(SR.MS_REASON), null, "", TextField.ANY);
         addControl(reason);
 
         moveCursorTo(getNextSelectableRef(-1));

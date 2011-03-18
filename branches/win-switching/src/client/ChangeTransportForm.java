@@ -45,7 +45,7 @@ public class ChangeTransportForm extends DefForm {
 
         addControl(new MultiLine("Warning!", "Gateway "+jid+" will be replaced by one from the list of online gateways for all JIDs in your roster (please logoff old gateway to avoid damaging contact list of your guest IM account)", superWidth));
 
-        selectJid = new DropChoiceBox(display, SR.get(SR.MS_TRANSPORT));
+        selectJid = new DropChoiceBox(SR.get(SR.MS_TRANSPORT));
         for (Enumeration e=BombusQD.sd.roster.getHContacts().elements(); e.hasMoreElements(); ){
             Contact ct=(Contact)e.nextElement();
             if (ct.jid.isTransport() && ct.status < Constants.PRESENCE_OFFLINE) {

@@ -29,11 +29,11 @@ import images.camera.*;
 //#else
 import menu.Command;
 //#endif
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
+import midlet.BombusQD;
 
 import ui.Time;
 import util.StringUtils;
@@ -115,7 +115,7 @@ public class VCardEdit extends DefForm implements Runnable
                 if (data.length()>500)
                     data=data.substring(0, 494)+"<...>";
             }
-            itemsList.addElement(new TextInput(display, name, data, null, TextField.ANY));
+            itemsList.addElement(new TextInput(name, data, null, TextField.ANY));
         }
 
         publish=new LinkString(SR.get(SR.MS_PUBLISH)) { public void doAction() { publish(); } };
@@ -157,7 +157,7 @@ public class VCardEdit extends DefForm implements Runnable
 //#endif
 
         if (c==cmdCamera)
-            new CameraImage(display, this);
+            new CameraImage(BombusQD.display, this);
 
         if (c==cmdDelPhoto) {
             vcard.dropPhoto();
@@ -291,7 +291,7 @@ public class VCardEdit extends DefForm implements Runnable
     }
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(display, parentView, this, null, menuCommands);
+        menuItem = new GMenu(this, null, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.VCARD_EDIT;
         redraw();
         return GMenu.VCARD_EDIT;

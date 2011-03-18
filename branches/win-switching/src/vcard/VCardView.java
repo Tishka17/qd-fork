@@ -333,7 +333,7 @@ public class VCardView extends DefForm
 
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(display, parentView, this, null, menuCommands);
+        menuItem = new GMenu(this, null, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.VCARD_VIEW;
         redraw();
         return GMenu.VCARD_VIEW;
@@ -348,6 +348,5 @@ public class VCardView extends DefForm
 //#         new MyMenu(display, parentView, this, SR.get(SR.MS_VCARD), null, menuCommands);
 //#    }
 //#endif
-
 //#endif
 }

@@ -288,7 +288,7 @@ public class AccountSelect extends VirtualList implements
 //#         }
 //#endif
         if (c == cmdConfigurationMaster) {
-            new ConfigurationMaster(display, this);
+            new ConfigurationMaster(this);
         }
         if (c == cmdLogin) {
             switchAccount(true);
@@ -319,7 +319,7 @@ public class AccountSelect extends VirtualList implements
                 if (cursor == midlet.BombusQD.cf.accountIndex && midlet.BombusQD.sd.roster.isLoggedIn()) {
                     return;
                 }
-                new AlertBox(SR.get(SR.MS_DELETE), getFocusedObject().toString(), display, this, false)  {
+                AlertBox box = new AlertBox(SR.get(SR.MS_DELETE), getFocusedObject().toString(),false)  {
                     public void yes() {
                         delAccount();
                     }
@@ -327,6 +327,7 @@ public class AccountSelect extends VirtualList implements
                     public void no() {
                     }
                 };
+                box.show();
             }
         }
         } catch (Exception e) {
@@ -339,7 +340,7 @@ public class AccountSelect extends VirtualList implements
     }
 
     public void destroyView() {
-        midlet.BombusQD.sd.roster.showRoster();
+        midlet.BombusQD.sd.roster.show();
     }
 
     private void delAccount() {
@@ -386,7 +387,7 @@ public class AccountSelect extends VirtualList implements
 //#ifdef GRAPHICS_MENU
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(display, parentView, this, null, menuCommands, cmdfirstList, cmdsecondList, cmdThirdList);
+        menuItem = new GMenu(this, null, menuCommands, cmdfirstList, cmdsecondList, cmdThirdList);
         GMenuConfig.getInstance().itemGrMenu = GMenu.ACCOUNT_SELECT_MENU;
         return GMenu.ACCOUNT_SELECT_MENU;
     }

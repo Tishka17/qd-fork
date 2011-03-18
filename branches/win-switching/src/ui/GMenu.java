@@ -36,7 +36,7 @@ import menu.MenuListener;
 import menu.Command;
 import java.util.*;
 
-public class GMenu extends Canvas {
+public class GMenu extends CanvasEx {
 
    public GMenu() {};
    private Image offscreen = null;
@@ -98,7 +98,7 @@ public class GMenu extends Canvas {
    private int size;
    private static int x1,y1,x2,y2;
 
-   public GMenu(Display display, Displayable parentView, MenuListener menuListener, ImageList il, Vector menuCommands) {
+   public GMenu(MenuListener menuListener, ImageList il, Vector menuCommands) {
         gm.ml=menuListener;
         this.parentView=parentView;
         this.display=display;
@@ -115,9 +115,9 @@ public class GMenu extends Canvas {
        fh = font.getHeight();
    }
 
-    public GMenu(Display display, Displayable parentView, MenuListener menuListener, ImageList il, Vector menuCommands,
+    public GMenu(MenuListener menuListener, ImageList il, Vector menuCommands,
             Vector cmdfirstList, Vector cmdsecondList, Vector cmdThirdList) {
-        this(display, parentView, menuListener, il, menuCommands);
+        this(menuListener, il, menuCommands);
 
         gm.cmdfirstList = cmdfirstList;
         gm.cmdsecondList = cmdsecondList;

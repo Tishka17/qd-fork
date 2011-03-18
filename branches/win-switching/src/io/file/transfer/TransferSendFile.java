@@ -60,7 +60,7 @@ public class TransferSendFile extends DefForm {
         selectFile = new PathSelector(SR.get(SR.MS_SELECT_FILE), null, true);
         addControl(selectFile);
 
-        description = new TextInput(display, SR.get(SR.MS_DESCRIPTION), null, null, TextField.ANY);
+        description = new TextInput(SR.get(SR.MS_DESCRIPTION), null, null, TextField.ANY);
         addControl(description);
 
         moveCursorTo(2);

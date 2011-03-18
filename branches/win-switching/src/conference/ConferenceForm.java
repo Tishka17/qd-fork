@@ -32,7 +32,6 @@ import conference.bookmark.BookmarkItem;
 import conference.bookmark.BookmarkQuery;
 import client.*;
 import com.alsutton.jabber.JabberDataBlock;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
@@ -59,7 +58,7 @@ public final class ConferenceForm extends DefForm {
 //#ifndef MENU
     Command cmdJoin;
     Command cmdAdd;
-    Command cmdEdit;
+    Command cmdSave;
 //#endif
     private TextInput roomField;
     private TextInput hostField;
@@ -145,26 +144,26 @@ public final class ConferenceForm extends DefForm {
         cmdAdd=new Command(SR.get(SR.MS_ADD_BOOKMARK), Command.SCREEN, 5);
         cmdAdd.setImg(0x42);
 
-        cmdEdit=new Command(SR.get(SR.MS_SAVE), Command.SCREEN, 6);
-        cmdEdit.setImg(0x40);
+        cmdSave=new Command(SR.get(SR.MS_SAVE), Command.SCREEN, 6);
+        cmdSave.setImg(0x40);
 
-        roomField=new TextInput(display, SR.get(SR.MS_ROOM), room, null, TextField.ANY);//, 64, TextField.ANY);
+        roomField=new TextInput(SR.get(SR.MS_ROOM), room, null, TextField.ANY);//, 64, TextField.ANY);
         addControl(roomField);
 
-        hostField=new TextInput(display, SR.get(SR.MS_AT_HOST), server, "muc-host", TextField.ANY);//, 64, TextField.ANY, "muc-host", display);
+        hostField=new TextInput(SR.get(SR.MS_AT_HOST), server, "muc-host", TextField.ANY);//, 64, TextField.ANY, "muc-host", display);
         addControl(hostField);
 
         if (nick==null) nick=midlet.BombusQD.sd.account.getNickName();
-        nickField=new TextInput(display, SR.get(SR.MS_NICKNAME), nick, "roomnick", TextField.ANY);//, 32, TextField.ANY, "roomnick", display);
+        nickField=new TextInput(SR.get(SR.MS_NICKNAME), nick, "roomnick", TextField.ANY);//, 32, TextField.ANY, "roomnick", display);
         addControl(nickField);
 
-        msgLimitField=new NumberInput(display, SR.get(SR.MS_MSG_LIMIT), Integer.toString(midlet.BombusQD.cf.confMessageCount), 0, 100);
+        msgLimitField=new NumberInput(SR.get(SR.MS_MSG_LIMIT), Integer.toString(midlet.BombusQD.cf.confMessageCount), 0, 100);
         addControl(msgLimitField);
 
-        nameField=new TextInput(display, SR.get(SR.MS_DESCRIPTION), name, null, TextField.ANY);//, 128, TextField.ANY);
+        nameField=new TextInput(SR.get(SR.MS_DESCRIPTION), name, null, TextField.ANY);//, 128, TextField.ANY);
         addControl(nameField);
 
-        passField=new PasswordInput(display, SR.get(SR.MS_PASSWORD), password);//, 32, TextField.ANY | TextField.SENSITIVE );
+        passField=new PasswordInput(SR.get(SR.MS_PASSWORD), password);//, 32, TextField.ANY | TextField.SENSITIVE );
         addControl(passField);
 
         autoJoin=new CheckBox(SR.get(SR.MS_AUTOLOGIN), autojoin);
@@ -200,11 +199,12 @@ public final class ConferenceForm extends DefForm {
 
         saveMsgCount(msgLimit);
 
-        if (c==cmdEdit) {
+        if (c==cmdSave) {
+            System.out.println("io");
             midlet.BombusQD.sd.roster.bookmarks.removeElement(editConf);
             midlet.BombusQD.sd.roster.bookmarks.insertElementAt(new BookmarkItem(name, gchat.toString(), nick, pass, autojoin), cursor);
             new BookmarkQuery(BookmarkQuery.SAVE);
-            display.setCurrent(parentView);
+            destroyView();
         } else if (c==cmdAdd) {
             new Bookmarks(new BookmarkItem(name, gchat.toString(), nick, pass, autojoin)).show();
         } else if (c==cmdJoin) {
@@ -212,15 +212,9 @@ public final class ConferenceForm extends DefForm {
                 Config.defConference = room + "@" + host;
                  gchat.append('/').append(nick);
                 join(name, gchat.toString(),pass, msgLimit);
-                midlet.BombusQD.sd.roster.showRoster();
+                midlet.BombusQD.sd.roster.show();
             } catch (Exception e) { }
         }
-        gchat=null;
-        nick=null;
-        name=null;
-        host=null;
-        room=null;
-        pass=null;
     }
 
     public void commandState(){
@@ -229,7 +223,7 @@ public final class ConferenceForm extends DefForm {
 //#endif
         addCommand(cmdJoin); 
         addCommand(cmdAdd); 
-        addCommand(cmdEdit); 
+        addCommand(cmdSave);
 //#ifndef GRAPHICS_MENU
 //#      addCommand(cmdCancel);
 //#endif
@@ -245,7 +239,7 @@ public final class ConferenceForm extends DefForm {
 
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(display, parentView, this, null, menuCommands);
+        menuItem = new GMenu(this, null, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.CONFERENCE_FORM;
         redraw();
         return GMenu.CONFERENCE_FORM;

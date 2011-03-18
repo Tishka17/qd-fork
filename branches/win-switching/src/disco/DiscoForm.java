@@ -80,7 +80,7 @@ public class DiscoForm extends DefForm {
         if (vget!=null) {
             int size = vget.size();
             for (int i=0; i<size; i++) {
-                FormField field=new FormField((JabberDataBlock)vget.elementAt(i),display);
+                FormField field=new FormField((JabberDataBlock)vget.elementAt(i));
                 if (field.instructions) {
                     fields.insertElementAt(field, 0);
                 } else { fields.addElement(field); }
@@ -89,7 +89,7 @@ public class DiscoForm extends DefForm {
             if (x!=null) {
                 JabberDataBlock registered=query.getChildBlock("registered");
                 if (registered!=null) {
-                    FormField unreg=new FormField(registered,display);
+                    FormField unreg=new FormField(registered);
                     fields.addElement(unreg);
                 }
             }

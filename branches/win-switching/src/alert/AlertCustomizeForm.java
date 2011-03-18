@@ -120,45 +120,45 @@ public class AlertCustomizeForm extends DefForm {
             fileNames.addElement((String)file.nextElement());
 	}
 
-        MessageFile=new DropChoiceBox(display, SR.get(SR.MS_MESSAGE_SOUND)); MessageFile.items=fileNames;
+        MessageFile=new DropChoiceBox(SR.get(SR.MS_MESSAGE_SOUND)); MessageFile.items=fileNames;
         MessageFile.setSelectedIndex(ac.soundsMsgIndex);
         addControl(MessageFile);
 
-        OnlineFile=new DropChoiceBox(display, SR.get(SR.MS_ONLINE_SOUND)); OnlineFile.items=fileNames;
+        OnlineFile=new DropChoiceBox(SR.get(SR.MS_ONLINE_SOUND)); OnlineFile.items=fileNames;
         OnlineFile.setSelectedIndex(ac.soundOnlineIndex);
         addControl(OnlineFile);
 
-        OfflineFile=new DropChoiceBox(display, SR.get(SR.MS_OFFLINE_SOUND)); OfflineFile.items=fileNames;
+        OfflineFile=new DropChoiceBox(SR.get(SR.MS_OFFLINE_SOUND)); OfflineFile.items=fileNames;
         OfflineFile.setSelectedIndex(ac.soundOfflineIndex);
         addControl(OfflineFile);
 
-        ForYouFile=new DropChoiceBox(display, SR.get(SR.MS_MESSAGE_FOR_ME_SOUND)); ForYouFile.items=fileNames;
+        ForYouFile=new DropChoiceBox(SR.get(SR.MS_MESSAGE_FOR_ME_SOUND)); ForYouFile.items=fileNames;
         ForYouFile.setSelectedIndex(ac.soundForYouIndex);
         addControl(ForYouFile);
 
-        ComposingFile=new DropChoiceBox(display, SR.get(SR.MS_COMPOSING_SOUND)); ComposingFile.items=fileNames;
+        ComposingFile=new DropChoiceBox(SR.get(SR.MS_COMPOSING_SOUND)); ComposingFile.items=fileNames;
         ComposingFile.setSelectedIndex(ac.soundComposingIndex);
         addControl(ComposingFile);
 
-        ConferenceFile=new DropChoiceBox(display, SR.get(SR.MS_CONFERENCE_SOUND)); ConferenceFile.items=fileNames;
+        ConferenceFile=new DropChoiceBox(SR.get(SR.MS_CONFERENCE_SOUND)); ConferenceFile.items=fileNames;
         ConferenceFile.setSelectedIndex(ac.soundConferenceIndex);
         addControl(ConferenceFile);
 
-        StartUpFile=new DropChoiceBox(display, SR.get(SR.MS_STARTUP_SOUND)); StartUpFile.items=fileNames;
+        StartUpFile=new DropChoiceBox(SR.get(SR.MS_STARTUP_SOUND)); StartUpFile.items=fileNames;
         StartUpFile.setSelectedIndex(ac.soundStartUpIndex);
         addControl(StartUpFile);
 
-        OutgoingFile=new DropChoiceBox(display, SR.get(SR.MS_OUTGOING_SOUND)); OutgoingFile.items=fileNames;
+        OutgoingFile=new DropChoiceBox(SR.get(SR.MS_OUTGOING_SOUND)); OutgoingFile.items=fileNames;
         OutgoingFile.setSelectedIndex(ac.soundOutgoingIndex);
         addControl(OutgoingFile);
 
-        VIPFile=new DropChoiceBox(display, SR.get(SR.MS_VIP_SOUND)); VIPFile.items=fileNames;
+        VIPFile=new DropChoiceBox(SR.get(SR.MS_VIP_SOUND)); VIPFile.items=fileNames;
         VIPFile.setSelectedIndex(ac.soundVIPIndex);
         addControl(VIPFile);
 
         enableAttention=new CheckBox(SR.get(SR.LA_ENABLE), ac.enableAttention);
         addControl(enableAttention);
-        AttentionFile=new DropChoiceBox(display, SR.get(SR.LA_SOUND)); AttentionFile.items=fileNames;
+        AttentionFile=new DropChoiceBox(SR.get(SR.LA_SOUND)); AttentionFile.items=fileNames;
         AttentionFile.setSelectedIndex(ac.soundAttentionIndex);
         addControl(AttentionFile);
 
@@ -182,13 +182,13 @@ public class AlertCustomizeForm extends DefForm {
         addControl(sndVol);
 
         if(isVibroProfile){
-          vibraLen=new NumberInput(display, SR.get(SR.MS_VIBRATION_LEN) + "(1-5000)", Integer.toString(ac.vibraLen), 1, 5000);
+          vibraLen=new NumberInput(SR.get(SR.MS_VIBRATION_LEN) + "(1-5000)", Integer.toString(ac.vibraLen), 1, 5000);
           addControl(vibraLen);
 
-          vibraRepeatCount=new NumberInput(display, SR.get(SR.MS_VIBRATION_REPEAT), Integer.toString(ac.vibraRepeatCount), 1, 8);
+          vibraRepeatCount=new NumberInput(SR.get(SR.MS_VIBRATION_REPEAT), Integer.toString(ac.vibraRepeatCount), 1, 8);
           addControl(vibraRepeatCount);
 
-          vibraRepeatPause=new NumberInput(display, SR.get(SR.MS_VIBRATION_INTERVAL), Integer.toString(ac.vibraRepeatPause), 1, 400);
+          vibraRepeatPause=new NumberInput(SR.get(SR.MS_VIBRATION_INTERVAL), Integer.toString(ac.vibraRepeatPause), 1, 400);
           addControl(vibraRepeatPause);
         }
 
@@ -272,7 +272,7 @@ public class AlertCustomizeForm extends DefForm {
         if(vibration){
           ac.vibraRepeatCount=Integer.parseInt(vibraRepeatCount.getValue());
           ac.vibraRepeatPause=Integer.parseInt(vibraRepeatPause.getValue());
-          new EventNotify(display, null, null, -1, Integer.parseInt(vibraLen.getValue()) ).startNotify();
+          new EventNotify(null, null, -1, Integer.parseInt(vibraLen.getValue()) ).startNotify();
           return;
         }
         int sound=playable();
@@ -286,7 +286,7 @@ public class AlertCustomizeForm extends DefForm {
 //#ifdef DEBUG
 //#         System.out.println(cursor+": "+sound+" "+soundFile+" "+soundType+" "+soundVol);
 //#endif
-        new EventNotify(display, soundType, soundFile, soundVol, 0).startNotify();
+        new EventNotify(soundType, soundFile, soundVol, 0).startNotify();
     }
 
     public void commandState(){
@@ -323,7 +323,7 @@ public class AlertCustomizeForm extends DefForm {
     public int showGraphicsMenu() {
         commandState();
 
-        menuItem = new GMenu(display, parentView, this,null, menuCommands);
+        menuItem = new GMenu(this,null, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.ALERT_CUSTOMIZE_FORM;
         redraw();
         return GMenu.ALERT_CUSTOMIZE_FORM;

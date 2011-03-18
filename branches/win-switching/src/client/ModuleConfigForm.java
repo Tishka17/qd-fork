@@ -176,7 +176,7 @@ public class ModuleConfigForm extends DefForm {
         Config config = Config.getInstance();
 
         if(type.equals(SR.get(SR.MS_contactStr))) {
-            subscr = new DropChoiceBox(display, SR.get(SR.MS_AUTH_NEW));
+            subscr = new DropChoiceBox(SR.get(SR.MS_AUTH_NEW));
             subscr.append(SR.get(SR.MS_SUBSCR_AUTO));
             subscr.append(SR.get(SR.MS_SUBSCR_ASK));
             subscr.append(SR.get(SR.MS_SUBSCR_DROP));
@@ -184,7 +184,7 @@ public class ModuleConfigForm extends DefForm {
             subscr.setSelectedIndex(config.autoSubscribe);
             addControl(subscr);
 
-            nil = new DropChoiceBox(display, SR.get(SR.MS_NOT_IN_LIST));
+            nil = new DropChoiceBox(SR.get(SR.MS_NOT_IN_LIST));
             nil.append(SR.get(SR.MS_NIL_DROP_MP));
             nil.append(SR.get(SR.MS_NIL_DROP_P));
             nil.append(SR.get(SR.MS_NIL_ALLOW_ALL));
@@ -234,7 +234,7 @@ public class ModuleConfigForm extends DefForm {
             autoFocus = new CheckBox(SR.get(SR.MS_AUTOFOCUS), config.autoFocus);
             addControl(autoFocus);
         } else if (type.equals(SR.get(SR.MS_msgStr))) {
-            msgEditType = new DropChoiceBox(display, SR.get(SR.MS_MSG_EDIT_TYPE));
+            msgEditType = new DropChoiceBox(SR.get(SR.MS_MSG_EDIT_TYPE));
             msgEditType.append(SR.get(SR.MS_MES_EDIT_OLD));
             msgEditType.append(SR.get(SR.MS_MES_EDIT_ALT));
             msgEditType.setSelectedIndex(config.msgEditType);
@@ -249,7 +249,7 @@ public class ModuleConfigForm extends DefForm {
 
             addControl(new SpacerItem(3));
 
-            textWrap = new DropChoiceBox(display, SR.get(SR.MS_TEXTWRAP));
+            textWrap = new DropChoiceBox(SR.get(SR.MS_TEXTWRAP));
             textWrap.append(SR.get(SR.MS_TEXTWRAP_CHARACTER));
             textWrap.append(SR.get(SR.MS_TEXTWRAP_WORD));
 	    textWrap.setSelectedIndex(config.textWrap);
@@ -258,11 +258,11 @@ public class ModuleConfigForm extends DefForm {
             addControl(new SpacerItem(3));
 
             if(config.userAppLevel == 1) {
-                messageLimit = new NumberInput(display, SR.get(SR.MS_MESSAGE_COLLAPSE_LIMIT), Integer.toString(config.messageLimit), 200, 1000);
+                messageLimit = new NumberInput(SR.get(SR.MS_MESSAGE_COLLAPSE_LIMIT), Integer.toString(config.messageLimit), 200, 1000);
                 addControl(messageLimit);
             }
 
-            msglistLimit = new NumberInput(display, SR.get(SR.MS_MESSAGE_COUNT_LIMIT), Integer.toString(config.msglistLimit), 10, 1000);
+            msglistLimit = new NumberInput(SR.get(SR.MS_MESSAGE_COUNT_LIMIT), Integer.toString(config.msglistLimit), 10, 1000);
             addControl(msglistLimit);
 
             addControl(new SpacerItem(3));
@@ -354,10 +354,10 @@ public class ModuleConfigForm extends DefForm {
             addControl(new SpacerItem(10));
             addControl(new SimpleString(SR.get(SR.MS_RECONNECT), true));
 
-            reconnectCount = new NumberInput(display, SR.get(SR.MS_RECONNECT_COUNT_RETRY), Integer.toString(config.reconnectCount), 0, 100);
+            reconnectCount = new NumberInput(SR.get(SR.MS_RECONNECT_COUNT_RETRY), Integer.toString(config.reconnectCount), 0, 100);
             addControl(reconnectCount);
 
-            reconnectTime = new NumberInput(display, SR.get(SR.MS_RECONNECT_WAIT), Integer.toString(config.reconnectTime), 1, 60 );
+            reconnectTime = new NumberInput(SR.get(SR.MS_RECONNECT_WAIT), Integer.toString(config.reconnectTime), 1, 60 );
             addControl(reconnectTime);
 
             nokiaReconnectHack = new CheckBox(SR.get(SR.MS_NOKIA_RECONNECT_HACK), config.nokiaReconnectHack);
@@ -374,7 +374,7 @@ public class ModuleConfigForm extends DefForm {
 //#endif
             }
         } else if (type.equals(SR.get(SR.MS_grStr))) {
-            panels = new DropChoiceBox(display, SR.get(SR.MS_PANELS));
+            panels = new DropChoiceBox(SR.get(SR.MS_PANELS));
             panels.append(SR.get(SR.MS_NO_BAR)+" : "+SR.get(SR.MS_NO_BAR));
             panels.append(SR.get(SR.MS_MAIN_BAR)+" : "+SR.get(SR.MS_NO_BAR));
             panels.append(SR.get(SR.MS_MAIN_BAR)+" : "+SR.get(SR.MS_INFO_BAR));
@@ -398,7 +398,7 @@ public class ModuleConfigForm extends DefForm {
             gradientBarLight2 = new TrackItem(config.gradientBarLight2/10, 20);
             addControl(gradientBarLight2);
 
-            graphicsMenuPosition = new DropChoiceBox(display, SR.get(SR.MS_GRAPHICSMENU_POS));
+            graphicsMenuPosition = new DropChoiceBox(SR.get(SR.MS_GRAPHICSMENU_POS));
             graphicsMenuPosition.append(SR.get(SR.MS_GRMENU_CENTER));
             graphicsMenuPosition.append(SR.get(SR.MS_GRMENU_LEFT));
             graphicsMenuPosition.append(SR.get(SR.MS_GRMENU_RIGHT));
@@ -407,7 +407,7 @@ public class ModuleConfigForm extends DefForm {
 
 //#ifdef BACK_IMAGE
             addControl(new SpacerItem(3));
-            backImgType = new DropChoiceBox(display, "*"+SR.get(SR.MS_TYPE_BACKGROUND));
+            backImgType = new DropChoiceBox("*"+SR.get(SR.MS_TYPE_BACKGROUND));
             backImgType.append(SR.get(SR.MS_BGND_NONE));
             backImgType.append(SR.get(SR.MS_BGND_IMAGE));
             backImgType.append(SR.get(SR.MS_BGND_GRADIENT));
@@ -426,10 +426,10 @@ public class ModuleConfigForm extends DefForm {
 
             addControl(new SpacerItem(3));
 
-            scrollWidth = new NumberInput(display, SR.get(SR.MS_SCROLL_WIDTH), Integer.toString(config.scrollWidth), 3, 25);
+            scrollWidth = new NumberInput(SR.get(SR.MS_SCROLL_WIDTH), Integer.toString(config.scrollWidth), 3, 25);
             addControl(scrollWidth);
 
-            minItemHeight = new NumberInput(display, SR.get(SR.MS_MIN_ITEM_HEIGHT), Integer.toString(config.minItemHeight), 0, 100);
+            minItemHeight = new NumberInput(SR.get(SR.MS_MIN_ITEM_HEIGHT), Integer.toString(config.minItemHeight), 0, 100);
             addControl(minItemHeight);
             addControl(new SpacerItem(3));
 
@@ -496,14 +496,14 @@ public class ModuleConfigForm extends DefForm {
             addControl(new SpacerItem(10));
             addControl(new SimpleString(SR.get(SR.MS_TIME_SETTINGS), true));
 
-            fieldGmt = new NumberInput(display, SR.get(SR.MS_GMT_OFFSET), Integer.toString(config.gmtOffset), -12, 12);
+            fieldGmt = new NumberInput(SR.get(SR.MS_GMT_OFFSET), Integer.toString(config.gmtOffset), -12, 12);
             addControl(fieldGmt);
 
             Vector langs[] = new StringLoader().stringLoader("/lang/res.txt", 3);
             if (langs[0].size() > 1) {
                addControl(new SpacerItem(10));
 
-               langFiles = new DropChoiceBox(display, "*" + SR.get(SR.MS_LANGUAGE));
+               langFiles = new DropChoiceBox("*" + SR.get(SR.MS_LANGUAGE));
                String tempLang = config.lang;
                // not detected
                if (tempLang == null) {
@@ -523,7 +523,7 @@ public class ModuleConfigForm extends DefForm {
             }
 //#ifdef AUTOSTATUS
         } else if (type.equals(SR.get(SR.MS_AUTOSTATUS))) {
-            autoAwayType = new DropChoiceBox(display, SR.get(SR.MS_AWAY_TYPE));
+            autoAwayType = new DropChoiceBox(SR.get(SR.MS_AWAY_TYPE));
             autoAwayType.append(SR.get(SR.MS_AWAY_OFF));
             autoAwayType.append(SR.get(SR.MS_AWAY_LOCK));
             autoAwayType.append(SR.get(SR.MS_MESSAGE_LOCK));
@@ -531,7 +531,7 @@ public class ModuleConfigForm extends DefForm {
             autoAwayType.setSelectedIndex(config.autoAwayType);
             addControl(autoAwayType);
 
-            fieldAwayDelay = new NumberInput(display, "*" + SR.get(SR.MS_AWAY_PERIOD), Integer.toString(config.autoAwayDelay), 1, 60);
+            fieldAwayDelay = new NumberInput("*" + SR.get(SR.MS_AWAY_PERIOD), Integer.toString(config.autoAwayDelay), 1, 60);
             addControl(fieldAwayDelay);
 
             awayStatus = new CheckBox(SR.get(SR.MS_AUTOSTATUS_MESSAGE), config.setAutoStatusMessage);
@@ -544,10 +544,10 @@ public class ModuleConfigForm extends DefForm {
 //#             usePhoneTheme = new CheckBox(SR.get(SR.MS_CLCHAT_BGNG_PHONE), config.usePhoneTheme);
 //#             addControl(usePhoneTheme);
 //# 
-//#             classicChatHeight = new NumberInput(display,SR.get(SR.MS_CLCHAT_HEIGHT), Integer.toString(config.classicChatHeight), 80, 320);
+//#             classicChatHeight = new NumberInput(SR.get(SR.MS_CLCHAT_HEIGHT), Integer.toString(config.classicChatHeight), 80, 320);
 //#             addControl(classicChatHeight);
 //# 
-//#             lineCount = new NumberInput(display, SR.get(SR.MS_CLCHAT_MSGLIMIT), Integer.toString(config.lineCount), 1, 1000);
+//#             lineCount = new NumberInput(SR.get(SR.MS_CLCHAT_MSGLIMIT), Integer.toString(config.lineCount), 1, 1000);
 //#             itemsList.addElement(lineCount);
 //#             itemsList.addElement(new SpacerItem(10));
 //#endif
@@ -731,7 +731,7 @@ public class ModuleConfigForm extends DefForm {
                     SR.changeLocale();
                     Commands.initCommands();
                     BombusQD.sd.roster.initCommands();
-                    BombusQD.sd.roster.showRoster();
+                    BombusQD.sd.roster.show();
                     return;
                 }
             }

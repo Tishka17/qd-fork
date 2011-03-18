@@ -79,7 +79,7 @@ public class LightConfigForm extends DefForm {
         light_keypressed=new TrackItem(lvarray_index, lvarray_len);
         itemsList.addElement(light_keypressed);
 
-        light_keypressed_time=new NumberInput(display, SR.get(SR.L_KEYPRESS_TIMEOUT), Integer.toString(light.light_keypressed_time), 1, 600);
+        light_keypressed_time=new NumberInput(SR.get(SR.L_KEYPRESS_TIMEOUT), Integer.toString(light.light_keypressed_time), 1, 600);
         itemsList.addElement(light_keypressed_time);
 
         itemsList.addElement(new SpacerItem(5));
@@ -88,7 +88,7 @@ public class LightConfigForm extends DefForm {
         light_message=new TrackItem(lvarray_index, lvarray_len);
         itemsList.addElement(light_message);
 
-        light_message_time=new NumberInput(display, SR.get(SR.L_MESSAGE_TIMEOUT), Integer.toString(light.light_message_time), 1, 600);
+        light_message_time=new NumberInput(SR.get(SR.L_MESSAGE_TIMEOUT), Integer.toString(light.light_message_time), 1, 600);
         itemsList.addElement(light_message_time);
 
         /*

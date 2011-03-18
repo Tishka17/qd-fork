@@ -494,8 +494,8 @@ public final class MessageEdit
     private void destroyView() {
        if(emptyChat) {
            if(null != to) {
-              if(to.getChatInfo().getMessageCount()==0) {
-                 midlet.BombusQD.sd.roster.showRoster();
+              if(to.getChatInfo().getMessageCount() == 0) {
+                 midlet.BombusQD.sd.roster.show();
               } else {
                   BombusQD.setCurrentView(parentView);
               }
@@ -505,15 +505,15 @@ public final class MessageEdit
        }
     }
 
-    private void send(){
-       send(body,subj);
-       if(emptyChat) {
-           if(null != to) {
-               BombusQD.setCurrentView(to.getMessageList());
-               return;
-           }
-       }
-       destroyView();
+    private void send() {
+        send(body, subj);
+        if (emptyChat) {
+            if (null != to) {
+                to.getMessageList().show();
+                return;
+            }
+        }
+        destroyView();
     }
 
     private void send(String body,String subj) {

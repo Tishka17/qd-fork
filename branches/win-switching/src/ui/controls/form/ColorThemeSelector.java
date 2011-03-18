@@ -30,8 +30,8 @@ import javax.microedition.lcdui.Display;
 public class ColorThemeSelector extends DropChoiceBox {
     private Vector paths;
 
-    public ColorThemeSelector(Display display, String caption) {
-        super(display, caption);
+    public ColorThemeSelector(String caption) {
+        super(caption);
 
         paths = new Vector();
     }

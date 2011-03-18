@@ -219,7 +219,7 @@ public abstract class MessageList extends VirtualList
 //#ifdef GRAPHICS_MENU
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(display, parentView, this,  null, menuCommands);
+        menuItem = new GMenu(this,  null, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.MESSAGE_LIST;
         return GMenu.MESSAGE_LIST;
     }

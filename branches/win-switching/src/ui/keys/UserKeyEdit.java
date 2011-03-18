@@ -67,14 +67,14 @@ class UserKeyEdit
         active=new CheckBox(SR.get(SR.MS_ENABLED), u.active);
         itemsList.addElement(active);
 
-        keyDesc=new DropChoiceBox(display, SR.get(SR.MS_KEYS_ACTION));
+        keyDesc=new DropChoiceBox(SR.get(SR.MS_KEYS_ACTION));
         for (int i=0;i<u.COMMANDS_DESC.length;i++) {
             keyDesc.append(u.COMMANDS_DESC[i]);
         }
         keyDesc.setSelectedIndex(u.commandId);
         itemsList.addElement(keyDesc);
 
-        keyCode=new DropChoiceBox(display, SR.get(SR.MS_KEY));
+        keyCode=new DropChoiceBox(SR.get(SR.MS_KEY));
         for (int i=0;i<u.KEYS_NAME.length;i++) {
             keyCode.append(u.KEYS_NAME[i]);
         }

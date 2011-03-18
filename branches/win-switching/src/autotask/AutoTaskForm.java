@@ -69,13 +69,13 @@ public class AutoTaskForm extends DefForm {
         min = at.startMin;
         wait = at.waitTime/60000;
         
-        taskType=new DropChoiceBox(display, SR.get(SR.MS_AUTOTASK_TYPE));
+        taskType=new DropChoiceBox(SR.get(SR.MS_AUTOTASK_TYPE));
         taskType.append(SR.get(SR.MS_DISABLED));
         taskType.append(SR.get(SR.MS_BY_TIME_));
         taskType.append(SR.get(SR.MS_BY_TIMER_));
         taskType.setSelectedIndex(typeIndex);
 
-        actionType=new DropChoiceBox(display, SR.get(SR.MS_AUTOTASK_ACTION_TYPE));
+        actionType=new DropChoiceBox(SR.get(SR.MS_AUTOTASK_ACTION_TYPE));
         actionType.append(SR.get(SR.MS_AUTOTASK_QUIT_BOMBUSMOD));
         actionType.append(SR.get(SR.MS_AUTOTASK_QUIT_CONFERENCES));
         actionType.append(SR.get(SR.MS_AUTOTASK_LOGOFF));
@@ -84,9 +84,9 @@ public class AutoTaskForm extends DefForm {
         
         autoTaskTimeDesc=new SimpleString(SR.get(SR.MS_AUTOTASK_TIME), true);
 
-        autoTaskHour=new NumberInput(display, SR.get(SR.MS_AUTOTASK_HOUR), Integer.toString(hour), 0, 23);
-        autoTaskMin=new NumberInput(display, SR.get(SR.MS_AUTOTASK_MIN), Integer.toString(min), 0, 59);
-        autoTaskDelay=new NumberInput(display, SR.get(SR.MS_AUTOTASK_DELAY), Integer.toString(wait), 1, 600);
+        autoTaskHour=new NumberInput(SR.get(SR.MS_AUTOTASK_HOUR), Integer.toString(hour), 0, 23);
+        autoTaskMin=new NumberInput(SR.get(SR.MS_AUTOTASK_MIN), Integer.toString(min), 0, 59);
+        autoTaskDelay=new NumberInput(SR.get(SR.MS_AUTOTASK_DELAY), Integer.toString(wait), 1, 600);
         
         itemsList.addElement(taskType);
         itemsList.addElement(actionType);

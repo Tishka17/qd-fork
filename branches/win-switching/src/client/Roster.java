@@ -276,10 +276,9 @@ public class Roster
 
 
 
-    public Roster(Display display) { //init
+    public Roster() { //init
         super();
         initCommands();
-        this.display=display;
         createMessageEdit(false);
 
         sl=StatusList.getInstance();
@@ -302,7 +301,7 @@ public class Roster
         if(selectPEP == null) selectPEP = new SelectPEP();
 //#endif
 
-        midlet.BombusQD.getInstance().s.setExit(display, this);
+        midlet.BombusQD.getInstance().s.setExit(BombusQD.display, this);
 //#ifdef AUTOSTATUS
         if (midlet.BombusQD.cf.autoAwayType==Config.AWAY_IDLE || midlet.BombusQD.cf.autoAwayType==Config.AWAY_MESSAGE)
             autostatus=new AutoStatusTask(false);
@@ -310,10 +309,6 @@ public class Roster
         if (myStatus<2)
             messageActivity();
 //#endif
-    }
-
-    public void showRoster(){
-        midlet.BombusQD.getInstance().display.setCurrent(this);
     }
 
     public void setLight(boolean state) {
@@ -775,10 +770,11 @@ public class Roster
 
     public void cmdCleanAllMessages(){
         if (messageCount>0) {
-           new AlertBox(SR.get(SR.MS_UNREAD_MESSAGES)+": "+messageCount, SR.get(SR.MS_SURE_DELETE), display, this, false) {
+            AlertBox box = new AlertBox(SR.get(SR.MS_UNREAD_MESSAGES)+": "+messageCount, SR.get(SR.MS_SURE_DELETE), false) {
                 public void yes() { cleanAllMessages(); }
                 public void no() { }
             };
+            box.show();
         } else {
             cleanAllMessages();
         }
@@ -788,7 +784,8 @@ public class Roster
          contactList.cleanAllMessages();
          highliteMessageCount=0;
          messageCount=0;
-         midlet.BombusQD.sd.roster.showRoster();
+
+         show();
          setModified();
          redraw();
      }
@@ -1668,7 +1665,7 @@ public class Roster
 //#endif
 
 //#ifdef CAPTCHA
-        theStream.addBlockListener(new Captcha(display));
+        theStream.addBlockListener(new Captcha());
 //#endif
 
         playNotify(SOUND_CONNECTED);
@@ -1957,7 +1954,7 @@ public class Roster
 //#endif
                          if (c != null) {
                              c.vcard = vcard;
-                             if (display.getCurrent() instanceof VirtualList) {
+                             if (BombusQD.getCurrentView() instanceof VirtualList) {
                                  if (c.getGroupType() == Groups.TYPE_SELF) {
                                      new VCardEdit(vcard).show();
                                  } else {
@@ -2752,7 +2749,7 @@ public class Roster
          return null;
      }
 
-     private final static String getRoleLocale(int rol) {
+     private static String getRoleLocale(int rol) {
          switch (rol) {
              case Constants.ROLE_VISITOR: return SR.get(SR.MS_ROLE_VISITOR);
              case Constants.ROLE_PARTICIPANT: return SR.get(SR.MS_ROLE_PARTICIPANT);
@@ -2763,8 +2760,10 @@ public class Roster
 
      public void testMeOffline(MucContact mc, ConferenceGroup grp, boolean isKick) {
           if ( grp.selfContact == mc ) {
-             if(isKick) display.setCurrent(midlet.BombusQD.sd.roster);
-             midlet.BombusQD.sd.roster.roomOffline(grp, true);
+             if(isKick) {
+                 show();
+             }
+             roomOffline(grp, true);
           }
      }
 
@@ -3203,9 +3202,9 @@ public class Roster
         EventNotify notify=null;
 
         switch (profile) {                                //display   fileType   soundName   volume      vibrate
-            case AlertProfile.ALL:   notify=new EventNotify(display,    type,   message,    volume,     vibraLen); break;
-            case AlertProfile.VIBRA: notify=new EventNotify(display,    null,   null,       volume,     vibraLen); break;
-            case AlertProfile.SOUND: notify=new EventNotify(display,    type,   message,    volume,     0); break;
+            case AlertProfile.ALL:   notify=new EventNotify(type,   message,    volume,     vibraLen); break;
+            case AlertProfile.VIBRA: notify=new EventNotify(null,   null,       volume,     vibraLen); break;
+            case AlertProfile.SOUND: notify=new EventNotify(type,   message,    volume,     0); break;
         }
         if (notify!=null) notify.startNotify();
         type=null;
@@ -3283,7 +3282,7 @@ public class Roster
 
         //reconnectWindow.getInstance().startReconnect();
         //doReconnect();
-        new Reconnect(topBar, error.toString(), display);
+        new Reconnect(topBar, error.toString(), BombusQD.display);
      }
 
      public void doReconnect() {
@@ -3374,7 +3373,7 @@ public class Roster
 
 //#ifdef CLASSIC_CHAT
 //#             if (midlet.BombusQD.cf.module_classicchat) {
-//#                 new SimpleItemChat(display, this, c);
+//#                 new SimpleItemChat(this, c);
 //#             } else {
 //#endif
                 createMessageEdit(c, c.msgSuspended, pview, (c.getChatInfo().getMessageCount() == 0));
@@ -3396,12 +3395,13 @@ public class Roster
 //#             boolean isMucContact=false;
 //#endif
                 if (isContact && !isMucContact) {
-                   new AlertBox(SR.get(SR.MS_DELETE_ASK), c.getNickJid(), display, this, false) {
+                    AlertBox box = new AlertBox(SR.get(SR.MS_DELETE_ASK), c.getNickJid(), false) {
                         public void yes() {
                             deleteContact((Contact)getFocusedObject());
                         }
                         public void no() {}
                     };
+                    box.show();
                 }
 //#ifndef WMUC
                 else if (isContact && isMucContact && c.origin!=Constants.ORIGIN_GROUPCHAT) {
@@ -3432,14 +3432,13 @@ public class Roster
             }
 //#ifdef CLASSIC_CHAT
 //#             if (midlet.BombusQD.cf.module_classicchat) {
-//#                 new SimpleItemChat(display, this, c);
+//#                 new SimpleItemChat(this, c);
 //#             } else {
 //#endif
-                display.setCurrent(c.getMessageList());
+                c.getMessageList().show();
 //#ifdef CLASSIC_CHAT
 //#             }
 //#endif
-            c = null;
         } else {
             cleanupGroup();
             reEnumRoster();
@@ -3482,11 +3481,11 @@ public class Roster
             case SIEMENS_FLIPCLOSE:
             case MOTOROLA_FLIP:
                 if (phoneManufacturer!=Config.SONYE) { //workaround for SE JP6 - enabling vibra in closed state
-                    display.setCurrent(null);
+                    BombusQD.display.setCurrent(null);
                     try {
                         Thread.sleep(300);
                     } catch (Exception ex) {}
-                    display.setCurrent(this);
+                    BombusQD.display.setCurrent(this);
                 }
 //#if DEBUG
 //#             System.out.println("Flip closed");
@@ -3535,7 +3534,7 @@ public class Roster
                 if (midlet.BombusQD.cf.ghostMotor) {
                     // backlight management
                     blState=(blState==1)? Integer.MAX_VALUE : 1;
-                    display.flashBacklight(blState);
+                    BombusQD.display.flashBacklight(blState);
                 }
                 break;
         }
@@ -3562,7 +3561,7 @@ public class Roster
                 }
             }
 //#endif
-            midlet.BombusQD.getInstance().s = new SplashScreen(display, getMainBarItem(), midlet.BombusQD.cf.keyLock);
+            midlet.BombusQD.getInstance().s = new SplashScreen(BombusQD.display, getMainBarItem(), midlet.BombusQD.cf.keyLock);
             //midlet.BombusQD.getInstance().s.createSnow();
             return;
         } else if (keyCode==midlet.BombusQD.cf.keyVibra || keyCode==MOTOE680_FMRADIO /* TODO: redefine keyVibra*/) {
@@ -3784,10 +3783,11 @@ public class Roster
 
     public void cmdQuit() {
         if (midlet.BombusQD.cf.queryExit) {
-            new AlertBox(SR.get(SR.MS_QUIT_ASK), SR.get(SR.MS_SURE_QUIT), display, null, false) {
+            AlertBox box = new AlertBox(SR.get(SR.MS_QUIT_ASK), SR.get(SR.MS_SURE_QUIT), false) {
                 public void yes() {quit(); }
                 public void no() { }
             };
+            box.show();
         } else {
             quit();
         }
@@ -3856,7 +3856,6 @@ public class Roster
         aContacts = new Vector(0);
         Vector search = contactList.contacts;
         int size = search.size();
-        short activePos = 0;
         Contact activeContact;
         Contact showNext;
         for(int i = 0; i < size; ++i) {
@@ -3873,7 +3872,7 @@ public class Roster
         } else {
           showNext = (0 == pos) ? (Contact)aContacts.lastElement() : (Contact)aContacts.elementAt(pos - 1);
         }
-        display.setCurrent(showNext.getMessageList());
+        showNext.getMessageList().show();
     }
 
     public void deleteContact(Contact c) {
@@ -3981,7 +3980,7 @@ public class Roster
     public int showGraphicsMenu() {
          GMenuConfig.getInstance().itemGrMenu = GMenu.MAIN_MENU_ROSTER;
          commandState();
-         menuItem = new GMenu(display, parentView, this, MenuIcons.getInstance(), menuCommands, cmdfirstList, cmdsecondList, cmdThirdList);
+         menuItem = new GMenu(this, MenuIcons.getInstance(), menuCommands, cmdfirstList, cmdsecondList, cmdThirdList);
          redraw();
         return GMenu.MAIN_MENU_ROSTER;
     }

@@ -224,7 +224,7 @@ public final class Bookmarks
               ConferenceForm.join(join.getDesc(), join.getJidNick(), join.getPassword(), midlet.BombusQD.cf.confMessageCount);
           }
        } catch (Exception e) { }
-       midlet.BombusQD.sd.roster.showRoster(); //N78 hardfix
+       midlet.BombusQD.sd.roster.show(); //N78 hardfix
     }
 
     public void commandAction(Command c, Displayable d){
@@ -275,7 +275,7 @@ public final class Bookmarks
                     ConferenceForm.join(bm.getDesc(), bm.getJidNick(), bm.getPassword(), midlet.BombusQD.cf.confMessageCount);
                 }
             }
-            midlet.BombusQD.sd.roster.showRoster();
+            midlet.BombusQD.sd.roster.show();
         } else if (c == cmdSave) {
             saveBookmarks();
         } else if (c == cmdUp) {
@@ -331,19 +331,20 @@ public final class Bookmarks
     }
 
     protected void keyClear(){
-        new AlertBox(SR.get(SR.MS_DELETE_ASK), ((BookmarkItem)getFocusedObject()).getJid(), display, this, false) {
+        AlertBox box = new AlertBox(SR.get(SR.MS_DELETE_ASK), ((BookmarkItem)getFocusedObject()).getJid(), false) {
             public void yes() {
                 deleteBookmark();
             }
             public void no() {}
         };
+        box.show();
     }
 
 //#ifdef MENU_LISTENER
 //#ifdef GRAPHICS_MENU
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(display, parentView, this, null, menuCommands, cmdfirstList, cmdsecondList, cmdThirdList);
+        menuItem = new GMenu(this, null, menuCommands, cmdfirstList, cmdsecondList, cmdThirdList);
         GMenuConfig.getInstance().itemGrMenu=GMenu.BOOKMARKS;
         return GMenu.BOOKMARKS;
     }

@@ -185,19 +185,19 @@ public class Browser
             if (f.endsWith("/")) {
                 if (f.startsWith("../")) f="";
                 if (browserListener==null) return;
-                destroyView();
                 browserListener.BrowserFilePathNotify(path+f);
+                destroyView();
                 return;
             }
             //todo: choose directory here, drop ../
         }
 
         if (command==cmdDelete) {
-            AlertBox alert = new AlertBox( "Alert", SR.get(SR.MS_DELETE) + '?' , display, this, false) {
+            AlertBox box = new AlertBox( "Alert", SR.get(SR.MS_DELETE) + '?' , false) {
                public void yes() { fileDelete(); }
                public void no() {}
             };
-            alert = null;
+            box.show();
             return;
         }
 
@@ -274,7 +274,7 @@ public class Browser
     public void showFile() {
         FileItem fi=(FileItem)getFocusedObject();
         if (fi.getType()<4 && fi.getType()>0){
-         new ShowFile(display, path+fi.name, fi.getType(),fi.name, width, height);
+         new ShowFile(path+fi.name, fi.getType(),fi.name, width, height);
         }
     }
 
@@ -354,7 +354,7 @@ public class Browser
 //#ifdef GRAPHICS_MENU
     public int showGraphicsMenu() {
        // commandState();
-        menuItem = new GMenu(display, parentView, this, null, menuCommands);
+        menuItem = new GMenu(this, null, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.BROWSER;
         return GMenu.BROWSER;
     }

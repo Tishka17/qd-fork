@@ -172,7 +172,7 @@ public class StatsWindow extends DefForm {
     }
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(display, parentView, this, null, menuCommands);
+        menuItem = new GMenu(this, null, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.STATS_WINDOW;
         redraw();
         return GMenu.STATS_WINDOW;

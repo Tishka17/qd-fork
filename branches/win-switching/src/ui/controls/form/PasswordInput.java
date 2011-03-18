@@ -34,23 +34,22 @@ import javax.microedition.lcdui.TextField;
  *
  * @author ad
  */
-public class PasswordInput
-    extends TextInput {
-    
-    /**
-     * Creates a new instance of PasswordInput
-     */
-    public PasswordInput(Display display, String caption, String text) {
-        super(display, caption, text, null, TextField.PASSWORD);
+
+public class PasswordInput extends TextInput {
+
+    public PasswordInput(String caption, String text) {
+        super(caption, text, null, TextField.PASSWORD);
     }
     
-    public String getText(){
-        if (getValue()==null)
+    public String getText() {
+        if (getValue() == null) {
             return "";
-        StringBuffer str=new StringBuffer();
-        for (int i=0;i<getValue().length();i++)
+        }
+        StringBuffer str = new StringBuffer();
+        for (int i = 0; i < getValue().length(); ++i) {
             str.append("*");
-        
+        }
+
         return str.toString();
     }
 }

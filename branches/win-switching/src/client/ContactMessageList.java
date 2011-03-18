@@ -65,6 +65,7 @@ import history.HistoryStorage;
 import midlet.BombusQD;
 import midlet.Commands;
 //#ifdef CLIPBOARD
+import ui.controls.AlertBox;
 import util.ClipBoard;
 //#endif
 
@@ -361,23 +362,6 @@ public final class ContactMessageList extends VirtualList implements MenuListene
             smartPurge(true);
             return;
         }
-        /*
-        if(c==midlet.BombusQD.commands.cmdTranslate){
-        String body = replaceNickTags(getMessage(cursor)).body.toString();
-        if(body.indexOf(">")>-1){
-        String nick = body.substring(0,body.indexOf(">"));
-        new TranslateSelect(display,this,contact,
-        replaceNickTags(getMessage(cursor)).body.substring(body.indexOf(">")+1,body.length()).trim(),nick,
-        true,cursor);
-        }else{
-        new TranslateSelect(display,this,contact,replaceNickTags(getMessage(cursor)).body.toString(),"none",true,cursor);
-        }
-
-        tr=true;
-        contact.setCursor(cursor);
-        return;
-        }
-         */
         if (c == Commands.cmdPurge) {
             if (messages.isEmpty()) {
                 return;
@@ -588,11 +572,12 @@ public final class ContactMessageList extends VirtualList implements MenuListene
            }
        } catch (Exception e) { msg = null; }
 
-       if(!found&&msg!=null) { new ui.controls.AlertBox(msg.from,
-           SR.get(SR.MS_ALERT_CONTACT_OFFLINE), midlet.BombusQD.getInstance().display, this, false) {
-           public void yes() { reply(true); }
-           public void no() { }
-         };
+       if(!found&&msg!=null) {
+            AlertBox box = new AlertBox(msg.from, SR.get(SR.MS_ALERT_CONTACT_OFFLINE), false) {
+                public void yes() { reply(true); }
+                public void no() { }
+            };
+            box.show();
        } else reply(true);
        msg=null;
     }
@@ -608,8 +593,8 @@ public final class ContactMessageList extends VirtualList implements MenuListene
     }
 
     private void showMsgEdit(String msgText){
-      contact.msgSuspended = null;
-      midlet.BombusQD.sd.roster.createMessageEdit(contact, msgText , this, false);
+        contact.msgSuspended = null;
+        midlet.BombusQD.sd.roster.createMessageEdit(contact, msgText , this, false);
     }
 
     private void reply(boolean check) {
@@ -634,12 +619,11 @@ public final class ContactMessageList extends VirtualList implements MenuListene
 
              if(contact.msgSuspended != null && check) {
                final String msgText = messg;
-               ui.controls.AlertBox obj =  new ui.controls.AlertBox(msg.from, SR.get(SR.MS_MSGBUFFER_NOT_EMPTY),
-                       midlet.BombusQD.getInstance().display, this, false) {
-                   public void yes() { showMsgEdit(msgText); }
-                   public void no()  { keyGreen(); }
+               AlertBox box = new AlertBox(msg.from, SR.get(SR.MS_MSGBUFFER_NOT_EMPTY), false) {
+                    public void yes() { showMsgEdit(msgText); }
+                    public void no()  { keyGreen(); }
                };
-               obj = null;
+               box.show();
                return;
              }
 
@@ -769,7 +753,7 @@ public final class ContactMessageList extends VirtualList implements MenuListene
                         c = (Contact)midlet.BombusQD.sd.roster.contactList.contacts.elementAt(i);
                         if (c.getNewMsgsCount()>0){
                             contact.getChatInfo().opened = false;
-                            midlet.BombusQD.getInstance().display.setCurrent(c.getMessageList());
+                            c.getMessageList().show();
                            break;
                         }
                     }
@@ -917,8 +901,7 @@ public final class ContactMessageList extends VirtualList implements MenuListene
 //#ifdef GRAPHICS_MENU
            midlet.BombusQD.sd.roster.activeContact=null;
            midlet.BombusQD.sd.roster.reEnumRoster(); //to reset unread messages icon for this conference in roster
-           //if (midlet.BombusQD.getInstance().display!=null)
-           midlet.BombusQD.sd.roster.showRoster();
+           midlet.BombusQD.sd.roster.show();
 //#else
 //#         sd.roster.activeContact=null;
 //#         sd.roster.reEnumRoster(); //to reset unread messages icon for this conference in roster
@@ -950,7 +933,7 @@ public final class ContactMessageList extends VirtualList implements MenuListene
     public int showGraphicsMenu() {
          GMenuConfig.getInstance().itemGrMenu = GMenu.CONTACT_MSGS_LIST;
          commandState();
-         menuItem = new GMenu(midlet.BombusQD.getInstance().display , this, this, null, menuCommands, cmdfirstList, cmdsecondList, cmdThirdList);
+         menuItem = new GMenu(this, null, menuCommands, cmdfirstList, cmdsecondList, cmdThirdList);
          redraw();
         return GMenu.CONTACT_MSGS_LIST;
     }

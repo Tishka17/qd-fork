@@ -299,7 +299,7 @@ public abstract class VirtualList extends CanvasEx {
         return null;
     }
 
-    protected Display display;
+    //protected Display display;
 
     protected ScrollBar scrollbar;
 
@@ -1508,19 +1508,20 @@ public abstract class VirtualList extends CanvasEx {
 //#endif //TOUCH
 
 //#ifdef USER_KEYS
+    // TODO укоротить
     private void additionKeyPressed(int keyCode) {
         switch (keyCode) {
-            case KEY_NUM0: UserKeyExec.getInstance().commandExecute(display, 0); break;
-            case KEY_NUM1: UserKeyExec.getInstance().commandExecute(display, 1); break;
-            case KEY_NUM2: UserKeyExec.getInstance().commandExecute(display, 2); break;
-            case KEY_NUM3: UserKeyExec.getInstance().commandExecute(display, 3); break;
-            case KEY_NUM4: UserKeyExec.getInstance().commandExecute(display, 4); break;
-            case KEY_NUM5: UserKeyExec.getInstance().commandExecute(display, 5); break;
-            case KEY_NUM6: UserKeyExec.getInstance().commandExecute(display, 6); break;
-            case KEY_NUM7: UserKeyExec.getInstance().commandExecute(display, 7); break;
-            case KEY_NUM8: UserKeyExec.getInstance().commandExecute(display, 8); break;
-            case KEY_NUM9: UserKeyExec.getInstance().commandExecute(display, 9); break;
-            case KEY_POUND: UserKeyExec.getInstance().commandExecute(display, 10); break;
+            case KEY_NUM0: UserKeyExec.getInstance().commandExecute(0); break;
+            case KEY_NUM1: UserKeyExec.getInstance().commandExecute(1); break;
+            case KEY_NUM2: UserKeyExec.getInstance().commandExecute(2); break;
+            case KEY_NUM3: UserKeyExec.getInstance().commandExecute(3); break;
+            case KEY_NUM4: UserKeyExec.getInstance().commandExecute(4); break;
+            case KEY_NUM5: UserKeyExec.getInstance().commandExecute(5); break;
+            case KEY_NUM6: UserKeyExec.getInstance().commandExecute(6); break;
+            case KEY_NUM7: UserKeyExec.getInstance().commandExecute(7); break;
+            case KEY_NUM8: UserKeyExec.getInstance().commandExecute(8); break;
+            case KEY_NUM9: UserKeyExec.getInstance().commandExecute(9); break;
+            case KEY_POUND: UserKeyExec.getInstance().commandExecute(10); break;
         }
     }
 //#endif
@@ -1675,19 +1676,18 @@ public abstract class VirtualList extends CanvasEx {
 //#endif
 //#ifdef POPUPS
         if (keyCode==greenKeyCode) {
-           System.out.println("popupGreen");
             if (getPopUp().getContact()!=null) {
 //#ifdef CLASSIC_CHAT
 //#                    if(midlet.BombusQD.cf.module_classicchat){
-//#                       new SimpleItemChat(midlet.BombusQD.getInstance().display,sd.roster,sd.roster.getContact(popup.getContact(), false));
+//#                       new SimpleItemChat(sd.roster,sd.roster.getContact(popup.getContact(), false));
 //#                    } else {
 //#endif
                        Contact c = sd.roster.getContact(popup.getContact(), false);
-                       if(c.getChatInfo().getMessageCount()<=0 ){
+                       if(c.getChatInfo().getMessageCount() <= 0){
                           midlet.BombusQD.sd.roster.createMessageEdit(c, c.msgSuspended, this, true);
                           return;
                        }
-                       midlet.BombusQD.getInstance().display.setCurrent(c.getMessageList());
+                       c.getMessageList().show();
 //#ifdef CLASSIC_CHAT
 //#                    }
 //#endif

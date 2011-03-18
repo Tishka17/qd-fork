@@ -172,13 +172,13 @@ public class AccountForm extends DefForm {
             uid//.append(generate(2))
                     .append('@').append(server);
         }
-        fulljid = new TextInput(display, SR.get(SR.MS_USER_PROFILE) + "(JID)", uid.toString(), null, TextField.ANY);
-        nickbox = new TextInput(display, SR.get(SR.MS_NICKNAME), account.getNick(), null, TextField.ANY);
+        fulljid = new TextInput(SR.get(SR.MS_USER_PROFILE) + "(JID)", uid.toString(), null, TextField.ANY);
+        nickbox = new TextInput(SR.get(SR.MS_NICKNAME), account.getNick(), null, TextField.ANY);
         itemsList.addElement(nickbox);
         itemsList.addElement(fulljid);
 
 
-        passbox = new TextInput(display, SR.get(SR.MS_PASSWORD), password, null, TextField.ANY);
+        passbox = new TextInput(SR.get(SR.MS_PASSWORD), password, null, TextField.ANY);
         itemsList.addElement(passbox);
 
         createSimpleAddForm = (null == serverReg && newaccount);//true if add,false if edit
@@ -192,12 +192,12 @@ public class AccountForm extends DefForm {
             itemsList.addElement(new SpacerItem(5));
         }
 
-        portbox = new NumberInput(display, SR.get(SR.MS_PORT), Integer.toString(port_box), 0, 65535);
+        portbox = new NumberInput(SR.get(SR.MS_PORT), Integer.toString(port_box), 0, 65535);
         if (!createSimpleAddForm) {
             itemsList.addElement(portbox);
         }
 
-        emailbox = new TextInput(display, "E-mail:", account.getEmail(), null, TextField.EMAILADDR);
+        emailbox = new TextInput("E-mail:", account.getEmail(), null, TextField.EMAILADDR);
         if (midlet.BombusQD.cf.userAppLevel == 1) {
             if (!createSimpleAddForm) {
                 itemsList.addElement(emailbox);
@@ -341,7 +341,7 @@ public class AccountForm extends DefForm {
                 compressionBox_ = true;
                 break;
         }
-        ipbox = new TextInput(display, SR.get(SR.MS_HOST_IP), ip_box, null, TextField.ANY);
+        ipbox = new TextInput(SR.get(SR.MS_HOST_IP), ip_box, null, TextField.ANY);
         sslbox = new CheckBox(SR.get(SR.MS_SSL), sslbox_);
         plainPwdbox = new CheckBox(SR.get(SR.MS_PLAIN_PWD), plainPwdbox_);
         compressionBox = new CheckBox(SR.get(SR.MS_COMPRESSION), compressionBox_);
@@ -364,22 +364,22 @@ public class AccountForm extends DefForm {
 //#endif
         }
 
-        keepAliveType = new DropChoiceBox(display, SR.get(SR.MS_KEEPALIVE));
+        keepAliveType = new DropChoiceBox(SR.get(SR.MS_KEEPALIVE));
         keepAliveType.append("by socket");
         keepAliveType.append("1 byte");
         keepAliveType.append("<iq/>");
         keepAliveType.append("ping");
         keepAliveType.setSelectedIndex(account.getKeepAliveType());
-        keepAlive = new NumberInput(display, SR.get(SR.MS_KEEPALIVE_PERIOD), Integer.toString(account.getKeepAlivePeriod()), 10, 2048);
+        keepAlive = new NumberInput(SR.get(SR.MS_KEEPALIVE_PERIOD), Integer.toString(account.getKeepAlivePeriod()), 10, 2048);
         if (!createSimpleAddForm) {
             itemsList.addElement(keepAliveType);
             itemsList.addElement(keepAlive);
 //#if HTTPCONNECT
-//# 	proxyHost = new TextInput(display, SR.get(SR.MS_PROXY_HOST), account.getProxyHostAddr(), null, TextField.URL);
+//# 	proxyHost = new TextInput(SR.get(SR.MS_PROXY_HOST), account.getProxyHostAddr(), null, TextField.URL);
 //#
-//# 	proxyPort = new TextInput(display, SR.get(SR.MS_PROXY_PORT), Integer.toString(account.getProxyPort()));
+//# 	proxyPort = new TextInput(SR.get(SR.MS_PROXY_PORT), Integer.toString(account.getProxyPort()));
 //#elif HTTPPOLL
-//# 	proxyHost = new TextInput(display, SR.get(SR.MS_PROXY_HOST), account.getProxyHostAddr(), null, TextField.URL);
+//# 	proxyHost = new TextInput(SR.get(SR.MS_PROXY_HOST), account.getProxyHostAddr(), null, TextField.URL);
 //#endif
             itemsList.addElement(ipbox);
 

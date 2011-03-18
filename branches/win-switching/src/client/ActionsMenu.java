@@ -56,6 +56,7 @@ import locale.SR;
 import menu.Menu;
 import menu.MenuItem;
 import midlet.BombusQD;
+import ui.CanvasEx;
 import ui.controls.AlertBox;
 import ui.MIDPTextBox;
 import ui.MainBar;
@@ -473,7 +474,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                     return;
                 }
                 case MI_DELETE:
-                    new AlertBox(SR.get(SR.MS_DELETE_ASK), contact.getName(), display, BombusQD.sd.roster, false) {
+                    AlertBox box = new AlertBox(SR.get(SR.MS_DELETE_ASK), contact.getName(), false) {
                         public void yes() {
                             BombusQD.sd.roster.deleteContact((Contact) item);
                         }
@@ -481,6 +482,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                         public void no() {
                         }
                     };
+                    showForm(box);
                     return;
                 case MI_LOGOUT: {
                     midlet.BombusQD.sd.roster.blockNotify(-111, 10000);
@@ -552,7 +554,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                     BombusQD.sd.roster.theStream.send(IqTimeReply.query(contact.getJid()));
                     break;
                 case MI_ANNOTATION:
-                    new MIDPTextBox(display, SR.get(SR.MS_NEW), contact.annotations, this, TextField.ANY, 200);
+                    new MIDPTextBox(BombusQD.display, SR.get(SR.MS_NEW), contact.annotations, this, TextField.ANY, 200);
                     return;
                 case MI_DEL_ANNOTATION:
                     OkNotify(null);
@@ -705,7 +707,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                         showForm(new RenameGroup(group));
                         return;
                     case MI_DELETE:
-                        new AlertBox(SR.get(SR.MS_DELETE_GROUP_ASK), group.getName(), display, BombusQD.sd.roster, false)       {
+                        AlertBox box = new AlertBox(SR.get(SR.MS_DELETE_GROUP_ASK), group.getName(), false)       {
                             public void yes() {
                                 BombusQD.sd.roster.deleteGroup(group);
                             }
@@ -713,6 +715,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                             public void no() {
                             }
                         };
+                        showForm(box);
                         return;
                 }
             }
@@ -720,7 +723,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
         destroyView();
     }
 
-    private void showForm(VirtualList list) {
+    private void showForm(CanvasEx list) {
         list.setParentView(getParentView());
         list.show();
     }

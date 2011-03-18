@@ -79,7 +79,7 @@ public class TranslateSelect extends DefForm {
 
         if (langs[0].size()>1) {
             itemsList.addElement(new SpacerItem(12));
-            langFrom=new DropChoiceBox(display, "from");
+            langFrom=new DropChoiceBox("from");
             for (int i=0; i<langs[0].size(); i++) {
                 String label=(String) langs[1].elementAt(i);
                 String langCode=(String) langs[0].elementAt(i);
@@ -89,7 +89,7 @@ public class TranslateSelect extends DefForm {
             itemsList.addElement(langFrom);
             
             itemsList.addElement(new SpacerItem(5));
-            langTo=new DropChoiceBox(display, "to");
+            langTo=new DropChoiceBox("to");
             for (int i=0; i<langs[0].size(); i++) {
                 String label=(String) langs[1].elementAt(i);
                 String langCode=(String) langs[0].elementAt(i);
@@ -102,7 +102,7 @@ public class TranslateSelect extends DefForm {
     
     private void runTranslate(boolean pair){
         TranslateText tr = new TranslateText();
-        tr.runTranslate(display,parentView,to,text,
+        tr.runTranslate(parentView,to,text,
             pair?cf.langpair.substring(0,2):cf.langpair.substring(5,7),
             pair?cf.langpair.substring(5,7):cf.langpair.substring(0,2),
           fromMucNick,trCMsgList,cursor);        
@@ -115,7 +115,7 @@ public class TranslateSelect extends DefForm {
             
            if(((String)langs[0].elementAt(langTo.getSelectedIndex())).indexOf("au")>-1){
            } else{
-            tr.runTranslate(display,parentView,to,text,
+            tr.runTranslate(parentView,to,text,
                     (String)langs[0].elementAt(langFrom.getSelectedIndex()),
                     (String)langs[0].elementAt(langTo.getSelectedIndex()),fromMucNick,trCMsgList,cursor);
             cf.langpair=(String)langs[0].elementAt(langFrom.getSelectedIndex())+

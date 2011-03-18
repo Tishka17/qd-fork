@@ -54,7 +54,7 @@ public class ActivityText extends DefForm {
         }
         
         if(cat!=null && descr!=null){
-          text=new TextInput(display, locale.SR.get(locale.SR.MS_MESSAGE), "", "text", TextField.ANY);
+          text=new TextInput(locale.SR.get(locale.SR.MS_MESSAGE), "", "text", TextField.ANY);
           itemsList.addElement(text);            
         }
         
@@ -118,7 +118,7 @@ public class ActivityText extends DefForm {
             }
          }
          try {
-            midlet.BombusQD.sd.roster.theStream.addBlockListener(new UserActivityResult(display, sid));             
+            midlet.BombusQD.sd.roster.theStream.addBlockListener(new UserActivityResult(sid));             
             midlet.BombusQD.sd.roster.theStream.send(setActivity);
             midlet.BombusQD.cf.saveToStorage();
             setActivity=null;

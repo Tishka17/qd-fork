@@ -76,7 +76,7 @@ public class ColorConfigForm extends DefForm
             int size = files[0].size();
 
             if (size > 0) {
-                skinFiles = new ColorThemeSelector(display, SR.get(SR.MS_COLOR_SCHEMES));
+                skinFiles = new ColorThemeSelector(SR.get(SR.MS_COLOR_SCHEMES));
 
                 for (int i = 0; i < size; ++i) {
                     String themeName = (String)files[1].elementAt(i);
@@ -143,7 +143,7 @@ public class ColorConfigForm extends DefForm
 //#endif
         addControl(new LinkString(SR.get(SR.MS_CLEAR)) {
             public void doAction() {
-                new AlertBox("Query", "Load lime theme?", BombusQD.display, getParentView(), true) {
+                AlertBox box = new AlertBox("Query", "Load lime theme?", true) {
                     public void yes() {
                         ColorTheme.loadSkin("/themes/default.txt", 1, true);
                     }
@@ -153,6 +153,8 @@ public class ColorConfigForm extends DefForm
                         ColorTheme.saveToStorage();
                     }
                 };
+                box.setParentView(getParentView());
+                box.show();
             }
         });
 //#endif

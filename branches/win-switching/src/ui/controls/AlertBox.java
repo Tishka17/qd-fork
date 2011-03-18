@@ -30,7 +30,6 @@ import client.Config;
 import client.StaticData;
 import colors.ColorTheme;
 import java.util.Vector;
-import javax.microedition.lcdui.Canvas;
 //#ifndef MENU_LISTENER
 //# import javax.microedition.lcdui.CommandListener;
 //# import javax.microedition.lcdui.Command;
@@ -44,6 +43,7 @@ import javax.microedition.lcdui.Image;
 //#endif
 import locale.SR;
 import font.FontCache;
+import ui.CanvasEx;
 import util.StringUtils;
 //#ifdef GRADIENT
 import ui.Gradient;
@@ -52,17 +52,12 @@ import ui.Gradient;
  *
  * @author ad
  */
-public abstract class AlertBox
-        extends Canvas
+public abstract class AlertBox extends CanvasEx
 
 //#ifndef MENU_LISTENER
 //#         implements CommandListener
 //#endif
     {
-
-    protected Display display;
-    protected Displayable next;
-
 //#ifndef MENU_LISTENER
 //#     protected Command cmdOk=new Command(SR.get(SR.MS_OK), Command.OK, 1);
 //#     protected Command cmdCancel=new Command(SR.get(SR.MS_CANCEL), Command.BACK, 2);
@@ -102,8 +97,7 @@ public abstract class AlertBox
     private int height;
     private int width;
 
-    public AlertBox(String mainbar, String text, Display display, Displayable nextDisplayable, boolean optionsMaster) {
-        this.display=display;
+    public AlertBox(String mainbar, String text, boolean optionsMaster) {
         if(optionsMaster){
             left=SR.get(SR.MS_YES);
             right=SR.get(SR.MS_NO);
@@ -112,8 +106,6 @@ public abstract class AlertBox
 
         messageFont=FontCache.getFont(false, FontCache.msg);
         barFont=FontCache.getFont(false, FontCache.bar);
-
-        next=(nextDisplayable==null)? display.getCurrent() : nextDisplayable;
 
         this.text=text;
         this.mainbar=mainbar;
@@ -124,7 +116,6 @@ public abstract class AlertBox
 //#
 //#         setCommandListener(this);
 //#endif
-        display.setCurrent(this);
     }
 
 //#ifndef MENU_LISTENER
@@ -141,11 +132,7 @@ public abstract class AlertBox
     public void destroyView()	{
         isShowing=false;
 
-        if (display==null) {
-            display.setCurrent(StaticData.getInstance().roster);
-        } else {
-            display.setCurrent(next);
-        }
+        super.destroyView();
     }
 
     private void getLines(int width) {

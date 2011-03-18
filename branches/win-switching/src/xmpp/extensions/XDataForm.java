@@ -15,6 +15,7 @@ import javax.microedition.lcdui.*;
 import locale.SR;
 import util.Strconv;
 import com.alsutton.jabber.datablocks.Iq;
+import midlet.BombusQD;
 
 /**
  *
@@ -36,11 +37,9 @@ public class XDataForm implements CommandListener {
     String id;
     String from;
 
-    public XDataForm(Display display, JabberDataBlock data, String id, String from) {
-        this.display=display;
+    public XDataForm(JabberDataBlock data, String id, String from) {
         this.id = id;
         this.from = from;
-        this.parentView=display.getCurrent();
 
         cmdOk=new Command(SR.get(SR.MS_SEND), Command.OK /*Command.SCREEN*/, 1);
         cmdCancel=new Command(SR.get(SR.MS_BACK), Command.BACK, 99);
@@ -108,7 +107,9 @@ public class XDataForm implements CommandListener {
         f.setCommandListener(this);
         f.addCommand(cmdOk);
         f.addCommand(cmdCancel);
-        display.setCurrent(f);
+        
+        this.parentView = BombusQD.getCurrentView();
+        BombusQD.setCurrentView(f);
     }
 
     public void XDataFormSubmit(JabberDataBlock form) {
@@ -129,7 +130,7 @@ public class XDataForm implements CommandListener {
             }
             XDataFormSubmit(resultForm);
         }
-        display.setCurrent(parentView);
+        BombusQD.setCurrentView(parentView);
     }
 
 }

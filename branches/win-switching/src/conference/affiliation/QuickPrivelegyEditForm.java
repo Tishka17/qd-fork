@@ -109,7 +109,7 @@ public final class QuickPrivelegyEditForm extends DefForm {
         addControl(new MultiLine(SR.get(SR.MS_USER), user.toString(), super.superWidth));
 
 
-        reason=new TextInput(display, SR.get(SR.MS_REASON), "", "reason", TextField.ANY);
+        reason=new TextInput(SR.get(SR.MS_REASON), "", "reason", TextField.ANY);
         addControl(reason);
 
 //#ifndef MENU

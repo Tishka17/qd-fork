@@ -47,6 +47,7 @@ import ui.*;
 import java.util.*;
 import com.alsutton.jabber.*;
 //#ifdef GRAPHICS_MENU        
+import midlet.BombusQD;
 import ui.GMenu;
 //#endif 
 /**
@@ -159,7 +160,7 @@ public class PrivacySelect
             }
         }
         if (c==cmdNewList)
-            new MIDPTextBox(display, SR.get(SR.MS_NEW), "", this, TextField.ANY,50);
+            new MIDPTextBox(BombusQD.display, SR.get(SR.MS_NEW), "", this, TextField.ANY,50);
     }
     
 //#ifdef MENU_LISTENER
@@ -167,7 +168,7 @@ public class PrivacySelect
 //#ifdef GRAPHICS_MENU        
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(display, parentView, this, null, menuCommands);
+        menuItem = new GMenu(this, null, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.PRIVACY_SELECT;         
         return GMenu.PRIVACY_SELECT;
     }

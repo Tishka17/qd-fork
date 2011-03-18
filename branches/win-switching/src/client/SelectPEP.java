@@ -210,7 +210,7 @@ public final class SelectPEP extends VirtualList implements
           if( ((String)Moods.getInstance().moodValue.lastElement()).equals(getTipString()) ) OkNotify(null); 
           else {
             midlet.BombusQD.cf.cursorPos[3]=cursor;            
-            new MIDPTextBox(display, SR.get(SR.MS_USERMOOD), Moods.getInstance().myMoodText, this, TextField.ANY, 100);
+            new MIDPTextBox(BombusQD.display, SR.get(SR.MS_USERMOOD), Moods.getInstance().myMoodText, this, TextField.ANY, 100);
           }
       } else publishActivity();
     }
@@ -280,7 +280,7 @@ public final class SelectPEP extends VirtualList implements
         String moodName = Moods.getInstance().getMoodName(index);
         publishMood(moodText, moodName);
         destroyView();
-        midlet.BombusQD.sd.roster.showRoster();
+        midlet.BombusQD.sd.roster.show();
     }
     
     
@@ -304,7 +304,7 @@ public final class SelectPEP extends VirtualList implements
             action.setAttribute("notify","1");
         }
         try {
-            midlet.BombusQD.sd.roster.theStream.addBlockListener(new MoodPublishResult(display, sid));           
+            midlet.BombusQD.sd.roster.theStream.addBlockListener(new MoodPublishResult(sid));           
             midlet.BombusQD.sd.roster.theStream.send(setMood);
             setMood=null;
             action=null;
@@ -441,7 +441,7 @@ public final class SelectPEP extends VirtualList implements
 //#ifdef GRAPHICS_MENU        
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(display, parentView, this, null, menuCommands);        
+        menuItem = new GMenu(this, null, menuCommands);        
         GMenuConfig.getInstance().itemGrMenu=555;
         return 555;
     }

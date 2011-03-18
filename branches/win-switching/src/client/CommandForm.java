@@ -132,7 +132,7 @@ public final class CommandForm extends DefForm {
         }
 
         if(field_text.length()>0){
-         textbox=new TextInput(display,field_text, "",null,TextField.ANY);
+         textbox=new TextInput(field_text, "",null,TextField.ANY);
          itemsList.addElement(textbox);
         }
 

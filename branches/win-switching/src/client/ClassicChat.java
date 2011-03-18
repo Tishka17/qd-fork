@@ -35,14 +35,6 @@
 //# import ui.VirtualList;
 //# 
 //# public class ClassicChat extends CustomItem implements ItemCommandListener {
-//#     Display display;
-//#     Displayable pView;
-//# 
-//#     public void setDisplay(Display display,Displayable pView){
-//#       this.display=display;
-//#       this.pView=pView;
-//#       }
-//# 
 //#     public String[] msgs;
 //# 
 //#     int maxCount;

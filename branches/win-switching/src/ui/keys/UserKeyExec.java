@@ -101,9 +101,7 @@ public class UserKeyExec {
         return commandNum;
     }
 
-    public void commandExecute(Display display, int command) { //return false if key not executed
-        this.display=display;
-
+    public void commandExecute(int command) { //return false if key not executed
         int commandId=getCommandByKey(command);
 
         if (commandId<1) return;
@@ -111,9 +109,6 @@ public class UserKeyExec {
         boolean connected= ( sd.roster.isLoggedIn() );
 
         switch (commandId) {
-            case 1:
-                //new ConfigForm(display, sd.roster);//?
-                break;
             case 2:
                 sd.roster.cmdCleanAllMessages();
                 break;

@@ -61,13 +61,13 @@ public final class ContactEdit extends DefForm {
     public ContactEdit(Contact c) {
         super(SR.get(SR.MS_ADD_CONTACT));
 
-        tJid = new TextInput(display, SR.get(SR.MS_USER_JID), Config.getInstance().add_contact_name, null, TextField.ANY);
+        tJid = new TextInput(SR.get(SR.MS_USER_JID), Config.getInstance().add_contact_name, null, TextField.ANY);
 
-        tNick = new TextInput(display, SR.get(SR.MS_NAME), null, null, TextField.ANY);
+        tNick = new TextInput(SR.get(SR.MS_NAME), null, null, TextField.ANY);
 
-        tGroup = new TextInput(display, SR.get(SR.MS_NEWGROUP), (c == null) ? "" : c.group.name, null, TextField.ANY);
+        tGroup = new TextInput(SR.get(SR.MS_NEWGROUP), (c == null) ? "" : c.group.name, null, TextField.ANY);
 
-        tTranspList = new DropChoiceBox(display, SR.get(SR.MS_TRANSPORT));
+        tTranspList = new DropChoiceBox(SR.get(SR.MS_TRANSPORT));
         // Transport droplist
         tTranspList.append(BombusQD.sd.account.getServer());
         for (Enumeration e = BombusQD.sd.roster.getHContacts().elements(); e.hasMoreElements();) {
@@ -120,7 +120,7 @@ public final class ContactEdit extends DefForm {
 
         Vector groups = BombusQD.sd.roster.contactList.groups.getRosterGroupNames();
         if (groups != null) {
-            tGrpList = new DropChoiceBox(display, SR.get(SR.MS_GROUP));
+            tGrpList = new DropChoiceBox(SR.get(SR.MS_GROUP));
             for (int i = 0; i < groups.size(); i++) {
                 String gn = (String)groups.elementAt(i);
                 tGrpList.append(gn);

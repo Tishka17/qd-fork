@@ -56,10 +56,10 @@ public final class AffiliationEditForm extends DefForm {
 
         this.room = room;
 
-        jidItem = new TextInput(display, SR.get(SR.MS_JID), jid, null, TextField.ANY);
+        jidItem = new TextInput(SR.get(SR.MS_JID), jid, null, TextField.ANY);
         addControl(jidItem);
 
-        affiliationItem = new DropChoiceBox(display, SR.get(SR.MS_SET_AFFILIATION));
+        affiliationItem = new DropChoiceBox(SR.get(SR.MS_SET_AFFILIATION));
         for (int i = 0; i <= AffiliationItem.AFFILIATION_OUTCAST; ++i) {
             String name = AffiliationItem.getAffiliationName(i);
             affiliationItem.append(name);
@@ -70,7 +70,7 @@ public final class AffiliationEditForm extends DefForm {
         affiliationItem.setSelectedIndex(recentAffiliation);
         addControl(affiliationItem);
 
-        reasonItem = new TextInput(display, SR.get(SR.MS_REASON), reason, "reason", TextField.ANY);
+        reasonItem = new TextInput(SR.get(SR.MS_REASON), reason, "reason", TextField.ANY);
         addControl(reasonItem);
     }
 
@@ -109,13 +109,14 @@ public final class AffiliationEditForm extends DefForm {
             .append(SR.get(SR.MS_FROM_OWNER_TO))
             .append(AffiliationItem.getAffiliationName((short)affiliationItem.getSelectedIndex()));
 
-            new AlertBox(SR.get(SR.MS_MODIFY_AFFILIATION), warn.toString(), display, null, false) {
+            AlertBox box = new AlertBox(SR.get(SR.MS_MODIFY_AFFILIATION), warn.toString(), false) {
                     public void yes() {
                         modify();
                         destroyView();
                     }
                     public void no() {}
             };
+            box.show();
         } else {
             modify();
         }

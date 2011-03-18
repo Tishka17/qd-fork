@@ -29,11 +29,11 @@ package info;
 import client.Config;
 import conference.ConferenceForm;
 import javax.microedition.io.ConnectionNotFoundException;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import midlet.BombusQD;
+//#ifdef STATS
 import stats.StatsWindow;
+//#endif
 import ui.controls.AlertBox;
 import ui.controls.form.DefForm;
 import ui.controls.form.LinkString;
@@ -216,14 +216,15 @@ public class InfoWindow extends DefForm {
             authMsg = "Advanced Mode now OFF!";
         }
         midlet.BombusQD.cf.saveInt();
-        new AlertBox(SR.get(SR.MS_INFO), authMsg, display, parentView, false) {
+        AlertBox box = new AlertBox(SR.get(SR.MS_INFO), authMsg, false) {
             public void yes() {
             }
 
             public void no() {
             }
-
         };
+        box.setParentView(getParentView());
+        box.show();
     }
 
     public void keyPressed(int keyCode) {

@@ -75,11 +75,11 @@ public class AvatarConfigForm extends DefForm {
             addControl(new SpacerItem(5));
         }
 
-        maxAvatarHeight = new NumberInput(display, SR.get(SR.MS_MAX_AVATAR_HEIGHT), Integer.toString(config.maxAvatarHeight), 12, 100);
+        maxAvatarHeight = new NumberInput(SR.get(SR.MS_MAX_AVATAR_HEIGHT), Integer.toString(config.maxAvatarHeight), 12, 100);
         addControl(maxAvatarHeight);
 
         addControl(new SpacerItem(5));
-        maxAvatarWidth = new NumberInput(display, SR.get(SR.MS_MAX_AVATAR_WIDTH), Integer.toString(config.maxAvatarWidth), 12, 100);
+        maxAvatarWidth = new NumberInput(SR.get(SR.MS_MAX_AVATAR_WIDTH), Integer.toString(config.maxAvatarWidth), 12, 100);
         addControl(maxAvatarWidth);
 
 //#ifdef FILE_IO

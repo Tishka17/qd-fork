@@ -13,18 +13,17 @@ import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import client.Config;
+import midlet.BombusQD;
 
 /**
  *
  * @author aqent
  */
 public class ConfigurationMaster {
-    private Display display;
     private Displayable parentView;
     private byte type = 0;
 
-    public ConfigurationMaster(Display display, Displayable parentView) {
-        this.display = display;
+    public ConfigurationMaster(Displayable parentView) {
         this.parentView = parentView;
         createAnswer();
     }
@@ -100,7 +99,7 @@ public class ConfigurationMaster {
         if (pos > -1) {
             body = body.substring(0, pos) + '?';
         }
-        new AlertBox(end ? SR.get(SR.MS_SUCCESS) : "Step " + num + "/" + len, body, display, parentView, true)  {
+        AlertBox box =  new AlertBox(end ? SR.get(SR.MS_SUCCESS) : "Step " + num + "/" + len, body, true)  {
             public void yes() {
                 doAction(type, true);
                 type += 1;
@@ -113,10 +112,11 @@ public class ConfigurationMaster {
                 createAnswer();
             }
         };
+        box.show();
     }
 
     private void destroyView() {
         Config.getInstance().saveToStorage();
-        display.setCurrent(parentView);
+        BombusQD.setCurrentView(parentView);
     }
 }

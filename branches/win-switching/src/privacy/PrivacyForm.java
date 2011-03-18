@@ -88,7 +88,7 @@ public class PrivacyForm extends DefForm {
         itemsList=null;
         itemsList=new Vector(0);
 
-        choiceAction=new DropChoiceBox(display, SR.get(SR.MS_PRIVACY_ACTION));
+        choiceAction=new DropChoiceBox(SR.get(SR.MS_PRIVACY_ACTION));
         len = PrivacyItem.actions.length;
         for(int i=0; i<len; i++){
             choiceAction.append(PrivacyItem.actions_[i]);
@@ -106,7 +106,7 @@ public class PrivacyForm extends DefForm {
         addControl(presenceOutStz);
         addControl(iqStz);
         
-        choiceType=new DropChoiceBox(display, SR.get(SR.MS_PRIVACY_TYPE));
+        choiceType=new DropChoiceBox(SR.get(SR.MS_PRIVACY_TYPE));
         len = PrivacyItem.types.length;
         for(int i=0; i<len; i++){
             choiceType.append(PrivacyItem.types_[i]);
@@ -116,7 +116,7 @@ public class PrivacyForm extends DefForm {
         newSubscrPos=itemsList.indexOf(choiceType)+1;
         
        
-        choiceSubscr=new DropChoiceBox(display, SR.get(SR.MS_SUBSCRIPTION));
+        choiceSubscr=new DropChoiceBox(SR.get(SR.MS_SUBSCRIPTION));
           len = PrivacyItem.subscrs.length;
           for(int i=0; i<len; i++) choiceSubscr.append(PrivacyItem.subscrs_[i]);
           
@@ -129,7 +129,7 @@ public class PrivacyForm extends DefForm {
          }
         }
 
-        textValue=new TextInput(display, SR.get(SR.MS_VALUE), tValue, "", TextField.ANY);//64, TextField.ANY);
+        textValue=new TextInput(SR.get(SR.MS_VALUE), tValue, "", TextField.ANY);//64, TextField.ANY);
         try{
          switch (selectedAction) {
             case 0: //jid

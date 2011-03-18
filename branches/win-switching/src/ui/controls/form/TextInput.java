@@ -31,7 +31,6 @@ import font.FontCache;
 import io.NvStorage;
 import java.io.DataInputStream;
 import java.io.EOFException;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import ui.IconTextElement;
@@ -58,7 +57,7 @@ public class TextInput extends IconTextElement {
     private int colorBorder;
     private int colorBGnd;
 
-    public TextInput(Display display, String caption, String text, String id, int boxType) {
+    public TextInput(String caption, String text, String id, int boxType) {
         super(null);
         this.caption = caption;
         this.id = id;

@@ -46,7 +46,7 @@ public class ServerBox  extends DefForm {
 
         this.sd = sd;
 
-        serverName = new TextInput(display, SR.get(SR.MS_ADRESS), service, "disco", TextField.ANY);
+        serverName = new TextInput(SR.get(SR.MS_ADRESS), service, "disco", TextField.ANY);
         addControl(serverName);
         
         moveCursorTo(getNextSelectableRef(-1));

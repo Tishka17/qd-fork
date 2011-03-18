@@ -84,11 +84,11 @@ public class TransferAcceptFile extends DefForm implements BrowserListener {
             }
         }
 
-        fileName=new TextInput(display, SR.get(SR.MS_FILE), name, "", TextField.ANY);
+        fileName=new TextInput(SR.get(SR.MS_FILE), name, "", TextField.ANY);
         itemsList.addElement(fileName);
         itemsList.addElement(new SimpleString(SR.get(SR.MS_FILE_SIZE)+" "+String.valueOf(t.fileSize)+" bytes", true));
 
-        path=new TextInput(display, SR.get(SR.MS_SAVE_TO), t.filePath, "recvPath", TextField.ANY);
+        path=new TextInput(SR.get(SR.MS_SAVE_TO), t.filePath, "recvPath", TextField.ANY);
         itemsList.addElement(path);
 
         selectFile=new LinkString(SR.get(SR.MS_PATH)) { public void doAction() { initBrowser(); } };

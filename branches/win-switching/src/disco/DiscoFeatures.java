@@ -35,11 +35,13 @@ import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.List;
 import locale.SR;
+import midlet.BombusQD;
 
 /**
  *
  * @author Eugene Stahov
  */
+
 public class DiscoFeatures implements CommandListener {
     
     Command cmdBack;
@@ -51,7 +53,7 @@ public class DiscoFeatures implements CommandListener {
     private Displayable parentView;
     
     /** Creates a new instance of DiscoFeatures */
-    public DiscoFeatures(Display display, String entity, Vector features) {
+    public DiscoFeatures(String entity, Vector features) {
         if (features.isEmpty()) return;
         
         cmdBack=new Command(SR.get(SR.MS_BACK), Command.BACK, 99);
@@ -65,15 +67,14 @@ public class DiscoFeatures implements CommandListener {
         
         list.addCommand(cmdBack);
         list.addCommand(cmdOk);
-        parentView=display.getCurrent();
-        this.display=display;
-        
         list.setCommandListener(this);
-        display.setCurrent(list);
+
+        parentView=BombusQD.getCurrentView();
+        BombusQD.setCurrentView(list);
     }
 
     public void commandAction(Command command, Displayable displayable) {
-        display.setCurrent(parentView);
+        BombusQD.setCurrentView(parentView);
     }
 }
 //#endif

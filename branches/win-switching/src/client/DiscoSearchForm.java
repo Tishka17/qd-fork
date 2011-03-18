@@ -34,10 +34,6 @@ import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.util.Enumeration;
 import java.util.Vector;
-import ui.IconTextElement;
-import colors.ColorTheme;
-import images.RosterIcons;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
@@ -57,7 +53,9 @@ import disco.ServiceDiscovery;
 //#else
 import menu.MenuListener;
 import menu.Command;
-import menu.MyMenu;
+//#endif
+//#ifdef GRAPHICS_MENU
+import midlet.BombusQD;
 //#endif
 //#ifdef GRAPHICS_MENU        
 import ui.GMenu;
@@ -182,14 +180,14 @@ public class DiscoSearchForm
         if (c==cmdCancel) {
             exitSearchForm();
         } else if (c==cmdAddServer) {
-            new MIDPTextBox(display, SR.get(SR.MS_SERVER), null, this, TextField.ANY,50);
+            new MIDPTextBox(BombusQD.display, SR.get(SR.MS_SERVER), null, this, TextField.ANY,50);
 	} else if (c==cmdDel) {
             delServer();
         }
     }
     
     private void exitSearchForm(){
-        display.setCurrent(StaticData.getInstance().roster);
+        BombusQD.sd.roster.show();
     }
     
     
@@ -251,7 +249,7 @@ public class DiscoSearchForm
 //#ifdef GRAPHICS_MENU        
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(display, parentView, this,null, menuCommands);        
+        menuItem = new GMenu(this,null, menuCommands);        
         GMenuConfig.getInstance().itemGrMenu=GMenu.SEARCH_FORM;
         return GMenu.SEARCH_FORM;
     }

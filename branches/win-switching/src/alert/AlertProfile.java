@@ -112,7 +112,7 @@ public class AlertProfile extends VirtualList implements
 //#ifdef GRAPHICS_MENU        
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(display, parentView, this,null, menuCommands);        
+        menuItem = new GMenu(this,null, menuCommands);        
         return GMenu.ALERT_PROFILE;
     }
 //#else

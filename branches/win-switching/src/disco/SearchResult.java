@@ -169,17 +169,11 @@ public class SearchResult
     public void touchRigthPressed() {
         destroyView();
     }
-
-    public void destroyView() {
-        if (display != null) {
-            midlet.BombusQD.sd.roster.showRoster();
-        }
-    }
     
 //#ifdef GRAPHICS_MENU        
     public int showGraphicsMenu() {
          commandState();
-         menuItem = new GMenu(display, parentView, this, null, menuCommands);
+         menuItem = new GMenu(this, null, menuCommands);
          GMenuConfig.getInstance().itemGrMenu = -1;        
          eventOk();
          return -1;
@@ -212,7 +206,7 @@ public class SearchResult
         try {
             Contact c=(Contact)getFocusedObject();
             if (c==null) return;
-            display.setCurrent(c.getMessageList());
+            c.getMessageList().show();
         } catch (Exception e) {}
     }
 }

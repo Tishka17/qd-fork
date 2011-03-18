@@ -30,8 +30,6 @@ package impexp;
 
 import io.file.browse.Browser;
 import io.file.browse.BrowserListener;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import menu.Menu;
 import menu.MenuItem;
@@ -75,7 +73,7 @@ public class ImportExportForm extends Menu implements BrowserListener {
 
     public void BrowserFilePathNotify(String path) {
         MenuItem mItem = (MenuItem)getFocusedObject();
-
+        System.out.println(path);
         switch (mItem.index) {
 //#if ARCHIVE
             case ARCHIVE_EXPORT:

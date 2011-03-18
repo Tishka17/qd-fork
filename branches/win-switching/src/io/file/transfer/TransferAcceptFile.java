@@ -110,7 +110,7 @@ public class TransferAcceptFile
     }
 
 
-    public void initBrowser() { new Browser(path.getValue(), display, this, this, true); }
+    public void initBrowser() { new Browser(path.getValue(), this, true).show(); }
 
     public void BrowserFilePathNotify(String pathSelected) { path.setValue(pathSelected); }
 

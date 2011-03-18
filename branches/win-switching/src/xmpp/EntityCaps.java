@@ -108,17 +108,17 @@ public class EntityCaps implements JabberBlockListener{
         
         //features MUST be sorted
 //#ifdef PEP
-//#         if (midlet.BombusQD.cf.rcvactivity) {
-//#             features.addElement("http://jabber.org/protocol/activity");
-//#             features.addElement("http://jabber.org/protocol/activity+notify");
-//#         }
+        if (midlet.BombusQD.cf.rcvactivity) {
+            features.addElement("http://jabber.org/protocol/activity");
+            features.addElement("http://jabber.org/protocol/activity+notify");
+        }
 //#endif
         
         if (midlet.BombusQD.cf.eventComposing)
             features.addElement("http://jabber.org/protocol/chatstates"); //xep-0085
 //#ifdef ADHOC
-//#         if (midlet.BombusQD.cf.adhoc)
-//#             features.addElement("http://jabber.org/protocol/commands"); //xep-0050
+        if (midlet.BombusQD.cf.adhoc)
+            features.addElement("http://jabber.org/protocol/commands"); //xep-0050
 //#endif
         features.addElement("http://jabber.org/protocol/disco#info");
  //#ifdef FILE_TRANSFER
@@ -127,10 +127,10 @@ public class EntityCaps implements JabberBlockListener{
         }
  //#endif
 //#ifdef PEP
-//#          if (midlet.BombusQD.cf.sndrcvmood) {
-//#             features.addElement("http://jabber.org/protocol/mood");
-//#             features.addElement("http://jabber.org/protocol/mood+notify");
-//#          }
+         if (midlet.BombusQD.cf.sndrcvmood) {
+            features.addElement("http://jabber.org/protocol/mood");
+            features.addElement("http://jabber.org/protocol/mood+notify");
+         }
 //#endif
 //#ifndef WMUC
         features.addElement("http://jabber.org/protocol/muc");
@@ -143,10 +143,10 @@ public class EntityCaps implements JabberBlockListener{
  //#endif
 //#ifdef PEP
 //#ifdef PEP
-//#          if (midlet.BombusQD.cf.rcvtune) {
-//#               features.addElement("http://jabber.org/protocol/tune");
-//#               features.addElement("http://jabber.org/protocol/tune+notify");
-//#          }
+         if (midlet.BombusQD.cf.rcvtune) {
+              features.addElement("http://jabber.org/protocol/tune");
+              features.addElement("http://jabber.org/protocol/tune+notify");
+         }
 //#endif
 //#endif
         features.addElement("http://jabber.org/protocol/evil");//XEP-0076: Malicious Stanzas

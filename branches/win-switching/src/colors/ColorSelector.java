@@ -58,8 +58,8 @@ public class ColorSelector extends DefForm implements Runnable {
 
     private int boxY, boxW;
 
-    public ColorSelector(Display display, ColorsList list, String caption, int param) {
-        super(display, list, caption);
+    public ColorSelector(String caption, int param) {
+        super(caption);
 
         this.paramName=param;
 
@@ -104,9 +104,6 @@ public class ColorSelector extends DefForm implements Runnable {
 
         exit = false;
         (new Thread(this)).start();
-
-        attachDisplay(display);
-        this.parentView = list;
     }
 
     public void paint(Graphics g) {
@@ -333,7 +330,7 @@ public class ColorSelector extends DefForm implements Runnable {
         ColorTheme.setColor(paramName, value);
         ColorTheme.saveToStorage();
 
-        ((ColorsList)parentView).setColor(paramName, value);
+        ((ColorsList)getParentView()).setColor(paramName, value);
     }
 
     private void movePoint() {

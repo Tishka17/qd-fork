@@ -93,8 +93,7 @@ public final class PathSelector extends IconTextElement implements BrowserListen
     }
 
     public void onSelect(VirtualList view) {
-        Displayable d = BombusQD.getInstance().display.getCurrent();
-        new Browser(null, BombusQD.getInstance().display, d, this, !open);
+        new Browser(null, this, !open).show();
     }
 
     public void BrowserFilePathNotify(String path) {

@@ -33,7 +33,7 @@ import font.FontCache;
 import javax.microedition.lcdui.*;
 import client.Config;
 //#ifdef CLASSIC_CHAT
-import client.SimpleItemChat;
+//# import client.SimpleItemChat;
 //#endif
 import client.StaticData;
 import client.Contact;
@@ -61,8 +61,7 @@ import light.CustomLight;
 //#endif
 
 
-public abstract class VirtualList
-    extends Canvas {
+public abstract class VirtualList extends CanvasEx {
 
     protected void focusedItem(int index) {}
 
@@ -293,11 +292,6 @@ public abstract class VirtualList
     public MainBar getInfoBarItem() {return infobar;}
     public void setInfoBarItem(MainBar infobar) { this.infobar=infobar; }
 
-//#ifdef ELF
-//#     private static boolean sie_accu=true;
-//#     private static boolean sie_net=true;
-//#endif
-
     public Object getFocusedObject() {
         try {
             return getItemRef(cursor);
@@ -306,11 +300,8 @@ public abstract class VirtualList
     }
 
     protected Display display;
-    protected Displayable parentView;
 
     protected ScrollBar scrollbar;
-
-    /** Creates a new instance of VirtualList */
 
     int scrWidth;
     int scrHeight;
@@ -339,9 +330,10 @@ public abstract class VirtualList
 //#ifdef BACK_IMAGE
     private static Image bgndImage = null;
 
-    public static Image getImage(int type) {
+    public static Image getImage() {
 	return bgndImage;
     }
+
     public static void createImage(boolean create) {
            if(create) {
                if (bgndImage != null) {
@@ -368,7 +360,7 @@ public abstract class VirtualList
            } catch (Exception e) {
                e.printStackTrace();
 //#ifdef DEBUG_CONSOLE
-              midlet.BombusQD.debug.add("VL -> createImage Exception: "+e.getMessage(),10);
+//#               midlet.BombusQD.debug.add("VL -> createImage Exception: "+e.getMessage(),10);
 //#endif
            }
     }
@@ -380,7 +372,6 @@ public abstract class VirtualList
 
          gm.phoneWidth = width;
          gm.phoneHeight = height;
-
 
 //#ifdef BACK_IMAGE
         createImage(true);
@@ -416,7 +407,6 @@ public abstract class VirtualList
 //#endif
     }
 
-    /** Creates a new instance of VirtualList */
     public VirtualList(Display display) {
         this();
         attachDisplay(display);
@@ -424,10 +414,7 @@ public abstract class VirtualList
     }
 
     public void attachDisplay (Display display) {
-        this.display=display;
-        parentView=display.getCurrent();
-        display.setCurrent(this);
-        redraw();
+        show();
     }
 
 
@@ -453,7 +440,7 @@ public abstract class VirtualList
 
     protected void sizeChanged(int w, int h) {
 //#ifdef DEBUG_CONSOLE
-        midlet.BombusQD.debug.add("VirtualList::sizeChanged " + width+"x"+height + "->"+w+"x"+h ,10);
+//#         midlet.BombusQD.debug.add("VirtualList::sizeChanged " + width+"x"+height + "->"+w+"x"+h ,10);
 //#endif
         width=w;
         height=h;
@@ -1702,9 +1689,9 @@ public abstract class VirtualList
            System.out.println("popupGreen");
             if (getPopUp().getContact()!=null) {
 //#ifdef CLASSIC_CHAT
-                   if(midlet.BombusQD.cf.module_classicchat){
-                      new SimpleItemChat(midlet.BombusQD.getInstance().display,sd.roster,sd.roster.getContact(popup.getContact(), false));
-                   } else {
+//#                    if(midlet.BombusQD.cf.module_classicchat){
+//#                       new SimpleItemChat(midlet.BombusQD.getInstance().display,sd.roster,sd.roster.getContact(popup.getContact(), false));
+//#                    } else {
 //#endif
                        Contact c = sd.roster.getContact(popup.getContact(), false);
                        if(c.getChatInfo().getMessageCount()<=0 ){
@@ -1713,7 +1700,7 @@ public abstract class VirtualList
                        }
                        midlet.BombusQD.getInstance().display.setCurrent(c.getMessageList());
 //#ifdef CLASSIC_CHAT
-                   }
+//#                    }
 //#endif
                 popup.next();
                 return;
@@ -2115,14 +2102,8 @@ public abstract class VirtualList
  //#endif
     }
 
-    public void setParentView(Displayable parentView){
-        this.parentView=parentView;
-    }
-
     public void destroyView(){
-        sd.roster.activeContact=null;
-        if (display!=null && parentView!=null) /*prevents potential app hiding*/
-            display.setCurrent(parentView);
+        super.destroyView();
     }
 
     public int getListWidth() {
@@ -2170,9 +2151,9 @@ public abstract class VirtualList
                             if(c!=null) c = null;
                          } catch(OutOfMemoryError eom) {
 //#ifdef DEBUG_CONSOLE
-                           if(midlet.BombusQD.cf.debug) {
-                               midlet.BombusQD.debug.add("::VList->sort->contactByMsgs",10);
-                           }
+//#                            if(midlet.BombusQD.cf.debug) {
+//#                                midlet.BombusQD.debug.add("::VList->sort->contactByMsgs",10);
+//#                            }
 //#endif
                          } catch (Exception e) {}
                          break;

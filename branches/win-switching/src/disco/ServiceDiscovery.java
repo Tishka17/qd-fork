@@ -96,9 +96,8 @@ public class ServiceDiscovery
     private ServiceDiscovery serviceDisco;
     private Displayable currentDisplay;
 
-    /** Creates a new instance of ServiceDiscovery */
-    public ServiceDiscovery(Display display, String service, String node, boolean search) {
-        super(display);
+    public ServiceDiscovery(String service, String node, boolean search) {
+        super();
 
         cmdOk=new Command(SR.get(SR.MS_BROWSE), Command.SCREEN, 1);
         cmdRfsh=new Command(SR.get(SR.MS_REFRESH), Command.SCREEN, 2);
@@ -115,7 +114,6 @@ public class ServiceDiscovery
         stream=midlet.BombusQD.sd.roster.theStream;
         stream.cancelBlockListenerByClass(this.getClass());
         stream.addBlockListener(this);
-        //sd.roster.discoveryListener=this;
 
 //#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
@@ -215,8 +213,7 @@ public class ServiceDiscovery
     public int getItemCount(){ return items.size();}
     public VirtualElement getItemRef(int index) { return (VirtualElement) items.elementAt(index);}
 
-    protected void beginPaint(){ getMainBarItem().setElementAt(midlet.BombusQD.sd.roster.getEventIcon(), 4); }
-
+    //protected void beginPaint(){ getMainBarItem().setElementAt(midlet.BombusQD.sd.roster.getEventIcon(), 4); }
 
     private void mainbarUpdate(){
         getMainBarItem().setElementAt(new Integer(discoIcon), 0);
@@ -394,14 +391,19 @@ public class ServiceDiscovery
             }
         } else if (id.startsWith ("discoreg")) {
             discoIcon=0;
-            new DiscoForm(display, data, stream, "discoResult", "query");
-
+            DiscoForm form = new DiscoForm(data, stream, "discoResult", "query");
+            form.setParentView(BombusQD.sd.roster);
+            form.show();
         } else if (id.startsWith("discocmd")) {
             discoIcon=0;
-            new DiscoForm(display, data, stream, "discocmd", "command");
+            DiscoForm form = new DiscoForm(data, stream, "discocmd", "command");
+            form.setParentView(BombusQD.sd.roster);
+            form.show();
         } else if (id.startsWith("discosrch")) {
             discoIcon=0;
-            new DiscoForm(display, data, stream, "discoRSearch", "query");
+            DiscoForm form = new DiscoForm(data, stream, "discoRSearch", "query");
+            form.setParentView(BombusQD.sd.roster);
+            form.show();
         } else if (id.startsWith("discoR")) {
             String text=SR.get(SR.MS_DONE);
             if(null == typeAttr) typeAttr = "-";
@@ -504,11 +506,11 @@ public class ServiceDiscovery
         try {
         if(stackItems != null) stackItemsEmpty = stackItems.isEmpty();
         if (cancel || stackItems==null || stackItemsEmpty) {
-            if (stream!=null) stream.cancelBlockListener(this);
-            if (display!=null && parentView!=null /*prevents potential app hiding*/ ) {
-                display.setCurrent(parentView);
-                isServiceDiscoWindow = false;
+            if (stream!=null) {
+                stream.cancelBlockListener(this);
             }
+            isServiceDiscoWindow = false;
+            super.destroyView();
         } else {
             if (stackItems!=null) {
               if(stackItems.size()>0) {
@@ -648,7 +650,9 @@ public class ServiceDiscovery
                     case MenuIcons.ICON_VCARD:
                         Contact cs=midlet.BombusQD.sd.roster.selfContact();
                         if (cs.vcard!=null) {
-                          new VCardEdit(display, view, cs.vcard);
+                            VCardEdit form = new VCardEdit(cs.vcard);
+                            form.setParentView(BombusQD.sd.roster);
+                            form.show();
                           return;
                         }
                         VCard.request(cs.bareJid, cs.getJid());
@@ -657,12 +661,18 @@ public class ServiceDiscovery
                         //new Bookmarks(display, view, null);
                         BombusQD.sd.roster.cmdConference();
                         break;
-                    case MenuIcons.ICON_ADD_CONTACT:
-                        new ContactEdit(display, view, null);
+                    case MenuIcons.ICON_ADD_CONTACT: {
+                        ContactEdit form = new ContactEdit(null);
+                        form.setParentView(BombusQD.sd.roster);
+                        form.show();
                         break;
-                    case MenuIcons.ICON_USER_SEARCH:
-                        new DiscoSearchForm(display, view , null , -1);
+                    }
+                    case MenuIcons.ICON_USER_SEARCH: {
+                        DiscoSearchForm form = new DiscoSearchForm(null , -1);
+                        form.setParentView(BombusQD.sd.roster);
+                        form.show();
                         break;
+                    }
 //#ifdef PRIVACY
                     case MenuIcons.ICON_PRIVACY:
                         new privacy.PrivacySelect(display, view);

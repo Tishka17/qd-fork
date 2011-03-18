@@ -37,13 +37,13 @@ import ui.controls.form.LinkString;
 import ui.controls.form.NumberInput;
 import ui.controls.form.TextInput;
 import java.util.Random;
+import ui.MainBar;
 import ui.controls.form.SpacerItem;
 //#ifdef CLIPBOARD
 import util.ClipBoard;
 //#endif
 
 public class AccountForm extends DefForm {
-    private final AccountSelect accountSelect;
     private TextInput fulljid;
     private TextInput passbox;
     private TextInput ipbox;
@@ -87,22 +87,20 @@ public class AccountForm extends DefForm {
 
     private StringBuffer uid;
 
-    public AccountForm(Display display, AccountSelect accountSelect, Account account, int type_profile) {
-        this(display, accountSelect, account, type_profile, false, null);
+    public AccountForm(Account account, int type_profile) {
+        this(account, type_profile, false, null);
     }
 
-    public AccountForm(Display display, AccountSelect accountSelect, String regServer) {
-        this(display, accountSelect, null, 1, true, regServer);
+    public AccountForm(String regServer) {
+        this(null, 1, true, regServer);
     }
 
-    public AccountForm(Display display, AccountSelect accountSelect, Account account, int type_profile,
-            boolean register, String serverReg) {
-        super(display, accountSelect, null);
+    public AccountForm(Account account, int type_profile, boolean register, String serverReg) {
+        super(null);
+
         this.type_profile = type_profile;
         this.register = register;
         this.serverReg = serverReg;
-
-        this.accountSelect = accountSelect;
 
         newaccount = (account == null);
         if (newaccount) {
@@ -111,12 +109,12 @@ public class AccountForm extends DefForm {
         this.account = account;
 
         if (register) {
-            getMainBarItem().setElementAt(SR.get(SR.MS_REGISTER), 0);
+            setMainBarItem(new MainBar(SR.get(SR.MS_REGISTER)));
         } else {
             if (newaccount) {
-                getMainBarItem().setElementAt(SR.get(SR.MS_NEW_ACCOUNT), 0);
+                setMainBarItem(new MainBar(SR.get(SR.MS_NEW_ACCOUNT)));
             } else {
-                getMainBarItem().setElementAt(account.toString(), 0);
+                setMainBarItem(new MainBar(this.account.toString()));
             }
         }
 
@@ -227,9 +225,6 @@ public class AccountForm extends DefForm {
         if (!register) {
             showExtended();
         }
-
-        attachDisplay(display);
-        this.parentView = accountSelect;
     }
 
     protected void beginPaint() {
@@ -456,9 +451,9 @@ public class AccountForm extends DefForm {
         }
 
         if (newaccount) {
-            accountSelect.addAccount(account);
+            ((AccountSelect)getParentView()).addAccount(account);
         }
-        accountSelect.rmsUpdate();
+        ((AccountSelect)getParentView()).rmsUpdate();
 
         destroyView();
         account = null;

@@ -79,7 +79,7 @@ public class TransferSendFile
     }
 
     public void initBrowser() {
-        new Browser(null, display, this, this, false);
+        new Browser(null, this, false).show();
     }
 
     public void BrowserFilePathNotify(String pathSelected) { fileName.setValue(pathSelected); redraw(); }

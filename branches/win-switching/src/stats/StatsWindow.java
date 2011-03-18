@@ -54,23 +54,14 @@ import util.ClipBoard;
  *
  * @author ad,aqent
  */
-public class StatsWindow
-        extends DefForm {
-
-//#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_STATS");
-//#endif
-
+public class StatsWindow extends DefForm {
     Stats st=Stats.getInstance();
 
     public Command cmdClear;
     public Command cmdSave;
 
-    /**
-     * Creates a new instance of StatsWindow
-     */
-    public StatsWindow(Display display) {
-        super(display, midlet.BombusQD.sd.roster , SR.get(SR.MS_STATS));
+    public StatsWindow() {
+        super(SR.get(SR.MS_STATS));
         StringBuffer sb = new StringBuffer(0);
 
         cmdClear = new Command(SR.get(SR.MS_CLEAR), Command.SCREEN, 2);
@@ -78,8 +69,6 @@ public class StatsWindow
 
         cmdSave = new Command(SR.get(SR.MS_SAVE), Command.OK, 3);
         cmdSave.setImg(0x44);
-
-        this.display=display;
 
         sb.append(SR.get(SR.MS_ALL))
           .append(StringUtils.getSizeString(st.getAllTraffic()))
@@ -118,9 +107,6 @@ public class StatsWindow
         MultiLine item = new MultiLine( null, sb.toString(), super.superWidth);
         item.selectable=true;
         itemsList.addElement(item);
-
-        attachDisplay(display);
-        this.parentView=midlet.BombusQD.sd.roster;
     }
 
 

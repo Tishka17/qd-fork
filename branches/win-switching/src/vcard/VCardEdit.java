@@ -12,8 +12,8 @@ package vcard;
 import client.StaticData;
 //#if (FILE_IO)
 //#ifdef DETRANSLIT
-import util.DeTranslit;
-import client.Config;
+//# import util.DeTranslit;
+//# import client.Config;
 //#endif
 
 import io.file.FileIO;
@@ -48,10 +48,12 @@ import ui.controls.form.LinkString;
 import ui.GMenu;
 import ui.GMenuConfig;
 //#endif
+
 /**
  *
  * @author ad
  */
+
 public class VCardEdit extends DefForm implements Runnable
 //#if (FILE_IO)
         , BrowserListener
@@ -80,8 +82,8 @@ public class VCardEdit extends DefForm implements Runnable
 
     private LinkString publish;
 
-    public VCardEdit(Display display, Displayable pView, VCard vcard) {
-        super(display, pView, SR.get(SR.MS_VCARD) + " " + vcard.getNickName());
+    public VCardEdit(VCard vcard) {
+        super(SR.get(SR.MS_VCARD) + " " + vcard.getNickName());
 
         cmdPublish = new Command(SR.get(SR.MS_PUBLISH), Command.OK, 1);
         cmdPublish.setImg(0x50);
@@ -103,7 +105,6 @@ public class VCardEdit extends DefForm implements Runnable
         cmdCamera = new Command(SR.get(SR.MS_CAMERA), Command.SCREEN, 6);
         cmdCamera.setImg(MenuIcons.ICON_CAMERA);
 
-        this.display=display;
         this.vcard=vcard;
 
         for (int index=0; index<vcard.getCount(); index++) {
@@ -120,9 +121,6 @@ public class VCardEdit extends DefForm implements Runnable
         publish=new LinkString(SR.get(SR.MS_PUBLISH)) { public void doAction() { publish(); } };
 
         setPhoto();
-
-        attachDisplay(display);
-        this.parentView=pView;
     }
 
     public void publish() {
@@ -150,11 +148,11 @@ public class VCardEdit extends DefForm implements Runnable
 //#if FILE_IO
         if (c==cmdLoadPhoto) {
             st=1;
-            new Browser(null, display, this, this, false);
+            new Browser(null, this, false).show();
         }
         if (c==cmdSavePhoto) {
             st=2;
-            new Browser(null, display, this, this, true);
+            new Browser(null, this, true).show();
         }
 //#endif
 
@@ -204,16 +202,16 @@ public class VCardEdit extends DefForm implements Runnable
         StringBuffer nickDate=new StringBuffer();
         nickDate.append("photo_");
 //#ifdef DETRANSLIT
-        String userName=(vcard.getNickName()!=null)?vcard.getNickName():vcard.getJid();
-        if (Config.getInstance().transliterateFilenames) {
-            nickDate.append(DeTranslit.translit(userName));
-        } else {
-            nickDate.append(userName);
-        }
+//#         String userName=(vcard.getNickName()!=null)?vcard.getNickName():vcard.getJid();
+//#         if (Config.getInstance().transliterateFilenames) {
+//#             nickDate.append(DeTranslit.translit(userName));
+//#         } else {
+//#             nickDate.append(userName);
+//#         }
 //#else
-//#          if (vcard.getNickName()!=null) {
-//#              nickDate.append(vcard.getNickName());
-//#          } else nickDate.append(vcard.getJid());
+         if (vcard.getNickName()!=null) {
+             nickDate.append(vcard.getNickName());
+         } else nickDate.append(vcard.getJid());
 //#endif
         nickDate.append("_").append(Time.dayLocalString(Time.utcTimeMillis()).trim());
         return nickDate.toString();
@@ -307,7 +305,5 @@ public class VCardEdit extends DefForm implements Runnable
 //#         new MyMenu(display, parentView, this, SR.get(SR.MS_PUBLISH), null, menuCommands);
 //#    }
 //#endif
-
-
 //#endif
 }

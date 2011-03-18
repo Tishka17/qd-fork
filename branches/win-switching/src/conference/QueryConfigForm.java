@@ -65,7 +65,7 @@ public class QueryConfigForm implements JabberBlockListener{
             StaticData.getInstance().roster.setQuerySign(false);
 //#ifdef SERVICE_DISCOVERY
             if (data.getTypeAttribute().equals("result")) {
-                new DiscoForm(display,data, StaticData.getInstance().roster.theStream, "muc_owner", "query");
+                new DiscoForm(data, StaticData.getInstance().roster.theStream, "muc_owner", "query").show();
             }
 //#endif
             return JabberBlockListener.NO_MORE_BLOCKS;

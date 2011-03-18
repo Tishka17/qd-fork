@@ -219,8 +219,8 @@ public class Roster
     public static SelectPEP selectPEP = null;
 //#endif
 
-    public final void showActiveContacts(Displayable pView, Contact current){
-        new ActiveContacts(display, pView, current);
+    public final void showActiveContacts(Contact current){
+        new ActiveContacts(current).show();
     }
 
     public final void showActionsMenu(Displayable pView, Object object) {
@@ -237,7 +237,9 @@ public class Roster
 
 //#ifdef HISTORY
     public final void showHistory(Displayable pView, Contact c) {
-        new HistoryViewer(display, pView, c);
+        HistoryViewer form = new HistoryViewer(c);
+        form.setParentView(pView);
+        form.show();
     }
 //#endif
 
@@ -510,7 +512,7 @@ public class Roster
               display.setCurrent(new ConfigForm(display, this));
 //#ifdef SERVICE_DISCOVERY
            } else if(c==cmdMyService) {
-               new ServiceDiscovery(display, null, null, false);
+               new ServiceDiscovery(null, null, false).show();
 //#endif
 //#ifdef XML_CONSOLE
 //#             } else if(c==cmdXMLConsole){
@@ -554,13 +556,24 @@ public class Roster
 //menu actions
 
     public void cmdMinimize() { BombusQD.getInstance().hideApp(true, null);  }
-    public void cmdAccount(){ new AccountSelect(display, this, false,-1); }
-    public void cmdStatus() { currentReconnect=0; new StatusSelect(display, this, null); }
+
+    public void cmdAccount() {
+        new AccountSelect(false, -1).show();
+    }
+
+    public void cmdStatus() {
+        currentReconnect = 0;
+        new StatusSelect(null).show();
+    }
+
     public void cmdAlert() { new AlertProfile(display, this); }
 //#ifdef ARCHIVE
-    public void cmdArchive() { new ArchiveList(display , -1, null, null); }
+    public void cmdArchive() { new ArchiveList(-1, null, null).show(); }
 //#endif
-    public void cmdInfo() { new info.InfoWindow(display, this); }
+
+    public void cmdInfo() {
+        new info.InfoWindow().show();
+    }
 
 //#ifndef GRAPHICS_MENU
 //#     public void cmdTools() { new RosterToolsMenu(display, this); }
@@ -1940,13 +1953,13 @@ public class Roster
                              c.vcard = vcard;
                              if (display.getCurrent() instanceof VirtualList) {
                                  if (c.getGroupType() == Groups.TYPE_SELF) {
-                                     new VCardEdit(display, this, vcard);
+                                     new VCardEdit(vcard).show();
                                  } else {
-                                     new VCardView(display, this, c);
+                                     new VCardView(c).show();
                                  }
                              }
                          } else {
-                             new VCardView(display, this, vcard);
+                             new VCardView(vcard).show();
                          }
                          vcard = null;
                          return JabberBlockListener.BLOCK_PROCESSED;
@@ -3501,7 +3514,7 @@ public class Roster
                 break;
 
             case KEY_NUM3:
-                showActiveContacts(this, null);
+                showActiveContacts(null);
                 break;
             case KEY_NUM9:
                 if (getItemCount()==0)
@@ -3576,7 +3589,7 @@ public class Roster
         }
 //#ifdef SERVICE_DISCOVERY
         else if (keyCode==KEY_NUM7 && isLoggedIn())
-            new ServiceDiscovery(display, null, null, false);
+            new ServiceDiscovery(null, null, false).show();
 //#endif
         else if (keyCode==KEY_NUM9) {
             if (midlet.BombusQD.cf.allowMinimize)
@@ -3785,7 +3798,7 @@ public class Roster
             if (o instanceof MucContact)
                 cn=(Contact)o;
 //#endif
-            new ContactEdit(display, this, cn);
+            new ContactEdit(cn).show();
        }
    }
 
@@ -3982,7 +3995,7 @@ public class Roster
         } else if (x < 50){
             cmdStatus();
         } else {
-            showActiveContacts(this, null);
+            showActiveContacts(null);
         }
     }
 

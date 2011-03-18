@@ -46,6 +46,7 @@ import menu.MenuListener;
 import menu.Command;
 //#endif
 //#ifdef GRAPHICS_MENU
+import midlet.BombusQD;
 import ui.GMenu;
 import ui.GMenuConfig;
 //#endif
@@ -53,9 +54,7 @@ import ui.GMenuConfig;
  *
  * @author ad,aqent
  */
-public class TextListBox
-        extends VirtualList
-        implements
+public class TextListBox extends VirtualList implements
 //#ifndef MENU_LISTENER
 //#         CommandListener
 //#else
@@ -70,8 +69,8 @@ public class TextListBox
 
     private EditBox ti;
 
-    public TextListBox(Display display, EditBox ti) {
-        super(display);
+    public TextListBox(EditBox ti) {
+        super();
 
         cmdOk=new Command(SR.get(SR.MS_OK), Command.OK,1);
         cmdOk.setImg(0x43);
@@ -101,7 +100,7 @@ public class TextListBox
         if (recentList.size()>0)
             ti.setValue((String) recentList.elementAt(cursor));
 
-        display.setCurrent(parentView);
+        destroyView();
     }
 
     public void commandAction(Command c, Displayable d){
@@ -114,7 +113,7 @@ public class TextListBox
             return;
         }
 
-        display.setCurrent(parentView);
+        destroyView();
     }
 
     public VirtualElement getItemRef(int index){

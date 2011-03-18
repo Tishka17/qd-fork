@@ -46,7 +46,6 @@ public class TextInput extends IconTextElement {
     protected String text;
     protected String caption;
 
-    private Display display;
     public String id;
     private int boxType;
 
@@ -61,7 +60,6 @@ public class TextInput extends IconTextElement {
 
     public TextInput(Display display, String caption, String text, String id, int boxType) {
         super(null);
-        this.display = display;
         this.caption = caption;
         this.id = id;
         this.boxType = boxType;
@@ -123,7 +121,7 @@ public class TextInput extends IconTextElement {
     } //Tishka17
 
     public void onSelect(VirtualList view) {
-        new EditBox(display, caption, text, this, boxType);
+        new EditBox(caption, text, this, boxType);
     }
 
     public String getValue() {

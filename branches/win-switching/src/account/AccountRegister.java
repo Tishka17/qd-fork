@@ -25,6 +25,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
+
+/*
 package account;
 
 import com.alsutton.jabber.*;
@@ -34,10 +36,6 @@ import locale.SR;
 import ui.*;
 import xmpp.XmppError;
 
-/**
- *
- * @author Evg_S,aqent
- */
 public class AccountRegister
         implements
         JabberListener,
@@ -51,7 +49,6 @@ public class AccountRegister
     private Command cmdOK;
     private Command cmdCancel;
 
-    /** Creates a new instance of AccountRegister */
     public AccountRegister(Account account, Display display, Displayable pView) {
         this.display = display;
         this.parentView = pView;
@@ -138,3 +135,4 @@ public class AccountRegister
         }
     }
 }
+*/

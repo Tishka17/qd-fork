@@ -297,7 +297,7 @@ public final class ContactMessageList extends VirtualList implements MenuListene
         contact.setCursor(cursor);
         if (x>50 && x< width-50) {
                 contact.getChatInfo().opened = false;
-                midlet.BombusQD.sd.roster.showActiveContacts(this, contact);
+                midlet.BombusQD.sd.roster.showActiveContacts(contact);
                 contact.setCursor(cursor);
         } else if (x<50){
             midlet.BombusQD.sd.roster.searchActiveContact(contact, false);
@@ -334,7 +334,7 @@ public final class ContactMessageList extends VirtualList implements MenuListene
         if (c == Commands.cmdUrl) {
             try {
                 Vector urls = ((MessageItem) getFocusedObject()).getUrlList();
-                new MessageUrl(midlet.BombusQD.getInstance().display, urls); //throws NullPointerException if no urls
+                new MessageUrl(urls).show();
             } catch (Exception e) {/* no urls found */
 
             }
@@ -785,7 +785,7 @@ public final class ContactMessageList extends VirtualList implements MenuListene
             case KEY_NUM3:
                 contact.getChatInfo().opened = false;
                 contact.setCursor(cursor);
-                midlet.BombusQD.sd.roster.showActiveContacts(this, contact);
+                midlet.BombusQD.sd.roster.showActiveContacts(contact);
                 break;
             case KEY_NUM9:
                 if (BombusQD.sd.roster.isLoggedIn()) {

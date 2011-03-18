@@ -52,12 +52,7 @@ import impexp.ImportExportForm;
  *
  * @author EvgS,aqent
  */
-public class ArchiveList
-        extends MessageList {
-//#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_ARCHIVE");
-//#endif
-
+public class ArchiveList extends MessageList {
     Command cmdPaste;
     Command cmdJid;
     Command cmdSubj;
@@ -77,7 +72,7 @@ public class ArchiveList
         mi.onSelect(this);
     }
 
-    public ArchiveList(Display display, int caretPos, TextField tf, TextBox tb) {
+    public ArchiveList(int caretPos, TextField tf, TextBox tb) {
         super();
 
         this.caretPos = caretPos;
@@ -123,8 +118,6 @@ public class ArchiveList
         setMainBarItem(bar);
 
         setCommandListener(this);
-
-        attachDisplay(display);
     }
 
     public final void commandState() {
@@ -172,7 +165,7 @@ public class ArchiveList
         super.commandAction(c, d);
 
         if (c == cmdNew) {
-            new ArchiveEdit(display, this, -1, this);
+            new ArchiveEdit(this, -1, this);
         } else if (c == cmdDelete) {
             keyClear();
         } else if (c == cmdDeleteAll) {
@@ -185,11 +178,11 @@ public class ArchiveList
         } else if (c == cmdJid) {
             pasteData(2);
         } else if (c == cmdEdit) {
-            new ArchiveEdit(display, this, cursor, this);
+            new ArchiveEdit(this, cursor, this);
 //#ifdef IMPORT_EXPORT
 //#ifdef FILE_IO
         } else if (c == cmdExport) {
-            new ImportExportForm(display, this);
+            new ImportExportForm().show();
 //#endif
 //#endif
         }

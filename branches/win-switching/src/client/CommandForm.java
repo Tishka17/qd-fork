@@ -43,7 +43,7 @@ import java.util.Vector;
 import ui.MainBar;
 import ui.controls.form.MultiLine;
 //#ifdef CLIPBOARD
-//# import util.ClipBoard;
+import util.ClipBoard;
 //#endif
 //#ifdef GRAPHICS_MENU
 //#endif
@@ -212,26 +212,26 @@ public final class CommandForm extends DefForm
             case _CHANGE_PASS_RMS://FIX
             {
 //#ifdef CLIPBOARD
-//#                   ClipBoard.setClipBoard("");
-//#                   ClipBoard.setClipBoard("!"+(String)res);
+                  ClipBoard.setClipBoard("");
+                  ClipBoard.setClipBoard("!"+(String)res);
 //#endif
-                  new AccountSelect(display, parentView, false,-1);
+                  new AccountSelect(false, -1).show();
                   break;
             }
             case _DEL_ACCOUNT_FROM_RMS:
             {
-                  new AccountSelect(display, parentView, false,-1);
+                  new AccountSelect(false, -1).show();
                   break;
             }
 //#ifdef CLIPBOARD
-//#             case STATS_ITEM:
-//#             {
-//#                   try {
-//#                       ClipBoard.add(new Msg(Constants.MESSAGE_TYPE_EVIL,"bechmark",null,(String)obj));
-//#                   } catch (Exception e) {/*no messages*/}
-//#                   destroyView();
-//#                   break;
-//#             }
+            case STATS_ITEM:
+            {
+                  try {
+                      ClipBoard.add(new Msg(Constants.MESSAGE_TYPE_EVIL,"bechmark",null,(String)obj));
+                  } catch (Exception e) {/*no messages*/}
+                  destroyView();
+                  break;
+            }
 //#endif
             case HISTORY_ITEM:
             {

@@ -46,7 +46,7 @@ public class ImportExportForm extends Menu implements BrowserListener {
     public static final int ACCOUNT_EXPORT = 2;
     public static final int ACCOUNT_IMPORT = 3;
 
-    public ImportExportForm(Display display, Displayable pView) {
+    public ImportExportForm() {
         super(SR.get(SR.MS_IMPORT_EXPORT), null, null);
 
         addItem(SR.get(SR.MS_ACCOUNTS) + ": " + SR.get(SR.MS_LOAD_FROM_FILE), ACCOUNT_IMPORT);
@@ -56,9 +56,6 @@ public class ImportExportForm extends Menu implements BrowserListener {
         addItem(SR.get(SR.MS_ARCHIVE) + ": " + SR.get(SR.MS_LOAD_FROM_FILE), ARCHIVE_IMPORT);
         addItem(SR.get(SR.MS_ARCHIVE) + ": " + SR.get(SR.MS_SAVE_TO_FILE), ARCHIVE_EXPORT);
 //#endif
-
-        attachDisplay(display);
-        this.parentView = pView;
     }
 
     public void eventOk() {
@@ -67,11 +64,11 @@ public class ImportExportForm extends Menu implements BrowserListener {
         switch (mItem.index) {
             case ARCHIVE_IMPORT:
             case ACCOUNT_IMPORT:
-                new Browser(null, display, this, this, false);
+                new Browser(null, this, false).show();
                 break;
             case ARCHIVE_EXPORT:
             case ACCOUNT_EXPORT:
-                new Browser(null, display, this, this, true);
+                new Browser(null, this, true).show();
                 break;
         }
     }

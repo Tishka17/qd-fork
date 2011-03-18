@@ -141,7 +141,7 @@ public class ConfigForm extends DefForm implements MenuListener {
     }
 
     public void eventLongOk() {
-	    touchLeftPressed();
+	touchLeftPressed();
     }
 
     public void cmdOk() {
@@ -150,38 +150,38 @@ public class ConfigForm extends DefForm implements MenuListener {
         }
         String type = getFocusedObject().toString();
         if (type.equals(SR.get(SR.MS_COLOR_TUNE))) {
-            new colors.ColorConfigForm(display, this);
+            new colors.ColorConfigForm().show();
 //#ifdef USER_KEYS
         } else if (type.equals(SR.get(SR.MS_hotkeysStr))) {
-            display.setCurrent(new ui.keys.UserKeysList(display));
+            new ui.keys.UserKeysList(display);
 //#endif
 //#ifdef HISTORY
         } else if (type.equals(SR.get(SR.MS_historyStr))) {
-            display.setCurrent(new HistoryConfigForm(display, this));
+            new HistoryConfigForm().show();
 //#endif
         } else if (type.equals(SR.get(SR.MS_fontsStr))) {
-            display.setCurrent(new font.FontConfigForm(display, this));
+            new font.FontConfigForm().show();
 //#ifdef IMPORT_EXPORT
 //#ifdef FILE_IO
         } else if(type.equals(SR.get(SR.MS_ieStr))) {
-            new impexp.ImportExportForm(display, this);
+            new impexp.ImportExportForm().show();
 //#endif
 //#endif
         } else if (type.equals(SR.get(SR.MS_notifyStr))) {
-           new alert.AlertCustomizeForm(display, this);
+           new alert.AlertCustomizeForm().show();
 //#ifdef AUTOTASK
         } else if (type.equals(SR.get(SR.MS_taskstr))) {
-            new autotask.AutoTaskForm(display, this);
+            new autotask.AutoTaskForm().show();
 //#endif
         } else if (type.equals(SR.get(SR.MS_AVATARS))) {
-           display.setCurrent(new AvatarConfigForm(display,this));
+           new AvatarConfigForm().show();
         } else {
-            new ModuleConfigForm(display, this, type);
+            new ModuleConfigForm(type).show();
         }
     }
 
     public void destroyView(){
         Config.getInstance().saveToStorage();
-        display.setCurrent(parentView);
+        super.destroyView();
     }
 }

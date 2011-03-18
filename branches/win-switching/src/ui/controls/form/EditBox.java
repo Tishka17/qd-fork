@@ -45,7 +45,8 @@ import javax.microedition.lcdui.TextBox;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
 //#ifdef CLIPBOARD
-//# import util.ClipBoard;
+import midlet.BombusQD;
+import util.ClipBoard;
 //#endif
 
 /**
@@ -53,7 +54,6 @@ import locale.SR;
  * @author ad
  */
 public class EditBox implements CommandListener {
-    private Display display;
     public TextBox t;
     private TextInput ti;
 
@@ -66,17 +66,14 @@ public class EditBox implements CommandListener {
 
     public Vector recentList;
     private Displayable parentView;
-    private String caption;
 
 //#ifdef CLIPBOARD
-//#     private Command cmdCopy;
-//#     private Command cmdCopyPlus;
-//#     private Command cmdPasteText;
+    private Command cmdCopy;
+    private Command cmdCopyPlus;
+    private Command cmdPasteText;
 //#endif
 
-    public EditBox(Display display, String caption, String text, TextInput ti, int boxType) {
-        this.display=display;
-
+    public EditBox(String caption, String text, TextInput ti, int boxType) {
         cmdOk=new Command(SR.get(SR.MS_OK), Command.OK,1);
         cmdRecent=new Command(SR.get(SR.MS_RECENT), Command.SCREEN, 2);
 //#ifdef SMILES
@@ -85,25 +82,22 @@ public class EditBox implements CommandListener {
         cmdCancel=new Command(SR.get(SR.MS_CANCEL), Command.BACK,99);
 
 //#ifdef CLIPBOARD
-//#         cmdCopy = new Command(SR.get(SR.MS_COPY), Command.SCREEN, 3);
-//#         cmdCopyPlus = new Command("+ "+SR.get(SR.MS_COPY), Command.SCREEN, 4);
-//#         cmdPasteText=new Command(SR.get(SR.MS_PASTE), Command.SCREEN, 5);
+        cmdCopy = new Command(SR.get(SR.MS_COPY), Command.SCREEN, 3);
+        cmdCopyPlus = new Command("+ "+SR.get(SR.MS_COPY), Command.SCREEN, 4);
+        cmdPasteText=new Command(SR.get(SR.MS_PASTE), Command.SCREEN, 5);
 //#endif
 
-
-        parentView=display.getCurrent();
         this.ti=ti;
-        this.caption=caption;
 
         t=new TextBox(SR.get(SR.MS_EDIT), text, 500, boxType);
 //#ifdef CLIPBOARD
-//#         if (Config.getInstance().useClipBoard) {
-//#             t.addCommand(cmdCopy);
-//#             if (!ClipBoard.isEmpty()) {
-//#                 t.addCommand(cmdCopyPlus);
-//#                 t.addCommand(cmdPasteText);
-//#             }
-//#         }
+        if (Config.getInstance().useClipBoard) {
+            t.addCommand(cmdCopy);
+            if (!ClipBoard.isEmpty()) {
+                t.addCommand(cmdCopyPlus);
+                t.addCommand(cmdPasteText);
+            }
+        }
 //#endif
         t.addCommand(cmdOk);
         if (ti.id!=null) {
@@ -119,14 +113,16 @@ public class EditBox implements CommandListener {
         t.setCommandListener(this);
         if (Config.getInstance().capsState)
             t.setConstraints(TextField.INITIAL_CAPS_SENTENCE);
-        display.setCurrent(t);
+
+        parentView = BombusQD.getCurrentView();
+        BombusQD.setCurrentView(t);
 }
 
     public void commandAction(Command c, Displayable d){
         String text=t.getString();
         if (text.length()==0) text=null;
         if (c==cmdRecent) {
-            new TextListBox(display, this);
+            new TextListBox(this).show();
             return;
         }
 //#ifdef SMILES
@@ -136,25 +132,25 @@ public class EditBox implements CommandListener {
        // }
 //#endif
 //#ifdef CLIPBOARD
-//#         if (c == cmdCopy) {
-//#             try {
-//#                ClipBoard.setClipBoard(text);
-//#                 if (!ClipBoard.isEmpty()) {
-//#                     t.addCommand(cmdCopyPlus);
-//#                 }
-//#             } catch (Exception e) {/*no messages*/}
-//#             return;
-//#         }
-//#         if (c==cmdCopyPlus) {
-//#             try {
-//#                 ClipBoard.addToClipBoard(text);
-//#             } catch (Exception e) {/*no messages*/}
-//#             return;
-//#         }
-//#         if (c==cmdPasteText) {
-//#             t.insert(ClipBoard.getClipBoard(), getCaretPos());
-//#             return;
-//#         }
+        if (c == cmdCopy) {
+            try {
+               ClipBoard.setClipBoard(text);
+                if (!ClipBoard.isEmpty()) {
+                    t.addCommand(cmdCopyPlus);
+                }
+            } catch (Exception e) {/*no messages*/}
+            return;
+        }
+        if (c==cmdCopyPlus) {
+            try {
+                ClipBoard.addToClipBoard(text);
+            } catch (Exception e) {/*no messages*/}
+            return;
+        }
+        if (c==cmdPasteText) {
+            t.insert(ClipBoard.getClipBoard(), getCaretPos());
+            return;
+        }
 //#endif
         if (c==cmdOk) {
             ti.setValue(text);
@@ -169,7 +165,7 @@ public class EditBox implements CommandListener {
            }
         }
 
-        display.setCurrent(parentView);
+        BombusQD.setCurrentView(parentView);
     }
 //#if (CLIPBOARD||SMILES)
     public int getCaretPos() {

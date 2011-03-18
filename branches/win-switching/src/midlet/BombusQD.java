@@ -71,8 +71,8 @@ import java.io.DataOutputStream;
  */
 
 public class BombusQD extends MIDlet implements Runnable {
+    public static Display display;
 
-    public Display display;
     private boolean isRunning = false;
 
     public static StaticData sd;
@@ -175,7 +175,7 @@ public class BombusQD extends MIDlet implements Runnable {
             Account.loadAccount(cf.autoLogin, cf.accountIndex, -1);
 	    display.setCurrent(sd.roster);
 	} else {
-	    new AccountSelect(display, sd.roster, false, 0);
+	    new AccountSelect(false, 0).show();
 	}
 
         rmsVersion(false, sd.roster);
@@ -251,5 +251,13 @@ public class BombusQD extends MIDlet implements Runnable {
         } catch (NumberFormatException e) {
         }
         return def;
+    }
+
+    public static Displayable getCurrentView() {
+        return display.getCurrent();
+    }
+
+    public static void setCurrentView(Displayable d) {
+        display.setCurrent(d);
     }
 }

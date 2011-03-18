@@ -41,6 +41,7 @@ import ui.*;
  *
  * @author Evg_S,aqent
  */
+
 public class Menu extends VirtualList
 //#ifndef MENU_LISTENER
 //#         implements CommandListener

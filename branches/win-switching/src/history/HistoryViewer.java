@@ -53,7 +53,7 @@ public class HistoryViewer extends MessageList implements Runnable {
 
     private Thread thread;
 
-    public HistoryViewer(Display display, Displayable pView, Contact contact) {
+    public HistoryViewer(Contact contact) {
         super();
 
         elements = new Vector();
@@ -63,9 +63,6 @@ public class HistoryViewer extends MessageList implements Runnable {
         moveCursorHome();
 
         setMainBarItem(new MainBar(SR.get(SR.MS_historyStr)));
-
-        attachDisplay(display);
-        this.parentView = pView;
 
         loadHistory(contact);
     }

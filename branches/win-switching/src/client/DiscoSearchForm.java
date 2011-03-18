@@ -60,8 +60,8 @@ import menu.Command;
 import menu.MyMenu;
 //#endif
 //#ifdef GRAPHICS_MENU        
-//# import ui.GMenu;
-//# import ui.GMenuConfig;
+import ui.GMenu;
+import ui.GMenuConfig;
 //#endif 
 /**
  *
@@ -92,9 +92,9 @@ public class DiscoSearchForm
      * Creates a new instance of DiscoSearchForm
      */
     
-    public DiscoSearchForm(Display display, Displayable pView,Vector list,int type) {
+    public DiscoSearchForm(Vector list, int type) {
         super();
-        this.display=display;
+
         this.list=list;
         this.type=type;
         
@@ -111,8 +111,6 @@ public class DiscoSearchForm
         updateMainBar();
         commandState();
         setCommandListener(this);
-        attachDisplay(display);
-        this.parentView=pView;
     }
    
     protected int getItemCount() {
@@ -163,7 +161,7 @@ public class DiscoSearchForm
           addCommand(cmdDel); cmdDel.setImg(0x41);
         }
 //#ifndef GRAPHICS_MENU        
-     addCommand(cmdCancel);
+//#      addCommand(cmdCancel);
 //#endif     
     }
 
@@ -172,9 +170,9 @@ public class DiscoSearchForm
     public String touchLeftCommand(){ return SR.get(SR.MS_MENU); }
     
 //#ifdef GRAPHICS_MENU        
-//#    public void cmdOk(){ showGraphicsMenu(); }
+   public void cmdOk(){ showGraphicsMenu(); }
 //#else
-   public void cmdOk(){ showMenu(); }  
+//#    public void cmdOk(){ showMenu(); }  
 //#endif    
 
     
@@ -237,15 +235,13 @@ public class DiscoSearchForm
         updateMainBar();
         redraw();
     }
-    
-    
 
     public void eventOk(){
 //#ifdef SERVICE_DISCOVERY
         if (getItemCount()==0) 
             return;
         ListItem join=(ListItem)getFocusedObject();
-        new ServiceDiscovery(display, join.toString(), null, (list!=null)?false:true);
+        new ServiceDiscovery(join.toString(), null, (list!=null)?false:true).show();
 //#endif
     }
     
@@ -253,17 +249,17 @@ public class DiscoSearchForm
 //#ifdef MENU_LISTENER
     
 //#ifdef GRAPHICS_MENU        
-//#     public int showGraphicsMenu() {
-//#         commandState();
-//#         menuItem = new GMenu(display, parentView, this,null, menuCommands);        
-//#         GMenuConfig.getInstance().itemGrMenu=GMenu.SEARCH_FORM;
-//#         return GMenu.SEARCH_FORM;
-//#     }
-//#else
-    public void showMenu() {
+    public int showGraphicsMenu() {
         commandState();
-        new MyMenu(display, parentView, this, SR.get(SR.MS_BOOKMARKS, null, menuCommands));
-    }   
+        menuItem = new GMenu(display, parentView, this,null, menuCommands);        
+        GMenuConfig.getInstance().itemGrMenu=GMenu.SEARCH_FORM;
+        return GMenu.SEARCH_FORM;
+    }
+//#else
+//#     public void showMenu() {
+//#         commandState();
+//#         new MyMenu(display, parentView, this, SR.get(SR.MS_BOOKMARKS, null, menuCommands));
+//#     }   
 //#endif      
 
 //#endif

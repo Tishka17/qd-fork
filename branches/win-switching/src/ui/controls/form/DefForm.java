@@ -50,8 +50,7 @@ import ui.GMenu;
  *
  * @author ad,aqent
  */
-public class DefForm
-        extends VirtualList
+public class DefForm extends VirtualList
         implements
 //#ifndef MENU_LISTENER
 //#         CommandListener
@@ -59,22 +58,32 @@ public class DefForm
         MenuListener
 //#endif
     {
-
-    //public Display display;
-
     public Vector itemsList=new Vector(0);
 
     public Command cmdCancel;
 
     public int superWidth;
-    /**
-     * Creates a new instance of DefForm
-     */
-    public DefForm() {};
+
+    public DefForm() {
+        
+    }
+
+    public DefForm(String caption) {
+        super();
+        setMainBarItem(new MainBar(caption));
+
+        cmdCancel = new Command(SR.get(SR.MS_BACK), Command.BACK, 99);
+
+        superWidth = super.getWidth();        
+    }
+
+    public void show() {
+        enableListWrapping(true);
+        setCommandListener(this);
+        super.show();
+    }
 
     public DefForm(final Display display, Displayable pView, String caption) {
-	//this.display=display;
-
         cmdCancel = new Command(SR.get(SR.MS_BACK), Command.BACK, 99);
         setMainBarItem(new MainBar(caption));
 
@@ -116,7 +125,7 @@ public class DefForm
             if(obj instanceof NumberInput) ((NumberInput)obj).destroy();
         }
         itemsList.removeAllElements();
-	if (display!=null) display.setCurrent(parentView);
+	super.destroyView();
     }
 
     public final void addControl(Object obj) {

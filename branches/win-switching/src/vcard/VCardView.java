@@ -96,16 +96,16 @@ public class VCardView extends DefForm
 
     private Contact contact;
 
-    public VCardView(Display display, Displayable pView, VCard vcard) {
-        this(display, pView, null, vcard);
+    public VCardView(VCard vcard) {
+        this(null, vcard);
     }
 
-    public VCardView(Display display, Displayable pView, Contact contact) {
-        this(display, pView, contact, contact.vcard);
+    public VCardView(Contact contact) {
+        this(contact, contact.vcard);
     }
 
-    public VCardView(Display display, Displayable pView, Contact contact, final VCard vcard) {
-        super(display, pView, null);
+    public VCardView(Contact contact, final VCard vcard) {
+        super(null);
 
         cmdRefresh = new Command(SR.get(SR.MS_REFRESH), Command.SCREEN, 3);
         cmdRefresh.setImg(0x10);
@@ -167,9 +167,6 @@ public class VCardView extends DefForm
                     refreshVCard();
                 }
         });
-
-        attachDisplay(display);
-        this.parentView = pView;
     }
 
     private void setPhoto() {
@@ -226,7 +223,7 @@ public class VCardView extends DefForm
             refreshVCard();
 //#if FILE_IO
         } else if (c == cmdSavePhoto) {
-            new Browser(null, display, this, this, true);
+            new Browser(null, this, true).show();
 //#endif
 //#ifdef CLIPBOARD
         } else if (c == Commands.cmdCopy) {

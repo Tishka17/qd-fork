@@ -27,8 +27,8 @@
  */
 
 package client;
+
 import java.util.*;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
@@ -46,7 +46,6 @@ import ui.controls.form.TextInput;
 //#else
 import menu.MenuListener;
 import menu.Command;
-import menu.MyMenu;
 //#endif
 //#ifdef GRAPHICS_MENU        
 import ui.GMenu;
@@ -56,15 +55,12 @@ import account.AccountSelect;
  *
  * @author ad,aqent
  */
-public class StatusSelect
-        extends VirtualList
-        implements
+public class StatusSelect extends VirtualList implements
 //#ifndef MENU_LISTENER
 //#         CommandListener,
 //#else
         MenuListener//,
 //#endif
-        //Runnable
 {
     
     private Command cmdOk;
@@ -76,12 +72,18 @@ public class StatusSelect
     private int defp;
     private Contact to;
 
-    public StatusSelect(Display d, Displayable pView, Contact to) {
+    public StatusSelect(Contact to) {
         super();
         
        cmdOk=new Command(SR.get(SR.MS_SELECT),Command.OK,1);
+       cmdOk.setImg(0x43);
+
        cmdEdit=new Command(SR.get(SR.MS_EDIT),Command.SCREEN,2);
+       cmdEdit.setImg(0x40);
+
        cmdDef=new Command(SR.get(SR.MS_SETDEFAULT),Command.OK,3);
+       cmdDef.setImg(0x24);
+
        cmdCancel=new Command(SR.get(SR.MS_CANCEL),Command.BACK,99);
        
         statusList=StatusList.getInstance().statusList;
@@ -98,9 +100,6 @@ public class StatusSelect
         
         defp=midlet.BombusQD.cf.loginstatus;
         moveCursorTo(defp);
-        attachDisplay(d);
-        
-        this.parentView=pView;
     }
     
     public void commandState() {
@@ -109,10 +108,10 @@ public class StatusSelect
 //#endif
         ExtendedStatus ex = (ExtendedStatus)getFocusedObject();
         if(-1 == ex.getName().indexOf("pep")) {
-          addCommand(cmdEdit); cmdEdit.setImg(0x40);
-          addCommand(cmdDef);  cmdDef.setImg(0x24);
+          addCommand(cmdEdit); 
+          addCommand(cmdDef);  
         }
-        addCommand(cmdOk); cmdOk.setImg(0x43);
+        addCommand(cmdOk); 
 //#ifndef GRAPHICS_MENU        
 //#      addCommand(cmdCancel);
 //#endif     
@@ -138,7 +137,7 @@ public class StatusSelect
     public void commandAction(Command c, Displayable d){
         if (c==cmdOk) eventOk(); 
         if (c==cmdEdit) {
-            new StatusForm( display, this, getSel() );
+            new StatusEditForm(getSel()).show();
         }
         
         if (c==cmdDef) {
@@ -174,7 +173,7 @@ public class StatusSelect
                 midlet.BombusQD.sd.roster.setOfflineTransport();
             } else {
 		if (midlet.BombusQD.sd.account==null)
-		    new AccountSelect(display, this, false,status);
+		    new AccountSelect(false, status).show();
 		else
 		    midlet.BombusQD.sd.roster.sendPresence(status, null);
                 midlet.BombusQD.cf.isStatusFirst=true;
@@ -184,12 +183,11 @@ public class StatusSelect
     
     public int getItemCount(){   return statusList.size(); }
     
-    private void save(){
+    public static void save(){
         StatusList.getInstance().saveStatusToStorage();
     }
     
-//#ifdef MENU_LISTENER
-    
+//#ifdef MENU_LISTENER    
 //#ifdef GRAPHICS_MENU        
     public int showGraphicsMenu() {
         commandState();
@@ -201,63 +199,8 @@ public class StatusSelect
 //#     public void showMenu() {
 //#         commandState();
 //#         new MyMenu(display, parentView, this, SR.get(SR.MS_STATUS), null, menuCommands);
-//#     }  
-//#endif      
-    
-
+//#     }
 //#endif
-    
-    class StatusForm extends DefForm {
+//#endif
 
-        private NumberInput tfPriority;
-        private TextInput tfMessage;
-        private TextInput tfAutoRespondMessage;
-        
-        private ExtendedStatus status;
-
-        private CheckBox autoRespond;
-        
-        public StatusForm(Display display, Displayable pView, ExtendedStatus status){
-            super(display, pView, SR.get(SR.MS_STATUS)+": "+status.getScreenName());
-            this.status=status;
-            
-            tfMessage = new TextInput(display, SR.get(SR.MS_MESSAGE), status.getMessage(), "ex_status_list", TextField.ANY); //, 100, TextField.ANY "ex_status_list"
-            itemsList.addElement(tfMessage);
-
-            tfPriority = new NumberInput(display, SR.get(SR.MS_PRIORITY), Integer.toString(status.getPriority()), -128, 128); //, 100, TextField.ANY "ex_status_list"
-            itemsList.addElement(tfPriority);
-
-            if (status.getImageIndex()<5) {
-                itemsList.addElement(new SpacerItem(10));
-               
-                tfAutoRespondMessage=new TextInput(display, SR.get(SR.MS_AUTORESPOND), status.getAutoRespondMessage(), "autorespond", TextField.ANY);//, 100, 0
-                itemsList.addElement(tfAutoRespondMessage);
-                
-                autoRespond = new CheckBox(SR.get(SR.MS_ENABLE_AUTORESPOND), status.getAutoRespond()); itemsList.addElement(autoRespond);
-            }
-            
-            itemsList.addElement(new SpacerItem(10));
-            
-            itemsList.addElement(new SimpleString("%t - time", false));
-            itemsList.addElement(new SimpleString("%dt - date time", false));
-            itemsList.addElement(new SimpleString("%qd - random phrase", false));
-            
-            moveCursorTo(getNextSelectableRef(-1));
-            attachDisplay(display);
-            this.parentView=pView;
-        }
-        
-        public void cmdOk() {
-            if (status.getImageIndex()<5) {
-                status.setAutoRespondMessage(tfAutoRespondMessage.getValue());
-                status.setAutoRespond(autoRespond.getValue());
-            }
-            status.setMessage(tfMessage.getValue());                    
-            status.setPriority(Integer.parseInt(tfPriority.getValue()));
-
-            save();
-
-            destroyView();
-        }
-    }
 }

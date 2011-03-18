@@ -160,12 +160,22 @@ public class SearchResult
     
     
 //#ifdef MENU_LISTENER
-    public String touchLeftCommand(){ return SR.get(SR.MS_ADD); }
-    public void touchLeftPressed(){ new ContactEdit(display, sd.roster, (Contact)getFocusedObject()); }
-    public void touchRigthPressed(){ destroyView(); }
-    
-    public void destroyView(){
-       if (display!=null) midlet.BombusQD.sd.roster.showRoster();
+    public String touchLeftCommand() {
+        return SR.get(SR.MS_ADD);
+    }
+
+    public void touchLeftPressed() {
+        showContactEditForm();
+    }
+
+    public void touchRigthPressed() {
+        destroyView();
+    }
+
+    public void destroyView() {
+        if (display != null) {
+            midlet.BombusQD.sd.roster.showRoster();
+        }
     }
     
 //#ifdef GRAPHICS_MENU        
@@ -190,10 +200,14 @@ public class SearchResult
 
     public void commandAction(Command c, Displayable d){
         if (c==cmdAdd){
-            //destroyView();
-            new ContactEdit(display, sd.roster, (Contact)getFocusedObject());
-            //return;
+            showContactEditForm();
         }
+    }
+
+    private void showContactEditForm() {
+        ContactEdit form = new ContactEdit((Contact)getFocusedObject());
+        form.setParentView(sd.roster);
+        form.show();
     }
     
     public void eventOk(){

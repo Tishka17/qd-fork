@@ -102,7 +102,7 @@ public  class DropChoiceBox extends IconTextElement {
 
     public void onSelect(VirtualList view) {
         if (items.size() > 1) {
-            new DropListBox(display, items, this);
+            new DropListBox(items, this).show();
         }
     }
 

@@ -257,7 +257,7 @@ public final class Bookmarks
         }
 //#ifdef SERVICE_DISCOVERY
         else if (c == cmdDisco) {
-            new ServiceDiscovery(display, roomJid, null, false);
+            new ServiceDiscovery(roomJid, null, false).show();
         }
 //#endif
         else if (c == cmdConfigure) {
@@ -327,7 +327,7 @@ public final class Bookmarks
     public void keyPressed(int keyCode) {
 //#ifdef SERVICE_DISCOVERY
         if (keyCode == KEY_POUND) {
-            new ServiceDiscovery(display, ((BookmarkItem)getFocusedObject()).getJid() , null, false);
+            new ServiceDiscovery(((BookmarkItem)getFocusedObject()).getJid() , null, false).show();
             return;
         }
 //#endif

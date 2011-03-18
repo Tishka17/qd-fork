@@ -46,8 +46,8 @@ public class FontConfigForm extends DefForm {
 
     private CheckBox useItalic;
 
-    public FontConfigForm(Display display, Displayable pView) {
-        super(display, pView, SR.get(SR.MS_FONTS_OPTIONS));
+    public FontConfigForm() {
+        super(SR.get(SR.MS_FONTS_OPTIONS));
 
         addControl(new SimpleString("(!) " + SR.get(SR.MS_RESTART_APP), true));
 
@@ -91,9 +91,6 @@ public class FontConfigForm extends DefForm {
 
         // first control is unselectable
         moveCursorTo(1);
-
-        attachDisplay(display);
-        this.parentView=pView;
     }
     
     public void cmdOk() {

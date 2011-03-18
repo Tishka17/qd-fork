@@ -128,7 +128,7 @@
 //#                     textBox.insert(TEMPLATE_IQ_VERSION, caretPos);
 //#ifdef ARCHIVE
 //#                 } else if (c == cmdArchive) {
-//#                     new ArchiveList(display, caretPos, null, textBox);
+//#                     new ArchiveList(caretPos, null, textBox).show();
 //#endif
 //#                 } else if (c == cmdPastePresence) {
 //#                     textBox.insert(TEMPLATE_PRESENCE, caretPos);

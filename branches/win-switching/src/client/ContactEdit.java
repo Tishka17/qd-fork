@@ -44,8 +44,8 @@ import ui.controls.form.TextInput;
  *
  * @author Evg_S
  */
+
 public final class ContactEdit extends DefForm {
-    private LinkString vCardReq;
     private TextInput tJid;
     private TextInput tNick;
     private TextInput tGroup;
@@ -57,9 +57,8 @@ public final class ContactEdit extends DefForm {
     boolean newContact = true;
     private boolean newGroup;
 
-    public ContactEdit(Display display, Displayable pView, Contact c) {
-        super(display, pView, SR.get(SR.MS_ADD_CONTACT));
-        this.display = display;
+    public ContactEdit(Contact c) {
+        super(SR.get(SR.MS_ADD_CONTACT));
 
         tJid = new TextInput(display, SR.get(SR.MS_USER_JID), Config.getInstance().add_contact_name, null, TextField.ANY);
 
@@ -147,18 +146,15 @@ public final class ContactEdit extends DefForm {
             addControl(new SimpleString(SR.get(SR.MS_SUBSCRIPTION), true));
             addControl(tAskSubscrCheckBox);
 
-            vCardReq = new LinkString(SR.get(SR.MS_VCARD)) {
+            addControl(new LinkString(SR.get(SR.MS_VCARD)) {
                 public void doAction() {
                     requestVCard();
                 }
 
-            };
-            addControl(vCardReq);
+            });
         }
 
         moveCursorTo(getNextSelectableRef(-1));
-        attachDisplay(display);
-        this.parentView = pView;
     }
 
     private void requestVCard() {

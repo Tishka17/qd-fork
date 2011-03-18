@@ -28,15 +28,12 @@ package client;
 
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
-import javax.microedition.lcdui.TextField;
 import locale.SR;
 import ui.controls.form.CheckBox;
 import ui.controls.form.DefForm;
-import ui.controls.form.TextInput;
 import ui.controls.form.NumberInput;
 import ui.controls.form.SpacerItem;
 import javax.microedition.lcdui.Image;
-import images.ImageList;
 import ui.controls.form.LinkString;
 import java.util.Vector;
 //#ifdef FILE_IO
@@ -60,8 +57,8 @@ public class AvatarConfigForm extends DefForm {
     private PathSelector avatarFolder;
 //#endif
     private Config config;
-    public AvatarConfigForm(Display display, Displayable pView) {
-        super(display, pView, SR.get(SR.MS_AVATARS));
+    public AvatarConfigForm() {
+        super(SR.get(SR.MS_AVATARS));
 
         config = Config.getInstance();
 
@@ -121,9 +118,6 @@ public class AvatarConfigForm extends DefForm {
             });
         }
 //#endif
-
-        attachDisplay(display);
-        this.parentView = pView;
     }
 
     public void cmdOk() {

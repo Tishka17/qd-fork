@@ -25,27 +25,21 @@
  *
  */
 
+//#ifdef ARCHIVE
 package archive;
 
 import client.Msg;
 import javax.microedition.lcdui.*;
 import locale.SR;
 import client.Constants;
-//import ui.controls.ExTextBox;
+import midlet.BombusQD;
 
 /**
  *
  * @author ad
  */
-public class ArchiveEdit
-        //extends ExTextBox
-        implements CommandListener {
-//#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_ARCHIVE");
-//#endif
 
-    private Display display;
-
+public class ArchiveEdit implements CommandListener {
     private Command cmdCancel;
     private Command cmdOk;
     private Msg msg;
@@ -60,9 +54,8 @@ public class ArchiveEdit
 
     public TextBox t;
 
-    public ArchiveEdit(Display display, Displayable pView, int pos, ArchiveList al) {
+    public ArchiveEdit(Displayable pView, int pos, ArchiveList al) {
         t=new TextBox((pos>-1)?SR.get(SR.MS_EDIT):SR.get(SR.MS_NEW) ,null, 4096, TextField.ANY);
-        this.display=display;
 
         cmdCancel=new Command(SR.get(SR.MS_CANCEL), Command.BACK, 99);
         cmdOk=new Command(SR.get(SR.MS_OK), Command.OK /*Command.SCREEN*/, 1);
@@ -80,7 +73,8 @@ public class ArchiveEdit
         t.addCommand(cmdOk);
         t.addCommand(cmdCancel);
         t.setCommandListener(this);
-        display.setCurrent(t);
+
+        BombusQD.setCurrentView(t);
     }
 
     public void commandAction(Command c, Displayable d){
@@ -103,6 +97,7 @@ public class ArchiveEdit
 
             al.reFresh();
         }
-        display.setCurrent(/*parentView*/al);
+        BombusQD.setCurrentView(al);
     }
 }
+//#endif

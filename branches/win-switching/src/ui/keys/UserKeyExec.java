@@ -126,7 +126,7 @@ public class UserKeyExec {
 //#ifdef PLUGINS
 //#                 if (sd.Stats)
 //#endif
-                    new StatsWindow(display);
+                    new StatsWindow().show();
                 break;
 //#endif
 //#endif
@@ -150,7 +150,9 @@ public class UserKeyExec {
                 break;
             case 8:
 //#ifdef SERVICE_DISCOVERY
-                if (connected) new ServiceDiscovery(display, null, null, false);
+                if (connected) {
+                    new ServiceDiscovery(null, null, false).show();
+                }
 //#endif
                 break;
             case 9:

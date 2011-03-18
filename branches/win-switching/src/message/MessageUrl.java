@@ -29,33 +29,30 @@ package message;
 
 import java.util.Vector;
 import javax.microedition.io.ConnectionNotFoundException;
-import javax.microedition.lcdui.Display;
 import menu.Menu;
 
 /**
  *
  * @author EvgS
  */
-public class MessageUrl extends Menu{
-    
+
+public class MessageUrl extends Menu {
     private Vector urlList;
-    
-    /** Creates a new instance of MessageUrl */
-    public MessageUrl(Display display, Vector urlList) {
-	super("URLs", null,null);
-	this.urlList=urlList;
+
+    public MessageUrl(Vector urlList) {
+	super("URLs", null, null);
+	this.urlList = urlList;
 	
-	for (int i=0; i<urlList.size(); i++) { // throws exception
+	for (int i = 0; i < urlList.size(); ++i) {
 	    addItem((String)urlList.elementAt(i), i);
 	}
-	attachDisplay(display);
     }
     
     public void eventOk() {
         try {
             midlet.BombusQD.getInstance().platformRequest((String)urlList.elementAt(cursor));
         } catch (ConnectionNotFoundException ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
 	destroyView();
     }

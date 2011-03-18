@@ -40,8 +40,8 @@ public class ChangeTransportForm extends DefForm {
     private DropChoiceBox selectJid;
     private String jid;
 
-    public ChangeTransportForm(Display display, Displayable pView, String jid) {
-        super(display, pView, SR.get(SR.MS_TRANSPORT));
+    public ChangeTransportForm(String jid) {
+        super(SR.get(SR.MS_TRANSPORT));
 
         this.jid = jid;
 
@@ -59,8 +59,6 @@ public class ChangeTransportForm extends DefForm {
             selectJid.append(jid);
         }
         addControl(selectJid);
-
-        attachDisplay(display);
     }
 
     public void cmdOk() {

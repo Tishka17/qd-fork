@@ -31,7 +31,6 @@ import java.util.*;
 import javax.microedition.lcdui.*;
 import com.alsutton.jabber.*;
 import com.alsutton.jabber.datablocks.*;
-import locale.SR;
 import ui.controls.form.DefForm;
 import ui.controls.form.SimpleString;
 import client.StaticData;
@@ -59,8 +58,8 @@ public class DiscoForm extends DefForm {
 
     private boolean isExecutable = true;
 
-    public DiscoForm(Display display,JabberDataBlock regform, JabberStream stream, String resultId, String childName) {
-        super(display, StaticData.getInstance().roster , "Update");
+    public DiscoForm(JabberDataBlock regform, JabberStream stream, String resultId, String childName) {
+        super("Update");
         
         this.stream = stream;
         service=regform.getAttribute("from");
@@ -110,7 +109,6 @@ public class DiscoForm extends DefForm {
                 isExecutable = false;
             }
         }
-        attachDisplay(display);
     }
 
     public void cmdOk() {

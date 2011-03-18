@@ -61,7 +61,6 @@ public final class ActiveContacts extends VirtualList implements
         MenuListener
 //#endif
 {
-
     private static final int SORT_BY_STATUS = 0;
     private static final int SORT_BY_MSGCOUNT = 1;
 
@@ -78,7 +77,7 @@ public final class ActiveContacts extends VirtualList implements
     private Command cmdSortByMsgsCount;
     private Command cmdClearAllMessages;
 
-    public ActiveContacts(Display display, Displayable pView, Contact current) {
+    public ActiveContacts(Contact current) {
         cmdCancel = new Command(SR.get(SR.MS_BACK), Command.BACK, 99);
 
         cmdOk = new Command(SR.get(SR.MS_SELECT), Command.SCREEN, 1);
@@ -116,9 +115,6 @@ public final class ActiveContacts extends VirtualList implements
         }
 
         setMainBarItem(new MainBar(SR.get(SR.MS_ACTIVE_CONTACTS) + " (" + getItemCount() + ")"));
-
-        attachDisplay(display);
-        super.parentView = pView;
     }
 
     private void sortContacts(int type) {
@@ -180,7 +176,7 @@ public final class ActiveContacts extends VirtualList implements
         Contact contact = (Contact) getFocusedObject();
         isActive = false;
 //#ifdef CLASSIC_CHAT
-//#         if (Config.getInstance().module_classicchat) {
+//#         if (Config.module_classicchat) {
 //#             new SimpleItemChat(display, BombusQD.sd.roster, contact);
 //#         } else {
 //#endif
@@ -270,7 +266,7 @@ public final class ActiveContacts extends VirtualList implements
 
     public void destroyView() {
         BombusQD.sd.roster.reEnumRoster();
-        display.setCurrent(parentView);
+        super.destroyView();
     }
 
 //#ifdef MENU_LISTENER

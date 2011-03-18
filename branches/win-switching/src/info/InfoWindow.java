@@ -33,7 +33,7 @@ import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import midlet.BombusQD;
-import ui.IconTextElement;
+import stats.StatsWindow;
 import ui.controls.AlertBox;
 import ui.controls.form.DefForm;
 import ui.controls.form.LinkString;
@@ -48,8 +48,8 @@ import ui.controls.form.SpacerItem;
 public class InfoWindow extends DefForm {
     private int auth = 0;
 
-    public InfoWindow(final Display display, Displayable pView) {
-        super(display, pView, SR.get(SR.MS_ABOUT));
+    public InfoWindow() {
+        super(SR.get(SR.MS_ABOUT));
 
         MultiLine item;
 
@@ -62,7 +62,9 @@ public class InfoWindow extends DefForm {
 
         addControl(new LinkString("QD ".concat(SR.get(SR.MS_QD_NEWS))) {
             public void doAction() {
-                new GetFileServer(display, BombusQD.sd.roster);
+                GetFileServer form = new GetFileServer();
+                form.setParentView(BombusQD.sd.roster);
+                form.show();
             }
         });
 
@@ -70,7 +72,7 @@ public class InfoWindow extends DefForm {
             addControl( new LinkString(SR.get(SR.MS_SUPPORT)) {
                 public void doAction() {
                     new ConferenceForm(
-                            display,
+                            BombusQD.display,
                             BombusQD.sd.roster,
                             "BombusQD@",
                             "qd@conference.jabber.ru", null, false);
@@ -81,9 +83,10 @@ public class InfoWindow extends DefForm {
 //#ifdef STATS
         addControl(new LinkString(SR.get(SR.MS_STATS)) {
             public void doAction() {
-                new stats.StatsWindow(display);
+                StatsWindow form = new StatsWindow();
+                form.setParentView(BombusQD.sd.roster);
+                form.show();
             }
-
         });
 //#endif
 
@@ -205,9 +208,6 @@ public class InfoWindow extends DefForm {
         addControl(item);
 
         enableListWrapping(false);
-
-        attachDisplay(display);
-        this.parentView = pView;
     }
 
     private void showMsg() {

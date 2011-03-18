@@ -62,6 +62,8 @@ import ui.controls.AlertBox;
 import ui.MIDPTextBox;
 import ui.MainBar;
 //#ifdef CLIPBOARD
+import ui.VirtualList;
+import ui.controls.form.DefForm;
 import util.ClipBoard;
 //#endif
 import vcard.VCard;
@@ -420,12 +422,13 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                     String from2 = midlet.BombusQD.sd.account.toString();
                     contact.addMessage(new Msg(Constants.MESSAGE_TYPE_OUT, from2, null, SR.get(SR.MS_SCHEME_SENT)));
                 } break;
-                case MI_VCARD:
+                case MI_VCARD: {
                     if (contact.vcard != null) {
                         if (contact.getGroupType() == Groups.TYPE_SELF) {
-                            new VCardEdit(display, parentView, contact.vcard);
+                            showForm(new VCardEdit(contact.vcard));
+
                         } else {
-                            new VCardView(display, parentView, contact);
+                            showForm(new VCardView(contact));
                         }
                         return;
                     } else {
@@ -442,6 +445,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                         }
                     }
                     break;
+                }
                 case MI_DELVCARD:
                     contact.clearVCard();
                     break;
@@ -466,12 +470,14 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                         }
                     }
                     break;
-                case MI_EDIT:
-                    new ContactEdit(display, parentView, contact);
+                case MI_EDIT: {
+                    showForm(new ContactEdit(contact));
                     return;
-                case MI_SUBSCRIBTION:
-                    new SubscriptionEdit(display, parentView, contact);
+                }
+                case MI_SUBSCRIBTION: {
+                    showForm(new SubscriptionEdit(contact));
                     return;
+                }
                 case MI_DELETE:
                     new AlertBox(SR.get(SR.MS_DELETE_ASK), contact.getName(), display, BombusQD.sd.roster, false) {
                         public void yes() {
@@ -503,7 +509,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                 }
 //#ifdef CHANGE_TRANSPORT
                 case MI_CHTRANSPORT: {
-                    new ChangeTransportForm(display, parentView, contact.bareJid);
+                    new ChangeTransportForm(contact.bareJid).show();
                     return;
                 }
 //#endif
@@ -514,9 +520,10 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                 }
 //#endif
 //#ifdef SERVICE_DISCOVERY
-                case MI_COMMANDS:
-                    new ServiceDiscovery(display, contact.getJid(), "http://jabber.org/protocol/commands", false);
+                case MI_COMMANDS: {
+                    showForm(new ServiceDiscovery(contact.getJid(), "http://jabber.org/protocol/commands", false));
                     return;
+                }                 
 //#endif
                 case MI_ATTENTION: {
                     Message message = new Message(contact.getJid(), SR.get(SR.LA_WAKEUP), SR.get(SR.LA_ATTENTION), false);
@@ -603,9 +610,10 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                     new InviteForm(display, parentView, contact);
                     return;
 //#endif
-                case MI_SEND_PRESENCE:
-                    new StatusSelect(display, parentView, contact);
+                case MI_SEND_PRESENCE: {
+                    showForm(new StatusSelect(contact));
                     return;
+                }
 //#ifdef FILE_IO
 //#ifdef FILE_TRANSFER
                  case MI_SEND_FILE:
@@ -689,9 +697,12 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                     case MI_REJOIN:
                         ((ConferenceGroup) group).reEnterRoom();
                         return;
-                    case MI_SEND_PRESENCE:
-                        new StatusSelect(display, this, ((ConferenceGroup) group).confContact);
+                    case MI_SEND_PRESENCE: {
+                        StatusSelect form = new StatusSelect(((ConferenceGroup) group).confContact);
+                        form.setParentView(getParentView());
+                        form.show();
                         return;
+                    }
                     case MI_DELETE:
                         new CommandForm(display, parentView, 0, "Form", item, null);
                         return;
@@ -699,7 +710,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
             } else {
                 switch (mItem.index) {
                     case MI_RENAME:
-                        new RenameGroup(display, this, group);
+                        showForm(new RenameGroup(group));
                         return;
                     case MI_DELETE:
                         new AlertBox(SR.get(SR.MS_DELETE_GROUP_ASK), group.getName(), display, BombusQD.sd.roster, false)       {
@@ -715,5 +726,10 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
             }
         }
         destroyView();
+    }
+
+    private void showForm(VirtualList list) {
+        list.setParentView(getParentView());
+        list.show();
     }
 }

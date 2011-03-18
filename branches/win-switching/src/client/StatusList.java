@@ -41,9 +41,8 @@ import ui.controls.form.SimpleString;
  * @author EvgS
  */
 public class StatusList {
-    
-    // Singleton implementation
     private static StatusList instance;
+
     public static StatusList getInstance() {
 	if (instance==null) instance=new StatusList();
 	return instance;
@@ -55,7 +54,6 @@ public class StatusList {
 
     public Vector statusList;
 
-    /** Creates a new instance of StatusList */
     private StatusList() {
         statusList = new Vector(0);
         try {
@@ -75,10 +73,10 @@ public class StatusList {
             //e.printStackTrace(); 
         }
 //#ifdef PEP
-//#         Object add;
-//#         add = new SimpleString(SR.get(SR.MS_PEP),true); statusList.addElement(add);
-//#         add = new ExtendedStatus(0x13, "pep", SR.get(SR.MS_USERMOOD), true); statusList.addElement(add);
-//#         add = new ExtendedStatus(0x24, "pep", SR.get(SR.MS_ACTIVITY), false); statusList.addElement(add);
+        Object add;
+        add = new SimpleString(SR.get(SR.MS_PEP),true); statusList.addElement(add);
+        add = new ExtendedStatus(0x13, "pep", SR.get(SR.MS_USERMOOD), true); statusList.addElement(add);
+        add = new ExtendedStatus(0x24, "pep", SR.get(SR.MS_ACTIVITY), false); statusList.addElement(add);
 //#endif
     }
     
@@ -119,5 +117,4 @@ public class StatusList {
 	}
 	return es;
     }
-
 }

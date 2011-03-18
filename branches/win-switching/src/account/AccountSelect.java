@@ -84,7 +84,7 @@ public class AccountSelect extends VirtualList implements
 
     int status;
 
-    public AccountSelect(Display display, Displayable pView, boolean enableQuit, int status) {
+    public AccountSelect(boolean enableQuit, int status) {
         super();
 
         cmdConfigurationMaster = new Command(SR.get(SR.MS_CONFIGURATION_MASTER), Command.OK, 1);
@@ -126,7 +126,6 @@ public class AccountSelect extends VirtualList implements
         cmdQip.setImg(0x94);
         cmdVk.setImg(0x95);
 
-        this.display = display;
         this.status = status;
         String str = "";
         switch (status) {
@@ -175,12 +174,9 @@ public class AccountSelect extends VirtualList implements
         }
 
         setCommandListener(this);
-        display.setCurrent(this);
-        this.parentView = pView;
     }
 
     public void commandState() {
-        System.out.println("ololo");
 //#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
         cmdfirstList.removeAllElements();
@@ -239,51 +235,52 @@ public class AccountSelect extends VirtualList implements
     }
 
     public void commandAction(Command c, Displayable d) {
+        try {
         if (c == cmdCancel) {
             destroyView();
         }
 //#ifdef GRAPHICS_MENU
         if (c == cmdServ1_reg) {
-            new AccountForm(display, this, "jabber.ru");
+            new AccountForm("jabber.ru").show();
         }
         if (c == cmdServ2_reg) {
-            new AccountForm(display, this, "silper.cz");
+            new AccountForm("silper.cz").show();
         }
         if (c == cmdServ3_reg) {
-            new AccountForm(display, this, "jabbus.org");
+            new AccountForm("jabbus.org").show();
         }
         if (c == cmdServ4_reg) {
-            new AccountForm(display, this, "mytlt.ru");
+            new AccountForm("mytlt.ru").show();
         }
         if (c == cmdServ5_reg) {
-            new AccountForm(display, this, "jabbim.com");
+            new AccountForm("jabbim.com").show();
         }
         if (c == cmdServ6_reg) {
-            new AccountForm(display, this, "");
+            new AccountForm("").show();
         }
 
         if (c == cmdJabber) {
-            new AccountForm(display, this, null, AccountForm.PROFILE_JABBER);
+            new AccountForm(null, AccountForm.PROFILE_JABBER).show();
         }
         if (c == cmdYaru) {
-            new AccountForm(display, this, null, AccountForm.PROFILE_YANDEX);
+            new AccountForm(null, AccountForm.PROFILE_YANDEX).show();
         }
 
         if (c == cmdGTalk_SSL) {
-            new AccountForm(display, this, null, AccountForm.PROFILE_GTALK_SSL);
+            new AccountForm(null, AccountForm.PROFILE_GTALK_SSL).show();
         }
         if (c == cmdGTalk_HTTPS) {
-            new AccountForm(display, this, null, AccountForm.PROFILE_GTALK_HTTPS);
+            new AccountForm(null, AccountForm.PROFILE_GTALK_HTTPS).show();
         }
 
         if (c == cmdLj) {
-            new AccountForm(display, this, null, AccountForm.PROFILE_LIVEJOURNAL);
+            new AccountForm(null, AccountForm.PROFILE_LIVEJOURNAL).show();
         }
         if (c == cmdQip) {
-            new AccountForm(display, this, null, AccountForm.PROFILE_QIP);
+            new AccountForm(null, AccountForm.PROFILE_QIP).show();
         }
         if (c == cmdVk) {
-            new AccountForm(display, this, null, AccountForm.PROFILE_VKONTAKTE);
+            new AccountForm(null, AccountForm.PROFILE_VKONTAKTE).show();
         }
 //#else
 //#         if (c==cmdAdd) {
@@ -297,7 +294,8 @@ public class AccountSelect extends VirtualList implements
             switchAccount(true);
         }
         if (c == cmdEdit) {
-            new AccountForm(display, this, (Account)getFocusedObject(), -1);
+            System.out.println((Account)getFocusedObject() == null);
+            new AccountForm((Account)getFocusedObject(), -1).show();
         }
         if (c == cmdChangePass) {
             Object cursor_acc = getFocusedObject();
@@ -331,7 +329,9 @@ public class AccountSelect extends VirtualList implements
                 };
             }
         }
-
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void touchRightPressed() {

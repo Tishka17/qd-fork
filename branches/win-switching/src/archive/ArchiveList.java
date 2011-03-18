@@ -37,7 +37,6 @@ import message.MessageList;
 //#else
 import menu.Command;
 //#endif
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import ui.controls.AlertBox;

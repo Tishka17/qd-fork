@@ -299,7 +299,7 @@ public class Roster
         //message.MessageParser.restart();
 
 //#ifdef PEP
-        if(selectPEP == null) selectPEP = new SelectPEP(display);
+        if(selectPEP == null) selectPEP = new SelectPEP();
 //#endif
 
         midlet.BombusQD.getInstance().s.setExit(display, this);
@@ -511,18 +511,18 @@ public class Roster
             showActionsMenu(this, getFocusedObject());
         }
            else if(c==cmdOptions) {
-              display.setCurrent(new ConfigForm(display, this));
+              new ConfigForm().show();
 //#ifdef SERVICE_DISCOVERY
            } else if(c==cmdMyService) {
                new ServiceDiscovery(null, null, false).show();
 //#endif
 //#ifdef XML_CONSOLE
 //#             } else if(c==cmdXMLConsole){
-//#                 new XMLConsole(display,this);
+//#                 new XMLConsole().show();
 //#endif
 //#ifdef DEBUG_CONSOLE
 //#           } else if(c==cmdDebugConsole){
-//#                 new DebugConsole(display, this);
+//#                 new DebugConsole().show();
 //#endif
          } else if (c==cmdMinimize) { cmdMinimize();  }
 
@@ -568,7 +568,7 @@ public class Roster
         new StatusSelect(null).show();
     }
 
-    public void cmdAlert() { new AlertProfile(display, this); }
+    public void cmdAlert() { new AlertProfile().show(); }
 //#ifdef ARCHIVE
     public void cmdArchive() { new ArchiveList(-1, null, null).show(); }
 //#endif
@@ -2012,7 +2012,7 @@ public class Roster
                         JabberDataBlock reg=data.findNamespace("query","jabber:iq:register");
                         JabberDataBlock remove=reg.getChildBlock("remove");
                         if(remove!=null){
-                          new CommandForm(display,parentView,4,SR.get(SR.MS_ACCOUNT_DELETED),from,null);
+                          new CommandForm(4,SR.get(SR.MS_ACCOUNT_DELETED),from,null).show();
                         }
                        redraw();
                     }
@@ -2042,7 +2042,7 @@ public class Roster
                     if(id.equals("changemypass")) {
                          JabberDataBlock reg=data.findNamespace("query","jabber:iq:register");
                          redraw();
-                         new CommandForm(display,parentView,3,SR.get(SR.MS_CHANGE_PASSWORD),"", reg.getChildBlockText("password"));
+                         new CommandForm(3,SR.get(SR.MS_CHANGE_PASSWORD),"", reg.getChildBlockText("password")).show();
                     }
 
 //#ifdef POPUPS
@@ -2078,8 +2078,7 @@ public class Roster
                                  JabberDataBlock get_query = data.findNamespace("query","http://jabber.org/protocol/stats");
                                  String server_name = data.getAttribute("from");
                                  int size=get_query.getChildBlocks().size();
-                                 CommandForm cmd = new CommandForm(midlet.BombusQD.getInstance().display, this , 5 , "" , null, null);
-                                 cmd.setParentView(server_name,this);
+                                 CommandForm cmd = new CommandForm(5 , "" , null, null);
 
                                  JabberDataBlock value;
                                   try {
@@ -2091,6 +2090,7 @@ public class Roster
                                       }
                                  } catch (Exception e) {}
                                  cmd.addObject(server_name, 0, 0);
+                                 cmd.show();
                                  get_query=null;
                       }
 
@@ -3409,7 +3409,7 @@ public class Roster
                     if (mucGrp.selfContact.roleCode==Constants.ROLE_MODERATOR) {
                         String myNick=mucGrp.selfContact.getName();
                         MucContact mc=(MucContact) c;
-                        new QuickPrivelegyEditForm(display, this, mc, QuickPrivelegyEditForm.KICK,myNick);
+                        new QuickPrivelegyEditForm(mc, QuickPrivelegyEditForm.KICK,myNick).show();
                     }
                 }
 //#endif
@@ -3588,7 +3588,7 @@ public class Roster
 //#endif
 
        	else if (keyCode==KEY_NUM4) {
-              display.setCurrent(new ConfigForm(display, this));
+              new ConfigForm().show();
         }
         else if (keyCode==KEY_NUM6) {
             Config.fullscreen =! Config.fullscreen;

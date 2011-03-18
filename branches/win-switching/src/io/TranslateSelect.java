@@ -39,7 +39,6 @@ import client.*;
 import ui.controls.form.LinkString;
 
 public class TranslateSelect extends DefForm {
-    private Display display;
     private DropChoiceBox langFrom; 
     private DropChoiceBox langTo; 
     private LinkString fastTr;
@@ -54,10 +53,9 @@ public class TranslateSelect extends DefForm {
     private boolean trCMsgList;
     private int cursor;    
     
-    public TranslateSelect(Display display, Displayable pView,Contact to,String text,String fromMucNick,
+    public TranslateSelect(Contact to,String text,String fromMucNick,
             boolean trCMsgList,int cursor) {
-        super(display, pView, SR.get(SR.MS_TRANSLATE));
-        this.display=display;
+        super(SR.get(SR.MS_TRANSLATE));
         this.to=to;
         this.text=text;
         this.trCMsgList=trCMsgList;
@@ -99,11 +97,7 @@ public class TranslateSelect extends DefForm {
                 langTo.setSelectedIndex(3);
             }
             itemsList.addElement(langTo);            
-            
         }
- 
-        attachDisplay(display);
-        this.parentView=pView;
     }
     
     private void runTranslate(boolean pair){
@@ -129,11 +123,6 @@ public class TranslateSelect extends DefForm {
              destroyView();
             }
         }
-    }
-
-    public void destroyView(){
-        if (display!=null)  
-            display.setCurrent(parentView);
     }
 }
 

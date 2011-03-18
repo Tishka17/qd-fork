@@ -29,6 +29,10 @@ public abstract class CanvasEx extends Canvas {
         BombusQD.setCurrentView(this);
     }
 
+    protected void showNotify() {
+        setFullScreenMode(Config.fullscreen);
+    }
+
     public void destroyView() {
         if (parentView != null) {
             BombusQD.setCurrentView(parentView);

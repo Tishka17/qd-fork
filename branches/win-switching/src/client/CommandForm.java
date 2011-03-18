@@ -50,10 +50,7 @@ import util.ClipBoard;
 //#ifdef CLIPBOARD
 //#endif
 
-public final class CommandForm extends DefForm
-{
-    private Display display;
-    private Displayable parentView;
+public final class CommandForm extends DefForm {
     private static TextInput textbox;
 
 
@@ -87,24 +84,9 @@ public final class CommandForm extends DefForm
         }
     }
 
-    public void setParentView(String title, Displayable pView) {
-        mainbar.setElementAt( title , 0);
-        midlet.BombusQD.getInstance().display.setCurrent(this);
-        moveCursorHome();
-        this.parentView = pView;
-    }
+    public CommandForm(int type, String title, Object obj, Object res) {
+        super(title);
 
-    public void setParentView(Contact c) {
-        mainbar.setElementAt( c.bareJid , 0);
-        midlet.BombusQD.getInstance().display.setCurrent(this);
-        moveCursorHome();
-        this.parentView = c.getMessageList();
-    }
-
-    public CommandForm(Display display, Displayable pView,int type, String title, Object obj, Object res) {
-        super(display, pView, title);
-
-        this.display=display;
         this.obj=obj;
         this.type=type;
         this.res=res;
@@ -156,16 +138,13 @@ public final class CommandForm extends DefForm
 
         mainbar = new MainBar(title);
         setMainBarItem(mainbar);
-
-        if(title.length()>0){
-          attachDisplay(display);
-          this.parentView=pView;
-        }
     }
 
     public void destroyView() {
-        if(sb.length()>0) destroy();
-	if (display!=null) display.setCurrent(midlet.BombusQD.sd.roster);
+        if(sb.length()>0) {
+            destroy();
+        }
+	super.destroyView();
     }
 
     public void cmdOk() {

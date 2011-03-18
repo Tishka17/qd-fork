@@ -199,10 +199,9 @@ public class AlertCustomizeForm extends DefForm {
 
 //#ifdef LIGHT_CONTROL
         addControl(new SpacerItem(5));
-        linkLight = new LinkString(SR.get(SR.L_CONFIG)) { public void doAction() {
-            new LightConfigForm(midlet.BombusQD.getInstance().display, midlet.BombusQD.getInstance().display.getCurrent());
-        } };
-        addControl(linkLight);
+        addControl(new LinkString(SR.get(SR.L_CONFIG)) { public void doAction() {
+            new LightConfigForm().show();
+        }});
 //#endif
     }
 

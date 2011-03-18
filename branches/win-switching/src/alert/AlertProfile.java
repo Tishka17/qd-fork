@@ -73,7 +73,7 @@ public class AlertProfile extends VirtualList implements
     private Command cmdDef;
     private Command cmdCancel;
 
-    public AlertProfile(Display d, Displayable pView) {
+    public AlertProfile() {
         super();
         
         cf=midlet.BombusQD.cf;
@@ -94,8 +94,6 @@ public class AlertProfile extends VirtualList implements
         defp=cf.def_profile;
         
         moveCursorTo(p);
-        attachDisplay(d);
-        this.parentView=pView;
     }
 
     public void commandState() {

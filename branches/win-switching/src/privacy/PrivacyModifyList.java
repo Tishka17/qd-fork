@@ -77,10 +77,9 @@ public class PrivacyModifyList
     private Command cmdSave;
     
     JabberStream stream=StaticData.getInstance().roster.theStream;
-    
-    /** Creates a new instance of PrivacySelect */
-    public PrivacyModifyList(Display display, Displayable pView, PrivacyList privacyList) {
-        super(display);
+
+    public PrivacyModifyList(PrivacyList privacyList) {
+        super();
         
         cmdCancel=new Command (SR.get(SR.MS_CANCEL), Command.BACK, 99);
         cmdAdd=new Command (SR.get(SR.MS_ADD_RULE), Command.SCREEN, 10);
@@ -96,7 +95,6 @@ public class PrivacyModifyList
 
         plist=privacyList;
         getList();
-        this.parentView=pView;
     }
 
     public void commandState() {
@@ -154,9 +152,11 @@ public class PrivacyModifyList
             destroyView();
         }
         if (c==cmdAdd) {
-            new PrivacyForm(new PrivacyItem(), plist);
+            new PrivacyForm(new PrivacyItem(), plist).show();
         }
-        if (c==cmdEdit) eventOk();
+        if (c==cmdEdit) {
+            eventOk();
+        }
         if (c==cmdDel) {
             Object del=getFocusedObject();
             if (del!=null) plist.rules.removeElement(del);
@@ -192,7 +192,7 @@ public class PrivacyModifyList
     public void eventOk(){
         PrivacyItem pitem=(PrivacyItem) getFocusedObject();
         if (pitem!=null) {
-            new PrivacyForm(pitem, null);
+            new PrivacyForm(pitem, null).show();
         }
     }
     

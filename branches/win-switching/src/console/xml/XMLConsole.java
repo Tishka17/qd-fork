@@ -49,6 +49,7 @@
 //# import ui.MainBar;
 //#endif
 //# import message.MessageItem;
+//# import midlet.BombusQD;
 //# import midlet.Commands;
 //# import ui.MainBar;
 //# 
@@ -62,7 +63,7 @@
 //#     private Command cmdEnableDisable;
 //#     private Command cmdPurge;
 //# 
-//#     public XMLConsole(Display display, Displayable pView) {
+//#     public XMLConsole() {
 //#         super();
 //# 
 //#         cmdNew = new Command(SR.get(SR.MS_NEW), Command.SCREEN, 5);
@@ -83,9 +84,6 @@
 //#         moveCursorHome();
 //# 
 //#         setMainBarItem(new MainBar(SR.get(SR.MS_XML_CONSOLE)));
-//# 
-//#         attachDisplay(display);
-//#         this.parentView = pView;
 //#     }
 //# 
 //#     public void commandState() {
@@ -151,7 +149,8 @@
 //#             stanza = getMessage(cursor).toString();
 //#         } catch (Exception e) {
 //#         }
-//#         new ConsoleTextEdit(display, this, stanza);
+//#         // FIXME
+//#         new ConsoleTextEdit(BombusQD.display, this, stanza);
 //#     }
 //# 
 //#     public void commandAction(Command c, Displayable d) {

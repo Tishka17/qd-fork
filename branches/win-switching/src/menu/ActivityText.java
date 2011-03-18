@@ -26,8 +26,7 @@
  */
 //#ifdef PEP 
 package menu;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
+
 import ui.controls.form.TextInput;
 import ui.controls.form.DefForm;
 import javax.microedition.lcdui.TextField;
@@ -41,8 +40,8 @@ public class ActivityText extends DefForm {
     private String cat="";
     private String descr="";
     
-    public ActivityText(Display display, Displayable pView,String category,String descr, String title) {
-        super(display, pView, title);
+    public ActivityText(String category,String descr, String title) {
+        super(title);
         
         this.cat=category;
         this.descr=descr;
@@ -63,11 +62,6 @@ public class ActivityText extends DefForm {
            itemsList.addElement(new SimpleString(locale.SR.get(locale.SR.MS_PUBLISH)+"?", true)); 
            midlet.BombusQD.cf.actDescr=null;
         }
-                
-        
-        attachDisplay(display);
-        this.parentView=pView;
-
     }
     
     public void cmdOk() {

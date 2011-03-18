@@ -26,7 +26,6 @@
  */
 package client;
 
-import javax.microedition.lcdui.*;
 import locale.SR;
 import midlet.BombusQD;
 import ui.controls.form.DefForm;
@@ -38,6 +37,7 @@ import ui.controls.form.SpacerItem;
  *
  * @author Evg_S
  */
+
 public class SubscriptionEdit extends DefForm {
     private DropChoiceBox action;
     private String to;
@@ -57,7 +57,6 @@ public class SubscriptionEdit extends DefForm {
         action.append(SR.get(SR.MS_ASK_SUBSCRIPTION));
         action.append(SR.get(SR.MS_GRANT_SUBSCRIPTION));
         action.append(SR.get(SR.MS_SUBSCR_REMOVE));
-        //action.setSelectedIndex(0);
         addControl(action);
 
         moveCursorTo(getNextSelectableRef(-1));

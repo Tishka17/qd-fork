@@ -56,9 +56,8 @@ public class LightConfigForm extends DefForm {
         return ret;
     }// indexByValue
 
-    /** Creates a new instance of ConfigForm */
-    public LightConfigForm(Display display, Displayable pView) {
-        super(display, pView, SR.get(SR.L_CONFIG));
+    public LightConfigForm() {
+        super(SR.get(SR.L_CONFIG));
 
         for( int i = 0; i < lvarray_len; i++)
             lvsteps.addElement(light_lvarray);
@@ -98,9 +97,6 @@ public class LightConfigForm extends DefForm {
            if (phoneManufacturer==Config.SIEMENS || phoneManufacturer==Config.SIEMENS2
            || phoneManufacturer==Config.SONYE || phoneManufacturer==Config.NOKIA) itemsList.addElement(lightState);
          */
-
-        attachDisplay(display);
-        this.parentView=pView;
     }
 
     public void cmdOk() {

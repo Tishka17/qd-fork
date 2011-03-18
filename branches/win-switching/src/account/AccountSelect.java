@@ -302,7 +302,7 @@ public class AccountSelect extends VirtualList implements
             Object active_acc = accountList.elementAt(activeAccount);
             if (active_acc.equals(cursor_acc)) {
                 Account acc = (Account) getFocusedObject();
-                new CommandForm(display, parentView, 2, "Form", acc, this);
+                new CommandForm(2, "Form", acc, this).show();
             }
 
         }
@@ -311,7 +311,7 @@ public class AccountSelect extends VirtualList implements
             Object active_acc = accountList.elementAt(activeAccount);
             if (active_acc.equals(cursor_acc)) {
                 Account acc = (Account) getFocusedObject();
-                new CommandForm(display, parentView, 1, "Form", acc, accountList);
+                new CommandForm(1, "Form", acc, accountList).show();
             }
         }
         if (c == cmdDel) {

@@ -30,16 +30,9 @@ package client;
 
 import java.util.*;
 import javax.microedition.lcdui.Displayable;
-import javax.microedition.lcdui.TextField;
 import locale.SR;
 import ui.*;
 import ui.MainBar;
-import ui.controls.form.CheckBox;
-import ui.controls.form.DefForm;
-import ui.controls.form.NumberInput;
-import ui.controls.form.SimpleString;
-import ui.controls.form.SpacerItem;
-import ui.controls.form.TextInput;
 //#ifndef MENU_LISTENER
 //# import javax.microedition.lcdui.CommandListener;
 //# import javax.microedition.lcdui.Command;
@@ -51,10 +44,12 @@ import menu.Command;
 import ui.GMenu;
 //#endif   
 import account.AccountSelect;
+
 /**
  *
  * @author ad,aqent
  */
+
 public class StatusSelect extends VirtualList implements
 //#ifndef MENU_LISTENER
 //#         CommandListener,
@@ -127,7 +122,7 @@ public class StatusSelect extends VirtualList implements
        ExtendedStatus ex = (ExtendedStatus)getFocusedObject();
 //#ifdef PEP
        if(-1 != ex.getName().indexOf("pep")) {
-          midlet.BombusQD.sd.roster.selectPEP.show(this, ex.usermood);
+          midlet.BombusQD.sd.roster.selectPEP.show(ex.usermood);
           return true;
        }
 //#endif

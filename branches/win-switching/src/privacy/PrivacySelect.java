@@ -78,10 +78,9 @@ public class PrivacySelect
     private Command cmdIL;
     
     JabberStream stream=StaticData.getInstance().roster.theStream;
-    
-    /** Creates a new instance of PrivacySelect */
-    public PrivacySelect(Display display, Displayable pView) {
-        super(display);
+
+    public PrivacySelect() {
+        super();
         
        cmdCancel=new Command (SR.get(SR.MS_BACK), Command.BACK, 99);
        cmdActivate=new Command (SR.get(SR.MS_ACTIVATE), Command.SCREEN, 10);
@@ -89,8 +88,6 @@ public class PrivacySelect
        cmdNewList=new Command (SR.get(SR.MS_NEW_LIST), Command.SCREEN, 12);
        cmdDelete=new Command (SR.get(SR.MS_DELETE_LIST), Command.SCREEN, 13);
        cmdIL=new Command (SR.get(SR.MS_MK_ILIST), Command.SCREEN, 16);
-    
-        this.parentView=pView;
 
         setMainBarItem(new MainBar(2, null, SR.get(SR.MS_PRIVACY_LISTS), false));
 
@@ -98,9 +95,7 @@ public class PrivacySelect
 
         setCommandListener(this);
         
-        getLists();
-        
-        //attachDisplay(display);        
+        getLists();      
     }
     
     public void commandState() {
@@ -188,7 +183,7 @@ public class PrivacySelect
     // MIDPTextBox interface
     public void OkNotify(String listName) {
         if (listName.length()>0)
-            new PrivacyModifyList(display, this, new PrivacyList(listName));
+            new PrivacyModifyList(new PrivacyList(listName)).show();
     }
     
     public int blockArrived(JabberDataBlock data){
@@ -234,7 +229,9 @@ public class PrivacySelect
     public void eventOk(){
         PrivacyList pl=(PrivacyList) getFocusedObject();
         if (pl!=null) {
-            if (pl.name!=null) new PrivacyModifyList(display, this, pl);
+            if (pl.name!=null) {
+                new PrivacyModifyList(pl).show();
+            }
         }
     }
     private void generateIgnoreList(){

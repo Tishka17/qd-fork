@@ -51,14 +51,10 @@ import ui.controls.form.TextInput;
  *
  * @author Evg_S
  */
-public class TransferAcceptFile
-        extends DefForm
-        implements BrowserListener {
+public class TransferAcceptFile extends DefForm implements BrowserListener {
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_FILE_TRANSFER");
 //#endif
-
-    private Display display;
 
     TransferTask t;
     TextInput fileName;
@@ -66,11 +62,8 @@ public class TransferAcceptFile
 
     LinkString selectFile;
 
-    /** Creates a new instance of TransferAcceptFile */
-    public TransferAcceptFile(Display display, Displayable pView, TransferTask transferTask) {
-        super(display, pView, SR.get(SR.MS_ACCEPT_FILE));
-
-        this.display=display;
+    public TransferAcceptFile(TransferTask transferTask) {
+        super(SR.get(SR.MS_ACCEPT_FILE));
 
         t=transferTask;
 
@@ -104,9 +97,6 @@ public class TransferAcceptFile
         itemsList.addElement(new MultiLine(SR.get(SR.MS_SENDER), t.jid, super.superWidth));
 
         itemsList.addElement(new MultiLine(SR.get(SR.MS_DESCRIPTION), t.description, super.superWidth));
-
-        attachDisplay(display);
-        this.parentView=pView;
     }
 
 

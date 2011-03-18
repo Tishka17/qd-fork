@@ -58,6 +58,7 @@ import menu.MenuListener;
 //#endif
 //#ifdef LIGHT_CONTROL
 import light.CustomLight;
+import midlet.BombusQD;
 //#endif
 
 
@@ -407,19 +408,8 @@ public abstract class VirtualList extends CanvasEx {
 //#endif
     }
 
-    public VirtualList(Display display) {
-        this();
-        attachDisplay(display);
-
-    }
-
-    public void attachDisplay (Display display) {
-        show();
-    }
-
-
     public void redraw(){
-        Displayable d = midlet.BombusQD.getInstance().display.getCurrent();
+        Displayable d = BombusQD.getCurrentView();
         if (d instanceof Canvas) {
             ((Canvas)d).repaint();
         }

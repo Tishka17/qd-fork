@@ -136,7 +136,7 @@ public class UserKeyExec {
             case 6:
 //#ifdef FILE_IO
 //#if FILE_TRANSFER
-                new io.file.transfer.TransferManager(display);
+                new io.file.transfer.TransferManager().show();
 //#endif
 //#endif
                 break;
@@ -157,11 +157,13 @@ public class UserKeyExec {
                 break;
             case 9:
 //#ifdef PRIVACY
-                if (connected) new PrivacySelect(display, sd.roster);
+                if (connected) {
+                    new PrivacySelect().show();
+                }
 //#endif
                 break;
             case 10: //key pound
-                new UserKeysList(display);
+                new UserKeysList().show();
                 break;
             case 11:
 //#ifdef POPUPS

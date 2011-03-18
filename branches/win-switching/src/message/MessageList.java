@@ -89,12 +89,6 @@ public abstract class MessageList extends VirtualList
         setCommandListener(this);
     }
 
-    public MessageList(Display display) {
-        this();
-        attachDisplay(display);
-    }
-
-
     protected abstract int getItemCount();
 
     public VirtualElement getItemRef(int index) {

@@ -117,7 +117,8 @@
 //#       }
 //#     }
 //#     if (c == cmdInsNick){
-//#          new AppendNickForm(display, display.getCurrent(), contact, msgTF.getCaretPosition() , msgTF, null, true); return;
+//#          new AppendNickForm(contact, msgTF.getCaretPosition() , msgTF, null, true).show();
+//#          return;
 //#     }
 //#     if (c == cmdInsMe){
 //#         msgTF.setString("/me ");

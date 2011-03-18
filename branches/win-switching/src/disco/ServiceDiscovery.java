@@ -409,7 +409,7 @@ public class ServiceDiscovery
             if(null == typeAttr) typeAttr = "-";
             if (typeAttr.equals("error")) text=XmppError.findInStanza(data).toString();
             if (text.equals(SR.get(SR.MS_DONE)) && id.endsWith("Search") ) {
-                new SearchResult(display, data);
+                new SearchResult(data).show();
             } else {
                 new AlertBox(typeAttr, text, display, null, false) {
                     public void yes() { }
@@ -488,7 +488,9 @@ public class ServiceDiscovery
 	if (c==cmdOk) eventOk();
         if (c==cmdBack) { exitDiscovery(false); }
         if (c==cmdRfsh) { if (service!=null) requestQuery(Constants.NS_INFO, "disco"); }
-        if (c==cmdSrv) { new ServerBox(display, currentDisplay, service, serviceDisco); }
+        if (c == cmdSrv) {
+            new ServerBox(service, serviceDisco).show();
+        }
         if (c==cmdFeatures) { new DiscoFeatures(display, service, features); }
         if (c==cmdCancel) exitDiscovery(true);
         if (c==cmdShowStatistics) {
@@ -674,14 +676,17 @@ public class ServiceDiscovery
                         break;
                     }
 //#ifdef PRIVACY
-                    case MenuIcons.ICON_PRIVACY:
-                        new privacy.PrivacySelect(display, view);
+                    case MenuIcons.ICON_PRIVACY: {
+                        privacy.PrivacySelect form = new privacy.PrivacySelect();
+                        form.setParentView(BombusQD.sd.roster);
+                        form.show();
                         break;
+                    }
 //#endif
 //#ifdef FILE_IO
 //#ifdef FILE_TRANSFER
                     case MenuIcons.ICON_FT:
-                        new io.file.transfer.TransferManager(display);
+                        new io.file.transfer.TransferManager().show();
                         break;
 //#endif
 //#endif
@@ -697,7 +702,7 @@ public class ServiceDiscovery
                         showIMmenu();
                         break;
                     case MenuIcons.ICON_ADD_SERVER: //add server
-                        new ServerBox(display, currentDisplay, service, serviceDisco);
+                        new ServerBox(service, serviceDisco).show();
                         break;
                     case MenuIcons.ICON_REMOVE_ICON: //remove server
                         try {

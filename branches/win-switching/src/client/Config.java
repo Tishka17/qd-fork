@@ -289,7 +289,7 @@ public class Config {
 
     public int msgEditType = 0;
     public boolean runningMessage = false;
-    public boolean debug = false;
+    public static boolean debug = false;
 
     public static boolean hasAniSmiles = true;
     public boolean showCollapsedPresences = false;

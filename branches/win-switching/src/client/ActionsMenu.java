@@ -51,8 +51,6 @@ import io.file.transfer.TransferImage;
 import io.file.transfer.TransferSendFile;
 //#endif
 //#endif
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
 import menu.Menu;
@@ -63,7 +61,6 @@ import ui.MIDPTextBox;
 import ui.MainBar;
 //#ifdef CLIPBOARD
 import ui.VirtualList;
-import ui.controls.form.DefForm;
 import util.ClipBoard;
 //#endif
 import vcard.VCard;
@@ -613,11 +610,11 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                 }
 //#ifdef FILE_IO
 //#ifdef FILE_TRANSFER
-                 case MI_SEND_FILE:
-                     new TransferSendFile(display, parentView, contact.getJid());
-                     return;
+                case MI_SEND_FILE:
+                    showForm(new TransferSendFile(contact.getJid()));
+                    return;
                 case MI_SEND_PHOTO:
-                    new TransferImage(display, parentView, contact.getJid());
+                    showForm(new TransferImage(contact.getJid()));
                     return;
 //#endif
 //#endif
@@ -659,7 +656,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                         break;
                 }
                 if (action != -1) {
-                    new QuickPrivelegyEditForm(display, parentView, mcontact, action, myNick);
+                    showForm(new QuickPrivelegyEditForm(mcontact, action, myNick));
                 }
             }
         } else if (item instanceof Group) {
@@ -673,16 +670,16 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                         new QueryConfigForm(roomjid);
                         return;
                     case MI_BANLIST:
-                        new AffiliationList(roomjid, AffiliationItem.AFFILIATION_OUTCAST).show();
+                        showForm(new AffiliationList(roomjid, AffiliationItem.AFFILIATION_OUTCAST));
                         return;
                     case MI_MEMBERLIST:
-                        new AffiliationList(roomjid, AffiliationItem.AFFILIATION_MEMBER).show();
+                        showForm(new AffiliationList(roomjid, AffiliationItem.AFFILIATION_MEMBER));
                         return;
                     case MI_ADMINLIST:
-                        new AffiliationList(roomjid, AffiliationItem.AFFILIATION_ADMIN).show();
+                        showForm(new AffiliationList(roomjid, AffiliationItem.AFFILIATION_ADMIN));
                         return;
                     case MI_OWNERLIST:
-                        new AffiliationList(roomjid, AffiliationItem.AFFILIATION_OWNER).show();
+                        showForm(new AffiliationList(roomjid, AffiliationItem.AFFILIATION_OWNER));
                         return;
                     case MI_LEAVE:
                         ((ConferenceGroup) group).leaveRoom();
@@ -695,13 +692,11 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                         ((ConferenceGroup) group).reEnterRoom();
                         return;
                     case MI_SEND_PRESENCE: {
-                        StatusSelect form = new StatusSelect(((ConferenceGroup) group).confContact);
-                        form.setParentView(getParentView());
-                        form.show();
+                        showForm(new StatusSelect(((ConferenceGroup) group).confContact));
                         return;
                     }
                     case MI_DELETE:
-                        new CommandForm(display, parentView, 0, "Form", item, null);
+                        showForm(new CommandForm(0, "Form", item, null));
                         return;
                 }
             } else {

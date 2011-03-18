@@ -25,6 +25,8 @@
  *
  */
 
+//TODO переписать!
+
 //#ifdef PEP
 package client;
 import images.ImageList;
@@ -130,7 +132,7 @@ public final class SelectPEP extends VirtualList implements
     private static Vector pep;
     private boolean isMood;
     
-    public void show(Displayable pView,boolean isMood) {
+    public void show(boolean isMood) {
         
         mainbar = new MainBar(locale.SR.get(SR.MS_SELECT));
         setMainBarItem(mainbar);
@@ -174,18 +176,13 @@ public final class SelectPEP extends VirtualList implements
         if (xLastCnt>0) lines++; else xLastCnt=xCnt;
 
         xBorder=(realWidth-(xCnt*imgWidth))/2;
-        attachDisplay(display);
-        this.parentView=pView;
-    }
-    
-    
-     /** Creates a new instance of SelectPEP */
+        super.show();
+     }
     
     private MainBar mainbar;
-    public SelectPEP(Display display) {
+    public SelectPEP() {
          mainbar = new MainBar(locale.SR.get(SR.MS_SELECT));
          setMainBarItem(mainbar);
-         this.display = display;
     }
     
     public void commandState() {
@@ -268,7 +265,7 @@ public final class SelectPEP extends VirtualList implements
                 case 12: category=null; break;                                                                
         }
         if(type>0){
-          new ActivityText(display, BombusQD.sd.roster, category, descr, getTipString() );
+          new ActivityText(category, descr, getTipString()).show();
           return;
         }
     }

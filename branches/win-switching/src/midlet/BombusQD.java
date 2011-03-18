@@ -258,6 +258,7 @@ public class BombusQD extends MIDlet implements Runnable {
     }
 
     public static void setCurrentView(Displayable d) {
+        System.out.println(d);
         display.setCurrent(d);
     }
 }

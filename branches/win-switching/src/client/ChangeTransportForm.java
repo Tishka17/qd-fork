@@ -28,8 +28,6 @@
 package client;
 
 import java.util.Enumeration;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import midlet.BombusQD;
 import ui.controls.form.DefForm;

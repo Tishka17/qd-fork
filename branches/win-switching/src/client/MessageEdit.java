@@ -379,9 +379,9 @@ public final class MessageEdit
 //#ifdef SMILES
         if (c == cmdSmile) {
             if (midlet.BombusQD.cf.msgEditType > 0) {
-                //new SmilePicker(display, display.getCurrent(), textField.getCaretPosition(), textField, null);
+                new SmilePicker(textField.getCaretPosition(), textField, null).show();
             } else {
-                //new SmilePicker(display, display.getCurrent(), t.getCaretPosition(), null, t);
+                new SmilePicker(t.getCaretPosition(), null, t).show();
             }
             return;
         }
@@ -423,7 +423,7 @@ public final class MessageEdit
             destroyView();
             return;
         } else if (c == cmdTranslate) {
-            //new TranslateSelect(display, parentView, to, body, "none", false, -1);
+            new TranslateSelect(to, body, "none", false, -1).show();
             body = null;
             return;
         } else if (c == cmdSend) {

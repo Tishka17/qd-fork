@@ -66,10 +66,9 @@ public class SearchResult
     
     private Vector items;
     boolean xData;
-    
-    /** Creates a new instance of SearchResult */
-    public SearchResult(Display display, JabberDataBlock result) {
-        super(display);
+
+    public SearchResult(JabberDataBlock result) {
+        super();
         
         cmdAdd=new Command(SR.get(SR.MS_ADD), Command.SCREEN, 1);
         String service=result.getAttribute("from");
@@ -149,8 +148,7 @@ public class SearchResult
         queryElements = new Vector(0);
         childBlocks = new Vector(0);
         sd.roster.reEnumRoster();
-        attachDisplay(display);
-    }
+     }
     
     public void commandState(){
 //#ifdef MENU_LISTENER

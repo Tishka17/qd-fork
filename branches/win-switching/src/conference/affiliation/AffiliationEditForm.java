@@ -51,13 +51,13 @@ public final class AffiliationEditForm extends DefForm {
     private String room;
     private int recentAffiliation;
 
-    public AffiliationEditForm(Display display, Displayable pView, String room, String jid, String affiliation, String reason) {
-        super(display, pView, SR.get(SR.MS_AFFILIATION));
+    public AffiliationEditForm(String room, String jid, String affiliation, String reason) {
+        super(SR.get(SR.MS_AFFILIATION));
 
         this.room = room;
 
         jidItem = new TextInput(display, SR.get(SR.MS_JID), jid, null, TextField.ANY);
-        itemsList.addElement(jidItem);
+        addControl(jidItem);
 
         affiliationItem = new DropChoiceBox(display, SR.get(SR.MS_SET_AFFILIATION));
         for (int i = 0; i <= AffiliationItem.AFFILIATION_OUTCAST; ++i) {
@@ -68,13 +68,10 @@ public final class AffiliationEditForm extends DefForm {
             }
         }
         affiliationItem.setSelectedIndex(recentAffiliation);
-        itemsList.addElement(affiliationItem);
+        addControl(affiliationItem);
 
         reasonItem = new TextInput(display, SR.get(SR.MS_REASON), reason, "reason", TextField.ANY);
-        itemsList.addElement(reasonItem);
-
-        attachDisplay(display);
-        this.parentView = pView;
+        addControl(reasonItem);
     }
 
 
@@ -119,6 +116,8 @@ public final class AffiliationEditForm extends DefForm {
                     }
                     public void no() {}
             };
-        } else modify();
+        } else {
+            modify();
+        }
     }
 }

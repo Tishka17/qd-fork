@@ -41,6 +41,7 @@ import archive.ArchiveList;
 //#endif
 import java.util.Vector;
 //#ifdef CLIPBOARD
+import midlet.BombusQD;
 import util.ClipBoard;
 //#endif
 
@@ -51,7 +52,6 @@ import util.ClipBoard;
 public final class MessageEdit
         implements CommandListener//, Runnable
 {
-    private Display display;
     private Displayable parentView;
 
     private String body;
@@ -125,7 +125,7 @@ public final class MessageEdit
 
 
     public void replaceText(Contact to, String bodyNew, Displayable pView){
-        this.parentView=pView;
+        this.parentView = pView;
         this.to = to;
          switch(midlet.BombusQD.cf.msgEditType){
             case 0: t.setString(bodyNew); break;
@@ -145,7 +145,6 @@ public final class MessageEdit
     }
 
     public void setText(String body, Contact to, Displayable pView, boolean emptyChat){
-       if(display == null) this.display = midlet.BombusQD.getInstance().display;
        this.body = body;
        this.parentView=pView;
        this.to = to;
@@ -174,7 +173,7 @@ public final class MessageEdit
                     if(t.equals(cmdInsNick)) t.removeCommand(cmdInsNick);
                     if(t.equals(cmdSubj)) t.removeCommand(cmdSubj);
                 }
-                display.setCurrent(t);
+                BombusQD.setCurrentView(t);
                 break;
             case 1:
                 if(!phoneSONYE) form.setTitle(null == to ? "Multi-Message" : to.toString());
@@ -195,7 +194,7 @@ public final class MessageEdit
                     if(form.equals(cmdInsNick)) form.removeCommand(cmdInsNick);
                     if(form.equals(cmdSubj)) form.removeCommand(cmdSubj);
                 }
-                display.setCurrent(form);
+                BombusQD.setCurrentView(form);
                 break;
        }
        if(!multiMessage) {
@@ -207,8 +206,7 @@ public final class MessageEdit
 
  //************OLD MsgEdit************
     public TextBox t;
-    public MessageEdit(Display display) {
-       this.display = display;
+    public MessageEdit() {
        if (midlet.BombusQD.cf.runningMessage)
        {
           t=new TextBox("", body, 4096 , TextField.ANY);
@@ -265,8 +263,7 @@ public final class MessageEdit
     public Ticker ticker = null;
     public TextField textField = null;//default msgEdit
 
-    public MessageEdit(Display display,boolean altMsgEdit) {
-       this.display = display;
+    public MessageEdit(boolean altMsgEdit) {
        form = new Form("");
 //#ifdef DETRANSLIT
 //#         dt=DeTranslit.getInstance();
@@ -382,9 +379,9 @@ public final class MessageEdit
 //#ifdef SMILES
         if (c == cmdSmile) {
             if (midlet.BombusQD.cf.msgEditType > 0) {
-                new SmilePicker(display, display.getCurrent(), textField.getCaretPosition(), textField, null);
+                //new SmilePicker(display, display.getCurrent(), textField.getCaretPosition(), textField, null);
             } else {
-                new SmilePicker(display, display.getCurrent(), t.getCaretPosition(), null, t);
+                //new SmilePicker(display, display.getCurrent(), t.getCaretPosition(), null, t);
             }
             return;
         }
@@ -392,9 +389,9 @@ public final class MessageEdit
 //#ifndef WMUC
         if (c == cmdInsNick) {
             if (midlet.BombusQD.cf.msgEditType > 0) {
-                new AppendNickForm(display, display.getCurrent(), to, textField.getCaretPosition(), textField, null);
+                new AppendNickForm(to, textField.getCaretPosition(), textField, null).show();
             } else {
-                new AppendNickForm(display, display.getCurrent(), to, t.getCaretPosition(), null, t);
+                new AppendNickForm(to, t.getCaretPosition(), null, t).show();
             }
             return;
         }
@@ -426,7 +423,7 @@ public final class MessageEdit
             destroyView();
             return;
         } else if (c == cmdTranslate) {
-            new TranslateSelect(display, parentView, to, body, "none", false, -1);
+            //new TranslateSelect(display, parentView, to, body, "none", false, -1);
             body = null;
             return;
         } else if (c == cmdSend) {
@@ -499,16 +496,20 @@ public final class MessageEdit
            if(null != to) {
               if(to.getChatInfo().getMessageCount()==0) {
                  midlet.BombusQD.sd.roster.showRoster();
-              } else display.setCurrent(parentView);
+              } else {
+                  BombusQD.setCurrentView(parentView);
+              }
            }
-       } else display.setCurrent(parentView);
+       } else {
+           BombusQD.setCurrentView(parentView);
+       }
     }
 
     private void send(){
        send(body,subj);
        if(emptyChat) {
            if(null != to) {
-               display.setCurrent(to.getMessageList());
+               BombusQD.setCurrentView(to.getMessageList());
                return;
            }
        }

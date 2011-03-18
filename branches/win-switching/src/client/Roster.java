@@ -231,7 +231,9 @@ public class Roster
                }
            }
 
-           new ActionsMenu(display, pView, object);
+           ActionsMenu menu = new ActionsMenu(object);
+           menu.setParentView(pView);
+           menu.show();
        }
     }
 
@@ -248,8 +250,8 @@ public class Roster
              messageEdit = altmessageEdit = null;
 
          if(null == messageEdit && null == altmessageEdit) {
-             messageEdit = new MessageEdit(display);
-             altmessageEdit = new MessageEdit(display, true);
+             messageEdit = new MessageEdit();
+             altmessageEdit = new MessageEdit(true);
          }
     }
 
@@ -583,7 +585,11 @@ public class Roster
     public void cmdClearPopups() { VirtualList.getPopUp().clear(); }
 //#endif
 //#ifndef WMUC
-   public void cmdConference() { if (isLoggedIn()) new Bookmarks(display, this, null); }
+    public void cmdConference() {
+        if (isLoggedIn()) {
+            new Bookmarks(null).show();
+        }
+    }
 //#endif
 
     public void setProgress(String pgs,int percent){
@@ -2451,7 +2457,7 @@ public class Roster
                        int index = from.indexOf('/');
                        int statusCode=Integer.parseInt( status.getAttribute("code") );
                        if(statusCode==201) {
-                           new QueryConfigForm(display,from.substring(0,index));
+                           new QueryConfigForm(from.substring(0,index));
                        }
                     }
 
@@ -3576,7 +3582,9 @@ public class Roster
             return;
         }
 //#ifndef WMUC
-        else if (keyCode==KEY_NUM1 && isLoggedIn()) new Bookmarks(display, this, null);
+        else if (keyCode==KEY_NUM1 && isLoggedIn()) {
+            new Bookmarks(null).show();
+        }
 //#endif
 
        	else if (keyCode==KEY_NUM4) {

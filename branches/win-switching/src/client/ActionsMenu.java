@@ -132,7 +132,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
 
     private Object item;
 
-    public ActionsMenu(Display display, Displayable pView, Object item) {
+    public ActionsMenu(Object item) {
         super(null, ActionsIcons.getInstance(), null);
 
         this.item = item;
@@ -360,9 +360,6 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
         }
 
         moveCursorTo(Config.getInstance().cursorPos[1]);
-
-        attachDisplay(display);
-        super.parentView = pView;
     }
 
     public void OkNotify(String annotationText) {
@@ -607,7 +604,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
 //#endif
 //#ifndef WMUC
                 case MI_INVITE:
-                    new InviteForm(display, parentView, contact);
+                    showForm(new InviteForm(contact));
                     return;
 //#endif
                 case MI_SEND_PRESENCE: {
@@ -673,19 +670,19 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
 
                 switch (mItem.index) {
                     case MI_CONFIG: // room config
-                        new QueryConfigForm(display, roomjid);
+                        new QueryConfigForm(roomjid);
                         return;
                     case MI_BANLIST:
-                        new AffiliationList(display, this, roomjid, AffiliationItem.AFFILIATION_OUTCAST);
+                        new AffiliationList(roomjid, AffiliationItem.AFFILIATION_OUTCAST).show();
                         return;
                     case MI_MEMBERLIST:
-                        new AffiliationList(display, this, roomjid, AffiliationItem.AFFILIATION_MEMBER);
+                        new AffiliationList(roomjid, AffiliationItem.AFFILIATION_MEMBER).show();
                         return;
                     case MI_ADMINLIST:
-                        new AffiliationList(display, this, roomjid, AffiliationItem.AFFILIATION_ADMIN);
+                        new AffiliationList(roomjid, AffiliationItem.AFFILIATION_ADMIN).show();
                         return;
                     case MI_OWNERLIST:
-                        new AffiliationList(display, this, roomjid, AffiliationItem.AFFILIATION_OWNER);
+                        new AffiliationList(roomjid, AffiliationItem.AFFILIATION_OWNER).show();
                         return;
                     case MI_LEAVE:
                         ((ConferenceGroup) group).leaveRoom();

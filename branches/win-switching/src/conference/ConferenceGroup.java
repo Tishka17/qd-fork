@@ -72,7 +72,9 @@ public final class ConferenceGroup extends Group{
     public void reEnterRoom() {
         String confJid = selfContact.getJid();
         String name = desc;
-        new ConferenceForm(midlet.BombusQD.getInstance().display ,midlet.BombusQD.sd.roster, name, confJid, password, false);
+
+        // FIXME check for parentView
+        new ConferenceForm(name, confJid, password, false).show();
     }
 
     public long conferenceJoinTime;

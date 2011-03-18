@@ -71,8 +71,8 @@ public final class ConferenceForm extends DefForm {
 
     BookmarkItem editConf;
 
-    public ConferenceForm(Display display, Displayable pView, String name, String confJid, String password, boolean autojoin) {
-        super(display, pView, SR.get(SR.MS_JOIN_CONFERENCE));
+    public ConferenceForm(String name, String confJid, String password, boolean autojoin) {
+        super(SR.get(SR.MS_JOIN_CONFERENCE));
 
         int roomEnd=confJid.indexOf('@');
         String room="";
@@ -86,12 +86,11 @@ public final class ConferenceForm extends DefForm {
         } else {
             server=confJid.substring(roomEnd+1);
         }
-        createForm(display, pView, name, room, server, nick, password, autojoin);
-        this.parentView=pView;
+        createForm(name, room, server, nick, password, autojoin);
     }
 
-    public ConferenceForm(Display display, Displayable pView, BookmarkItem join) {
-        super(display, pView, SR.get(SR.MS_JOIN_CONFERENCE));
+    public ConferenceForm(BookmarkItem join) {
+        super(SR.get(SR.MS_JOIN_CONFERENCE));
         if (join==null) {
             return;
         }
@@ -114,11 +113,11 @@ public final class ConferenceForm extends DefForm {
         } else {
             server=confJid.substring(roomEnd+1);
         }
-        createForm(display, pView, join.getDesc(), room, server, nick, join.getPassword(), join.isAutoJoin());
+        createForm(join.getDesc(), room, server, nick, join.getPassword(), join.isAutoJoin());
     }
 
-    public ConferenceForm(Display display, Displayable pView) {
-        super(display, pView, SR.get(SR.MS_JOIN_CONFERENCE));
+    public ConferenceForm() {
+        super(SR.get(SR.MS_JOIN_CONFERENCE));
 
         String room = Config.defConference;
         String server=null;
@@ -130,16 +129,16 @@ public final class ConferenceForm extends DefForm {
         }
         // default server
         if (server==null) server="conference."+midlet.BombusQD.sd.account.getServer();
-        createForm(display, pView, null, room, server, null, null, false);
+        createForm(null, room, server, null, null, false);
     }
 
-    public ConferenceForm(Display display, Displayable pView, String name, String room, String server, String nick, String password, boolean autojoin) {
-        super(display, pView, SR.get(SR.MS_JOIN_CONFERENCE));
+    public ConferenceForm(String name, String room, String server, String nick, String password, boolean autojoin) {
+        super(SR.get(SR.MS_JOIN_CONFERENCE));
         
-        createForm(display, pView, name, room, server, nick, password, autojoin);
+        createForm(name, room, server, nick, password, autojoin);
     }
 
-    private void createForm(Display display, Displayable pView, String name, String room, String server, String nick, final String password, boolean autojoin) {
+    private void createForm(String name, String room, String server, String nick, final String password, boolean autojoin) {
         cmdJoin=new Command(SR.get(SR.MS_JOIN), Command.SCREEN, 1);
         cmdJoin.setImg(0x43);
 
@@ -150,32 +149,30 @@ public final class ConferenceForm extends DefForm {
         cmdEdit.setImg(0x40);
 
         roomField=new TextInput(display, SR.get(SR.MS_ROOM), room, null, TextField.ANY);//, 64, TextField.ANY);
-        itemsList.addElement(roomField);
+        addControl(roomField);
 
         hostField=new TextInput(display, SR.get(SR.MS_AT_HOST), server, "muc-host", TextField.ANY);//, 64, TextField.ANY, "muc-host", display);
-        itemsList.addElement(hostField);
+        addControl(hostField);
 
         if (nick==null) nick=midlet.BombusQD.sd.account.getNickName();
         nickField=new TextInput(display, SR.get(SR.MS_NICKNAME), nick, "roomnick", TextField.ANY);//, 32, TextField.ANY, "roomnick", display);
-        itemsList.addElement(nickField);
+        addControl(nickField);
 
         msgLimitField=new NumberInput(display, SR.get(SR.MS_MSG_LIMIT), Integer.toString(midlet.BombusQD.cf.confMessageCount), 0, 100);
-        itemsList.addElement(msgLimitField);
+        addControl(msgLimitField);
 
         nameField=new TextInput(display, SR.get(SR.MS_DESCRIPTION), name, null, TextField.ANY);//, 128, TextField.ANY);
-        itemsList.addElement(nameField);
+        addControl(nameField);
 
         passField=new PasswordInput(display, SR.get(SR.MS_PASSWORD), password);//, 32, TextField.ANY | TextField.SENSITIVE );
-        itemsList.addElement(passField);
+        addControl(passField);
 
         autoJoin=new CheckBox(SR.get(SR.MS_AUTOLOGIN), autojoin);
-        itemsList.addElement(autoJoin);
+        addControl(autoJoin);
 
 	setCommandListener(this);
 
         moveCursorTo(getNextSelectableRef(-1));
-        attachDisplay(display);
-        this.parentView=pView;
     }
 
     public void commandAction(Command c, Displayable d){
@@ -209,7 +206,7 @@ public final class ConferenceForm extends DefForm {
             new BookmarkQuery(BookmarkQuery.SAVE);
             display.setCurrent(parentView);
         } else if (c==cmdAdd) {
-            new Bookmarks(display, midlet.BombusQD.sd.roster, new BookmarkItem(name, gchat.toString(), nick, pass, autojoin));
+            new Bookmarks(new BookmarkItem(name, gchat.toString(), nick, pass, autojoin)).show();
         } else if (c==cmdJoin) {
             try {
                 Config.defConference = room + "@" + host;

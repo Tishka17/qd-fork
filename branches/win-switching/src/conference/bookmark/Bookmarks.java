@@ -88,12 +88,10 @@ public final class Bookmarks
 
     private BookmarkItem toAdd;
 
-    //JabberStream stream=sd.roster.theStream;
-    /** Creates a new instance of Bookmarks */
-    public Bookmarks(Display display, Displayable pView, BookmarkItem toAdd) {
+    public Bookmarks(BookmarkItem toAdd) {
         super ();
         if (getItemCount()==0 && toAdd==null) {
-            new ConferenceForm(display, pView);
+            new ConferenceForm().show();
             return;
         }
 
@@ -107,8 +105,6 @@ public final class Bookmarks
         initCommands();//fix
 
         setCommandListener(this);
-	attachDisplay(display);
-        this.parentView=pView;
     }
 
     public void initCommands() {
@@ -235,7 +231,7 @@ public final class Bookmarks
         if (c == cmdCancel) {
             destroyView();
         } else if (c == cmdNew) {
-            new ConferenceForm(display, this);
+            new ConferenceForm().show();
             return;
         } else if (c == cmdJoin) {
             eventOk();
@@ -249,7 +245,7 @@ public final class Bookmarks
 
         if (c == cmdAdvJoin) {
             BookmarkItem join = (BookmarkItem)getFocusedObject();
-            new ConferenceForm(display, this, join);
+            new ConferenceForm(join).show();
         } else if (c == cmdDel) {
             deleteBookmark();
             setMainBarItem(new MainBar(2, null, SR.get(SR.MS_BOOKMARKS) + " (" + getItemCount() + ") ", false));
@@ -261,15 +257,15 @@ public final class Bookmarks
         }
 //#endif
         else if (c == cmdConfigure) {
-            new QueryConfigForm(display, roomJid);
+            new QueryConfigForm(roomJid);
         } else if (c == cmdRoomOwners) {
-            new AffiliationList(display, this, roomJid, AffiliationItem.AFFILIATION_OWNER);
+            new AffiliationList(roomJid, AffiliationItem.AFFILIATION_OWNER).show();
         } else if (c == cmdRoomAdmins) {
-            new AffiliationList(display, this, roomJid, AffiliationItem.AFFILIATION_ADMIN);
+            new AffiliationList(roomJid, AffiliationItem.AFFILIATION_ADMIN).show();
         } else if (c == cmdRoomMembers) {
-            new AffiliationList(display, this, roomJid, AffiliationItem.AFFILIATION_MEMBER);
+            new AffiliationList(roomJid, AffiliationItem.AFFILIATION_MEMBER).show();
         } else if (c == cmdRoomBanned) {
-            new AffiliationList(display, this, roomJid, AffiliationItem.AFFILIATION_OUTCAST);
+            new AffiliationList(roomJid, AffiliationItem.AFFILIATION_OUTCAST).show();
         } else if (c == cmdSort) {
             sort(midlet.BombusQD.sd.roster.bookmarks);
         } else if (c == cmdDoAutoJoin) {

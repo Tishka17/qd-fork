@@ -71,11 +71,7 @@ public class InfoWindow extends DefForm {
         if (midlet.BombusQD.sd.roster.isLoggedIn()) {
             addControl( new LinkString(SR.get(SR.MS_SUPPORT)) {
                 public void doAction() {
-                    new ConferenceForm(
-                            BombusQD.display,
-                            BombusQD.sd.roster,
-                            "BombusQD@",
-                            "qd@conference.jabber.ru", null, false);
+                    new ConferenceForm("BombusQD@", "qd@conference.jabber.ru", null, false).show();
                 }
             });
         }

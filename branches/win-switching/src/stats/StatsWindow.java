@@ -36,7 +36,6 @@ import client.Config;
 import client.Roster;
 import menu.Command;
 //#endif
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import midlet.Commands;

@@ -35,20 +35,16 @@ import com.alsutton.jabber.JabberBlockListener;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.Iq;
 import com.alsutton.jabber.JabberStream;
-import javax.microedition.lcdui.Display;
 
 /**
  *
  * @author EvgS
  */
+
 public class QueryConfigForm implements JabberBlockListener{
-    
-    public void destroy() {
-    }
-    private final static String OWNER_XMLNS="http://jabber.org/protocol/muc#owner";
-    private Display display;
-    /** Creates a new instance of QueryConfigForm */
-    public QueryConfigForm(Display display,String roomJid) {
+    private final static String OWNER_XMLNS = "http://jabber.org/protocol/muc#owner";
+
+    public QueryConfigForm(String roomJid) {
         JabberDataBlock getform=new Iq(roomJid, Iq.TYPE_GET, "confform");
         getform.addChildNs("query", OWNER_XMLNS);
         
@@ -56,7 +52,10 @@ public class QueryConfigForm implements JabberBlockListener{
         stream.addBlockListener(this);
         stream.send(getform);
         StaticData.getInstance().roster.setQuerySign(true);
-        this.display=display;
+    }
+
+    public void destroy() {
+
     }
     
     public int blockArrived(JabberDataBlock data) {

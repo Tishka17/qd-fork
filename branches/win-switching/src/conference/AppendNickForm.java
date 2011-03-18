@@ -31,30 +31,19 @@ package conference;
 import client.Contact;
 import client.StaticData;
 import locale.SR;
-import ui.MainBar;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextBox;
 import javax.microedition.lcdui.TextField;
 import java.util.Vector;
-import ui.VirtualElement;
 import client.Constants;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
-import menu.MenuListener;
-import menu.Command;
-//#endif
-//#ifdef GRAPHICS_MENU
-import ui.GMenu;
-import ui.GMenuConfig;
 import ui.controls.form.DefForm;
-//#endif
+
 /**
  *
  * @author EvgS,aqent
  */
+
 public class AppendNickForm extends DefForm {
     private int caretPos;
 
@@ -63,12 +52,12 @@ public class AppendNickForm extends DefForm {
 
     private boolean classic_chat=false;
 
-    public AppendNickForm(Display display, Displayable pView, Contact to, int caretPos, TextField tf,TextBox tb) {
-        this(display, pView, to, caretPos, tf, tb, false);
+    public AppendNickForm(Contact to, int caretPos, TextField tf,TextBox tb) {
+        this(to, caretPos, tf, tb, false);
     }
 
-    public AppendNickForm(Display display, Displayable pView, Contact to, int caretPos, TextField tf,TextBox tb,boolean classic_chat) {
-        super(display, pView, SR.get(SR.MS_SELECT_NICKNAME));
+    public AppendNickForm(Contact to, int caretPos, TextField tf,TextBox tb,boolean classic_chat) {
+        super(SR.get(SR.MS_SELECT_NICKNAME));
         this.caretPos = caretPos;
 
         if (midlet.BombusQD.cf.msgEditType > 0) {
@@ -83,7 +72,6 @@ public class AppendNickForm extends DefForm {
         for (int i = 0; i < contacts.size(); ++i) {
             Contact c = (Contact)contacts.elementAt(i);
             if (c.group == to.group && c.origin > Constants.ORIGIN_GROUPCHAT && c.status < Constants.PRESENCE_OFFLINE) {
-                //addControl(c);
                 nicknames.addElement(c);
             }
         }
@@ -91,9 +79,6 @@ public class AppendNickForm extends DefForm {
         for (int i = 0; i < nicknames.size(); ++i) {
             addControl(nicknames.elementAt(i));
         }
-
-        attachDisplay(display);
-        this.parentView = pView;
     }
 
     public void cmdOk() {

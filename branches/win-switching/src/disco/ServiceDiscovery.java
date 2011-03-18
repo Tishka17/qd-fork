@@ -726,7 +726,7 @@ public class ServiceDiscovery
                     if (rp>0) {
                         room=service.substring(0,rp);
                     }
-                    new ConferenceForm(display, parentView, room, service, null, false);
+                    new ConferenceForm(room, service, null, false).show();
                     break;
                 }
 //#endif

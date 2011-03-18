@@ -77,7 +77,7 @@ public final class AffiliationList extends VirtualList implements
     private Command cmdModify;
     private Command cmdNew;
 
-    public AffiliationList(Display display, Displayable pView, String room, int affiliationIndex) {
+    public AffiliationList(String room, int affiliationIndex) {
         super();
         this.room=room;
 
@@ -103,8 +103,6 @@ public final class AffiliationList extends VirtualList implements
         cmdNew.setImg(0x02);
 
         setCommandListener(this);
-        attachDisplay(display);
-        this.parentView=pView;
         getList();
     }
 
@@ -135,7 +133,7 @@ public final class AffiliationList extends VirtualList implements
 
     public void commandAction(Command c, Displayable d){
         if (c == cmdNew) {
-            new AffiliationEditForm(display, this, room, null, affiliation, "");
+            new AffiliationEditForm(room, null, affiliation, "").show();
         }
         if (c == cmdModify) {
             eventOk();
@@ -166,10 +164,9 @@ public final class AffiliationList extends VirtualList implements
     public void eventOk(){
         try {
             AffiliationItem item=(AffiliationItem)getFocusedObject();
-            new AffiliationEditForm(display, this, room, item.jid,
-					AffiliationItem.getAffiliationName(item.affiliation),
+            new AffiliationEditForm(room, item.jid, AffiliationItem.getAffiliationName(item.affiliation),
                                         (item.reason==null)? "":item.reason
-                    );
+                    ).show();
         } catch (Exception e) { }
     }
 

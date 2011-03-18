@@ -47,8 +47,8 @@ public class InviteForm extends DefForm {
     private DropChoiceBox conferenceList;
     private Contact contact;
 
-    public InviteForm(Display display, Displayable pView, Contact contact) {
-        super(display, pView, SR.get(SR.MS_INVITE));
+    public InviteForm(Contact contact) {
+        super(SR.get(SR.MS_INVITE));
         this.contact = contact;
 
         addControl(new SimpleString(contact.getName(), true));
@@ -68,9 +68,6 @@ public class InviteForm extends DefForm {
         addControl(reason);
 
         moveCursorTo(getNextSelectableRef(-1));
-
-        attachDisplay(display);
-        this.parentView = pView;
     }
 
     public void cmdOk() {

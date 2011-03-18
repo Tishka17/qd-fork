@@ -58,9 +58,8 @@ import menu.MenuListener;
 //#endif
 //#ifdef LIGHT_CONTROL
 import light.CustomLight;
-import midlet.BombusQD;
 //#endif
-
+import midlet.BombusQD;
 
 public abstract class VirtualList extends CanvasEx {
 

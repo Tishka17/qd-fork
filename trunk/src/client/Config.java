@@ -935,7 +935,9 @@ public class Config {
             outputStream.writeUTF(actCat);
 
             // free
+	    //#ifdef FILE_IO
             outputStream.writeUTF(backImgPath);
+	    //#endif
 
             outputStream.writeUTF(path_skin);
         } catch (IOException e) {
@@ -958,7 +960,9 @@ public class Config {
             actCat = inputStream.readUTF();
 
             // free
+	    //#ifdef FILE_IO
             backImgPath = inputStream.readUTF();
+	    //#endif
 
             path_skin = inputStream.readUTF();
             inputStream.close();

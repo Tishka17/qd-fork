@@ -33,11 +33,13 @@ import font.FontCache;
 import javax.microedition.lcdui.*;
 import client.Config;
 //#ifdef CLASSIC_CHAT
-//# import client.SimpleItemChat;
+import client.SimpleItemChat;
 //#endif
 import client.StaticData;
 import client.Contact;
+//#ifdef FILE_IO
 import io.file.FileIO;
+//#endif
 import locale.SR;
 //#ifdef POPUPS
 import ui.controls.PopUp;
@@ -337,6 +339,9 @@ public abstract class VirtualList
 //#ifdef BACK_IMAGE
     private static Image bgndImage = null;
 
+    public static Image getImage(int type) {
+	return bgndImage;
+    }
     public static void createImage(boolean create) {
            if(create) {
                if (bgndImage != null) {
@@ -363,7 +368,7 @@ public abstract class VirtualList
            } catch (Exception e) {
                e.printStackTrace();
 //#ifdef DEBUG_CONSOLE
-//#               midlet.BombusQD.debug.add("VL -> createImage Exception: "+e.getMessage(),10);
+              midlet.BombusQD.debug.add("VL -> createImage Exception: "+e.getMessage(),10);
 //#endif
            }
     }
@@ -448,7 +453,7 @@ public abstract class VirtualList
 
     protected void sizeChanged(int w, int h) {
 //#ifdef DEBUG_CONSOLE
-//#         midlet.BombusQD.debug.add("VirtualList::sizeChanged " + width+"x"+height + "->"+w+"x"+h ,10);
+        midlet.BombusQD.debug.add("VirtualList::sizeChanged " + width+"x"+height + "->"+w+"x"+h ,10);
 //#endif
         width=w;
         height=h;
@@ -614,7 +619,6 @@ public abstract class VirtualList
                     ((itemYpos = itemLayoutY[itemIndex] - win_top) < winHeight)) {
                 el=getItemRef(itemIndex);
                 if(el == null) continue;
-
                 drawYpos = itemBorder[0] + itemYpos;
                 boolean sel=(itemIndex==cursor);
 
@@ -637,7 +641,7 @@ public abstract class VirtualList
                 g.setColor(el.getColor());
                 g.clipRect(0, 0, itemMaxWidth, lh);
 		try {
-                el.drawItem(this, g, (sel)?offset:0, sel);
+		    el.drawItem(this, g, (sel)?offset:0, sel);
 		} catch (Exception e) {
 		}
 
@@ -648,7 +652,6 @@ public abstract class VirtualList
         } catch (Exception e) {
           //System.out.println("Exception Vlist 1 -> "+e.getMessage()+" -> "+e.toString());
         }
-
         int clrH=height-displayedBottom;
 
         if ( clrH>0
@@ -1109,9 +1112,7 @@ public abstract class VirtualList
 //#             g.fillRect(0, 0, width, h);
 //#endif
         if(midlet.BombusQD.sd.roster!=null) {
-            if (midlet.BombusQD.sd.roster.messageCount>0) drawEnvelop(g , width/2 - 5, y + 1);
-            if (System.currentTimeMillis()-sd.getTrafficIn()<2000) drawTraffic(g, false, y + 15); // y + 1 + ( 9 + 5 )
-            if (System.currentTimeMillis()-sd.getTrafficOut()<2000) drawTraffic(g, true, y + 15);
+            if (midlet.BombusQD.sd.roster.messageCount>0) drawEnvelop(g , width/2 - 5, (h-9)/2+y + 1);
         }
         setAbsOrg(g, 0, y);
         g.setColor(getMainBarRGB());
@@ -1701,9 +1702,9 @@ public abstract class VirtualList
            System.out.println("popupGreen");
             if (getPopUp().getContact()!=null) {
 //#ifdef CLASSIC_CHAT
-//#                    if(midlet.BombusQD.cf.module_classicchat){
-//#                       new SimpleItemChat(midlet.BombusQD.getInstance().display,sd.roster,sd.roster.getContact(popup.getContact(), false));
-//#                    } else {
+                   if(midlet.BombusQD.cf.module_classicchat){
+                      new SimpleItemChat(midlet.BombusQD.getInstance().display,sd.roster,sd.roster.getContact(popup.getContact(), false));
+                   } else {
 //#endif
                        Contact c = sd.roster.getContact(popup.getContact(), false);
                        if(c.getChatInfo().getMessageCount()<=0 ){
@@ -1712,7 +1713,7 @@ public abstract class VirtualList
                        }
                        midlet.BombusQD.getInstance().display.setCurrent(c.getMessageList());
 //#ifdef CLASSIC_CHAT
-//#                    }
+                   }
 //#endif
                 popup.next();
                 return;
@@ -2169,9 +2170,9 @@ public abstract class VirtualList
                             if(c!=null) c = null;
                          } catch(OutOfMemoryError eom) {
 //#ifdef DEBUG_CONSOLE
-//#                            if(midlet.BombusQD.cf.debug) {
-//#                                midlet.BombusQD.debug.add("::VList->sort->contactByMsgs",10);
-//#                            }
+                           if(midlet.BombusQD.cf.debug) {
+                               midlet.BombusQD.debug.add("::VList->sort->contactByMsgs",10);
+                           }
 //#endif
                          } catch (Exception e) {}
                          break;
@@ -2278,9 +2279,7 @@ class TimerTaskRotate extends Thread{
 
             //synchronized (this) {
                 if (scroll==0) {
-                    if (        instance.scroll()
-                            ||  instance.balloon()
-                        )
+                    if (instance.scroll() || instance.balloon())
                         try { attachedList.redraw(); } catch (Exception e) { instance=null; break; }
                 } else {
                     scroll --;

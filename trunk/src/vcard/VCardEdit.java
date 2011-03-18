@@ -12,15 +12,15 @@ package vcard;
 import client.StaticData;
 //#if (FILE_IO)
 //#ifdef DETRANSLIT
-//# import util.DeTranslit;
-//# import client.Config;
+import util.DeTranslit;
+import client.Config;
 //#endif
-import images.MenuIcons;
+
 import io.file.FileIO;
 import io.file.browse.Browser;
 import io.file.browse.BrowserListener;
 //#endif
-
+import images.MenuIcons;
 import images.camera.*;
 
 //#ifndef MENU_LISTENER
@@ -204,16 +204,16 @@ public class VCardEdit extends DefForm implements Runnable
         StringBuffer nickDate=new StringBuffer();
         nickDate.append("photo_");
 //#ifdef DETRANSLIT
-//#         String userName=(vcard.getNickName()!=null)?vcard.getNickName():vcard.getJid();
-//#         if (Config.getInstance().transliterateFilenames) {
-//#             nickDate.append(DeTranslit.translit(userName));
-//#         } else {
-//#             nickDate.append(userName);
-//#         }
+        String userName=(vcard.getNickName()!=null)?vcard.getNickName():vcard.getJid();
+        if (Config.getInstance().transliterateFilenames) {
+            nickDate.append(DeTranslit.translit(userName));
+        } else {
+            nickDate.append(userName);
+        }
 //#else
-         if (vcard.getNickName()!=null) {
-             nickDate.append(vcard.getNickName());
-         } else nickDate.append(vcard.getJid());
+//#          if (vcard.getNickName()!=null) {
+//#              nickDate.append(vcard.getNickName());
+//#          } else nickDate.append(vcard.getJid());
 //#endif
         nickDate.append("_").append(Time.dayLocalString(Time.utcTimeMillis()).trim());
         return nickDate.toString();

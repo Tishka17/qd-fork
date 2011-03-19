@@ -28,9 +28,7 @@
 //#ifdef PRIVACY
 package privacy;
 
-import client.Config;
 import client.StaticData;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import images.RosterIcons;
 //#ifndef MENU_LISTENER
@@ -39,7 +37,6 @@ import images.RosterIcons;
 //#else
 import menu.MenuListener;
 import menu.Command;
-import menu.MyMenu;
 //#endif
 import locale.SR;
 import ui.*;
@@ -47,13 +44,14 @@ import java.util.*;
 import com.alsutton.jabber.*;
 //#ifdef GRAPHICS_MENU        
 import ui.GMenu;
-//#endif 
+//#endif
+
 /**
  *
  * @author EvgS,aqent
  */
-public class PrivacyModifyList 
-        extends VirtualList 
+
+public class PrivacyModifyList extends VirtualList 
         implements
 //#ifndef MENU_LISTENER
 //#         CommandListener,
@@ -165,6 +163,7 @@ public class PrivacyModifyList
             plist.generateList();
             stream.cancelBlockListener(this);
             PrivacyList.privacyListRq(false, null, "setplists");
+
             destroyView();
         }
         

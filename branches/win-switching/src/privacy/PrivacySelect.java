@@ -28,9 +28,7 @@
 //#ifdef PRIVACY
 package privacy;
 
-import client.Config;
 import client.StaticData;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import images.RosterIcons;
@@ -40,7 +38,6 @@ import images.RosterIcons;
 //#else
 import menu.MenuListener;
 import menu.Command;
-import menu.MyMenu;
 //#endif
 import locale.SR;
 import ui.*;
@@ -159,8 +156,9 @@ public class PrivacySelect
                 getLists();
             }
         }
-        if (c==cmdNewList)
+        if (c==cmdNewList) {
             new MIDPTextBox(BombusQD.display, SR.get(SR.MS_NEW), "", this, TextField.ANY,50);
+        }
     }
     
 //#ifdef MENU_LISTENER
@@ -183,8 +181,11 @@ public class PrivacySelect
     
     // MIDPTextBox interface
     public void OkNotify(String listName) {
-        if (listName.length()>0)
-            new PrivacyModifyList(new PrivacyList(listName)).show();
+        if (listName.length()>0) {
+            PrivacyModifyList list = new PrivacyModifyList(new PrivacyList(listName));
+            list.setParentView(this);
+            list.show();
+        }
     }
     
     public int blockArrived(JabberDataBlock data){

@@ -27,7 +27,7 @@
  */
 
 package conference;
-import conference.bookmark.Bookmarks;
+
 import conference.bookmark.BookmarkItem;
 import conference.bookmark.BookmarkQuery;
 import client.*;
@@ -200,8 +200,6 @@ public final class ConferenceForm extends DefForm {
         saveMsgCount(msgLimit);
 
         if (c==cmdSave) {
-            //midlet.BombusQD.sd.roster.bookmarks.removeElement(editConf);
-            //midlet.BombusQD.sd.roster.bookmarks.insertElementAt(new BookmarkItem(name, gchat.toString(), nick, pass, autojoin), cursor);
             editConf.setJid(gchat.toString());
             editConf.setDesc(name);
             editConf.setPassword(pass);
@@ -229,9 +227,9 @@ public final class ConferenceForm extends DefForm {
 //#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
 //#endif
-        addCommand(cmdJoin); 
-        addCommand(cmdAdd); 
+        addCommand(cmdAdd);
         addCommand(cmdSave);
+        addCommand(cmdJoin); 
 //#ifndef GRAPHICS_MENU
 //#      addCommand(cmdCancel);
 //#endif

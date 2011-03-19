@@ -1225,16 +1225,17 @@ public class Roster
     int firstStatus = -1;
 
     public void sendPresence(int newStatus, String message) {
-        if (newStatus!=Constants.PRESENCE_SAME)
-            myStatus=newStatus;
+        myStatus=newStatus;
 //#ifdef AUTOSTATUS
         messageActivity();
 //#endif
-	if (message!=null) myMessage=message;
+	if (message!=null) {
+            myMessage=message;
+        }
 
         setQuerySign(false);
 
-        if (myStatus!=Constants.PRESENCE_OFFLINE) {
+        if (myStatus != Constants.PRESENCE_OFFLINE) {
              lastOnlineStatus=myStatus;
         }
 

@@ -95,7 +95,6 @@ public class ServiceDiscovery
     private JabberStream stream;
 
     private ServiceDiscovery serviceDisco;
-    private Displayable currentDisplay;
 
     public ServiceDiscovery(String service, String node, boolean search) {
         super();
@@ -203,7 +202,6 @@ public class ServiceDiscovery
             redraw();
         }
         serviceDisco = this;
-        currentDisplay = this;
         isServiceDiscoWindow = true;
     }
 
@@ -655,45 +653,35 @@ public class ServiceDiscovery
             if(userCommands) {
                 switch (icon) {
                     case MenuIcons.ICON_VCARD:
-                        Contact cs=midlet.BombusQD.sd.roster.selfContact();
-                        if (cs.vcard!=null) {
-                            VCardEdit form = new VCardEdit(cs.vcard);
-                            form.setParentView(BombusQD.sd.roster);
-                            form.show();
+                        Contact self=midlet.BombusQD.sd.roster.selfContact();
+                        if (self.vcard!=null) {
+                            showForm(new VCardEdit(self.vcard));
                           return;
                         }
-                        VCard.request(cs.bareJid, cs.getJid());
+                        VCard.request(self.bareJid, self.getJid());
                         break;
                     case MenuIcons.ICON_CONFERENCE: {
-                        Bookmarks form = new Bookmarks(null);
-                        form.setParentView(BombusQD.sd.roster);
-                        form.show();
+                        showForm(new Bookmarks(null));
                         break;
                     }
                     case MenuIcons.ICON_ADD_CONTACT: {
-                        ContactEdit form = new ContactEdit(null);
-                        form.setParentView(BombusQD.sd.roster);
-                        form.show();
+                        showForm(new ContactEdit(null));
                         break;
                     }
                     case MenuIcons.ICON_USER_SEARCH: {
-                        DiscoSearchForm form = new DiscoSearchForm(null , -1);
-                        form.setParentView(BombusQD.sd.roster);
-                        form.show();
+                        showForm(new DiscoSearchForm(null , -1));
                         break;
                     }
 //#ifdef PRIVACY
                     case MenuIcons.ICON_PRIVACY: {
-                        privacy.PrivacySelect form = new privacy.PrivacySelect();
-                        form.setParentView(BombusQD.sd.roster);
-                        form.show();
+                        showForm(new privacy.PrivacySelect());
                         break;
                     }
 //#endif
 //#ifdef FILE_IO
 //#ifdef FILE_TRANSFER
                     case MenuIcons.ICON_FT:
-                        new io.file.transfer.TransferManager().show();
+                        showForm(new io.file.transfer.TransferManager());
                         break;
 //#endif
 //#endif
@@ -759,6 +747,10 @@ public class ServiceDiscovery
         }
     }
 
+    private void showForm(VirtualList list) {
+        list.setParentView(getParentView());
+        list.show();
+    }
 
     public void showIMmenu() {
         Object add = items.elementAt(3);

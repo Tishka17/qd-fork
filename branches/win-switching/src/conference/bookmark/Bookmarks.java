@@ -42,7 +42,6 @@ import menu.MenuListener;
 import menu.Command;
 //#endif
 import javax.microedition.lcdui.Displayable;
-import javax.microedition.lcdui.Display;
 import locale.SR;
 import ui.*;
 import java.util.*;
@@ -55,8 +54,7 @@ import ui.GMenu;
  *
  * @author EvgS,aqent
  */
-public final class Bookmarks
-        extends VirtualList
+public final class Bookmarks extends VirtualList
         implements
 //#ifndef MENU_LISTENER
 //#         CommandListener

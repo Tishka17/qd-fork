@@ -27,7 +27,6 @@
 
 package conference.bookmark;
 
-import client.StaticData;
 import com.alsutton.jabber.JabberBlockListener;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.Iq;

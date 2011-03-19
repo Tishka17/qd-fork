@@ -29,8 +29,8 @@ package client;
 
 import images.RosterIcons;
 //#ifdef PEP
-//# import images.MoodIcons;
-//# import images.ActivityIcons;
+import images.MoodIcons;
+import images.ActivityIcons;
 //#endif
 import ui.IconTextElement;
 
@@ -58,13 +58,13 @@ public class ExtendedStatus extends IconTextElement{
         this.screenName=showName;
     }
 //#ifdef PEP
-//#     public ExtendedStatus(int index, String name, String showName, boolean usermood) {
-//#         super(usermood ? MoodIcons.getInstance() : ActivityIcons.getInstance());
-//#         this.index=index;
-//#         this.name=name;
-//#         this.screenName=showName;
-//#         this.usermood=usermood;
-//#     }
+    public ExtendedStatus(int index, String name, String showName, boolean usermood) {
+        super(usermood ? MoodIcons.getInstance() : ActivityIcons.getInstance());
+        this.index=index;
+        this.name=name;
+        this.screenName=showName;
+        this.usermood=usermood;
+    }
 //#endif
     //public void onSelect(VirtualList view){}
     public String toString(){ 
@@ -79,10 +79,7 @@ public class ExtendedStatus extends IconTextElement{
         }
         if (status!=null)
             if (status.length()>0) {
-                   state.append(' ')
-                     .append('"')
-                     .append(status)
-                     .append('"');
+                state.append('"').append(status).append('"');
             }
         return state.toString();
     }

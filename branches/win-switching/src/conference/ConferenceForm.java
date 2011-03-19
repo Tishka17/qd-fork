@@ -185,8 +185,8 @@ public final class ConferenceForm extends DefForm {
             return;
         }
         
-        String name=nameField.getValue();  
-        String pass=passField.getValue();
+        String name = nameField.getValue();
+        String pass = passField.getValue();
 
         int msgLimit = Integer.parseInt(msgLimitField.getValue());
         boolean autojoin = autoJoin.getValue();
@@ -200,13 +200,21 @@ public final class ConferenceForm extends DefForm {
         saveMsgCount(msgLimit);
 
         if (c==cmdSave) {
-            System.out.println("io");
-            midlet.BombusQD.sd.roster.bookmarks.removeElement(editConf);
-            midlet.BombusQD.sd.roster.bookmarks.insertElementAt(new BookmarkItem(name, gchat.toString(), nick, pass, autojoin), cursor);
+            //midlet.BombusQD.sd.roster.bookmarks.removeElement(editConf);
+            //midlet.BombusQD.sd.roster.bookmarks.insertElementAt(new BookmarkItem(name, gchat.toString(), nick, pass, autojoin), cursor);
+            editConf.setJid(gchat.toString());
+            editConf.setDesc(name);
+            editConf.setPassword(pass);
+            editConf.setNick(nick);
+            editConf.setAutoJoin(autojoin);
+
             new BookmarkQuery(BookmarkQuery.SAVE);
             destroyView();
         } else if (c==cmdAdd) {
-            new Bookmarks(new BookmarkItem(name, gchat.toString(), nick, pass, autojoin)).show();
+            midlet.BombusQD.sd.roster.bookmarks.addElement(new BookmarkItem(name, gchat.toString(), nick, pass, autojoin));
+
+            new BookmarkQuery(BookmarkQuery.SAVE);
+            destroyView();
         } else if (c==cmdJoin) {
             try {
                 Config.defConference = room + "@" + host;

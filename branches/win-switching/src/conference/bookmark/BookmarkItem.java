@@ -119,12 +119,28 @@ public final class BookmarkItem extends IconTextElement {
         return jid;
     }
 
+    public void setJid(String jid) {
+        this.jid = jid;
+    }
+
     public String getDesc() {
         return desc;
     }
 
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setNick(String nick) {
+        this.nick = nick;
     }
 
     public boolean isURL() {
@@ -133,5 +149,9 @@ public final class BookmarkItem extends IconTextElement {
 
     public boolean isAutoJoin() {
         return autojoin;
+    }
+
+    public void setAutoJoin(boolean autojoin) {
+        this.autojoin = autojoin;
     }
 }

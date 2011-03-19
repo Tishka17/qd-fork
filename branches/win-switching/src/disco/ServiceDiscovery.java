@@ -40,7 +40,6 @@ import java.util.*;
 import menu.MenuListener;
 import menu.Command;
 //#endif
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import colors.ColorTheme;
@@ -48,6 +47,7 @@ import ui.*;
 import com.alsutton.jabber.*;
 import com.alsutton.jabber.datablocks.*;
 import client.*;
+import conference.bookmark.Bookmarks;
 import io.NvStorage;
 import java.io.DataInputStream;
 import java.io.EOFException;
@@ -60,6 +60,7 @@ import vcard.*;
  *
  * @author Evg_S,aqent,tishka17
  */
+
 public class ServiceDiscovery
         extends VirtualList
         implements
@@ -213,7 +214,9 @@ public class ServiceDiscovery
     public int getItemCount(){ return items.size();}
     public VirtualElement getItemRef(int index) { return (VirtualElement) items.elementAt(index);}
 
-    //protected void beginPaint(){ getMainBarItem().setElementAt(midlet.BombusQD.sd.roster.getEventIcon(), 4); }
+    protected void beginPaint(){
+        getMainBarItem().setElementAt(midlet.BombusQD.sd.roster.getEventIcon(), 4);
+    }
 
     private void mainbarUpdate(){
         getMainBarItem().setElementAt(new Integer(discoIcon), 0);
@@ -661,10 +664,12 @@ public class ServiceDiscovery
                         }
                         VCard.request(cs.bareJid, cs.getJid());
                         break;
-                    case MenuIcons.ICON_CONFERENCE:
-                        //new Bookmarks(display, view, null);
-                        BombusQD.sd.roster.cmdConference();
+                    case MenuIcons.ICON_CONFERENCE: {
+                        Bookmarks form = new Bookmarks(null);
+                        form.setParentView(BombusQD.sd.roster);
+                        form.show();
                         break;
+                    }
                     case MenuIcons.ICON_ADD_CONTACT: {
                         ContactEdit form = new ContactEdit(null);
                         form.setParentView(BombusQD.sd.roster);

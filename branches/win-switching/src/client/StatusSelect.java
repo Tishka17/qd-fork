@@ -40,9 +40,9 @@ import ui.MainBar;
 import menu.MenuListener;
 import menu.Command;
 //#endif
-//#ifdef GRAPHICS_MENU        
+//#ifdef GRAPHICS_MENU
 import ui.GMenu;
-//#endif   
+//#endif
 import account.AccountSelect;
 
 /**
@@ -57,7 +57,7 @@ public class StatusSelect extends VirtualList implements
         MenuListener//,
 //#endif
 {
-    
+
     private Command cmdOk;
     private Command cmdEdit;
     private Command cmdDef;
@@ -69,7 +69,7 @@ public class StatusSelect extends VirtualList implements
 
     public StatusSelect(Contact to) {
         super();
-        
+
        cmdOk=new Command(SR.get(SR.MS_SELECT),Command.OK,1);
        cmdOk.setImg(0x43);
 
@@ -80,44 +80,44 @@ public class StatusSelect extends VirtualList implements
        cmdDef.setImg(0x24);
 
        cmdCancel=new Command(SR.get(SR.MS_CANCEL),Command.BACK,99);
-       
+
         statusList=StatusList.getInstance().statusList;
         this.to=to;
-        if (to==null) { 
+        if (to==null) {
             setMainBarItem(new MainBar(SR.get(SR.MS_STATUS)));
         } else {
             setMainBarItem(new MainBar(to));
         }
 
         commandState();
-        
+
         setCommandListener(this);
-        
+
         defp=midlet.BombusQD.cf.loginstatus;
         moveCursorTo(defp);
     }
-    
+
     public void commandState() {
 //#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
 //#endif
         ExtendedStatus ex = (ExtendedStatus)getFocusedObject();
         if(-1 == ex.getName().indexOf("pep")) {
-          addCommand(cmdEdit); 
-          addCommand(cmdDef);  
+          addCommand(cmdEdit);
+          addCommand(cmdDef);
         }
-        addCommand(cmdOk); 
-//#ifndef GRAPHICS_MENU        
+        addCommand(cmdOk);
+//#ifndef GRAPHICS_MENU
 //#      addCommand(cmdCancel);
-//#endif     
+//#endif
     }
-    
+
     public VirtualElement getItemRef(int Index){
         return (VirtualElement)statusList.elementAt(Index);
     }
 
     private ExtendedStatus getSel(){ return (ExtendedStatus)getFocusedObject();}
-    
+
     private boolean selectAdvancedStatus() {
        ExtendedStatus ex = (ExtendedStatus)getFocusedObject();
 //#ifdef PEP
@@ -128,13 +128,13 @@ public class StatusSelect extends VirtualList implements
 //#endif
        return false;
     }
-    
+
     public void commandAction(Command c, Displayable d){
-        if (c==cmdOk) eventOk(); 
+        if (c==cmdOk) eventOk();
         if (c==cmdEdit) {
             new StatusEditForm(getSel()).show();
         }
-        
+
         if (c==cmdDef) {
             midlet.BombusQD.cf.loginstatus=cursor;
             redraw();
@@ -143,47 +143,43 @@ public class StatusSelect extends VirtualList implements
 
         if (c==cmdCancel) destroyView();
     }
-    
+
     public void eventLongOk() {
         touchLeftPressed();
     }
 
     public void eventOk() {
         if(!selectAdvancedStatus()) {
-          destroyView();
           send();
         }
     }
-    
-    public void send(){
-        int status=getSel().getImageIndex();
-//#ifdef AUTOSTATUS
-        midlet.BombusQD.sd.roster.autoAway=false;
-        midlet.BombusQD.sd.roster.autoXa=false;
-        midlet.BombusQD.sd.roster.messageActivity();
-//#endif
-        try {
+
+    public void send() {
+        int status = getSel().getImageIndex();
+        if (to != null) {
             if (midlet.BombusQD.sd.roster.isLoggedIn()) {
                 midlet.BombusQD.sd.roster.sendDirectPresence(status, to, null);
                 midlet.BombusQD.sd.roster.setOfflineTransport();
-            } else {
-		if (midlet.BombusQD.sd.account==null)
-		    new AccountSelect(false, status).show();
-		else
-		    midlet.BombusQD.sd.roster.sendPresence(status, null);
-                midlet.BombusQD.cf.isStatusFirst=true;
             }
-        } catch (Exception e) {}
+        } else {
+            midlet.BombusQD.cf.isStatusFirst = true;
+            if (!midlet.BombusQD.sd.roster.isLoggedIn()) {
+                new AccountSelect(false, status).show();
+            } else {
+                midlet.BombusQD.sd.roster.sendPresence(status, null);
+                destroyView();
+            }
+        }
     }
-    
+
     public int getItemCount(){   return statusList.size(); }
-    
+
     public static void save(){
         StatusList.getInstance().saveStatusToStorage();
     }
-    
-//#ifdef MENU_LISTENER    
-//#ifdef GRAPHICS_MENU        
+
+//#ifdef MENU_LISTENER
+//#ifdef GRAPHICS_MENU
     public int showGraphicsMenu() {
         commandState();
         menuItem = new GMenu(this, null, menuCommands);
@@ -197,5 +193,4 @@ public class StatusSelect extends VirtualList implements
 //#     }
 //#endif
 //#endif
-
 }

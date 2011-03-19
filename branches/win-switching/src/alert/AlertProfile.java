@@ -30,7 +30,6 @@ package alert;
 
 import client.*;
 import images.RosterIcons;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import ui.*;
@@ -40,7 +39,6 @@ import ui.*;
 //#else
 import menu.MenuListener;
 import menu.Command;
-import menu.MyMenu;
 //#endif
 import ui.MainBar;
 //#ifdef GRAPHICS_MENU        

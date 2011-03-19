@@ -27,13 +27,12 @@
  */
 //#ifdef SERVICE_DISCOVERY
 package disco;
+
 import java.util.*;
-import javax.microedition.lcdui.*;
 import com.alsutton.jabber.*;
 import com.alsutton.jabber.datablocks.*;
 import ui.controls.form.DefForm;
 import ui.controls.form.SimpleString;
-import client.StaticData;
 
 /**
  *
@@ -160,7 +159,7 @@ public class DiscoForm extends DefForm {
         stream.send(req);
         req = null;
         qry = null;
-        destroyView();
+        //destroyView();
     }         
 }
 //#endif 

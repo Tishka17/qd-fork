@@ -75,8 +75,7 @@ public class TransferImage extends DefForm implements CameraImageListener {
     }
 
     public void initCamera() {
-        // FIXME
-        new CameraImage(BombusQD.display, this);
+        new CameraImage(this);
     }
 
     public void cameraImageNotify(byte[] capturedPhoto) {

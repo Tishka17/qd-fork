@@ -29,60 +29,60 @@ package ui;
 
 import javax.microedition.lcdui.*;
 import locale.SR;
+import midlet.BombusQD;
 
 /**
  *
  * @author  Eugene Stahov
  * @version
  */
-public class MIDPTextBox implements CommandListener {
-    
-    private Display display;
+
+// TODO make Ok and Back swapping, add copy/paste commands
+
+public final class MIDPTextBox implements CommandListener {
     private Displayable parentView;
     
-    protected Command cmdCancel;
-    protected Command cmdOK;
+    private Command cmdCancel;
+    private Command cmdOK;
     
     private TextBox t;
     
     private TextBoxNotify tbn;
 
-    /**
-     * constructor
-     */
     public interface TextBoxNotify {
-        void OkNotify(String text_return);
+        void OkNotify(String text);
     }
    
-    public MIDPTextBox(Display display, String mainbar, String text, TextBoxNotify tbn , int constraints,int maxLen) {
-        
+    public MIDPTextBox(String mainbar, String text, int constraints,int maxLen) {        
         cmdCancel=new Command(SR.get(SR.MS_CANCEL), Command.BACK, 99);
-        cmdOK=new Command(SR.get(SR.MS_OK), Command.OK /*GCommand.SCREEN*/, 1);
+        cmdOK=new Command(SR.get(SR.MS_OK), Command.OK, 1);
         
-        t=new TextBox(mainbar, text, maxLen, constraints);
-        
-        this.display=display;
-        this.tbn=tbn;
+        t = new TextBox(mainbar, text, maxLen, constraints);
         
         t.addCommand(cmdOK);
-        t.addCommand(cmdCancel);
-        
-        t.setCommandListener(this);
-            
-
-        parentView=display.getCurrent();
-        display.setCurrent(t);
+        t.addCommand(cmdCancel);      
     }
-    
-    /**
-     * Called when action should be handled
-     */
+
+    public void setCommandListener(TextBoxNotify notify) {
+        this.tbn = notify;
+    }
+
+    public void show() {
+        t.setCommandListener(this);
+
+        parentView = BombusQD.getCurrentView();
+        BombusQD.setCurrentView(t);
+    }
+
     public void commandAction(Command command, Displayable displayable) {
-        if (command==cmdCancel) { destroyView(); return;}
-        if (command==cmdOK) { destroyView(); tbn.OkNotify(t.getString()); return;}
+        if (command == cmdOK && tbn != null) {
+            tbn.OkNotify(t.getString());
+        }
+        destroyView();
     }
 
     public void destroyView(){
-        if (display!=null)   display.setCurrent(parentView);
+        tbn = null;
+        BombusQD.setCurrentView(parentView);
     }
 }

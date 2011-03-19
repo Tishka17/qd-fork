@@ -157,7 +157,9 @@ public class PrivacySelect
             }
         }
         if (c==cmdNewList) {
-            new MIDPTextBox(BombusQD.display, SR.get(SR.MS_NEW), "", this, TextField.ANY,50);
+            MIDPTextBox box = new MIDPTextBox(SR.get(SR.MS_NEW), null, TextField.ANY,50);
+            box.setCommandListener(this);
+            box.show();
         }
     }
     

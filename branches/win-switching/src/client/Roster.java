@@ -3482,11 +3482,11 @@ public class Roster
             case SIEMENS_FLIPCLOSE:
             case MOTOROLA_FLIP:
                 if (phoneManufacturer!=Config.SONYE) { //workaround for SE JP6 - enabling vibra in closed state
-                    BombusQD.display.setCurrent(null);
+                    BombusQD.setCurrentView(null);
                     try {
                         Thread.sleep(300);
                     } catch (Exception ex) {}
-                    BombusQD.display.setCurrent(this);
+                    BombusQD.setCurrentView(this);
                 }
 //#if DEBUG
 //#             System.out.println("Flip closed");

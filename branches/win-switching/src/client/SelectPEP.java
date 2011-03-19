@@ -209,8 +209,10 @@ public final class SelectPEP extends VirtualList implements
       if(isMood){
           if( ((String)Moods.getInstance().moodValue.lastElement()).equals(getTipString()) ) OkNotify(null); 
           else {
-            midlet.BombusQD.cf.cursorPos[3]=cursor;            
-            new MIDPTextBox(BombusQD.display, SR.get(SR.MS_USERMOOD), Moods.getInstance().myMoodText, this, TextField.ANY, 100);
+            midlet.BombusQD.cf.cursorPos[3]=cursor;
+            MIDPTextBox box = new MIDPTextBox(SR.get(SR.MS_USERMOOD), Moods.getInstance().myMoodText, TextField.ANY, 100);
+            box.setCommandListener(this);
+            box.show();
           }
       } else publishActivity();
     }

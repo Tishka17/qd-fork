@@ -89,12 +89,13 @@ public class StatusSelect extends VirtualList implements
             setMainBarItem(new MainBar(to));
         }
 
-        commandState();
-
-        setCommandListener(this);
-
         defp=midlet.BombusQD.cf.loginstatus;
         moveCursorTo(defp);
+    }
+
+    public void show() {
+        setCommandListener(this);
+        super.show();
     }
 
     public void commandState() {

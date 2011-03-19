@@ -285,8 +285,8 @@ public class Browser
                 showFile();
                 return;
             }
-            destroyView();
             browserListener.BrowserFilePathNotify(path+f);
+            destroyView();
             return;
         }
         if (!chDir(f)) {

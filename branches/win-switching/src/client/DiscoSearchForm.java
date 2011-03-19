@@ -180,7 +180,9 @@ public class DiscoSearchForm
         if (c==cmdCancel) {
             exitSearchForm();
         } else if (c==cmdAddServer) {
-            new MIDPTextBox(BombusQD.display, SR.get(SR.MS_SERVER), null, this, TextField.ANY,50);
+            MIDPTextBox box = new MIDPTextBox(SR.get(SR.MS_SERVER), null, TextField.ANY,50);
+            box.setCommandListener(this);
+            box.show();
 	} else if (c==cmdDel) {
             delServer();
         }

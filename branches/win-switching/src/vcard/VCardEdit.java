@@ -157,7 +157,7 @@ public class VCardEdit extends DefForm implements Runnable
 //#endif
 
         if (c==cmdCamera)
-            new CameraImage(BombusQD.display, this);
+            new CameraImage(this);
 
         if (c==cmdDelPhoto) {
             vcard.dropPhoto();

@@ -473,7 +473,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                     showForm(new SubscriptionEdit(contact));
                     return;
                 }
-                case MI_DELETE:
+                case MI_DELETE: {
                     AlertBox box = new AlertBox(SR.get(SR.MS_DELETE_ASK), contact.getName(), false) {
                         public void yes() {
                             BombusQD.sd.roster.deleteContact((Contact) item);
@@ -484,6 +484,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                     };
                     showForm(box);
                     return;
+                }
                 case MI_LOGOUT: {
                     midlet.BombusQD.sd.roster.blockNotify(-111, 10000);
                     Presence presence = new Presence(
@@ -553,9 +554,12 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                     BombusQD.sd.roster.setQuerySign(true);
                     BombusQD.sd.roster.theStream.send(IqTimeReply.query(contact.getJid()));
                     break;
-                case MI_ANNOTATION:
-                    new MIDPTextBox(BombusQD.display, SR.get(SR.MS_NEW), contact.annotations, this, TextField.ANY, 200);
+                case MI_ANNOTATION: {
+                    MIDPTextBox box = new MIDPTextBox(SR.get(SR.MS_NEW), contact.annotations, TextField.ANY, 200);
+                    box.setCommandListener(this);
+                    box.show();
                     return;
+                }
                 case MI_DEL_ANNOTATION:
                     OkNotify(null);
                     break;

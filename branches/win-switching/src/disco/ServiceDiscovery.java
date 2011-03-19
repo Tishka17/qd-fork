@@ -399,7 +399,7 @@ public class ServiceDiscovery
         } else if (id.startsWith("discocmd")) {
             discoIcon=0;
             DiscoForm form = new DiscoForm(data, stream, "discocmd", "command");
-            form.setParentView(BombusQD.sd.roster);
+            //form.setParentView(BombusQD.sd.roster);
             form.show();
         } else if (id.startsWith("discosrch")) {
             discoIcon=0;

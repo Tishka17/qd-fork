@@ -35,6 +35,7 @@ package images;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.microedition.lcdui.*;
+import midlet.BombusQD;
 
 /**
  *
@@ -131,8 +132,10 @@ public class AniImageList extends ImageList implements Runnable {
                     }
                 }
                 if (update) {
-                   Displayable displayable = midlet.BombusQD.getInstance().display.getCurrent();
-                   if (displayable instanceof Canvas) ((Canvas)displayable).repaint();
+                   Displayable d = BombusQD.getCurrentView();
+                   if (d instanceof Canvas) {
+                       ((Canvas)d).repaint();
+                   }
                 }
             }
             time = newTime;

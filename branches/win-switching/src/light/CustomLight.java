@@ -243,9 +243,9 @@ public final class CustomLight extends TimerTask {
 //                    break;
                 case LIGHT_MIDP20:
                     if (value > 0) {
-                        BombusQD.getInstance().display.flashBacklight(0x7FFFFFFF);
+                        BombusQD.display.flashBacklight(0x7FFFFFFF);
                     } else {
-                        BombusQD.getInstance().display.flashBacklight(0x00000000);
+                        BombusQD.display.flashBacklight(0x00000000);
                     }
                     break;
             }

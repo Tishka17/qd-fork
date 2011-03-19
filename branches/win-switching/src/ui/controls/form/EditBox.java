@@ -28,9 +28,6 @@
 package ui.controls.form;
 
 import client.Config;
-//#ifdef SMILES
-import client.SmilePicker;
-//#endif
 import io.NvStorage;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -39,13 +36,12 @@ import java.util.Enumeration;
 import java.util.Vector;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextBox;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
-//#ifdef CLIPBOARD
 import midlet.BombusQD;
+//#ifdef CLIPBOARD
 import util.ClipBoard;
 //#endif
 

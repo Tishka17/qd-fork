@@ -425,7 +425,9 @@ public final class ContactMessageList extends VirtualList implements MenuListene
             }
         }
         if (c == Commands.cmdAddSearchQuery) {
-            new MIDPTextBox(midlet.BombusQD.getInstance().display, SR.get(SR.MS_SEARCH), null, this, TextField.ANY, 30);
+            MIDPTextBox box = new MIDPTextBox(SR.get(SR.MS_SEARCH), null, TextField.ANY, 30);
+            box.setCommandListener(this);
+            box.show();
             return;
         }
 //#if BREDOGENERATOR

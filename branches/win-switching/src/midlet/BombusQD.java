@@ -46,7 +46,6 @@ import client.Config;
 import client.StaticData;
 import client.Roster;
 import ui.SplashScreen;
-import font.*;
 //#ifdef DEBUG_CONSOLE
 //# import console.debug.DebugList;
 //#endif
@@ -214,7 +213,7 @@ public class BombusQD extends MIDlet implements Runnable {
         Stats.getInstance().updateRunValue();
 //#endif
 //#ifdef AUTOTASK
-        sd.autoTask=new AutoTask(display);
+        sd.autoTask=new AutoTask();
 //#endif
     }
 

@@ -93,7 +93,7 @@ public final class AffiliationEditForm extends DefForm {
         } catch (Exception ex) {}
 
         try {
-            AffiliationList a=(AffiliationList) parentView;
+            AffiliationList a=(AffiliationList)getParentView();
             a.getList();
         } catch (Exception e) {}
         destroyView();

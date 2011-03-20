@@ -58,7 +58,7 @@ public class MyMenu extends Menu {
         if (me == null) {
             return;
         }
-        ml.commandAction(getCommand(me.index), parentView);
+        ml.commandAction(getCommand(me.index), getParentView());
     }
 
     public Command getCommand(int index) {

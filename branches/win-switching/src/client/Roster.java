@@ -2073,24 +2073,25 @@ public class Roster
 
 
                     if (id.startsWith("statistic")) {
-                                 JabberDataBlock get_query = data.findNamespace("query","http://jabber.org/protocol/stats");
-                                 String server_name = data.getAttribute("from");
-                                 int size=get_query.getChildBlocks().size();
-                                 CommandForm cmd = new CommandForm(5 , "" , null, null);
+                        JabberDataBlock get_query = data.findNamespace("query", "http://jabber.org/protocol/stats");
+                        String server_name = data.getAttribute("from");
+                        int size = get_query.getChildBlocks().size();
+                        CommandForm cmd = new CommandForm(5, "", null, null);
 
-                                 JabberDataBlock value;
-                                  try {
-                                      int pos = 1;
-                                      for (int i=0;i<size;i++){
-                                          value = (JabberDataBlock)get_query.getChildBlocks().elementAt(i);
-                                          cmd.addControl(new MultiLine(value.getAttribute("name"), value.getAttribute("value"), cmd.superWidth));
-                                          pos++;
-                                      }
-                                 } catch (Exception e) {}
-                                 cmd.addObject(server_name, 0, 0);
-                                 cmd.show();
-                                 get_query=null;
-                      }
+                        JabberDataBlock value;
+                        try {
+                            for (int i = 0; i < size; i++) {
+                                value = (JabberDataBlock)get_query.getChildBlocks().elementAt(i);
+                                MultiLine line = new MultiLine(value.getAttribute("name"), value.getAttribute("value"), cmd.getWidth());
+                                line.setSelectable(true);
+                                cmd.addControl(line);
+                            }
+                        } catch (Exception e) {
+                        }
+                        cmd.addObject(server_name, 0, 0);
+                        cmd.show();
+                        get_query = null;
+                    }
 
 
 

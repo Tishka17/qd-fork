@@ -103,6 +103,10 @@ public  class DropChoiceBox extends IconTextElement {
         }
     }
 
+    public String getCaption() {
+        return caption;
+    }
+
     public int getValue() {
         return index;
     }

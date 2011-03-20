@@ -512,7 +512,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
 //#endif
 //#ifdef HISTORY
                 case MI_HISTORY: {
-                    BombusQD.sd.roster.showHistory(parentView, contact);
+                    BombusQD.sd.roster.showHistory(getParentView(), contact);
                     return;
                 }
 //#endif

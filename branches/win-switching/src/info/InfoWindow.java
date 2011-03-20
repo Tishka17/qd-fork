@@ -55,7 +55,7 @@ public class InfoWindow extends DefForm {
 
         item = new MultiLine(Version.getName(), Version.getVersionNumber()
                 + "\n" + Config.platformName
-                + "\nMobile Jabber client", super.superWidth);
+                + "\nMobile Jabber client", getWidth());
 
         item.setSelectable(true);
         addControl(item);
@@ -122,7 +122,7 @@ public class InfoWindow extends DefForm {
 
 //#ifdef TOUCH
         if (midlet.BombusQD.cf.isTouchPhone) {
-            item = new MultiLine("Easter Egg", "Press link under this text", super.superWidth);
+            item = new MultiLine("Easter Egg", "Press link under this text", getWidth());
             item.setSelectable(true);
             addControl(item);
 
@@ -137,7 +137,7 @@ public class InfoWindow extends DefForm {
         } else 
 //#endif
         {
-            item = new MultiLine("Easter Egg:", "Press 5-1-2 keys to lock/unlock new options", super.superWidth);
+            item = new MultiLine("Easter Egg:", "Press 5-1-2 keys to lock/unlock new options", getWidth());
             item.setSelectable(true);
             addControl(item);
         }
@@ -145,7 +145,7 @@ public class InfoWindow extends DefForm {
         item = new MultiLine("Copyright (c) 2005-2011",
                 "Eugene Stahov (evgs,Bombus);\nDaniel Apatin (ad,BombusMod);\nAlexej Kotov(aqent,BombusQD);\n"
                 + "Andrey Tikhonov(Tishka17,BombusQD)\n"
-                + "Distributed under GPL v2 License", super.superWidth);
+                + "Distributed under GPL v2 License", getWidth());
         item.setSelectable(true);
         addControl(item);
 
@@ -157,7 +157,7 @@ public class InfoWindow extends DefForm {
                 + "Jimm Dev's for back.png ;)\n"
                 + "Windows Fonts: magdelphi(mobilab.ru)"
                 + "\nMathFP library"
-                + "\nSmiles Author: Copyright (c) Aiwan. Kolobok smiles", super.superWidth);
+                + "\nSmiles Author: Copyright (c) Aiwan. Kolobok smiles", getWidth());
         item.setSelectable(true);
         addControl(item);
 
@@ -199,7 +199,7 @@ public class InfoWindow extends DefForm {
         memInfo.append(SR.get(SR.MS_FREE)).append(freemem).append("\n");
         memInfo.append(SR.get(SR.MS_TOTAL)).append(totalmem);
 
-        item = new MultiLine(SR.get(SR.MS_MEMORY), memInfo.toString(), super.superWidth);
+        item = new MultiLine(SR.get(SR.MS_MEMORY), memInfo.toString(), getWidth());
         item.setSelectable(true);
         addControl(item);
 

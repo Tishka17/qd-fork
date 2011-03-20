@@ -94,9 +94,9 @@ public class TransferAcceptFile extends DefForm implements BrowserListener {
         selectFile=new LinkString(SR.get(SR.MS_PATH)) { public void doAction() { initBrowser(); } };
         itemsList.addElement(selectFile);
 
-        itemsList.addElement(new MultiLine(SR.get(SR.MS_SENDER), t.jid, super.superWidth));
+        itemsList.addElement(new MultiLine(SR.get(SR.MS_SENDER), t.jid, getWidth()));
 
-        itemsList.addElement(new MultiLine(SR.get(SR.MS_DESCRIPTION), t.description, super.superWidth));
+        itemsList.addElement(new MultiLine(SR.get(SR.MS_DESCRIPTION), t.description, getWidth()));
     }
 
 

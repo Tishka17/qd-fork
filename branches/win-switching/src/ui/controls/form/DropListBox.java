@@ -23,7 +23,7 @@ public class DropListBox extends DefForm {
     private DropChoiceBox cb;
 
     public DropListBox(Vector listItems, DropChoiceBox cb) {
-        super();
+        super(cb.getCaption());
 
         this.listItems = listItems;
         this.cb = cb;

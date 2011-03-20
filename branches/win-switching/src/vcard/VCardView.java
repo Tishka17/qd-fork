@@ -141,7 +141,7 @@ public class VCardView extends DefForm
 
                 if (data != null && name != null) {
                     if (!VCard.vCardFields.elementAt(index).equals("URL")) {
-                        MultiLine item = new MultiLine(name, data, super.superWidth);
+                        MultiLine item = new MultiLine(name, data, getWidth());
                         item.setSelectable(true);
                         addControl(item);
                     } else {

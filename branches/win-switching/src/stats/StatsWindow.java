@@ -103,7 +103,7 @@ public class StatsWindow extends DefForm {
         sb.append(SR.get(SR.MS_APPRUN_COUNT))
           .append(st.appRunCount);
 
-        MultiLine item = new MultiLine( null, sb.toString(), super.superWidth);
+        MultiLine item = new MultiLine( null, sb.toString(), getWidth());
         item.selectable=true;
         itemsList.addElement(item);
     }

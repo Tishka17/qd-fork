@@ -67,8 +67,6 @@ public final class CommandForm extends DefForm {
     private static final int STATS_ITEM=5;
     private static final int HISTORY_ITEM=6;
 
-    public CommandForm(){};
-
     public void addObject(Object res, int current, int size){
         sb = new StringBuffer(0);
         if(current != 0) {
@@ -107,7 +105,7 @@ public final class CommandForm extends DefForm {
                 break;
             }
             case _CHANGE_PASS_RMS:{
-                itemsList.addElement(new MultiLine(SR.get(SR.MS_NEW_PASSWORD), (String)res, super.superWidth));
+                itemsList.addElement(new MultiLine(SR.get(SR.MS_NEW_PASSWORD), (String)res, getWidth()));
                 itemsList.addElement(new SimpleString(SR.get(SR.MS_COPY)+"?", true));
                 itemsList.addElement(new SimpleString(SR.get(SR.MS_EDIT_ACCOUNT_MSG), true));
                 break;

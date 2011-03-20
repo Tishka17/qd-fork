@@ -16,7 +16,7 @@ import midlet.BombusQD;
  */
 
 public abstract class CanvasEx extends Canvas {
-    protected Displayable parentView;
+    private Displayable parentView;
 
     public CanvasEx() {
         setFullScreenMode(Config.fullscreen);

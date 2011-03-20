@@ -125,7 +125,7 @@ public class GetFileServer extends DefForm implements Runnable {
                     addControl(item);
                 } else {
                     if (name.startsWith("*")) {
-                        MultiLine line = new MultiLine(null, name, super.superWidth);
+                        MultiLine line = new MultiLine(null, name, getWidth());
                         line.setSelectable(true);
 
                         addControl(line);

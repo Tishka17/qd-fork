@@ -78,7 +78,7 @@ public final class QuickPrivelegyEditForm extends DefForm {
         this.action=action;
         this.myNick=myNick;
 
-	String okName = SR.get(SR.MS_OK);
+	String okName;
 
         switch (action) {
             case KICK:
@@ -87,16 +87,10 @@ public final class QuickPrivelegyEditForm extends DefForm {
             case OUTCAST:
 		okName=SR.get(SR.MS_BAN);
                 break;
-            case VISITOR:
-		okName=SR.get(SR.MS_OK);
-                break;
-            case PARTICIPANT:
-		okName=SR.get(SR.MS_OK);
-                break;
             default:
-                setMucMod();
-                return;
-        } // switch
+                okName=SR.get(SR.MS_OK);
+                break;
+        }
 
         getMainBarItem().setElementAt(okName, 0);
 
@@ -122,10 +116,6 @@ public final class QuickPrivelegyEditForm extends DefForm {
     public void cmdOk() {
         setMucMod();
         destroyView();
-    }
-
-    public void destroyView(){
-        display.setCurrent(StaticData.getInstance().roster);
     }
 
 //#ifndef MENU
@@ -212,6 +202,5 @@ public final class QuickPrivelegyEditForm extends DefForm {
         }
 
         StaticData.getInstance().roster.theStream.send(iq);
-
     }
 }

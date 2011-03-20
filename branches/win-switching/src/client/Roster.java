@@ -301,7 +301,6 @@ public class Roster
         if(selectPEP == null) selectPEP = new SelectPEP();
 //#endif
 
-        midlet.BombusQD.getInstance().s.setExit(BombusQD.display, this);
 //#ifdef AUTOSTATUS
         if (midlet.BombusQD.cf.autoAwayType==Config.AWAY_IDLE || midlet.BombusQD.cf.autoAwayType==Config.AWAY_MESSAGE)
             autostatus=new AutoStatusTask(false);
@@ -3563,8 +3562,8 @@ public class Roster
                 }
             }
 //#endif
-            midlet.BombusQD.getInstance().s = new SplashScreen(BombusQD.display, getMainBarItem(), midlet.BombusQD.cf.keyLock);
-            //midlet.BombusQD.getInstance().s.createSnow();
+            midlet.BombusQD.getInstance().s = new SplashScreen(getMainBarItem(), midlet.BombusQD.cf.keyLock);
+            midlet.BombusQD.getInstance().s.show();
             return;
         } else if (keyCode==midlet.BombusQD.cf.keyVibra || keyCode==MOTOE680_FMRADIO /* TODO: redefine keyVibra*/) {
             // swap profiles

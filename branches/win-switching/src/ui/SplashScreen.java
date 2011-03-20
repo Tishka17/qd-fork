@@ -46,11 +46,7 @@ import ui.controls.Progress;
  *
  * @author Eugene Stahov
  */
-public class SplashScreen extends Canvas implements CommandListener {
-
-    private Display display;
-    private Displayable parentView;
-
+public class SplashScreen extends CanvasEx implements CommandListener {
     private String capt;
     private int pos=-1;
 
@@ -74,15 +70,17 @@ public class SplashScreen extends Canvas implements CommandListener {
 
     private Progress pb;
 
-    public static SplashScreen getInstance(Display display){
-        if (instance==null) instance=new SplashScreen(display);
+    public static SplashScreen getInstance(){
+        if (instance==null) {
+            instance=new SplashScreen();
+        }
         return instance;
     }
 
     /** Creates a new instance of SplashScreen */
-    public SplashScreen(Display display) {
+    public SplashScreen() {
         super();//true - getKeyState,false - keyPressed
-        this.display = display;
+
         setFullScreenMode(Config.fullscreen);
         try {
             if (img==null) {
@@ -94,20 +92,16 @@ public class SplashScreen extends Canvas implements CommandListener {
         }
     }
 
-   public SplashScreen(Display display, ComplexString status, char exitKey) {
+   public SplashScreen(ComplexString status, char exitKey) {
         super();
         setFullScreenMode(Config.fullscreen);
 
         this.status=status;
-        this.display=display;
         this.exitKey=exitKey;
         kHold=exitKey;
 
-        parentView=display.getCurrent();
-
         status.setElementAt(new Integer(RosterIcons.ICON_KEYBLOCK_INDEX),6);
         repaint();
-        run();
 
         tc=new TimerTaskClock();
         //setFullScreenMode(midlet.BombusQD.cf.fullscreen);
@@ -191,26 +185,15 @@ public class SplashScreen extends Canvas implements CommandListener {
     // close splash
     private Command cmdExit=new Command("Hide", Command.BACK, 99);
 
-    public void setExit(Display display, Displayable nextDisplayable){
-        this.display=display;
-        parentView=nextDisplayable;
-        setCommandListener(this);
-        addCommand(cmdExit);
-    }
-
     public void commandAction(Command c, Displayable d) {
         if (c==cmdExit)
             close();
     }
 
     public void close(){
-        display.setCurrent(midlet.BombusQD.sd.roster);
+        destroyView();
         instance=null;
         System.gc();
-    }
-
-    public void run() {
-        display.setCurrent(this);
     }
 
     private class TimerTaskClock extends TimerTask {
@@ -267,15 +250,8 @@ public class SplashScreen extends Canvas implements CommandListener {
                 destroyView();
     }
 
-    private void destroyView(){
+    public void destroyView() {
         status.setElementAt(null,6);
-        if (display!=null) display.setCurrent(parentView);
-        /*
-        if(snow != null){
-           snow.destroyView();
-           snow = null;
-        }
-         */
         tc.stop();
 //#ifdef AUTOSTATUS
         if (midlet.BombusQD.sd.roster.autoAway && midlet.BombusQD.cf.autoAwayType==Config.AWAY_LOCK) {
@@ -288,6 +264,7 @@ public class SplashScreen extends Canvas implements CommandListener {
         }
 //#endif
         System.gc();
+        super.destroyView();
     }
 
     public void getKeys() {

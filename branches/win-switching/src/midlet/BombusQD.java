@@ -159,8 +159,8 @@ public class BombusQD extends MIDlet implements Runnable {
         ClientsIconsData.initClients();
 //#endif
 
-        s = SplashScreen.getInstance(display);
-        display.setCurrent(s);
+        s = SplashScreen.getInstance();
+        s.show();
 
         s.setProgress("Loading", 3);
 

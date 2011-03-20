@@ -226,7 +226,8 @@ public class Roster
     public final void showActionsMenu(Displayable pView, Object object) {
        if (isLoggedIn()) {
            if (object instanceof Group) {
-               if (((Group)object).type == Groups.TYPE_TRANSP) {
+               int type = ((Group)object).type;
+               if (type == Groups.TYPE_TRANSP || type == Groups.TYPE_SELF) {
                    return;
                }
            }

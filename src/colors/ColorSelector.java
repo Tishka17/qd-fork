@@ -48,25 +48,20 @@ public class ColorSelector extends DefForm implements Runnable {
     int timer;
     boolean exit;
 
-    private int value;
-    private int paramName;
-
-    private int color;
-
     private int py;
     private int ph;
 
     private int boxY, boxW;
 
-    public ColorSelector(Display display, ColorsList list, String caption, int param) {
-        super(display, list, caption);
+    private ColorVisualItem item;
 
-        this.paramName=param;
+    public ColorSelector(Display display, ColorsList list, ColorVisualItem item) {
+        super(display, list, item.toString());
 
-        this.color=ColorTheme.getColor(param);
+        this.item = item;
 
         this.font = FontCache.getFont(false, FontCache.SMALL);
-        this.fontH= font.getHeight();
+        this.fontH = font.getHeight();
 
         w = getWidth() - scrollbar.getScrollWidth();
         h = getHeight();
@@ -84,18 +79,24 @@ public class ColorSelector extends DefForm implements Runnable {
         py = h - h / 10;
         ph = h - h * 3 / 10;
 
-        if (param == 49) {
-            alpha = midlet.BombusQD.cf.argb_bgnd;
-        } else if (param == 50) {
-            alpha = midlet.BombusQD.cf.gmenu_bgnd;
-        } else if (param == 40) {
-            alpha = midlet.BombusQD.cf.popup_bgnd;
-        } else if (param == 42) {
-            alpha = midlet.BombusQD.cf.popup_bgnd;
-        } else if (param == 34) {
-            alpha = midlet.BombusQD.cf.cursor_bgnd;
+        // TODO remove magic keys
+        switch (item.getIndex()) {
+            case 49:
+                alpha = midlet.BombusQD.cf.argb_bgnd;
+                break;
+            case 50:
+                alpha = midlet.BombusQD.cf.gmenu_bgnd;
+                break;
+            case 40:
+            case 42:
+                alpha = midlet.BombusQD.cf.popup_bgnd;
+                break;
+            case 34:
+                alpha = midlet.BombusQD.cf.cursor_bgnd;
+                break;
         }
 
+        int color = ColorTheme.getColor(item.getIndex());
         red=ColorTheme.getRed(color);
         green=ColorTheme.getGreen(color);
         blue=ColorTheme.getBlue(color);
@@ -168,7 +169,8 @@ public class ColorSelector extends DefForm implements Runnable {
         g.fillArc(pxblue, py - ph - h * 7 / 100, w / 10 - 1, h / 10 - 1, 0, 180);
         g.fillArc(pxblue, py - h * 3 / 100, w / 10 - 1, h / 10 - 1, 180, 180);
 
-        if (paramName == 49 || paramName == 50 || paramName == 40 || paramName == 42 || paramName == 34) {
+        int index = item.getIndex();
+        if (index == 49 || index == 50 || index == 40 || index == 42 || index == 34) {
             int pxalpha = (w * 6 / 7);
             int pspxalpha = (ph * alpha) / 255;
             g.setColor(0);
@@ -190,13 +192,14 @@ public class ColorSelector extends DefForm implements Runnable {
             super.pointerPressed(x, y);
         }
 
+        int index = item.getIndex();
         if (x > 3 * w / 7 && x < (3 * w / 7 + w / 10)) {
             cpos = 0;
         } else if (x > (4 * w / 7) && x < (4 * w / 7 + w / 10)) {
             cpos = 1;
         } else if (x > (5 * w / 7) && x < (5 * w / 7 + w / 10)) {
             cpos = 2;
-        } else if ((paramName == 49 || paramName == 50 || paramName == 40 || paramName == 42 || paramName == 34)
+        } else if ((index == 49 || index == 50 || index == 40 || index == 42 || index == 34)
                 && (x > (6 * w / 7) && x < (6 * w / 7 + w / 10))) {
             cpos = 3;
         } else {
@@ -283,8 +286,9 @@ public class ColorSelector extends DefForm implements Runnable {
     }
 
     private void moveCursorLeft() {
-        if (paramName == 49
-                || paramName == 50 || paramName == 40 || paramName == 42 || paramName == 34) {
+        int index = item.getIndex();
+        if (index == 49
+                || index == 50 || index == 40 || index == 42 || index == 34) {
             cpos -= 1;
             if (cpos < 0) {
                 cpos = 3;
@@ -299,8 +303,9 @@ public class ColorSelector extends DefForm implements Runnable {
     }
 
     private void moveCursorRight() {
-        if (paramName == 49
-                || paramName == 50 || paramName == 40 || paramName == 42 || paramName == 34) {
+        int index = item.getIndex();
+        if (index == 49
+                || index == 50 || index == 40 || index == 42 || index == 34) {
             cpos += 1;
             if (cpos > 3) {
                 cpos = 0;
@@ -326,14 +331,6 @@ public class ColorSelector extends DefForm implements Runnable {
             movePoint();
             movePoint();
         }
-    }
-
-    public void setValue(int vall) {
-        this.value=vall;
-        ColorTheme.setColor(paramName, value);
-        ColorTheme.saveToStorage();
-
-        ((ColorsList)parentView).setColor(paramName, value);
     }
 
     private void movePoint() {
@@ -374,18 +371,33 @@ public class ColorSelector extends DefForm implements Runnable {
     }
 
     private void applyChanges() {
-        if (paramName == 49) {
-            midlet.BombusQD.cf.argb_bgnd = alpha;
-        } else if (paramName == 50) {
-            midlet.BombusQD.cf.gmenu_bgnd = alpha;
-        } else if (paramName == 40 || paramName == 42) {
-            midlet.BombusQD.cf.popup_bgnd = alpha;
-        } else if (paramName == 34) {
-            midlet.BombusQD.cf.cursor_bgnd = alpha;
+        switch (item.getIndex()) {
+            case 49:
+                midlet.BombusQD.cf.argb_bgnd = alpha;
+                break;
+            case 50:
+                 midlet.BombusQD.cf.gmenu_bgnd = alpha;
+                break;
+            case 40:
+            case 42:
+                midlet.BombusQD.cf.popup_bgnd = alpha;
+                break;
+            case 34:
+                midlet.BombusQD.cf.cursor_bgnd = alpha;
+                break;
         }
+
         String val = ColorTheme.ColorToString(red, green, blue);
         int finalColor = ColorTheme.getColorInt(val);
-        setValue(finalColor);
+
+        System.out.println(red + green + blue);
+        System.out.println(finalColor);
+
+        item.setColor(finalColor);
+
+        ColorTheme.setColor(item.getIndex(), finalColor);
+        ColorTheme.saveToStorage();
+
         exit = true;
     }
 }

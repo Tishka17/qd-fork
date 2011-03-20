@@ -106,10 +106,6 @@ public class ColorsList extends DefForm {
         attachDisplay(display);
     }
 
-    public final void setColor(int index, int value) {
-        ((ColorVisualItem)itemsList.elementAt(index)).setColor(value);
-    }
-
     public String touchLeftCommand() {
         return SR.get(SR.MS_SELECT);
     }
@@ -125,7 +121,7 @@ public class ColorsList extends DefForm {
     private void showColorSelector() {
         ColorVisualItem item = (ColorVisualItem)getFocusedObject();
 
-        new ColorSelector(display, this, item.toString(), item.getIndex());
+        new ColorSelector(display, this, item);
     }
 }
 //#endif

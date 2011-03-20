@@ -251,8 +251,10 @@ public class SplashScreen extends CanvasEx implements CommandListener {
     }
 
     public void destroyView() {
-        status.setElementAt(null,6);
-        tc.stop();
+        if (status != null) {
+            status.setElementAt(null,6);
+            tc.stop();
+        }
 //#ifdef AUTOSTATUS
         if (midlet.BombusQD.sd.roster.autoAway && midlet.BombusQD.cf.autoAwayType==Config.AWAY_LOCK) {
             int newStatus=midlet.BombusQD.sd.roster.oldStatus;

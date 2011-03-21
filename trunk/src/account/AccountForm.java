@@ -25,8 +25,10 @@
  * along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
+
 package account;
 
+import java.util.Random;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
@@ -36,7 +38,7 @@ import ui.controls.form.DefForm;
 import ui.controls.form.LinkString;
 import ui.controls.form.NumberInput;
 import ui.controls.form.TextInput;
-import java.util.Random;
+import ui.controls.form.PasswordInput;
 import ui.controls.form.SpacerItem;
 //#ifdef CLIPBOARD
 import util.ClipBoard;
@@ -59,23 +61,21 @@ public class AccountForm extends DefForm {
 //#elif HTTPPOLL
 //#       private CheckBox pollingbox;
 //#endif
-    //private CheckBox registerbox;
     private NumberInput keepAlive;
     private DropChoiceBox keepAliveType;
 //#if HTTPPOLL || HTTPCONNECT
 //#     private TextInput proxyHost;
 //#     private TextInput proxyPort;
 //#endif
-    Account account;
-    boolean newaccount;
-    boolean showExtended;
-    LinkString link_genPass;
-    LinkString link_genServer;
-    LinkString insertpass;
+    private Account account;
+    private boolean newaccount;
+    private boolean showExtended;
+
+    private LinkString insertpass;
     private int type_profile = -1;
     boolean register = false;
     boolean createSimpleAddForm = false;
-    String serverReg = "";
+    private String serverReg = "";
 
     public static final byte PROFILE_JABBER = 1;
     public static final byte PROFILE_YANDEX = 2;
@@ -123,7 +123,7 @@ public class AccountForm extends DefForm {
         String server = register ? serverReg : "";
         String password = account.getPassword();
         int port_box = 5222;
-        boolean generatePaswForm = register;
+
         if (!register) {
             switch (type_profile) {
                 case -1:
@@ -152,7 +152,7 @@ public class AccountForm extends DefForm {
                     break;
             }
         } else {
-            password = generate(1);
+            password = generate();
         }
 
         uid = new StringBuffer(0);
@@ -171,38 +171,41 @@ public class AccountForm extends DefForm {
                 }
             }
         } else {
-            uid//.append(generate(2))
-                    .append('@').append(server);
+            uid.append('@').append(server);
         }
         fulljid = new TextInput(display, SR.get(SR.MS_USER_PROFILE) + "(JID)", uid.toString(), null, TextField.ANY);
         nickbox = new TextInput(display, SR.get(SR.MS_NICKNAME), account.getNick(), null, TextField.ANY);
-        itemsList.addElement(nickbox);
-        itemsList.addElement(fulljid);
+        addControl(nickbox);
+        addControl(fulljid);
 
 
-        passbox = new TextInput(display, SR.get(SR.MS_PASSWORD), password, null, TextField.ANY);
-        itemsList.addElement(passbox);
+        if (register) {
+            passbox = new TextInput(display, SR.get(SR.MS_PASSWORD), password, null, TextField.ANY);
+        } else {
+            passbox = new PasswordInput(display, SR.get(SR.MS_PASSWORD), password);
+        }        
+        addControl(passbox);
 
         createSimpleAddForm = (null == serverReg && newaccount);//true if add,false if edit
-        if (generatePaswForm) {
-            link_genPass = new LinkString(SR.get(SR.MS_GENERATE) + " " + SR.get(SR.MS_PASSWORD))   {
+        if (register) {
+            addControl(new LinkString(SR.get(SR.MS_GENERATE) + " " + SR.get(SR.MS_PASSWORD))   {
                 public void doAction() {
-                    passbox.setValue(generate(1));
+                    passbox.setValue(generate());
                 }
-            };
-            itemsList.addElement(link_genPass);
-            itemsList.addElement(new SpacerItem(5));
+            });
+
+            addControl(new SpacerItem(5));
         }
 
         portbox = new NumberInput(display, SR.get(SR.MS_PORT), Integer.toString(port_box), 0, 65535);
         if (!createSimpleAddForm) {
-            itemsList.addElement(portbox);
+            addControl(portbox);
         }
 
         emailbox = new TextInput(display, "E-mail:", account.getEmail(), null, TextField.EMAILADDR);
         if (midlet.BombusQD.cf.userAppLevel == 1) {
             if (!createSimpleAddForm) {
-                itemsList.addElement(emailbox);
+                addControl(emailbox);
             }
         }
 
@@ -217,8 +220,8 @@ public class AccountForm extends DefForm {
                     }
                 };
                 if (!createSimpleAddForm) {
-                    itemsList.addElement(new SpacerItem(3));
-                    itemsList.addElement(insertpass);
+                    addControl(new SpacerItem(3));
+                    addControl(insertpass);
                 }
             }
         }
@@ -250,42 +253,26 @@ public class AccountForm extends DefForm {
         }
     }
 
-    private String generate(int type) {
+    private static final int PASSWORD_LEN = 9;
+
+    private String generate() {
         StringBuffer sb = new StringBuffer(0);
-        if (type == 0) {
-            Random rand = new Random();
-            int i = 0;
-            String[] servers = {
-                "jabber.ru", "jabbim.com", "jabbus.org", "xmpp.ru", "jtalk.ru",
-                "mytlt.ru", "gajim.org", "jabber.org.by"};
-            i = Math.abs(rand.nextInt()) % 8;
-            sb.append(servers[i]);
-        } else if (type == 1) {
-            Random rand = new Random();
-            int i = 0;
-            char[] chars = {
-                'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',
-                'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z',
-                'x', 'c', 'v', 'b', 'n', 'm', 'Q', 'W', 'E', 'R',
-                'T', 'Y', 'U', 'I', 'O', 'P', 'A', 'S', 'D', 'F',
-                'G', 'H', 'J', 'K', 'L', 'Z', 'X', 'C', 'V', 'B',
-                'N', 'M', '0', '1', '2', '3', '4', '5', '6', '7',
-                '8', '9'}; //62
-            char[] pass = {'*', '*', '*', '*', '*', '*', '*', '*'};
-            for (int k = 0; k < pass.length; k++) {
-                i = Math.abs(rand.nextInt()) % 62;
-                pass[k] = chars[i];
-            }
-            sb.append(pass);
-        } else if (type == 2) { //generate nickname
-            Random rand = new Random();
-            sb.append("nick");
-            int i = 0;
-            for (int k = 0; k < 8; k++) {
-                i = Math.abs(rand.nextInt()) % 10;
-                sb.append(i);
-            }
+        Random rand = new Random();
+
+        char[] chars = {
+            'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',
+            'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z',
+            'x', 'c', 'v', 'b', 'n', 'm', 'Q', 'W', 'E', 'R',
+            'T', 'Y', 'U', 'I', 'O', 'P', 'A', 'S', 'D', 'F',
+            'G', 'H', 'J', 'K', 'L', 'Z', 'X', 'C', 'V', 'B',
+            'N', 'M', '0', '1', '2', '3', '4', '5', '6', '7',
+            '8', '9'};
+
+        for (int i = 0; i < PASSWORD_LEN; ++i) {
+            int index = Math.abs(rand.nextInt()) % chars.length;
+            sb.append(chars[index]);
         }
+
         return sb.toString();
     }
 
@@ -358,14 +345,14 @@ public class AccountForm extends DefForm {
 //#endif
 
         if (!createSimpleAddForm) {
-            itemsList.addElement(sslbox);
-            itemsList.addElement(plainPwdbox);
-            itemsList.addElement(compressionBox);
-            itemsList.addElement(confOnlybox);
+            addControl(sslbox);
+            addControl(plainPwdbox);
+            addControl(compressionBox);
+            addControl(confOnlybox);
 //#if HTTPCONNECT
-//#        itemsList.addElement(proxybox);
+//#        addControl(proxybox);
 //#elif HTTPPOLL
-//#        itemsList.addElement(pollingbox);
+//#        addControl(pollingbox);
 //#endif
         }
 
@@ -377,8 +364,8 @@ public class AccountForm extends DefForm {
         keepAliveType.setSelectedIndex(account.getKeepAliveType());
         keepAlive = new NumberInput(display, SR.get(SR.MS_KEEPALIVE_PERIOD), Integer.toString(account.getKeepAlivePeriod()), 10, 2048);
         if (!createSimpleAddForm) {
-            itemsList.addElement(keepAliveType);
-            itemsList.addElement(keepAlive);
+            addControl(keepAliveType);
+            addControl(keepAlive);
 //#if HTTPCONNECT
 //# 	proxyHost = new TextInput(display, SR.get(SR.MS_PROXY_HOST), account.getProxyHostAddr(), null, TextField.URL);
 //#
@@ -386,15 +373,15 @@ public class AccountForm extends DefForm {
 //#elif HTTPPOLL
 //# 	proxyHost = new TextInput(display, SR.get(SR.MS_PROXY_HOST), account.getProxyHostAddr(), null, TextField.URL);
 //#endif
-            itemsList.addElement(ipbox);
+            addControl(ipbox);
 
 
 
 //#if HTTPCONNECT
-//# 	itemsList.addElement(proxyHost);
-//# 	itemsList.addElement(proxyPort);
+//# 	addControl(proxyHost);
+//# 	addControl(proxyPort);
 //#elif HTTPPOLL
-//# 	itemsList.addElement(proxyHost);
+//# 	addControl(proxyHost);
 //#endif
         }
     }

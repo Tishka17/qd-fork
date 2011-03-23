@@ -44,6 +44,7 @@ import menu.Command;
 import ui.GMenu;
 //#endif
 import account.AccountSelect;
+import midlet.BombusQD;
 
 /**
  *
@@ -165,7 +166,9 @@ public class StatusSelect extends VirtualList implements
         } else {
             midlet.BombusQD.cf.isStatusFirst = true;
             if (!midlet.BombusQD.sd.roster.isLoggedIn()) {
-                new AccountSelect(false, status).show();
+                AccountSelect select = new AccountSelect(false, status);
+                select.setParentView(BombusQD.sd.roster);
+                select.show();
             } else {
                 midlet.BombusQD.sd.roster.sendPresence(status, null);
                 destroyView();

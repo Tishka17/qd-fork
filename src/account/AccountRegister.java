@@ -45,6 +45,7 @@ public class AccountRegister
         Runnable {
     private Display display;
     private Displayable parentView;
+    private Displayable accountselect;
     private Account raccount;
     private JabberStream theStream;
     private SplashScreen splash;
@@ -52,9 +53,10 @@ public class AccountRegister
     private Command cmdCancel;
 
     /** Creates a new instance of AccountRegister */
-    public AccountRegister(Account account, Display display, Displayable pView) {
+    public AccountRegister(Account account, Display display, Displayable pView, Displayable accountselect) {
         this.display = display;
         this.parentView = pView;
+        this.accountselect = accountselect;
         raccount = account;
 
         cmdOK = new Command(SR.get(SR.MS_OK), Command.OK, 1);
@@ -110,12 +112,14 @@ public class AccountRegister
             String mainbar = SR.get(SR.MS_DONE);
             if (type.equals("result")) {
                 splash.removeCommand(cmdCancel);
+                if (parentView instanceof AccountForm) {((AccountForm)parentView).destroyView();}
+                splash.setExit(display, accountselect);
             } else {
                 splash.removeCommand(cmdCancel);
                 mainbar = SR.get(SR.MS_ERROR_) + XmppError.findInStanza(data).toString();
+                splash.setExit(display, parentView);
             }
             splash.setProgress(mainbar, pgs);
-            splash.setExit(display, parentView);
 
             theStream.close();
         }

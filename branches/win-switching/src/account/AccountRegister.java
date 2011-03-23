@@ -26,13 +26,13 @@
  *
  */
 
-/*
 package account;
 
 import com.alsutton.jabber.*;
 import com.alsutton.jabber.datablocks.*;
 import javax.microedition.lcdui.*;
 import locale.SR;
+import midlet.BombusQD;
 import ui.*;
 import xmpp.XmppError;
 
@@ -41,27 +41,27 @@ public class AccountRegister
         JabberListener,
         CommandListener,
         Runnable {
-    private Display display;
-    private Displayable parentView;
+    private Displayable accountselect;
     private Account raccount;
     private JabberStream theStream;
     private SplashScreen splash;
-    private Command cmdOK;
     private Command cmdCancel;
 
-    public AccountRegister(Account account, Display display, Displayable pView) {
-        this.display = display;
-        this.parentView = pView;
+    public AccountRegister(Account account, Displayable accountselect) {
+        this.accountselect = accountselect;
         raccount = account;
 
-        cmdOK = new Command(SR.get(SR.MS_OK), Command.OK, 1);
         cmdCancel = new Command(SR.get(SR.MS_BACK), Command.BACK, 2);
 
         splash = midlet.BombusQD.getInstance().s;
         splash.setProgress(SR.get(SR.MS_STARTUP), 5);
-        display.setCurrent(splash);
         splash.addCommand(cmdCancel);
         splash.setCommandListener(this);
+        
+        System.out.println(splash.getParentView());
+
+        splash.show();
+
         new Thread(this).start();
     }
 
@@ -106,13 +106,13 @@ public class AccountRegister
             String type = data.getTypeAttribute();
             String mainbar = SR.get(SR.MS_DONE);
             if (type.equals("result")) {
-                splash.removeCommand(cmdCancel);
+                //if (parentView instanceof AccountForm) {((AccountForm)parentView).destroyView();}
+                splash.setParentView(accountselect);
             } else {
-                splash.removeCommand(cmdCancel);
                 mainbar = SR.get(SR.MS_ERROR_) + XmppError.findInStanza(data).toString();
             }
+            splash.removeCommand(cmdCancel);
             splash.setProgress(mainbar, pgs);
-            splash.setExit(display, parentView);
 
             theStream.close();
         }
@@ -126,13 +126,6 @@ public class AccountRegister
             theStream.close();
         } catch (Exception e) {
         }
-        destroyView();
-    }
-
-    public void destroyView() {
-        if (display != null) {
-            display.setCurrent(parentView);
-        }
+        splash.close();
     }
 }
-*/

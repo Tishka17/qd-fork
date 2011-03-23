@@ -27,6 +27,8 @@ public abstract class CanvasEx extends Canvas {
             parentView = BombusQD.getCurrentView();
         }        
         BombusQD.setCurrentView(this);
+
+        System.out.println("show " + this + " [" + parentView + "]");
     }
 
     protected void showNotify() {
@@ -36,6 +38,9 @@ public abstract class CanvasEx extends Canvas {
     public void destroyView() {
         if (parentView != null) {
             BombusQD.setCurrentView(parentView);
+            parentView = null;
+
+            System.out.println("destroy " + this);
         }
     }
 

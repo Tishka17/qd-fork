@@ -101,7 +101,7 @@ public class DefForm extends VirtualList
     }
 
     public void destroyView() {
-        int size = itemsList.size();
+        /*int size = itemsList.size();
         Object obj;
         for (int i = 0; i < size; ++i) {
             obj = (Object)itemsList.elementAt(i);
@@ -112,7 +112,8 @@ public class DefForm extends VirtualList
                 ((NumberInput)obj).destroy();
             }
         }
-        itemsList.removeAllElements();
+        itemsList.removeAllElements();*/
+        itemsList = null;
         super.destroyView();
     }
 

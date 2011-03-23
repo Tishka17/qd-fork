@@ -28,7 +28,6 @@
 package account;
 
 import client.*;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import ui.*;
@@ -333,14 +332,6 @@ public class AccountSelect extends VirtualList implements
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public void touchRightPressed() {
-        destroyView();
-    }
-
-    public void destroyView() {
-        midlet.BombusQD.sd.roster.show();
     }
 
     private void delAccount() {

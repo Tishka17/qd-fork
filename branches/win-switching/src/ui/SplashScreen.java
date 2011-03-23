@@ -191,8 +191,12 @@ public class SplashScreen extends CanvasEx implements CommandListener {
     }
 
     public void close(){
-        destroyView();
-        instance=null;
+        if (getParentView() == null) {
+            setParentView(midlet.BombusQD.sd.roster);
+        }
+        super.destroyView();
+
+        instance = null;
         System.gc();
     }
 

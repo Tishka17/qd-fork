@@ -175,7 +175,9 @@ public class BombusQD extends MIDlet implements Runnable {
             Account.loadAccount(cf.autoLogin, cf.accountIndex, -1);
 	    sd.roster.show();
 	} else {
-	    new AccountSelect(false, 0).show();
+            AccountSelect select = new AccountSelect(false, 0);
+            select.setParentView(sd.roster);
+	    select.show();
 	}
 
         rmsVersion(false, sd.roster);
@@ -258,7 +260,6 @@ public class BombusQD extends MIDlet implements Runnable {
     }
 
     public static void setCurrentView(Displayable d) {
-        System.out.println(d);
         display.setCurrent(d);
     }
 }

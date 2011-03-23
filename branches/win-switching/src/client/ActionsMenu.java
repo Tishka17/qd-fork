@@ -633,19 +633,19 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                 switch (mItem.index) {
                     case MI_KICK:
                         action = QuickPrivelegyEditForm.KICK;
-                        return;
+                        break;
                     case MI_BAN:
                         action = QuickPrivelegyEditForm.OUTCAST;
-                        return;
+                        break;
                     case MI_VOICE:
                         action = QuickPrivelegyEditForm.PARTICIPANT;
-                        return;
+                        break;
                     case MI_DEVOICE:
                         action = QuickPrivelegyEditForm.VISITOR;
-                        return;
+                        break;
                     case MI_ADD_MODER:
                         action = QuickPrivelegyEditForm.MODERATOR;
-                        return;
+                        break;
                     case MI_MEMBER:
                         action = QuickPrivelegyEditForm.MEMBER;
                         break;
@@ -663,6 +663,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                 }
                 if (action != -1) {
                     showForm(new QuickPrivelegyEditForm(mcontact, action, myNick));
+                    return;
                 }
             }
         } else if (item instanceof Group) {

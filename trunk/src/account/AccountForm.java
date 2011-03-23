@@ -444,10 +444,14 @@ public class AccountForm extends DefForm {
 
         if (newaccount) {
             accountSelect.addAccount(account);
+            newaccount = false;
         }
         accountSelect.rmsUpdate();
-
-        destroyView();
-        account = null;
+        if (!register) {
+            destroyView();
+            account = null;
+        } else {
+            new AccountRegister(account, display, this, accountSelect);
+        }
     }
 }

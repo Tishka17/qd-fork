@@ -1112,8 +1112,10 @@ public abstract class VirtualList
 //#             g.fillRect(0, 0, width, h);
 //#endif
         if(midlet.BombusQD.sd.roster!=null) {
-            if (midlet.BombusQD.sd.roster.messageCount>0) drawEnvelop(g , width/2 - 5, (h-9)/2+y + 1);
+            if (midlet.BombusQD.sd.roster.messageCount>0) drawEnvelop(g , width/2 - 5, (h-15)/2 + y + 1);
         }
+        if (System.currentTimeMillis()-sd.getTrafficIn()<2000) drawTraffic(g, false, (h-15)/2 + y + 15);
+        if (System.currentTimeMillis()-sd.getTrafficOut()<2000) drawTraffic(g, true, (h-15)/2 + y + 15);
         setAbsOrg(g, 0, y);
         g.setColor(getMainBarRGB());
         infobar.drawItem(this, g,(phoneManufacturer==Config.NOKIA && reverse)?20:0,false);

@@ -204,7 +204,10 @@ public class SplashScreen extends Canvas implements CommandListener {
     }
 
     public void close(){
-        display.setCurrent(midlet.BombusQD.sd.roster);
+        if (parentView == null)
+            display.setCurrent(midlet.BombusQD.sd.roster);
+        else
+            display.setCurrent(parentView);
         instance=null;
         System.gc();
     }

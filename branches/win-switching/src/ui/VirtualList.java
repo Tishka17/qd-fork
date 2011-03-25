@@ -1857,7 +1857,7 @@ public abstract class VirtualList extends CanvasEx {
 //#          }
 //#endif
 //#         if (sendEvent(keyCode)) {
-//#             repaint();
+//#             redraw();
 //#             return;
 //#         }
 //#ifdef USER_KEYS
@@ -1951,7 +1951,7 @@ public abstract class VirtualList extends CanvasEx {
 //#                 }
 //#             } catch (Exception e) {/* IllegalArgumentException @ getGameAction */}
 //#         }
-//#         repaint();
+//#         redraw();
 //#endif
     }
 

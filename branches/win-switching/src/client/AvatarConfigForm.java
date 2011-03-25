@@ -38,6 +38,7 @@ import ui.controls.form.LinkString;
 import java.util.Vector;
 //#ifdef FILE_IO
 import io.file.FileIO;
+import midlet.BombusQD;
 import ui.controls.form.PathSelector;
 //#endif
 import util.StringUtils;
@@ -111,7 +112,7 @@ public class AvatarConfigForm extends DefForm {
                         addControl(new SimpleString("Update Success!", true));
                         addControl(new SimpleString("Time: " + Long.toString(s2 - s1) + " msec", true));
                         addControl(new SpacerItem(10));
-                        repaint();
+                        redraw();
                     }
                 }
 

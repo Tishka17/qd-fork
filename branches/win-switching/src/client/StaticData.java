@@ -30,6 +30,7 @@ package client;
 import account.Account;
 //#ifdef AUTOTASK
 import autotask.AutoTask;
+import ui.VirtualCanvas;
 //#endif
 
 /**
@@ -39,8 +40,11 @@ import autotask.AutoTask;
 
 public class StaticData {    
     private static StaticData sd;    
-    public Roster roster;    
+
+    public Roster roster;
     public Account account;
+
+    public VirtualCanvas canvas;
 
 //#ifdef AUTOTASK
     public AutoTask autoTask;

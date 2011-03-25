@@ -62,6 +62,7 @@ import ui.controls.AlertBox;
 import io.NvStorage;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import ui.VirtualCanvas;
 
 /** Entry point class
  *
@@ -158,6 +159,8 @@ public class BombusQD extends MIDlet implements Runnable {
 //#ifdef CLIENTS_ICONS
         ClientsIconsData.initClients();
 //#endif
+
+        sd.canvas = new VirtualCanvas();
 
         s = SplashScreen.getInstance();
         s.show();
@@ -261,5 +264,7 @@ public class BombusQD extends MIDlet implements Runnable {
 
     public static void setCurrentView(Displayable d) {
         display.setCurrent(d);
+
+        System.out.println(d);
     }
 }

@@ -407,12 +407,12 @@ public abstract class VirtualList extends CanvasEx {
 //#endif
     }
 
-    public void redraw(){
+    /*public void redraw(){
         Displayable d = BombusQD.getCurrentView();
         if (d instanceof Canvas) {
             ((Canvas)d).repaint();
         }
-    }
+    }*/
 
 
     protected void hideNotify() {
@@ -438,7 +438,8 @@ public abstract class VirtualList extends CanvasEx {
         mHeight=0;
 //#endif
         if (!isDoubleBuffered()) offscreen=Image.createImage(width, height);
-        repaint();
+        //repaint();
+        redraw();
     }
 
     protected void beginPaint(){};
@@ -1263,7 +1264,7 @@ public abstract class VirtualList extends CanvasEx {
 
         if (getItemRef(index).isSelectable()) cursor=index;
         stickyWindow=true;
-        repaint();
+        redraw();
     }
 
     public void moveCursorTo(int index, boolean force){
@@ -1272,7 +1273,7 @@ public abstract class VirtualList extends CanvasEx {
         if (index>=count) index=count-1;
         cursor=index;
         stickyWindow=true;
-        repaint();
+        redraw();
     }
 
     protected void fitCursorByTop(){
@@ -1339,7 +1340,7 @@ public abstract class VirtualList extends CanvasEx {
         if(gm.itemGrMenu>0){
             if(null != menuItem) {
                 menuItem.pointerPressed(x, y);
-                repaint();
+                redraw();
             }
             return;
         }
@@ -1400,7 +1401,7 @@ public abstract class VirtualList extends CanvasEx {
         //lastClickItem=cursor;
 
         if(cursor==-1) cursor = 0;
-        repaint();
+        redraw();
    }
 
 
@@ -1411,7 +1412,7 @@ public abstract class VirtualList extends CanvasEx {
             if(null != menuItem) {
                 menuItem.pointerPressed(x, y);
                 if (clickTime-lastPaint>80) {
-                    repaint();
+                    redraw();
                 }
             }
             return;
@@ -1421,7 +1422,7 @@ public abstract class VirtualList extends CanvasEx {
       if (pointer_state == client.Constants.POINTER_SCROLLBAR) {
             scrollbar.pointerDragged(x, y, this);
             if (clickTime-lastPaint>80) {
-                    repaint();
+                    redraw();
             }
             stickyWindow=false;
             return;
@@ -1435,7 +1436,7 @@ public abstract class VirtualList extends CanvasEx {
       if (win_top<0) win_top=0;
       stickyWindow=false;
       if (clickTime-lastPaint>80) {
-                    repaint();
+                    redraw();
       }
       return;
     }
@@ -1448,7 +1449,7 @@ public abstract class VirtualList extends CanvasEx {
         if(gm.itemGrMenu>0){
             if(null != menuItem && y>lastClickY-7 && y<lastClickY+7) {
                 menuItem.pointerReleased(x, y);
-                repaint();
+                redraw();
             }
             lastClickTime=clickTime;
             lastClickX=x;
@@ -1502,7 +1503,7 @@ public abstract class VirtualList extends CanvasEx {
                 eventLongOk();
             } else {
                 if (pointer_state == client.Constants.POINTER_SECOND) eventOk();
-                repaint();
+                redraw();
             }
         }
     }
@@ -1635,7 +1636,7 @@ public abstract class VirtualList extends CanvasEx {
     public void touchLeftPressed(){
 //#ifdef GRAPHICS_MENU
          gm.itemGrMenu = showGraphicsMenu();
-         repaint();
+         redraw();
 //#else
 //#         showMenu();
 //#endif
@@ -1669,7 +1670,7 @@ public abstract class VirtualList extends CanvasEx {
 //#ifdef GRAPHICS_MENU
      if(gm.itemGrMenu>0 && midlet.BombusQD.cf.graphicsMenu ) { //�������� ����
          if(null != menuItem) menuItem.keyPressed(keyCode);
-         repaint();
+         redraw();
      }
      else{
 
@@ -1734,7 +1735,7 @@ public abstract class VirtualList extends CanvasEx {
 //#          }
 //#endif
         if (sendEvent(keyCode)) {
-            repaint();
+            redraw();
             return;
         }
 //#ifdef USER_KEYS
@@ -1832,7 +1833,7 @@ public abstract class VirtualList extends CanvasEx {
                 }
             } catch (Exception e) {/* IllegalArgumentException @ getGameAction */}
         }
-        repaint();
+        redraw();
      }
 //#else
 //#if DEBUG

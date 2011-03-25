@@ -114,6 +114,8 @@ public class DefForm extends VirtualList
         }
         itemsList.removeAllElements();*/
         itemsList = null;
+        itemsList = new Vector(0);
+
         super.destroyView();
     }
 

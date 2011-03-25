@@ -8,6 +8,7 @@ package ui;
 import client.Config;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Displayable;
+import javax.microedition.lcdui.Graphics;
 import midlet.BombusQD;
 
 /**
@@ -24,11 +25,11 @@ public abstract class CanvasEx extends Canvas {
 
     public void show() {
         if (parentView == null) {
-            parentView = BombusQD.getCurrentView();
+            parentView = BombusQD.sd.canvas.getCanvas();
         }        
-        BombusQD.setCurrentView(this);
+        BombusQD.sd.canvas.show(this);
 
-        System.out.println("show " + this + " [" + parentView + "]");
+        //System.out.println("show " + this + " [" + parentView + "]");
     }
 
     protected void showNotify() {
@@ -37,10 +38,14 @@ public abstract class CanvasEx extends Canvas {
 
     public void destroyView() {
         if (parentView != null) {
-            BombusQD.setCurrentView(parentView);
+            if (parentView instanceof CanvasEx) {
+                BombusQD.sd.canvas.show((CanvasEx)parentView);
+            } else {
+                BombusQD.setCurrentView(parentView);
+            }
             parentView = null;
 
-            System.out.println("destroy " + this);
+            //System.out.println("destroy " + this);
         }
     }
 
@@ -51,4 +56,18 @@ public abstract class CanvasEx extends Canvas {
     public final void setParentView(Displayable d) {
         parentView = d;
     }
+
+    public void redraw() {
+        BombusQD.sd.canvas.repaint();
+    }
+
+    protected abstract void paint(Graphics g);
+
+    protected void keyPressed(int code) {};
+    protected void keyRepeated(int code) {};
+    protected void keyReleased(int code) {};
+
+    protected void pointerPressed(int x, int y) {};
+    protected void pointerDragged(int x, int y) {};
+    protected void pointerReleased(int x, int y) {};
 }

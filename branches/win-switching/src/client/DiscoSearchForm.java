@@ -37,7 +37,6 @@ import java.util.Vector;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
-import ui.MIDPTextBox;
 import ui.MainBar;
 import ui.VirtualElement;
 import ui.VirtualList;
@@ -60,11 +59,15 @@ import midlet.BombusQD;
 //#ifdef GRAPHICS_MENU        
 import ui.GMenu;
 import ui.GMenuConfig;
-//#endif 
+//#endif
+import ui.controls.form.InputTextBox;
+import ui.controls.form.InputTextBoxNotify;
+
 /**
  *
  * @author ad,aqent
  */
+
 public class DiscoSearchForm
         extends VirtualList 
         implements
@@ -73,7 +76,7 @@ public class DiscoSearchForm
 //#else
         MenuListener
 //#endif
-        , MIDPTextBox.TextBoxNotify
+        , InputTextBoxNotify
     { 
     
     private Command cmdSearch;
@@ -180,8 +183,8 @@ public class DiscoSearchForm
         if (c==cmdCancel) {
             exitSearchForm();
         } else if (c==cmdAddServer) {
-            MIDPTextBox box = new MIDPTextBox(SR.get(SR.MS_SERVER), null, TextField.ANY,50);
-            box.setCommandListener(this);
+            InputTextBox box = new InputTextBox(SR.get(SR.MS_SERVER), null, 50, TextField.ANY);
+            box.setNotifyListener(this);
             box.show();
 	} else if (c==cmdDel) {
             delServer();
@@ -193,7 +196,7 @@ public class DiscoSearchForm
     }
     
     
-    public void OkNotify(String server) {
+    public void okNotify(String server) {
         addServer(server);
     }    
     private void loadDefaults() {

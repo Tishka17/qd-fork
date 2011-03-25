@@ -164,7 +164,7 @@ public class ArchiveList extends MessageList {
         super.commandAction(c, d);
 
         if (c == cmdNew) {
-            new ArchiveEdit(this, -1, this);
+            new ArchiveEdit(-1, this).show();
         } else if (c == cmdDelete) {
             keyClear();
         } else if (c == cmdDeleteAll) {
@@ -177,7 +177,7 @@ public class ArchiveList extends MessageList {
         } else if (c == cmdJid) {
             pasteData(2);
         } else if (c == cmdEdit) {
-            new ArchiveEdit(this, cursor, this);
+            new ArchiveEdit(cursor, this).show();
 //#ifdef IMPORT_EXPORT
 //#ifdef FILE_IO
         } else if (c == cmdExport) {

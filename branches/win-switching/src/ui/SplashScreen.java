@@ -101,7 +101,7 @@ public class SplashScreen extends CanvasEx implements CommandListener {
         kHold=exitKey;
 
         status.setElementAt(new Integer(RosterIcons.ICON_KEYBLOCK_INDEX),6);
-        repaint();
+        redraw();
 
         tc=new TimerTaskClock();
         //setFullScreenMode(midlet.BombusQD.cf.fullscreen);
@@ -165,7 +165,7 @@ public class SplashScreen extends CanvasEx implements CommandListener {
 
     public void setProgress(int progress) {
         pos=progress;
-        repaint();
+        redraw();
     }
 
     public void setFailed(){
@@ -207,8 +207,7 @@ public class SplashScreen extends CanvasEx implements CommandListener {
             t.schedule(this, 10, 20000);
         }
         public void run() {
-            repaint();
-            //serviceRepaints();
+            redraw();
         }
         public void stop(){
             cancel();

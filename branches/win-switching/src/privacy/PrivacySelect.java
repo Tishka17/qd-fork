@@ -44,13 +44,16 @@ import ui.*;
 import java.util.*;
 import com.alsutton.jabber.*;
 //#ifdef GRAPHICS_MENU        
-import midlet.BombusQD;
 import ui.GMenu;
-//#endif 
+//#endif
+import ui.controls.form.InputTextBox;
+import ui.controls.form.InputTextBoxNotify;
+
 /**
  *
  * @author EvgS,aqent
  */
+
 public class PrivacySelect 
         extends VirtualList 
         implements
@@ -59,8 +62,7 @@ public class PrivacySelect
 //#else
         MenuListener,
 //#endif
-        JabberBlockListener,
-        MIDPTextBox.TextBoxNotify
+        JabberBlockListener, InputTextBoxNotify
 {
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_PRIVACY");
@@ -157,9 +159,9 @@ public class PrivacySelect
             }
         }
         if (c==cmdNewList) {
-            MIDPTextBox box = new MIDPTextBox(SR.get(SR.MS_NEW), null, TextField.ANY,50);
-            box.setCommandListener(this);
-            box.show();
+            InputTextBox input = new InputTextBox(SR.get(SR.MS_NEW), null, 50, TextField.ANY);
+            input.setNotifyListener(this);
+            input.show();
         }
     }
     
@@ -180,9 +182,8 @@ public class PrivacySelect
 //#endif    
 
 //#endif
-    
-    // MIDPTextBox interface
-    public void OkNotify(String listName) {
+
+    public void okNotify(String listName) {
         if (listName.length()>0) {
             PrivacyModifyList list = new PrivacyModifyList(new PrivacyList(listName));
             list.setParentView(this);

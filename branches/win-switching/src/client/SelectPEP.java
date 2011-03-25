@@ -46,7 +46,6 @@ import ui.controls.Balloon;
 import menu.MenuListener;
 import menu.Command;
 //#endif
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.TextField;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Graphics;
@@ -58,7 +57,8 @@ import mood.MoodPublishResult;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.Iq;
 import locale.Activity;
-import midlet.BombusQD;
+import ui.controls.form.InputTextBox;
+import ui.controls.form.InputTextBoxNotify;
 
 /**
  *
@@ -66,7 +66,7 @@ import midlet.BombusQD;
  */
 
 public final class SelectPEP extends VirtualList implements  
-        MenuListener, VirtualElement, MIDPTextBox.TextBoxNotify
+        MenuListener, VirtualElement, InputTextBoxNotify
 {
 
     private final static byte CURSOR_HOFFSET=1;
@@ -207,14 +207,16 @@ public final class SelectPEP extends VirtualList implements
     
     public void select() {
       if(isMood){
-          if( ((String)Moods.getInstance().moodValue.lastElement()).equals(getTipString()) ) OkNotify(null); 
+          if( ((String)Moods.getInstance().moodValue.lastElement()).equals(getTipString()) ) okNotify(null);
           else {
             midlet.BombusQD.cf.cursorPos[3]=cursor;
-            MIDPTextBox box = new MIDPTextBox(SR.get(SR.MS_USERMOOD), Moods.getInstance().myMoodText, TextField.ANY, 100);
-            box.setCommandListener(this);
-            box.show();
+            InputTextBox input = new InputTextBox(SR.get(SR.MS_USERMOOD), Moods.getInstance().myMoodText, 100, TextField.ANY);
+            input.setNotifyListener(this);
+            input.show();
           }
-      } else publishActivity();
+      } else {
+          publishActivity();
+      }
     }
 
 
@@ -277,7 +279,7 @@ public final class SelectPEP extends VirtualList implements
     
     
     //******************************USER MOOD PUBLISH******************************
-    public void OkNotify(String moodText) {
+    public void okNotify(String moodText) {
         int index = pep.indexOf(getTipString());
         String moodName = Moods.getInstance().getMoodName(index);
         publishMood(moodText, moodName);

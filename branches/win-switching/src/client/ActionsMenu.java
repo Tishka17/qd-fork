@@ -58,12 +58,12 @@ import menu.MenuItem;
 import midlet.BombusQD;
 import ui.CanvasEx;
 import ui.controls.AlertBox;
-import ui.MIDPTextBox;
 import ui.MainBar;
 //#ifdef CLIPBOARD
-import ui.VirtualList;
 import util.ClipBoard;
 //#endif
+import ui.controls.form.InputTextBox;
+import ui.controls.form.InputTextBoxNotify;
 import vcard.VCard;
 import vcard.VCardEdit;
 import vcard.VCardView;
@@ -73,7 +73,7 @@ import xmpp.extensions.IqTimeReply;
 import xmpp.extensions.IqVersionReply;
 import xmpp.extensions.SoftwareInfo;
 
-public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
+public class ActionsMenu extends Menu implements InputTextBoxNotify {
     private static final int MI_LOGIN = 0;
     private static final int MI_LOGOUT = 1;
     private static final int MI_CHTRANSPORT = 2;
@@ -360,7 +360,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
         moveCursorTo(Config.getInstance().cursorPos[1]);
     }
 
-    public void OkNotify(String annotationText) {
+    public void okNotify(String annotationText) {
         Contact find;
         Contact current = (Contact) item;
         current.annotations = annotationText;
@@ -555,13 +555,13 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                     BombusQD.sd.roster.theStream.send(IqTimeReply.query(contact.getJid()));
                     break;
                 case MI_ANNOTATION: {
-                    MIDPTextBox box = new MIDPTextBox(SR.get(SR.MS_NEW), contact.annotations, TextField.ANY, 200);
-                    box.setCommandListener(this);
-                    box.show();
+                    InputTextBox input = new InputTextBox(SR.get(SR.MS_NEW), contact.annotations, 200, TextField.ANY);
+                    input.setNotifyListener(this);
+                    input.show();
                     return;
                 }
                 case MI_DEL_ANNOTATION:
-                    OkNotify(null);
+                    okNotify(null);
                     break;
 //#ifdef CLIPBOARD
                 case MI_COPY_JID:

@@ -28,76 +28,67 @@
 //#ifdef ARCHIVE
 package archive;
 
-import client.Msg;
-import javax.microedition.lcdui.*;
-import locale.SR;
 import client.Constants;
-import midlet.BombusQD;
+import client.Msg;
+import javax.microedition.lcdui.Command;
+import javax.microedition.lcdui.CommandListener;
+import javax.microedition.lcdui.Displayable;
+import javax.microedition.lcdui.TextField;
+import locale.SR;
+import ui.controls.form.InputTextBox;
 
 /**
  *
  * @author ad
  */
 
-public class ArchiveEdit implements CommandListener {
-    private Command cmdCancel;
-    private Command cmdOk;
+public class ArchiveEdit extends InputTextBox {
     private Msg msg;
 
-    MessageArchive archive;
-
-    private int pos;
-
+    private MessageArchive archive;
     private ArchiveList al;
 
-    private String body;
+    private int pos;    
 
-    public TextBox t;
+    public ArchiveEdit(int pos, ArchiveList al) {
+        super((pos > -1) ? SR.get(SR.MS_EDIT) : SR.get(SR.MS_NEW), null, 4096, TextField.ANY);
 
-    public ArchiveEdit(Displayable pView, int pos, ArchiveList al) {
-        t=new TextBox((pos>-1)?SR.get(SR.MS_EDIT):SR.get(SR.MS_NEW) ,null, 4096, TextField.ANY);
+        this.archive = new MessageArchive();
 
-        cmdCancel=new Command(SR.get(SR.MS_CANCEL), Command.BACK, 99);
-        cmdOk=new Command(SR.get(SR.MS_OK), Command.OK /*Command.SCREEN*/, 1);
-        archive=new MessageArchive();
+        this.pos = pos;
+        this.al = al;
 
-        this.pos=pos;
-        this.al=al;
-
-        if (pos>-1) {
-            this.msg=archive.msg(pos);
-            body=util.StringUtils.quoteString(msg);
+        if (pos > -1) {
+            this.msg = archive.msg(pos);
+            setString(util.StringUtils.quoteString(msg));
         }
-
-        t.setString(body);
-        t.addCommand(cmdOk);
-        t.addCommand(cmdCancel);
-        t.setCommandListener(this);
-
-        BombusQD.setCurrentView(t);
     }
 
-    public void commandAction(Command c, Displayable d){
-        body=t.getString();
-        if (body.length()==0) body=null;
-        if (c==cmdOk) {
-            byte type=Constants.MESSAGE_TYPE_OUT;
-            String from="";
-            String subj="";
-            if (pos>-1) {
-                type=msg.messageType;
-                from=msg.from;
-                subj=msg.subject;
+    public void commandAction(Command c, Displayable d) {
+        if (c == cmdOk) {
+            String body = getString();
+            if (body.length() == 0) {
+                body = null;
+            }
+            byte type = Constants.MESSAGE_TYPE_OUT;
+            String from = "";
+            String subj = "";
+            if (pos > -1) {
+                type = msg.messageType;
+                from = msg.from;
+                subj = msg.subject;
                 archive.delete(pos);
             }
-            Msg newmsg=new Msg(type, from, subj, body);
+            Msg newmsg = new Msg(type, from, subj, body);
 
             MessageArchive.store(newmsg);
             archive.close();
 
             al.reFresh();
+            destroyView();
+        } else {
+            super.commandAction(c, d);
         }
-        BombusQD.setCurrentView(al);
     }
 }
 //#endif

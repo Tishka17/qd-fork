@@ -67,9 +67,9 @@ public class TextListBox extends VirtualList implements
 
     private Vector recentList;
 
-    private EditBox ti;
+    private InputTextBox ti;
 
-    public TextListBox(EditBox ti) {
+    public TextListBox(InputTextBox ti) {
         super();
 
         cmdOk=new Command(SR.get(SR.MS_OK), Command.OK,1);
@@ -79,7 +79,7 @@ public class TextListBox extends VirtualList implements
         cmdClear.setImg(0x13);
 
         this.ti=ti;
-        this.recentList=ti.recentList;
+        this.recentList = new Vector(0); //=ti.recentList;
         setMainBarItem(new MainBar(SR.get(SR.MS_SELECT)));
 
         setCommandListener(this);
@@ -98,15 +98,15 @@ public class TextListBox extends VirtualList implements
 
     public void eventOk() {
         if (recentList.size()>0)
-            ti.setValue((String) recentList.elementAt(cursor));
+            //ti.setValue((String) recentList.elementAt(cursor));
 
         destroyView();
     }
 
     public void commandAction(Command c, Displayable d){
         if (c==cmdClear) {
-            ti.recentList.removeAllElements();
-            ti.saveRecentList();
+            //ti.recentList.removeAllElements();
+            //ti.saveRecentList();
         }
         if (c==cmdOk) {
             eventOk();

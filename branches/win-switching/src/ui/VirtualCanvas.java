@@ -18,10 +18,6 @@ import midlet.BombusQD;
 public class VirtualCanvas extends Canvas {
     private CanvasEx canvas;
 
-    public VirtualCanvas() {
-        setFullScreenMode(Config.fullscreen);
-    }
-
     public void show(CanvasEx canvas) {
         this.canvas = canvas;
         if (isShown()) {
@@ -29,6 +25,10 @@ public class VirtualCanvas extends Canvas {
         } else {
             BombusQD.setCurrentView(this);
         }
+    }
+
+    protected void showNotify() {
+        setFullScreenMode(Config.fullscreen);
     }
 
     public CanvasEx getCanvas() {

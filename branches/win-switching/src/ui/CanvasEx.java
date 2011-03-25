@@ -32,10 +32,6 @@ public abstract class CanvasEx extends Canvas {
         //System.out.println("show " + this + " [" + parentView + "]");
     }
 
-    protected void showNotify() {
-        setFullScreenMode(Config.fullscreen);
-    }
-
     public void destroyView() {
         if (parentView != null) {
             if (parentView instanceof CanvasEx) {

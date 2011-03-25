@@ -36,7 +36,6 @@ import java.util.Vector;
 import menu.MenuListener;
 import menu.Command;
 //#endif
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import midlet.Commands;
@@ -114,7 +113,7 @@ public class DefForm extends VirtualList
         }
         itemsList.removeAllElements();*/
         itemsList = null;
-        itemsList = new Vector(0);
+        //itemsList = new Vector(0);
 
         super.destroyView();
     }

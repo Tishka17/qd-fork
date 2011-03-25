@@ -59,7 +59,6 @@ import menu.MenuListener;
 //#ifdef LIGHT_CONTROL
 import light.CustomLight;
 //#endif
-import midlet.BombusQD;
 
 public abstract class VirtualList extends CanvasEx {
 
@@ -198,8 +197,6 @@ public abstract class VirtualList extends CanvasEx {
 
     public int width;
     public int height;
-
-    private Image offscreen = null;
 
     protected int cursor;
 
@@ -383,17 +380,13 @@ public abstract class VirtualList extends CanvasEx {
         }
 
         changeOrient(Config.panelsState);
-//#ifdef TOUCH
-        midlet.BombusQD.cf.isTouchPhone = hasPointerEvents();
-//#endif
-        setFullScreenMode(Config.fullscreen);
 
         itemBorder=null;
         itemBorder=new int[32];
 
         scrollbar=new ScrollBar();
 //#ifdef TOUCH
-        scrollbar.setHasPointerEvents(midlet.BombusQD.cf.isTouchPhone);
+        scrollbar.setHasPointerEvents(Config.isTouchPhone);
 //#endif
         MainBar secondBar=new MainBar("", true);
         secondBar.addElement(null); //1
@@ -407,20 +400,7 @@ public abstract class VirtualList extends CanvasEx {
 //#endif
     }
 
-    /*public void redraw(){
-        Displayable d = BombusQD.getCurrentView();
-        if (d instanceof Canvas) {
-            ((Canvas)d).repaint();
-        }
-    }*/
-
-
-    protected void hideNotify() {
-	offscreen=null;
-    }
-
     protected void showNotify() {
-	if (!isDoubleBuffered()) offscreen=Image.createImage(width, height);
 //#if (USE_ROTATOR)
         TimerTaskRotate.startRotate(-1, this);
 //#endif
@@ -437,8 +417,6 @@ public abstract class VirtualList extends CanvasEx {
         iHeight=0;
         mHeight=0;
 //#endif
-        if (!isDoubleBuffered()) offscreen=Image.createImage(width, height);
-        //repaint();
         redraw();
     }
 
@@ -462,11 +440,10 @@ public abstract class VirtualList extends CanvasEx {
 
 //#endif
 
-    public void paint(Graphics graphics) {
+    public void paint(Graphics g) {
         mHeight=0;
         iHeight=0;
         lastPaint = System.currentTimeMillis();
-        Graphics g=(offscreen==null)? graphics: offscreen.getGraphics();
         /*
         if((time_wait-time_start)>=1000) {
             time_start = System.currentTimeMillis();
@@ -764,8 +741,6 @@ public abstract class VirtualList extends CanvasEx {
         g.drawRect(xpos,1,ws-1,fh-1);
         g.drawString(Long.toString(showFrames)+" fps", xpos+2, 2, g.LEFT|g.TOP);
 */
-
-        if (g != graphics) g.drawImage(offscreen, 0, 0, Graphics.LEFT | Graphics.TOP);
     }
 
 //#ifdef POPUPS

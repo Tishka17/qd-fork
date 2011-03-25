@@ -26,10 +26,8 @@
  */
 package images.camera;
 
-import javax.microedition.lcdui.Alert;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Form;
 import javax.microedition.lcdui.Item;
@@ -37,9 +35,9 @@ import javax.microedition.media.Manager;
 import javax.microedition.media.Player;
 import javax.microedition.media.control.GUIControl;
 import javax.microedition.media.control.VideoControl;
-
 import locale.SR;
 import midlet.BombusQD;
+import ui.CanvasEx;
 import ui.controls.AlertBox;
 
 /**
@@ -47,18 +45,21 @@ import ui.controls.AlertBox;
  * @author Evg_S
  */
 public class CameraImage implements CommandListener {
-
     private Command cmdShot;
     private Command cmdCancel;
-    private Displayable parentView;
+
+    private CanvasEx parentView;
+
     private Player player;
     private VideoControl videoControl;
+
     CameraImageListener imgListener;
+
     public CameraImage(CameraImageListener imgListener) {
         cmdShot = new Command(SR.get(SR.MS_CAMERASHOT), Command.OK, 1);
         cmdCancel = new Command(SR.get(SR.MS_CANCEL), Command.BACK, 99);
 
-        parentView = BombusQD.getCurrentView();
+        parentView = BombusQD.sd.canvas.getCanvas();
         this.imgListener = imgListener;
 
         try {
@@ -104,6 +105,6 @@ public class CameraImage implements CommandListener {
         }
 
         player.close();
-        BombusQD.setCurrentView(parentView);
+        BombusQD.sd.canvas.show(parentView);
     }
 }

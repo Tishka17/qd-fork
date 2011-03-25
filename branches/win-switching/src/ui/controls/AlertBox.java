@@ -27,20 +27,14 @@
 package ui.controls;
 
 import client.Config;
-import client.StaticData;
 import colors.ColorTheme;
 import java.util.Vector;
 //#ifndef MENU_LISTENER
 //# import javax.microedition.lcdui.CommandListener;
 //# import javax.microedition.lcdui.Command;
 //#endif
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
-//#ifndef WOFFSCREEN
-import javax.microedition.lcdui.Image;
-//#endif
 import locale.SR;
 import font.FontCache;
 import ui.CanvasEx;
@@ -48,10 +42,12 @@ import util.StringUtils;
 //#ifdef GRADIENT
 import ui.Gradient;
 //#endif
+
 /**
  *
  * @author ad
  */
+
 public abstract class AlertBox extends CanvasEx
 
 //#ifndef MENU_LISTENER
@@ -88,11 +84,6 @@ public abstract class AlertBox extends CanvasEx
 
     int pos=0;
     int steps=1;
-
-
-//#ifndef WOFFSCREEN
-    private Image offscreen = null;
-//#endif
 
     private int height;
     private int width;
@@ -142,12 +133,9 @@ public abstract class AlertBox extends CanvasEx
         }
     }
 
-    protected void paint(Graphics graphics) {
+    protected void paint(Graphics g) {
         if (isShowing) {
-            Graphics g = graphics;
-//#ifndef WOFFSCREEN
-            if (offscreen != null) graphics = offscreen.getGraphics();
-//#endif
+
             width=g.getClipWidth();
             height=g.getClipHeight();
 
@@ -196,9 +184,6 @@ public abstract class AlertBox extends CanvasEx
                 drawProgress (g, width, height-fh);
 
             g.setColor(oldColor);
-//#ifndef WOFFSCREEN
-            if (g != graphics) g.drawImage(offscreen, 0, 0, Graphics.LEFT | Graphics.TOP);
-//#endif
         }
     }
 
@@ -236,24 +221,9 @@ public abstract class AlertBox extends CanvasEx
         Progress.draw(g, filled, Integer.toString(steps-pos));
     }
 
-    protected void hideNotify() {
-//#ifndef WOFFSCREEN
-	offscreen=null;
-//#endif
-    }
-
-    protected void showNotify() {
-//#ifndef WOFFSCREEN
-	if (!isDoubleBuffered()) offscreen=Image.createImage(width, height);
-//#endif
-    }
-
     protected void sizeChanged(int w, int h) {
         width=w;
         height=h;
-//#ifndef WOFFSCREEN
-        if (!isDoubleBuffered()) offscreen=Image.createImage(width, height);
-//#endif
     }
 
     protected void keyPressed(int keyCode) { // overriding this method to avoid autorepeat

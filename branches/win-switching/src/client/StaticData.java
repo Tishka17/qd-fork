@@ -30,8 +30,8 @@ package client;
 import account.Account;
 //#ifdef AUTOTASK
 import autotask.AutoTask;
-import ui.VirtualCanvas;
 //#endif
+import ui.VirtualCanvas;
 
 /**
  *

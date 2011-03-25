@@ -36,45 +36,25 @@ import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.List;
 import locale.SR;
 import midlet.BombusQD;
+import ui.controls.form.DefForm;
+import ui.controls.form.SimpleString;
 
 /**
  *
  * @author Eugene Stahov
  */
 
-public class DiscoFeatures implements CommandListener {
-    
-    Command cmdBack;
-    Command cmdOk;
-    
-    List list;
+public class DiscoFeatures extends DefForm {
 
-    private Display display;
-    private Displayable parentView;
-    
-    /** Creates a new instance of DiscoFeatures */
     public DiscoFeatures(String entity, Vector features) {
-        if (features.isEmpty()) return;
-        
-        cmdBack=new Command(SR.get(SR.MS_BACK), Command.BACK, 99);
-        cmdOk=new Command(SR.get(SR.MS_OK), Command.OK, 1);        
-        
-        list=new List(entity, List.IMPLICIT);
-        for (Enumeration i=features.elements(); i.hasMoreElements(); ) {
-            String feature=(String) (i.nextElement());
-            list.append(feature, null);
+        super(entity);
+
+        for (int i = 0; i < features.size(); ++i) {
+            SimpleString item = new SimpleString((String)features.elementAt(i));
+            item.setSelectable(true);
+
+            addControl(item);
         }
-        
-        list.addCommand(cmdBack);
-        list.addCommand(cmdOk);
-        list.setCommandListener(this);
-
-        parentView=BombusQD.getCurrentView();
-        BombusQD.setCurrentView(list);
-    }
-
-    public void commandAction(Command command, Displayable displayable) {
-        BombusQD.setCurrentView(parentView);
     }
 }
 //#endif

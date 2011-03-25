@@ -37,22 +37,20 @@ import javax.microedition.media.Player;
 import locale.SR;
 import util.Strconv;
 import client.Config;
-//import Mood.EventPublish;
 import ui.VirtualList;
 import ui.controls.AlertBox;
-import images.ImageList;
 import midlet.BombusQD;
+import ui.CanvasEx;
 
 /**
  *
  * @author User
  */
 public class ShowFile implements CommandListener{
-    private Displayable parentView;
+    private CanvasEx parentView;
 
     private Command back;
     private Command stop;
-    //private Command appliedRES = new Command("Yes", Command.BACK, 4);
 
     private int len;
 
@@ -100,7 +98,6 @@ public class ShowFile implements CommandListener{
 
 
     private void view(String file) {
-          ImageList il = new ImageList();
           Image photoImg = null;
               try {
                 photoImg = Image.createImage(b, 0, len);
@@ -122,7 +119,7 @@ public class ShowFile implements CommandListener{
         form.addCommand(back);
         form.setCommandListener(this);
 
-        parentView = BombusQD.getCurrentView();
+        parentView = BombusQD.sd.canvas.getCanvas();
         BombusQD.setCurrentView(form);
     }
 
@@ -173,7 +170,7 @@ public class ShowFile implements CommandListener{
 
     public void commandAction(Command c, Displayable d) {
         if (c==back) {
-            BombusQD.setCurrentView(parentView);
+            BombusQD.sd.canvas.show(parentView);
         }
         if (c==stop) {
             try {

@@ -494,7 +494,9 @@ public class ServiceDiscovery
         if (c == cmdSrv) {
             new ServerBox(service, serviceDisco).show();
         }
-        if (c==cmdFeatures) { new DiscoFeatures(service, features); }
+        if (c == cmdFeatures) {
+            new DiscoFeatures(service, features).show();
+        }
         if (c==cmdCancel) exitDiscovery(true);
         if (c==cmdShowStatistics) {
             Object o=getFocusedObject();

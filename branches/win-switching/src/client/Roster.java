@@ -3593,7 +3593,7 @@ public class Roster
         }
         else if (keyCode==KEY_NUM6) {
             Config.fullscreen =! Config.fullscreen;
-            setFullScreenMode(Config.fullscreen);
+            BombusQD.sd.canvas.setFullScreenMode(Config.fullscreen);
             midlet.BombusQD.cf.saveToStorage();
         }
 //#ifdef SERVICE_DISCOVERY

@@ -66,4 +66,6 @@ public abstract class CanvasEx extends Canvas {
     protected void pointerPressed(int x, int y) {};
     protected void pointerDragged(int x, int y) {};
     protected void pointerReleased(int x, int y) {};
+
+    protected void sizeChanged(int w, int h) {};
 }

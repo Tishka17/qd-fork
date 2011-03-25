@@ -132,10 +132,7 @@ public class AniImageList extends ImageList implements Runnable {
                     }
                 }
                 if (update) {
-                   Displayable d = BombusQD.getCurrentView();
-                   if (d instanceof Canvas) {
-                       ((Canvas)d).repaint();
-                   }
+                    BombusQD.sd.canvas.repaint();
                 }
             }
             time = newTime;

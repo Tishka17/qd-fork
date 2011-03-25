@@ -8,6 +8,7 @@ package ui;
 import client.Config;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
+import javax.microedition.lcdui.Image;
 import midlet.BombusQD;
 
 /**
@@ -17,6 +18,20 @@ import midlet.BombusQD;
 
 public class VirtualCanvas extends Canvas {
     private CanvasEx canvas;
+
+    private Image offscreen;
+
+    public VirtualCanvas() {
+//#ifdef TOUCH
+        Config.isTouchPhone = hasPointerEvents();
+//#endif
+
+        if(!isDoubleBuffered()) {
+            offscreen = Image.createImage(getWidth(), getHeight());
+        }
+
+        setFullScreenMode(Config.fullscreen);
+    }
 
     public void show(CanvasEx canvas) {
         this.canvas = canvas;
@@ -31,12 +46,22 @@ public class VirtualCanvas extends Canvas {
         setFullScreenMode(Config.fullscreen);
     }
 
+    protected void sizeChanged(int w, int h) {
+        canvas.sizeChanged(w, h);
+    }
+
     public CanvasEx getCanvas() {
         return canvas;
     }
 
     protected void paint(Graphics g) {
-        canvas.paint(g);
+        if(!isDoubleBuffered()) {
+            Graphics graphics = offscreen.getGraphics();
+            canvas.paint(graphics);
+            g.drawImage(offscreen, 0, 0, Graphics.TOP | Graphics.LEFT);
+        } else {
+            canvas.paint(g);
+        }
     }
 
     protected void keyPressed(int code) {

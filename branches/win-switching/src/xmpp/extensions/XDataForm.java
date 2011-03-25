@@ -16,15 +16,14 @@ import locale.SR;
 import util.Strconv;
 import com.alsutton.jabber.datablocks.Iq;
 import midlet.BombusQD;
+import ui.CanvasEx;
 
 /**
  *
  * @author root
  */
 public class XDataForm implements CommandListener {
-
-    private Display display;
-    private Displayable parentView;
+    private CanvasEx parentView;
 
     private Command cmdOk;
     private Command cmdCancel;
@@ -108,7 +107,7 @@ public class XDataForm implements CommandListener {
         f.addCommand(cmdOk);
         f.addCommand(cmdCancel);
         
-        this.parentView = BombusQD.getCurrentView();
+        this.parentView = BombusQD.sd.canvas.getCanvas();
         BombusQD.setCurrentView(f);
     }
 
@@ -130,7 +129,7 @@ public class XDataForm implements CommandListener {
             }
             XDataFormSubmit(resultForm);
         }
-        BombusQD.setCurrentView(parentView);
+        BombusQD.sd.canvas.show(parentView);
     }
 
 }

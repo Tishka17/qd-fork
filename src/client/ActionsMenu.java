@@ -58,8 +58,8 @@ import locale.SR;
 import menu.Menu;
 import menu.MenuItem;
 import midlet.BombusQD;
-import ui.InputTextBox;
-import ui.InputTextBoxNotify;
+import ui.input.InputTextBox;
+import ui.input.InputTextBoxNotify;
 import ui.controls.AlertBox;
 import ui.MainBar;
 //#ifdef CLIPBOARD

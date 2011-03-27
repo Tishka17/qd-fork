@@ -72,6 +72,7 @@ public class ArchiveList
     private int caretPos;
     private TextField tf;
     private TextBox tb;
+
     public void eventOk() {
         MessageItem mi = (MessageItem)messages.elementAt(cursor);
         mi.onSelect(this);
@@ -172,7 +173,7 @@ public class ArchiveList
         super.commandAction(c, d);
 
         if (c == cmdNew) {
-            new ArchiveEdit(display, this, -1, this);
+            new ArchiveEdit(-1, this).show();
         } else if (c == cmdDelete) {
             keyClear();
         } else if (c == cmdDeleteAll) {
@@ -185,7 +186,7 @@ public class ArchiveList
         } else if (c == cmdJid) {
             pasteData(2);
         } else if (c == cmdEdit) {
-            new ArchiveEdit(display, this, cursor, this);
+            new ArchiveEdit(cursor, this).show();
 //#ifdef IMPORT_EXPORT
 //#ifdef FILE_IO
         } else if (c == cmdExport) {
@@ -250,7 +251,6 @@ public class ArchiveList
         } else {
             tb.insert(data, caretPos);
         }
-        ;
         destroyView();
     }
 

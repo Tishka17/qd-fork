@@ -40,7 +40,7 @@ import menu.MenuListener;
 import midlet.Commands;
 import ui.GMenu;
 import ui.GMenuConfig;
-import ui.InputTextBox;
+import ui.input.InputTextBox;
 import util.ClipBoard;
 
 /**

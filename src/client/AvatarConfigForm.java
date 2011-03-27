@@ -89,7 +89,7 @@ public class AvatarConfigForm extends DefForm {
         if (config.userAppLevel == 1) {
             addControl(new SpacerItem(10));
             autoSaveVcard = new CheckBox(SR.get(SR.AVATAR_AUTOSAVE_FS), config.autoSaveVcard);
-            avatarFolder = new PathSelector(SR.get(SR.AVATAR_FOLDER), config.msgAvatarPath, false);
+            avatarFolder = new PathSelector(SR.get(SR.AVATAR_FOLDER), config.msgAvatarPath, PathSelector.TYPE_DIR);
             addControl(autoSaveVcard);
             addControl(avatarFolder);
         }

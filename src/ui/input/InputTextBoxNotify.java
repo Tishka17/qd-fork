@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package ui;
+package ui.input;
 
 /**
  *

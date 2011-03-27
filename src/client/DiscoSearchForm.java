@@ -58,8 +58,8 @@ import menu.Command;
 import ui.GMenu;
 import ui.GMenuConfig;
 //#endif
-import ui.InputTextBox;
-import ui.InputTextBoxNotify;
+import ui.input.InputTextBox;
+import ui.input.InputTextBoxNotify;
 
 /**
  *

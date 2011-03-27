@@ -33,7 +33,7 @@ import font.FontCache;
 import javax.microedition.lcdui.*;
 import client.Config;
 //#ifdef CLASSIC_CHAT
-import client.SimpleItemChat;
+//# import client.SimpleItemChat;
 //#endif
 import client.StaticData;
 import client.Contact;
@@ -368,7 +368,7 @@ public abstract class VirtualList
            } catch (Exception e) {
                e.printStackTrace();
 //#ifdef DEBUG_CONSOLE
-              midlet.BombusQD.debug.add("VL -> createImage Exception: "+e.getMessage(),10);
+//#               midlet.BombusQD.debug.add("VL -> createImage Exception: "+e.getMessage(),10);
 //#endif
            }
     }
@@ -453,7 +453,7 @@ public abstract class VirtualList
 
     protected void sizeChanged(int w, int h) {
 //#ifdef DEBUG_CONSOLE
-        midlet.BombusQD.debug.add("VirtualList::sizeChanged " + width+"x"+height + "->"+w+"x"+h ,10);
+//#         midlet.BombusQD.debug.add("VirtualList::sizeChanged " + width+"x"+height + "->"+w+"x"+h ,10);
 //#endif
         width=w;
         height=h;
@@ -1704,9 +1704,9 @@ public abstract class VirtualList
            System.out.println("popupGreen");
             if (getPopUp().getContact()!=null) {
 //#ifdef CLASSIC_CHAT
-                   if(midlet.BombusQD.cf.module_classicchat){
-                      new SimpleItemChat(midlet.BombusQD.getInstance().display,sd.roster,sd.roster.getContact(popup.getContact(), false));
-                   } else {
+//#                    if(midlet.BombusQD.cf.module_classicchat){
+//#                       new SimpleItemChat(midlet.BombusQD.getInstance().display,sd.roster,sd.roster.getContact(popup.getContact(), false));
+//#                    } else {
 //#endif
                        Contact c = sd.roster.getContact(popup.getContact(), false);
                        if(c.getChatInfo().getMessageCount()<=0 ){
@@ -1715,7 +1715,7 @@ public abstract class VirtualList
                        }
                        midlet.BombusQD.getInstance().display.setCurrent(c.getMessageList());
 //#ifdef CLASSIC_CHAT
-                   }
+//#                    }
 //#endif
                 popup.next();
                 return;
@@ -1854,7 +1854,9 @@ public abstract class VirtualList
 
                     userKeyPressed(keyCode);
                 }
-            } catch (Exception e) {/* IllegalArgumentException @ getGameAction */}
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         repaint();
      }
@@ -2172,9 +2174,9 @@ public abstract class VirtualList
                             if(c!=null) c = null;
                          } catch(OutOfMemoryError eom) {
 //#ifdef DEBUG_CONSOLE
-                           if(midlet.BombusQD.cf.debug) {
-                               midlet.BombusQD.debug.add("::VList->sort->contactByMsgs",10);
-                           }
+//#                            if(midlet.BombusQD.cf.debug) {
+//#                                midlet.BombusQD.debug.add("::VList->sort->contactByMsgs",10);
+//#                            }
 //#endif
                          } catch (Exception e) {}
                          break;

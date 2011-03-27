@@ -28,6 +28,8 @@
 //#ifdef PRIVACY
 package privacy;
 
+import ui.input.InputTextBoxNotify;
+import ui.input.InputTextBox;
 import client.StaticData;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;

@@ -34,29 +34,22 @@
 //# import javax.microedition.lcdui.*;
 //# import locale.SR;
 //#ifdef CLIPBOARD
+//# import midlet.BombusQD;
 //# import util.ClipBoard;
 //#endif
+//# import ui.input.InputTextBox;
 //# 
 //# /**
 //#  *
 //#  * @author ad
 //#  */
-//# public class ConsoleTextEdit implements CommandListener {
-//#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_CONSOLE");
-//#endif
-//#     private Display display;
-//#     private Displayable parentView;
+//# public class ConsoleTextEdit extends InputTextBox {
 //#     private String body;
-//#     private Command cmdCancel;
-//#     private Command cmdSend;
+//# 
 //#     private Command cmdPasteIQDisco;
 //#     private Command cmdPasteIQVersion;
 //#     private Command cmdPastePresence;
 //#     private Command cmdPasteMessage;
-//#ifdef CLIPBOARD
-//#     private Command cmdPaste;
-//#endif
 //#ifdef ARCHIVE
 //#     private Command cmdArchive;
 //#endif
@@ -65,55 +58,35 @@
 //#     private static final String TEMPLATE_IQ_VERSION = "<iq to='???' type='get'>\n<query xmlns='jabber:iq:version'/>\n</iq>";
 //#     private static final String TEMPLATE_PRESENCE = "<presence to='???'>\n<show>???</show>\n<status>???</status>\n</presence>";
 //#     private static final String TEMPLATE_MESSAGE = "<message to='???' type='???'>\n<body>???</body>\n</message>";
-//#     private TextBox textBox;
 //# 
-//#     public ConsoleTextEdit(Display display, Displayable pView, String body) {
-//#         cmdCancel = new Command(SR.get(SR.MS_CANCEL), Command.BACK, 99);
-//#         cmdSend = new Command(SR.get(SR.MS_SEND), Command.OK, 1);
+//#     public ConsoleTextEdit(String body) {
+//#         super(SR.get(SR.MS_XML_CONSOLE), body, 4096, TextField.ANY);
 //#ifdef ARCHIVE
 //#         cmdArchive = new Command(SR.get(SR.MS_ARCHIVE), Command.SCREEN, 9);
-//#endif
-//#ifdef CLIPBOARD
-//#         cmdPaste = new Command(SR.get(SR.MS_PASTE), Command.SCREEN, 10);
 //#endif
 //#         cmdPasteIQDisco = new Command("disco#info", Command.SCREEN, 11);
 //#         cmdPasteIQVersion = new Command("jabber:iq:version", Command.SCREEN, 12);
 //#         cmdPastePresence = new Command("presence", Command.SCREEN, 13);
 //#         cmdPasteMessage = new Command("message", Command.SCREEN, 14);
 //# 
-//#         textBox = new TextBox(SR.get(SR.MS_XML_CONSOLE), body, 4096, TextField.ANY);
-//#         this.display = display;
-//# 
-//#         textBox.addCommand(cmdSend);
-//#ifdef CLIPBOARD
-//#         if (!ClipBoard.isEmpty()) {
-//#             textBox.addCommand(cmdPaste);
-//#         }
-//#endif
 //#ifdef ARCHIVE
-//#         textBox.addCommand(cmdArchive);
+//#         addCommand(cmdArchive);
 //#endif
-//#         textBox.addCommand(cmdPasteIQDisco);
-//#         textBox.addCommand(cmdPasteIQVersion);
-//#         textBox.addCommand(cmdPastePresence);
-//#         textBox.addCommand(cmdPasteMessage);
-//#         textBox.addCommand(cmdCancel);
-//# 
-//#         textBox.setCommandListener(this);
-//# 
-//#         display.setCurrent(textBox);
-//#         parentView = pView;
+//#         addCommand(cmdPasteIQDisco);
+//#         addCommand(cmdPasteIQVersion);
+//#         addCommand(cmdPastePresence);
+//#         addCommand(cmdPasteMessage);
 //#     }
 //# 
 //#     public void commandAction(Command c, Displayable d) {
 //#         if (c == cmdCancel) {
 //#             destroyView();
 //#         } else {
-//#             body = textBox.getString();
+//#             body = getString();
 //#             if (body.length() == 0) {
 //#                 body = null;
 //#             }
-//#             if (c == cmdSend && body != null) {
+//#             if (c == cmdOk && body != null) {
 //#                 try {
 //#                     StaticData.getInstance().roster.theStream.send(body.trim());
 //#                 } catch (IOException e) {
@@ -121,32 +94,24 @@
 //#                 }
 //#                 destroyView();
 //#             } else {
-//#                 int caretPos = textBox.getCaretPosition();
+//#                 int caretPos = getCaretPosition();
 //#                 if (c == cmdPasteIQDisco) {
-//#                     textBox.insert(TEMPLATE_IQ_DISCO, caretPos);
+//#                     insert(TEMPLATE_IQ_DISCO, caretPos);
 //#                 } else if (c == cmdPasteIQVersion) {
-//#                     textBox.insert(TEMPLATE_IQ_VERSION, caretPos);
+//#                     insert(TEMPLATE_IQ_VERSION, caretPos);
 //#ifdef ARCHIVE
 //#                 } else if (c == cmdArchive) {
-//#                     new ArchiveList(display, caretPos, null, textBox);
+//#                     new ArchiveList(BombusQD.display, caretPos, null, this);
 //#endif
 //#                 } else if (c == cmdPastePresence) {
-//#                     textBox.insert(TEMPLATE_PRESENCE, caretPos);
+//#                     insert(TEMPLATE_PRESENCE, caretPos);
 //#                 } else if (c == cmdPasteMessage) {
-//#                     textBox.insert(TEMPLATE_MESSAGE, caretPos);
+//#                     insert(TEMPLATE_MESSAGE, caretPos);
+//#                 } else {
+//#                     super.commandAction(c, d);
 //#                 }
-//#ifdef CLIPBOARD
-//#                 else if (c == cmdPaste) {
-//#                     textBox.insert(ClipBoard.getClipBoard(), caretPos);
-//#                 }
-//#endif
 //#             }
 //#         }
-//#     }
-//# 
-//#     private void destroyView() {
-//#         textBox.setCommandListener(null);
-//#         display.setCurrent(parentView);
 //#     }
 //# }
 //#endif

@@ -58,8 +58,9 @@ import locale.SR;
 import menu.Menu;
 import menu.MenuItem;
 import midlet.BombusQD;
+import ui.InputTextBox;
+import ui.InputTextBoxNotify;
 import ui.controls.AlertBox;
-import ui.MIDPTextBox;
 import ui.MainBar;
 //#ifdef CLIPBOARD
 import util.ClipBoard;
@@ -73,7 +74,7 @@ import xmpp.extensions.IqTimeReply;
 import xmpp.extensions.IqVersionReply;
 import xmpp.extensions.SoftwareInfo;
 
-public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
+public class ActionsMenu extends Menu implements InputTextBoxNotify {
     private static final int MI_LOGIN = 0;
     private static final int MI_LOGOUT = 1;
     private static final int MI_CHTRANSPORT = 2;
@@ -363,7 +364,7 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
         super.parentView = pView;
     }
 
-    public void OkNotify(String annotationText) {
+    public void okNotify(String annotationText) {
         Contact find;
         Contact current = (Contact) item;
         current.annotations = annotationText;
@@ -551,10 +552,12 @@ public class ActionsMenu extends Menu implements MIDPTextBox.TextBoxNotify {
                     BombusQD.sd.roster.theStream.send(IqTimeReply.query(contact.getJid()));
                     break;
                 case MI_ANNOTATION:
-                    new MIDPTextBox(display, SR.get(SR.MS_NEW), contact.annotations, this, TextField.ANY, 200);
+                    InputTextBox input = new InputTextBox(SR.get(SR.MS_NEW), contact.annotations, 200, TextField.ANY);
+                    input.setNotifyListener(this);
+                    input.show();
                     return;
                 case MI_DEL_ANNOTATION:
-                    OkNotify(null);
+                    okNotify(null);
                     break;
 //#ifdef CLIPBOARD
                 case MI_COPY_JID:

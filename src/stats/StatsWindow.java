@@ -54,27 +54,18 @@ import util.ClipBoard;
  *
  * @author ad,aqent
  */
-public class StatsWindow
-        extends DefForm {
+public class StatsWindow extends DefForm {
+    private Stats st = Stats.getInstance();
 
-//#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_STATS");
-//#endif
+    private Command cmdClear;
+    private Command cmdSave;
 
-    Stats st=Stats.getInstance();
-
-    public Command cmdClear;
-    public Command cmdSave;
-
-    /**
-     * Creates a new instance of StatsWindow
-     */
     public StatsWindow(Display display) {
         super(display, midlet.BombusQD.sd.roster , SR.get(SR.MS_STATS));
         StringBuffer sb = new StringBuffer(0);
 
         cmdClear = new Command(SR.get(SR.MS_CLEAR), Command.SCREEN, 2);
-        cmdClear.setImg(0x13);
+        cmdClear.setImg(0x33);
 
         cmdSave = new Command(SR.get(SR.MS_SAVE), Command.OK, 3);
         cmdSave.setImg(0x44);
@@ -116,75 +107,62 @@ public class StatsWindow
           .append(st.appRunCount);
 
         MultiLine item = new MultiLine( null, sb.toString(), super.superWidth);
-        item.selectable=true;
-        itemsList.addElement(item);
+        item.setSelectable(true);
+        addControl(item);
 
         attachDisplay(display);
         this.parentView=midlet.BombusQD.sd.roster;
     }
 
 
-//#ifdef CLIPBOARD
-    public void cmdCopy(){
-        StringBuffer copy=new StringBuffer();
-        for (int i=0;i<itemsList.size();i++) {
-            copy.append(((MultiLine)itemsList.elementAt(i)).toString()+"\n");
-        }
-        ClipBoard.setClipBoard(copy.toString());
-        destroyView();
-    }
-//#endif
-
-
     public void commandAction(Command command, Displayable displayable) {
-//#ifdef CLIPBOARD
-	if (command==Commands.cmdCopy) {
-	    cmdCopy();
-	} else
-//#endif
         if(command==cmdSave){
             Stats.getInstance().saveToStorage(false,false);
-        }
-        if (command==cmdClear) {
+//#ifdef CLIPBOARD
+	} else if (command == Commands.cmdCopy) {
+            // we have only one control
+            String text = getControl(0).toString();
+            ClipBoard.setClipBoard(text);
+            destroyView();
+//#endif
+        } else if (command == cmdClear) {
             st.saveToStorage(true,false);
             cmdCancel();
-        } else super.commandAction(command, displayable);
+        } else {
+            super.commandAction(command, displayable);
+        }
     }
-
 
     public void commandState(){
 //#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
 //#endif
 
-//#ifdef GRAPHICS_MENU
-        //super.commandState();
-//#else
+//#ifndef GRAPHICS_MENU
 //#     super.commandState();
 //#endif
-        removeCommand(cmdCancel);
-        removeCommand(Commands.cmdOk);
 //#ifdef CLIPBOARD
         if (Config.getInstance().useClipBoard) {
             addCommand(Commands.cmdCopy);
         }
 //#endif
         addCommand(cmdClear);
-        addCommand(cmdSave); //SAVE
+        addCommand(cmdSave);
 //#ifndef GRAPHICS_MENU
 //#      addCommand(cmdCancel);
 //#endif
     }
 
-
 //#ifdef MENU_LISTENER
-    public String touchLeftCommand(){ return SR.get(SR.MS_MENU); }
-
+    public String touchLeftCommand() {
+        return SR.get(SR.MS_MENU);
+    }
 
 //#ifdef GRAPHICS_MENU
     public void touchLeftPressed(){
         showGraphicsMenu();
     }
+
     public int showGraphicsMenu() {
         commandState();
         menuItem = new GMenu(display, parentView, this, null, menuCommands);

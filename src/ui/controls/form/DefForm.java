@@ -123,6 +123,10 @@ public class DefForm
         itemsList.addElement(obj);
     }
 
+    public Object getControl(int index) {
+        return itemsList.elementAt(index);
+    }
+
     public final void insertControl(Object obj, int pos) {
         itemsList.insertElementAt(obj, pos);
     }

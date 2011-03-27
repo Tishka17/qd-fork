@@ -93,7 +93,7 @@ public final class MessageEdit
 
     public void initCommands() {
 
-        if (Config.getInstance().swapSendAndSuspend) {
+        if (Config.swapSendAndSuspend) {
             cmdSend = new Command(SR.get(SR.MS_SEND), Command.BACK, 1);
             cmdSuspend = new Command(SR.get(SR.MS_SUSPEND), Command.SCREEN, 90);
         } else {
@@ -451,7 +451,7 @@ public final class MessageEdit
 //#         if (c==cmdSendInTranslit) {
 //#             sendInTranslit=true;
 //#         }
-//#
+//# 
 //#         if (c==cmdSendInDeTranslit) {
 //#             sendInDeTranslit=true;
 //#         }

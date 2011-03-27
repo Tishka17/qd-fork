@@ -1,0 +1,146 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ui;
+
+import client.Config;
+import javax.microedition.lcdui.Command;
+import javax.microedition.lcdui.CommandListener;
+import javax.microedition.lcdui.Displayable;
+import javax.microedition.lcdui.TextBox;
+import javax.microedition.lcdui.TextField;
+import locale.SR;
+import midlet.BombusQD;
+import util.ClipBoard;
+
+/**
+ *
+ * @author esprit
+ */
+
+public class InputTextBox extends TextBox implements CommandListener {
+    protected Displayable parentView;
+
+    protected Command cmdOk;
+    protected Command cmdCancel;
+
+//#ifdef CLIPBOARD
+    protected Command cmdCopy;
+    protected Command cmdCopyPlus;
+    protected Command cmdPasteText;
+//#endif
+
+    protected InputTextBoxNotify notify;
+
+    public InputTextBox(String caption, String text, String id, int len, int mode) {
+        super(caption, text, len, mode);
+
+        if (Config.getInstance().capsState) {
+            setConstraints(TextField.INITIAL_CAPS_SENTENCE);
+        }
+
+        if (Config.swapSendAndSuspend) {
+            cmdOk = new Command(SR.get(SR.MS_OK), Command.BACK, 1);
+            cmdCancel = new Command(SR.get(SR.MS_CANCEL), Command.SCREEN, 99);
+        } else {
+            cmdOk = new Command(SR.get(SR.MS_OK), Command.OK,1);
+            cmdCancel = new Command(SR.get(SR.MS_CANCEL), Command.BACK, 99);
+        }
+
+//#ifdef CLIPBOARD
+        cmdCopy = new Command(SR.get(SR.MS_COPY), Command.SCREEN, 3);
+        cmdCopyPlus = new Command("+ " + SR.get(SR.MS_COPY), Command.SCREEN, 4);
+        cmdPasteText = new Command(SR.get(SR.MS_PASTE), Command.SCREEN, 5);
+//#endif
+
+        addCommand(cmdOk);
+        addCommand(cmdCancel);
+
+//#ifdef CLIPBOARD
+        if (Config.useClipBoard) {
+            addCommand(cmdCopy);
+            if (!ClipBoard.isEmpty()) {
+                addCommand(cmdCopyPlus);
+                addCommand(cmdPasteText);
+            }
+        }
+//#endif
+    }
+
+    public InputTextBox(String caption, String text, int len, int mode) {
+        this(caption, text, null, len, mode);
+    }
+
+    public void setNotifyListener(InputTextBoxNotify notify) {
+        this.notify = notify;
+    }
+
+    public void show() {
+        setCommandListener(this);
+
+        parentView = BombusQD.getCurrentView();
+        BombusQD.setCurrentView(this);
+    }
+
+    public void destroyView() {
+        BombusQD.setCurrentView(parentView);
+    }
+
+    public void commandAction(Command c, Displayable d) {
+        if (c == cmdOk) {
+            if (notify != null) {
+                notify.okNotify(getString());
+            }
+            destroyView();
+        } else if (c == cmdCancel) {
+            destroyView();
+        } else if (c == cmdCopy) {
+            ClipBoard.setClipBoard(getString());
+
+            addCommand(cmdCopyPlus);
+            addCommand(cmdPasteText);
+        } else if (c == cmdCopyPlus) {
+            ClipBoard.addToClipBoard(getString());
+        } else  if (c == cmdPasteText) {
+            insert(ClipBoard.getClipBoard(), getCaretPos());
+        }
+    }
+    
+//#ifdef CLIPBOARD
+    public int getCaretPos() {
+        int caretPos = getCaretPosition();
+        // +MOTOROLA STUB
+        if (Config.getInstance().phoneManufacturer == Config.MOTO) {
+            caretPos = -1;
+        }
+        if (caretPos < 0) {
+            caretPos = getString().length();
+        }
+        return caretPos;
+    }
+//#endif
+
+    /*private void loadRecentList() {
+        recentList=new Vector(10);
+        try {
+            DataInputStream is=NvStorage.ReadFileRecord(ti.id, 0);
+
+            try {
+                while (true) recentList.addElement(is.readUTF());
+            } catch (EOFException e) { is.close(); is=null; }
+        } catch (Exception e) { }
+    }
+
+    public void saveRecentList() {
+        DataOutputStream os=NvStorage.CreateDataOutputStream();
+        try {
+            for (Enumeration e=recentList.elements(); e.hasMoreElements(); ) {
+                String s=(String)e.nextElement();
+                os.writeUTF(s);
+            }
+        } catch (Exception e) { }
+
+        NvStorage.writeFileRecord(os, ti.id, 0, true);
+    }*/
+}

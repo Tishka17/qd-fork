@@ -64,7 +64,7 @@ import midlet.BombusQD;
  */
 
 public final class SelectPEP extends VirtualList implements  
-        MenuListener, VirtualElement, MIDPTextBox.TextBoxNotify
+        MenuListener, VirtualElement, InputTextBoxNotify
 {
 
     private final static byte CURSOR_HOFFSET=1;
@@ -210,10 +210,12 @@ public final class SelectPEP extends VirtualList implements
     
     public void select() {
       if(isMood){
-          if( ((String)Moods.getInstance().moodValue.lastElement()).equals(getTipString()) ) OkNotify(null); 
+          if( ((String)Moods.getInstance().moodValue.lastElement()).equals(getTipString()) ) okNotify(null);
           else {
             midlet.BombusQD.cf.cursorPos[3]=cursor;            
-            new MIDPTextBox(display, SR.get(SR.MS_USERMOOD), Moods.getInstance().myMoodText, this, TextField.ANY, 100);
+            InputTextBox input = new InputTextBox(SR.get(SR.MS_USERMOOD), Moods.getInstance().myMoodText, 100, TextField.ANY);
+            input.setNotifyListener(this);
+            input.show();
           }
       } else publishActivity();
     }
@@ -278,7 +280,7 @@ public final class SelectPEP extends VirtualList implements
     
     
     //******************************USER MOOD PUBLISH******************************
-    public void OkNotify(String moodText) {
+    public void okNotify(String moodText) {
         int index = pep.indexOf(getTipString());
         String moodName = Moods.getInstance().getMoodName(index);
         publishMood(moodText, moodName);

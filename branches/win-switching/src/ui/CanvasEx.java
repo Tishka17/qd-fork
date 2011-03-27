@@ -29,7 +29,7 @@ public abstract class CanvasEx extends Canvas {
         }        
         BombusQD.sd.canvas.show(this);
 
-        //System.out.println("show " + this + " [" + parentView + "]");
+        System.out.println("show " + this + " [" + parentView + "]");
     }
 
     public void destroyView() {
@@ -41,7 +41,7 @@ public abstract class CanvasEx extends Canvas {
             }
             parentView = null;
 
-            //System.out.println("destroy " + this);
+            System.out.println("destroy " + this);
         }
     }
 

@@ -100,20 +100,8 @@ public class DefForm extends VirtualList
     }
 
     public void destroyView() {
-        /*int size = itemsList.size();
-        Object obj;
-        for (int i = 0; i < size; ++i) {
-            obj = (Object)itemsList.elementAt(i);
-            if (obj instanceof DropChoiceBox) {
-                ((DropChoiceBox)obj).destroy();
-            }
-            if (obj instanceof NumberInput) {
-                ((NumberInput)obj).destroy();
-            }
-        }
-        itemsList.removeAllElements();*/
         itemsList = null;
-        //itemsList = new Vector(0);
+        itemsList = new Vector(0);
 
         super.destroyView();
     }

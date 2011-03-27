@@ -378,21 +378,30 @@ public final class MessageEdit
         }
 //#ifdef SMILES
         if (c == cmdSmile) {
+            SmilePicker picker;
             if (midlet.BombusQD.cf.msgEditType > 0) {
-                new SmilePicker(textField.getCaretPosition(), textField, null).show();
+                picker = new SmilePicker(textField.getCaretPosition(), textField, null);
+                picker.setParentView(form);
             } else {
-                new SmilePicker(t.getCaretPosition(), null, t).show();
+                picker = new SmilePicker(t.getCaretPosition(), null, t);
+                picker.setParentView(t);
             }
+            picker.show();
             return;
         }
 //#endif
 //#ifndef WMUC
         if (c == cmdInsNick) {
+            AppendNickForm f;
             if (midlet.BombusQD.cf.msgEditType > 0) {
-                new AppendNickForm(to, textField.getCaretPosition(), textField, null).show();
+                f = new AppendNickForm(to, textField.getCaretPosition(), textField, null);
+                f.setParentView(form);
             } else {
-                new AppendNickForm(to, t.getCaretPosition(), null, t).show();
+                f = new AppendNickForm(to, t.getCaretPosition(), null, t);
+                f.setParentView(t);
             }
+            
+            f.show();
             return;
         }
 //#endif

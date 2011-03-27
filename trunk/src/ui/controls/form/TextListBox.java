@@ -25,7 +25,7 @@
  * along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
+/*
 package ui.controls.form;
 
 import javax.microedition.lcdui.Display;
@@ -49,11 +49,12 @@ import menu.Command;
 import ui.GMenu;
 import ui.GMenuConfig;
 //#endif
+*/
 /**
  *
  * @author ad,aqent
  */
-public class TextListBox
+/*public class TextListBox
         extends VirtualList
         implements
 //#ifndef MENU_LISTENER
@@ -144,4 +145,4 @@ public class TextListBox
 //#endif
 
 //#endif
-}
+}*/

@@ -40,7 +40,6 @@ import ui.MainBar;
 import java.util.*;
 import ui.VirtualElement;
 import ui.VirtualList;
-import ui.MIDPTextBox;
 //#ifndef MENU_LISTENER
 //# import javax.microedition.lcdui.Command;
 //#else
@@ -67,8 +66,10 @@ import midlet.Commands;
 //#ifdef CLIPBOARD
 import util.ClipBoard;
 //#endif
+import ui.InputTextBox;
+import ui.InputTextBoxNotify;
 
-public final class ContactMessageList extends VirtualList implements MenuListener,MIDPTextBox.TextBoxNotify {
+public final class ContactMessageList extends VirtualList implements MenuListener,InputTextBoxNotify {
     Contact contact;
     private boolean startSelection;
 
@@ -441,7 +442,9 @@ public final class ContactMessageList extends VirtualList implements MenuListene
             }
         }
         if (c == Commands.cmdAddSearchQuery) {
-            new MIDPTextBox(midlet.BombusQD.getInstance().display, SR.get(SR.MS_SEARCH), null, this, TextField.ANY, 30);
+            InputTextBox input = new InputTextBox(SR.get(SR.MS_SEARCH), null, 30, TextField.ANY);
+            input.setNotifyListener(this);
+            input.show();
             return;
         }
 //#if BREDOGENERATOR
@@ -495,7 +498,7 @@ public final class ContactMessageList extends VirtualList implements MenuListene
     }
 
     private String txt = "";
-    public void OkNotify(String txt) {
+    public void okNotify(String txt) {
         this.txt = txt;
         find_str(txt);
     }

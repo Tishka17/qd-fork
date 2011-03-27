@@ -34,14 +34,10 @@ import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.util.Enumeration;
 import java.util.Vector;
-import ui.IconTextElement;
-import colors.ColorTheme;
-import images.RosterIcons;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
-import ui.MIDPTextBox;
 import ui.MainBar;
 import ui.VirtualElement;
 import ui.VirtualList;
@@ -57,16 +53,19 @@ import disco.ServiceDiscovery;
 //#else
 import menu.MenuListener;
 import menu.Command;
-import menu.MyMenu;
 //#endif
 //#ifdef GRAPHICS_MENU        
-//# import ui.GMenu;
-//# import ui.GMenuConfig;
-//#endif 
+import ui.GMenu;
+import ui.GMenuConfig;
+//#endif
+import ui.InputTextBox;
+import ui.InputTextBoxNotify;
+
 /**
  *
  * @author ad,aqent
  */
+
 public class DiscoSearchForm
         extends VirtualList 
         implements
@@ -75,7 +74,7 @@ public class DiscoSearchForm
 //#else
         MenuListener
 //#endif
-        , MIDPTextBox.TextBoxNotify
+        , InputTextBoxNotify
     { 
     
     private Command cmdSearch;
@@ -163,7 +162,7 @@ public class DiscoSearchForm
           addCommand(cmdDel); cmdDel.setImg(0x41);
         }
 //#ifndef GRAPHICS_MENU        
-     addCommand(cmdCancel);
+//#      addCommand(cmdCancel);
 //#endif     
     }
 
@@ -172,9 +171,9 @@ public class DiscoSearchForm
     public String touchLeftCommand(){ return SR.get(SR.MS_MENU); }
     
 //#ifdef GRAPHICS_MENU        
-//#    public void cmdOk(){ showGraphicsMenu(); }
+   public void cmdOk(){ showGraphicsMenu(); }
 //#else
-   public void cmdOk(){ showMenu(); }  
+//#    public void cmdOk(){ showMenu(); }  
 //#endif    
 
     
@@ -184,7 +183,9 @@ public class DiscoSearchForm
         if (c==cmdCancel) {
             exitSearchForm();
         } else if (c==cmdAddServer) {
-            new MIDPTextBox(display, SR.get(SR.MS_SERVER), null, this, TextField.ANY,50);
+            InputTextBox input = new InputTextBox(SR.get(SR.MS_SERVER), null, 50, TextField.ANY);
+            input.setNotifyListener(this);
+            input.show();
 	} else if (c==cmdDel) {
             delServer();
         }
@@ -195,7 +196,7 @@ public class DiscoSearchForm
     }
     
     
-    public void OkNotify(String server) {
+    public void okNotify(String server) {
         addServer(server);
     }    
     private void loadDefaults() {
@@ -253,17 +254,17 @@ public class DiscoSearchForm
 //#ifdef MENU_LISTENER
     
 //#ifdef GRAPHICS_MENU        
-//#     public int showGraphicsMenu() {
-//#         commandState();
-//#         menuItem = new GMenu(display, parentView, this,null, menuCommands);        
-//#         GMenuConfig.getInstance().itemGrMenu=GMenu.SEARCH_FORM;
-//#         return GMenu.SEARCH_FORM;
-//#     }
-//#else
-    public void showMenu() {
+    public int showGraphicsMenu() {
         commandState();
-        new MyMenu(display, parentView, this, SR.get(SR.MS_BOOKMARKS, null, menuCommands));
-    }   
+        menuItem = new GMenu(display, parentView, this,null, menuCommands);        
+        GMenuConfig.getInstance().itemGrMenu=GMenu.SEARCH_FORM;
+        return GMenu.SEARCH_FORM;
+    }
+//#else
+//#     public void showMenu() {
+//#         commandState();
+//#         new MyMenu(display, parentView, this, SR.get(SR.MS_BOOKMARKS, null, menuCommands));
+//#     }   
 //#endif      
 
 //#endif

@@ -71,8 +71,7 @@ import java.io.DataOutputStream;
  */
 
 public class BombusQD extends MIDlet implements Runnable {
-
-    public Display display;
+    public static Display display;
     private boolean isRunning = false;
 
     public static StaticData sd;
@@ -94,6 +93,18 @@ public class BombusQD extends MIDlet implements Runnable {
             hideApp(false, null);
         } else {
             isRunning = true;
+
+            instance = this;
+            display = Display.getDisplay(this);
+
+            ColorTheme.initColors();
+            ColorTheme.loadFromStorage();
+
+            s = SplashScreen.getInstance(display);
+            display.setCurrent(s);
+
+            s.setProgress("Loading", 3);
+
             new Thread(this).start();
         }
     }
@@ -142,27 +153,16 @@ public class BombusQD extends MIDlet implements Runnable {
         NvStorage.writeFileRecord(os, "appver", 0, true);
     }
 
-    public void run(){
-        instance = this;
-        display = Display.getDisplay(this);
-        
+    public void run() {
         sd = StaticData.getInstance();
         cf = Config.getInstance();
 
         SR.changeLocale();
 
-        ColorTheme.initColors();
-        ColorTheme.loadFromStorage();
-
         Commands.initCommands();
 //#ifdef CLIENTS_ICONS
         ClientsIconsData.initClients();
 //#endif
-
-        s = SplashScreen.getInstance(display);
-        display.setCurrent(s);
-
-        s.setProgress("Loading", 3);
 
         if (sd.roster == null) {
             sd.roster = new Roster(display);
@@ -251,5 +251,15 @@ public class BombusQD extends MIDlet implements Runnable {
         } catch (NumberFormatException e) {
         }
         return def;
+    }
+
+    public static Displayable getCurrentView() {
+        return display.getCurrent();
+    }
+
+    public static void setCurrentView(Displayable d) {
+        display.setCurrent(d);
+
+        System.out.println(d);
     }
 }

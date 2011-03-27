@@ -197,7 +197,7 @@ public class Config {
     public boolean useBoldFont = false;
 
 //#ifdef CLIPBOARD
-    public boolean useClipBoard = true;
+    public static boolean useClipBoard = true;
 //#endif
 
     public String verHash = "";

@@ -22,15 +22,17 @@ public class VirtualCanvas extends Canvas {
     private Image offscreen;
 
     public VirtualCanvas() {
+        super();
+
 //#ifdef TOUCH
         Config.isTouchPhone = hasPointerEvents();
 //#endif
 
+        setFullScreenMode(Config.fullscreen);
+
         if(!isDoubleBuffered()) {
             offscreen = Image.createImage(getWidth(), getHeight());
         }
-
-        setFullScreenMode(Config.fullscreen);
     }
 
     public void show(CanvasEx canvas) {
@@ -42,12 +44,20 @@ public class VirtualCanvas extends Canvas {
         }
     }
 
-    protected void showNotify() {
-        setFullScreenMode(Config.fullscreen);
+    public final void setFullScreenMode(boolean flag) {
+        super.setFullScreenMode(flag);
+
+        if(!isDoubleBuffered()) {
+            offscreen = Image.createImage(getWidth(), getHeight());
+        }
     }
 
     protected void sizeChanged(int w, int h) {
         canvas.sizeChanged(w, h);
+
+        if(!isDoubleBuffered()) {
+            offscreen = Image.createImage(w, h);
+        }
     }
 
     public CanvasEx getCanvas() {

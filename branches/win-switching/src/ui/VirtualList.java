@@ -2069,10 +2069,6 @@ public abstract class VirtualList extends CanvasEx {
  //#endif
     }
 
-    public void destroyView(){
-        super.destroyView();
-    }
-
     public int getListWidth() {
         return width - midlet.BombusQD.cf.scrollWidth - 2;
     }

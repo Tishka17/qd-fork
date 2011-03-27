@@ -25,7 +25,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-//#if XML_CONSOLE || DEBUG_CONSOLE
+//#if XML_CONSOLE
 //# package console.xml;
 //# 
 //# import archive.ArchiveList;
@@ -33,10 +33,7 @@
 //# import java.io.IOException;
 //# import javax.microedition.lcdui.*;
 //# import locale.SR;
-//#ifdef CLIPBOARD
-//# import util.ClipBoard;
-//#endif
-//# import ui.controls.form.InputTextBox;
+//# import ui.input.InputTextBox;
 //# 
 //# /**
 //#  *

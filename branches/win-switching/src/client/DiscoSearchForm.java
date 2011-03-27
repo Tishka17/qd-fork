@@ -60,8 +60,8 @@ import midlet.BombusQD;
 import ui.GMenu;
 import ui.GMenuConfig;
 //#endif
-import ui.controls.form.InputTextBox;
-import ui.controls.form.InputTextBoxNotify;
+import ui.input.InputTextBox;
+import ui.input.InputTextBoxNotify;
 
 /**
  *

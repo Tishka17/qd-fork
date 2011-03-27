@@ -79,9 +79,8 @@ public class SplashScreen extends CanvasEx implements CommandListener {
 
     /** Creates a new instance of SplashScreen */
     public SplashScreen() {
-        super();//true - getKeyState,false - keyPressed
+        super();
 
-        setFullScreenMode(Config.fullscreen);
         try {
             if (img==null) {
                 img=Image.createImage("/images/splash.png");
@@ -94,7 +93,6 @@ public class SplashScreen extends CanvasEx implements CommandListener {
 
    public SplashScreen(ComplexString status, char exitKey) {
         super();
-        setFullScreenMode(Config.fullscreen);
 
         this.status=status;
         this.exitKey=exitKey;
@@ -104,7 +102,6 @@ public class SplashScreen extends CanvasEx implements CommandListener {
         redraw();
 
         tc=new TimerTaskClock();
-        //setFullScreenMode(midlet.BombusQD.cf.fullscreen);
 
         System.gc();
         try { Thread.sleep(50); } catch (InterruptedException ex) { }

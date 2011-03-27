@@ -31,11 +31,10 @@ package archive;
 import client.Constants;
 import client.Msg;
 import javax.microedition.lcdui.Command;
-import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
-import ui.controls.form.InputTextBox;
+import ui.input.InputTextBox;
 
 /**
  *

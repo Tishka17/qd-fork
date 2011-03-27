@@ -67,8 +67,8 @@ import midlet.Commands;
 import ui.controls.AlertBox;
 import util.ClipBoard;
 //#endif
-import ui.controls.form.InputTextBox;
-import ui.controls.form.InputTextBoxNotify;
+import ui.input.InputTextBox;
+import ui.input.InputTextBoxNotify;
 
 public final class ContactMessageList extends VirtualList implements MenuListener, InputTextBoxNotify {
     Contact contact;

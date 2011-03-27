@@ -26,7 +26,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package ui.controls.form;
+package ui.input;
 
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
@@ -46,15 +46,18 @@ import menu.MenuListener;
 import menu.Command;
 //#endif
 //#ifdef GRAPHICS_MENU
-import midlet.BombusQD;
 import ui.GMenu;
 import ui.GMenuConfig;
+import ui.controls.form.ListItem;
 //#endif
+
 /**
  *
  * @author ad,aqent
  */
-public class TextListBox extends VirtualList implements
+
+public class RecentInputList extends VirtualList
+        implements
 //#ifndef MENU_LISTENER
 //#         CommandListener
 //#else
@@ -65,21 +68,21 @@ public class TextListBox extends VirtualList implements
     private Command cmdOk;
     private Command cmdClear;
 
+    private InputTextBox input;
     private Vector recentList;
 
-    private InputTextBox ti;
-
-    public TextListBox(InputTextBox ti) {
+    public RecentInputList(InputTextBox input) {
         super();
 
-        cmdOk=new Command(SR.get(SR.MS_OK), Command.OK,1);
+        cmdOk = new Command(SR.get(SR.MS_OK), Command.OK,1);
         cmdOk.setImg(0x43);
 
-        cmdClear=new Command(SR.get(SR.MS_CLEAR), Command.SCREEN, 2);
-        cmdClear.setImg(0x13);
+        cmdClear = new Command(SR.get(SR.MS_CLEAR), Command.SCREEN, 2);
+        cmdClear.setImg(0x33);
 
-        this.ti=ti;
-        this.recentList = new Vector(0); //=ti.recentList;
+        this.input = input;
+        this.recentList = input.getRecentList();
+
         setMainBarItem(new MainBar(SR.get(SR.MS_SELECT)));
 
         setCommandListener(this);
@@ -97,37 +100,41 @@ public class TextListBox extends VirtualList implements
     }
 
     public void eventOk() {
-        if (recentList.size()>0)
-            //ti.setValue((String) recentList.elementAt(cursor));
+        if (recentList.size() > 0) {
+            input.setString((String)recentList.elementAt(cursor));
+        }
 
         destroyView();
     }
 
     public void commandAction(Command c, Displayable d){
         if (c==cmdClear) {
-            //ti.recentList.removeAllElements();
-            //ti.saveRecentList();
-        }
-        if (c==cmdOk) {
+            input.clearRecentList();
+        } else if (c == cmdOk) {
             eventOk();
-            return;
         }
 
         destroyView();
     }
 
-    public VirtualElement getItemRef(int index){
-        return new ListItem((String) recentList.elementAt(index));
+    public VirtualElement getItemRef(int index) {
+        return new ListItem((String)recentList.elementAt(index));
     }
-    public int getItemCount() { return recentList.size(); }
+
+    public int getItemCount() {
+        return recentList.size();
+    }
+
+    public String touchLeftCommand() {
+        return SR.get(SR.MS_MENU);
+    }
 
 //#ifdef MENU_LISTENER
-
 //#ifdef GRAPHICS_MENU
     public int showGraphicsMenu() {
         commandState();
 
-        menuItem = new GMenu(this,null, menuCommands);
+        menuItem = new GMenu(this, null, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.TEXTLISTBOX;
         return GMenu.TEXTLISTBOX;
     }
@@ -141,6 +148,5 @@ public class TextListBox extends VirtualList implements
 //#         new MyMenu(display, parentView, this, capt, null, menuCommands);
 //#    }
 //#endif
-
 //#endif
 }

@@ -93,7 +93,6 @@ public abstract class AlertBox extends CanvasEx
             left=SR.get(SR.MS_YES);
             right=SR.get(SR.MS_NO);
         }
-        setFullScreenMode(Config.fullscreen);
 
         messageFont=FontCache.getFont(false, FontCache.msg);
         barFont=FontCache.getFont(false, FontCache.bar);

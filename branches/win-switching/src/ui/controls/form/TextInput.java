@@ -35,6 +35,8 @@ import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import ui.IconTextElement;
 import ui.VirtualList;
+import ui.input.InputTextBox;
+import ui.input.InputTextBoxNotify;
 
 /**
  *
@@ -121,7 +123,7 @@ public class TextInput extends IconTextElement implements InputTextBoxNotify {
 
     public void onSelect(VirtualList view) {
         //new EditBox(caption, text, this, boxType);
-        InputTextBox input = new InputTextBox(caption, text, 255, boxType);
+        InputTextBox input = new InputTextBox(caption, text, id, 255, boxType);
         input.setNotifyListener(this);
         input.show();
     }

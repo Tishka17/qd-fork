@@ -46,8 +46,8 @@ import com.alsutton.jabber.*;
 //#ifdef GRAPHICS_MENU        
 import ui.GMenu;
 //#endif
-import ui.controls.form.InputTextBox;
-import ui.controls.form.InputTextBoxNotify;
+import ui.input.InputTextBox;
+import ui.input.InputTextBoxNotify;
 
 /**
  *

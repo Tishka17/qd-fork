@@ -62,8 +62,8 @@ import ui.MainBar;
 //#ifdef CLIPBOARD
 import util.ClipBoard;
 //#endif
-import ui.controls.form.InputTextBox;
-import ui.controls.form.InputTextBoxNotify;
+import ui.input.InputTextBox;
+import ui.input.InputTextBoxNotify;
 import vcard.VCard;
 import vcard.VCardEdit;
 import vcard.VCardView;

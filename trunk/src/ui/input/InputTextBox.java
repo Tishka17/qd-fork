@@ -2,9 +2,15 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ui;
+
+package ui.input;
 
 import client.Config;
+import io.NvStorage;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.EOFException;
+import java.util.Vector;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Displayable;
@@ -20,10 +26,14 @@ import util.ClipBoard;
  */
 
 public class InputTextBox extends TextBox implements CommandListener {
+    private static final int MAX_RECENT_ELEMENTS = 10;
+
     protected Displayable parentView;
 
     protected Command cmdOk;
     protected Command cmdCancel;
+
+    protected Command cmdRecent;
 
 //#ifdef CLIPBOARD
     protected Command cmdCopy;
@@ -33,8 +43,14 @@ public class InputTextBox extends TextBox implements CommandListener {
 
     protected InputTextBoxNotify notify;
 
+    private String id;
+    private Vector recentList;
+
     public InputTextBox(String caption, String text, String id, int len, int mode) {
         super(caption, text, len, mode);
+
+        this.id = id;
+        loadRecentList();
 
         if (Config.getInstance().capsState) {
             setConstraints(TextField.INITIAL_CAPS_SENTENCE);
@@ -54,8 +70,14 @@ public class InputTextBox extends TextBox implements CommandListener {
         cmdPasteText = new Command(SR.get(SR.MS_PASTE), Command.SCREEN, 5);
 //#endif
 
+        cmdRecent = new Command(SR.get(SR.MS_RECENT), Command.SCREEN, 2);
+
         addCommand(cmdOk);
         addCommand(cmdCancel);
+
+        if (!recentList.isEmpty()) {
+            addCommand(cmdRecent);
+        }
 
 //#ifdef CLIPBOARD
         if (Config.useClipBoard) {
@@ -92,9 +114,14 @@ public class InputTextBox extends TextBox implements CommandListener {
             if (notify != null) {
                 notify.okNotify(getString());
             }
+
+            addToRecentList(getString());
+            saveRecentList();
+
             destroyView();
         } else if (c == cmdCancel) {
             destroyView();
+//#ifdef CLIPBOARD
         } else if (c == cmdCopy) {
             ClipBoard.setClipBoard(getString());
 
@@ -102,8 +129,11 @@ public class InputTextBox extends TextBox implements CommandListener {
             addCommand(cmdPasteText);
         } else if (c == cmdCopyPlus) {
             ClipBoard.addToClipBoard(getString());
+//#endif
         } else  if (c == cmdPasteText) {
             insert(ClipBoard.getClipBoard(), getCaretPos());
+        } else if (c == cmdRecent) {
+            new RecentInputList(BombusQD.display, this);
         }
     }
     
@@ -121,26 +151,49 @@ public class InputTextBox extends TextBox implements CommandListener {
     }
 //#endif
 
-    /*private void loadRecentList() {
-        recentList=new Vector(10);
+    private void loadRecentList() {
+        recentList = new Vector(0);
         try {
-            DataInputStream is=NvStorage.ReadFileRecord(ti.id, 0);
+            DataInputStream is = NvStorage.ReadFileRecord(id, 0);
 
             try {
-                while (true) recentList.addElement(is.readUTF());
-            } catch (EOFException e) { is.close(); is=null; }
-        } catch (Exception e) { }
+                while (true) {
+                    recentList.addElement(is.readUTF());
+                }
+            } catch (EOFException e) {
+                is.close();
+                is = null;
+            }
+        } catch (Exception e) {}
     }
 
-    public void saveRecentList() {
-        DataOutputStream os=NvStorage.CreateDataOutputStream();
-        try {
-            for (Enumeration e=recentList.elements(); e.hasMoreElements(); ) {
-                String s=(String)e.nextElement();
-                os.writeUTF(s);
-            }
-        } catch (Exception e) { }
+    private void addToRecentList(String text) {
+        recentList.insertElementAt(text, 0);
+        if (recentList.size() > MAX_RECENT_ELEMENTS) {
+            recentList.removeElementAt(MAX_RECENT_ELEMENTS);
+        }        
+    }
 
-        NvStorage.writeFileRecord(os, ti.id, 0, true);
-    }*/
+    public final Vector getRecentList() {
+        return recentList;
+    }
+
+    public final void clearRecentList() {
+        recentList = null;
+        recentList = new Vector(0);
+        removeCommand(cmdRecent);
+
+        saveRecentList();
+    }
+
+    private void saveRecentList() {
+        DataOutputStream os = NvStorage.CreateDataOutputStream();
+        try {
+            for (int i = 0; i < recentList.size(); ++i) {
+                os.writeUTF((String)recentList.elementAt(i));
+            }
+        } catch (Exception e) {}
+
+        NvStorage.writeFileRecord(os, id, 0, true);
+    }
 }

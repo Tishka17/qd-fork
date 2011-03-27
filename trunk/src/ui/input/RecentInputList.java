@@ -25,8 +25,8 @@
  * along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-/*
-package ui.controls.form;
+
+package ui.input;
 
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
@@ -48,14 +48,15 @@ import menu.Command;
 //#ifdef GRAPHICS_MENU
 import ui.GMenu;
 import ui.GMenuConfig;
+import ui.controls.form.ListItem;
 //#endif
-*/
+
 /**
  *
  * @author ad,aqent
  */
-/*public class TextListBox
-        extends VirtualList
+
+public class RecentInputList extends VirtualList
         implements
 //#ifndef MENU_LISTENER
 //#         CommandListener
@@ -67,21 +68,21 @@ import ui.GMenuConfig;
     private Command cmdOk;
     private Command cmdClear;
 
+    private InputTextBox input;
     private Vector recentList;
 
-    private EditBox ti;
-
-    public TextListBox(Display display, EditBox ti) {
+    public RecentInputList(Display display, InputTextBox input) {
         super(display);
 
-        cmdOk=new Command(SR.get(SR.MS_OK), Command.OK,1);
+        cmdOk = new Command(SR.get(SR.MS_OK), Command.OK,1);
         cmdOk.setImg(0x43);
 
-        cmdClear=new Command(SR.get(SR.MS_CLEAR), Command.SCREEN, 2);
-        cmdClear.setImg(0x13);
+        cmdClear = new Command(SR.get(SR.MS_CLEAR), Command.SCREEN, 2);
+        cmdClear.setImg(0x33);
 
-        this.ti=ti;
-        this.recentList=ti.recentList;
+        this.input = input;
+        this.recentList = input.getRecentList();
+
         setMainBarItem(new MainBar(SR.get(SR.MS_SELECT)));
 
         setCommandListener(this);
@@ -99,37 +100,41 @@ import ui.GMenuConfig;
     }
 
     public void eventOk() {
-        if (recentList.size()>0)
-            ti.setValue((String) recentList.elementAt(cursor));
+        if (recentList.size() > 0) {
+            input.setString((String)recentList.elementAt(cursor));
+        }
 
         display.setCurrent(parentView);
     }
 
     public void commandAction(Command c, Displayable d){
         if (c==cmdClear) {
-            ti.recentList.removeAllElements();
-            ti.saveRecentList();
-        }
-        if (c==cmdOk) {
+            input.clearRecentList();
+        } else if (c == cmdOk) {
             eventOk();
-            return;
         }
 
-        display.setCurrent(parentView);
+        destroyView();
     }
 
-    public VirtualElement getItemRef(int index){
-        return new ListItem((String) recentList.elementAt(index));
+    public VirtualElement getItemRef(int index) {
+        return new ListItem((String)recentList.elementAt(index));
     }
-    public int getItemCount() { return recentList.size(); }
+
+    public int getItemCount() {
+        return recentList.size();
+    }
+
+    public String touchLeftCommand() {
+        return SR.get(SR.MS_MENU);
+    }
 
 //#ifdef MENU_LISTENER
-
 //#ifdef GRAPHICS_MENU
     public int showGraphicsMenu() {
         commandState();
 
-        menuItem = new GMenu(display, parentView, this,null, menuCommands);
+        menuItem = new GMenu(display, parentView, this, null, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.TEXTLISTBOX;
         return GMenu.TEXTLISTBOX;
     }
@@ -143,6 +148,5 @@ import ui.GMenuConfig;
 //#         new MyMenu(display, parentView, this, capt, null, menuCommands);
 //#    }
 //#endif
-
 //#endif
-}*/
+}

@@ -90,7 +90,7 @@ public class ModuleConfigForm extends DefForm {
     private CheckBox animatedSmiles;
 //#endif
 //#ifdef DETRANSLIT
-    private CheckBox autoDetranslit;
+//#     private CheckBox autoDetranslit;
 //#endif
     private DropChoiceBox textWrap;
     private DropChoiceBox msgEditType;
@@ -106,9 +106,9 @@ public class ModuleConfigForm extends DefForm {
 
     // for classic chat config
 //#ifdef CLASSIC_CHAT
-    private CheckBox usePhoneTheme;
-    private NumberInput classicChatHeight;
-    private NumberInput lineCount;
+//#     private CheckBox usePhoneTheme;
+//#     private NumberInput classicChatHeight;
+//#     private NumberInput lineCount;
 //#endif
 
     // for app config
@@ -282,8 +282,8 @@ public class ModuleConfigForm extends DefForm {
             }
 
 //#ifdef DETRANSLIT
-            autoDetranslit = new CheckBox(SR.get(SR.MS_AUTODETRANSLIT), config.autoDeTranslit);
-            addControl(autoDetranslit);
+//#             autoDetranslit = new CheckBox(SR.get(SR.MS_AUTODETRANSLIT), config.autoDeTranslit);
+//#             addControl(autoDetranslit);
 //#endif
             if(config.userAppLevel == 1) {
                 savePos = new CheckBox(SR.get(SR.MS_SAVE_CURSOR), config.savePos);
@@ -422,7 +422,7 @@ public class ModuleConfigForm extends DefForm {
             addControl(backImgType);
 
 //#ifdef FILE_IO
-            backImgPath = new PathSelector(SR.get(SR.MS_BACK_IMG_PATH), Config.backImgPath, true);
+            backImgPath = new PathSelector(SR.get(SR.MS_BACK_IMG_PATH), Config.backImgPath, PathSelector.TYPE_FILE);
             addControl(backImgPath);
 //#endif
 //#endif
@@ -541,18 +541,18 @@ public class ModuleConfigForm extends DefForm {
             addControl(awayStatus);
 //#endif
 //#ifdef CLASSIC_CHAT
-        } else if (type.equals(SR.get(SR.MS_clchatStr))) {
-            addControl(new SimpleString(SR.get(SR.MS_CLCHAT_ON), true));
-
-            usePhoneTheme = new CheckBox(SR.get(SR.MS_CLCHAT_BGNG_PHONE), config.usePhoneTheme);
-            addControl(usePhoneTheme);
-
-            classicChatHeight = new NumberInput(display,SR.get(SR.MS_CLCHAT_HEIGHT), Integer.toString(config.classicChatHeight), 80, 320);
-            addControl(classicChatHeight);
-
-            lineCount = new NumberInput(display, SR.get(SR.MS_CLCHAT_MSGLIMIT), Integer.toString(config.lineCount), 1, 1000);
-            itemsList.addElement(lineCount);
-            itemsList.addElement(new SpacerItem(10));
+//#         } else if (type.equals(SR.get(SR.MS_clchatStr))) {
+//#             addControl(new SimpleString(SR.get(SR.MS_CLCHAT_ON), true));
+//# 
+//#             usePhoneTheme = new CheckBox(SR.get(SR.MS_CLCHAT_BGNG_PHONE), config.usePhoneTheme);
+//#             addControl(usePhoneTheme);
+//# 
+//#             classicChatHeight = new NumberInput(display,SR.get(SR.MS_CLCHAT_HEIGHT), Integer.toString(config.classicChatHeight), 80, 320);
+//#             addControl(classicChatHeight);
+//# 
+//#             lineCount = new NumberInput(display, SR.get(SR.MS_CLCHAT_MSGLIMIT), Integer.toString(config.lineCount), 1, 1000);
+//#             itemsList.addElement(lineCount);
+//#             itemsList.addElement(new SpacerItem(10));
 //#endif
         }
         setCommandListener(this);
@@ -610,7 +610,7 @@ public class ModuleConfigForm extends DefForm {
             }
 
 //#ifdef DETRANSLIT
-            config.autoDeTranslit = autoDetranslit.getValue();
+//#             config.autoDeTranslit = autoDetranslit.getValue();
 //#endif
             if(config.userAppLevel == 1) {
                 config.timePresence = timePresence.getValue();
@@ -748,10 +748,10 @@ public class ModuleConfigForm extends DefForm {
             config.setAutoStatusMessage = awayStatus.getValue();
 //#endif
 //#ifdef CLASSIC_CHAT
-        } else if (type.equals(SR.get(SR.MS_clchatStr))) {
-            config.usePhoneTheme = usePhoneTheme.getValue();
-            config.classicChatHeight = Integer.parseInt(classicChatHeight.getValue());
-            config.lineCount = Integer.parseInt(lineCount.getValue());
+//#         } else if (type.equals(SR.get(SR.MS_clchatStr))) {
+//#             config.usePhoneTheme = usePhoneTheme.getValue();
+//#             config.classicChatHeight = Integer.parseInt(classicChatHeight.getValue());
+//#             config.lineCount = Integer.parseInt(lineCount.getValue());
 //#endif
         }
         destroyView();

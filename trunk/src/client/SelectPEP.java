@@ -27,6 +27,8 @@
 
 //#ifdef PEP
 package client;
+import ui.input.InputTextBoxNotify;
+import ui.input.InputTextBox;
 import images.ImageList;
 import font.FontCache;
 import images.MoodIcons;

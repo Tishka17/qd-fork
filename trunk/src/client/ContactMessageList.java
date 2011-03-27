@@ -66,8 +66,8 @@ import midlet.Commands;
 //#ifdef CLIPBOARD
 import util.ClipBoard;
 //#endif
-import ui.InputTextBox;
-import ui.InputTextBoxNotify;
+import ui.input.InputTextBox;
+import ui.input.InputTextBoxNotify;
 
 public final class ContactMessageList extends VirtualList implements MenuListener,InputTextBoxNotify {
     Contact contact;

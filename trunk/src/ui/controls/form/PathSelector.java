@@ -23,6 +23,9 @@ import ui.VirtualList;
  */
 
 public final class PathSelector extends IconTextElement implements BrowserListener {
+    public static final int TYPE_FILE = 0;
+    public static final int TYPE_DIR = 1;
+
     private String caption;
     private String path;
 
@@ -32,9 +35,9 @@ public final class PathSelector extends IconTextElement implements BrowserListen
     private int capFontH;
     private int fontH;
 
-    private boolean open;
+    private int type;
 
-    public PathSelector(String caption, String path, boolean open) {
+    public PathSelector(String caption, String path, int type) {
         super(null);
 
         this.caption = caption;
@@ -46,7 +49,7 @@ public final class PathSelector extends IconTextElement implements BrowserListen
         this.font = FontCache.getFont(false, FontCache.roster);
         this.fontH = font.getHeight();
 
-        this.open = open;
+        this.type = type;
     }
 
     public String toString() {
@@ -93,8 +96,16 @@ public final class PathSelector extends IconTextElement implements BrowserListen
     }
 
     public void onSelect(VirtualList view) {
-        Displayable d = BombusQD.getInstance().display.getCurrent();
-        new Browser(null, BombusQD.getInstance().display, d, this, !open);
+        Displayable d = BombusQD.getCurrentView();
+
+        switch (type) {
+            case TYPE_FILE:
+                new Browser(null, BombusQD.display, d, this, false);
+                break;
+            case TYPE_DIR:
+                new Browser(null, BombusQD.display, d, this, true);
+                break;
+        }        
     }
 
     public void BrowserFilePathNotify(String path) {

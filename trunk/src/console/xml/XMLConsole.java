@@ -151,7 +151,7 @@
 //#             stanza = getMessage(cursor).toString();
 //#         } catch (Exception e) {
 //#         }
-//#         new ConsoleTextEdit(display, this, stanza);
+//#         new ConsoleTextEdit(stanza).show();
 //#     }
 //# 
 //#     public void commandAction(Command c, Displayable d) {

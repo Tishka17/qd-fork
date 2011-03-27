@@ -30,43 +30,29 @@
 package io.file.transfer;
 
 import io.file.FileIO;
-import io.file.browse.Browser;
-import io.file.browse.BrowserListener;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.Command;
-//#else
-import menu.Command;
-//#endif
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
-import ui.controls.form.LinkString;
 import ui.controls.form.SimpleString;
 import ui.controls.form.DefForm;
 import ui.controls.form.MultiLine;
+import ui.controls.form.PathSelector;
 import ui.controls.form.TextInput;
 
 /**
  *
  * @author Evg_S
  */
-public class TransferAcceptFile
-        extends DefForm
-        implements BrowserListener {
-//#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_FILE_TRANSFER");
-//#endif
 
+public class TransferAcceptFile extends DefForm {
     private Display display;
 
-    TransferTask t;
-    TextInput fileName;
-    TextInput path;
+    private TransferTask t;
+    private TextInput fileName;
 
-    LinkString selectFile;
+    private PathSelector selectFile;
 
-    /** Creates a new instance of TransferAcceptFile */
     public TransferAcceptFile(Display display, Displayable pView, TransferTask transferTask) {
         super(display, pView, SR.get(SR.MS_ACCEPT_FILE));
 
@@ -92,31 +78,23 @@ public class TransferAcceptFile
         }
 
         fileName=new TextInput(display, SR.get(SR.MS_FILE), name, "", TextField.ANY);
-        itemsList.addElement(fileName);
-        itemsList.addElement(new SimpleString(SR.get(SR.MS_FILE_SIZE)+" "+String.valueOf(t.fileSize)+" bytes", true));
+        addControl(fileName);
+        addControl(new SimpleString(SR.get(SR.MS_FILE_SIZE)+" "+String.valueOf(t.fileSize)+" bytes", true));
 
-        path=new TextInput(display, SR.get(SR.MS_SAVE_TO), t.filePath, "recvPath", TextField.ANY);
-        itemsList.addElement(path);
+        selectFile=new PathSelector(SR.get(SR.MS_PATH), null, PathSelector.TYPE_DIR);
+        addControl(selectFile);
 
-        selectFile=new LinkString(SR.get(SR.MS_PATH)) { public void doAction() { initBrowser(); } };
-        itemsList.addElement(selectFile);
+        addControl(new MultiLine(SR.get(SR.MS_SENDER), t.jid, super.superWidth));
 
-        itemsList.addElement(new MultiLine(SR.get(SR.MS_SENDER), t.jid, super.superWidth));
-
-        itemsList.addElement(new MultiLine(SR.get(SR.MS_DESCRIPTION), t.description, super.superWidth));
+        addControl(new MultiLine(SR.get(SR.MS_DESCRIPTION), t.description, super.superWidth));
 
         attachDisplay(display);
         this.parentView=pView;
     }
 
-
-    public void initBrowser() { new Browser(path.getValue(), display, this, this, true); }
-
-    public void BrowserFilePathNotify(String pathSelected) { path.setValue(pathSelected); }
-
     public void cmdOk() {
-        t.fileName=fileName.getValue().trim();
-        t.filePath=path.getValue();
+        t.fileName = fileName.getValue().trim();
+        t.filePath = selectFile.getValue();
         t.accept();
 
         destroyView();

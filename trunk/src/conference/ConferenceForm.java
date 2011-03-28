@@ -204,12 +204,19 @@ public final class ConferenceForm extends DefForm {
         saveMsgCount(msgLimit);
 
         if (c==cmdEdit) {
-            midlet.BombusQD.sd.roster.bookmarks.removeElement(editConf);
-            midlet.BombusQD.sd.roster.bookmarks.insertElementAt(new BookmarkItem(name, gchat.toString(), nick, pass, autojoin), cursor);
+            editConf.setJid(gchat.toString());
+            editConf.setDesc(name);
+            editConf.setPassword(pass);
+            editConf.setNick(nick);
+            editConf.setAutoJoin(autojoin);
+
             new BookmarkQuery(BookmarkQuery.SAVE);
-            display.setCurrent(parentView);
+            destroyView();
         } else if (c==cmdAdd) {
-            new Bookmarks(display, midlet.BombusQD.sd.roster, new BookmarkItem(name, gchat.toString(), nick, pass, autojoin));
+            midlet.BombusQD.sd.roster.bookmarks.addElement(new BookmarkItem(name, gchat.toString(), nick, pass, autojoin));
+
+            new BookmarkQuery(BookmarkQuery.SAVE);
+            destroyView();
         } else if (c==cmdJoin) {
             try {
                 Config.defConference = room + "@" + host;

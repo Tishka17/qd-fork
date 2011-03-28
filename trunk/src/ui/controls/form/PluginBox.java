@@ -17,7 +17,7 @@ import images.RosterIcons;
  * @author aqent
  */
 
-public class PluginBox extends IconTextElement {
+public final class PluginBox extends IconTextElement {
     public static final int STANDART = 0;
     public static final int AUTOSTATUS = 1;
     public static final int USERKEYS = 2;
@@ -51,38 +51,40 @@ public class PluginBox extends IconTextElement {
     public void onSelect(VirtualList view) {
         if (type != STANDART) {
             isChecked = !isChecked;
-            Config config = Config.getInstance();
             switch (type) {
                 case AUTOSTATUS:
-                    config.module_autostatus = !config.module_autostatus;
+                    Config.module_autostatus = !Config.module_autostatus;
                     break;
                 case USERKEYS:
-                    config.userKeys = !config.userKeys;
+                    Config.userKeys = !Config.userKeys;
                     break;
                 case AVATARS:
-                    config.module_avatars = !config.module_avatars;
+                    Config.module_avatars = !Config.module_avatars;
                     break;
                 case HISTORY:
-                    config.module_history = !config.module_history;
+                    Config.module_history = !Config.module_history;
                     break;
                 case IMPORT_EXPORT:
-                    config.module_ie = !config.module_ie;
+                    Config.module_ie = !Config.module_ie;
                     break;
                 case TASKS:
-                    config.module_tasks = !config.module_tasks;
+                    Config.module_tasks = !Config.module_tasks;
                     break;
                 case CLASSIC_CHAT:
-                    config.module_classicchat = !config.module_classicchat;
+                    Config.module_classicchat = !Config.module_classicchat;
                     break;
                 case DEBUG:
-                    config.debug = !config.debug;
+                    Config.debug = !Config.debug;
                     break;
             }
         }
     }
 
     public int getImageIndex() {
-        return type > 0 ? (isChecked ? 0x36 : 0x37) : 0x36;
+        if (!isChecked && type > 0) {
+            return RosterIcons.ICON_PLUGINBOX_UNCHECKED;
+        }
+        return RosterIcons.ICON_PLUGINBOX_CHECKED;
     }
 
     public boolean isSelectable() {

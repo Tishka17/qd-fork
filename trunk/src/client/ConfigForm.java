@@ -51,7 +51,7 @@ public class ConfigForm extends DefForm implements MenuListener {
         addControl(new PluginBox(SR.get(SR.MS_msgStr)));
         addControl(new PluginBox(SR.get(SR.MS_notifyStr)));
         addControl(new PluginBox(SR.get(SR.MS_netStr)));
-        addControl(new PluginBox(SR.get(SR.MS_appStr)));
+        addControl(new PluginBox(SR.get(SR.MS_APPLICATION)));
         addControl(new PluginBox(SR.get(SR.MS_grStr)));
         addControl(new PluginBox(SR.get(SR.MS_COLOR_TUNE)));
         addControl(new PluginBox(SR.get(SR.MS_fontsStr)));

@@ -28,11 +28,9 @@
 
 package ui.controls.form;
 
-import client.Config;
 import colors.ColorTheme;
 import javax.microedition.lcdui.Graphics;
 import ui.IconTextElement;
-import java.util.Vector;
 import ui.VirtualList;
 
 /**

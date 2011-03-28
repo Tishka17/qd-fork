@@ -36,24 +36,28 @@ import util.StringLoader;
  *
  * @author EvgS
  */
-public class RosterIcons extends ImageList{
-    
-    private static RosterIcons instance;
 
-    public static RosterIcons getInstance() {
-	if (instance==null) instance=new RosterIcons();
-	return instance;
-    }
+public class RosterIcons extends ImageList {
+    private final static String ROSTER_ICONS_PATH = "/images/skin.png";
 
-    private final static int ICONS_IN_ROW=8;
-    private final static int ICONS_IN_COL=6;
+    private final static int ICONS_IN_ROW = 8;
+    private final static int ICONS_IN_COL = 6;
 
     private Hashtable transports;
     private Vector transpSkins;
-    
-    /** Creates a new instance of RosterIcons */
+
+    private static RosterIcons instance;
+
+    public static RosterIcons getInstance() {
+	if (instance == null) {
+            instance = new RosterIcons();
+        }
+	return instance;
+    }
+
     private RosterIcons() {
-	super("/images/skin.png", ICONS_IN_COL, ICONS_IN_ROW);
+	super(ROSTER_ICONS_PATH, ICONS_IN_COL, ICONS_IN_ROW);
+
         transports=new StringLoader().hashtableLoader("/images/transports.txt"); //new Hashtable();
         transpSkins=new Vector(transports.size());
         transports.put("conference", new Integer(ICON_GROUPCHAT_INDEX));
@@ -111,8 +115,13 @@ public class RosterIcons extends ImageList{
     public static final byte ICON_KEYBLOCK_INDEX = 0x17;
     public static final byte ICON_VIEWING_INDEX = 0x14;
     public static final byte ICON_APPEARING_INDEX = 0x36;
-    public static Integer iconHasVcard=new Integer(ICON_SEARCH_INDEX);
+
     public static final byte ICON_DELIVERED_INDEX = 0x27;
     public static final byte ICON_TRANSPARENT = 0x44;
-    public static Integer iconTransparent =new Integer(ICON_TRANSPARENT);
+
+    public static final byte ICON_PLUGINBOX_CHECKED = 0x36;
+    public static final byte ICON_PLUGINBOX_UNCHECKED = 0x37;
+
+    public static final byte ICON_CHOICEBOX_CHECKED = 0x57;
+    public static final byte ICON_CHOICEBOX_UNCHECKED = 0x56;
 }

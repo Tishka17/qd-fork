@@ -47,12 +47,8 @@ import ui.IconTextElement;
 import javax.microedition.lcdui.Image;
 import ui.VirtualList;
 
-public class Contact extends IconTextElement{
-
-//#if USE_ROTATOR
-    private byte isnew=0;
-    public void setNewContact() { this.isnew = 10; }
-//#endif
+public class Contact extends IconTextElement {
+    private static final int BLINK_COUNT = 10;
 
 //#ifdef PEP
     public byte pepMood=-1;//0..127
@@ -182,9 +178,8 @@ public class Contact extends IconTextElement{
         if(null != lastSendedMessage) lastSendedMessage = null;
     }
 
-   private int fontHeight;
+    private int fontHeight;
 
-    int ilHeight;
     int maxImgHeight;
     int cursorPos;
 
@@ -197,7 +192,7 @@ public class Contact extends IconTextElement{
 //#         scroller=null;
 //#endif
         key1="";
-        maxImgHeight = ilHeight= il.getHeight();
+        maxImgHeight = imgHeight;
     }
 
     public Contact(final String Nick, final String sJid, final int Status, String subscr) {
@@ -225,6 +220,13 @@ public class Contact extends IconTextElement{
 
         return getMainColor();
     }
+
+//#if USE_ROTATOR
+    private byte isnew = 0;
+    public void setNewContact() {
+        this.isnew = BLINK_COUNT;
+    }
+//#endif
 
     public int getCursor() {
        return cursorPos;
@@ -465,19 +467,11 @@ public class Contact extends IconTextElement{
             wft = Math.max(wft, sl);
         }
 //#ifdef CLIENTS_ICONS
-        return wft + il.getWidth() + 4 + (hasClientIcon()?ClientsIcons.getInstance().getWidth():0);
+        return wft + imgWidth + 4 + (hasClientIcon()?ClientsIcons.getInstance().getWidth():0);
 //#else
-//#         return wft + il.getWidth() + 4;
+//#         return wft + imgWidth + 4;
 //#endif
     }
-    /*
-    public int getVWidth(){
-        String str=(!midlet.BombusQD.cf.rosterStatus)?getFirstString():(getFirstLength()>getSecondLength())?getFirstString():getSecondString();
-        int wft=getFont().stringWidth(str);
-        str=null;
-        return wft+il.getWidth()+4 +(hasClientIcon()?ClientsIcons.getInstance().getWidth():0);
-    }
-     */
 
     public String toString() { return getFirstString(); }
 
@@ -580,14 +574,13 @@ public class Contact extends IconTextElement{
     public int avatar_width=0;
     public int avatar_height=0;
 
-
     public final void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {
         int imageIndex = getImageIndex();
         int w=g.getClipWidth();
         if(midlet.BombusQD.cf.simpleContacts) {
             itemHeight = getFont().getHeight();
             if (hasNewMsgs()) {
-               w -= il.getWidth();
+               w -= imgWidth;
                il.drawImage(g, RosterIcons.ICON_MESSAGE_INDEX, w, 0);
             }
             super.drawItem(view, g, ofs, sel);
@@ -599,18 +592,18 @@ public class Contact extends IconTextElement{
         int xo=g.getClipX();
         int yo=g.getClipY();
 
-        int pos = 10;
+        int xoffset = Config.contactXOffset;
 
-        g.translate(pos,0);
-        w -= pos;
+        g.translate(xoffset, 0);
+        w -= xoffset;
 
-        int imgH=(h-ilHeight) >> 1 ;
+        int imgH = (h - imgHeight) >> 1;
 
-        if(midlet.BombusQD.cf.module_avatars==false){
-          img_vcard=null;
+        if(!Config.module_avatars) {
+            img_vcard=null;
         }
         if (imageIndex>-1) {
-            offset+=ilHeight;
+            offset += imgHeight;
             il.drawImage(g, imageIndex, 2, imgH);
         }
         if(img_vcard!=null){
@@ -641,7 +634,7 @@ public class Contact extends IconTextElement{
              }else{
                  w-=clientImgSize;
              }
-             ClientsIcons.getInstance().drawImage(g, client, midlet.BombusQD.cf.iconsLeft?ilHeight+2
+             ClientsIcons.getInstance().drawImage(g, client, midlet.BombusQD.cf.iconsLeft?imgHeight+2
                      :w
                      , (h-clientImgSize) >> 1 );
              //client==index
@@ -657,7 +650,7 @@ public class Contact extends IconTextElement{
         }
 //#ifdef PEP
         if (pepTune) {
-            w-=ilHeight;
+            w -= imgHeight;
             il.drawImage(g, RosterIcons.ICON_PROFILE_INDEX+1, w,imgH);
         }
         if (hasActivity()) {
@@ -671,12 +664,12 @@ public class Contact extends IconTextElement{
 
 //#ifdef FILE_TRANSFER
         if (fileQuery) {
-            w-=ilHeight;
+            w -= imgHeight;
             il.drawImage(g, RosterIcons.ICON_PROGRESS_INDEX, w,imgH);
         }
 //#endif
         if (getSecImageIndex()>-1) {
-            w-=ilHeight;
+            w -= imgHeight;
             il.drawImage(g, getSecImageIndex(), w,imgH);
         }
 

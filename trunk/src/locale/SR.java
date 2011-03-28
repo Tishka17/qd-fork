@@ -165,7 +165,7 @@ public class SR {
      public final static short MS_SUBSCR_REMOVE  = 132; //Remove subscription
      public final static short MS_SET  = 133; //Set
      public final static short MS_APPLICATION  = 134; //Application
-     public final static short MS_appStr  = 135; //Application
+     public final static short MS_CONTACT_XOFFSET  = 135; //Application
      public final static short MS_BOOKMARKS  = 136; //Bookmarks
      public final static short MS_TEST_SOUND  = 137; //Test sound
      public final static short MS_STARTUP  = 138; //Startup
@@ -928,7 +928,7 @@ public class SR {
         "Remove subscription",
         "Set",
         "Application",
-        "Application",
+        "Contact's offset",
         "Bookmarks",
         "Test sound",
         "Startup",

@@ -338,9 +338,16 @@ public class Account extends IconTextElement {
     }
 
     public JabberStream openJabberStream() throws java.io.IOException {
-        String proxy = null;
+        StringBuffer url = new StringBuffer();
 
-        StringBuffer url = new StringBuffer(server).append(':').append(port);
+        if (host != null && !host.equals("")) {
+            url.append(host);
+        } else {
+            url.append(server);
+        }
+        url.append(':').append(port);
+
+        String proxy = null;
         if (!isEnableProxy()) {
             url.insert(0, (useSSL) ? "ssl://" : "socket://");
         } else {

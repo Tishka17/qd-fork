@@ -67,6 +67,7 @@ public class ModuleConfigForm extends DefForm {
     private CheckBox rosterStatus;
     private DropChoiceBox subscr;
     private DropChoiceBox nil;
+    private NumberInput contactXOffset;
 
     // for chat config
 //#ifdef RUNNING_MESSAGE
@@ -140,7 +141,7 @@ public class ModuleConfigForm extends DefForm {
     private TrackItem gradientBarLight1;
     private TrackItem gradientBarLight2;
     private NumberInput scrollWidth;
-	private NumberInput minItemHeight;
+    private NumberInput minItemHeight;
 //#ifdef BACK_IMAGE
     private DropChoiceBox backImgType;
 //#ifdef FILE_IO
@@ -197,6 +198,9 @@ public class ModuleConfigForm extends DefForm {
                 nil.setSelectedIndex(config.notInListDropLevel);
             }
             addControl(nil);
+
+            contactXOffset = new NumberInput(display, SR.get(SR.MS_CONTACT_XOFFSET), Integer.toString(Config.contactXOffset), 0, 100);
+            addControl(contactXOffset);
 
             if(config.userAppLevel == 1) {
                 simpleContacts = new CheckBox(SR.get(SR.MS_SIMPLE_CONTACTS_DRAW), config.simpleContacts);
@@ -458,7 +462,7 @@ public class ModuleConfigForm extends DefForm {
 
             gradient_cursor = new CheckBox(SR.get(SR.MS_GRADIENT_CURSOR), config.gradient_cursor);
             addControl(gradient_cursor);
-        } else if (type.equals(SR.get(SR.MS_appStr))) {
+        } else if (type.equals(SR.get(SR.MS_APPLICATION))) {
             addControl(new SimpleString(SR.get(SR.MS_STARTUP_ACTIONS), true));
 
             autoLogin = new CheckBox(SR.get(SR.MS_AUTOLOGIN), config.autoLogin);
@@ -567,6 +571,8 @@ public class ModuleConfigForm extends DefForm {
             config.autoSubscribe = subscr.getSelectedIndex();
             config.notInListDropLevel = nil.getSelectedIndex();
 
+            config.contactXOffset = Integer.parseInt(contactXOffset.getValue());
+
             if (config.userAppLevel == 1) {
                 config.simpleContacts = simpleContacts.getValue();
                 config.selfContact = selfContact.getValue();
@@ -638,7 +644,7 @@ public class ModuleConfigForm extends DefForm {
             if(config.userAppLevel == 1) {
                 Config.hideMessageIcon = hideMessageIcon.getValue();
 //#ifdef CLIPBOARD
-                config.useClipBoard = useClipBoard.getValue();
+                Config.useClipBoard = useClipBoard.getValue();
 //#endif
             }
             Config.swapSendAndSuspend = swapSendAndSuspend.getValue();
@@ -706,7 +712,7 @@ public class ModuleConfigForm extends DefForm {
 //#ifdef BACK_IMAGE
             VirtualList.createImage(false);
 //#endif
-        } else if (type.equals(SR.get(SR.MS_appStr))) {
+        } else if (type.equals(SR.get(SR.MS_APPLICATION))) {
             config.autoLogin = autoLogin.getValue();
             config.autoJoinConferences = autoJoinConferences.getValue();
             Config.cleanConfContacts = cleanConfContacts.getValue();

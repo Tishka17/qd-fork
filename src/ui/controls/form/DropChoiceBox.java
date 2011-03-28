@@ -74,6 +74,10 @@ public  class DropChoiceBox extends IconTextElement {
         caption = null;
     }
 
+    public String getCaption() {
+        return caption;
+    }
+
     public int getCaptionLength() {
         if (caption == null) {
             return 0;
@@ -153,7 +157,7 @@ public  class DropChoiceBox extends IconTextElement {
         }
 
         if (size() > 1) {
-            il.drawImage(g, 0x24, (width - il.getHeight()) - 1, (y + (height >> 1)) - (il.getHeight() >> 1));
+            il.drawImage(g, RosterIcons.ICON_COLLAPSED_INDEX, (width - imgHeight) - 1, (y + (height >> 1)) - (imgHeight >> 1));
         }
     }
 

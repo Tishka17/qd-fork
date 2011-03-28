@@ -241,6 +241,7 @@ public class Config {
 
     public int scrollWidth = 5;
     public int minItemHeight = rosterFont * 3;
+    public static int contactXOffset = 10;
 
     public int[] cursorPos = {
                             1,  //RosterToolsMenu 0
@@ -289,7 +290,8 @@ public class Config {
 
     public int msgEditType = 0;
     public boolean runningMessage = false;
-    public boolean debug = false;
+
+    public static boolean debug = false;
 
     public static boolean hasAniSmiles = true;
     public boolean showCollapsedPresences = false;
@@ -679,6 +681,7 @@ public class Config {
             gradientBarLight2=inputStream.readInt();
             userAppLevel = inputStream.readInt();
             menuFont = inputStream.readInt();
+            contactXOffset = inputStream.readInt();
 	    inputStream.close();
             inputStream=null;
 	} catch (Exception e) {
@@ -916,6 +919,7 @@ public class Config {
             outputStream.writeInt(gradientBarLight2);
             outputStream.writeInt(userAppLevel);
             outputStream.writeInt(menuFont);
+            outputStream.writeInt(contactXOffset);
 	} catch (IOException e) { }
 	return NvStorage.writeFileRecord(outputStream, "confInt", 0, true);
     }

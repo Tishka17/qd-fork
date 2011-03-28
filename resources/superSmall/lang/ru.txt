@@ -48,7 +48,7 @@ Activate	Активировать
 Affiliation	Членство
 Accounts	Учетные записи
 Delete list	Удалить список
-Account >	Учетные записи>
+Account >	Учетные записи >
 Select	Выбрать
 Subject	Тема
 Quit	Выход
@@ -170,7 +170,7 @@ Suspend	Отложить
 Alert Profile >	Сигналы >
 My vCard	Визитка
 transports	Транспорты
-Add Profile	Добавить Профиль>
+Add Profile	Добавить Профиль
 self-contact	Свои контакты
 vCard	Визитка
 Set Subject	Установить тему
@@ -605,7 +605,7 @@ Alternating chat colors	Чередовать цвета чата
 Transparency bgnd(argb)	Прозрачность фона(ARGB)
 Graphics menu bgnd(argb)	Графическое меню: фон(ARGB)
 Graphics menu font	Графическое меню: шрифт
-My Services	Мои Сервисы
+My Services	Мои Сервисы >
 My Jabber	Мой Jabber
 (HIGH TRAFFIC!)	(!трафик)
 Draw Rect Avatar	Рамка аватара
@@ -742,3 +742,4 @@ Delete contacts, who leave MUC	Автоотчистка групп
 Background image path	Путь к изображению
 Background from FS	Фон из ФС
 [path is not specified]	[путь не указан]
+Contact's offset	Отступ контактов от края

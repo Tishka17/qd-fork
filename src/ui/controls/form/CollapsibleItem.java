@@ -103,7 +103,6 @@ public final class CollapsibleItem extends IconTextElement {
             g.fillRoundRect(xOffset, fontHeight + 2, width, height, 9, 9);
             g.setColor(0x000000);
             g.drawRoundRect(xOffset, fontHeight + 2, width, height, 9, 9);
-            g.setColor(0x000000);
 
             int y = 0;
             for (int i = 0; i < size; i++) {

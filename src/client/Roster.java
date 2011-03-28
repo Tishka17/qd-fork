@@ -338,7 +338,7 @@ public class Roster
         cmdOptions = new Command(SR.get(SR.MS_OPTIONS), Command.SCREEN, 16);
         cmdOptions.setImg(0x03);
 
-        cmdMyService = new Command(SR.get(SR.MS_SERVICE) + '>', Command.SCREEN, 22);
+        cmdMyService = new Command(SR.get(SR.MS_SERVICE), Command.SCREEN, 22);
         cmdMyService.setImg(0x90);
 
         cmdAlert = new Command(SR.get(SR.MS_ALERT_PROFILE_CMD), Command.SCREEN, 32);

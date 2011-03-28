@@ -76,7 +76,9 @@ public final class CheckBox extends IconTextElement {
     }
 
     public int getImageIndex() {
-        return isChecked ? 0x57 : 0x56;
+        return isChecked ? 
+            RosterIcons.ICON_CHOICEBOX_CHECKED :
+            RosterIcons.ICON_CHOICEBOX_UNCHECKED;
     }
 
     public void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {
@@ -114,7 +116,6 @@ public final class CheckBox extends IconTextElement {
             g.fillRoundRect(xOffset, fontHeight + 2, width, height, 9, 9);
             g.setColor(0x000000);
             g.drawRoundRect(xOffset, fontHeight + 2, width, height, 9, 9);
-            g.setColor(0x000000);
 
             int y = 0;
             for (int i = 0; i < size; i++) {
@@ -131,8 +132,8 @@ public final class CheckBox extends IconTextElement {
         } else {
             itemHeight = fontHeight;
         }
-        if (itemHeight < il.getHeight()) {
-            itemHeight = il.getHeight();
+        if (itemHeight < imgHeight) {
+            itemHeight = imgHeight;
         }
         if (itemHeight < midlet.BombusQD.cf.minItemHeight) {
             itemHeight = midlet.BombusQD.cf.minItemHeight;

@@ -180,7 +180,6 @@ public class AccountSelect extends VirtualList implements
     }
 
     public void commandState() {
-        System.out.println("ololo");
 //#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
         cmdfirstList.removeAllElements();

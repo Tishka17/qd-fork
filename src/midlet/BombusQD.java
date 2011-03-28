@@ -97,6 +97,9 @@ public class BombusQD extends MIDlet implements Runnable {
             instance = this;
             display = Display.getDisplay(this);
 
+            sd = StaticData.getInstance();
+            cf = Config.getInstance();
+
             ColorTheme.initColors();
             ColorTheme.loadFromStorage();
 
@@ -154,9 +157,6 @@ public class BombusQD extends MIDlet implements Runnable {
     }
 
     public void run() {
-        sd = StaticData.getInstance();
-        cf = Config.getInstance();
-
         SR.changeLocale();
 
         Commands.initCommands();

@@ -581,6 +581,7 @@ public class Roster
 	if (mainbar!=null)
              mainbar.setElementAt(pgs, 3);
         redraw();
+        System.out.println(pgs);
     }
 
     public void setProgress(int percent){

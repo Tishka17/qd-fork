@@ -5,7 +5,6 @@
 
 package ui;
 
-import client.Config;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Graphics;
@@ -19,9 +18,8 @@ import midlet.BombusQD;
 public abstract class CanvasEx extends Canvas {
     private Displayable parentView;
 
-    public CanvasEx() {
-        setFullScreenMode(Config.fullscreen);
-    }
+    protected int width;
+    protected int height;
 
     public void show() {
         if (parentView == null) {
@@ -29,7 +27,7 @@ public abstract class CanvasEx extends Canvas {
         }        
         BombusQD.sd.canvas.show(this);
 
-        System.out.println("show " + this + " [" + parentView + "]");
+        //System.out.println("show " + this + " [" + parentView + "]");
     }
 
     public void destroyView() {
@@ -41,7 +39,7 @@ public abstract class CanvasEx extends Canvas {
             }
             parentView = null;
 
-            System.out.println("destroy " + this);
+            //System.out.println("destroy " + this);
         }
     }
 
@@ -66,6 +64,8 @@ public abstract class CanvasEx extends Canvas {
     protected void pointerPressed(int x, int y) {};
     protected void pointerDragged(int x, int y) {};
     protected void pointerReleased(int x, int y) {};
+
+    protected void showNotify() {};
 
     protected void sizeChanged(int w, int h) {};
 }

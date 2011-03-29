@@ -89,10 +89,6 @@ public class GMenu extends CanvasEx {
    public final static byte NEWVECTORCHAT=31;
    public final static byte AFFILIATIONS_EDIT=32;
 
-
-
-   private int width;
-   private int height;
    private Font font;
    private int fh;
    private int size;
@@ -100,8 +96,7 @@ public class GMenu extends CanvasEx {
 
    public GMenu(MenuListener menuListener, ImageList il, Vector menuCommands) {
         gm.ml=menuListener;
-        this.parentView=parentView;
-        this.display=display;
+
         if(null == menuCommands) return;
         size = menuCommands.size();
         gm.commandslist = new String[size];//3

@@ -85,9 +85,6 @@ public abstract class AlertBox extends CanvasEx
     int pos=0;
     int steps=1;
 
-    private int height;
-    private int width;
-
     public AlertBox(String mainbar, String text, boolean optionsMaster) {
         if(optionsMaster){
             left=SR.get(SR.MS_YES);
@@ -134,10 +131,6 @@ public abstract class AlertBox extends CanvasEx
 
     protected void paint(Graphics g) {
         if (isShowing) {
-
-            width=g.getClipWidth();
-            height=g.getClipHeight();
-
             int oldColor=g.getColor();
 
             g.setColor(ColorTheme.getColor(ColorTheme.LIST_BGND));
@@ -218,11 +211,6 @@ public abstract class AlertBox extends CanvasEx
         if (pb==null)
             pb=new Progress(0, height, width);
         Progress.draw(g, filled, Integer.toString(steps-pos));
-    }
-
-    protected void sizeChanged(int w, int h) {
-        width=w;
-        height=h;
     }
 
     protected void keyPressed(int keyCode) { // overriding this method to avoid autorepeat

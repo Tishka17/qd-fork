@@ -195,9 +195,6 @@ public abstract class VirtualList extends CanvasEx {
 
     public static boolean canBack=true;
 
-    public int width;
-    public int height;
-
     protected int cursor;
 
     protected boolean stickyWindow=true;
@@ -411,13 +408,10 @@ public abstract class VirtualList extends CanvasEx {
 //#ifdef DEBUG_CONSOLE
 //#         midlet.BombusQD.debug.add("VirtualList::sizeChanged " + width+"x"+height + "->"+w+"x"+h ,10);
 //#endif
-        width=w;
-        height=h;
 //#ifdef GRADIENT
         iHeight=0;
         mHeight=0;
 //#endif
-        redraw();
     }
 
     protected void beginPaint(){};

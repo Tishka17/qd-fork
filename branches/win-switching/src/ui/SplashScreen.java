@@ -50,9 +50,6 @@ public class SplashScreen extends CanvasEx implements CommandListener {
     private String capt;
     private int pos=-1;
 
-    public int width;
-    public int height;
-
     private static Image img;
 
     private ComplexString status;
@@ -122,8 +119,6 @@ public class SplashScreen extends CanvasEx implements CommandListener {
     long s2;
 
     public void paint(Graphics g) {
-        width=g.getClipWidth();
-        height=g.getClipHeight();
         /*
         if(snow != null) {
             //s1 = System.currentTimeMillis();

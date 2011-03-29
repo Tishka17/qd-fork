@@ -44,20 +44,25 @@ public class VirtualCanvas extends Canvas {
         }
     }
 
-    public final void setFullScreenMode(boolean flag) {
-        super.setFullScreenMode(flag);
-
-        if(!isDoubleBuffered()) {
-            offscreen = Image.createImage(getWidth(), getHeight());
-        }
+    public void showNotify() {
+        setFullScreenMode(Config.fullscreen);
+        
+        canvas.showNotify();
     }
 
     protected void sizeChanged(int w, int h) {
         canvas.sizeChanged(w, h);
 
+        canvas.width = w;
+        canvas.height = h;
+
         if(!isDoubleBuffered()) {
             offscreen = Image.createImage(w, h);
         }
+
+        //System.out.println("updated canvas size");
+        //System.out.println("new w: " + w);
+        //System.out.println("new h: " + h);
     }
 
     public CanvasEx getCanvas() {
@@ -65,6 +70,10 @@ public class VirtualCanvas extends Canvas {
     }
 
     protected void paint(Graphics g) {
+        // from bm2
+        canvas.width = getWidth();
+        canvas.height = getHeight();
+
         if(!isDoubleBuffered()) {
             Graphics graphics = offscreen.getGraphics();
             canvas.paint(graphics);

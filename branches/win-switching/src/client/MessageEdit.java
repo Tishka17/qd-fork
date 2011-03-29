@@ -506,11 +506,11 @@ public final class MessageEdit
               if(to.getChatInfo().getMessageCount() == 0) {
                  midlet.BombusQD.sd.roster.show();
               } else {
-                  BombusQD.setCurrentView(parentView);
+                  to.getMessageList().show();
               }
            }
        } else {
-           BombusQD.setCurrentView(parentView);
+           to.getMessageList().show();
        }
     }
 

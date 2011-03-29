@@ -30,6 +30,7 @@ package conference;
  
 import client.*;
 import client.Constants;
+import ui.IconTextElement;
  
  /**
   *
@@ -67,7 +68,18 @@ import client.Constants;
          }
          lastMessageTime=m.dateGmt;
     }
-
+    public int compare(IconTextElement right){
+        if (right instanceof MucContact) {
+            MucContact c = (MucContact) right;
+            if (c.origin==Constants.ORIGIN_GROUPCHAT && origin!=Constants.ORIGIN_GROUPCHAT)
+                return 1;
+            if (origin==Constants.ORIGIN_GROUPCHAT && c.origin!=Constants.ORIGIN_GROUPCHAT)
+                return -1;
+            if (c.affiliationCode!=affiliationCode)
+                return c.affiliationCode - affiliationCode;
+        }
+        return super.compare(right);
+    }
     public String getTipString() {
         int nm=getNewMsgsCount();
         if (nm!=0)

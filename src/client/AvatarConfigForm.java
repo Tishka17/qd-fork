@@ -28,15 +28,12 @@ package client;
 
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
-import javax.microedition.lcdui.TextField;
 import locale.SR;
 import ui.controls.form.CheckBox;
 import ui.controls.form.DefForm;
-import ui.controls.form.TextInput;
 import ui.controls.form.NumberInput;
 import ui.controls.form.SpacerItem;
 import javax.microedition.lcdui.Image;
-import images.ImageList;
 import ui.controls.form.LinkString;
 import java.util.Vector;
 //#ifdef FILE_IO

@@ -1955,39 +1955,41 @@ public class Roster
                     }
 
                     if (id.startsWith("avcard_get")) {
-                       Thread.sleep(100);
+                        System.out.println(data);
+
+                        Thread.sleep(100);
 			String matchedjid = id.substring(10, id.length());
-			String vcardFrom = data.getAttribute("from");
-			if (!(vcardFrom.equals(matchedjid) || vcardFrom.equals(new Jid(matchedjid).getBareJid())))
-				return JabberBlockListener.BLOCK_REJECTED;
+
+			if (!from.equals(new Jid(matchedjid).getBareJid())) {
+                            return JabberBlockListener.BLOCK_REJECTED;
+                        }
                         VCard vc=new VCard(data);
                         try {
                             int length=vc.getPhoto().length;
                             if (length==1) {
                                 vc.setPhoto(null);
                             } else {
-                                Image photoImg=Image.createImage(vc.getPhoto(), 0, length);
-                                Contact c=null;
-
-                                if(c==null) c=getContact(data.getAttribute("from"), true);
-//#if FILE_IO
+                                Contact c = getContact(matchedjid, true);
+                                Image photoImg = Image.createImage(vc.getPhoto(), 0, length);
+  //#if FILE_IO
                                 if(midlet.BombusQD.cf.autoSaveVcard) {
-                                    cashePhoto(vc,c);
+                                    cashePhoto(vc, c);
                                 }
 //#endif
-                                c.hasPhoto=true;
+                                c.hasPhoto = true;
                                 setImageAvatar(c,photoImg);
-                                vc.hasPhoto=true;
-                                c.vcard=vc;
+                                vc.hasPhoto = true;
+                                c.vcard = vc;
                             }
                         } catch(OutOfMemoryError eom){
-                              System.out.println("OutOfMemoryError onload "+vc.getJid());
-                        }  catch (Exception e) {}
+                              System.out.println("OutOfMemoryError onload " + vc.getJid());
+                        }  catch (Exception e) {
+                            //e.printStackTrace();
+                        }
 
-                       return JabberBlockListener.BLOCK_PROCESSED;
+                        return JabberBlockListener.BLOCK_PROCESSED;
                     }
-                 } // id!=null
-
+                 }
 
                 if ( type.equals( "result" ) ) {
                     //fix
@@ -2417,12 +2419,14 @@ public class Roster
 //#endif
 
                 if (midlet.BombusQD.cf.auto_queryPhoto) {
-                    Contact c = getContact(data.getAttribute("from"), true);
+                    Contact c = getContact(from, true);
                     if (c.hasPhoto == false && c.img_vcard == null) {
-                        JabberDataBlock req = new Iq(c.getJid(), Iq.TYPE_GET, "avcard_get");
+                        JabberDataBlock req = new Iq(c.bareJid, Iq.TYPE_GET, "avcard_get" + c.getJid());
                         req.addChildNs("vCard", "vcard-temp");
+                        //System.out.println(req);
                         theStream.send(req);
-                        req = null;
+                        //req = null;
+                        
                     }
                     c = null;
                 }
@@ -2699,22 +2703,6 @@ public class Roster
     }
 
 //#ifndef WMUC
-     private final static String mucStrings[] = {
-         "visitor", //0
-         "participant", //1
-         "moderator", //2
-         "owner", //3
-         "admin", //4
-         "member", //5
-         "none" //6
-     };
-
-     private static String realJid;
-     private static String affiliation;
-     private static String role;
-     private static byte roleCode;
-     private static byte affiliationCode;
-
      public final int getConferenceColor(int status) {
          switch (status) {
              case Constants.PRESENCE_CHAT: return ColorTheme.getColor(ColorTheme.CONTACT_CHAT);
@@ -2759,8 +2747,8 @@ public class Roster
 //#           midlet.BombusQD.debug.add("::role: processPresence->role.." +  mc.role, 10);
 //#endif
 
-         affiliation = mc.affiliation;
-         role = mc.role;
+         String affiliation = mc.affiliation;
+         String role = mc.role;
          String from = mc.jid.getJid();
          byte presenceType=presence.getTypeIndex();
 
@@ -2768,16 +2756,28 @@ public class Roster
 
          JabberDataBlock item=xmuc.getChildBlock("item");
 
-         String tempRole = item.getAttribute("role");
-         if (tempRole.equals(mucStrings[0])) roleCode = Constants.ROLE_VISITOR;
-    else if (tempRole.equals(mucStrings[1])) roleCode = Constants.ROLE_PARTICIPANT;
-    else if (tempRole.equals(mucStrings[2])) roleCode = Constants.ROLE_MODERATOR;
+         byte roleCode = Constants.ROLE_PARTICIPANT;
+         byte affiliationCode = Constants.AFFILIATION_NONE;
 
-         String tempAffiliation  =  item.getAttribute("affiliation");
-         if (tempAffiliation.equals(mucStrings[3])) affiliationCode = Constants.AFFILIATION_OWNER;
-    else if (tempAffiliation.equals(mucStrings[4])) affiliationCode = Constants.AFFILIATION_ADMIN;
-    else if (tempAffiliation.equals(mucStrings[5])) affiliationCode = Constants.AFFILIATION_MEMBER;
-    else if (tempAffiliation.equals(mucStrings[6])) affiliationCode = Constants.AFFILIATION_NONE;
+         String tempRole = item.getAttribute("role");
+         if (tempRole.equals("visitor")) {
+             roleCode = Constants.ROLE_VISITOR;
+         } else if (tempRole.equals("participant")) {
+             roleCode = Constants.ROLE_PARTICIPANT;
+         } else if (tempRole.equals("moderator")) {
+             roleCode = Constants.ROLE_MODERATOR;
+         }
+
+         String tempAffiliation = item.getAttribute("affiliation");
+         if (tempAffiliation.equals("owner")) {
+             affiliationCode = Constants.AFFILIATION_OWNER;
+         } else if (tempAffiliation.equals("admin")) {
+             affiliationCode = Constants.AFFILIATION_ADMIN;
+         } else if (tempAffiliation.equals("member")) {
+             affiliationCode = Constants.AFFILIATION_MEMBER;
+         } else if (tempAffiliation.equals("none")) {
+             affiliationCode = Constants.AFFILIATION_NONE;
+         }
 
          boolean roleChanged = !tempRole.equals(role);
          boolean affiliationChanged = !tempAffiliation.equals(affiliation);
@@ -2806,8 +2806,8 @@ public class Roster
                  mc.key0 = Constants.GROUP_VISITOR;
                  break;
              default:
-                 mc.transport = mc.affiliation.equals(mucStrings[5])? 0 : RosterIcons.getInstance().getTransportIndex("vis");
-                 mc.key0 = (mc.affiliation.equals(mucStrings[5])?Constants.GROUP_MEMBER:Constants.GROUP_PARTICIPANT);
+                 mc.transport = mc.affiliation.equals("member")? 0 : RosterIcons.getInstance().getTransportIndex("vis");
+                 mc.key0 = (mc.affiliation.equals("member")?Constants.GROUP_MEMBER:Constants.GROUP_PARTICIPANT);
          }
 
          JabberDataBlock statusBlock = xmuc.getChildBlock("status");
@@ -2909,7 +2909,7 @@ public class Roster
              } else {
                  mucContactBuf.append(SR.get(SR.MS_IS_NOW));
                  if (roleChanged) mucContactBuf.append(getRoleLocale(roleCode));
-                 if(mc.role.equals(mucStrings[0])) {
+                 if(mc.role.equals("visitor")) {
                        if(null != item.getChildBlockText("reason")) mucContactBuf.append('('+item.getChildBlockText("reason")+')');
                   }
                   if (affiliationChanged) {
@@ -2930,10 +2930,6 @@ public class Roster
          return mucContactBuf.toString();
      }
 //#endif
-
-
-
-
 
 //#ifdef POPUPS
     boolean showWobbler(Contact c) {

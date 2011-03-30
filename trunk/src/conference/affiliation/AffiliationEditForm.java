@@ -60,14 +60,12 @@ public final class AffiliationEditForm extends DefForm {
         itemsList.addElement(jidItem);
 
         affiliationItem = new DropChoiceBox(display, SR.get(SR.MS_SET_AFFILIATION));
-        for (int i = 0; i <= AffiliationItem.AFFILIATION_OUTCAST; ++i) {
-            String name = AffiliationItem.getAffiliationName(i);
-            affiliationItem.append(name);
-            if (affiliation.equals(name)) {
-                recentAffiliation = i;
-            }
-        }
-        affiliationItem.setSelectedIndex(recentAffiliation);
+        affiliationItem.append("owner");
+        affiliationItem.append("admin");
+        affiliationItem.append("member");
+        affiliationItem.append("none");
+        affiliationItem.append("outcast");
+        affiliationItem.setSelectedIndex(AffiliationItem.getIndexByName(affiliation));
         itemsList.addElement(affiliationItem);
 
         reasonItem = new TextInput(display, SR.get(SR.MS_REASON), reason, "reason", TextField.ANY);
@@ -85,7 +83,7 @@ public final class AffiliationEditForm extends DefForm {
         JabberDataBlock query=request.addChildNs("query", "http://jabber.org/protocol/muc#admin");
         JabberDataBlock child=query.addChild("item", null);
         child.setAttribute("jid", jidItem.getValue());
-        child.setAttribute("affiliation", AffiliationItem.getAffiliationName(affiliationItem.getSelectedIndex()));
+        child.setAttribute("affiliation", AffiliationItem.getNameByIndex(affiliationItem.getSelectedIndex()));
 
         String rs=reasonItem.getValue();
         if (!rs.equals("")) child.addChild("reason", rs);
@@ -110,7 +108,7 @@ public final class AffiliationEditForm extends DefForm {
             StringBuffer warn=new StringBuffer(SR.get(SR.MS_ARE_YOU_SURE_WANT_TO_DISCARD))
             .append(jidItem.getValue())
             .append(SR.get(SR.MS_FROM_OWNER_TO))
-            .append(AffiliationItem.getAffiliationName((short)affiliationItem.getSelectedIndex()));
+            .append(AffiliationItem.getNameByIndex((short)affiliationItem.getSelectedIndex()));
 
             new AlertBox(SR.get(SR.MS_MODIFY_AFFILIATION), warn.toString(), display, null, false) {
                     public void yes() {

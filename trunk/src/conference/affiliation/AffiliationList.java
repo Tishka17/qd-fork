@@ -88,7 +88,7 @@ public final class AffiliationList extends VirtualList implements
 		if (!Config.getInstance().muc119) namespace="http://jabber.org/protocol/muc#owner";
 	}
 
-        this.affiliation = AffiliationItem.getAffiliationName(affiliationIndex);
+        this.affiliation = AffiliationItem.getNameByIndex(affiliationIndex);
 
         setMainBarItem(new MainBar(2, null, " ", false));
         getMainBarItem().addElement(affiliation);
@@ -120,7 +120,7 @@ public final class AffiliationList extends VirtualList implements
 
 //#ifdef CLIPBOARD
         if (getItemCount() != 0) {
-            if (Config.getInstance().useClipBoard) {
+            if (Config.useClipBoard) {
                 addCommand(Commands.cmdCopy);
             }
         }
@@ -143,8 +143,8 @@ public final class AffiliationList extends VirtualList implements
 //#ifdef CLIPBOARD
         if (c == Commands.cmdCopy) {
             AffiliationItem item = (AffiliationItem)getFocusedObject();
-            if (item.jid != null) {
-                ClipBoard.setClipBoard(item.jid);
+            if (item.getJid() != null) {
+                ClipBoard.setClipBoard(item.getJid());
             }
         }
 //#endif
@@ -166,9 +166,9 @@ public final class AffiliationList extends VirtualList implements
     public void eventOk(){
         try {
             AffiliationItem item=(AffiliationItem)getFocusedObject();
-            new AffiliationEditForm(display, this, room, item.jid,
-					AffiliationItem.getAffiliationName(item.affiliation),
-                                        (item.reason==null)? "":item.reason
+            new AffiliationEditForm(display, this, room, item.getJid(),
+					AffiliationItem.getNameByIndex(item.getIndex()),
+                                        (item.getReason() == null) ? "" : item.getReason()
                     );
         } catch (Exception e) { }
     }

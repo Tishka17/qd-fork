@@ -35,24 +35,31 @@ import ui.IconTextElement;
  * @author EvgS
  */
 public class AffiliationItem extends IconTextElement {
-    public final static byte AFFILIATION_OWNER = 1;
-    public final static byte AFFILIATION_ADMIN = 2;
-    public final static byte AFFILIATION_MEMBER = 3;
-    public final static byte AFFILIATION_NONE = 4;
-    public final static byte AFFILIATION_OUTCAST = 8;
+    public final static byte AFFILIATION_OWNER = 0;
+    public final static byte AFFILIATION_ADMIN = 1;
+    public final static byte AFFILIATION_MEMBER = 2;
+    public final static byte AFFILIATION_NONE = 3;
+    public final static byte AFFILIATION_OUTCAST = 4;
 
-    public static String getAffiliationName(int index) {
-        switch (index) {
-            case AFFILIATION_OWNER:
-                return "owner";
-            case AFFILIATION_ADMIN:
-                return "admin";
-            case AFFILIATION_MEMBER:
-                return "member";
-            case AFFILIATION_OUTCAST:
-                return "outcast";
+    private String jid;
+    private String reason;
+    private int affiliation;
+
+    public AffiliationItem(String jid, String affiliation) {
+        super(RosterIcons.getInstance());
+        this.jid = jid;
+
+        this.affiliation = getIndexByName(affiliation);
+        this.reason = null;
+    }
+
+    public AffiliationItem(JabberDataBlock item) {
+        this(item.getAttribute("jid"), item.getAttribute("affiliation"));
+        reason = item.getChildBlockText("reason");
+
+        if (reason.length() == 0) {
+            reason = null;
         }
-        return "none";
     }
 
     public int getImageIndex() {
@@ -69,28 +76,16 @@ public class AffiliationItem extends IconTextElement {
         return RosterIcons.ICON_INVISIBLE_INDEX;
     }
 
-    public String jid;
-    public String reason;
-    public int affiliation;
-
-    public AffiliationItem(String jid, String affiliation) {
-        super(RosterIcons.getInstance());
-        this.jid = jid;
-        for (short index = 1; index < 5; index++) {
-            if (affiliation.equals(getAffiliationName(index))) {
-                this.affiliation = index;
-            }
-        }
-        reason = "";
+    public String getJid() {
+        return jid;
     }
 
-    public AffiliationItem(JabberDataBlock item) {
-        this(item.getAttribute("jid"), item.getAttribute("affiliation"));
-        reason = item.getChildBlockText("reason");
+    public String getReason() {
+        return reason;
+    }
 
-        if (reason.length() == 0) {
-            reason = null;
-        }
+    public int getIndex() {
+        return affiliation;
     }
 
     public String toString() {
@@ -103,5 +98,32 @@ public class AffiliationItem extends IconTextElement {
 
     public String getTipString() {
         return reason;
+    }
+
+    public static String getNameByIndex(int index) {
+        switch (index) {
+            case AFFILIATION_OWNER:
+                return "owner";
+            case AFFILIATION_ADMIN:
+                return "admin";
+            case AFFILIATION_MEMBER:
+                return "member";
+            case AFFILIATION_OUTCAST:
+                return "outcast";
+        }
+        return "none";
+    }
+
+    public static int getIndexByName(String name) {
+        if (name.equals("owner")) {
+            return AFFILIATION_OWNER;
+        } else if (name.equals("admin")) {
+            return AFFILIATION_ADMIN;
+        } else if (name.equals("member")) {
+            return AFFILIATION_MEMBER;
+        } else if (name.equals("outcast")) {
+            return AFFILIATION_OUTCAST;
+        }
+        return AFFILIATION_NONE;
     }
 }

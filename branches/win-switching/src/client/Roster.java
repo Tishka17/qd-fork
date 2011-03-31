@@ -1955,7 +1955,7 @@ public class Roster
 //#endif
                          if (c != null) {
                              c.vcard = vcard;
-                             if (BombusQD.getCurrentView() instanceof VirtualList) {
+                             if (BombusQD.sd.canvas.isShown()) {
                                  if (c.getGroupType() == Groups.TYPE_SELF) {
                                      new VCardEdit(vcard).show();
                                  } else {

@@ -39,15 +39,12 @@ import java.util.*;
 public class GMenu extends CanvasEx {
 
    public GMenu() {};
-   private Image offscreen = null;
 
    public void init(Graphics g, int width, int height,VirtualList view) {
         this.height=height;
         this.width=width;
-        if (!isDoubleBuffered()){
-            offscreen=Image.createImage(width, height);
-        }
-    }
+   }
+
    public void paint(Graphics g){
        paintCustom(g,gm.itemGrMenu);
    }
@@ -168,8 +165,7 @@ public class GMenu extends CanvasEx {
    };
 
 
-  public void paintCustom(Graphics g,int itemGrMenu) {
-        Graphics graphics=(offscreen==null)? g: offscreen.getGraphics();
+  public void paintCustom(Graphics g, int itemGrMenu) {
 //long s1 = System.currentTimeMillis();
           if(eventMenu){
            if(gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_NEW_ACCOUNT))>-1
@@ -184,18 +180,6 @@ public class GMenu extends CanvasEx {
          }else{
             drawAllItems(g,gm.menuCommands,gm.commandslist,gm.itemCursorIndex);
          }
-/*
-        long s2 = System.currentTimeMillis();
-        int ws = g.getFont().stringWidth(Long.toString(s2-s1)+"msec") + 5;
-        int fh = g.getFont().getHeight();
-        int xpos = width >> 1 -ws >> 1 ;
-        g.setColor(255,255,0);
-        g.fillRect(xpos,1,ws,fh);
-        g.setColor(0,0,0);
-        g.drawRect(xpos,1,ws-1,fh-1);
-        g.drawString(Long.toString(s2-s1)+"msec", xpos+2, 2, g.LEFT|g.TOP);
- */
-        if (graphics != g) g.drawImage(offscreen, 0, 0, Graphics.LEFT | Graphics.TOP);
   }
 
    boolean eventMenu=false;

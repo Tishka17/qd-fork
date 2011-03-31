@@ -50,6 +50,8 @@ public class InputTextBox extends TextBox implements CommandListener {
     public InputTextBox(String caption, String text, String id, int len, int mode) {
         super(caption, text, len, mode);
 
+        System.out.println(id);
+
         this.id = id;
         loadRecentList();
 
@@ -116,8 +118,10 @@ public class InputTextBox extends TextBox implements CommandListener {
                 notify.okNotify(getString());
             }
 
-            addToRecentList(getString());
-            saveRecentList();
+            if (id != null) {
+                addToRecentList(getString());
+                saveRecentList();
+            }
 
             destroyView();
         } else if (c == cmdCancel) {

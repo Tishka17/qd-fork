@@ -49,11 +49,7 @@ import util.ClipBoard;
  *
  * @author Eugene Stahov,aqent
  */
-public final class MessageEdit
-        implements CommandListener//, Runnable
-{
-    private Displayable parentView;
-
+public final class MessageEdit implements CommandListener {
     private String body;
     private String subj;
     public Contact to;
@@ -124,29 +120,27 @@ public final class MessageEdit
     }
 
 
-    public void replaceText(Contact to, String bodyNew, Displayable pView){
-        this.parentView = pView;
+    public void replaceText(Contact to, String bodyNew){
         this.to = to;
          switch(midlet.BombusQD.cf.msgEditType){
             case 0: t.setString(bodyNew); break;
             case 1: textField.setString(bodyNew); break;
          }
-         setText(bodyNew,to,pView, false);
+         setText(bodyNew,to, false);
     }
 
-    public void setText(Displayable pView, Vector contacts, boolean multiMessage){
+    public void setText(Vector contacts, boolean multiMessage){
        this.multiMessage = multiMessage;
 
        active_contacts = null;
        active_contacts = new Vector(0);
 
        this.active_contacts = contacts;
-       setText("", null, pView, false );
+       setText("", null, false);
     }
 
-    public void setText(String body, Contact to, Displayable pView, boolean emptyChat){
+    public void setText(String body, Contact to, boolean emptyChat){
        this.body = body;
-       this.parentView=pView;
        this.to = to;
        this.emptyChat = emptyChat;
        boolean phoneSONYE = (midlet.BombusQD.cf.phoneManufacturer == Config.SONYE);
@@ -337,11 +331,15 @@ public final class MessageEdit
             if (null != to) {
                 to.msgSuspended = body;
             }
+            ArchiveList list;
             if (midlet.BombusQD.cf.msgEditType > 0) {
-                new ArchiveList(textField.getCaretPosition(), textField, null).show();
+                list = new ArchiveList(textField.getCaretPosition(), textField, null);
+                list.setParentView(form);
             } else {
-                new ArchiveList(t.getCaretPosition(), null, t).show();
+                list = new ArchiveList(t.getCaretPosition(), null, t);
+                list.setParentView(t);
             }
+            list.show();
             return;
         }
 //#endif

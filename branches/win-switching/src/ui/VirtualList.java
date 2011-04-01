@@ -1656,7 +1656,7 @@ public abstract class VirtualList extends CanvasEx {
 //#endif
                        Contact c = sd.roster.getContact(popup.getContact(), false);
                        if(c.getChatInfo().getMessageCount() <= 0){
-                          midlet.BombusQD.sd.roster.createMessageEdit(c, c.msgSuspended, this, true);
+                          midlet.BombusQD.sd.roster.createMessageEdit(c, c.msgSuspended, true);
                           return;
                        }
                        c.getMessageList().show();

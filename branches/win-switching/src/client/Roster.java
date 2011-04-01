@@ -3326,7 +3326,7 @@ public class Roster
         if (e instanceof Contact) {
            Contact c = (Contact)e;
            if(c.getChatInfo().getMessageCount()==0){
-               createMessageEdit(c, c.msgSuspended, this, true);
+               createMessageEdit(c, c.msgSuspended, true);
                return null;
            }
            return ((Contact)e).getMessageList();
@@ -3334,33 +3334,33 @@ public class Roster
         return null;
     }
 
-    public void replaceMessageEditText(Contact to, String bodyNew, Displayable pview){
+    public void replaceMessageEditText(Contact to, String bodyNew){
          switch(midlet.BombusQD.cf.msgEditType){
             case 0:
-                messageEdit.replaceText(to, bodyNew, pview);
+                messageEdit.replaceText(to, bodyNew);
                 break;
             case 1:
-                altmessageEdit.replaceText(to, bodyNew, pview);
+                altmessageEdit.replaceText(to, bodyNew);
                 break;
          }
     }
 
-    public void createMultiMessage(Displayable pview,Vector contacts){
+    public void createMultiMessage(Vector contacts){
          switch(midlet.BombusQD.cf.msgEditType){
-            case 0: messageEdit.setText(pview, contacts, true); break;
-            case 1:  altmessageEdit.setText(pview, contacts, true); break;
+            case 0: messageEdit.setText(contacts, true); break;
+            case 1:  altmessageEdit.setText(contacts, true); break;
          }
     }
 
-    public void createMessageEdit(Contact c, String body, Displayable pview, boolean emptyChat){
+    public void createMessageEdit(Contact c, String body,boolean emptyChat){
          switch(midlet.BombusQD.cf.msgEditType){
             case 0:
                 if(messageEdit.ticker!=null) messageEdit.ticker.setString("BombusQD");
-                messageEdit.setText(body, c, pview, emptyChat);
+                messageEdit.setText(body, c, emptyChat);
                 break;
             case 1:
                 if(altmessageEdit.ticker!=null) altmessageEdit.ticker.setString("BombusQD");
-                altmessageEdit.setText(body, c, pview, emptyChat);
+                altmessageEdit.setText(body, c, emptyChat);
                 break;
          }
     }
@@ -3378,7 +3378,7 @@ public class Roster
 //#                 new SimpleItemChat(this, c);
 //#             } else {
 //#endif
-                createMessageEdit(c, c.msgSuspended, pview, (c.getChatInfo().getMessageCount() == 0));
+                createMessageEdit(c, c.msgSuspended, (c.getChatInfo().getMessageCount() == 0));
 //#ifdef CLASSIC_CHAT
 //#             }
 //#endif
@@ -3429,7 +3429,7 @@ public class Roster
             Contact c = (Contact)e;
 
             if (c.getChatInfo().getMessageCount() == 0) {
-                createMessageEdit(c, c.msgSuspended, this, true);
+                createMessageEdit(c, c.msgSuspended, true);
                 return;
             }
 //#ifdef CLASSIC_CHAT

@@ -101,10 +101,16 @@ public class InputTextBox extends TextBox implements CommandListener {
         this.notify = notify;
     }
 
+    public void setParentView(CanvasEx parentView) {
+        this.parentView = parentView;
+    }
+
     public void show() {
         setCommandListener(this);
 
-        parentView = BombusQD.sd.canvas.getCanvas();
+        if (parentView == null) {
+            parentView = BombusQD.sd.canvas.getCanvas();
+        }
         BombusQD.setCurrentView(this);
     }
 

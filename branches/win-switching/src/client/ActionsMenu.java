@@ -380,7 +380,6 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
             }
         }
         midlet.BombusQD.sd.roster.theStream.send(query);
-        destroyView();
     }
 
     public void eventOk() {
@@ -557,6 +556,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                 case MI_ANNOTATION: {
                     InputTextBox input = new InputTextBox(SR.get(SR.MS_NEW), contact.annotations, 200, TextField.ANY);
                     input.setNotifyListener(this);
+                    input.setParentView((CanvasEx)getParentView());
                     input.show();
                     return;
                 }

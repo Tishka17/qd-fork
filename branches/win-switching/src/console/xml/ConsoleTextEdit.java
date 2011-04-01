@@ -97,7 +97,9 @@
 //#                     insert(TEMPLATE_IQ_VERSION, caretPos);
 //#ifdef ARCHIVE
 //#                 } else if (c == cmdArchive) {
-//#                     new ArchiveList(caretPos, null, this).show();
+//#                     ArchiveList list = new ArchiveList(caretPos, null, this);
+//#                     list.setParentView(this);
+//#                     list.show();
 //#endif
 //#                 } else if (c == cmdPastePresence) {
 //#                     insert(TEMPLATE_PRESENCE, caretPos);

@@ -597,7 +597,8 @@ public final class ContactMessageList extends VirtualList implements MenuListene
 
     private void showMsgEdit(String msgText){
         contact.msgSuspended = null;
-        midlet.BombusQD.sd.roster.createMessageEdit(contact, msgText , this, false);
+        contact.setCursor(cursor);
+        midlet.BombusQD.sd.roster.createMessageEdit(contact, msgText, false);
     }
 
     private void reply(boolean check) {

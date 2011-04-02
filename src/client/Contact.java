@@ -320,7 +320,7 @@ public class Contact extends IconTextElement {
                     temp.append("<nick>");
 //#endif
                     temp.append((m.messageType==Constants.MESSAGE_TYPE_OUT)?midlet.BombusQD.sd.account.getNickName():getName());
-                    if (midlet.BombusQD.cf.showNickNames) {
+                    if (Config.showNickNames) {
                         temp.append(" (");
                         temp.append(m.getTime());
                         temp.append(')');
@@ -333,7 +333,7 @@ public class Contact extends IconTextElement {
                     temp.append(m.body.substring(3));
                     m.body=temp.toString().trim();
                     temp = new StringBuffer(0);
-                } else if (midlet.BombusQD.cf.showNickNames) {
+                } else if (Config.showNickNames) {
                     temp = new StringBuffer(0);
                     temp.append((m.messageType==Constants.MESSAGE_TYPE_OUT)?midlet.BombusQD.sd.account.getNickName():getName());
                         temp.append(" (");

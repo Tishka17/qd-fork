@@ -616,7 +616,7 @@ Roster:Load all Avatars from FS	Ростер: загрузить аватары 
 Muc:Load all Avatars from FS	Конференции: загрузить аватары из ФС
 Avatars	Аватары
 News	Новости
-Show Presence Time	Показ времени в статусах
+Show time in messages	Показывать время в сообщениях
 Animation of Graphics Menu&Roster	Анимация курсора в меню%Включает плавную прокрутку курсора графического меню
 Edit colors	Ручная настройка
 Transparent	Регулировка прозрачности

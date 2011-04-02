@@ -45,10 +45,10 @@ import message.MessageItem;
 //#ifdef IMPORT_EXPORT
 //#ifdef FILE_IO
 import impexp.ImportExportForm;
+//#endif
+//#endif
 import ui.GMenu;
 import ui.GMenuConfig;
-//#endif
-//#endif
 
 /**
  *

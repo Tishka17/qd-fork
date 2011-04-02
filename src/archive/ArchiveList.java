@@ -45,6 +45,8 @@ import message.MessageItem;
 //#ifdef IMPORT_EXPORT
 //#ifdef FILE_IO
 import impexp.ImportExportForm;
+import ui.GMenu;
+import ui.GMenuConfig;
 //#endif
 //#endif
 
@@ -283,4 +285,10 @@ public class ArchiveList
         return archive.freeSpace();
     }
 
+    public int showGraphicsMenu() {
+        commandState();
+        menuItem = new GMenu(display, parentView, this,  null, menuCommands);
+        GMenuConfig.getInstance().itemGrMenu = GMenu.MESSAGE_LIST;
+        return GMenu.MESSAGE_LIST;
+    }
 }

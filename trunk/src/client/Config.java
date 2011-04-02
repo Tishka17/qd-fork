@@ -213,7 +213,7 @@ public class Config {
     public int reconnectTime = 10;
 
     public static boolean executeByNum = false;
-    public boolean showNickNames = true;
+    public static boolean showNickNames = true;
     public boolean fileTransfer = true;
     public boolean adhoc = false;
 
@@ -283,7 +283,7 @@ public class Config {
     public int maxAvatarWidth = 35;
 
     public boolean nokiaReconnectHack = false;
-    public boolean timePresence = false;
+    public static boolean showTimeInMsgs = false;
     public boolean isStatusFirst = false;
 
     public static boolean animatedSmiles = true;
@@ -581,7 +581,7 @@ public class Config {
 
             autoload_FSPhoto=inputStream.readBoolean();
             nokiaReconnectHack=inputStream.readBoolean();
-            timePresence=inputStream.readBoolean();
+            showTimeInMsgs=inputStream.readBoolean();
 
             // free
             inputStream.readBoolean();
@@ -826,7 +826,7 @@ public class Config {
 
             outputStream.writeBoolean(autoload_FSPhoto);
             outputStream.writeBoolean(nokiaReconnectHack);
-            outputStream.writeBoolean(timePresence);
+            outputStream.writeBoolean(showTimeInMsgs);
 
             // free
             outputStream.writeBoolean(false);

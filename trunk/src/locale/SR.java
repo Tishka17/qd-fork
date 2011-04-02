@@ -649,7 +649,7 @@ public class SR {
      public final static short MS_AVATARS  = 616; //Avatars
      public final static short MS_AUTOCLEAN_MUC  = 617; //Delete contacts, who leave MUC
      public final static short MS_QD_NEWS  = 618; //News
-     public final static short MS_SHOW_PRS_TIME = 619; //Show Presence Time
+     public final static short MS_SHOW_TIME_IN_MSGS = 619; //Show time in messages
      public final static short MS_ANIMATION_MENU_ROSTER  = 620; //Animation of Graphics Menu&Roster
      public final static short MS_EDIT_COLORS  = 621; //Edit colors
      public final static short MS_TRANSPARENT  = 622; //Transparent
@@ -1412,7 +1412,7 @@ public class SR {
         "Avatars",
         "Delete contacts, who leave MUC",
         "News",
-        "Show Presence Time",
+        "Show time in messages",
         "Animation of Graphics Menu&Roster",
         "Edit colors",
         "Transparent",

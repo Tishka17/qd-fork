@@ -77,7 +77,7 @@ public class ModuleConfigForm extends DefForm {
     private CheckBox storeConfPresence;
     private CheckBox showCollapsedPresences;
     private CheckBox showNickNames;
-    private CheckBox timePresence;
+    private CheckBox showTimeInMsgs;
     private CheckBox savePos;
     private CheckBox capsState;
     private CheckBox useTabs;
@@ -293,10 +293,10 @@ public class ModuleConfigForm extends DefForm {
                 savePos = new CheckBox(SR.get(SR.MS_SAVE_CURSOR), config.savePos);
                 addControl(savePos);
 
-                timePresence = new CheckBox(SR.get(SR.MS_SHOW_PRS_TIME), config.timePresence);
-                addControl(timePresence);
+                showTimeInMsgs = new CheckBox(SR.get(SR.MS_SHOW_TIME_IN_MSGS), Config.showTimeInMsgs);
+                addControl(showTimeInMsgs);
 
-                showNickNames = new CheckBox(SR.get(SR.MS_SHOW_NACKNAMES), config.showNickNames);
+                showNickNames = new CheckBox(SR.get(SR.MS_SHOW_NACKNAMES), Config.showNickNames);
                 addControl(showNickNames);
             }
 
@@ -619,8 +619,8 @@ public class ModuleConfigForm extends DefForm {
 //#             config.autoDeTranslit = autoDetranslit.getValue();
 //#endif
             if(config.userAppLevel == 1) {
-                config.timePresence = timePresence.getValue();
-                config.showNickNames = showNickNames.getValue();
+                Config.showTimeInMsgs = showTimeInMsgs.getValue();
+                Config.showNickNames = showNickNames.getValue();
                 config.savePos = savePos.getValue();
             }
 

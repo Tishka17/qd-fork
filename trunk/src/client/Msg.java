@@ -104,19 +104,23 @@ public class Msg {
         if (color>-1) return color; 
         return Constants.getMessageColor(messageType);
     }
-    
 
     //memory leak
     public String toString() {
-       if (messageType==Constants.MESSAGE_TYPE_PRESENCE && midlet.BombusQD.cf.timePresence) {
-         StringBuffer time = new StringBuffer(0);
-         time.append(getTime());
-         time.append(' ');
-         time.append(body);
-         return time.toString(); 
-       } else return body;
+        StringBuffer buf = new StringBuffer();
+        if (Config.showTimeInMsgs) {
+            if (MucChat || !Config.showNickNames) {
+                if ((Time.utcTimeMillis() - dateGmt) > 86400000) {
+                    buf.append(getDayTime());
+                } else {
+                    buf.append(getTime());
+                }
+                buf.append(" ");
+            }
+        }
+        buf.append(body);
+        return buf.toString();
     }
-    
 
     public boolean isPresence() { return messageType==Constants.MESSAGE_TYPE_PRESENCE; }
     

@@ -37,7 +37,7 @@ public class ConfigurationMaster {
         SR.get(SR.MS_BOLD_FONT),
         SR.get(SR.MS_USE_FIVE_TO_CREATEMSG),
         SR.get(SR.MS_STORE_PRESENCE),
-        SR.get(SR.MS_SHOW_PRS_TIME),
+        SR.get(SR.MS_SHOW_TIME_IN_MSGS),
         SR.get(SR.MS_ANI_SMILES),
         SR.get(SR.MS_DELIVERY),
         SR.get(SR.MS_FILE_TRANSFERS),
@@ -67,7 +67,7 @@ public class ConfigurationMaster {
                 config.storeConfPresence = value;
                 break;
             case 5:
-                config.timePresence = value;
+                config.showTimeInMsgs = value;
                 break;
             case 6:
                 config.animatedSmiles = value;

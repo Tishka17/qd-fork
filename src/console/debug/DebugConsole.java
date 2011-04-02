@@ -32,7 +32,6 @@
 //# import client.Constants;
 //# import client.Msg;
 //# import client.StaticData;
-//# import console.xml.ConsoleTextEdit;
 //# import message.MessageList;
 //#ifndef MENU_LISTENER
 //# import javax.microedition.lcdui.Command;

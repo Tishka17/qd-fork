@@ -54,9 +54,8 @@ public class ServerBox
         this.display=display;
         this.sd=sd;
         serverName=new TextInput(display, SR.get(SR.MS_ADRESS), service, "disco", TextField.ANY);
-        itemsList.addElement(serverName);
-        
-        moveCursorTo(getNextSelectableRef(-1));
+        addControl(serverName);
+
         attachDisplay(display);
         this.parentView=pView;
     }

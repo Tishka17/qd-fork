@@ -27,11 +27,11 @@
 
 package xmpp.extensions;
 
-import info.Version;
 import com.alsutton.jabber.*;
 import com.alsutton.jabber.datablocks.*;
 import java.util.*;
 import client.*;
+import locale.SR;
 
 public class SoftwareInfo implements JabberBlockListener {
     
@@ -49,10 +49,9 @@ public class SoftwareInfo implements JabberBlockListener {
             JabberDataBlock identity=query.getChildBlock("identity");
               Vector childs=query.getChildBlocks();
                StringBuffer softinfo = new StringBuffer();
-               softinfo.append("Information:\n");                   
-               softinfo.append("Category: "+identity.getAttribute("category")+"\n");
-               softinfo.append("Type: "+identity.getAttribute("type")+"\n");
-               softinfo.append("Name: "+identity.getAttribute("name")+"\n\n");
+               softinfo.append(SR.get(SR.MS_NAME)).append(": ").append(identity.getAttribute("name")).append("\n");
+               softinfo.append(SR.get(SR.MS_CATEGORY)).append(": ").append(identity.getAttribute("category")).append("\n");
+               softinfo.append(SR.get(SR.MS_TYPE)).append(": ").append(identity.getAttribute("type")).append("\n");
                int k=0;
                if (childs!=null) {
                  for (Enumeration e=childs.elements(); e.hasMoreElements();) {
@@ -60,12 +59,12 @@ public class SoftwareInfo implements JabberBlockListener {
                     if (i.getTagName().equals("feature")) {
                         k+=1;
                         String var=i.getAttribute("var");
-                          softinfo.append(Integer.toString(k) + ")." + var+"\n"); 
+                        softinfo.append(k).append(") ").append(var).append("\n");
                      }
                   }   
                 }
-                Msg m=new Msg(Constants.MESSAGE_TYPE_IN, "softinfo", locale.SR.get(locale.SR.MS_FEATURES), softinfo.toString());
-                m.highlite=true;
+                Msg m=new Msg(Constants.MESSAGE_TYPE_IN, "softinfo", SR.get(SR.MS_FEATURES), softinfo.toString());
+                //m.highlite=true;
                 m.itemCollapsed=true;
                 StaticData.getInstance().roster.setQuerySign(false);                
                 StaticData.getInstance().roster.messageStore(StaticData.getInstance().roster.getContact(data.getAttribute("from"),false),m);
@@ -74,7 +73,7 @@ public class SoftwareInfo implements JabberBlockListener {
             }
             if(id.equals("agents1")){
                 Msg m=new Msg(Constants.MESSAGE_TYPE_IN, "agents1", "jabber:iq:agents", data.toString());                
-                m.highlite=true;
+                //m.highlite=true;
                 m.itemCollapsed=true;
                 StaticData.getInstance().roster.setQuerySign(false);                
                 StaticData.getInstance().roster.messageStore(StaticData.getInstance().roster.getContact(data.getAttribute("from"),false),m);
@@ -96,5 +95,4 @@ public class SoftwareInfo implements JabberBlockListener {
         result.addChildNs("query", "http://jabber.org/protocol/disco#info");
         return result;
     }
-
 }

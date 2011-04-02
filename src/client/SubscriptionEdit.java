@@ -53,20 +53,17 @@ public class SubscriptionEdit
         
         to=c.bareJid;
 
-        itemsList.addElement(new SimpleString(to, false));
-        itemsList.addElement(new SimpleString(c.subscr+((c.ask_subscribe)?",ask":""), false));
-
-        itemsList.addElement(new SpacerItem(10));
+        addControl(new SimpleString(c.getNickJid(), true));
 
         action=new DropChoiceBox(display, SR.get(SR.MS_ACTION));
         action.append(SR.get(SR.MS_NO));
         action.append(SR.get(SR.MS_ASK_SUBSCRIPTION));
         action.append(SR.get(SR.MS_GRANT_SUBSCRIPTION));
         action.append(SR.get(SR.MS_SUBSCR_REMOVE));
-        action.setSelectedIndex(0);
-        itemsList.addElement(action);
+        addControl(action);
 
-        moveCursorTo(getNextSelectableRef(-1));
+        // first control is unselectable
+        moveCursorTo(1);
         attachDisplay(display);
         this.parentView=pView;
     }

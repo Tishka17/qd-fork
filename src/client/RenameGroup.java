@@ -60,11 +60,8 @@ public class RenameGroup
         this.display=display;
         
         groupName = new TextInput(display, null, /*(contact==null)?*/group.getName()/*:contact.getGroup().getName()*/, "groups", TextField.ANY); // 32, TextField.ANY
-        itemsList.addElement(groupName);
-        
-        itemsList.addElement(new SpacerItem(0));
-        
-        moveCursorTo(getNextSelectableRef(-1));
+        addControl(groupName);
+
         attachDisplay(display);
         this.parentView=pView;
     }

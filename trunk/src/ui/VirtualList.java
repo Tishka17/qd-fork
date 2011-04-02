@@ -42,7 +42,7 @@ import io.file.FileIO;
 //#endif
 import locale.SR;
 //#ifdef POPUPS
-import ui.controls.PopUp;
+//# import ui.controls.PopUp;
 //#endif
 import ui.controls.Balloon;
 import ui.controls.ScrollBar;
@@ -117,15 +117,15 @@ public abstract class VirtualList
 //#endif
 
 //#ifdef POPUPS
-    public static PopUp popup;
-    public static PopUp getPopUp() {
-       if(null == popup) popup = new PopUp();
-       return popup;
-    }
-    public static void setWobble(int type, String contact, String txt){
-        txt = StringUtils.replaceNickTags(txt);
-        getPopUp().addPopup(type, contact, txt);
-    }
+//#     public static PopUp popup;
+//#     public static PopUp getPopUp() {
+//#        if(null == popup) popup = new PopUp();
+//#        return popup;
+//#     }
+//#     public static void setWobble(int type, String contact, String txt){
+//#         txt = StringUtils.replaceNickTags(txt);
+//#         getPopUp().addPopup(type, contact, txt);
+//#     }
 //#endif
     protected int getMainBarRGB() {return ColorTheme.getColor(ColorTheme.BAR_INK);}
 
@@ -506,7 +506,8 @@ public abstract class VirtualList
         //System.out.println("paint " + Thread.activeCount());
         //long s1 = System.currentTimeMillis();
 //#ifdef POPUPS
-        getPopUp().init(g, width, height);
+//#         getPopUp().init(g, width, height);
+//#endif
 //#ifdef GRAPHICS_MENU
         if(midlet.BombusQD.cf.graphicsMenu) {
            if(null != menuItem) {
@@ -516,8 +517,6 @@ public abstract class VirtualList
         }
 //#endif
 
-
-//#endif
         beginPaint();
 
         //StaticData.getInstance().screenWidth=width;
@@ -740,7 +739,7 @@ public abstract class VirtualList
             }
           }
 //#ifdef POPUPS
-            drawPopUp(g);
+//#             drawPopUp(g);
 //#endif
         }
 
@@ -792,10 +791,10 @@ public abstract class VirtualList
     }
 
 //#ifdef POPUPS
-    protected void drawPopUp(final Graphics g) {
-        setAbsOrg(g, 0, 0);
-        getPopUp().paintCustom(g);
-    }
+//#     protected void drawPopUp(final Graphics g) {
+//#         setAbsOrg(g, 0, 0);
+//#         getPopUp().paintCustom(g);
+//#     }
 //#endif
 
     private static int getARGB() {
@@ -1369,7 +1368,7 @@ public abstract class VirtualList
         }
 
 //#ifdef POPUPS
-        getPopUp().next();
+//#         getPopUp().next();
 //#endif
 
         boolean on_panel = false;
@@ -1581,9 +1580,9 @@ public abstract class VirtualList
 
         if (key>-1) {
 //#ifdef POPUPS
-            if (getPopUp().size()>0) {
-                return popup.handleEvent(key);
-            } else
+//#             if (getPopUp().size()>0) {
+//#                 return popup.handleEvent(key);
+//#             } else
 //#endif
             if (getFocusedObject()!=null)
                 return ((VirtualElement)getFocusedObject()).handleEvent(key);
@@ -1700,30 +1699,30 @@ public abstract class VirtualList
 //#    System.out.println(keyCode);
 //#endif
 //#ifdef POPUPS
-        if (keyCode==greenKeyCode) {
-           System.out.println("popupGreen");
-            if (getPopUp().getContact()!=null) {
+//#         if (keyCode==greenKeyCode) {
+//#            System.out.println("popupGreen");
+//#             if (getPopUp().getContact()!=null) {
 //#ifdef CLASSIC_CHAT
 //#                    if(midlet.BombusQD.cf.module_classicchat){
 //#                       new SimpleItemChat(midlet.BombusQD.getInstance().display,sd.roster,sd.roster.getContact(popup.getContact(), false));
 //#                    } else {
 //#endif
-                       Contact c = sd.roster.getContact(popup.getContact(), false);
-                       if(c.getChatInfo().getMessageCount()<=0 ){
-                          midlet.BombusQD.sd.roster.createMessageEdit(c, c.msgSuspended, this, true);
-                          return;
-                       }
-                       midlet.BombusQD.getInstance().display.setCurrent(c.getMessageList());
+//#                        Contact c = sd.roster.getContact(popup.getContact(), false);
+//#                        if(c.getChatInfo().getMessageCount()<=0 ){
+//#                           midlet.BombusQD.sd.roster.createMessageEdit(c, c.msgSuspended, this, true);
+//#                           return;
+//#                        }
+//#                        midlet.BombusQD.getInstance().display.setCurrent(c.getMessageList());
 //#ifdef CLASSIC_CHAT
 //#                    }
 //#endif
-                popup.next();
-                return;
-            } else if (phoneManufacturer==Config.MOTO || phoneManufacturer==Config.NOKIA || phoneManufacturer==Config.NOKIA_9XXX) {
-                keyGreen();
-                return;
-            }
-        }
+//#                 popup.next();
+//#                 return;
+//#             } else if (phoneManufacturer==Config.MOTO || phoneManufacturer==Config.NOKIA || phoneManufacturer==Config.NOKIA_9XXX) {
+//#                 keyGreen();
+//#                 return;
+//#             }
+//#         }
 //#endif
 //#ifdef MENU_LISTENER
         if (keyCode==Config.SOFT_LEFT || keyCode=='(') {
@@ -1802,29 +1801,29 @@ public abstract class VirtualList
                 midlet.BombusQD.sd.roster.systemGC();
             }
 //#ifdef POPUPS
-            StringBuffer mem = new StringBuffer(0);
-            mem.append(Time.getTimeWeekDay()).append("\nTraffic: ").append(getTraffic());
-            if (midlet.BombusQD.cf.userAppLevel == 1) {
-                mem.append('\n');
-
-                long free = Runtime.getRuntime().freeMemory() >> 10;
-                long total = Runtime.getRuntime().totalMemory() >> 10;
-                long inUse = total - free;
-                mem.append("QD use: ").append(inUse).append("kb ").append('(').append((100 * inUse / total)).append("%)\n").append("Stanzas(in/out): ").append(StaticData.incPacketCount).append("/").append(StaticData.outPacketCount);
-            }
-            setWobble(1, null, mem.toString());
+//#             StringBuffer mem = new StringBuffer(0);
+//#             mem.append(Time.getTimeWeekDay()).append("\nTraffic: ").append(getTraffic());
+//#             if (midlet.BombusQD.cf.userAppLevel == 1) {
+//#                 mem.append('\n');
+//# 
+//#                 long free = Runtime.getRuntime().freeMemory() >> 10;
+//#                 long total = Runtime.getRuntime().totalMemory() >> 10;
+//#                 long inUse = total - free;
+//#                 mem.append("QD use: ").append(inUse).append("kb ").append('(').append((100 * inUse / total)).append("%)\n").append("Stanzas(in/out): ").append(StaticData.incPacketCount).append("/").append(StaticData.outPacketCount);
+//#             }
+//#             setWobble(1, null, mem.toString());
 //#endif
             break;
 //#ifdef POPUPS
-        case KEY_POUND:
-            try {
-                String text = ((VirtualElement)getFocusedObject()).getTipString();
-                if (text != null) {
-                    setWobble(1, null, text);
-                }
-            } catch (Exception e) {
-            }
-            break;
+//#         case KEY_POUND:
+//#             try {
+//#                 String text = ((VirtualElement)getFocusedObject()).getTipString();
+//#                 if (text != null) {
+//#                     setWobble(1, null, text);
+//#                 }
+//#             } catch (Exception e) {
+//#             }
+//#             break;
 //#endif
 
         default:

@@ -113,6 +113,7 @@ public class DiscoForm extends DefForm {
     public void cmdOk() {
         if (isExecutable) {
             sendForm(id);
+            destroyView();
         }
     }
 
@@ -159,7 +160,6 @@ public class DiscoForm extends DefForm {
         stream.send(req);
         req = null;
         qry = null;
-        //destroyView();
     }         
 }
 //#endif 

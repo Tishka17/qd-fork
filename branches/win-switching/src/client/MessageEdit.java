@@ -508,7 +508,11 @@ public final class MessageEdit implements CommandListener {
               }
            }
        } else {
-           to.getMessageList().show();
+           if (null != to) {
+               to.getMessageList().show();
+           } else {
+               BombusQD.sd.roster.show();
+           }
        }
     }
 

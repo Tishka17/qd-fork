@@ -581,7 +581,6 @@ public class Roster
 	if (mainbar!=null)
              mainbar.setElementAt(pgs, 3);
         redraw();
-        System.out.println(pgs);
     }
 
     public void setProgress(int percent){
@@ -1465,6 +1464,7 @@ public class Roster
                     subject,
                     groupchat
             );
+            System.out.println(to.getJid() +  "|");
 
             message.setAttribute("id", id);
 
@@ -1955,8 +1955,6 @@ public class Roster
                     }
 
                     if (id.startsWith("avcard_get")) {
-                        System.out.println(data);
-
                         Thread.sleep(100);
 			String matchedjid = id.substring(10, id.length());
 
@@ -2412,30 +2410,28 @@ public class Roster
 
                 Presence pr = (Presence) data;
 
-                String from=pr.getFrom();
+                String from = pr.getFrom();
                 String Prtext = pr.getPresenceText();
+                byte ti = pr.getTypeIndex();
 //#ifdef CONSOLE
 //#                 //midlet.BombusQD.debug.add("::PRESENCE "+data.toString(),10);
 //#endif
 
-                if (midlet.BombusQD.cf.auto_queryPhoto) {
-                    Contact c = getContact(from, true);
-                    if (c.hasPhoto == false && c.img_vcard == null) {
-                        JabberDataBlock req = new Iq(c.bareJid, Iq.TYPE_GET, "avcard_get" + c.getJid());
-                        req.addChildNs("vCard", "vcard-temp");
-                        //System.out.println(req);
-                        theStream.send(req);
-                        //req = null;
-                        
+                if (ti != Constants.PRESENCE_OFFLINE) {
+                    if (midlet.BombusQD.cf.auto_queryPhoto) {
+                        Contact c = getContact(from, true);
+                        if (c.hasPhoto == false && c.img_vcard == null) {
+                            JabberDataBlock req = new Iq(c.bareJid, Iq.TYPE_GET, "avcard_get" + c.getJid());
+                            req.addChildNs("vCard", "vcard-temp");
+                            theStream.send(req);
+                        }
                     }
-                    c = null;
                 }
 //#ifndef WMUC
             JabberDataBlock xmuc=pr.findNamespace("x", "http://jabber.org/protocol/muc#user");
             if (xmuc==null) xmuc=pr.findNamespace("x", "http://jabber.org/protocol/muc"); //join errors
 
             int priority = pr.getPriority();
-            byte ti=pr.getTypeIndex();
 
             if (xmuc!=null) {//MUC only
 
@@ -3667,7 +3663,7 @@ public class Roster
                 }
             } else {
 //#endif
-                mess.append("Jid: ").append(cntact.bareJid).append(cntact.jid.getResource()).append('\n');
+                mess.append("Jid: ").append(cntact.getJid()).append('\n');
                 mess.append(SR.get(SR.MS_SUBSCRIPTION)).append(": ");
 
                 if (cntact.subscr != null) {

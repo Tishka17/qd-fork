@@ -34,20 +34,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 
 public class Strconv {
-    
-    /**
-     * Creates a new instance of Strconv
-     */
-    private Strconv() {
-    }
- 
-    private static ByteArrayOutputStream baos;
-    private static DataOutputStream dos;
+    private Strconv() {}
     
     public static byte[] stringToByteArray(String val) {
             try {
-                baos = new ByteArrayOutputStream();
-                dos = new DataOutputStream(baos);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                DataOutputStream dos = new DataOutputStream(baos);
                 dos.writeUTF(val);
                   byte[] raw = baos.toByteArray(); 
                   byte[] result = new byte[raw.length - 2];
@@ -63,67 +55,53 @@ public class Strconv {
         return null;
     }
 
-    public static final String convCp1251ToUnicode(final String s){
-        if (s==null) return null;
-        StringBuffer b=new StringBuffer(s.length());
-        int len=s.length();
-        for (int i=0;i<len;i++){
+    public static String convCp1251ToUnicode(final String s){
+        if (s==null) {
+            return null;
+        }
+        int len = s.length();
+        StringBuffer b=new StringBuffer(len);
+        for (int i = 0; i < len; ++i){
             char ch=s.charAt(i);
-            if (ch>0xbf) ch+=0x410-0xc0;
-            if (ch==0xa8) ch=0x401;
-            if (ch==0xb8) ch=0x451;
+            if (ch>0xbf) {
+                ch+=0x410-0xc0;
+            }
+            // –Å
+            if (ch==0xa8) {
+                ch=0x401;
+            }
+            // —ë
+            if (ch==0xb8) {
+                ch=0x451;
+            }
             b.append(ch);
-            //setCharAt(i, ch);
         }
         return b.toString();
     }
     
-    public static final String convUnicodeToCp1251(final String s){
-        if (s==null) return null;
-        StringBuffer b=new StringBuffer(s.length());
-        int len=s.length();
-        for (int i=0;i<len;i++){
+    public static String convUnicodeToCp1251(final String s){
+        if (s==null) {
+            return null;
+        }
+        int len = s.length();
+        StringBuffer b = new StringBuffer(len);
+        for (int i = 0; i < len; ++i){
             char ch=s.charAt(i);
-            if (ch==0x401) ch=0xa8; //–Å
-            if (ch==0x451) ch=0xb8; //—ë
+            // –Å
+            if (ch==0x401) {
+                ch=0xa8;
+            }
+            // —ë
+            if (ch==0x451) {
+                ch=0xb8;
+            }
             if (ch>0x409) ch+=0xc0-0x410;
             b.append(ch);
-            //setCharAt(i, ch);
         }
         return b.toString();
     }
-    
-    public final static String toBase64( String source) {
-        String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-        
-        int len=source.length();
-        char[] out = new char[((len+2)/3)<<2];
-        for (int i=0, index=0; i<len; i+=3, index +=4) {
-            boolean trip=false;
-            boolean quad=false;
-            
-            int val = (0xFF & source.charAt(i))<<8;
-            if ((i+1) < len) {
-                val |= (0xFF & source.charAt(i+1));
-                trip = true;
-            }
-            val <<= 8;
-            if ((i+2) < len) {
-                val |= (0xFF & source.charAt(i+2));
-                quad = true;
-            }
-            out[index+3] = alphabet.charAt((quad? (val & 0x3F): 64));
-            val >>= 6;
-            out[index+2] = alphabet.charAt((trip? (val & 0x3F): 64));
-            val >>= 6;
-            out[index+1] = alphabet.charAt(val & 0x3F);
-            val >>= 6;
-            out[index+0] = alphabet.charAt(val & 0x3F);
-        }
-        return new String(out);
-    }
-    
-    public final static String toBase64( byte source[], int len) {
+
+    public static String toBase64(byte source[], int len) {
         String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
         
         if (len<0) len=source.length;
@@ -152,15 +130,18 @@ public class Strconv {
         }
         return new String(out);
     }
+
+    public static String toBase64(String source) {
+        return toBase64(source.getBytes(), source.length());
+    }
     
     public static StringBuffer toUTFSb(StringBuffer str) {
         int srcLen = str.length();
         StringBuffer outbuf=new StringBuffer( srcLen );
         int c = 0;
-         for(int i=0; i < srcLen; i++) {
+         for(int i=0; i < srcLen; ++i) {
             c = (int)str.charAt(i);
 
-            //TODO: ÂÒÍ˝ÈÔËÚ¸ ÍÓ‰˚ <0x20
             if ((c >= 1) && (c <= 0x7f)) {
                  outbuf.append( (char) c);
                 
@@ -179,8 +160,7 @@ public class Strconv {
      }
     
     public static byte[] fromBase64(String s) {
-        return baosFromBase64(s).toByteArray();
-                
+        return baosFromBase64(s).toByteArray();                
     }
 
     public static String sFromBase64(String s) {
@@ -191,7 +171,7 @@ public class Strconv {
         int padding=0;
         int ibuf=1;
         ByteArrayOutputStream baos=new ByteArrayOutputStream(2048);
-        for (int i=0; i<s.length(); i++) {
+        for (int i=0; i<s.length(); ++i) {
             int nextChar = s.charAt(i);
             //if( nextChar == -1 )
             //    throw new EndOfXMLException();
@@ -218,19 +198,19 @@ public class Strconv {
     public static String unicodeToUTF(String src) {
         return toUTFSb(new StringBuffer(src)).toString();
     }
-
-    
-    private static StringBuffer dst=new StringBuffer(0);
     
     public static String toLowerCase(String src){
-        dst = new StringBuffer(0);
-        dst.append(src);
-        int len=dst.length();
-        char c;
-        for (int i=0; i<len; i++) {
-            c=dst.charAt(i);
-            if (c>'A'-1 && c<'Z'+1) c+='a'-'A';         // default latin chars
-            if (c>0x40f && c<0x430) c+=0x430-0x410;     // cyrillic chars
+        StringBuffer dst = new StringBuffer(src);
+        for (int i=0; i < dst.length(); ++i) {
+            char c = dst.charAt(i);
+            // default latin chars
+            if (c>'A'-1 && c<'Z'+1) {
+                c+='a'-'A';
+            }
+            // cyrillic chars
+            if (c>0x40f && c<0x430) {
+                c+=0x430-0x410;
+            }     
             // TODO: other schemes by request
             dst.setCharAt(i, c);
         }

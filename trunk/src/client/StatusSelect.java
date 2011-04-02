@@ -241,8 +241,7 @@ public class StatusSelect
             itemsList.addElement(new SimpleString("%t - time", false));
             itemsList.addElement(new SimpleString("%dt - date time", false));
             itemsList.addElement(new SimpleString("%qd - random phrase", false));
-            
-            moveCursorTo(getNextSelectableRef(-1));
+
             attachDisplay(display);
             this.parentView=pView;
         }

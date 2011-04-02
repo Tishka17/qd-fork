@@ -156,7 +156,6 @@ public final class ContactEdit extends DefForm {
             addControl(vCardReq);
         }
 
-        moveCursorTo(getNextSelectableRef(-1));
         attachDisplay(display);
         this.parentView = pView;
     }

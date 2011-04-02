@@ -69,6 +69,7 @@ Ignore-List	Ignore-List
 Roster request	Получение ростера
 Type	Тип
 Name	Имя
+Category	Категория
 User Profile	Учетная запись
 fullscreen	Полноэкранный режим
 Add bookmark	Добав. закладку

@@ -66,13 +66,13 @@ public class TransferImage
         this.display=display;
         this.to=recipientJid;
 
-        itemsList.addElement(new SimpleString(recipientJid, false));
+        addControl(new SimpleString(recipientJid, true));
 
         shot=new LinkString(SR.get(SR.MS_CAMERASHOT)) { public void doAction() { initCamera(); } };
-        itemsList.addElement(shot);
+        addControl(shot);
 
         description = new TextInput(display, SR.get(SR.MS_DESCRIPTION), null, null, TextField.ANY);
-        itemsList.addElement(description);
+        addControl(description);
 
         moveCursorTo(1);
         attachDisplay(display);

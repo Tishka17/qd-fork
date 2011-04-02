@@ -81,8 +81,7 @@ public class PrivacyForm
         targetList=plist;
         
         update();
-        
-        moveCursorTo(getNextSelectableRef(-1));
+
         attachDisplay(display);
         this.parentView=pView;
     }

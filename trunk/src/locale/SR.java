@@ -670,8 +670,8 @@ public class SR {
      public final static short MS_msgStr  = 637; //Chat
      public final static short MS_netStr  = 638; //Network
      public final static short MS_grStr  = 639; //Graphics
-     public final static short MS_APPLICATION_  = 640; //Application
-     public final static short MS_appStr_  = 641; //Application
+     public final static short MS_CATEGORY  = 640; //Category
+     public final static short MS_TYPE  = 641; //Type
      public final static short MS_hotkeysStr  = 642; //Hotkeys
      public final static short MS_astatusStr  = 643; //Autostatus
      public final static short MS_CLCHAT_ON_  = 644; //Classic Chat
@@ -1433,8 +1433,8 @@ public class SR {
         "Chat",
         "Network",
         "Interface",
-        "Application",
-        "Application",
+        "Category",
+        "Type",
         "Hotkeys",
         "Autostatus",
         "Classic Chat",

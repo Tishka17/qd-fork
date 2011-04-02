@@ -55,8 +55,7 @@ public class TransferSendFile extends DefForm {
         this.display=display;
         this.to=recipientJid;
 
-        addControl(new SimpleString(SR.get(SR.MS_SEND_FILE_TO), true));
-        addControl(new SimpleString(recipientJid, false));
+        addControl(new SimpleString(recipientJid, true));
 
         selectFile = new PathSelector(SR.get(SR.MS_SELECT_FILE), null, PathSelector.TYPE_FILE);
         addControl(selectFile);

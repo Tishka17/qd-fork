@@ -173,7 +173,6 @@ public final class ConferenceForm extends DefForm {
 
 	setCommandListener(this);
 
-        moveCursorTo(getNextSelectableRef(-1));
         attachDisplay(display);
         this.parentView=pView;
     }

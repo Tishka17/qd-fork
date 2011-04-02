@@ -180,7 +180,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                     if (groupType != Groups.TYPE_TRANSP && groupType != Groups.TYPE_SELF) {
                         addItem(SR.get(SR.MS_CREATE_ANNOTATION), MI_ANNOTATION, ActionsIcons.ICON_VOICE);
                         if (contact.annotations != null) {
-                            addItem(SR.get(SR.MS_REMOVE_ANNOTATION), MI_DEL_ANNOTATION, ActionsIcons.ICON_VOICE);
+                            addItem(SR.get(SR.MS_REMOVE_ANNOTATION), MI_DEL_ANNOTATION, ActionsIcons.ICON_DEVOICE);
                         }
                     }
                 }
@@ -612,10 +612,10 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
 //#ifdef FILE_IO
 //#ifdef FILE_TRANSFER
                  case MI_SEND_FILE:
-                     new TransferSendFile(display, parentView, contact.getJid());
+                     new TransferSendFile(display, parentView, contact.getNickJid());
                      return;
                 case MI_SEND_PHOTO:
-                    new TransferImage(display, parentView, contact.getJid());
+                    new TransferImage(display, parentView, contact.getNickJid());
                     return;
 //#endif
 //#endif

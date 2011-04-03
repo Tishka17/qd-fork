@@ -444,7 +444,7 @@ public final class ContactMessageList extends VirtualList implements MenuListene
 //#         }
 //#endif
         if (c == Commands.cmdActions) {
-            BombusQD.sd.roster.showActionsMenu(this, contact);
+            BombusQD.sd.roster.showActionsMenu(contact);
         }
 
         if (c == Commands.cmdSubscribe) {

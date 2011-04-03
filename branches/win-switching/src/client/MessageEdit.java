@@ -331,15 +331,11 @@ public final class MessageEdit implements CommandListener {
             if (null != to) {
                 to.msgSuspended = body;
             }
-            ArchiveList list;
             if (midlet.BombusQD.cf.msgEditType > 0) {
-                list = new ArchiveList(textField.getCaretPosition(), textField, null);
-                list.setParentView(form);
+                new ArchiveList(textField.getCaretPosition(), textField, null).show();
             } else {
-                list = new ArchiveList(t.getCaretPosition(), null, t);
-                list.setParentView(t);
+                new ArchiveList(t.getCaretPosition(), null, t).show();
             }
-            list.show();
             return;
         }
 //#endif
@@ -376,30 +372,21 @@ public final class MessageEdit implements CommandListener {
         }
 //#ifdef SMILES
         if (c == cmdSmile) {
-            SmilePicker picker;
             if (midlet.BombusQD.cf.msgEditType > 0) {
-                picker = new SmilePicker(textField.getCaretPosition(), textField, null);
-                picker.setParentView(form);
+                new SmilePicker(textField.getCaretPosition(), textField, null).show();
             } else {
-                picker = new SmilePicker(t.getCaretPosition(), null, t);
-                picker.setParentView(t);
+                new SmilePicker(t.getCaretPosition(), null, t).show();
             }
-            picker.show();
             return;
         }
 //#endif
 //#ifndef WMUC
         if (c == cmdInsNick) {
-            AppendNickForm f;
             if (midlet.BombusQD.cf.msgEditType > 0) {
-                f = new AppendNickForm(to, textField.getCaretPosition(), textField, null);
-                f.setParentView(form);
+                new AppendNickForm(to, textField.getCaretPosition(), textField, null).show();
             } else {
-                f = new AppendNickForm(to, t.getCaretPosition(), null, t);
-                f.setParentView(t);
+                new AppendNickForm(to, t.getCaretPosition(), null, t).show();
             }
-            
-            f.show();
             return;
         }
 //#endif

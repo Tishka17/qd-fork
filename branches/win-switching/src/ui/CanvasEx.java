@@ -23,7 +23,11 @@ public abstract class CanvasEx extends Canvas {
 
     public void show() {
         if (parentView == null) {
-            parentView = BombusQD.sd.canvas.getCanvas();
+            if (BombusQD.sd.canvas.isShown()) {
+                parentView = BombusQD.sd.canvas.getCanvas();
+            } else {
+                parentView = BombusQD.getCurrentView();
+            }            
         }        
         BombusQD.sd.canvas.show(this);
 

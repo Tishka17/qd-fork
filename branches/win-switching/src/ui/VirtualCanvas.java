@@ -38,6 +38,7 @@ public class VirtualCanvas extends Canvas {
     public void show(CanvasEx canvas) {
         this.canvas = canvas;
         if (isShown()) {
+            this.canvas.showNotify();
             repaint();
         } else {
             BombusQD.setCurrentView(this);

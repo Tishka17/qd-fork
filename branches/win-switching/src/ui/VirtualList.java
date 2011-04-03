@@ -640,7 +640,9 @@ public abstract class VirtualList extends CanvasEx {
                     drawInfoPanel(g, 0);
                 }
             } else {
+                if (mainbar != null) {
                     drawMainPanel(g, 0);
+                }
               }
         }
 

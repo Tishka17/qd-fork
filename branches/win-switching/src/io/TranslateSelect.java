@@ -120,7 +120,6 @@ public class TranslateSelect extends DefForm {
                     (String)langs[0].elementAt(langTo.getSelectedIndex()),fromMucNick,trCMsgList,cursor);
             cf.langpair=(String)langs[0].elementAt(langFrom.getSelectedIndex())+
                     "==>"+(String)langs[0].elementAt(langTo.getSelectedIndex());
-             destroyView();
             }
         }
     }

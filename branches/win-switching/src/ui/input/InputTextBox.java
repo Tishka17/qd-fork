@@ -120,6 +120,7 @@ public class InputTextBox extends TextBox implements CommandListener {
 
     public void commandAction(Command c, Displayable d) {
         if (c == cmdOk) {
+            destroyView();
             if (notify != null) {
                 notify.okNotify(getString());
             }
@@ -127,9 +128,7 @@ public class InputTextBox extends TextBox implements CommandListener {
             if (id != null) {
                 addToRecentList(getString());
                 saveRecentList();
-            }
-
-            destroyView();
+            }            
         } else if (c == cmdCancel) {
             destroyView();
 //#ifdef CLIPBOARD
@@ -144,9 +143,7 @@ public class InputTextBox extends TextBox implements CommandListener {
         } else  if (c == cmdPasteText) {
             insert(ClipBoard.getClipBoard(), getCaretPos());
         } else if (c == cmdRecent) {
-            RecentInputList list = new RecentInputList(this);
-            list.setParentView(this);
-            list.show();
+            new RecentInputList(this).show();
         }
     }
     

@@ -109,13 +109,14 @@ public class Msg {
     public String toString() {
         StringBuffer buf = new StringBuffer();
         if (Config.showTimeInMsgs) {
-            if (MucChat || !Config.showNickNames) {
+            if (MucChat || isPresence() || !Config.showNickNames) {
+                buf.append("[");
                 if ((Time.utcTimeMillis() - dateGmt) > 86400000) {
                     buf.append(getDayTime());
                 } else {
                     buf.append(getTime());
                 }
-                buf.append(" ");
+                buf.append("] ");
             }
         }
         buf.append(body);

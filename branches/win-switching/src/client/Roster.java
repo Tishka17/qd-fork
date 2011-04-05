@@ -3447,9 +3447,11 @@ public class Roster
     }
 
     public void keyPressed(int keyCode){
-        super.keyPressed(keyCode);
-        if(gm.itemGrMenu>0 && midlet.BombusQD.cf.graphicsMenu){
+        if (gm.itemGrMenu > 0) {
+            super.keyPressed(keyCode);
             return;
+        } else {
+            super.keyPressed(keyCode);
         }
         switch (keyCode) {
 //#ifdef POPUPS

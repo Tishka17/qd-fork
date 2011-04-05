@@ -30,6 +30,7 @@ import javax.microedition.lcdui.*;
 import client.Config;
 import colors.ColorTheme;
 import font.FontCache;
+import images.MenuIcons;
 import locale.SR;
 import midlet.BombusQD;
 import menu.MenuListener;
@@ -89,7 +90,8 @@ public class GMenu extends Canvas {
    public final static byte NEWVECTORCHAT=31;
    public final static byte AFFILIATIONS_EDIT=32;
 
-
+   private int imgHeight;
+   private int imgWidth;
 
    private int width;
    private int height;
@@ -113,6 +115,9 @@ public class GMenu extends Canvas {
 
        font = FontCache.getFont(false, FontCache.menu);
        fh = font.getHeight();
+
+       imgHeight = MenuIcons.getInstance().getHeight();
+       imgWidth = MenuIcons.getInstance().getHeight();
    }
 
     public GMenu(Display display, Displayable parentView, MenuListener menuListener, ImageList il, Vector menuCommands,
@@ -158,20 +163,6 @@ public class GMenu extends Canvas {
       gm.itemCursorIndex = 0;
       cursorY = 0;
     }
-
-
-  void drawImage(Graphics g, int index, int x, int y){
-     int ho=g.getClipHeight();
-     int wo=g.getClipWidth();
-     int xo=g.getClipX();
-     int yo=g.getClipY();
-     int iy=y-bm.himg_menu*(int)(index>>4);
-     int ix=x-bm.wimg_menu*(index&0x0f);
-     g.clipRect(x,y, bm.wimg_menu,bm.himg_menu);
-     g.drawImage(bm.imageArr[0],ix,iy,Graphics.TOP|Graphics.LEFT);
-     g.setClip(xo,yo, wo, ho);
-   };
-
 
   public void paintCustom(Graphics g,int itemGrMenu) {
         Graphics graphics=(offscreen==null)? g: offscreen.getGraphics();
@@ -247,9 +238,8 @@ public class GMenu extends Canvas {
    int maxwidth = 0;
    int[] pointerY = null;
 
-   void drawAllItems(Graphics g,Vector menuCommands,String[] drawCommands,int itemCursorIndex){
-
-        fh = bm.himg_menu>fh?bm.himg_menu:fh;
+   void drawAllItems(Graphics g,Vector menuCommands,String[] drawCommands,int itemCursorIndex) {
+        fh = imgHeight > fh ? imgHeight : fh;
         if(drawCommands == null || menuCommands == null) return;
         size = drawCommands.length-1;
         int hitem = 0;
@@ -272,7 +262,7 @@ public class GMenu extends Canvas {
 
        int mHfh = maxHeight*fh + 1;
        gm.maxHeight=mHfh;
-       int w = maxwidth + bm.wimg_menu + 10;
+       int w = maxwidth + imgWidth + 10;
        gm.maxWidth=w;
        hitem=mHfh;
         int bgnd_menu=ColorTheme.getARGB(false);
@@ -357,15 +347,13 @@ public class GMenu extends Canvas {
         g.setFont(font);
         g.setColor(ColorTheme.getColor(ColorTheme.GRAPHICS_MENU_FONT));
 
-        int x_start = 3 + bm.wimg_menu;//3
+        int x_start = 3 + imgWidth;//3
 	int ty;
         for (int index=0; index<=size; index++) {
            if(gm.itemGrMenu!=GMenu.DEF_FORM){
              Command cmd = (Command)menuCommands.elementAt(index);
-	     ty=(fh-bm.himg_menu)>>1;
-             if(bm.imageArr[0]!=null){
-               drawImage(g,cmd.getImg(),3, fh*index + 1 + ty );
-             }
+	     ty=(fh - imgHeight) >> 1;
+             MenuIcons.getInstance().drawImage(g,cmd.getImg(), 3, fh * index + 1 + ty );
              cmd=null;
            }
 	   ty=(fh-g.getFont().getHeight())>>1;

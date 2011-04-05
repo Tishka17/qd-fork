@@ -328,9 +328,6 @@ public class ModuleConfigForm extends DefForm {
             addControl(swapSendAndSuspend);
         } else if (type.equals(SR.get(SR.MS_netStr))) {
             if (config.userAppLevel == 1) {
-                autoLoadTransports = new CheckBox(SR.get(SR.MS_AUTOCONNECT_TRANSPORTS), config.autoLoadTransports);
-                addControl(autoLoadTransports);
-
 //#ifdef PEP
                 addControl(new SimpleString(SR.get(SR.MS_PEP), true));
 
@@ -650,8 +647,6 @@ public class ModuleConfigForm extends DefForm {
             Config.swapSendAndSuspend = swapSendAndSuspend.getValue();
        } else if (type.equals(SR.get(SR.MS_netStr))) {
             if (config.userAppLevel == 1) {
-                config.autoLoadTransports = autoLoadTransports.getValue();
-
 //#ifdef PEP
                 config.sndrcvmood = sndrcvmood.getValue();
                 config.rcvtune = rcvtune.getValue();

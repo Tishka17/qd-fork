@@ -304,7 +304,6 @@ public class Config {
     public boolean shadowBar = true;
     public int gradientBarLight1=120;
     public int gradientBarLight2=5;
-    public boolean autoLoadTransports = true;
 
     public boolean simpleContacts = false;
     public int userAppLevel = BombusQD.getIntProperty("Diff-Level", 0);
@@ -526,7 +525,10 @@ public class Config {
             createMessageByFive = inputStream.readBoolean();
             gradientBarLigth = inputStream.readBoolean();
             shadowBar = inputStream.readBoolean();
-            autoLoadTransports = inputStream.readBoolean();
+
+            // free
+            inputStream.readBoolean();
+
             simpleContacts = inputStream.readBoolean();
             minItemHeight = inputStream.readInt();
 
@@ -781,7 +783,10 @@ public class Config {
             outputStream.writeBoolean(createMessageByFive);
             outputStream.writeBoolean(gradientBarLigth);
             outputStream.writeBoolean(shadowBar);
-            outputStream.writeBoolean(autoLoadTransports);
+
+           // free
+            outputStream.writeBoolean(false);
+
             outputStream.writeBoolean(simpleContacts);
 			outputStream.writeInt(minItemHeight);
 

@@ -924,13 +924,7 @@ public class Roster
     }
 
    private Vector transports = new Vector(0);
-   public void setOfflineTransport(){
-       //System.out.println("transports->"+transports);
-       int trSize = transports.size();
-       if(trSize>0 && !midlet.BombusQD.cf.autoLoadTransports) {
-          for(int i=0; i<trSize; ++i)  sendPresence((String)transports.elementAt(i), "unavailable", null, false);
-       }
-   }
+
    public void connectTransport(){
             if(midlet.BombusQD.cf.isStatusFirst && firstStatus!=-1) {
                if (firstStatus==5) sendPresence(Constants.PRESENCE_INVISIBLE, null);
@@ -942,10 +936,6 @@ public class Roster
                  if (midlet.BombusQD.cf.loginstatus==5) sendPresence(Constants.PRESENCE_INVISIBLE, null);
                  else {
                     sendPresence(midlet.BombusQD.cf.loginstatus, null);
-                    int trSize = transports.size();
-                    if(trSize>0 && !midlet.BombusQD.cf.autoLoadTransports) {
-                       for(int i=0; i<trSize; ++i)  sendPresence((String)transports.elementAt(i), "unavailable", null, false);
-                    }
                  }
              }
    }
@@ -1658,7 +1648,6 @@ public class Roster
         if (doReconnect) {
             querysign=doReconnect=false;
             sendPresence(myStatus, null);
-            setOfflineTransport();
             return;
         }
         //

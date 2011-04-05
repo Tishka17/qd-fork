@@ -171,7 +171,6 @@ public class StatusSelect
         try {
             if (midlet.BombusQD.sd.roster.isLoggedIn()) {
                 midlet.BombusQD.sd.roster.sendDirectPresence(status, to, null);
-                midlet.BombusQD.sd.roster.setOfflineTransport();
             } else {
 		if (midlet.BombusQD.sd.account==null)
 		    new AccountSelect(display, this, false,status);

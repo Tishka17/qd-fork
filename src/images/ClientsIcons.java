@@ -28,31 +28,28 @@
 //#ifdef CLIENTS_ICONS
 package images;
 
-import javax.microedition.lcdui.Graphics;
 /**
  *
  * @author ad
  */
+
 public class ClientsIcons extends ImageList {
-//#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_CLIENTS_ICONS");
-//#endif
+    private final static String ACTIVITY_ICONS_PATH = "/images/clients.png";
 
-    private final static int CLIENTS_IN_ROW=16;
-
-    /** Creates a new instance of RosterIcons */
-    private ClientsIcons() {
-        super("/images/clients.png", 0, CLIENTS_IN_ROW);
-    }
+    private final static int ICONS_IN_ROW = 16;
+    private final static int ICONS_IN_COL = 0;
 
     private static ImageList instance;
-    public static ImageList getInstance() {
-	if (instance==null) instance=new ClientsIcons();
-	return instance;
-    }
 
-    public void drawImage(Graphics g, int index, int x, int y) {
-        super.drawImage(g, index, x, y);
+    private ClientsIcons() {
+        super(ACTIVITY_ICONS_PATH, ICONS_IN_COL, ICONS_IN_ROW);
+    }
+    
+    public static ImageList getInstance() {
+	if (instance == null) {
+            instance = new ClientsIcons();
+        }
+	return instance;
     }
 }
 //#endif

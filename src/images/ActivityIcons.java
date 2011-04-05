@@ -27,25 +27,27 @@
 //#ifdef PEP
 package images;
 
-import javax.microedition.lcdui.Graphics;
-
 /**
  *
  * @author ad
  */
-public class ActivityIcons extends ImageList{
-    
 
-    private final static int CLIENTS_IN_ROW=16;
+public class ActivityIcons extends ImageList {
+    private final static String ACTIVITY_ICONS_PATH = "/images/activ.png";
 
-    /** Creates a new instance of RosterIcons */
-    private ActivityIcons() {
-        super("/images/activ.png", 0, CLIENTS_IN_ROW);
-    }
-    
     private static ImageList instance;
+
+    private final static int ICONS_IN_ROW = 16;
+    private final static int ICONS_IN_COL = 5;
+
+    private ActivityIcons() {
+        super(ACTIVITY_ICONS_PATH, ICONS_IN_COL, ICONS_IN_ROW);
+    }
+
     public static ImageList getInstance() {
-	if (instance==null) instance=new ActivityIcons();
+	if (instance == null) {
+            instance = new ActivityIcons();
+        }
 	return instance;
     }
 }

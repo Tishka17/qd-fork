@@ -46,7 +46,6 @@ import client.Config;
 import client.StaticData;
 import client.Roster;
 import ui.SplashScreen;
-import font.*;
 //#ifdef DEBUG_CONSOLE
 //# import console.debug.DebugList;
 //#endif
@@ -115,12 +114,6 @@ public class BombusQD extends MIDlet implements Runnable {
     public void pauseApp() {
     }
 
-    public Image[] imageArr = null;
-    public int wimg_menu;
-    public int himg_menu;
-    public int wimg_actions;
-    public int himg_actions;
-
     private void rmsVersion(boolean save, Displayable parentView) {
         String key = "key15628618";
         if(save == false) {
@@ -187,14 +180,6 @@ public class BombusQD extends MIDlet implements Runnable {
 //#                     Long.toString(Runtime.getRuntime().totalMemory()>>10), 10) ;
 //#         }
 //#endif
-
-        try {
-            imageArr = new Image[2];
-            imageArr[0] = Image.createImage("/images/menu.png");
-            wimg_menu = imageArr[0].getWidth() / 8;
-            himg_menu = imageArr[0].getHeight() / 10;
-        } catch (Exception e) {
-        }
 
 //#ifdef HISTORY
         HistoryConfigForm.loadSettings();

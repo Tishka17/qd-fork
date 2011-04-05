@@ -23,7 +23,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- */ 
+ */
+
 //#ifdef PEP
 package images;
 
@@ -31,22 +32,24 @@ package images;
  *
  * @author EvgS
  */
-public class MoodIcons extends ImageList {
-//#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_PEP");
-//#endif
-    
-    private final static int SMILES_IN_ROW=16;
 
-    /** Creates a new instance of SmilesIcons */
-    private MoodIcons() {
-	super("/images/moods.png", 0, SMILES_IN_ROW);
-    }
+public class MoodIcons extends ImageList {
+    private final static String MOOD_ICONS_PATH = "/images/moods.png";
+
+    private final static int ICONS_IN_ROW = 16;
+    private final static int ICONS_IN_COL = 6;
 
     private static ImageList instance;
+
     public static ImageList getInstance() {
-	if (instance==null) instance=new MoodIcons();
+	if (instance == null) {
+            instance = new MoodIcons();
+        }
 	return instance;
     }
+
+    private MoodIcons() {
+	super(MOOD_ICONS_PATH, ICONS_IN_COL, ICONS_IN_ROW);
+    }  
 }
 //#endif

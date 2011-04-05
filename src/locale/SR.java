@@ -740,7 +740,7 @@ public class SR {
      public final static short MS_SORT_TYPE_DEF  = 707; //OFF (default)
      public final static short MS_SORT_TYPE_STATUS  = 708; //By status
      public final static short MS_SORT_TYPE_MSGS  = 709; //By Msgs count
-     public final static short MS_AUTOCONNECT_TRANSPORTS  = 710; //Auto-Load Transports after connect
+     public final static short MS_AUTOCONNECT_TRANSPORTS  = 710; // free
      public final static short MS_HISTORY_TYPE  = 711; //Type History
      public final static short MS_HISTORY_RMS  = 712; //History in RMS
      public final static short MS_HISTORY_FS  = 713; //History in FS

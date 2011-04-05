@@ -497,10 +497,13 @@ public final class ContactMessageList extends VirtualList implements MenuListene
 //#endif
     }
 
-    private String txt = "";
-    public void okNotify(String txt) {
-        this.txt = txt;
-        find_str(txt);
+    private String searchQuery;
+
+    public void okNotify(String searchQuery) {
+        if (searchQuery.length() > 0) {
+            this.searchQuery = searchQuery;
+            findString(searchQuery);
+        }
     }
 
     public void clearReadedMessageList() {
@@ -531,48 +534,43 @@ public final class ContactMessageList extends VirtualList implements MenuListene
     private int found_count=0;
 
 
-    private void clear_results(){ //end of search
-                moveCursorEnd();
-                for (int i=0; i<(cursor+1); i++)
-                {
-                  if((getMessage(i).toString().indexOf(txt)>-1))
-                  {
-                    Msg m = getMessage(i);
-                    m.search_word=false;
-                    m.highlite=false;
-                  }
-                }
-                midlet.BombusQD.cf.find_text=false;
-                moveCursorHome();
+    private void clearResults() {
+        moveCursorEnd();
+        for (int i = 0; i < (cursor + 1); ++i) {
+            Msg m = getMessage(i);
+            if (m.toString().indexOf(searchQuery) > -1) {
+                m.search_word = false;
+                m.highlite = false;
+            }
+        }
+        midlet.BombusQD.cf.find_text = false;
+        moveCursorHome();
     }
 
-
-    public void find_str(String query){
-                moveCursorEnd();
-                //VirtualList.setWobble(1, null, "       Wait!");
-                for (int i=0; i<(cursor+1); i++)
-                {
-                  if((getMessage(i).toString().indexOf(query)>-1))
-                  {
-           	    vectorfound.addElement(Integer.toString(i));
-                    Msg m = getMessage(i);
-                    m.search_word=true; //image
-                    m.highlite=true;
-                  }
-                }
-                if(vectorfound.size()>0) {
-                    int cursor_index = Integer.parseInt(vectorfound.elementAt(found_count).toString());
-                    moveCursorTo(cursor_index, true);
-                    midlet.BombusQD.cf.find_text=true;
-                    //VirtualList.setWobble(1, null, "Results of Search:\nword: "+query+"\ncounts: "+vectorfound.size());
-                    //setMainBarItem(new MainBar("    Search: "+Integer.toString(1)+"/"+Integer.toString(vectorfound.size()) + " ..6>"));
-                }else{
-                    midlet.BombusQD.cf.find_text=false;
-                    //VirtualList.setWobble(3, null, SR.get(SR.MS_NOT_FOUND));
-                    moveCursorHome();
-                }
+    public void findString(String query) {
+        moveCursorEnd();
+        for (int i = 0; i < (cursor + 1); ++i) {
+            Msg m = getMessage(i);
+            if (m.toString().indexOf(query) > -1) {
+                // FIXME элементы не удаляются.
+                vectorfound.addElement(Integer.toString(i));
+                m.search_word = true; //image
+                m.highlite = true;
+            }
+        }
+        if (vectorfound.size() > 0) {
+            int cursor_index = Integer.parseInt(vectorfound.elementAt(found_count).toString());
+            moveCursorTo(cursor_index, true);
+            midlet.BombusQD.cf.find_text = true;
+            //VirtualList.setWobble(1, null, "Results of Search:\nword: "+query+"\ncounts: "+vectorfound.size());
+            //setMainBarItem(new MainBar("    Search: "+Integer.toString(1)+"/"+Integer.toString(vectorfound.size()) + " ..6>"));
+        } else {
+            midlet.BombusQD.cf.find_text = false;
+            //VirtualList.setWobble(3, null, SR.get(SR.MS_NOT_FOUND));
+            moveCursorHome();
+        }
+        //System.out.println(vectorfound.size());
     }
-
 
     private void checkOffline(){
        Msg msg;
@@ -722,7 +720,7 @@ public final class ContactMessageList extends VirtualList implements MenuListene
 //#ifdef POPUPS
                           VirtualList.setWobble(1, null, SR.get(SR.MS_END_SEARCH));
 //#endif
-                          clear_results();
+                          clearResults();
                       }
                       if(found_count==0)
                           whatPress = "..[6]>";
@@ -739,7 +737,7 @@ public final class ContactMessageList extends VirtualList implements MenuListene
 //#ifdef POPUPS
                           VirtualList.setWobble(1, null, SR.get(SR.MS_END_SEARCH));
 //#endif
-                          clear_results();
+                          clearResults();
                       }
                       int cursor_index = Integer.parseInt(vectorfound.elementAt(found_count).toString());
                       moveCursorTo(cursor_index, true);

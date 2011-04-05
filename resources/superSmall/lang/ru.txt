@@ -702,7 +702,6 @@ Sort Type	Сортировка
 OFF (default)	По умолчанию
 By status	По статусу
 By Msgs count	По кол-ву сообщений
-Auto-Load Transports after connect	Автозагрузка транспортов после подключения%Подключает транспорты контакт листа после подключения к серверу
 Type History	Тип хранения сообщений
 History in RMS	История в памяти телефона
 History in FS	История в Файловой системе

@@ -2224,8 +2224,12 @@ public abstract class VirtualList
     }
 
     public String getTraffic() {
-        long traffic = StaticData.getInstance().traffic;
-        return (traffic>0)?StringUtils.getSizeString(traffic)+midlet.BombusQD.sd.roster.theStream.getStreamStatsBar():"";
+	try {
+	    long traffic = StaticData.getInstance().traffic;
+	    return StringUtils.getSizeString(traffic)+midlet.BombusQD.sd.roster.theStream.getStreamStatsBar();
+	} catch (java.lang.NullPointerException e) {
+	    return "";
+	}
     }
 
     public String touchLeftCommand(){ return (midlet.BombusQD.cf.oldSE)?SR.get(SR.MS_BACK):SR.get(SR.MS_MENU); }

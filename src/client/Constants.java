@@ -133,12 +133,14 @@ public final class Constants {
     public final static byte GROUP_MODERATOR=1;
 
 //#ifdef TOUCH
-    public final static byte POINTER_NONE=0;
+    public final static byte POINTER_NONE=-1;
+    public final static byte POINTER_FIRST=0;
     public final static byte POINTER_SECOND=1;
     public final static byte POINTER_SCROLLBAR=2;
     public final static byte POINTER_DRAG=3;
     public final static byte POINTER_DRAGLEFT=4;
     public final static byte POINTER_DRAGRIGHT=5;
     public final static byte POINTER_PANEL=6;
+    public final static byte POINTER_LONG=7;
 //#endif
 }

@@ -82,7 +82,7 @@ public abstract class VirtualList
     private int mHeight;
 
 //#ifdef TOUCH
-    public static int pointer_state = 0;
+    public static int pointer_state = client.Constants.POINTER_NONE;
 //#endif
 
 //#ifdef GRADIENT
@@ -486,6 +486,7 @@ public abstract class VirtualList
 //#endif
 
     public void paint(Graphics graphics) {
+
         mHeight=0;
         iHeight=0;
         lastPaint = System.currentTimeMillis();
@@ -786,7 +787,13 @@ public abstract class VirtualList
         g.drawRect(xpos,1,ws-1,fh-1);
         g.drawString(Long.toString(showFrames)+" fps", xpos+2, 2, g.LEFT|g.TOP);
 */
-
+//#ifdef TOUCH
+	if (pointer_state == client.Constants.POINTER_LONG) {
+	    g.setColor(ColorTheme.getColor(ColorTheme.CURSOR_OUTLINE));
+	    g.drawArc(lastClickX-12, lastClickY-12, 24, 24, 0, 360);
+	    g.drawArc(lastClickX-10, lastClickY-10, 20, 20, 0, 360);
+	}
+//#endif
         if (g != graphics) g.drawImage(offscreen, 0, 0, Graphics.LEFT | Graphics.TOP);
     }
 
@@ -1353,11 +1360,12 @@ public abstract class VirtualList
    int yPointerPos;
 
     protected void pointerPressed(int x, int y) {
+
         long clickTime=System.currentTimeMillis();
         lastClickTime=clickTime;
         lastClickX=x;
         lastClickY=y;
-        pointer_state = client.Constants.POINTER_NONE;
+        pointer_state = client.Constants.POINTER_FIRST;
         old_win_top = win_top;
         if(gm.itemGrMenu>0){
             if(null != menuItem) {
@@ -1423,12 +1431,13 @@ public abstract class VirtualList
         //lastClickItem=cursor;
 
         if(cursor==-1) cursor = 0;
+	setRotator();
         repaint();
    }
 
 
    protected void pointerDragged(int x, int y) {
-
+      int old_state = pointer_state;
        long clickTime=System.currentTimeMillis();
        if(gm.itemGrMenu>0){
             if(null != menuItem) {
@@ -1439,6 +1448,7 @@ public abstract class VirtualList
             }
             return;
       }
+
       if (pointer_state == client.Constants.POINTER_PANEL)
             return;
       if (pointer_state == client.Constants.POINTER_SCROLLBAR) {
@@ -1449,6 +1459,7 @@ public abstract class VirtualList
             stickyWindow=false;
             return;
       }
+
       win_top = old_win_top - y + lastClickY;
       if (x - lastClickX > 9 || lastClickX-x >9
               || y - lastClickY > 9 || lastClickY-y>9)
@@ -1457,7 +1468,7 @@ public abstract class VirtualList
       if (win_top+winHeight>listHeight) win_top=listHeight-winHeight;
       if (win_top<0) win_top=0;
       stickyWindow=false;
-      if (clickTime-lastPaint>80) {
+      if (clickTime-lastPaint>70 || old_state!=pointer_state) {
                     repaint();
       }
       return;
@@ -1476,7 +1487,8 @@ public abstract class VirtualList
             lastClickTime=clickTime;
             lastClickX=x;
             lastClickY=y;
-
+	    pointer_state = client.Constants.POINTER_NONE;
+	    repaint();
             return;
         }
         //soft buttons drown on top
@@ -1484,6 +1496,8 @@ public abstract class VirtualList
             if (mainbar!=null && paintBottom) {
                 if (height - y < mHeight) {
                     if (pointer_state == client.Constants.POINTER_PANEL) touchMainPanelPressed(x, y);
+		    pointer_state = client.Constants.POINTER_NONE;
+		    repaint();
                     return;
                 }
             }
@@ -1494,6 +1508,8 @@ public abstract class VirtualList
                     }else if (x>width/2+40){
                         if (pointer_state == client.Constants.POINTER_PANEL)touchRightPressed();
                     } else if (pointer_state == client.Constants.POINTER_PANEL)touchMiddlePressed();
+		    pointer_state = client.Constants.POINTER_NONE;
+		    repaint();
                     return;
                 }
             }
@@ -1507,27 +1523,32 @@ public abstract class VirtualList
                         if (pointer_state == client.Constants.POINTER_PANEL)touchRightPressed();
                     } else if (pointer_state == client.Constants.POINTER_PANEL)touchMiddlePressed();
                     stickyWindow=false;
+		    pointer_state = client.Constants.POINTER_NONE;
+		    repaint();
                     return;
                 }
             }
             if (mainbar!=null && paintTop) {
                 if (y < mHeight) {
                     if (pointer_state == client.Constants.POINTER_PANEL)touchMainPanelPressed(x, y);
+		    pointer_state = client.Constants.POINTER_NONE;
+		    repaint();
                     return;
                 }
             }
         }
         if (pointer_state==client.Constants.POINTER_SCROLLBAR) scrollbar.pointerReleased(x, y, this);
 
-        if (pointer_state == client.Constants.POINTER_NONE || pointer_state==client.Constants.POINTER_SECOND) {
+        if (pointer_state == client.Constants.POINTER_FIRST || pointer_state==client.Constants.POINTER_SECOND) {
             if (clickTime-lastClickTime>500) {
                 y=0;
                 eventLongOk();
             } else {
                 if (pointer_state == client.Constants.POINTER_SECOND) eventOk();
-                repaint();
             }
         }
+	repaint();
+	pointer_state = client.Constants.POINTER_NONE;
     }
 
 //#endif //TOUCH
@@ -2248,6 +2269,9 @@ class TimerTaskRotate extends Thread{
     private VirtualList attachedList;
 
     private static TimerTaskRotate instance;
+    //#ifdef TOUCH
+    private static int holdCount = 0;
+    //#endif
 
     private TimerTaskRotate() {
         start();
@@ -2283,19 +2307,24 @@ class TimerTaskRotate extends Thread{
     public void run() {
         while (true) {
             try {  sleep(100);  } catch (Exception e) { instance=null; break; }
-
-            //synchronized (this) {
-                if (scroll==0) {
-                    if (instance.scroll() || instance.balloon())
-                        try { attachedList.redraw(); } catch (Exception e) { instance=null; break; }
-                } else {
-                    scroll --;
-                }
-                /*if (VirtualList.reconnectRedraw) {
-                    VirtualList.reconnectRedraw=false;
-                    try { attachedList.redraw(); } catch (Exception e) { instance=null; break; }
-                }*/
-            //}
+	    //#ifdef TOUCH
+    	    if (holdCount==5 ) {
+		if (attachedList.pointer_state == client.Constants.POINTER_FIRST || attachedList.pointer_state == client.Constants.POINTER_SECOND)
+		attachedList.pointer_state = client.Constants.POINTER_LONG;
+		holdCount=0;
+		attachedList.redraw();
+	    }
+	    if (attachedList.pointer_state == client.Constants.POINTER_FIRST || attachedList.pointer_state == client.Constants.POINTER_SECOND) {
+		holdCount++;
+		continue;
+	    }
+	    //#endif
+	    if (scroll==0) {
+		if (instance.scroll() || instance.balloon())
+		    try { attachedList.redraw(); } catch (Exception e) { instance=null; break; }
+	    } else {
+		scroll --;
+	    }
         }
     }
 

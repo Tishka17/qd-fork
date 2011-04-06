@@ -49,6 +49,8 @@ public class SmilesIcons {
     public static ImageList getStaticInstance() {
         if (staticInstance == null) {
             try {
+
+                MessageParser.getInstance().restart();
                 int smilesCount = MessageParser.getInstance().getSmileTable().size();
                 cols = ceil(SMILES_IN_ROW, smilesCount);
             } catch (Exception e) {
@@ -80,7 +82,6 @@ public class SmilesIcons {
                     animatedInstance = null;
 
                     // for SE
-                    MessageParser.getInstance().restart();
                     return getStaticInstance();
                 }
             }

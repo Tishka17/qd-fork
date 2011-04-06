@@ -789,9 +789,14 @@ public abstract class VirtualList
 */
 //#ifdef TOUCH
 	if (pointer_state == client.Constants.POINTER_LONG) {
+	    int r=midlet.BombusQD.cf.minItemHeight;
+	    if (r<1) r=10;
 	    g.setColor(ColorTheme.getColor(ColorTheme.CURSOR_OUTLINE));
-	    g.drawArc(lastClickX-12, lastClickY-12, 24, 24, 0, 360);
-	    g.drawArc(lastClickX-10, lastClickY-10, 20, 20, 0, 360);
+	    g.setStrokeStyle(Graphics.DOTTED);
+	    g.drawArc(lastClickX-r-2, lastClickY-r-2, (r<<1)+4, (r<<1)+4, 0, 360);
+	    g.setStrokeStyle(Graphics.SOLID);
+	    g.drawArc(lastClickX-r, lastClickY-r, r<<1, r<<1, 0, 360);
+	    g.drawArc(lastClickX-(r>>1), lastClickY-(r>>1), r, r, 180, 270);
 	}
 //#endif
         if (g != graphics) g.drawImage(offscreen, 0, 0, Graphics.LEFT | Graphics.TOP);
@@ -1539,8 +1544,8 @@ public abstract class VirtualList
         }
         if (pointer_state==client.Constants.POINTER_SCROLLBAR) scrollbar.pointerReleased(x, y, this);
 
-        if (pointer_state == client.Constants.POINTER_FIRST || pointer_state==client.Constants.POINTER_SECOND) {
-            if (clickTime-lastClickTime>500) {
+        if (pointer_state == client.Constants.POINTER_FIRST || pointer_state==client.Constants.POINTER_SECOND || pointer_state==client.Constants.POINTER_LONG) {
+            if (clickTime-lastClickTime>500 || pointer_state==client.Constants.POINTER_LONG) {
                 y=0;
                 eventLongOk();
             } else {

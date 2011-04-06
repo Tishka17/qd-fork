@@ -81,7 +81,6 @@ public class SmilesIcons {
                     Config.animatedSmiles = false;
                     animatedInstance = null;
 
-                    // for SE
                     return getStaticInstance();
                 }
             }

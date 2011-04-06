@@ -369,6 +369,9 @@ public class AccountSelect extends VirtualList implements
             switchAccount(true);
         }
     }
+    public void eventLongOk(){
+	showGraphicsMenu();
+    }
 
     public void rmsUpdate() {
         DataOutputStream outputStream = NvStorage.CreateDataOutputStream();

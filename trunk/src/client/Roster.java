@@ -1861,11 +1861,11 @@ public class Roster
 
    public int blockArrived( JabberDataBlock data ) { //fix
         try {
-            //System.out.println("<< "+data.toString());
+            String from = data.getAttribute("from");
+            String type = data.getTypeAttribute();
+            String id = data.getAttribute("id");
+
             if( data instanceof Iq ) {
-                String from=data.getAttribute("from");
-                String type = (String) data.getTypeAttribute();
-                String id=(String) data.getAttribute("id");
 //#ifdef JUICK.COM
                 if(from!=null){
                   if(from.indexOf("juick@juick.com")>-1) {
@@ -1878,8 +1878,7 @@ public class Roster
                     if (id.startsWith("nickvc")) {
                         if (type.equals("get") || type.equals("set")) return JabberBlockListener.BLOCK_REJECTED;
 			String matchedjid = id.substring(6, id.length());
-			String vcardFrom = data.getAttribute("from");
-			if (!(vcardFrom.equals(matchedjid) || vcardFrom.equals(new Jid(matchedjid).getBareJid())))
+			if (!(from.equals(matchedjid) || from.equals(new Jid(matchedjid).getBareJid())))
 				return JabberBlockListener.BLOCK_REJECTED;
 
                         VCard vc=new VCard(data);//.getNickName();
@@ -1903,22 +1902,21 @@ public class Roster
                         Contact c=null;
 
                         if(c==null) c=getContact(jid, false); // drop unwanted vcards
-			String vcardFrom = data.getAttribute("from");
 			if (c instanceof MucContact) {
 				MucContact mucContact=(MucContact)c;
 				String realjid=mucContact.realJid;
 				mucContact=null;
 				if (realjid==null)
-					if (!(vcardFrom.equals(jid) || vcardFrom.equals(new Jid(jid).getBareJid())))
+					if (!(from.equals(jid) || from.equals(new Jid(jid).getBareJid())))
 						return JabberBlockListener.BLOCK_REJECTED;
 				else
-					if (!(vcardFrom.equals(jid)
-					     || vcardFrom.equals(new Jid(jid).getBareJid())
-					     || vcardFrom.equals(realjid)))
+					if (!(from.equals(jid)
+					     || from.equals(new Jid(jid).getBareJid())
+					     || from.equals(realjid)))
 						return JabberBlockListener.BLOCK_REJECTED;
 				realjid=null;
 			} else {
-				if (!(vcardFrom.equals(jid) || vcardFrom.equals(new Jid(jid).getBareJid())) )
+				if (!(from.equals(jid) || from.equals(new Jid(jid).getBareJid())) )
 					return JabberBlockListener.BLOCK_REJECTED;
 			}
 
@@ -2027,8 +2025,7 @@ public class Roster
 
                     if (id.startsWith("getst")) {
                            JabberDataBlock query = data.findNamespace("query","http://jabber.org/protocol/stats");
-                           String server_name = data.getAttribute("from");
-                           JabberDataBlock req=new Iq(server_name, Iq.TYPE_GET,"statistic");
+                           JabberDataBlock req=new Iq(from, Iq.TYPE_GET,"statistic");
                            JabberDataBlock qry = req.addChildNs("query","http://jabber.org/protocol/stats");
                             try {
                                   for (Enumeration e=query.getChildBlocks().elements(); e.hasMoreElements(); ){
@@ -2047,23 +2044,21 @@ public class Roster
 
 
                     if (id.startsWith("statistic")) {
-                                 JabberDataBlock get_query = data.findNamespace("query","http://jabber.org/protocol/stats");
-                                 String server_name = data.getAttribute("from");
-                                 int size=get_query.getChildBlocks().size();
-                                 CommandForm cmd = new CommandForm(midlet.BombusQD.getInstance().display, this , 5 , "" , null, null);
-                                 cmd.setParentView(server_name,this);
+                                 JabberDataBlock query = data.findNamespace("query","http://jabber.org/protocol/stats");
+                                 Vector children = query.getChildBlocks();
 
-                                 JabberDataBlock value;
+                                 CommandForm cmd = new CommandForm(midlet.BombusQD.getInstance().display, this , 5 , "", null, null);
+                                 cmd.setParentView(from, this);
+
                                   try {
-                                      int pos = 1;
-                                      for (int i=0;i<size;i++){
-                                          value = (JabberDataBlock)get_query.getChildBlocks().elementAt(i);
-                                          cmd.addControl(new MultiLine(value.getAttribute("name"), value.getAttribute("value"), cmd.superWidth));
-                                          pos++;
+                                      for (int i = 0; i < children.size(); ++i){
+                                          JabberDataBlock value = (JabberDataBlock)children.elementAt(i);
+                                          MultiLine line = new MultiLine(value.getAttribute("name"), value.getAttribute("value"), cmd.superWidth);
+                                          line.setSelectable(true);                                          
+                                          cmd.addControl(line);
                                       }
                                  } catch (Exception e) {}
-                                 cmd.addObject(server_name, 0, 0);
-                                 get_query=null;
+                                 query = null;
                       }
 
 
@@ -2104,16 +2099,12 @@ public class Roster
                 querysign=false;
                 Message message = (Message) data;
 
-                String from=message.getFrom();
-
 //#ifdef CONSOLE
 //#                 //midlet.BombusQD.debug.add("::MESSAGE "+data.toString(),10);
 //#endif
 
                 if (myJid.equals(new Jid(from), false)) //Enable forwarding only from self-jids
                     from=message.getXFrom();
-
-                String type=message.getTypeAttribute();
 
                 int start_me=-1;
                 String name=null;
@@ -2261,10 +2252,10 @@ public class Roster
 
                 if (type.equals("chat") && myStatus!=Constants.PRESENCE_INVISIBLE) {
                     if (message.findNamespace("request", "urn:xmpp:receipts")!=null) {
-                        sendDeliveryMessage(c, data.getAttribute("id"));
+                        sendDeliveryMessage(c, id);
                     }
                     if (message.findNamespace("received", "urn:xmpp:receipts")!=null) {
-                         c.markDelivered(data.getAttribute("id"));
+                         c.markDelivered(id);
                     }
                     if (message.findNamespace("active", "http://jabber.org/protocol/chatstates")!=null) {
                         c.acceptComposing=true;
@@ -2399,7 +2390,6 @@ public class Roster
 
                 Presence pr = (Presence) data;
 
-                String from = pr.getFrom();
                 String Prtext = pr.getPresenceText();
                 byte ti = pr.getTypeIndex();
 //#ifdef CONSOLE

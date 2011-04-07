@@ -56,7 +56,6 @@ Edit list	Редактировать список
 Registering	Регистрация
 Done	Выполнено
 Error: 	Ошибка: 
-Browse	Обзор
 Save list	Сохранить список
 Keep-Alive period	Таймаут пинга
 <New Group>	<Новая группа>
@@ -133,7 +132,6 @@ Logoff	Отключить
 Publish	Опубликовать
 Remove subscription	Удалить подписку
 Set	Установить
-Application	Приложение
 Bookmarks	Закладки
 Test sound	Тест звука
 Startup	Запуск
@@ -540,7 +538,6 @@ Upload to server	Бэкап на сервер
 Import from server	Импорт с сервера
 Clear Arhive	Очистить архив
 Stats users for	Статистика юзеров
-Contact Helper	Контакт-помощник
 Change password	Сменить пароль
 Remove from server	Удалить с сервера
 New password	Новый пароль
@@ -567,9 +564,7 @@ Send my Moods+Actions(PEP) to all contacts(YES-recommended)?	Отправить 
 Drawed font	Рисованный шрифт
 Required field	Обязательное поле
 Generate	Сгенерировать
-Contact Helper	Контакт-помощник
 Fill Required field(Full name,nickname and birthday)	Заполните обязательные поля!(ФИО,ник и дату рождения)
-Translate	Переводчик
 Delete all statuses	Удалить все статусы
 Colored Bold String in chat(+many others strings)	Выделение ников цветом в чате(+включая другие строки)
 Autosave cursor position in chat	Автосохранение позиции курсора в чате
@@ -584,7 +579,6 @@ Scroll Width	Ширина скролла
 Type of Background	Выберите тип фона
 Background Default	Фон по умолчанию
 Background Gradient	Градиент-фон
-Background image	Фон-изображение
 Max Avatar Width	Макс.ширина аватара
 Max Avatar Height	Макс.высота аватара
 ClientIcons Left	Иконки клиентов слева
@@ -625,14 +619,6 @@ Graphics Menu	Графическое меню
 Cursor	Курсор
 Bold	Жирный шрифт
 Italic	Наклонный шрифт
-User wants to play checkers with you	Пользователь желает сыграть с Вами в шашки
-Checkers:send invite	Предложить игру в шашки
-Checkers:start game	Начать игру
-Checkers:stop game	Остановить игру
-Checkers:resume	Возобновить игру
-Don't load conference contacts	Не загружать контакты конференции
-Modules config	Настройка модулей
-Advanced Options	Дополнительные настройки
 Contacts	Контакты
 Chat	Окно чата и сообщений
 Network	Настройки сети
@@ -640,12 +626,10 @@ Interface	Внешний вид
 Application	Приложение
 Hotkeys	Горячие клавиши
 Autostatus	Автостатус
-Classic Chat	Классический чат
 Color Themes	Цветовые схемы
 Cashe	Кэш
 History	История сообщений
 Fonts	Шрифты
-Import/Export	Импорт/Экспорт данных
 Notifications&Light Control	Звуки,уведомления и подсветка
 Tasks	Планировщик
 Config	Настроить

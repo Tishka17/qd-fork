@@ -539,16 +539,16 @@ public class GMenu extends Canvas {
             if(Config.executeByNum){
               switch (keyCode)
               {
-                case KEY_NUM0: gm.itemCursorIndexIn=0; closeEvent(); return false;
-                case KEY_NUM1: if(gm.commandslistIn.length>1) {gm.itemCursorIndexIn=1; closeEvent();} return false;
-                case KEY_NUM2: if(gm.commandslistIn.length>2) {gm.itemCursorIndexIn=2; closeEvent();} return false;
-                case KEY_NUM3: if(gm.commandslistIn.length>3) {gm.itemCursorIndexIn=3; closeEvent();} return false;
-                case KEY_NUM4: if(gm.commandslistIn.length>4) {gm.itemCursorIndexIn=4; closeEvent();} return false;
-                case KEY_NUM5: if(gm.commandslistIn.length>5) {gm.itemCursorIndexIn=5; closeEvent();} return false;
-                case KEY_NUM6: if(gm.commandslistIn.length>6) {gm.itemCursorIndexIn=6; closeEvent();} return false;
-                case KEY_NUM7: if(gm.commandslistIn.length>7) {gm.itemCursorIndexIn=7; closeEvent();} return false;
-                case KEY_NUM8: if(gm.commandslistIn.length>8) {gm.itemCursorIndexIn=8; closeEvent();} return false;
-                case KEY_NUM9: if(gm.commandslistIn.length>9) {gm.itemCursorIndexIn=9; closeEvent();} return false;
+                case KEY_NUM1: if(gm.commandslistIn.length>0) {gm.itemCursorIndexIn=0; closeEvent();} return false;
+                case KEY_NUM2: if(gm.commandslistIn.length>1) {gm.itemCursorIndexIn=1; closeEvent();} return false;
+                case KEY_NUM3: if(gm.commandslistIn.length>2) {gm.itemCursorIndexIn=2; closeEvent();} return false;
+                case KEY_NUM4: if(gm.commandslistIn.length>3) {gm.itemCursorIndexIn=3; closeEvent();} return false;
+                case KEY_NUM5: if(gm.commandslistIn.length>4) {gm.itemCursorIndexIn=4; closeEvent();} return false;
+                case KEY_NUM6: if(gm.commandslistIn.length>5) {gm.itemCursorIndexIn=5; closeEvent();} return false;
+                case KEY_NUM7: if(gm.commandslistIn.length>6) {gm.itemCursorIndexIn=6; closeEvent();} return false;
+                case KEY_NUM8: if(gm.commandslistIn.length>7) {gm.itemCursorIndexIn=7; closeEvent();} return false;
+                case KEY_NUM9: if(gm.commandslistIn.length>8) {gm.itemCursorIndexIn=8; closeEvent();} return false;
+                case KEY_NUM0: if(gm.commandslistIn.length>9) {gm.itemCursorIndexIn=9; closeEvent();} return false;
                 default:
                   try {
                     switch (getGameAction(keyCode)){

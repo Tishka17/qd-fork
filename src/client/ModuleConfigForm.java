@@ -79,6 +79,7 @@ public class ModuleConfigForm extends DefForm {
     private CheckBox showNickNames;
     private CheckBox showTimeInMsgs;
     private CheckBox savePos;
+    private CheckBox autoScroll;
     private CheckBox capsState;
     private CheckBox useTabs;
     private CheckBox hideMessageIcon;
@@ -233,7 +234,7 @@ public class ModuleConfigForm extends DefForm {
             }
 
             rosterStatus = new CheckBox(SR.get(SR.MS_SHOW_STATUSES), config.rosterStatus);
-            itemsList.addElement(rosterStatus);
+            addControl(rosterStatus);
 
             useBoldFont = new CheckBox(SR.get(SR.MS_BOLD_FONT), config.useBoldFont);
             addControl(useBoldFont);
@@ -293,6 +294,9 @@ public class ModuleConfigForm extends DefForm {
                 savePos = new CheckBox(SR.get(SR.MS_SAVE_CURSOR), config.savePos);
                 addControl(savePos);
 
+                autoScroll = new CheckBox(SR.get(SR.MS_AUTOSCROLL), Config.autoScroll);
+                addControl(autoScroll);
+
                 showTimeInMsgs = new CheckBox(SR.get(SR.MS_SHOW_TIME_IN_MSGS), Config.showTimeInMsgs);
                 addControl(showTimeInMsgs);
 
@@ -310,7 +314,7 @@ public class ModuleConfigForm extends DefForm {
             smiles = new CheckBox(SR.get(SR.MS_SMILES), config.smiles);
             addControl(smiles);
             if(Config.hasAniSmiles) {
-                animatedSmiles = new CheckBox(SR.get(SR.MS_ANI_SMILES), config.animatedSmiles);
+                animatedSmiles = new CheckBox(SR.get(SR.MS_ANI_SMILES), Config.animatedSmiles);
                 addControl(animatedSmiles);
             }
 //#endif
@@ -319,12 +323,12 @@ public class ModuleConfigForm extends DefForm {
                 hideMessageIcon = new CheckBox(SR.get(SR.MS_ICON_COLP), Config.hideMessageIcon);
                 addControl(hideMessageIcon);
 //#ifdef CLIPBOARD
-                useClipBoard = new CheckBox(SR.get(SR.MS_CLIPBOARD), config.useClipBoard);
+                useClipBoard = new CheckBox(SR.get(SR.MS_CLIPBOARD), Config.useClipBoard);
                 addControl(useClipBoard);
 //#endif
             }
 
-            swapSendAndSuspend = new CheckBox(SR.get(SR.MS_SWAP_SEND_SUSPEND), config.swapSendAndSuspend);
+            swapSendAndSuspend = new CheckBox(SR.get(SR.MS_SWAP_SEND_SUSPEND), Config.swapSendAndSuspend);
             addControl(swapSendAndSuspend);
         } else if (type.equals(SR.get(SR.MS_netStr))) {
             if (config.userAppLevel == 1) {
@@ -446,7 +450,7 @@ public class ModuleConfigForm extends DefForm {
                 addControl(shadowBar);
             }
 
-            showTimeAndTraffic = new CheckBox(SR.get(SR.MS_SHOW_TIME_TRAFFIC), config.showTimeTraffic);
+            showTimeAndTraffic = new CheckBox(SR.get(SR.MS_SHOW_TIME_TRAFFIC), Config.showTimeTraffic);
             addControl(showTimeAndTraffic);
 
 //#ifdef POPUPS
@@ -494,7 +498,7 @@ public class ModuleConfigForm extends DefForm {
                 addControl(popupFromMinimized);
             }
 
-            executeByNum = new CheckBox(SR.get(SR.MS_EXECUTE_MENU_BY_NUMKEY), config.executeByNum);
+            executeByNum = new CheckBox(SR.get(SR.MS_EXECUTE_MENU_BY_NUMKEY), Config.executeByNum);
             addControl(executeByNum);
 
             addControl(new SpacerItem(10));
@@ -542,9 +546,7 @@ public class ModuleConfigForm extends DefForm {
             addControl(awayStatus);
 //#endif
 //#ifdef CLASSIC_CHAT
-//#         } else if (type.equals(SR.get(SR.MS_clchatStr))) {
-//#             addControl(new SimpleString(SR.get(SR.MS_CLCHAT_ON), true));
-//# 
+//#         } else if (type.equals(SR.get(SR.MS_CLASSIC_CHAT))) {
 //#             usePhoneTheme = new CheckBox(SR.get(SR.MS_CLCHAT_BGNG_PHONE), config.usePhoneTheme);
 //#             addControl(usePhoneTheme);
 //# 
@@ -552,8 +554,7 @@ public class ModuleConfigForm extends DefForm {
 //#             addControl(classicChatHeight);
 //# 
 //#             lineCount = new NumberInput(display, SR.get(SR.MS_CLCHAT_MSGLIMIT), Integer.toString(config.lineCount), 1, 1000);
-//#             itemsList.addElement(lineCount);
-//#             itemsList.addElement(new SpacerItem(10));
+//#             addControl(lineCount);
 //#endif
         }
         setCommandListener(this);
@@ -568,7 +569,7 @@ public class ModuleConfigForm extends DefForm {
             config.autoSubscribe = subscr.getSelectedIndex();
             config.notInListDropLevel = nil.getSelectedIndex();
 
-            config.contactXOffset = Integer.parseInt(contactXOffset.getValue());
+            Config.contactXOffset = Integer.parseInt(contactXOffset.getValue());
 
             if (config.userAppLevel == 1) {
                 config.simpleContacts = simpleContacts.getValue();
@@ -619,6 +620,7 @@ public class ModuleConfigForm extends DefForm {
                 Config.showTimeInMsgs = showTimeInMsgs.getValue();
                 Config.showNickNames = showNickNames.getValue();
                 config.savePos = savePos.getValue();
+                Config.autoScroll = autoScroll.getValue();
             }
 
             config.useTabs = useTabs.getValue();
@@ -749,7 +751,7 @@ public class ModuleConfigForm extends DefForm {
             config.setAutoStatusMessage = awayStatus.getValue();
 //#endif
 //#ifdef CLASSIC_CHAT
-//#         } else if (type.equals(SR.get(SR.MS_clchatStr))) {
+//#         } else if (type.equals(SR.get(SR.MS_CLASSIC_CHAT))) {
 //#             config.usePhoneTheme = usePhoneTheme.getValue();
 //#             config.classicChatHeight = Integer.parseInt(classicChatHeight.getValue());
 //#             config.lineCount = Integer.parseInt(lineCount.getValue());

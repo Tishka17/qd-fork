@@ -87,7 +87,7 @@ public class SR {
      public final static short MS_DONE  = 54; //Done
      public final static short MS_ERROR_  = 55; //Error:
      public final static short MS_BROWSE  = 56; //Browse
-     public final static short MS_DISCOVER  = 57; //Browse
+     // public final static short MS_DISCOVER  = 57; //Browse
      public final static short MS_SAVE_LIST  = 58; //Save list
      public final static short MS_KEEPALIVE_PERIOD  = 59; //Keep-Alive period
      public final static short MS_NEWGROUP  = 60; //<New Group>
@@ -165,7 +165,7 @@ public class SR {
      public final static short MS_SUBSCR_REMOVE  = 132; //Remove subscription
      public final static short MS_SET  = 133; //Set
      public final static short MS_APPLICATION  = 134; //Application
-     public final static short MS_CONTACT_XOFFSET  = 135; //Application
+     public final static short MS_CONTACT_XOFFSET  = 135; //Contact's offset
      public final static short MS_BOOKMARKS  = 136; //Bookmarks
      public final static short MS_TEST_SOUND  = 137; //Test sound
      public final static short MS_STARTUP  = 138; //Startup
@@ -176,8 +176,8 @@ public class SR {
      public final static short MS_CONFERENCE  = 143; //Conference
      public final static short MS_SOUND  = 144; //Sound
      public final static short MS_LOGIN_FAILED  = 145; //Login failed
-     public final static short MS_BROWSE_  = 146; //Browse
-     public final static short MS_DISCOVER_  = 147; //Browse
+     // public final static short MS_BROWSE_  = 146; //Browse
+     // public final static short MS_DISCOVER_  = 147; //Browse
      public final static short MS_NEW_JID  = 148; //New Jid
      public final static short MS_PLAIN_PWD  = 149; //plain-text password
      public final static short MS_PASTE_NICKNAME  = 150; //Paste Nickname
@@ -491,7 +491,7 @@ public class SR {
      public final static short MS_DESCRIPTION = 458; //Description
      public final static short MS_USER  = 459; //User
      public final static short MS_IMPORT_EXPORT = 460; //Import/Export
-     public final static short MS_ieStr  = 461; //Import/Export
+     //public final static short MS_ieStr  = 461; //Import/Export
      public final static short MS_BOLD_FONT = 462; //bold font for contacts
      public final static short MS_RUNNING_MESSAGE = 463; //running message
      public final static short MS_NOTIFY_MSGEDIT = 464; //Show latest message in alt message edit
@@ -571,7 +571,7 @@ public class SR {
      public final static short MS_TRANSLATE  = 538; //Translate
      public final static short MS_DESTROY_ROOM  = 539; //Destroy room
      public final static short MS_STATICSTICS  = 540; //Stats users for
-     public final static short MS_CONTACT_HELPER  = 541; //Contact Helper
+     //public final static short MS_CONTACT_HELPER  = 541; //Contact Helper
      public final static short MS_CHANGE_PASSWORD  = 542; //Change password
      public final static short MS_REMOVE_ACCOUNT  = 543; //Remove from server
      public final static short MS_NEW_PASSWORD  = 544; //New password
@@ -598,9 +598,9 @@ public class SR {
      public final static short MS_DRAWED_FONT  = 565; //Drawed font
      public final static short MS_REQUIRED_FIELDS  = 566; //Required field
      public final static short MS_GENERATE  = 567; //Generate
-     public final static short MS_CONTACT_HELPER_  = 568; //Contact Helper
+     //public final static short MS_CONTACT_HELPER_  = 568; //Contact Helper
      public final static short MS_FILL_VCARD_FIELDS  = 569; //Fill Required field(Full name,nickname and birthday)
-     public final static short MS_TRANSLATE_  = 570; //Translate
+     //public final static short MS_TRANSLATE_  = 570; //Translate
      public final static short MS_DELETE_ALL_STATUSES  = 571; //Delete all statuses
      public final static short MS_BOLD_AND_COLORS_NICKS  = 572; //Colored Bold String in chat(+many others strings)
      public final static short MS_SAVE_CURSOR  = 573; //Autosave cursor position in chat
@@ -615,7 +615,7 @@ public class SR {
      public final static short MS_TYPE_BACKGROUND = 582; //Type of Background
      public final static short MS_BGND_NONE = 583; //Background Default
      public final static short MS_BGND_GRADIENT = 584; //Background Gradient
-     public final static short MS_MY_BGND_IMAGE_ = 585; //Background image
+     //public final static short MS_MY_BGND_IMAGE_ = 585; //Background image
      public final static short MS_MAX_AVATAR_WIDTH = 586; //Max Avatar Width
      public final static short MS_MAX_AVATAR_HEIGHT = 587; //Max Avatar Height
      public final static short MS_CLIENT_ICONS_LEFT = 588; //ClientIcons Left
@@ -623,8 +623,8 @@ public class SR {
      public final static short MS_LOAD_SJIN = 590; //Load skin.png from File
      public final static short MS_SET_DEF_SKIN = 591; //Set Default skin.png
      public final static short MS_SKIN_SUPPORT_ERROR = 592; //Error!Only 16x16 size support!
-     public final static short MS_CLCHAT_ON  = 593; //Classic Chat
-     public final static short MS_clchatStr  = 594; //Classic Chat
+     public final static short MS_CLASSIC_CHAT  = 593; //Classic Chat
+     //public final static short MS_clchatStr  = 594; //Classic Chat
      public final static short MS_CLCHAT_AUTO_SCR  = 595; //Auto Scrolling
      public final static short MS_CLCHAT_BGNG_PHONE  = 596; //Background Phone theme
      public final static short MS_CLCHAT_AOPEN  = 597; //Auto Open Classic Chat
@@ -658,14 +658,14 @@ public class SR {
      public final static short MS_CURSOR_TR  = 625; //Cursor
      public final static short MS_Bold  = 626; //Bold
      public final static short MS_Italic  = 627; //Italic
-     public final static short GAME_CHECKERS_MSG  = 628; //User wants to play checkers with you
-     public final static short GAME_SEND_GAME  = 629; //Checkers:send invite
-     public final static short GAME_APPLIED  = 630; //Checkers:start game
-     public final static short GAME_STOP  = 631; //Checkers:stop game
-     public final static short GAME_RESUME  = 632; //Checkers:resume
-     public final static short DONT_LOAD_MUCCONTACTS  = 633; //Don't load conference contacts
-     public final static short MS_MODULES_CONFIG  = 634; //Modules config
-     public final static short MS_ADVANCED_OPT  = 635; //Advanced Options
+     //public final static short GAME_CHECKERS_MSG  = 628; //User wants to play checkers with you
+     //public final static short GAME_SEND_GAME  = 629; //Checkers:send invite
+     //public final static short GAME_APPLIED  = 630; //Checkers:start game
+     //public final static short GAME_STOP  = 631; //Checkers:stop game
+     //public final static short GAME_RESUME  = 632; //Checkers:resume
+     //public final static short DONT_LOAD_MUCCONTACTS  = 633; //Don't load conference contacts
+     //public final static short MS_MODULES_CONFIG  = 634; //Modules config
+     //public final static short MS_ADVANCED_OPT  = 635; //Advanced Options
      public final static short MS_contactStr  = 636; //Contacts
      public final static short MS_msgStr  = 637; //Chat
      public final static short MS_netStr  = 638; //Network
@@ -674,14 +674,14 @@ public class SR {
      public final static short MS_TYPE  = 641; //Type
      public final static short MS_hotkeysStr  = 642; //Hotkeys
      public final static short MS_astatusStr  = 643; //Autostatus
-     public final static short MS_CLCHAT_ON_  = 644; //Classic Chat
-     public final static short MS_clchatStr_  = 645; //Classic Chat
+     //public final static short MS_CLCHAT_ON_  = 644; //Classic Chat
+     //public final static short MS_clchatStr_  = 645; //Classic Chat
      public final static short MS_COLOR_SCHEMES  = 646; //Color Themes
      public final static short MS_casheStr  = 647; //Cashe
      public final static short MS_historyStr  = 648; //History
      public final static short MS_fontsStr  = 649; //Fonts
-     public final static short MS_IMPORT_EXPORT_ = 650; //Import/Export
-     public final static short MS_ieStr_  = 651; //Import/Export
+     //public final static short MS_IMPORT_EXPORT_ = 650; //Import/Export
+     //public final static short MS_ieStr_  = 651; //Import/Export
      public final static short MS_notifyStr  = 652; //Notifications&Light Control
      public final static short MS_taskstr  = 653; //Tasks
      public final static short MS_BACK_IMG_PATH = 654; //Background image path
@@ -850,7 +850,7 @@ public class SR {
         "Done",
         "Error: ",
         "Browse",
-        "Browse",
+        null,
         "Save list",
         "Keep-Alive period",
         "<New Group>",
@@ -939,8 +939,8 @@ public class SR {
         "Conference",
         "Sound",
         "Login failed",
-        "Browse",
-        "Browse",
+        null,
+        null,
         "New Jid",
         "plain-text password",
         "Paste Nickname",
@@ -1254,7 +1254,7 @@ public class SR {
         "Description",
         "User",
         "Import/Export",
-        "Import/Export",
+        null,
         "bold font for contacts",
         "running message",
         "Show latest message in alt message edit",
@@ -1334,7 +1334,7 @@ public class SR {
         "Translate",
         "Destroy room",
         "Stats users for",
-        "Contact Helper",
+        null,
         "Change password",
         "Remove from server",
         "New password",
@@ -1361,9 +1361,9 @@ public class SR {
         "Drawed font",
         "Required field",
         "Generate",
-        "Contact Helper",
+        null,
         "Fill Required field(Full name,nickname and birthday)",
-        "Translate",
+        null,
         "Delete all statuses",
         "Colored Bold String in chat(+many others strings)",
         "Autosave cursor position in chat",
@@ -1378,7 +1378,7 @@ public class SR {
         "Type of Background",
         "Background Default",
         "Background Gradient",
-        "Background image",
+        null,
         "Max Avatar Width",
         "Max Avatar Height",
         "ClientIcons Left",
@@ -1387,7 +1387,7 @@ public class SR {
         "Set Default skin.png",
         "Error!Only 16x16 size support!",
         "Classic Chat",
-        "Classic Chat",
+        null,
         "Auto Scrolling",
         "Background Phone theme",
         "Auto Open Classic Chat",
@@ -1421,14 +1421,14 @@ public class SR {
         "Cursor",
         "Bold",
         "Italic",
-        "User wants to play checkers with you",
-        "Checkers:send invite",
-        "Checkers:start game",
-        "Checkers:stop game",
-        "Checkers:resume",
-        "Don't load conference contacts",
-        "Modules config",
-        "Advanced Options",
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
         "Contacts",
         "Chat",
         "Network",
@@ -1437,14 +1437,14 @@ public class SR {
         "Type",
         "Hotkeys",
         "Autostatus",
-        "Classic Chat",
-        "Classic Chat",
+        null,
+        null,
         "Color Themes",
         "Cashe",
         "History",
         "Fonts",
-        "Import/Export",
-        "Import/Export",
+        null,
+        null,
         "Notifications&Light Control",
         "Tasks",
         "Background image path",

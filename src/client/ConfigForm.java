@@ -69,7 +69,7 @@ public class ConfigForm extends DefForm implements MenuListener {
 
 //#ifdef IMPORT_EXPORT
 //#ifdef FILE_IO
-        addControl(new PluginBox(SR.get(SR.MS_ieStr), config.module_ie, PluginBox.IMPORT_EXPORT));
+        addControl(new PluginBox(SR.get(SR.MS_IMPORT_EXPORT), config.module_ie, PluginBox.IMPORT_EXPORT));
 //#endif
 //#endif
         if(config.userAppLevel == 1) {
@@ -77,7 +77,7 @@ public class ConfigForm extends DefForm implements MenuListener {
             addControl(new PluginBox(SR.get(SR.MS_taskstr), config.module_tasks, PluginBox.TASKS));
 //#endif
 //#ifdef CLASSIC_CHAT
-//#             addControl(new PluginBox(SR.get(SR.MS_clchatStr), config.module_classicchat, PluginBox.CLASSIC_CHAT));
+//#             addControl(new PluginBox(SR.get(SR.MS_CLASSIC_CHAT), config.module_classicchat, PluginBox.CLASSIC_CHAT));
 //#endif
 //#ifdef DEBUG_CONSOLE
 //#             addControl(new PluginBox(SR.get(SR.MS_DEBUG_MENU), config.debug, PluginBox.DEBUG));
@@ -107,7 +107,7 @@ public class ConfigForm extends DefForm implements MenuListener {
             }
 //#endif
 //#ifdef CLASSIC_CHAT
-//#         } else if (text.equals(SR.get(SR.MS_clchatStr))) {
+//#         } else if (text.equals(SR.get(SR.MS_CLASSIC_CHAT))) {
 //#             if (!config.module_classicchat) {
 //#                 return null;
 //#             }
@@ -120,7 +120,7 @@ public class ConfigForm extends DefForm implements MenuListener {
 //#endif
 //#ifdef IMPORT_EXPORT
 //#ifdef FILE_IO
-        } else if(text.equals(SR.get(SR.MS_ieStr))) {
+        } else if(text.equals(SR.get(SR.MS_IMPORT_EXPORT))) {
             if (!config.module_ie) {
                 return null;
             }
@@ -163,7 +163,7 @@ public class ConfigForm extends DefForm implements MenuListener {
             display.setCurrent(new font.FontConfigForm(display, this));
 //#ifdef IMPORT_EXPORT
 //#ifdef FILE_IO
-        } else if(type.equals(SR.get(SR.MS_ieStr))) {
+        } else if(type.equals(SR.get(SR.MS_IMPORT_EXPORT))) {
             new impexp.ImportExportForm(display, this);
 //#endif
 //#endif

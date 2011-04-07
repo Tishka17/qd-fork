@@ -112,7 +112,7 @@ public class ArchiveList
         cmdDeleteAll.setImg(0x41);
 
 //#ifdef IMPORT_EXPORT
-        cmdExport = new Command(SR.get(SR.MS_ieStr), Command.SCREEN, 11);
+        cmdExport = new Command(SR.get(SR.MS_IMPORT_EXPORT), Command.SCREEN, 11);
         cmdExport.setImg(0x60);
 //#endif
 

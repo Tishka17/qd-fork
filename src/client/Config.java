@@ -310,6 +310,7 @@ public class Config {
 
     public static boolean swapSendAndSuspend = false;
     public static boolean cleanConfContacts = false;
+    public static boolean autoScroll = true;
 
     public static Config getInstance() {
         if (instance == null) {
@@ -584,9 +585,7 @@ public class Config {
             autoload_FSPhoto=inputStream.readBoolean();
             nokiaReconnectHack=inputStream.readBoolean();
             showTimeInMsgs=inputStream.readBoolean();
-
-            // free
-            inputStream.readBoolean();
+            autoScroll = inputStream.readBoolean();
 
             useItalic=inputStream.readBoolean();
 
@@ -832,9 +831,7 @@ public class Config {
             outputStream.writeBoolean(autoload_FSPhoto);
             outputStream.writeBoolean(nokiaReconnectHack);
             outputStream.writeBoolean(showTimeInMsgs);
-
-            // free
-            outputStream.writeBoolean(false);
+            outputStream.writeBoolean(autoScroll);
 
             outputStream.writeBoolean(useItalic);
 

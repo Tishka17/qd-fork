@@ -57,7 +57,7 @@ public class ModuleConfigForm extends DefForm {
     private CheckBox showOfflineContacts;
     private CheckBox showTransports;
 //#ifdef CLIENTS_ICONS
-    private CheckBox showClientIcon;
+//#     private CheckBox showClientIcon;
 //#endif
     private CheckBox iconsLeft;
     private CheckBox ignore;
@@ -131,7 +131,7 @@ public class ModuleConfigForm extends DefForm {
     private CheckBox gradient_cursor;
     private CheckBox showBaloons;
 //#ifdef POPUPS
-    private CheckBox popUps;
+//#     private CheckBox popUps;
 //#endif
 //#ifdef MEMORY_MONITOR
 //#     private CheckBox memMon;
@@ -144,30 +144,29 @@ public class ModuleConfigForm extends DefForm {
     private NumberInput scrollWidth;
     private NumberInput minItemHeight;
 //#ifdef BACK_IMAGE
-    private DropChoiceBox backImgType;
+//#     private DropChoiceBox backImgType;
 //#ifdef FILE_IO
-    private PathSelector backImgPath;
+//#     private PathSelector backImgPath;
 //#endif
 //#endif
     private DropChoiceBox graphicsMenuPosition;
     private DropChoiceBox panels;
 
     // for network config
-    private CheckBox autoLoadTransports;
     private CheckBox eventComposing;
     private CheckBox networkAnnotation;
     private CheckBox eventDelivery;
     private CheckBox nokiaReconnectHack;
 //#ifdef PEP
-    private CheckBox sndrcvmood;
-    private CheckBox rcvtune;
-    private CheckBox rcvactivity;
+//#     private CheckBox sndrcvmood;
+//#     private CheckBox rcvtune;
+//#     private CheckBox rcvactivity;
 //#endif
 //#ifdef FILE_TRANSFER
     private CheckBox fileTransfer;
 //#endif
 //#ifdef ADHOC
-    private CheckBox adhoc;
+//#     private CheckBox adhoc;
 //#endif
     private NumberInput reconnectCount;
     private NumberInput reconnectTime;
@@ -222,8 +221,8 @@ public class ModuleConfigForm extends DefForm {
                 addControl(showResources);
 
 //#ifdef CLIENTS_ICONS
-                showClientIcon = new CheckBox(SR.get(SR.MS_SHOW_CLIENTS_ICONS), config.showClientIcon);
-                addControl(showClientIcon);
+//#                 showClientIcon = new CheckBox(SR.get(SR.MS_SHOW_CLIENTS_ICONS), config.showClientIcon);
+//#                 addControl(showClientIcon);
 //#endif
 
                 iconsLeft = new CheckBox(SR.get(SR.MS_CLIENT_ICONS_LEFT), config.iconsLeft);
@@ -333,18 +332,18 @@ public class ModuleConfigForm extends DefForm {
         } else if (type.equals(SR.get(SR.MS_netStr))) {
             if (config.userAppLevel == 1) {
 //#ifdef PEP
-                addControl(new SimpleString(SR.get(SR.MS_PEP), true));
-
-                sndrcvmood = new CheckBox(SR.get(SR.MS_USERMOOD), config.sndrcvmood);
-                addControl(sndrcvmood);
-
-                rcvtune = new CheckBox(SR.get(SR.MS_USERTUNE), config.rcvtune);
-                addControl(rcvtune);
-
-                rcvactivity = new CheckBox(SR.get(SR.MS_USERACTIVITY), config.rcvactivity);
-                addControl(rcvactivity);
-
-                addControl(new SpacerItem(10));
+//#                 addControl(new SimpleString(SR.get(SR.MS_PEP), true));
+//# 
+//#                 sndrcvmood = new CheckBox(SR.get(SR.MS_USERMOOD), config.sndrcvmood);
+//#                 addControl(sndrcvmood);
+//# 
+//#                 rcvtune = new CheckBox(SR.get(SR.MS_USERTUNE), config.rcvtune);
+//#                 addControl(rcvtune);
+//# 
+//#                 rcvactivity = new CheckBox(SR.get(SR.MS_USERACTIVITY), config.rcvactivity);
+//#                 addControl(rcvactivity);
+//# 
+//#                 addControl(new SpacerItem(10));
 //#endif
             }
 
@@ -377,8 +376,8 @@ public class ModuleConfigForm extends DefForm {
                 addControl(fileTransfer);
 //#endif
 //#ifdef ADHOC
-            adhoc = new CheckBox(SR.get(SR.MS_ADHOC), config.adhoc);
-            addControl(adhoc);
+//#             adhoc = new CheckBox(SR.get(SR.MS_ADHOC), config.adhoc);
+//#             addControl(adhoc);
 //#endif
             }
         } else if (type.equals(SR.get(SR.MS_grStr))) {
@@ -414,21 +413,21 @@ public class ModuleConfigForm extends DefForm {
             addControl(graphicsMenuPosition);
 
 //#ifdef BACK_IMAGE
-            addControl(new SpacerItem(3));
-            backImgType = new DropChoiceBox(display, "*"+SR.get(SR.MS_TYPE_BACKGROUND));
-            backImgType.append(SR.get(SR.MS_BGND_NONE));
-            backImgType.append(SR.get(SR.MS_BGND_IMAGE));
-            backImgType.append(SR.get(SR.MS_BGND_GRADIENT));
-            backImgType.append(SR.get(SR.MS_MY_BGND_IMAGE));
+//#             addControl(new SpacerItem(3));
+//#             backImgType = new DropChoiceBox(display, "*"+SR.get(SR.MS_TYPE_BACKGROUND));
+//#             backImgType.append(SR.get(SR.MS_BGND_NONE));
+//#             backImgType.append(SR.get(SR.MS_BGND_IMAGE));
+//#             backImgType.append(SR.get(SR.MS_BGND_GRADIENT));
+//#             backImgType.append(SR.get(SR.MS_MY_BGND_IMAGE));
 //#ifdef FILE_IO
-            backImgType.append(SR.get(SR.MS_BGND_FROM_FS));
-            backImgType.setSelectedIndex(Config.backImgType);
+//#             backImgType.append(SR.get(SR.MS_BGND_FROM_FS));
+//#             backImgType.setSelectedIndex(Config.backImgType);
 //#endif
-            addControl(backImgType);
-
+//#             addControl(backImgType);
+//# 
 //#ifdef FILE_IO
-            backImgPath = new PathSelector(SR.get(SR.MS_BACK_IMG_PATH), Config.backImgPath, PathSelector.TYPE_FILE);
-            addControl(backImgPath);
+//#             backImgPath = new PathSelector(SR.get(SR.MS_BACK_IMG_PATH), Config.backImgPath, PathSelector.TYPE_FILE);
+//#             addControl(backImgPath);
 //#endif
 //#endif
 
@@ -454,8 +453,8 @@ public class ModuleConfigForm extends DefForm {
             addControl(showTimeAndTraffic);
 
 //#ifdef POPUPS
-            popUps = new CheckBox(SR.get(SR.MS_POPUPS), config.popUps);
-            addControl(popUps);
+//#             popUps = new CheckBox(SR.get(SR.MS_POPUPS), config.popUps);
+//#             addControl(popUps);
 //#endif
 
             showBaloons = new CheckBox(SR.get(SR.MS_SHOW_BALLONS), config.showBalloons);
@@ -532,7 +531,7 @@ public class ModuleConfigForm extends DefForm {
 //#ifdef AUTOSTATUS
         } else if (type.equals(SR.get(SR.MS_AUTOSTATUS))) {
             autoAwayType = new DropChoiceBox(display, SR.get(SR.MS_AWAY_TYPE));
-            autoAwayType.append(SR.get(SR.MS_AWAY_OFF));
+            autoAwayType.append(SR.get(SR.MS_DISABLED));
             autoAwayType.append(SR.get(SR.MS_AWAY_LOCK));
             autoAwayType.append(SR.get(SR.MS_MESSAGE_LOCK));
             autoAwayType.append(SR.get(SR.MS_IDLE));
@@ -582,7 +581,7 @@ public class ModuleConfigForm extends DefForm {
             if (config.userAppLevel == 1) {
                 config.showResources = showResources.getValue();
 //#ifdef CLIENTS_ICONS
-                config.showClientIcon = showClientIcon.getValue();
+//#                 config.showClientIcon = showClientIcon.getValue();
 //#endif
                 config.iconsLeft = iconsLeft.getValue();
                 config.ignore = ignore.getValue();
@@ -650,9 +649,9 @@ public class ModuleConfigForm extends DefForm {
        } else if (type.equals(SR.get(SR.MS_netStr))) {
             if (config.userAppLevel == 1) {
 //#ifdef PEP
-                config.sndrcvmood = sndrcvmood.getValue();
-                config.rcvtune = rcvtune.getValue();
-                config.rcvactivity = rcvactivity.getValue();
+//#                 config.sndrcvmood = sndrcvmood.getValue();
+//#                 config.rcvtune = rcvtune.getValue();
+//#                 config.rcvactivity = rcvactivity.getValue();
 //#endif
             }
 
@@ -669,7 +668,7 @@ public class ModuleConfigForm extends DefForm {
                 config.fileTransfer = fileTransfer.getValue();
 //#endif
 //#ifdef ADHOC
-            config.adhoc = adhoc.getValue();
+//#             config.adhoc = adhoc.getValue();
 //#endif
             }
             EntityCaps.initCaps();
@@ -683,9 +682,9 @@ public class ModuleConfigForm extends DefForm {
 
             config.graphicsMenuPosition = graphicsMenuPosition.getSelectedIndex();
 //#ifdef BACK_IMAGE
-            Config.backImgType = backImgType.getSelectedIndex();
+//#             Config.backImgType = backImgType.getSelectedIndex();
 //#ifdef FILE_IO
-            Config.backImgPath = backImgPath.getValue();
+//#             Config.backImgPath = backImgPath.getValue();
 //#endif
 //#endif
 
@@ -701,13 +700,13 @@ public class ModuleConfigForm extends DefForm {
 
             Config.showTimeTraffic = showTimeAndTraffic.getValue();
 //#ifdef POPUPS
-            config.popUps = popUps.getValue();
+//#             config.popUps = popUps.getValue();
 //#endif
             config.showBalloons = showBaloons.getValue();
             config.gradient_cursor = gradient_cursor.getValue();
 
 //#ifdef BACK_IMAGE
-            VirtualList.createImage(false);
+//#             VirtualList.createImage(false);
 //#endif
         } else if (type.equals(SR.get(SR.MS_APPLICATION))) {
             config.autoLogin = autoLogin.getValue();

@@ -18,7 +18,9 @@ import javax.microedition.lcdui.TextBox;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
 import midlet.BombusQD;
+//#ifdef CLIPBOARD
 import util.ClipBoard;
+//#endif
 
 /**
  *
@@ -132,9 +134,9 @@ public class InputTextBox extends TextBox implements CommandListener {
             addCommand(cmdPasteText);
         } else if (c == cmdCopyPlus) {
             ClipBoard.addToClipBoard(getString());
-//#endif
         } else  if (c == cmdPasteText) {
             insert(ClipBoard.getClipBoard(), getCaretPos());
+//#endif
         } else if (c == cmdRecent) {
             new RecentInputList(BombusQD.display, this);
         }

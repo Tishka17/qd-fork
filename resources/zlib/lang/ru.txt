@@ -111,7 +111,6 @@ Logon	Подключить
 Stanzas	Stanzas
 at Host	Сервер
 join conferences	Автоматически входить в отмеченные конференции%Подключение к выбранным конференциям в закладках после соединения с сервером
-Status	Статус
 Smiles	Вкл/выкл смайлики
 Contact >	Контакт >
 offline contacts	Показывать отключенных
@@ -211,12 +210,9 @@ Save history	сохранять историю
 Save presences	сохранять статусы
 Save conference history	сохранять историю конференции
 Save conference presences	сохранять статусы конференции
-convert to cp1251	Кодировка windows-1251
 History folder	Папка истории
 Copy	Копировать
 Paste	Вставить
-Save template	Сохранить шаблон
-Template	Шаблон
 has set topic to	изменил топик на
 Seen	Видели
 Idle	Бездействие
@@ -225,8 +221,6 @@ Choose status	Выбор статуса
 Add status	Добавить статус
 Remove status	Удалить статус
 Address	Адрес
-Make BackUp	Сохранить копию на диск
-Import from BackUp	Восстановить из файла
 View	Просмотр
 Stop	Остановить
 File transfers	Передача файлов
@@ -286,7 +280,6 @@ Control color	Цвет контролов
 Gradient_Background_left color	Градиент фона(Левая половина)
 Gradient_Background_right color	Градиент фона(Правая половина)
 Themes	Темы
-Theme	Загрузить тему
 Sounds options	Звуки
 Time	Время
 participant	участник
@@ -366,7 +359,6 @@ Collapsed groups	Сворачивать группы при запуске
 Send Buffer	Послать текст из буфера
 Change nickname	Сменить ник
 Message collapse limit	Сворачивать сообщения, если больше(символов)
-No client info	Невозможно получить информацию
 Clear all chats	Очистить все чаты
 Join marked (auto)	Автоподключаться
 Statistics	Моя Статистика
@@ -374,7 +366,6 @@ Started: 	Запуск:
 Traffic stats: 	Статистика: 
 All: 	Всего: 
 Current: 	Текущ.: 
-Last Messages	Последние сообщения
 Edit/join	Изменить/Войти
 Use this Color scheme	Использовать схему
 Delete All	Очистить архив
@@ -464,7 +455,6 @@ Composing message to you	Пишет сообщение
 compression	Сжатие трафика
 New room created	Создана новая комната, не забудьте настроить её в конфигураторе!
 Simulated break	Ручное переподключение
-Build new version on constructor	Собрать новую версию на конструкторе
 Auto tasks	Планировщик
 Auto task type	Тип срабатывания
 by timer 	По таймеру
@@ -473,7 +463,6 @@ Auto task action type	Действие
 Quit BombusQD	Выход из BombusQD
 Quit conferences	Выход из конференций
 Disconnection	Отключениe
-disabled	Выключено
 Delay (min.)	Выполнить через (мин.)
 Start time	Выполнить в
 Hour	Часов
@@ -530,19 +519,15 @@ remote control	Удаленное управление
 Saving cursor	сохранять позицию курсора
 Translate	Переводчик
 Destroy room	Удалить конференцию
-Clear Arhive	Очистить архив
 Stats users for	Статистика юзеров
 Change password	Сменить пароль
 Remove from server	Удалить с сервера
 New password	Новый пароль
-deselect all	Снять выделение
 To Clipboard	Копировать
-Collapse All	Свернуть все
 Add Search Query	Запрос поиска
 Find Text	Найти!
 End search!	Поиск окончен!
 Turn OFF Message Icon	Убрать иконки сообщения
-Draw vcard image on contact	показывать аватары
 Autoloading vcard from server	Автозагрузка аватар с сервера
 Autoloading vcard from FS Phone	Автозагрузка аватар с ФС телефона
 Your text not found!	Текст не найден!
@@ -550,9 +535,6 @@ Generate	Сгенерировать
 Delete all statuses	Удалить все статусы
 Colored Bold String in chat(+many others strings)	Выделение ников цветом в чате(+включая другие строки)
 Autosave cursor position in chat	Автосохранение позиции курсора в чате
-Messages,sended by me	Сообщения,отправленные мною
-Messages with /me	Сообщения с тегом /me
-All incoming messages	Количество входящих сообщений
 Background Jimm image	Фоновая картинка Jimm
 Background image	Фоновая картинка
 Scroll Width	Ширина скролла

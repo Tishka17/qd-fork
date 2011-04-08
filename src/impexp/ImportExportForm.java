@@ -43,8 +43,12 @@ import menu.MenuItem;
 public class ImportExportForm extends Menu implements BrowserListener {
     public static final int ARCHIVE_EXPORT = 0;
     public static final int ARCHIVE_IMPORT = 1;
+
     public static final int ACCOUNT_EXPORT = 2;
     public static final int ACCOUNT_IMPORT = 3;
+
+    public static final int CONFIG_EXPORT = 4;
+    public static final int CONFIG_IMPORT = 5;
 
     public ImportExportForm(Display display, Displayable pView) {
         super(SR.get(SR.MS_IMPORT_EXPORT), null, null);
@@ -57,6 +61,9 @@ public class ImportExportForm extends Menu implements BrowserListener {
         addItem(SR.get(SR.MS_ARCHIVE) + ": " + SR.get(SR.MS_SAVE_TO_FILE), ARCHIVE_EXPORT);
 //#endif
 
+        addItem(SR.get(SR.MS_OPTIONS) + ": " + SR.get(SR.MS_LOAD_FROM_FILE), CONFIG_IMPORT);
+        addItem(SR.get(SR.MS_OPTIONS) + ": " + SR.get(SR.MS_SAVE_TO_FILE), CONFIG_EXPORT);
+
         attachDisplay(display);
         this.parentView = pView;
     }
@@ -67,10 +74,12 @@ public class ImportExportForm extends Menu implements BrowserListener {
         switch (mItem.index) {
             case ARCHIVE_IMPORT:
             case ACCOUNT_IMPORT:
+            case CONFIG_IMPORT:
                 new Browser(null, display, this, this, false);
                 break;
             case ARCHIVE_EXPORT:
             case ACCOUNT_EXPORT:
+            case CONFIG_EXPORT:
                 new Browser(null, display, this, this, true);
                 break;
         }
@@ -90,9 +99,13 @@ public class ImportExportForm extends Menu implements BrowserListener {
             case ACCOUNT_IMPORT:
                 new Accounts(path, mItem.index);
                 break;
+            case CONFIG_EXPORT:
+            case CONFIG_IMPORT:
+                new Configs(path, mItem.index);
+                break;
         }
 //#ifdef POPUPS
-        setWobble(3, null, SR.get(SR.MS_DONE));
+//#         setWobble(3, null, SR.get(SR.MS_DONE));
 //#endif
     }
 }

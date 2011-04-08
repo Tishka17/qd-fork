@@ -95,7 +95,7 @@ public class PrivacyForm
         itemsList=null;
         itemsList=new Vector(0);
 
-        choiceAction=new DropChoiceBox(display, SR.get(SR.MS_PRIVACY_ACTION));
+        choiceAction=new DropChoiceBox(display, SR.get(SR.MS_ACTION));
         len = PrivacyItem.actions.length;
         for(int i=0; i<len; i++){
             choiceAction.append(PrivacyItem.actions_[i]);

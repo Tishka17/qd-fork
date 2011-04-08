@@ -187,7 +187,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
 //#ifdef HISTORY
                 if (groupType != Groups.TYPE_TRANSP && !(contact instanceof MucContact)) {
                     if (Config.module_history) {
-                        if (HistoryConfigForm.historyTypeIndex == HistoryConfigForm.TYPE_RMS) {
+                        if (Config.historyTypeIndex == HistoryConfigForm.TYPE_RMS) {
                             addItem(SR.get(SR.MS_HISTORY_SHOW), MI_HISTORY, ActionsIcons.ICON_VERSION);
                         }
                     }

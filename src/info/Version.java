@@ -32,29 +32,27 @@ import locale.SR;
 import midlet.BombusQD;
 
 public final class Version {
-    public final static String version = "$MIDLETVERSION$ (r$BOMBUSVERSION$)" + BombusQD.getInstance().getStrProperty("BombusQD-Build", "");
     public final static String NAME = "BombusQD";
     public final static String BOMBUS_SITE_URL = "http://bombusmod-qd.wen.ru";
 
-    public static String getBuildNum() {
-        String build = BombusQD.getInstance().getStrProperty("BombusQD-Build", "0");
-        return (build != null && !build.equals("0")) ? " [" + build + "]" : "";
-    }
+    private static String version = "$MIDLETVERSION$ (r$BOMBUSVERSION$)";
 
-    public static String getVersionLang() {
-        return version + " (" + SR.get(SR.MS_IFACELANG) + ")" + getBuildNum();
+    public static String getVersionString(boolean showLang) {
+        StringBuffer buf = new StringBuffer();
+        
+        buf.append(version);
+        if (showLang) {
+            buf.append(" (").append(SR.get(SR.MS_IFACELANG)).append(")");
+        }
+        String build = BombusQD.getStrProperty("BombusQD-Build", "0");
+        if (!build.equals("0")) {
+            buf.append(" [").append(build).append("]");
+        }
+        return buf.toString();
     }
 
     public static String getVersionNumber() {
         return version;
-    }
-
-    public static String getName() {
-        return NAME;
-    }
-
-    public static String getNameVersion() {
-        return NAME + " " + version;
     }
 
     public static String getUrl() {

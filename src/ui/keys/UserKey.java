@@ -24,115 +24,115 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 //#ifdef USER_KEYS
-//# package ui.keys;
-//# 
-//# import images.RosterIcons;
-//# import io.NvStorage;
-//# import java.io.DataInputStream;
-//# import java.io.DataOutputStream;
-//# import java.io.IOException;
-//# import locale.SR;
-//# import ui.IconTextElement;
-//# 
-//# /**
-//#  *
-//#  * @author ad
-//#  */
-//# public class UserKey extends IconTextElement {
+package ui.keys;
+
+import images.RosterIcons;
+import io.NvStorage;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import locale.SR;
+import ui.IconTextElement;
+
+/**
+ *
+ * @author ad
+ */
+public class UserKey extends IconTextElement {
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_USER_KEYS");
 //#endif
-//#     
-//#     public final static String storage="keys_db";
-//#             
-//#     public int    commandId = 0;
-//#     public int    key       = -1;
-//#     public boolean active    = false;
-//# 
-//#     public UserKey() {
-//#         super(RosterIcons.getInstance());
-//#     }
-//#     
-//#     public static UserKey loadUserKey(int index){
-//# 	UserKey u=UserKey.createFromStorage(index);
-//#         return u;
-//#     }
-//#     
-//#     public String toString(){
-//#         StringBuffer s=new StringBuffer("(* + ").append(KEYS_NAME[key]).append(") ").append(COMMANDS_DESC[commandId]);
-//#         return s.toString();
-//#     }
-//#     
-//#     public static UserKey createFromStorage(int index) {
-//#         UserKey u=null;
-//#         DataInputStream is=NvStorage.ReadFileRecord(storage, 0);
-//#         if (is==null) return null;
-//#         try {
-//#             do {
-//#                 if (is.available()==0) {u=null; break;}
-//#                 u=createFromDataInputStream(is);
-//#                 index--;
-//#             } while (index>-1);
-//#             is.close();
-//#         } catch (Exception e) { }
-//#         return u;
-//#     }    
-//#     
-//#     public static UserKey createFromDataInputStream(DataInputStream inputStream){
-//#         UserKey u=new UserKey();
-//#         try {
-//#             u.commandId  = inputStream.readInt();
-//#             u.key        = inputStream.readInt();
-//#             u.active     = inputStream.readBoolean();
-//#         } catch (IOException e) { /*e.printStackTrace();*/ }
-//#             
-//#         return (u.key==-1)?null:u;
-//#     }
-//#     
-//#     public void saveToDataOutputStream(DataOutputStream outputStream){
-//#         try {
-//#             outputStream.writeInt(commandId);
-//#             outputStream.writeInt(key);	    
-//# 	    outputStream.writeBoolean(active);	    
-//#         } catch (IOException e) { }
-//#     }
-//# 
-//#     public int getImageIndex() {return active?0:5;}
-//# 
-//#     public static final String[] COMMANDS_DESC = {
-//#             SR.get(SR.MS_NO),
-//#             SR.get(SR.MS_OPTIONS),
-//#             SR.get(SR.MS_CLEAN_ALL_MESSAGES),
-//#             SR.get(SR.MS_RECONNECT),
-//#             SR.get(SR.MS_STATS),
-//#             SR.get(SR.MS_STATUS_MENU),
-//#             SR.get(SR.MS_FILE_TRANSFERS),
-//#             SR.get(SR.MS_ARCHIVE),
-//#             SR.get(SR.MS_DISCO),
-//#             SR.get(SR.MS_PRIVACY_LISTS),
-//#             SR.get(SR.MS_CUSTOM_KEYS),
-//#             SR.get(SR.MS_CLEAR_POPUPS),
-//#             //SR.get(SR.MS_FLASHLIGHT),
-//#             //SR.get(SR.MS_ABOUT),
-//#             SR.get(SR.MS_APP_MINIMIZE),
-//#             SR.get(SR.MS_INVERT),
-//#             //SR.get(SR.MS_XML_CONSOLE), 
-//#             SR.get(SR.MS_FULLSCREEN)
-//#     };
-//#     
-//#     public static final String[] KEYS_NAME = {
-//#             "0",
-//#             "1",
-//#             "2",
-//#             "3",
-//#             "4",
-//#             "5",
-//#             "6",
-//#             "7",
-//#             "8",
-//#             "9",
-//#             "#"
-//#     };
-//# }
+    
+    public final static String storage="keys_db";
+            
+    public int    commandId = 0;
+    public int    key       = -1;
+    public boolean active    = false;
+
+    public UserKey() {
+        super(RosterIcons.getInstance());
+    }
+    
+    public static UserKey loadUserKey(int index){
+	UserKey u=UserKey.createFromStorage(index);
+        return u;
+    }
+    
+    public String toString(){
+        StringBuffer s=new StringBuffer("(* + ").append(KEYS_NAME[key]).append(") ").append(COMMANDS_DESC[commandId]);
+        return s.toString();
+    }
+    
+    public static UserKey createFromStorage(int index) {
+        UserKey u=null;
+        DataInputStream is=NvStorage.ReadFileRecord(storage, 0);
+        if (is==null) return null;
+        try {
+            do {
+                if (is.available()==0) {u=null; break;}
+                u=createFromDataInputStream(is);
+                index--;
+            } while (index>-1);
+            is.close();
+        } catch (Exception e) { }
+        return u;
+    }    
+    
+    public static UserKey createFromDataInputStream(DataInputStream inputStream){
+        UserKey u=new UserKey();
+        try {
+            u.commandId  = inputStream.readInt();
+            u.key        = inputStream.readInt();
+            u.active     = inputStream.readBoolean();
+        } catch (IOException e) { /*e.printStackTrace();*/ }
+            
+        return (u.key==-1)?null:u;
+    }
+    
+    public void saveToDataOutputStream(DataOutputStream outputStream){
+        try {
+            outputStream.writeInt(commandId);
+            outputStream.writeInt(key);	    
+	    outputStream.writeBoolean(active);	    
+        } catch (IOException e) { }
+    }
+
+    public int getImageIndex() {return active?0:5;}
+
+    public static final String[] COMMANDS_DESC = {
+            SR.get(SR.MS_NO),
+            SR.get(SR.MS_OPTIONS),
+            SR.get(SR.MS_CLEAN_ALL_MESSAGES),
+            SR.get(SR.MS_RECONNECT),
+            SR.get(SR.MS_STATS),
+            SR.get(SR.MS_STATUS),
+            SR.get(SR.MS_FILE_TRANSFERS),
+            SR.get(SR.MS_ARCHIVE),
+            SR.get(SR.MS_DISCO),
+            SR.get(SR.MS_PRIVACY_LISTS),
+            SR.get(SR.MS_CUSTOM_KEYS),
+            SR.get(SR.MS_CLEAR_POPUPS),
+            //SR.get(SR.MS_FLASHLIGHT),
+            //SR.get(SR.MS_ABOUT),
+            SR.get(SR.MS_APP_MINIMIZE),
+            SR.get(SR.MS_INVERT),
+            //SR.get(SR.MS_XML_CONSOLE), 
+            SR.get(SR.MS_FULLSCREEN)
+    };
+    
+    public static final String[] KEYS_NAME = {
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "#"
+    };
+}
 //#endif
 

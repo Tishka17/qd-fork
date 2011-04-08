@@ -51,6 +51,7 @@ import disco.ServiceDiscovery;
 //# import javax.microedition.lcdui.CommandListener;
 //# import javax.microedition.lcdui.Command;
 //#else
+import images.MenuIcons;
 import menu.MenuListener;
 import menu.Command;
 //#endif
@@ -78,7 +79,6 @@ public class DiscoSearchForm
     { 
     
     private Command cmdSearch;
-    private Command cmdOk;
     private Command cmdAddServer;
     private Command cmdDel;
     private Command cmdCancel;
@@ -98,9 +98,14 @@ public class DiscoSearchForm
         this.type=type;
         
         cmdSearch = new Command(SR.get(SR.MS_SEARCH), Command.OK, 1);
-        cmdOk = new Command(SR.get(SR.MS_OK), Command.OK, 2);
+        cmdSearch.setImg(MenuIcons.ICON_SEARCH);
+
         cmdAddServer = new Command(SR.get(SR.MS_ADD), Command.SCREEN, 2);
+        cmdAddServer.setImg(0x42);
+
         cmdDel=new Command (SR.get(SR.MS_DELETE), Command.SCREEN, 3);
+        cmdDel.setImg(0x41);
+
         cmdCancel=new Command (SR.get(SR.MS_CANCEL), Command.BACK, 99);
     
         if(list==null){
@@ -155,11 +160,10 @@ public class DiscoSearchForm
         cmdsecondList.removeAllElements();
         cmdThirdList.removeAllElements();
 //#endif
-        addCommand(cmdOk); cmdOk.setImg(0x43);
         if(list==null){
-          addCommand(cmdSearch); cmdSearch.setImg(0x50);   
-          addCommand(cmdAddServer); cmdAddServer.setImg(0x42);
-          addCommand(cmdDel); cmdDel.setImg(0x41);
+          addCommand(cmdSearch);
+          addCommand(cmdAddServer); 
+          addCommand(cmdDel); 
         }
 //#ifndef GRAPHICS_MENU        
 //#      addCommand(cmdCancel);
@@ -180,7 +184,9 @@ public class DiscoSearchForm
 //#endif
     
     public void commandAction(Command c, Displayable displayable) {
-        if (c==cmdCancel) {
+        if (c == cmdSearch) {
+            eventOk();
+        } else if (c==cmdCancel) {
             exitSearchForm();
         } else if (c==cmdAddServer) {
             InputTextBox input = new InputTextBox(SR.get(SR.MS_SERVER), null, 50, TextField.ANY);

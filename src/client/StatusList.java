@@ -75,10 +75,10 @@ public class StatusList {
             //e.printStackTrace(); 
         }
 //#ifdef PEP
-//#         Object add;
-//#         add = new SimpleString(SR.get(SR.MS_PEP),true); statusList.addElement(add);
-//#         add = new ExtendedStatus(0x13, "pep", SR.get(SR.MS_USERMOOD), true); statusList.addElement(add);
-//#         add = new ExtendedStatus(0x24, "pep", SR.get(SR.MS_ACTIVITY), false); statusList.addElement(add);
+        Object add;
+        add = new SimpleString(SR.get(SR.MS_PEP),true); statusList.addElement(add);
+        add = new ExtendedStatus(0x13, "pep", SR.get(SR.MS_USERMOOD), true); statusList.addElement(add);
+        add = new ExtendedStatus(0x24, "pep", SR.get(SR.MS_USERACTIVITY), false); statusList.addElement(add);
 //#endif
     }
     

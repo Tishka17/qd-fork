@@ -93,9 +93,9 @@ public class AlertCustomizeForm extends DefForm {
     Vector fileNames;
     boolean isVibroProfile = false;
 
-    Command cmdSave;
-    Command cmdTest;
-    Command cmdTestVibro;
+    private Command cmdSave;
+    private Command cmdTest;
+    private Command cmdTestVibro;
 
     public AlertCustomizeForm(Display display, Displayable pView) {
         super(display, pView, SR.get(SR.MS_NOTICES_OPTIONS));
@@ -285,15 +285,13 @@ public class AlertCustomizeForm extends DefForm {
 //#ifndef GRAPHICS_MENU
 //#     super.commandState();
 //#endif
-        removeCommand(cmdCancel);
-        removeCommand(Commands.cmdOk);
         if (playable() > -1) {
             addCommand(cmdTest);
         }
-        addCommand(cmdSave);
         if (isVibroProfile) {
             addCommand(cmdTestVibro);
         }
+        addCommand(cmdSave);
 //#ifndef GRAPHICS_MENU
 //#      addCommand(cmdCancel);
 //#endif

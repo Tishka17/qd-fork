@@ -46,7 +46,6 @@ public class MenuIcons extends ImageList {
 	return instance;
     }
 
-
     private MenuIcons() {
 	super(MENU_ICONS_PATH, ICONS_IN_COL, ICONS_IN_ROW);
     }
@@ -79,10 +78,12 @@ public class MenuIcons extends ImageList {
     public static final byte ICON_CLEAN_MESSAGES= 0x33;
     public static final byte ICON_FT         = 0x34;
 
-    public static final byte ICON_URL        = 0x15;
-    public static final byte ICON_DISCO      = 0x15;
-    public static final byte ICON_IE         = 0x24;
-    public static final byte ICON_INVERSE    = 0x25;
+    public static final byte ICON_URL = 0x15;
+    public static final byte ICON_DISCO = 0x15;
+
+    public static final byte ICON_COPY = 0x23;
+    public static final byte ICON_IE = 0x24;
+    public static final byte ICON_INVERSE = 0x25;
 
     public static final byte ICON_USER_SEARCH    = 0x42;
 
@@ -97,9 +98,11 @@ public class MenuIcons extends ImageList {
 
     public static final byte ICON_REMOVE_ICON = 0x51;
     public static final byte ICON_ADD_SERVER = 0x55;
-    public static final byte ICON_GOTO_URL = 0x56;
 
     public static final short ICON_LOAD_PHOTO = 0x74;
     public static final short ICON_SAVE_PHOTO = 0x74;
     public static final short ICON_CAMERA = 0x75;
+
+    public static final int ICON_SEARCH = 0x83;
+    public static final int ICON_GOTO_URL = 0x86;
 }

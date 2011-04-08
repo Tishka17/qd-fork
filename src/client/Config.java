@@ -686,6 +686,9 @@ public class Config {
             userAppLevel = inputStream.readInt();
             menuFont = inputStream.readInt();
             contactXOffset = inputStream.readInt();
+//#ifdef HISTORY
+            historyTypeIndex = inputStream.readInt();
+//#endif
 	    inputStream.close();
             inputStream=null;
 	} catch (Exception e) {
@@ -925,6 +928,9 @@ public class Config {
             outputStream.writeInt(userAppLevel);
             outputStream.writeInt(menuFont);
             outputStream.writeInt(contactXOffset);
+//#ifdef HISTORY
+            outputStream.writeInt(historyTypeIndex);
+//#endif
 	} catch (IOException e) { }
 	return NvStorage.writeFileRecord(outputStream, "confInt", 0, true);
     }
@@ -942,13 +948,14 @@ public class Config {
             outputStream.writeUTF(actText);
             outputStream.writeUTF(actDescr);
             outputStream.writeUTF(actCat);
-
 //#ifdef FILE_IO
 //#ifdef BACK_IMAGE
             outputStream.writeUTF(backImgPath);
 //#endif
 //#endif
-
+//#ifdef HISTORY
+            outputStream.writeUTF(historyPath);
+//#endif
             outputStream.writeUTF(path_skin);
         } catch (IOException e) {
         }
@@ -968,14 +975,16 @@ public class Config {
             actText = inputStream.readUTF();
             actDescr = inputStream.readUTF();
             actCat = inputStream.readUTF();
-
 //#ifdef FILE_IO
 //#ifdef BACK_IMAGE
             backImgPath = inputStream.readUTF();
 //#endif
 //#endif
-
+//#ifdef HISTORY
+            historyPath = inputStream.readUTF();
+//#endif
             path_skin = inputStream.readUTF();
+
             inputStream.close();
             inputStream = null;
         } catch (Exception e) {

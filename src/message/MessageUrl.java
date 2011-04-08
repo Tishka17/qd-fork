@@ -27,7 +27,6 @@
 
 package message; 
 
-import client.Config;
 import java.util.Vector;
 import javax.microedition.io.ConnectionNotFoundException;
 import javax.microedition.lcdui.Display;
@@ -37,11 +36,14 @@ import locale.SR;
 import menu.Command;
 import menu.Menu;
 import menu.MenuListener;
-import midlet.Commands;
 import ui.GMenu;
 import ui.GMenuConfig;
 import ui.input.InputTextBox;
+//#ifdef CLIPBOARD
 import util.ClipBoard;
+import midlet.Commands;
+import client.Config;
+//#endif
 
 /**
  *

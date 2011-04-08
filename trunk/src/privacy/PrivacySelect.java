@@ -84,11 +84,21 @@ public class PrivacySelect
         super(display);
         
        cmdCancel=new Command (SR.get(SR.MS_BACK), Command.BACK, 99);
+
        cmdActivate=new Command (SR.get(SR.MS_ACTIVATE), Command.SCREEN, 10);
+       cmdActivate.setImg(0x16);
+
        cmdDefault=new Command (SR.get(SR.MS_SETDEFAULT), Command.SCREEN, 11);
+       cmdDefault.setImg(0x24);
+
        cmdNewList=new Command (SR.get(SR.MS_NEW_LIST), Command.SCREEN, 12);
+       cmdNewList.setImg(0x47);
+
        cmdDelete=new Command (SR.get(SR.MS_DELETE_LIST), Command.SCREEN, 13);
+       cmdDelete.setImg(0x41);
+
        cmdIL=new Command (SR.get(SR.MS_MK_ILIST), Command.SCREEN, 16);
+       cmdIL.setImg(0x47);
     
         this.parentView=pView;
 
@@ -107,14 +117,14 @@ public class PrivacySelect
 //#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
 //#endif
-        addCommand(cmdActivate); cmdActivate.setImg(0x16);
-        addCommand(cmdDefault); cmdDefault.setImg(0x24);
+        addCommand(cmdActivate); 
+        addCommand(cmdDefault); 
 //#ifndef GRAPHICS_MENU        
 //#      addCommand(cmdCancel);
 //#endif     
-        addCommand(cmdNewList); cmdNewList.setImg(0x13);
-        addCommand(cmdDelete); cmdDelete.setImg(0x41);
-        addCommand(cmdIL); cmdIL.setImg(0x23);
+        addCommand(cmdNewList); 
+        addCommand(cmdDelete); 
+        addCommand(cmdIL); 
     }
 
     private void processIcon(boolean processing){

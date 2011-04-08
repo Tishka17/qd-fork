@@ -393,7 +393,7 @@ large	Крупный
 All signals	Все сигналы
 Vibra	Вибрация
 No signals	Без сигналов
- (default)	 (по-умолчанию)
+ (default)	 (по умолчанию)
 Quit?	Выйти?
 Are you sure want to Quit?	Вы действительно хотите выйти?
 exit confirmation	Подтверждение выхода
@@ -457,16 +457,12 @@ User	Пользователь
 Import/Export	Импорт/Экспорт данных
 bold font for contacts	Жирный шрифт для контактов ростера
 running message	Бегущая строка в заголовке
-Show latest message in alt message edit	уведомления в альтернативном окне
 Message Edit Type	Тип окна набора сообщения
 Standart	Стандартное
 Alternative	Альтернативное
-Alternative with GUI panels	Альтернативное(+ инфо-панели)
 Composing message to you	Пишет сообщение
 compression	Сжатие трафика
 New room created	Создана новая комната, не забудьте настроить её в конфигураторе!
-IRC-like conference nick-status	смена ника при смене статуса в конференции как в IRC
-user moods send/receive	получение и отправка настроений
 Simulated break	Ручное переподключение
 Build new version on constructor	Собрать новую версию на конструкторе
 Auto tasks	Планировщик
@@ -487,8 +483,8 @@ Autorespond	Автоответчик
 Invert colors	Инверсия цвета
 XML console	XML консоль
 Clipboard	Буфер обмена
-User moods	Мое Настроение
-User activity	Мое Действие
+User moods	Настроение
+User activity	Действие
 Personal events not supported	PEP не поддерживается
 User tune	Музыка
 user tune receive	инфо о музыке
@@ -503,7 +499,7 @@ vibrate only highlited	вибрировать только при обращен
 Extended settings	Расширенные настройки
 Save to file	Сохранить в файл
 Load from file	Загрузить из файла
-Show IQ requests	Отображать запросы IQ
+Show IQ requests	Отображать IQ-запросы
 Show clients icons	Показывать иконки клиентов
 Action	Действие
 Value	Значение
@@ -534,37 +530,23 @@ remote control	Удаленное управление
 Saving cursor	сохранять позицию курсора
 Translate	Переводчик
 Destroy room	Удалить конференцию
-Upload to server	Бэкап на сервер
-Import from server	Импорт с сервера
 Clear Arhive	Очистить архив
 Stats users for	Статистика юзеров
 Change password	Сменить пароль
 Remove from server	Удалить с сервера
 New password	Новый пароль
 deselect all	Снять выделение
-save selection to archive	Выделенное в архив
 To Clipboard	Копировать
 Collapse All	Свернуть все
 Add Search Query	Запрос поиска
 Find Text	Найти!
 End search!	Поиск окончен!
-Send Mood in Msg	Отсылать Настроение в сообщении
-Turn OFF Animation	Выключить анимацию%Отключает анимацию прокрутки элементов ростера,превосходящих ширину экрана и анимацию появления баллунов
 Turn OFF Message Icon	Убрать иконки сообщения
-PEP is now OFF	Настроения/Действия/Музыка отключены из-за включения опции Отсылать Настроение в сообщении!
-Dynamic PEP	Динамическая публикация Настроений/Действий
 Draw vcard image on contact	показывать аватары
 Autoloading vcard from server	Автозагрузка аватар с сервера
 Autoloading vcard from FS Phone	Автозагрузка аватар с ФС телефона
-MyActivity	Мое действие
-Update Moods+Actions+Music	Обновить Настроение/Действия/Музыку
-Stop Music	Остановить музыку
 Your text not found!	Текст не найден!
-Send my Moods+Actions(PEP) to all contacts(YES-recommended)?	Отправить мое текущее настроение/занятие контактам ростера?
-Drawed font	Рисованный шрифт
-Required field	Обязательное поле
 Generate	Сгенерировать
-Fill Required field(Full name,nickname and birthday)	Заполните обязательные поля!(ФИО,ник и дату рождения)
 Delete all statuses	Удалить все статусы
 Colored Bold String in chat(+many others strings)	Выделение ников цветом в чате(+включая другие строки)
 Autosave cursor position in chat	Автосохранение позиции курсора в чате
@@ -573,8 +555,6 @@ Messages with /me	Сообщения с тегом /me
 All incoming messages	Количество входящих сообщений
 Background Jimm image	Фоновая картинка Jimm
 Background image	Фоновая картинка
-Draw Bgnd of Scroll	Рисовать фон скролла
-Scroll Options	Настройка скролла
 Scroll Width	Ширина скролла
 Type of Background	Выберите тип фона
 Background Default	Фон по умолчанию
@@ -583,9 +563,6 @@ Max Avatar Width	Макс.ширина аватара
 Max Avatar Height	Макс.высота аватара
 ClientIcons Left	Иконки клиентов слева
 After Restart App	Нужен перезапуск
-Load skin.png from File	Загрузить skin.png из Файла
-Set Default skin.png	skin.png по умолчанию
-Error!Only 16x16 size support!	Ошибка!Необходимый размер иконок - 16x16
 Classic Chat	Классический чат
 Auto Scrolling	Автоскролл
 Background Phone theme	Тема телефона на фон
@@ -601,17 +578,12 @@ Transparency bgnd(argb)	Прозрачность фона(ARGB)
 Graphics menu bgnd(argb)	Графическое меню: фон(ARGB)
 Graphics menu font	Графическое меню: шрифт
 My Services	Мои Сервисы >
-My Jabber	Мой Jabber
-(HIGH TRAFFIC!)	(!трафик)
 Draw Rect Avatar	Рамка аватара
 AutoSave In FS	Автосохранение аватара
 Avatar Folder	Указать папку
-Roster:Load all Avatars from FS	Ростер: загрузить аватары из ФС
-Muc:Load all Avatars from FS	Конференции: загрузить аватары из ФС
 Avatars	Аватары
 News	Новости
 Show time in messages	Показывать время в сообщениях
-Animation of Graphics Menu&Roster	Анимация курсора в меню%Включает плавную прокрутку курсора графического меню
 Edit colors	Ручная настройка
 Transparent	Регулировка прозрачности
 Background of midlet	Общий фон
@@ -627,7 +599,6 @@ Application	Приложение
 Hotkeys	Горячие клавиши
 Autostatus	Автостатус
 Color Themes	Цветовые схемы
-Cashe	Кэш
 History	История сообщений
 Fonts	Шрифты
 Notifications&Light Control	Звуки,уведомления и подсветка
@@ -672,7 +643,6 @@ Keypress screen brightness	Яркость после нажатия
 Keypress idle timeout	Таймаут после нажатия(сек.)
 Message screen brightness	Яркость при сообщении
 Message idle timeout	Таймаут после сообщения(сек.)
-Metacontacts	Метаконтакты%Позволяют сгруппировать несколько jid'ов одного человека в группу.Для включения/отключения необходимо переподключиться.
 Use 5 key to create Message	Клавиша 5 для создания сообщения
 Use Light to draw panels	Светлый градиент панелей
 MainBar Gradient Light #	Градиент панелей #
@@ -689,17 +659,12 @@ By Msgs count	По кол-ву сообщений
 Type History	Тип хранения сообщений
 History in RMS	История в памяти телефона
 History in FS	История в Файловой системе
-History on server	История на сервере
 vCard: delete current	Визитка: удалить текущую
 vCard: delete ALL	Визитка: удалить ВСЕ
 User Avatar: delete current	Аватар: удалить текущий
 User Avatar: delete from ALL vcards	Аватар: удалить ВСЕ
 Success	Успешно
 Simple Contacts	Простые контакты%Включает отображение контактов только в виде иконки статуса и имени
-User App Level	Уровень сложности
-Started	Начинающий
-Confident	Уверенный
-Experienced	Опытный
 Was added:	Добавлено:
 Configuration Master	Мастер быстрой настройки
 Please reinstall the program to avoid possible future problems	Пожалуйста,во избежание возможных проблем в работе,переустановите приложение удалив предыдущую версию.

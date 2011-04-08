@@ -188,36 +188,32 @@ public class AccountSelect extends VirtualList implements
 //#endif
         addCommand(cmdConfigurationMaster);
 
-        if (!accountList.isEmpty()) {
-            addCommand(cmdLogin);
-            addCommand(cmdEdit);
-            addCommand(cmdDel);
-        }
+        addCommand(cmdAdd);
+        addInCommand(1, cmdJabber);
+        addInCommand(1, cmdYaru);
+        addInCommand(1, cmdGTalk_SSL);
+        addInCommand(1, cmdGTalk_HTTPS);
+        addInCommand(1, cmdLj);
+        addInCommand(1, cmdQip);
+        addInCommand(1, cmdVk);
 
-        if (midlet.BombusQD.sd.roster != null) {
-            if (midlet.BombusQD.sd.roster.isLoggedIn()) {
-                addCommand(cmdRemoveAcc);
-                addCommand(cmdChangePass);
-            }
-        }
-//#ifdef GRAPHICS_MENU
         addCommand(cmdRegister);
         addInCommand(2, cmdServ1_reg);
         addInCommand(2, cmdServ4_reg);
         addInCommand(2, cmdServ5_reg);
         addInCommand(2, cmdServ6_reg);
 
-        addCommand(cmdAdd);
-
-        addInCommand(1, cmdJabber);
-        addInCommand(1, cmdYaru);
-
-        addInCommand(1, cmdGTalk_SSL);
-        addInCommand(1, cmdGTalk_HTTPS);
-        addInCommand(1, cmdLj);
-        addInCommand(1, cmdQip);
-        addInCommand(1, cmdVk);
-//#endif
+        if (!accountList.isEmpty()) {
+            addCommand(cmdEdit);
+            addCommand(cmdLogin);
+            addCommand(cmdDel);
+            if (midlet.BombusQD.sd.roster != null) {
+                if (midlet.BombusQD.sd.roster.isLoggedIn()) {
+                    addCommand(cmdRemoveAcc);
+                    addCommand(cmdChangePass);
+                }
+            }
+        }
 
 //#ifndef GRAPHICS_MENU
 //#     if (activeAccount>=0 && !enableQuit)

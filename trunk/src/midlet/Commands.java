@@ -120,7 +120,7 @@ public class Commands {
 //#endif
 
         cmdAddSearchQuery = new Command(SR.get(SR.MS_ADD_SEARCH_QUERY), Command.SCREEN, 400);
-        cmdAddSearchQuery.setImg(0x83);
+        cmdAddSearchQuery.setImg(MenuIcons.ICON_SEARCH);
 
         cmdClrPresences = new Command(SR.get(SR.MS_DELETE_ALL_STATUSES), Command.SCREEN, 403);
         cmdClrPresences.setImg(0x76);
@@ -129,7 +129,7 @@ public class Commands {
         cmdMyService.setImg(0x27);
 
         cmdxmlSkin = new Command(SR.get(SR.MS_USE_COLOR_SCHEME), Command.SCREEN, 40);
-        cmdxmlSkin.setImg(0x07);
+        cmdxmlSkin.setImg(MenuIcons.ICON_COLOR_TUNE);
 
         cmdUrl = new Command(SR.get(SR.MS_GOTO_URL), Command.SCREEN, 80);
         cmdUrl.setImg(MenuIcons.ICON_GOTO_URL);
@@ -138,10 +138,10 @@ public class Commands {
 
 //#ifdef CLIPBOARD
         cmdCopy = new Command(SR.get(SR.MS_COPY), Command.SCREEN, 20);
-        cmdCopy.setImg(0x23);
+        cmdCopy.setImg(MenuIcons.ICON_COPY);
 
         cmdCopyPlus = new Command("+ " + SR.get(SR.MS_COPY), Command.SCREEN, 30);
-        cmdCopyPlus.setImg(0x23);
+        cmdCopyPlus.setImg(MenuIcons.ICON_COPY);
 
         cmdSendBuffer = new Command(SR.get(SR.MS_SEND_BUFFER), Command.SCREEN, 14);
         cmdSendBuffer.setImg(0x84);

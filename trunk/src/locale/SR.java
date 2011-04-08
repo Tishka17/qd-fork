@@ -494,16 +494,16 @@ public class SR {
      //public final static short MS_ieStr  = 461; //Import/Export
      public final static short MS_BOLD_FONT = 462; //bold font for contacts
      public final static short MS_RUNNING_MESSAGE = 463; //running message
-     public final static short MS_NOTIFY_MSGEDIT = 464; //Show latest message in alt message edit
+     //public final static short MS_NOTIFY_MSGEDIT = 464; //Show latest message in alt message edit
      public final static short MS_MSG_EDIT_TYPE = 465; //Message Edit Type
      public final static short MS_MES_EDIT_OLD = 466; //Standart
      public final static short MS_MES_EDIT_ALT = 467; //Alternative
-     public final static short MS_MES_EDIT_ALT_GUI = 468; //Alternative with GUI panels
+     //public final static short MS_MES_EDIT_ALT_GUI = 468; //Alternative with GUI panels
      public final static short MS_COMPOSING_NOTIFY = 469; //Composing message to you
      public final static short MS_COMPRESSION  = 470; //compression
      public final static short MS_NEW_ROOM_CREATED  = 471; //New room created
-     public final static short MS_IRCLIKESTATUS  = 472; //IRC-like conference nick-status
-     public final static short MS_SEND_RECEIVE_USERMOODS = 473; //user moods send/receive
+     //public final static short MS_IRCLIKESTATUS  = 472; //IRC-like conference nick-status
+     //public final static short MS_SEND_RECEIVE_USERMOODS = 473; //user moods send/receive
      public final static short MS_SIMULATED_BREAK = 474; //Simulated break
      public final static short MS_BUILD_NEW = 475; //Build new version on constructor
      public final static short MS_AUTOTASKS = 476; //Auto tasks
@@ -575,31 +575,31 @@ public class SR {
      public final static short MS_CHANGE_PASSWORD  = 542; //Change password
      public final static short MS_REMOVE_ACCOUNT  = 543; //Remove from server
      public final static short MS_NEW_PASSWORD  = 544; //New password
-     public final static short MS_SEND_EVIL_MSG  = 545; //Send Evil Message
-     public final static short MS_ADD_SEL_TO_ARCHIVE  = 546; //save selection to archive
+     //public final static short MS_SEND_EVIL_MSG  = 545; //Send Evil Message
+     //public final static short MS_ADD_SEL_TO_ARCHIVE  = 546; //save selection to archive
      public final static short MS_COPY_CLIPBOARD  = 547; //To Clipboard
      public final static short MS_COLLAPS_ALL  = 548; //Collapse All
      public final static short MS_ADD_SEARCH_QUERY  = 549; //Add Search Query
      public final static short MS_FIND_TEXT  = 550; //Find Text
      public final static short MS_END_SEARCH  = 551; //End search!
-     public final static short MS_MOOD_IN_MSG  = 552; //Send Mood in Msg
-     public final static short MS_ANIMATION  = 553; //Turn OFF Animation
+     //public final static short MS_MOOD_IN_MSG  = 552; //Send Mood in Msg
+     //public final static short MS_ANIMATION  = 553; //Turn OFF Animation
      public final static short MS_ICON_COLP  = 554; //Turn OFF Message Icon
-     public final static short MS_PEP_OFF  = 555; //PEP is now OFF
-     public final static short MS_DYNAMIC_EVENTS  = 556; //Dynamic PEP
+     //public final static short MS_PEP_OFF  = 555; //PEP is now OFF
+     //public final static short MS_DYNAMIC_EVENTS  = 556; //Dynamic PEP
      public final static short MS_DRAW_CONTACT_VCARD  = 557; //Draw vcard image on contact
      public final static short MS_AUTOLOAD_VCARD  = 558; //Autoloading vcard from server
      public final static short MS_AUTOLOAD_VCARD_FROMFS  = 559; //Autoloading vcard from FS Phone
-     public final static short MS_ACTIVITY  = 560; //MyActivity
-     public final static short MS_UPDATE_PEP  = 561; //Update Moods+Actions+Music
-     public final static short MS_STOP_MUSIC  = 562; //Stop Music
+     //public final static short MS_ACTIVITY  = 560; //MyActivity
+     //public final static short MS_UPDATE_PEP  = 561; //Update Moods+Actions+Music
+     //public final static short MS_STOP_MUSIC  = 562; //Stop Music
      public final static short MS_NOT_FOUND  = 563; //Your text not found!
-     public final static short MS_UP_MOODS  = 564; //Send my Moods+Actions(PEP) to all contacts(YES-recommended)?
-     public final static short MS_DRAWED_FONT  = 565; //Drawed font
-     public final static short MS_REQUIRED_FIELDS  = 566; //Required field
+     //public final static short MS_UP_MOODS  = 564; //Send my Moods+Actions(PEP) to all contacts(YES-recommended)?
+     //public final static short MS_DRAWED_FONT  = 565; //Drawed font
+     //public final static short MS_REQUIRED_FIELDS  = 566; //Required field
      public final static short MS_GENERATE  = 567; //Generate
      //public final static short MS_CONTACT_HELPER_  = 568; //Contact Helper
-     public final static short MS_FILL_VCARD_FIELDS  = 569; //Fill Required field(Full name,nickname and birthday)
+     //public final static short MS_FILL_VCARD_FIELDS  = 569; //Fill Required field(Full name,nickname and birthday)
      //public final static short MS_TRANSLATE_  = 570; //Translate
      public final static short MS_DELETE_ALL_STATUSES  = 571; //Delete all statuses
      public final static short MS_BOLD_AND_COLORS_NICKS  = 572; //Colored Bold String in chat(+many others strings)
@@ -609,8 +609,8 @@ public class SR {
      public final static short MS_MSG_GET = 576; //All incoming messages
      public final static short MS_BGND_IMAGE = 577; //Background Jimm image
      public final static short MS_MY_BGND_IMAGE = 578; //Background image
-     public final static short MS_BGND_SCROLL = 579; //Draw Bgnd of Scroll
-     public final static short MS_SCROLL_OPTIONS = 580; //Scroll Options
+     //public final static short MS_BGND_SCROLL = 579; //Draw Bgnd of Scroll
+     //public final static short MS_SCROLL_OPTIONS = 580; //Scroll Options
      public final static short MS_SCROLL_WIDTH = 581; //Scroll Width
      public final static short MS_TYPE_BACKGROUND = 582; //Type of Background
      public final static short MS_BGND_NONE = 583; //Background Default
@@ -620,9 +620,9 @@ public class SR {
      public final static short MS_MAX_AVATAR_HEIGHT = 587; //Max Avatar Height
      public final static short MS_CLIENT_ICONS_LEFT = 588; //ClientIcons Left
      public final static short MS_RESTART_APP = 589; //After Restart App
-     public final static short MS_LOAD_SJIN = 590; //Load skin.png from File
-     public final static short MS_SET_DEF_SKIN = 591; //Set Default skin.png
-     public final static short MS_SKIN_SUPPORT_ERROR = 592; //Error!Only 16x16 size support!
+     //public final static short MS_LOAD_SJIN = 590; //Load skin.png from File
+     //public final static short MS_SET_DEF_SKIN = 591; //Set Default skin.png
+     //public final static short MS_SKIN_SUPPORT_ERROR = 592; //Error!Only 16x16 size support!
      public final static short MS_CLASSIC_CHAT  = 593; //Classic Chat
      //public final static short MS_clchatStr  = 594; //Classic Chat
      public final static short MS_CLCHAT_AUTO_SCR  = 595; //Auto Scrolling
@@ -639,18 +639,18 @@ public class SR {
      public final static short MS_GRAPHICS_MENU_BGNG_ARGB  = 606; //Graphics menu bgnd(argb)
      public final static short MS_GRAPHICS_MENU_FONT  = 607; //Graphics menu font
      public final static short MS_SERVICE  = 608; //My Services
-     public final static short MS_MY_JABBER  = 609; //My Jabber>
-     public final static short AVATAR_HIGH_TRAFFIC  = 610; //(HIGH TRAFFIC!)
+     //public final static short MS_MY_JABBER  = 609; //My Jabber>
+     //public final static short AVATAR_HIGH_TRAFFIC  = 610; //(HIGH TRAFFIC!)
      public final static short AVATAR_DRAW_RECT  = 611; //Draw Rect Avatar
      public final static short AVATAR_AUTOSAVE_FS  = 612; //AutoSave In FS
      public final static short AVATAR_FOLDER  = 613; //Avatar Folder
-     public final static short AVATAR_ROSTER_LOADFS  = 614; //Roster:Load all Avatars from FS
-     public final static short AVATAR_MUC_LOADFS  = 615; //Muc:Load all Avatars from FS
+     //public final static short AVATAR_ROSTER_LOADFS  = 614; //Roster:Load all Avatars from FS
+     //public final static short AVATAR_MUC_LOADFS  = 615; //Muc:Load all Avatars from FS
      public final static short MS_AVATARS  = 616; //Avatars
      public final static short MS_AUTOCLEAN_MUC  = 617; //Delete contacts, who leave MUC
      public final static short MS_QD_NEWS  = 618; //News
      public final static short MS_SHOW_TIME_IN_MSGS = 619; //Show time in messages
-     public final static short MS_ANIMATION_MENU_ROSTER  = 620; //Animation of Graphics Menu&Roster
+     //public final static short MS_ANIMATION_MENU_ROSTER  = 620; //Animation of Graphics Menu&Roster
      public final static short MS_EDIT_COLORS  = 621; //Edit colors
      public final static short MS_TRANSPARENT  = 622; //Transparent
      public final static short MS_BGND_MIDLET  = 623; //Background of midlet
@@ -677,7 +677,7 @@ public class SR {
      //public final static short MS_CLCHAT_ON_  = 644; //Classic Chat
      //public final static short MS_clchatStr_  = 645; //Classic Chat
      public final static short MS_COLOR_SCHEMES  = 646; //Color Themes
-     public final static short MS_casheStr  = 647; //Cashe
+     //public final static short MS_casheStr  = 647; //Cashe
      public final static short MS_historyStr  = 648; //History
      public final static short MS_fontsStr  = 649; //Fonts
      //public final static short MS_IMPORT_EXPORT_ = 650; //Import/Export
@@ -727,7 +727,7 @@ public class SR {
      public final static short L_KEYPRESS_TIMEOUT  = 694; //Keypress idle timeout
      public final static short L_MESSAGE_VALUE  = 695; //Message screen brightness
      public final static short L_MESSAGE_TIMEOUT  = 696; //Message idle timeout
-     public final static short MS_METACONTACTS  = 697; //Metacontacts
+     //public final static short MS_METACONTACTS  = 697; //Metacontacts
      public final static short MS_USE_FIVE_TO_CREATEMSG  = 698; //Use 5 key to create Message
      public final static short MS_USE_LIGHT_TO_DRWPANELS  = 699; //Use Light to draw panels
      public final static short MS_MAINBAR_GRADIENTLIGHT  = 700; //MainBar Gradient Light #
@@ -740,11 +740,11 @@ public class SR {
      public final static short MS_SORT_TYPE_DEF  = 707; //OFF (default)
      public final static short MS_SORT_TYPE_STATUS  = 708; //By status
      public final static short MS_SORT_TYPE_MSGS  = 709; //By Msgs count
-     public final static short MS_AUTOCONNECT_TRANSPORTS  = 710; // free
+     //public final static short MS_AUTOCONNECT_TRANSPORTS  = 710; // free
      public final static short MS_HISTORY_TYPE  = 711; //Type History
      public final static short MS_HISTORY_RMS  = 712; //History in RMS
      public final static short MS_HISTORY_FS  = 713; //History in FS
-     public final static short MS_HISTORY_SERVER  = 714; //History on server
+     //public final static short MS_HISTORY_SERVER  = 714; //History on server
      public final static short MS_DELETE_VCARD  = 715; //vCard: delete current
      public final static short MS_DELETE_ALL_VCARD  = 716; //vCard: delete ALL
      public final static short MS_DELETE_AVATAR_VCARD  = 717; //User Avatar: delete current
@@ -762,10 +762,10 @@ public class SR {
      public final static short MS_GRMENU_LEFT =  728;
      public final static short MS_PEP =  729;
 
-     public final static short MS_USER_APP_LEVEL =  730;
-     public final static short MS_USER_APP_LEVEL_0 =  731;
-     public final static short MS_USER_APP_LEVEL_1 =  732;
-     public final static short MS_USER_APP_LEVEL_2 =  733;
+     //public final static short MS_USER_APP_LEVEL =  730;
+     //public final static short MS_USER_APP_LEVEL_0 =  731;
+     //public final static short MS_USER_APP_LEVEL_1 =  732;
+     //public final static short MS_USER_APP_LEVEL_2 =  733;
      public final static short MS_WAS_ADDED =  734;
      public final static short MS_CONFIGURATION_MASTER =  735;
      public final static short MS_WARNING_MESSAGE_INSTALL =  736;
@@ -1257,16 +1257,16 @@ public class SR {
         null,
         "bold font for contacts",
         "running message",
-        "Show latest message in alt message edit",
+        null,
         "Message Edit Type",
         "Standart",
         "Alternative",
-        "Alternative with GUI panels",
+        null,
         "Composing message to you",
         "compression",
         "New room created",
-        "IRC-like conference nick-status",
-        "user moods send/receive",
+        null,
+        null,
         "Simulated break",
         "Build new version on constructor",
         "Auto tasks",
@@ -1338,31 +1338,31 @@ public class SR {
         "Change password",
         "Remove from server",
         "New password",
-        "Send Evil Message",
-        "save selection to archive",
+        null,
+        null,
         "To Clipboard",
         "Collapse All",
         "Add Search Query",
         "Find Text",
         "End search!",
-        "Send Mood in Msg",
-        "Turn OFF Animation",
+        null,
+        null,
         "Turn OFF Message Icon",
-        "PEP is now OFF",
-        "Dynamic PEP",
+        null,
+        null,
         "Draw vcard image on contact",
         "Autoloading vcard from server",
         "Autoloading vcard from FS Phone",
-        "MyActivity",
-        "Update Moods+Actions+Music",
-        "Stop Music",
+        null,
+        null,
+        null,
         "Your text not found!",
-        "Send my Moods+Actions(PEP) to all contacts(YES-recommended)?",
-        "Drawed font",
-        "Required field",
+        null,
+        null,
+        null,
         "Generate",
         null,
-        "Fill Required field(Full name,nickname and birthday)",
+        null,
         null,
         "Delete all statuses",
         "Colored Bold String in chat(+many others strings)",
@@ -1372,8 +1372,8 @@ public class SR {
         "All incoming messages",
         "Background Jimm image",
         "Background image",
-        "Draw Bgnd of Scroll",
-        "Scroll Options",
+        null,
+        null,
         "Scroll Width",
         "Type of Background",
         "Background Default",
@@ -1383,9 +1383,9 @@ public class SR {
         "Max Avatar Height",
         "ClientIcons Left",
         "After Restart App",
-        "Load skin.png from File",
-        "Set Default skin.png",
-        "Error!Only 16x16 size support!",
+        null,
+        null,
+        null,
         "Classic Chat",
         null,
         "Auto Scrolling",
@@ -1402,18 +1402,18 @@ public class SR {
         "Graphics menu bgnd(argb)",
         "Graphics menu font",
         "My Services",
-        "My Jabber",
-        "(HIGH TRAFFIC!)",
+        null,
+        null,
         "Draw Rect Avatar",
         "AutoSave In FS",
         "Avatar Folder",
-        "Roster:Load all Avatars from FS",
-        "Muc:Load all Avatars from FS",
+        null,
+        null,
         "Avatars",
         "Delete contacts, who leave MUC",
         "News",
         "Show time in messages",
-        "Animation of Graphics Menu&Roster",
+        null,
         "Edit colors",
         "Transparent",
         "Background of midlet",
@@ -1440,7 +1440,7 @@ public class SR {
         null,
         null,
         "Color Themes",
-        "Cashe",
+        null,
         "History",
         "Fonts",
         null,
@@ -1490,7 +1490,7 @@ public class SR {
         "Keypress idle timeout",
         "Message screen brightness",
         "Message idle timeout",
-        "Metacontacts",
+        null,
         "Use 5 key to create Message",
         "Use Light to draw panels",
         "MainBar Gradient Light #",
@@ -1525,10 +1525,10 @@ public class SR {
         "[Left:     ]",
         "Pubsub events",
 
-        "User App Level",
-        "Started",
-        "Confident",
-        "Experienced",
+        null,
+        null,
+        null,
+        null,
         "Was added:",
         "Configuration Master",
         "Please reinstall the program to avoid possible future problems",

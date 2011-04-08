@@ -78,7 +78,7 @@ public class Presence extends JabberDataBlock {
             if (nick!=null)
                 addChildNs("nick", "http://jabber.org/protocol/nick").setText(nick);
 
-            setAttribute("ver", Version.version);
+            setAttribute("ver", Version.getVersionString(false));
         }
     }
 

@@ -53,7 +53,7 @@ public class InfoWindow extends DefForm {
 
         MultiLine item;
 
-        item = new MultiLine(Version.getName(), Version.getVersionNumber()
+        item = new MultiLine(Version.NAME, Version.getVersionNumber()
                 + "\n" + Config.platformName
                 + "\nMobile Jabber client", super.superWidth);
 

@@ -331,7 +331,7 @@ public class Roster
         cmdActions = new Command(SR.get(SR.MS_ITEM_ACTIONS), Command.SCREEN, 2);
         cmdActions.setImg(MenuIcons.ICON_ITEM_ACTIONS);
 
-        cmdStatus = new Command(SR.get(SR.MS_STATUS_MENU), Command.SCREEN, 4);
+        cmdStatus = new Command(SR.get(SR.MS_STATUS), Command.SCREEN, 4);
         cmdStatus.setImg(MenuIcons.ICON_STATUS);
 
 //#ifdef GRAPHICS_MENU

@@ -175,7 +175,6 @@ public class Config {
     public int messageLimit = 512;
 
     // TODO use DETRANSLIT directive
-    public boolean transliterateFilenames=false;
     public boolean autoDeTranslit=false;
 
 //#ifdef PEP
@@ -311,6 +310,10 @@ public class Config {
     public static boolean swapSendAndSuspend = false;
     public static boolean cleanConfContacts = false;
     public static boolean autoScroll = true;
+
+    public static int historyTypeIndex = 0;
+    public static String historyPath = "";
+    public static boolean transliterateFilenames = false;
 
     public static Config getInstance() {
         if (instance == null) {
@@ -940,10 +943,11 @@ public class Config {
             outputStream.writeUTF(actDescr);
             outputStream.writeUTF(actCat);
 
-            // free
-	    //#ifdef FILE_IO
+//#ifdef FILE_IO
+//#ifdef BACK_IMAGE
             outputStream.writeUTF(backImgPath);
-	    //#endif
+//#endif
+//#endif
 
             outputStream.writeUTF(path_skin);
         } catch (IOException e) {
@@ -965,10 +969,11 @@ public class Config {
             actDescr = inputStream.readUTF();
             actCat = inputStream.readUTF();
 
-            // free
-	    //#ifdef FILE_IO
+//#ifdef FILE_IO
+//#ifdef BACK_IMAGE
             backImgPath = inputStream.readUTF();
-	    //#endif
+//#endif
+//#endif
 
             path_skin = inputStream.readUTF();
             inputStream.close();

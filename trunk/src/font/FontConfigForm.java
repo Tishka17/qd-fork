@@ -106,7 +106,7 @@ public class FontConfigForm extends DefForm {
         Config.useItalic = useItalic.getValue();
 
         BombusQD.sd.roster.updateBarsFont();
-        BombusQD.sd.roster.reEnumRoster();
+        //BombusQD.sd.roster.reEnumRoster();
 
         destroyView();
     }

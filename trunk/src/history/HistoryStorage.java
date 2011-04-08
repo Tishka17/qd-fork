@@ -27,28 +27,23 @@
 //#ifdef HISTORY
 package history;
 
+import client.Config;
 import client.Constants;
 import client.Contact;
 import client.Msg;
-import client.CommandForm;
 import java.io.*;
-import java.util.Timer;
-import java.util.TimerTask;
 import javax.microedition.rms.RecordStore;
 //#if FILE_IO
 import io.file.FileIO;
 import java.io.IOException;
 import java.io.OutputStream;
-import util.Strconv;
 //#endif
 //#ifdef DETRANSLIT
-import util.DeTranslit;
+//# import util.DeTranslit;
 //#endif
 import util.StringUtils;
 import client.ContactMessageList;
 import javax.microedition.rms.RecordStoreException;
-import ui.controls.form.MultiLine;
-import ui.controls.form.SimpleString;
 /**
  *
  * @author aqent
@@ -65,7 +60,7 @@ public class HistoryStorage {
         if (midlet.BombusQD.cf.module_history==false) return;
         messageList = msgList;
 
-        switch(HistoryConfigForm.historyTypeIndex) {
+        switch(Config.historyTypeIndex) {
             case HistoryConfigForm.TYPE_RMS:
                 addRMSrecord(c, message, messageList.getRecordStore() );
                 break;
@@ -113,11 +108,11 @@ public class HistoryStorage {
             bodyMessage = createBody(m).getBytes();
         }
 //#ifdef DETRANSLIT
-       filename = (HistoryConfigForm.transliterateFilenames) ? DeTranslit.getInstance().translit(filename) : filename;
+//#        filename = (HistoryConfigForm.transliterateFilenames) ? DeTranslit.getInstance().translit(filename) : filename;
 //#endif
 
         StringBuffer buf = new StringBuffer(0);
-        buf.append(HistoryConfigForm.historyPath).append(StringUtils.replaceBadChars(filename)).append(".txt");
+        buf.append(Config.historyPath).append(StringUtils.replaceBadChars(filename)).append(".txt");
 
         file = FileIO.createConnection(buf.toString());
 

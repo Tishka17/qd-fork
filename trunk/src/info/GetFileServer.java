@@ -119,7 +119,7 @@ public class GetFileServer extends DefForm implements Runnable {
                 }
                 String name = (String)versions[0].elementAt(i);
                 if (i == 0) {
-                    CollapsibleItem item = new CollapsibleItem(name + Version.getNameVersion(), true);
+                    CollapsibleItem item = new CollapsibleItem(name + Version.getVersionNumber(), true);
                     addControl(item);
                 } else if (i < 2) {
                     CollapsibleItem item = new CollapsibleItem(name, true);

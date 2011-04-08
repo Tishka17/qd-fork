@@ -68,7 +68,7 @@ public class SR {
      public final static short MS_MESSAGES  = 35; //Messages
      public final static short MS_REFRESH  = 36; //Refresh
      public final static short MS_RESOLVE_NICKNAMES  = 37; //Resolve Nicknames
-     public final static short MS_PRIVACY_ACTION  = 38; //Action
+     //public final static short MS_PRIVACY_ACTION  = 38; //Action
      public final static short MS_ACTION = 39; //Action
      public final static short MS_BAN  = 40; //Ban
      public final static short MS_LEAVE_ROOM  = 41; //Leave Room
@@ -110,7 +110,7 @@ public class SR {
      public final static short MS_MEMBERS  = 77; //Members
      public final static short MS_ADD_CONTACT  = 78; //Add Contact
      public final static short MS_SUBSCRIPTION  = 79; //Subscription
-     public final static short MS_STATUS_MENU  = 80; //Status
+     //public final static short MS_STATUS_MENU  = 80; //Status
      public final static short MS_STATUS  = 81; //Status
      public final static short MS_JOIN  = 82; //Join
      public final static short MS_STARTUP_ACTIONS  = 83; //Startup actions
@@ -142,8 +142,8 @@ public class SR {
      public final static short MS_STANZAS  = 109; //Stanzas
      public final static short MS_AT_HOST  = 110; //at Host
      public final static short MS_AUTO_CONFERENCES  = 111; //join conferences
-     public final static short MS_STATUS_MENU_  = 112; //Status
-     public final static short MS_STATUS_  = 113; //Status
+     //public final static short MS_STATUS_MENU_  = 112; //Status
+     //public final static short MS_STATUS_  = 113; //Status
      public final static short MS_SMILES_TOGGLE  = 114; //Smiles
      public final static short MS_CONTACT  = 115; //Contact >
      public final static short MS_OFFLINE_CONTACTS  = 116; //offline contacts
@@ -246,12 +246,12 @@ public class SR {
      public final static short MS_SAVE_PRESENCES = 213; //Save presences
      public final static short MS_SAVE_HISTORY_CONF = 214; //Save conference history
      public final static short MS_SAVE_PRESENCES_CONF = 215; //Save conference presences
-     public final static short MS_1251_CORRECTION = 216; //convert to cp1251
+     //public final static short MS_1251_CORRECTION = 216; //convert to cp1251
      public final static short MS_HISTORY_FOLDER = 217; //History folder
      public final static short MS_COPY = 218; //Copy
      public final static short MS_PASTE = 219; //Paste
-     public final static short MS_SAVE_TEMPLATE = 220; //Save template
-     public final static short MS_TEMPLATE = 221; //Template
+     //public final static short MS_SAVE_TEMPLATE = 220; //Save template
+     //public final static short MS_TEMPLATE = 221; //Template
      public final static short MS_HAS_SET_TOPIC_TO = 222; //has set topic to
      public final static short MS_SEEN = 223; //Seen
      public final static short MS_IDLE = 224; //Idle
@@ -260,8 +260,8 @@ public class SR {
      public final static short MS_ADD_STATUS = 227; //Add status
      public final static short MS_REMOVE_STATUS = 228; //Remove status
      public final static short MS_ADRESS = 229; //Address
-     public final static short MS_EXPORT_TO_FILE = 230; //Make BackUp
-     public final static short MS_IMPORT_TO_FILE = 231; //Import from BackUp
+     //public final static short MS_EXPORT_TO_FILE = 230; //Make BackUp
+     //public final static short MS_IMPORT_TO_FILE = 231; //Import from BackUp
      public final static short MS_VIEW = 232; //View
      public final static short MS_STOP = 233; //Stop
      public final static short MS_FILE_TRANSFERS = 234; //File transfers
@@ -345,7 +345,7 @@ public class SR {
      public final static short MS_DAY1 = 312; //day
      public final static short MS_AWAY_PERIOD  = 313; //Minutes before away
      public final static short MS_AWAY_TYPE  = 314; //Automatic Away
-     public final static short MS_AWAY_OFF  = 315; //disabled
+     //public final static short MS_AWAY_OFF  = 315; //disabled
      public final static short MS_DISABLED = 316; //disabled
      public final static short MS_AWAY_LOCK  = 317; //keyblock
      public final static short MS_MESSAGE_LOCK  = 318; //by message
@@ -402,7 +402,7 @@ public class SR {
      public final static short MS_SEND_BUFFER  = 369; //Send Buffer
      public final static short MS_CHANGE_NICKNAME  = 370; //Change nickname
      public final static short MS_MESSAGE_COLLAPSE_LIMIT  = 371; //Message collapse limit
-     public final static short MS_NO_CLIENT_INFO  = 372; //No client info
+     //public final static short MS_NO_CLIENT_INFO  = 372; //No client info
      public final static short MS_CLEAN_ALL_MESSAGES  = 373; //Clear all chats
      public final static short MS_DO_AUTOJOIN  = 374; //Join marked (auto)
      public final static short MS_STATS  = 375; //Statistics
@@ -410,7 +410,7 @@ public class SR {
      public final static short MS_TRAFFIC_STATS = 377; //Traffic stats:
      public final static short MS_ALL = 378; //All:
      public final static short MS_CURRENT = 379; //Current:
-     public final static short MS_LAST_MESSAGES  = 380; //Last Messages
+     //public final static short MS_LAST_MESSAGES  = 380; //Last Messages
      public final static short MS_EDIT_JOIN  = 381; //Edit/join
      public final static short MS_USE_COLOR_SCHEME  = 382; //Use this Color scheme
      public final static short MS_DELETE_ALL  = 383; //Delete All
@@ -505,7 +505,7 @@ public class SR {
      //public final static short MS_IRCLIKESTATUS  = 472; //IRC-like conference nick-status
      //public final static short MS_SEND_RECEIVE_USERMOODS = 473; //user moods send/receive
      public final static short MS_SIMULATED_BREAK = 474; //Simulated break
-     public final static short MS_BUILD_NEW = 475; //Build new version on constructor
+     //public final static short MS_BUILD_NEW = 475; //Build new version on constructor
      public final static short MS_AUTOTASKS = 476; //Auto tasks
      public final static short MS_AUTOTASK_TYPE = 477; //Auto task type
      public final static short MS_BY_TIMER_ = 478; //by timer
@@ -514,8 +514,8 @@ public class SR {
      public final static short MS_AUTOTASK_QUIT_BOMBUSMOD = 481; //Quit BombusQD
      public final static short MS_AUTOTASK_QUIT_CONFERENCES = 482; //Quit conferences
      public final static short MS_AUTOTASK_LOGOFF = 483; //Disconnection
-     public final static short MS_AWAY_OFF_  = 484; //disabled
-     public final static short MS_DISABLED_ = 485; //disabled
+     //public final static short MS_AWAY_OFF_  = 484; //disabled
+     //public final static short MS_DISABLED_ = 485; //disabled
      public final static short MS_AUTOTASK_DELAY = 486; //Delay (min.)
      public final static short MS_AUTOTASK_TIME = 487; //Start time
      public final static short MS_AUTOTASK_HOUR = 488; //Hour
@@ -542,8 +542,8 @@ public class SR {
      public final static short MS_LOAD_FROM_FILE = 509; //Load from file
      public final static short MS_SHOW_IQ_REQUESTS = 510; //Show IQ requests
      public final static short MS_SHOW_CLIENTS_ICONS = 511; //Show clients icons
-     public final static short MS_PRIVACY_ACTION_  = 512; //Action
-     public final static short MS_ACTION_ = 513; //Action
+     //public final static short MS_PRIVACY_ACTION_  = 512; //Action
+     //public final static short MS_ACTION_ = 513; //Action
      public final static short MS_VALUE = 514; //Value
      public final static short MS_RECONNECT_COUNT_RETRY = 515; //Quantity of attempts
      public final static short MS_RECONNECT_WAIT = 516; //Delay before reconnect(sec.)
@@ -578,7 +578,7 @@ public class SR {
      //public final static short MS_SEND_EVIL_MSG  = 545; //Send Evil Message
      //public final static short MS_ADD_SEL_TO_ARCHIVE  = 546; //save selection to archive
      public final static short MS_COPY_CLIPBOARD  = 547; //To Clipboard
-     public final static short MS_COLLAPS_ALL  = 548; //Collapse All
+     //public final static short MS_COLLAPS_ALL  = 548; //Collapse All
      public final static short MS_ADD_SEARCH_QUERY  = 549; //Add Search Query
      public final static short MS_FIND_TEXT  = 550; //Find Text
      public final static short MS_END_SEARCH  = 551; //End search!
@@ -587,7 +587,7 @@ public class SR {
      public final static short MS_ICON_COLP  = 554; //Turn OFF Message Icon
      //public final static short MS_PEP_OFF  = 555; //PEP is now OFF
      //public final static short MS_DYNAMIC_EVENTS  = 556; //Dynamic PEP
-     public final static short MS_DRAW_CONTACT_VCARD  = 557; //Draw vcard image on contact
+     //public final static short MS_DRAW_CONTACT_VCARD  = 557; //Draw vcard image on contact
      public final static short MS_AUTOLOAD_VCARD  = 558; //Autoloading vcard from server
      public final static short MS_AUTOLOAD_VCARD_FROMFS  = 559; //Autoloading vcard from FS Phone
      //public final static short MS_ACTIVITY  = 560; //MyActivity
@@ -604,9 +604,9 @@ public class SR {
      public final static short MS_DELETE_ALL_STATUSES  = 571; //Delete all statuses
      public final static short MS_BOLD_AND_COLORS_NICKS  = 572; //Colored Bold String in chat(+many others strings)
      public final static short MS_SAVE_CURSOR  = 573; //Autosave cursor position in chat
-     public final static short MS_MSG_BY_ME = 574; //Messages,sended by me
-     public final static short MS_MSG_ME = 575; //Messages with /me
-     public final static short MS_MSG_GET = 576; //All incoming messages
+     //public final static short MS_MSG_BY_ME = 574; //Messages,sended by me
+     //public final static short MS_MSG_ME = 575; //Messages with /me
+     //public final static short MS_MSG_GET = 576; //All incoming messages
      public final static short MS_BGND_IMAGE = 577; //Background Jimm image
      public final static short MS_MY_BGND_IMAGE = 578; //Background image
      //public final static short MS_BGND_SCROLL = 579; //Draw Bgnd of Scroll
@@ -634,7 +634,7 @@ public class SR {
      public final static short MS_USERS_SEARCH = 601; //Users search
      public final static short MS_SUPPORT  = 602; //Support
      public final static short MS_GRADIENT_CURSOR  = 603; //Gradient cursor
-     public final static short MS_ALTERNATING_CHAT_COLORS  = 604; //Alternating chat colors
+     //public final static short MS_ALTERNATING_CHAT_COLORS  = 604; //Alternating chat colors
      public final static short MS_TRANSPARENCY_ARGB  = 605; //Transparency bgnd(argb)
      public final static short MS_GRAPHICS_MENU_BGNG_ARGB  = 606; //Graphics menu bgnd(argb)
      public final static short MS_GRAPHICS_MENU_FONT  = 607; //Graphics menu font
@@ -704,8 +704,8 @@ public class SR {
      public final static short MS_PRIVACY_PRESENCE_OUT  = 671; //presence-out
      public final static short MS_PRIVACY_IQ  = 672; //iq
      public final static short MS_PRIVACY_IF  = 673; //if
-     public final static short MS_AFFILIATION_NONE_ = 674; //none
-     public final static short MS_SUBSCR_NONE_  = 675; //none
+     //public final static short MS_AFFILIATION_NONE_ = 674; //none
+     //public final static short MS_SUBSCR_NONE_  = 675; //none
      public final static short MS_SUBSCR_FROM  = 676; //from
      public final static short MS_SUBSCR_TO  = 677; //to
      public final static short MS_SUBSCR_BOTH  = 678; //both
@@ -831,7 +831,7 @@ public class SR {
         "Messages",
         "Refresh",
         "Resolve Nicknames",
-        "Action",
+        null,
         "Action",
         "Ban",
         "Leave Room",
@@ -873,7 +873,7 @@ public class SR {
         "Members",
         "Add Contact",
         "Subscription",
-        "Status",
+        null,
         "Status",
         "Join",
         "Startup actions",
@@ -905,8 +905,8 @@ public class SR {
         "Stanzas",
         "at Host",
         "join conferences",
-        "Status",
-        "Status",
+        null,
+        null,
         "Smiles",
         "Contact >",
         "offline contacts",
@@ -1009,7 +1009,7 @@ public class SR {
         "Save presences",
         "Save conference history",
         "Save conference presences",
-        "convert to cp1251",
+        null,
         "History folder",
         "Copy",
         "Paste",
@@ -1108,7 +1108,7 @@ public class SR {
         "day",
         "Minutes before away",
         "Automatic Away",
-        "disabled",
+        null,
         "disabled",
         "keyblock",
         "by message",
@@ -1165,7 +1165,7 @@ public class SR {
         "Send Buffer",
         "Change nickname",
         "Message collapse limit",
-        "No client info",
+        null,
         "Clear all chats",
         "Join marked (auto)",
         "Statistics",
@@ -1173,7 +1173,7 @@ public class SR {
         "Traffic stats: ",
         "All: ",
         "Current: ",
-        "Last Messages",
+        null,
         "Edit/join",
         "Use this Color scheme",
         "Delete All",
@@ -1268,7 +1268,7 @@ public class SR {
         null,
         null,
         "Simulated break",
-        "Build new version on constructor",
+        null,
         "Auto tasks",
         "Auto task type",
         "by timer ",
@@ -1277,8 +1277,8 @@ public class SR {
         "Quit BombusQD",
         "Quit conferences",
         "Disconnection",
-        "disabled",
-        "disabled",
+        null,
+        null,
         "Delay (min.)",
         "Start time",
         "Hour",
@@ -1305,8 +1305,8 @@ public class SR {
         "Load from file",
         "Show IQ requests",
         "Show clients icons",
-        "Action",
-        "Action",
+        null,
+        null,
         "Value",
         "Quantity of attempts",
         "Delay before reconnect(sec.)",
@@ -1341,7 +1341,7 @@ public class SR {
         null,
         null,
         "To Clipboard",
-        "Collapse All",
+        null,
         "Add Search Query",
         "Find Text",
         "End search!",
@@ -1350,7 +1350,7 @@ public class SR {
         "Turn OFF Message Icon",
         null,
         null,
-        "Draw vcard image on contact",
+        null,
         "Autoloading vcard from server",
         "Autoloading vcard from FS Phone",
         null,
@@ -1367,9 +1367,9 @@ public class SR {
         "Delete all statuses",
         "Colored Bold String in chat(+many others strings)",
         "Autosave cursor position in chat",
-        "Messages,sended by me",
-        "Messages with /me",
-        "All incoming messages",
+        null,
+        null,
+        null,
         "Background Jimm image",
         "Background image",
         null,
@@ -1397,7 +1397,7 @@ public class SR {
         "Users search",
         "Support",
         "Gradient cursor",
-        "Alternating chat colors",
+        null,
         "Transparency bgnd(argb)",
         "Graphics menu bgnd(argb)",
         "Graphics menu font",
@@ -1467,8 +1467,8 @@ public class SR {
         "presence-out",
         "iq",
         "if",
-        "none",
-        "none",
+        null,
+        null,
         "from",
         "to",
         "both",

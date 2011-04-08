@@ -26,17 +26,16 @@
 //#ifdef HISTORY
 
 package history;
-import io.NvStorage;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import client.Config;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
+//#ifdef DETRANSLIT
+//# import ui.controls.form.CheckBox;
+//#endif
 import ui.controls.form.DefForm;
 import ui.controls.form.DropChoiceBox;
 import ui.controls.form.PathSelector;
-import ui.controls.form.CheckBox;
 
 /**
  *
@@ -55,14 +54,6 @@ public class HistoryConfigForm extends DefForm {
 //#     private CheckBox translit;
 //#endif
 
-    public static int historyTypeIndex = 0;
-//#ifdef FILE_IO
-    public static String historyPath = "";
-//#ifdef DETRANSLIT
-//#     public static boolean transliterateFilenames = false;
-//#endif
-//#endif
-
     public HistoryConfigForm(Display display, Displayable pView) {
         super(display, pView, SR.get(SR.MS_HISTORY_OPTIONS));
 
@@ -71,15 +62,15 @@ public class HistoryConfigForm extends DefForm {
 //#ifdef FILE_IO
         historyType.append(SR.get(SR.MS_HISTORY_FS));
 //#endif
-        historyType.setSelectedIndex(historyTypeIndex);
+        historyType.setSelectedIndex(Config.historyTypeIndex);
         addControl(historyType);
 
 //#ifdef FILE_IO
 //#ifdef DETRANSLIT
-//#         translit = new CheckBox(SR.get(SR.MS_1251_TRANSLITERATE_FILENAMES), transliterateFilenames);
+//#         translit = new CheckBox(SR.get(SR.MS_1251_TRANSLITERATE_FILENAMES), Config.transliterateFilenames);
 //#         addControl(translit);
 //#endif
-        historyFolder = new PathSelector(SR.get(SR.MS_HISTORY_FOLDER), historyPath, PathSelector.TYPE_DIR);
+        historyFolder = new PathSelector(SR.get(SR.MS_HISTORY_FOLDER), Config.historyPath, PathSelector.TYPE_DIR);
         addControl(historyFolder);
 //#endif
 
@@ -88,60 +79,15 @@ public class HistoryConfigForm extends DefForm {
     }
 
     public void cmdOk() {
+        Config.historyPath = historyFolder.getValue();
+        Config.historyTypeIndex = historyType.getValue();
+//#ifdef FILE_IO
+//#ifdef DETRANSLIT
+//#         Config.transliterateFilenames = translit.getValue();
+//#endif
+//#endif
+
         destroyView();
-    }
-
-    public void destroyView() {
-        saveSettings();
-        super.destroyView();
-    }
-
-    public static void loadSettings() {
-        DataInputStream stream = NvStorage.ReadFileRecord(HISTORY_DB_NAME, 0);
-        try {
-//#ifdef FILE_IO
-            historyPath = stream.readUTF();
-//#endif
-            historyTypeIndex = stream.readInt();
-//#ifdef FILE_IO
-//#ifdef DETRANSLIT
-//#             transliterateFilenames=stream.readBoolean();
-//#endif
-//#endif
-            stream.close();
-        } catch (Exception e) {
-            try {
-                if (stream != null) {
-                    stream.close();
-                }
-            } catch (IOException ex) {
-            }
-        }
-    }
-
-    private void saveSettings() {
-        try {
-            DataOutputStream stream = NvStorage.CreateDataOutputStream();
-            historyTypeIndex = historyType.getSelectedIndex();
-//#ifdef FILE_IO
-            if (itemsList.contains(historyFolder)) {
-                historyPath = historyFolder.getValue();
-            }
-
-//#ifdef DETRANSLIT
-//#             transliterateFilenames = translit.getValue();
-//#endif
-            stream.writeUTF(historyPath);
-//#endif
-            stream.writeInt(historyTypeIndex);
-//#ifdef FILE_IO
-//#ifdef DETRANSLIT
-//#             stream.writeBoolean(transliterateFilenames);
-//#endif
-//#endif
-            NvStorage.writeFileRecord(stream, HISTORY_DB_NAME, 0, true);
-        } catch (IOException e) {
-        }
     }
 }
 //#endif

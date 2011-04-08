@@ -181,10 +181,6 @@ public class BombusQD extends MIDlet implements Runnable {
 //#         }
 //#endif
 
-//#ifdef HISTORY
-        HistoryConfigForm.loadSettings();
-//#endif
-
 //#ifdef LIGHT_CONTROL
         lcf=LightConfig.getInstance();
         CustomLight.switchOn(lcf.light_control);

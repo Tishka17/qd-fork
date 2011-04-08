@@ -26,7 +26,9 @@
  *
  */
 
+//#ifdef SMILES
 package client;
+
 import images.ImageList;
 import message.MessageParser;
 import images.SmilesIcons;
@@ -303,3 +305,4 @@ public class SmilePicker
     public String touchRightCommand(){ return SR.get(SR.MS_BACK); }
 //#endif
 }
+//#endif

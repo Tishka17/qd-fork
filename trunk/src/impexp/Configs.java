@@ -29,7 +29,9 @@ package impexp;
 import alert.AlertCustomize;
 import client.Config;
 import font.FontCache;
+//#ifdef HISTORY
 import history.HistoryConfigForm;
+//#endif
 import io.file.FileIO;
 import java.io.UnsupportedEncodingException;
 import midlet.BombusQD;
@@ -137,7 +139,9 @@ public class Configs {
         writeBoolean(data, "networkAnnotation", config.networkAnnotation);
         writeBoolean(data, "showOfflineContacts", config.showOfflineContacts);
         writeBoolean(data, "fullscreen", config.fullscreen);
+//#ifdef SMILES
         writeBoolean(data, "smiles", config.smiles);
+//#endif
         writeBoolean(data, "showTransports", config.showTransports);
         writeBoolean(data, "selfContact", config.selfContact);
         writeBoolean(data, "collapsedGroups", config.collapsedGroups);
@@ -156,7 +160,9 @@ public class Configs {
         writeBoolean(data, "fileTransfer", config.fileTransfer);
         writeBoolean(data, "lightState", config.lightState);
         writeBoolean(data, "notifySound", config.notifySound);
+//#ifdef AUTOSTATUS
         writeBoolean(data, "setAutoStatusMessage", config.setAutoStatusMessage);
+//#endif
         writeBoolean(data, "cleanConfContacts", config.cleanConfContacts);
 //#ifdef POPUPS
         writeBoolean(data, "popUps", config.popUps);
@@ -319,7 +325,9 @@ public class Configs {
             config.networkAnnotation = readBoolean(data, "networkAnnotation", config.networkAnnotation);
             config.showOfflineContacts = readBoolean(data, "showOfflineContacts", config.showOfflineContacts);
             config.fullscreen = readBoolean(data, "fullscreen", config.fullscreen);
+//#ifdef SMILES
             config.smiles = readBoolean(data, "smiles", config.smiles);
+//#endif
             config.showTransports = readBoolean(data, "showTransports", config.showTransports);
             config.selfContact = readBoolean(data, "selfContact", config.selfContact);
             config.collapsedGroups = readBoolean(data, "collapsedGroups", config.collapsedGroups);
@@ -338,7 +346,9 @@ public class Configs {
             config.fileTransfer = readBoolean(data, "fileTransfer", config.fileTransfer);
             config.lightState = readBoolean(data, "lightState", config.lightState);
             config.notifySound = readBoolean(data, "notifySound", config.notifySound);
+//#ifdef AUTOSTATUS
             config.setAutoStatusMessage = readBoolean(data, "setAutoStatusMessage", config.setAutoStatusMessage);
+//#endif
             config.cleanConfContacts = readBoolean(data, "cleanConfContacts", config.cleanConfContacts);
 //#ifdef POPUPS
             config.popUps = readBoolean(data, "popUps", config.popUps);

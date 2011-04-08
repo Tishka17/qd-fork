@@ -29,20 +29,18 @@
 package message;
 
 //#ifdef SMILES
-import client.Config;
 import images.ImageList;
 import images.SmilesIcons;
+import java.io.InputStream;
 //#endif
 import font.FontCache;
-import java.io.*;
 import javax.microedition.lcdui.Font;
 import colors.ColorTheme;
 import java.util.*;
 import ui.*;
-//import Client.Msg;
-//import Client.Config;
-import util.Strconv;
 import images.RosterIcons;
+import client.Config;
+import util.Strconv;
 
 public final class MessageParser {
     private final static byte URL=-2;
@@ -132,8 +130,10 @@ public final class MessageParser {
     }
 
     public void loadSmiles() {
+//#ifdef SMILES
         String res = Config.animatedSmiles ? "/images/smiles/ani_smiles.txt" : "/images/smiles/smiles.txt";
         animated = Config.animatedSmiles;
+//#endif
 
         smileTable=null;
         smileTable=new Vector(0);

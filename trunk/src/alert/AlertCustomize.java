@@ -96,16 +96,6 @@ public class AlertCustomize {
 	    instance=new AlertCustomize();
             instance.setSize();
 	    instance.loadFromStorage();
-	    instance.loadSoundName();
-            instance.loadOnlineSoundName();            
-	    instance.loadOfflineSoundName();
-	    instance.loadForYouSoundName();
-	    instance.loadComposingSoundName();
-	    instance.loadConferenceSoundName();
-	    instance.loadStartUpSoundName();
-	    instance.loadOutgoingSoundName();
-            instance.loadVIPSoundName();
-            instance.loadAttentionSoundName();
 	}
 	return instance;
     }
@@ -143,6 +133,8 @@ public class AlertCustomize {
                 }
             } catch (IOException ex) {}
 	}
+
+        instance.updateSoundNames();
     }
     
     public void saveToStorage(){
@@ -172,66 +164,51 @@ public class AlertCustomize {
 	} catch (IOException e) {
             //e.printStackTrace();
         }
+
+        instance.updateSoundNames();
     }
     
     public void setSize(){
         size=files[0].size();
     }
-    
-    public void loadSoundName(){
+
+    public void updateSoundNames() {
         if (soundsMsgIndex>=size) soundsMsgIndex=0;
 	messageSndType=(String) files[0].elementAt(soundsMsgIndex);
 	messagesnd=(String) files[1].elementAt(soundsMsgIndex);
-    }
 
-    public void loadOnlineSoundName(){
         if (soundOnlineIndex>=size) soundOnlineIndex=0;
 	soundOnlineType=(String) files[0].elementAt(soundOnlineIndex);
 	soundOnline=(String) files[1].elementAt(soundOnlineIndex);
-    }
- 
-    public void loadOfflineSoundName(){
+
         if (soundOfflineIndex>=size) soundOfflineIndex=0;
 	soundOfflineType=(String) files[0].elementAt(soundOfflineIndex);
 	soundOffline=(String) files[1].elementAt(soundOfflineIndex);
-    }
-    
-    public void loadForYouSoundName(){
+
         if (soundForYouIndex>=size) soundForYouIndex=0;
 	soundForYouType=(String) files[0].elementAt(soundForYouIndex);
 	soundForYou=(String) files[1].elementAt(soundForYouIndex);
-    }
-    
-    public void loadComposingSoundName(){
+
         if (soundComposingIndex>=size) soundComposingIndex=0;
 	soundComposingType=(String) files[0].elementAt(soundComposingIndex);
 	soundComposing=(String) files[1].elementAt(soundComposingIndex);
-    }
-    
-    public void loadConferenceSoundName(){
+
         if (soundConferenceIndex>=size) soundOnlineIndex=0;
 	soundConferenceType=(String) files[0].elementAt(soundConferenceIndex);
 	soundConference=(String) files[1].elementAt(soundConferenceIndex);
-    }
-    
-    public void loadStartUpSoundName(){
+
         if (soundStartUpIndex>=size) soundStartUpIndex=0;
 	soundStartUpType=(String) files[0].elementAt(soundStartUpIndex);
 	soundStartUp=(String) files[1].elementAt(soundStartUpIndex);
-    }
-    
-    public void loadOutgoingSoundName(){
+
         if (soundOutgoingIndex>=size) soundOnlineIndex=0;
 	soundOutgoingType=(String) files[0].elementAt(soundOutgoingIndex);
 	soundOutgoing=(String) files[1].elementAt(soundOutgoingIndex);
-    }
-    
-    public void loadVIPSoundName(){
+
         if (soundVIPIndex>=size) soundVIPIndex=0;
 	soundVIPType=(String) files[0].elementAt(soundVIPIndex);
 	soundVIP=(String) files[1].elementAt(soundVIPIndex);
-    }
-    public void loadAttentionSoundName(){
+
         if (soundAttentionIndex>=size) soundAttentionIndex=0;
 	soundAttentionType=(String) files[0].elementAt(soundAttentionIndex);
 	soundAttention=(String) files[1].elementAt(soundAttentionIndex);

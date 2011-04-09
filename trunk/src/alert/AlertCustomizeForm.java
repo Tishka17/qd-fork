@@ -215,17 +215,6 @@ public class AlertCustomizeForm extends DefForm {
 
         if(isVibroProfile) ac.vibrateOnlyHighlited=vibrateOnlyHighlited.getValue();
 
-        ac.loadSoundName();
-        ac.loadOnlineSoundName();
-        ac.loadOfflineSoundName();
-        ac.loadForYouSoundName();
-        ac.loadComposingSoundName();
-        ac.loadConferenceSoundName();
-        ac.loadStartUpSoundName();
-        ac.loadOutgoingSoundName();
-        ac.loadVIPSoundName();
-        ac.loadAttentionSoundName();
-
         ac.saveToStorage();
 
         midlet.BombusQD.cf.notifyPicture=statusBox.getValue();

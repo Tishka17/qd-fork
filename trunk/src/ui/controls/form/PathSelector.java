@@ -6,6 +6,7 @@
 //#ifdef FILE_IO
 package ui.controls.form;
 
+import client.Config;
 import font.FontCache;
 import io.file.browse.Browser;
 import io.file.browse.BrowserListener;
@@ -43,10 +44,10 @@ public final class PathSelector extends IconTextElement implements BrowserListen
         this.caption = caption;
         this.path = path;
 
-        this.capFont = FontCache.getFont(true, FontCache.roster);
+        this.capFont = FontCache.getFont(true, Config.rosterFont);
         this.capFontH = capFont.getHeight();
 
-        this.font = FontCache.getFont(false, FontCache.roster);
+        this.font = FontCache.getFont(false, Config.rosterFont);
         this.fontH = font.getHeight();
 
         this.type = type;

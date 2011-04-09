@@ -23,9 +23,10 @@
  * along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
+
 //#ifdef AUTOTASK
 //# package autotask;
-//# 
+//#
 //# import client.Config;
 //# import client.StaticData;
 //# import com.alsutton.jabber.datablocks.Presence;
@@ -40,72 +41,72 @@
 //# import midlet.BombusQD;
 //# import font.FontCache;
 //# import ui.Time;
-//# 
+//#
 //# /**
 //#  *
 //#  * @author ad
 //#  */
-//# public class AutoTask 
+//# public class AutoTask
 //#         extends Canvas
 //#         implements Runnable, CommandListener
 //# {
-//#     
+//#
 //#     public final int TASK_TYPE_DISABLED=0;
 //#     public final int TASK_TYPE_TIME=1;
 //#     public final int TASK_TYPE_TIMER=2;
-//# 
+//#
 //#     public final int TASK_ACTION_QUIT=0;
 //#     public final int TASK_ACTION_CONFERENCE_QUIT=1;
 //#     public final int TASK_ACTION_LOGOFF=2;
 //#     public final int TASK_ACTION_RECONNECT=3;
-//#     
+//#
 //#     public int taskType=TASK_TYPE_DISABLED;
 //#     public int taskAction=TASK_ACTION_QUIT;
-//#     
+//#
 //#     public long initTime=System.currentTimeMillis();
 //#     public int waitTime=3600000;
 //#     public int startHour=0;
 //#     public int startMin=0;
-//#     
+//#
 //#     public int SLEEPTIME=5000;
-//# 
+//#
 //#     boolean isRunning;
-//#     
+//#
 //#     boolean vibrate;
-//#     
+//#
 //#     StaticData sd = StaticData.getInstance();
-//# 
+//#
 //#     private Display display;
 //#     private Displayable parentView=sd.roster;
-//#     
+//#
 //#     private int WAITTIME=60;
-//# 
+//#
 //#     private boolean isShowing;
-//#     
+//#
 //#     protected Command cmdOk;
 //#     private Command cmdCancel;
-//# 
+//#
 //#     private int value;
-//#     
-//#     Font f=FontCache.getFont(false, FontCache.msg);
-//# 
+//#
+//#     Font f=FontCache.getFont(false, Config.msgFont);
+//#
 //#     private Displayable next;
-//# 
+//#
 //#     public AutoTask(Display display) {
 //# 	super();
 //#         this.display=display;
 //#     }
-//# 
+//#
 //#     public void startTask() {
 //#         cmdOk=new Command(SR.get(SR.MS_OK), Command.OK, 1);
 //#         cmdCancel=new Command(SR.get(SR.MS_CANCEL), Command.BACK, 2);
-//#         
+//#
 //#         isRunning=true;
 //#         if (parentView==null)
 //#             parentView=sd.roster;
 //#         new Thread(this).start();
 //#     }
-//#     
+//#
 //#     public void run() {
 //#         isRunning=true;
 //#         while (isRunning) {
@@ -115,7 +116,7 @@
 //#             try {
 //#                 Thread.sleep(SLEEPTIME);
 //#             } catch (Exception e) { break; }
-//#             
+//#
 //#             if (taskType==TASK_TYPE_TIMER) {
 //#                 if ((System.currentTimeMillis()-initTime)>waitTime) {
 //#                      //System.out.println("autotask by Timer Executed");
@@ -133,7 +134,7 @@
 //#             } else {
 //#                  isRunning=false;
 //#                  taskType=TASK_TYPE_DISABLED;
-//#             }  
+//#             }
 //#         }
 //#         while (isShowing) {
 //#             try {
@@ -152,7 +153,7 @@
 //#             if (vibrate) display.vibrate(200);
 //#         }
 //#     }
-//#     
+//#
 //#     public void doAction() {
 //#         String caption=SR.get(SR.MS_AUTOTASKS)+": ";
 //#         switch (taskAction) {
@@ -179,20 +180,20 @@
 //#                 break;
 //#         }
 //#     }
-//#     
+//#
 //#     public void showAlert(int type) {
 //#         //System.out.println("start alert");
 //#         next=display.getCurrent();
-//#         
+//#
 //#         this.addCommand(cmdOk);
 //#         this.addCommand(cmdCancel);
-//# 
+//#
 //#         this.setCommandListener(this);
-//# 
+//#
 //#         display.setCurrent(this);
 //#         isShowing=true;
 //#     }
-//#     
+//#
 //#     public void commandAction(Command command, Displayable displayable) {
 //#         destroyView();
 //#         if (command==cmdOk) {
@@ -203,11 +204,11 @@
 //#         }
 //#         isShowing=false;
 //#     }
-//# 
+//#
 //#     protected void paint(Graphics g) {
 //#         if (isShowing) {
 //#             String caption=SR.get(SR.MS_AUTOTASKS)+": ";
-//#             
+//#
 //#             switch (taskAction) {
 //#                 case TASK_ACTION_QUIT:
 //#                     caption=SR.get(SR.MS_AUTOTASK_QUIT_BOMBUSMOD);
@@ -223,42 +224,42 @@
 //#                     break;
 //#             }
 //#             caption+=" - "+(WAITTIME-value);
-//#             
+//#
 //#             int width=getWidth();
 //#             int height=getHeight();
-//# 
+//#
 //#             int border=10;
 //#             int y=height/2;
 //#             int xt=(width/2);
-//#             
+//#
 //#             int itemWidth=width-(border*2);
 //#             int itemHeight=5;
-//#             
+//#
 //#             int filled=(itemWidth*value)/WAITTIME;
-//# 
+//#
 //#             int oldColor=g.getColor();
 //#             g.setColor(0xffffff);
-//#             
+//#
 //#             g.fillRect(0,0, width, height); //fill back
-//#             
+//#
 //#             g.fillRect(border, y, itemWidth, itemHeight);
 //#             g.setColor(0x668866);
 //#             g.drawRect(border, y, itemWidth, itemHeight);
 //#             g.fillRect(border, y, filled, itemHeight);
-//#             
+//#
 //#             int yt=y-f.getHeight();
 //#             g.setColor(0x668866);
 //#             g.setFont(f);
 //#             g.drawString(caption, xt, yt, Graphics.TOP|Graphics.HCENTER);
-//#             
+//#
 //#             g.setColor(oldColor);
 //#         }
 //#     }
-//#     
+//#
 //#     public void destroyView()	{
 //#         this.removeCommand(cmdOk);
 //#         this.removeCommand(cmdCancel);
-//#         
+//#
 //#         if (display==null) {
 //#             display.setCurrent(StaticData.getInstance().roster);
 //#         } else {

@@ -61,11 +61,11 @@ public class HistoryStorage {
         messageList = msgList;
 
         switch(Config.historyTypeIndex) {
-            case HistoryConfigForm.TYPE_RMS:
+            case Config.HISTORY_RMS:
                 addRMSrecord(c, message, messageList.getRecordStore() );
                 break;
 //#ifdef FILE_IO
-            case HistoryConfigForm.TYPE_FS:
+            case Config.HISTORY_FS:
                 addFSMessage(message, c.bareJid);
                 break;
 //#endif

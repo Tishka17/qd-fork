@@ -76,7 +76,7 @@ public class ClassicChat extends CustomItem implements ItemCommandListener
     Contact contact;
 
     public Font getFont() {
-          return FontCache.getFont(false, FontCache.msg);
+          return FontCache.getFont(false, Config.msgFont);
     }
 
     private Image offscreen = null;

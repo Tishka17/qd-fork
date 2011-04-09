@@ -87,7 +87,8 @@ public final class SelectPEP extends VirtualList implements
     
     Command cmdCancel;
     Command cmdOk;
-     
+
+    private static int lastCursorPos = 0;
     
     final static Activity ac = new Activity();
     final static String[] activity = {
@@ -214,7 +215,6 @@ public final class SelectPEP extends VirtualList implements
       if(isMood){
           if( ((String)Moods.getInstance().moodValue.lastElement()).equals(getTipString()) ) okNotify(null);
           else {
-            midlet.BombusQD.cf.cursorPos[3]=cursor;            
             InputTextBox input = new InputTextBox(SR.get(SR.MS_USERMOOD), Moods.getInstance().myMoodText, 100, TextField.ANY);
             input.setNotifyListener(this);
             input.show();
@@ -233,7 +233,6 @@ public final class SelectPEP extends VirtualList implements
         descr = null;
         int index = pep.indexOf(getTipString());
         int type = 0;
-        midlet.BombusQD.cf.cursorPos[2]=cursor;
         
           if(index==0||index==4||index==14||index==19
                ||index==29||index==36||index==37
@@ -346,7 +345,7 @@ public final class SelectPEP extends VirtualList implements
     protected void drawBalloon(final Graphics g, int balloon, final String text) {
         if (cursor==0) balloon+=lineHeight+Balloon.getHeight();
         int x=xBorder+(xCursor*imgWidth);
-        int widthItem = FontCache.getFont(false, FontCache.baloon).stringWidth(text);
+        int widthItem = FontCache.getFont(false, Config.baloonFont).stringWidth(text);
         int width = g.getClipWidth() - 10;
         if( widthItem + x > width) { //fix autoCorrect
            int dif = x - width;

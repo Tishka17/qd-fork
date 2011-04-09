@@ -21,19 +21,11 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-//#ifdef IMPORT_EXPORT
-//#ifdef ARCHIVE
-//#ifdef FILE_IO
+//#if IMPORT_EXPORT && FILE_IO
 package impexp;
 
 import alert.AlertCustomize;
 import client.Config;
-import font.FontCache;
-//#ifdef HISTORY
-import history.HistoryConfigForm;
-//#endif
-import io.file.FileIO;
-import java.io.UnsupportedEncodingException;
 import midlet.BombusQD;
 import ui.VirtualList;
 import xmpp.EntityCaps;
@@ -94,13 +86,28 @@ public class Configs {
         writeInt(data, "userAppLevel", config.userAppLevel);
         writeInt(data, "menuFont", config.menuFont);
         writeInt(data, "contactXOffset", config.contactXOffset);
+//#ifdef LIGHT_CONTROL
+        writeInt(data, "lightKeyPressTime", Config.lightKeyPressTime);
+        writeInt(data, "lightMessageTime", Config.lightMessageTime);
+        writeInt(data, "lightPresenceTime", Config.lightPresenceTime);
+        writeInt(data, "lightConnectTime", Config.lightConnectTime);
+        writeInt(data, "lightErrorTime", Config.lightErrorTime);
+        writeInt(data, "lightBlinkTime", Config.lightBlinkTime);
+
+        writeInt(data, "lightIdle", Config.lightIdle);
+        writeInt(data, "lightKeyPress", Config.lightKeyPress);
+        writeInt(data, "lightMessage", Config.lightMessage);
+        writeInt(data, "lightPresence", Config.lightPresence);
+        writeInt(data, "lightConnect", Config.lightConnect);
+        writeInt(data, "lightError", Config.lightError);
+        writeInt(data, "lightBlink", Config.lightBlink);
+//#endif
 
         writeUTF(data, "msgAvatarPath", config.msgAvatarPath);
         writeUTF(data, "lang", config.lang);
 //#ifdef BACK_IMAGE
         writeUTF(data, "backImgPath", config.backImgPath);
 //#endif
-        writeUTF(data, "path_skin", config.path_skin);
 
         writeBoolean(data, "oldSE", config.oldSE);
         writeBoolean(data, "showTimeTraffic", config.showTimeTraffic);
@@ -226,29 +233,13 @@ public class Configs {
 
         data.append("</config>\n");
 
-        byte buf[];
-        try {
-            buf = data.toString().getBytes("utf-8");
-        } catch (UnsupportedEncodingException e) {
-            buf = data.toString().getBytes();
-        }
-
-        FileIO file = FileIO.createConnection(path + CONFIGS_FILE);
-        file.fileWrite(buf);
+        IEUtils.writeFile(path + CONFIGS_FILE, data.toString());
     }
 
     private void importData(String path) {
-        FileIO f = FileIO.createConnection(path);
-        byte buf[] = f.fileRead();
+        String data = IEUtils.readFile(path);
 
-        if (buf != null) {
-            String data;
-            try {
-                data = new String(buf, "utf-8");
-            } catch (UnsupportedEncodingException e) {
-                data = new String(buf);
-            }
-
+        if (data != null) {
             Config config = Config.getInstance();
 
             config.gmtOffset = readInt(data, "gmtOffset", config.gmtOffset);
@@ -287,13 +278,28 @@ public class Configs {
             config.userAppLevel = readInt(data, "userAppLevel", config.userAppLevel);
             config.menuFont = readInt(data, "menuFont", config.menuFont);
             config.contactXOffset = readInt(data, "contactXOffset", config.contactXOffset);
+//#ifdef LIGHT_CONTROL
+            Config.lightKeyPressTime =readInt(data, "lightKeyPressTime", Config.lightKeyPressTime);
+            Config.lightMessageTime = readInt(data, "lightMessageTime", Config.lightMessageTime);
+            Config.lightPresenceTime = readInt(data, "lightPresenceTime", Config.lightPresenceTime);
+            Config.lightConnectTime = readInt(data, "lightConnectTime", Config.lightConnectTime);
+            Config.lightErrorTime = readInt(data, "lightErrorTime", Config.lightErrorTime);
+            Config.lightBlinkTime = readInt(data, "lightBlinkTime", Config.lightBlinkTime);
+
+            Config.lightIdle = readInt(data, "lightIdle", Config.lightIdle);
+            Config.lightKeyPress = readInt(data, "lightKeyPress", Config.lightKeyPress);
+            Config.lightMessage = readInt(data, "lightMessage", Config.lightMessage);
+            Config.lightPresence = readInt(data, "lightPresence", Config.lightPresence);
+            Config.lightConnect = readInt(data, "lightConnect", Config.lightConnect);
+            Config.lightError = readInt(data, "lightError", Config.lightError);
+            Config.lightBlink = readInt(data, "lightBlink", Config.lightBlink);
+//#endif
 
             config.msgAvatarPath = readUTF(data, "msgAvatarPath", config.msgAvatarPath);
             config.lang = readUTF(data, "lang", config.lang);
 //#ifdef BACK_IMAGE
             config.backImgPath = readUTF(data, "backImgPath", config.backImgPath);
 //#endif
-            config.path_skin = readUTF(data, "path_skin", config.path_skin);
             config.oldSE = readBoolean(data, "oldSE", config.oldSE);
             config.showTimeTraffic = readBoolean(data, "showTimeTraffic", config.showTimeTraffic);
             config.hideMessageIcon = readBoolean(data, "hideMessageIcon", config.hideMessageIcon);
@@ -410,12 +416,6 @@ public class Configs {
 //#             Config.transliterateFilenames = readBoolean(data, "historyPath", Config.transliterateFilenames);
 //#endif
 //#endif
-
-            FontCache.roster = config.rosterFont;
-            FontCache.baloon = config.baloonFont;
-            FontCache.menu = config.menuFont;
-            FontCache.msg = config.msgFont;
-            FontCache.bar = config.barFont;
             EntityCaps.initCaps();
             BombusQD.sd.roster.updateBarsFont();
             VirtualList.changeOrient(Config.panelsState);
@@ -429,11 +429,11 @@ public class Configs {
     }
 
     private void writeInt(StringBuffer buf, String tag, int value) {
-        buf.append(createBlock(tag, String.valueOf(value)));
+        buf.append(IEUtils.createBlock(tag, String.valueOf(value)));
     }
 
     private int readInt(String raw, String tag, int def) {
-        String value = findBlock(raw, tag);
+        String value = IEUtils.findBlock(raw, tag);
         if (value != null) {
             return Integer.parseInt(value);
         }
@@ -441,11 +441,11 @@ public class Configs {
     }
 
     private void writeUTF(StringBuffer buf, String tag, String value) {
-        buf.append(createBlock(tag, value));
+        buf.append(IEUtils.createBlock(tag, value));
     }
 
     private String readUTF(String raw, String tag, String def) {
-        String value = findBlock(raw, tag);
+        String value = IEUtils.findBlock(raw, tag);
         if (value != null) {
             return value;
         }
@@ -453,39 +453,17 @@ public class Configs {
     }
 
     private void writeBoolean(StringBuffer buf, String tag, boolean value) {
-        buf.append(createBlock(tag, value ? "true" : "false"));
+        buf.append(IEUtils.createBlock(tag, value ? "true" : "false"));
     }
 
     private boolean readBoolean(String raw, String tag, boolean def) {
-        String value = findBlock(raw, tag);
+        String value = IEUtils.findBlock(raw, tag);
         if (value != null) {
             return value.equals("true");
         }
         return def;
     }
 
-    private String findBlock(String source, String needle) {
-        String startItem = "<" + needle + ">";
-        int start = source.indexOf(startItem);
-        int end = source.indexOf("</" + needle + ">");
 
-        if (start > -1 && end > -1 && start != end) {
-            return source.substring(start + startItem.length(), end);
-        }
-
-        return null;
-    }
-
-    private String createBlock(String tag, String value) {
-        StringBuffer block = new StringBuffer("<").append(tag).append('>');
-        if (value != null) {
-            block.append(value);
-        }
-        block.append("</").append(tag).append(">\n");
-
-        return block.toString();
-    }
 }
-//#endif
-//#endif
 //#endif

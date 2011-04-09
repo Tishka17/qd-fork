@@ -1,123 +1,158 @@
 /*
- * LightConfigForm.java
+ * LightControlForm.java
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * You can also redistribute and/or modify this program under the
+ * terms of the Psi License, specified in the accompanied COPYING
+ * file, as published by the Psi Project; either dated January 1st,
+ * 2005, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
 package light;
 
+import client.Config;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
-import java.util.Vector;
-import midlet.Commands;
 import ui.controls.form.SimpleString;
 import ui.controls.form.CheckBox;
 import ui.controls.form.DefForm;
+import ui.controls.form.LightControlItem;
 import ui.controls.form.NumberInput;
 import ui.controls.form.SpacerItem;
 import ui.controls.form.TrackItem;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
-//#endif
-//#ifdef GRAPHICS_MENU
-//#endif
 
 public class LightConfigForm extends DefForm {
+    private static final int SPACE_HEIGHT = 5;
 
     private CheckBox config_enabled;
+    private TrackItem lightIdle;
 
-    private TrackItem light_idle;
+    private LightControlItem lightKeyPress;
+    private NumberInput lightKeyPressTime;
 
-    private TrackItem light_keypressed;
-    private NumberInput light_keypressed_time;
+    private LightControlItem lightMessage;
+    private NumberInput lightMessageTime;
 
-    private TrackItem light_message;
-    private NumberInput light_message_time;
-    //private static CheckBox lightState;
+    private LightControlItem lightPresence;
+    private NumberInput lightPresenceTime;
 
-    // переменный шаг подсветки (Марс)
-    // массив значений для каждого шага
-    private int light_lvarray[] =
-        {0,1,2,3,5, 7,10,15,20,25,
-        30,35,40,45,50, 60,70,80,90,100};
-    // количество шагов
-    private int lvarray_len = light_lvarray.length-1;
-    private int lvarray_index;
-    Vector lvsteps=new Vector();
+    private LightControlItem lightError;
+    private NumberInput lightErrorTime;
 
-    LightConfig light;
+    private LightControlItem lightConnect;
+    private NumberInput lightConnectTime;
 
-    private int indexByValue( int arr[], int val, int def) {
-        int ret= -1;
-        for( int i = 0; i < arr.length; i++)
-            if( val ==arr[i]) return i;
-            else if( def ==arr[i]) ret= i;
-        return ret;
-    }// indexByValue
+    private LightControlItem lightBlink;
+    private NumberInput lightBlinkTime;
 
-    /** Creates a new instance of ConfigForm */
     public LightConfigForm(Display display, Displayable pView) {
         super(display, pView, SR.get(SR.L_CONFIG));
 
-        for( int i = 0; i < lvarray_len; i++)
-            lvsteps.addElement(light_lvarray);
+        config_enabled = new CheckBox(SR.get(SR.L_ENABLED), Config.lightControl);
+        addControl(config_enabled);
 
-        light=LightConfig.getInstance();
+        addControl(new SpacerItem(SPACE_HEIGHT));
 
-        config_enabled=new CheckBox(SR.get(SR.L_ENABLED), light.light_control);
-        itemsList.addElement(config_enabled);
+        addControl(new SimpleString(SR.get(SR.L_IDLE_VALUE), true));
+        lightIdle = new LightControlItem(Config.lightIdle);
+        addControl(lightIdle);
 
-        itemsList.addElement(new SpacerItem(5));
-        itemsList.addElement(new SimpleString(SR.get(SR.L_IDLE_VALUE), true));
-        lvarray_index= indexByValue( light_lvarray, light.light_idle, 0);
-        light_idle=new TrackItem(lvarray_index, lvarray_len);
-        itemsList.addElement(light_idle);
+        addControl(new SpacerItem(SPACE_HEIGHT));
 
-        itemsList.addElement(new SpacerItem(5));
-        itemsList.addElement(new SimpleString(SR.get(SR.L_KEYPRESS_VALUE), true));
-        lvarray_index= indexByValue( light_lvarray, light.light_keypress, 50);
-        light_keypressed=new TrackItem(lvarray_index, lvarray_len);
-        itemsList.addElement(light_keypressed);
+        addControl(new SimpleString(SR.get(SR.L_KEYPRESS_VALUE), true));
+        lightKeyPress = new LightControlItem(Config.lightKeyPress);
+        addControl(lightKeyPress);
 
-        light_keypressed_time=new NumberInput(display, SR.get(SR.L_KEYPRESS_TIMEOUT), Integer.toString(light.light_keypressed_time), 1, 600);
-        itemsList.addElement(light_keypressed_time);
+        lightKeyPressTime = new NumberInput(display, SR.get(SR.L_KEYPRESS_TIMEOUT), Integer.toString(Config.lightKeyPressTime), 1, 600);
+        addControl(lightKeyPressTime);
 
-        itemsList.addElement(new SpacerItem(5));
-        itemsList.addElement(new SimpleString(SR.get(SR.L_MESSAGE_VALUE), true));
-        lvarray_index= indexByValue( light_lvarray, light.light_message, 100);
-        light_message=new TrackItem(lvarray_index, lvarray_len);
-        itemsList.addElement(light_message);
+        addControl(new SpacerItem(SPACE_HEIGHT));
 
-        light_message_time=new NumberInput(display, SR.get(SR.L_MESSAGE_TIMEOUT), Integer.toString(light.light_message_time), 1, 600);
-        itemsList.addElement(light_message_time);
+        addControl(new SimpleString(SR.get(SR.L_MESSAGE_VALUE), true));
+        lightMessage = new LightControlItem(Config.lightMessage);
+        addControl(lightMessage);
 
-        /*
-        itemsList.addElement(new SpacerItem(5));
-        lightState = new CheckBox(SR.get(SR.MS_FLASHLIGHT), midlet.BombusQD.cf.lightState);
-           if (phoneManufacturer==Config.SIEMENS || phoneManufacturer==Config.SIEMENS2
-           || phoneManufacturer==Config.SONYE || phoneManufacturer==Config.NOKIA) itemsList.addElement(lightState);
-         */
+        lightMessageTime = new NumberInput(display, SR.get(SR.L_MESSAGE_TIMEOUT), Integer.toString(Config.lightMessageTime), 1, 600);
+        addControl(lightMessageTime);
+
+        addControl(new SpacerItem(SPACE_HEIGHT));
+
+        addControl(new SimpleString("Presence screen brightness", true));
+        lightPresence = new LightControlItem(Config.lightPresence);
+        addControl(lightPresence);
+
+        lightPresenceTime = new NumberInput(display, "Presence idle timeout", Integer.toString(Config.lightPresenceTime), 1, 600);
+        addControl(lightPresenceTime);
+
+        addControl(new SpacerItem(SPACE_HEIGHT));
+
+        addControl(new SimpleString("Connect screen brightness", true));
+        lightConnect = new LightControlItem(Config.lightConnect);
+        addControl(lightConnect);
+
+        lightConnectTime = new NumberInput(display, "Connect idle timeout", Integer.toString(Config.lightConnectTime), 1, 600);
+        addControl(lightConnectTime);
+
+        addControl(new SpacerItem(SPACE_HEIGHT));
+
+        addControl(new SimpleString("Error screen brightness", true));
+        lightError = new LightControlItem(Config.lightError);
+        addControl(lightError);
+
+        lightErrorTime = new NumberInput(display, "Error idle timeout", Integer.toString(Config.lightErrorTime), 1, 600);
+        addControl(lightErrorTime);
+
+        addControl(new SimpleString("Blink brightness", true));
+        lightBlink = new LightControlItem(Config.lightBlink);
+        addControl(lightBlink);
+
+        lightBlinkTime = new NumberInput(display, "Blink timeout", Integer.toString(Config.lightBlinkTime), 1, 600);
+        addControl(lightBlinkTime);
 
         attachDisplay(display);
-        this.parentView=pView;
+        this.parentView = pView;
     }
 
     public void cmdOk() {
-        light.light_control=config_enabled.getValue();
-        light.light_idle=light_idle.getValue();
-        //light.light_idle=light.light_idle*5;//округление
+        Config.lightControl = config_enabled.getValue();
+        
+        // light.light_idle=light.light_idle*5;//округление
         // r94m - переменный шаг подсветки by Mars
-        light.light_idle=light_lvarray[light.light_idle];
-        light.light_keypress=light_keypressed.getValue();
-        light.light_keypress=light_lvarray[light.light_keypress];
-        light.light_keypressed_time=Integer.parseInt(light_keypressed_time.getValue());
-        light.light_message=light_message.getValue();
-        light.light_message=light_lvarray[light.light_message];
-        light.light_message_time=Integer.parseInt(light_message_time.getValue());
-        //midlet.BombusQD.cf.lightState=lightState.getValue();
-        light.saveToStorage();
-	CustomLight.switchOn(light.light_control);
+        Config.lightIdle = lightIdle.getValue();
+
+        Config.lightKeyPress = lightKeyPress.getValue();
+        Config.lightKeyPressTime = Integer.parseInt(lightKeyPressTime.getValue());
+
+        Config.lightMessage = lightMessage.getValue();
+        Config.lightMessageTime = Integer.parseInt(lightMessageTime.getValue());
+
+        Config.lightPresence = lightPresence.getValue();
+        Config.lightPresenceTime = Integer.parseInt(lightPresenceTime.getValue());
+
+        Config.lightError = lightError.getValue();
+        Config.lightErrorTime = Integer.parseInt(lightErrorTime.getValue());
+
+        Config.lightConnect = lightConnect.getValue();
+        Config.lightConnectTime = Integer.parseInt(lightConnectTime.getValue());
+
+        Config.lightBlink = lightBlink.getValue();
+        Config.lightBlinkTime = Integer.parseInt(lightBlinkTime.getValue());
+
+        CustomLight.switchOn(Config.lightControl);
         destroyView();
     }
 }

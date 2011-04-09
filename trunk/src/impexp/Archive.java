@@ -25,16 +25,12 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-//#ifdef IMPORT_EXPORT
-//#ifdef ARCHIVE
-//#ifdef FILE_IO
+//#if IMPORT_EXPORT && ARCHIVE && FILE_IO
 package impexp;
 
 import client.Constants;
 import client.Msg;
 import archive.MessageArchive;
-import io.file.FileIO;
-import java.io.UnsupportedEncodingException;
 import java.util.Enumeration;
 import java.util.Vector;
 import ui.Time;
@@ -43,6 +39,7 @@ import ui.Time;
  *
  * @author ad
  */
+
 public class Archive {
     private final static String START_ITEM = "<START_ITEM>";
     private final static String END_ITEM = "<END_ITEM>";
@@ -72,48 +69,35 @@ public class Archive {
         archive.close();
     }
 
-    private void importArchive(String arhPath) {
+    private void importArchive(String path) {
         Vector vector = new Vector();
+        String raw = IEUtils.readFile(path);
 
-        FileIO f = FileIO.createConnection(arhPath);
-        byte buf[] = f.fileRead();
+        if (raw != null) {
+            int pos = 0;
+            int start_pos = 0;
+            int end_pos = 0;
 
-        if (buf != null) {
-            String raw;
-            try {
-                raw = new String(buf, "utf-8");
-            } catch (UnsupportedEncodingException e) {
-                raw = new String(buf);
-            }
+            while (true) {
+                start_pos = raw.indexOf(START_ITEM, pos);
+                end_pos = raw.indexOf(END_ITEM, pos);
 
-            try {
-                int pos = 0;
-                int start_pos = 0;
-                int end_pos = 0;
+                if (start_pos > -1 && end_pos > -1) {
+                    String tempstr = raw.substring(start_pos + START_ITEM.length(), end_pos);
 
-                while (true) {
-                    start_pos = raw.indexOf(START_ITEM, pos);
-                    end_pos = raw.indexOf(END_ITEM, pos);
+                    String date = findBlock(tempstr, START_DATE, END_DATE);
+                    String from = findBlock(tempstr, START_FROM, END_FROM);
+                    String subj = findBlock(tempstr, START_SUBJ, END_SUBJ);
+                    String body = findBlock(tempstr, START_BODY, END_BODY);
 
-                    if (start_pos > -1 && end_pos > -1) {
-                        String tempstr = raw.substring(start_pos + START_ITEM.length(), end_pos);
-
-                        String date = findBlock(tempstr, START_DATE, END_DATE);
-                        String from = findBlock(tempstr, START_FROM, END_FROM);
-                        String subj = findBlock(tempstr, START_SUBJ, END_SUBJ);
-                        String body = findBlock(tempstr, START_BODY, END_BODY);
-
-                        Msg msg = new Msg(Constants.MESSAGE_TYPE_IN, from, subj, body);
-                        msg.setDayTime(date);
-                        vector.insertElementAt(msg, 0);
-                    } else {
-                        break;
-                    }
-
-                    pos = end_pos + END_ITEM.length();
+                    Msg msg = new Msg(Constants.MESSAGE_TYPE_IN, from, subj, body);
+                    msg.setDayTime(date);
+                    vector.insertElementAt(msg, 0);
+                } else {
+                    break;
                 }
-            } catch (Exception e) {
-                //System.out.println(e.toString());
+
+                pos = end_pos + END_ITEM.length();
             }
 
             for (Enumeration e = vector.elements(); e.hasMoreElements();) {
@@ -148,19 +132,9 @@ public class Archive {
             body.append(END_SUBJ).append("\r\n");
             body.append(START_BODY).append(m.body).append(END_BODY).append("\r\n");
             body.append(END_ITEM).append("\r\n\r\n");
-
-            System.out.println(body.length());
         }
 
-        byte buf[];
-        try {
-            buf = body.toString().getBytes("utf-8");
-        } catch (UnsupportedEncodingException e) {
-            buf = body.toString().getBytes();
-        }
-
-        FileIO file = FileIO.createConnection(path + "archive_" + getDate() + ".txt");
-        file.fileWrite(buf);
+        IEUtils.writeFile(path + "archive_" + getDate() + ".txt", body.toString());
     }
 
     private String getDate() {
@@ -168,6 +142,4 @@ public class Archive {
         return Time.dayLocalString(dateGmt).trim();
     }
 }
-//#endif
-//#endif
 //#endif

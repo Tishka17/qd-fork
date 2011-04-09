@@ -13,6 +13,7 @@
 
 package light;
 
+import client.Config;
 import javax.microedition.lcdui.*;
 import midlet.BombusQD;
 //import javax.microedition.midlet.*;
@@ -28,11 +29,11 @@ import java.util.*;
  * @author Vladimir Krukov
  */
 public final class CustomLight extends TimerTask {
+    private static final int MAX_BLICKS_COUNT = 5;
+
     private static CustomLight instance = new CustomLight(null);
     private Timer timer;
-    LightConfig cf = LightConfig.getInstance();
-  
-   
+
     private static final byte LIGHT_NONE               = 0;
     private static final byte LIGHT_SIEMENS            = 1;
     private static final byte LIGHT_NOKIA              = 2;
@@ -109,16 +110,16 @@ public final class CustomLight extends TimerTask {
             case IDLE:
                 return 32767;
             case MESSAGE:
-                return Math.max(1, cf.light_message_time);
+                return Math.max(1, Config.lightMessageTime);
             case KEYPRESSED:
-                return Math.max(1, cf.light_keypressed_time);
+                return Math.max(1, Config.lightKeyPressTime);
             case ERROR:
-                return Math.max(1, cf.light_error_time);
+                return Math.max(1, Config.lightErrorTime);
             case PRESENCE:
-                return Math.max(1, cf.light_presence_time);
+                return Math.max(1, Config.lightPresenceTime);
             case BLINK0:
             case BLINK1:
-                return Math.max(1, cf.light_blink_time);
+                return Math.max(1, Config.lightBlinkTime);
         }
         return 32767;
     }
@@ -126,7 +127,7 @@ public final class CustomLight extends TimerTask {
     //changes mode
     private synchronized void setMode(final byte m) {
         //not controlling light
-        if (!cf.light_control) {
+        if (!Config.lightControl) {
             return;
         }
         //do not change light in system windows
@@ -143,11 +144,11 @@ public final class CustomLight extends TimerTask {
         if (m == state) {
             return;
         }
-        if (m==BLINK0 && getLightValue(state)<cf.light_blink/2)
+        if (m==BLINK0 && getLightValue(state) < Config.lightBlink / 2)
             state=BLINK1;
         else
             state = m;
-	blinks = cf.max_blinks;
+	blinks = MAX_BLICKS_COUNT;
         setLight();
     }
 
@@ -156,7 +157,7 @@ public final class CustomLight extends TimerTask {
     }
 
     public void run() {
-        if (!cf.light_control) {
+        if (!Config.lightControl) {
             return;
         }
         setLight();
@@ -290,25 +291,25 @@ public final class CustomLight extends TimerTask {
     private int getLightValue(byte state) {
         switch (state) {
             case IDLE:
-                return cf.light_idle;
+                return Config.lightIdle;
             case PRESENCE:
-                return cf.light_presence;
+                return Config.lightPresence;
             case KEYPRESSED:
-                return cf.light_keypress;
+                return Config.lightKeyPress;
             case CONNECT:
-                return cf.light_connect;
+                return Config.lightConnect;
             case MESSAGE:
-                return cf.light_message;
+                return Config.lightMessage;
             case ERROR:
-                return cf.light_error;
+                return Config.lightError;
             case BLINK0:
                 return 0;
             case BLINK1:
-                return cf.light_blink;
+                return Config.lightBlink;
             case BLINK2:
                 return 0;
             case BLINK3:
-                return cf.light_blink;
+                return Config.lightBlink;
         }
         return 100;
     }

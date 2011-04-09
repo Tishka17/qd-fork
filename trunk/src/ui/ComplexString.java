@@ -27,6 +27,7 @@
  */
 package ui;
 
+import client.Config;
 import images.ImageList;
 import font.*;
 import java.util.*;
@@ -48,7 +49,7 @@ public class ComplexString implements VirtualElement {
 //#endif
     public final static int BOLD = 0x06000000;
     public final static int SMILE = 0x07000000;
-    protected Font font = FontCache.getFont(false, FontCache.msg);
+    protected Font font = FontCache.getFont(false, Config.msgFont);
 
     protected int height;
     protected int width;

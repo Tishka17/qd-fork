@@ -113,7 +113,7 @@ public class GMenu extends Canvas {
             gm.commandslist[index]=c.getName();
         }
 
-       font = FontCache.getFont(false, FontCache.menu);
+       font = FontCache.getFont(false, Config.menuFont);
        fh = font.getHeight();
 
        imgHeight = MenuIcons.getInstance().getHeight();

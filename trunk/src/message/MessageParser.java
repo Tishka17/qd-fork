@@ -422,7 +422,7 @@ parse 20-24 msec
  */
 
     public Font getFont(boolean bold) {
-        return FontCache.getFont(bold, FontCache.msg);
+        return FontCache.getFont(bold, Config.msgFont);
     }
 
 }

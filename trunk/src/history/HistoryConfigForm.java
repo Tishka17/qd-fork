@@ -26,6 +26,7 @@
 //#ifdef HISTORY
 
 package history;
+
 import client.Config;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
@@ -42,12 +43,7 @@ import ui.controls.form.PathSelector;
  * @author aqent
  */
 
-public class HistoryConfigForm extends DefForm {
-    private static final String HISTORY_DB_NAME = "history_storage";
-
-    public static final int TYPE_RMS = 0;
-    public static final int TYPE_FS = 1;
-    
+public class HistoryConfigForm extends DefForm {   
     private DropChoiceBox historyType;
     private PathSelector historyFolder;
 //#ifdef DETRANSLIT

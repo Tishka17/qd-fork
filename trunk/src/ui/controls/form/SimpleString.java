@@ -26,6 +26,7 @@
  */
 package ui.controls.form;
 
+import client.Config;
 import font.FontCache;
 import javax.microedition.lcdui.Font;
 import ui.IconTextElement;
@@ -65,6 +66,6 @@ public class SimpleString extends IconTextElement {
     }
 
     public Font getFont() {
-        return FontCache.getFont(bold, FontCache.msg);
+        return FontCache.getFont(bold, Config.rosterFont);
     }
 }

@@ -47,7 +47,6 @@ public class ColorThemeSelector extends DropChoiceBox {
         String themePath = (String)paths.elementAt(index);
 
         ColorTheme.loadSkin(themePath, 1, false);
-        Config.getInstance().path_skin = themePath;
     }
 
     public boolean handleEvent(int keyCode) {

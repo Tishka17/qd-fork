@@ -156,7 +156,7 @@ public class StringUtils {
   //static Font f = Font.getFont(Font.FACE_PROPORTIONAL,Font.STYLE_PLAIN,Font.SIZE_SMALL);
 
   public static Font getFont() {
-        return FontCache.getFont(false, FontCache.msg);
+        return FontCache.getFont(false, Config.msgFont);
   }
 
 //#ifdef CLASSIC_CHAT

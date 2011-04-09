@@ -1,10 +1,5 @@
 /*
- * TrackItem.java
- *
- * Created on 26.05.2008, 11:16
- *
- * Copyright (c) 2006-2008, Daniel Apatin (ad), http://apatin.net.ru
- * Copyright (c) 2009, Alexej Kotov (aqent), http://bombusmod-qd.wen.ru
+ * LightControlItem.java
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -26,38 +21,25 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+//#ifdef LIGHT_CONTROL
 package ui.controls.form;
 
 import colors.ColorTheme;
-import font.FontCache;
-import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
-import ui.IconTextElement;
 import ui.VirtualList;
 
-/**
- *
- * @author ad,aqent
- */
+public final class LightControlItem extends TrackItem {
+    private int lightValues[] = {0, 1, 2, 3, 5, 7, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100};
+    private int index = 0;
 
-public class TrackItem extends IconTextElement {
-    protected static final int ITEM_HEIGHT = 16;
+    public LightControlItem(int value) {
+        super(value, 19);
 
-    protected int value;
-    protected int steps;
-
-    public TrackItem(int value, int maxValue) {
-        super(null);
-        this.value = value;
-        this.steps = maxValue + 1;
+        calculateIndex();
     }
 
-    public int getValue() {
-        return value;
-    }
-
-    public int getVWidth() {
-        return -1;
+    public void onSelect(VirtualList view) {
+        setIndex((index + 1) % steps);
     }
 
     public void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {
@@ -67,7 +49,7 @@ public class TrackItem extends IconTextElement {
         int scrollWidth = getFont().stringWidth(String.valueOf(value));
 
         int xOffset = getOffset();
-        int pos = ((width - scrollWidth - xOffset * 2) * value) / (steps - 1);
+        int pos = ((width - scrollWidth - xOffset * 2) * index) / (steps - 1);
 
         g.clipRect(xOffset, 0, g.getClipWidth(), itemHeight);
 
@@ -80,33 +62,33 @@ public class TrackItem extends IconTextElement {
         g.drawString(Integer.toString(value), xOffset + pos, 1, Graphics.TOP|Graphics.LEFT);
     }
 
-    public int getVHeight() {
-        if (0 == itemHeight) {
-            itemHeight = ITEM_HEIGHT;
-        }
-        if (itemHeight < midlet.BombusQD.cf.minItemHeight) {
-            itemHeight = midlet.BombusQD.cf.minItemHeight;
-        }
-        return itemHeight;
-    }
-
-    public void onSelect(VirtualList view) {
-        value = (value + 1) % steps;
-    }
-
     public boolean handleEvent(int keyCode) {
         switch (keyCode) {
             case 4:
-                value = (value > 0) ? value - 1 : steps - 1;
+                setIndex((index > 0) ? index - 1 : steps - 1);
                 return true;
             case 6:
-                value = (value + 1) % steps;
+                setIndex((index + 1) % steps);
                 return true;
         }
         return false;
     }
 
-    public final Font getFont() {
-        return FontCache.getFont(false, FontCache.SMALL);
+    private void calculateIndex() {
+        for (int i = 0; i < lightValues.length; ++i) {
+            int tmp = lightValues[i];
+
+            if (value <= tmp) {
+                setIndex(Math.max(0, i));
+                return;
+            }
+        }
+        setIndex(0);
+    }
+
+    private void setIndex(int index) {
+        this.index = index;
+        value = lightValues[index];
     }
 }
+//#endif

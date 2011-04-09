@@ -74,7 +74,7 @@ public class MessageItem
 
     
     public Font getFont() {
-        return FontCache.getFont(false, FontCache.msg);
+        return FontCache.getFont(false, Config.msgFont);
     }
 
     public int getVWidth(){ 

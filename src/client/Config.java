@@ -27,6 +27,7 @@
  */
 
 package client;
+
 import alert.AlertProfile;
 import images.ActionsIcons;
 import images.RosterIcons;
@@ -36,14 +37,19 @@ import images.SmilesIcons;
 //#ifdef FILE_IO
 import io.file.FileIO;
 //#endif
-import java.io.*;
-import java.util.*;
 import midlet.BombusQD;
 import font.FontCache;
 import util.StringLoader;
 import ui.Time;
 import ui.VirtualList;
 import io.NvStorage;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.util.TimeZone;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.Vector;
 
 /**
  *
@@ -52,6 +58,9 @@ import io.NvStorage;
 
 public class Config {
     private static Config instance;
+
+    public static final int HISTORY_RMS = 0;
+    public static final int HISTORY_FS = 1;
 
     public static int KEY_BACK = -11;
     public static int SOFT_LEFT = -6;
@@ -234,29 +243,14 @@ public class Config {
     public static String backImgPath = "";
 //#endif
 
-    public String add_contact_name="@.";
-
     public boolean savePos=true;
 
     public int scrollWidth = 5;
     public int minItemHeight = rosterFont * 3;
     public static int contactXOffset = 10;
 
-    public int[] cursorPos = {
-                            1,  //RosterToolsMenu 0
-                            0,  //RosterItemActions 1
-                            1,  //ActivityMenu 2
-                            1,  //MoodList 3
-                            -1, //...
-                            1,
-                            1,
-                            1,
-                            1
-                        };
-
     public boolean isMinimized = false;
     public boolean iconsLeft = true;
-    public String path_skin = "";
     public int width_classic = -1;
 
     //classic chat
@@ -311,20 +305,35 @@ public class Config {
     public static boolean cleanConfContacts = false;
     public static boolean autoScroll = true;
 
+//#ifdef HISTORY
     public static int historyTypeIndex = 0;
     public static String historyPath = "";
+//#endif
     public static boolean transliterateFilenames = false;
+
+//#ifdef LIGHT_CONTROL
+    public static boolean lightControl = false;
+
+    public static int lightKeyPressTime = 10;
+    public static int lightMessageTime = 2;
+    public static int lightPresenceTime = 1;
+    public static int lightConnectTime = 5;
+    public static int lightErrorTime = 3;
+    public static int lightBlinkTime = 1;
+
+    public static int lightIdle = 0;
+    public static int lightKeyPress = 50;
+    public static int lightMessage = 100;
+    public static int lightPresence = 10;    
+    public static int lightConnect = 100;
+    public static int lightError = 50;
+    public static int lightBlink = 100;
+//#endif
 
     public static Config getInstance() {
         if (instance == null) {
             instance = new Config();
             instance.loadFromStorage();
-
-            FontCache.roster = rosterFont;
-            FontCache.baloon = baloonFont;
-            FontCache.menu = menuFont;
-            FontCache.msg = msgFont;
-            FontCache.bar = barFont;
         }
         return instance;
     }
@@ -421,12 +430,6 @@ public class Config {
             menuFont = FontCache.LARGE;
             msgFont = FontCache.LARGE;
             barFont = FontCache.LARGE;
-
-            FontCache.roster = rosterFont;
-            FontCache.baloon = baloonFont;
-            FontCache.menu = menuFont;
-            FontCache.msg = msgFont;
-            FontCache.bar = barFont;
 
             scrollWidth = 12;
 
@@ -529,10 +532,9 @@ public class Config {
             createMessageByFive = inputStream.readBoolean();
             gradientBarLigth = inputStream.readBoolean();
             shadowBar = inputStream.readBoolean();
-
-            // free
-            inputStream.readBoolean();
-
+//#ifdef LIGHT_CONTROL
+            lightControl = inputStream.readBoolean();
+//#endif
             simpleContacts = inputStream.readBoolean();
             minItemHeight = inputStream.readInt();
 
@@ -689,6 +691,22 @@ public class Config {
 //#ifdef HISTORY
             historyTypeIndex = inputStream.readInt();
 //#endif
+//#ifdef LIGHT_CONTROL
+            lightKeyPressTime = inputStream.readInt();
+            lightMessageTime = inputStream.readInt();
+            lightPresenceTime = inputStream.readInt();
+            lightConnectTime = inputStream.readInt();
+            lightErrorTime = inputStream.readInt();
+            lightBlinkTime = inputStream.readInt();
+
+            lightIdle = inputStream.readInt();
+            lightKeyPress = inputStream.readInt();
+            lightMessage = inputStream.readInt();
+            lightPresence = inputStream.readInt();
+            lightConnect = inputStream.readInt();
+            lightError = inputStream.readInt();
+            lightBlink = inputStream.readInt();
+//#endif
 	    inputStream.close();
             inputStream=null;
 	} catch (Exception e) {
@@ -788,12 +806,10 @@ public class Config {
             outputStream.writeBoolean(createMessageByFive);
             outputStream.writeBoolean(gradientBarLigth);
             outputStream.writeBoolean(shadowBar);
-
-           // free
-            outputStream.writeBoolean(false);
+            outputStream.writeBoolean(lightControl);
 
             outputStream.writeBoolean(simpleContacts);
-			outputStream.writeInt(minItemHeight);
+            outputStream.writeInt(minItemHeight);
 
             outputStream.writeBoolean(swapSendAndSuspend);
 
@@ -931,6 +947,23 @@ public class Config {
 //#ifdef HISTORY
             outputStream.writeInt(historyTypeIndex);
 //#endif
+//#ifdef LIGHT_CONTROL
+            outputStream.writeInt(lightKeyPressTime);
+            outputStream.writeInt(lightMessageTime);
+            outputStream.writeInt(lightPresenceTime);
+            outputStream.writeInt(lightConnectTime);
+            outputStream.writeInt(lightErrorTime);
+            outputStream.writeInt(lightBlinkTime);
+
+            outputStream.writeInt(lightIdle);
+            outputStream.writeInt(lightKeyPress);
+            outputStream.writeInt(lightMessage);
+            outputStream.writeInt(lightPresence);
+            outputStream.writeInt(lightConnect);
+            outputStream.writeInt(lightError);
+            outputStream.writeInt(lightBlink);
+//#endif
+
 	} catch (IOException e) { }
 	return NvStorage.writeFileRecord(outputStream, "confInt", 0, true);
     }
@@ -956,7 +989,6 @@ public class Config {
 //#ifdef HISTORY
             outputStream.writeUTF(historyPath);
 //#endif
-            outputStream.writeUTF(path_skin);
         } catch (IOException e) {
         }
         return NvStorage.writeFileRecord(outputStream, "confUtf", 0, true);
@@ -983,7 +1015,6 @@ public class Config {
 //#ifdef HISTORY
             historyPath = inputStream.readUTF();
 //#endif
-            path_skin = inputStream.readUTF();
 
             inputStream.close();
             inputStream = null;

@@ -173,7 +173,7 @@ public final class ContactMessageList extends VirtualList implements MenuListene
 //#ifdef HISTORY
         if (contact.origin != Constants.ORIGIN_GROUPCHAT) {
             if (midlet.BombusQD.cf.module_history) {
-                if (Config.historyTypeIndex == HistoryConfigForm.TYPE_RMS) {
+                if (Config.historyTypeIndex == Config.HISTORY_RMS) {
                     addCommand(Commands.cmdHistory);
                 }
             }

@@ -97,11 +97,11 @@ public class FontConfigForm extends DefForm {
     }
     
     public void cmdOk() {
-        FontCache.roster = Config.rosterFont = rosterFont.getValue() * 8;
-        FontCache.baloon = Config.baloonFont = ballonFont.getValue() * 8;
-        FontCache.menu = Config.menuFont = menuFont.getValue() * 8;
-        FontCache.msg = Config.msgFont = msgFont.getValue() * 8;
-        FontCache.bar = Config.barFont = barFont.getValue() * 8;
+        Config.rosterFont = rosterFont.getValue() * 8;
+        Config.baloonFont = ballonFont.getValue() * 8;
+        Config.menuFont = menuFont.getValue() * 8;
+        Config.msgFont = msgFont.getValue() * 8;
+        Config.barFont = barFont.getValue() * 8;
 
         Config.useItalic = useItalic.getValue();
 

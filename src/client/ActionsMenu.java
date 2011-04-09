@@ -129,6 +129,8 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
     private static final int MI_COPY_TOPIC = 51;
     private static final int MI_RESOLVE_NICKS = 52;
 
+    private static int lastCursorPos = 0;
+
     private Object item;
 
     public ActionsMenu(Display display, Displayable pView, Object item) {
@@ -187,7 +189,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
 //#ifdef HISTORY
                 if (groupType != Groups.TYPE_TRANSP && !(contact instanceof MucContact)) {
                     if (Config.module_history) {
-                        if (Config.historyTypeIndex == HistoryConfigForm.TYPE_RMS) {
+                        if (Config.historyTypeIndex == Config.HISTORY_RMS) {
                             addItem(SR.get(SR.MS_HISTORY_SHOW), MI_HISTORY, ActionsIcons.ICON_VERSION);
                         }
                     }
@@ -358,7 +360,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
 //#endif
         }
 
-        moveCursorTo(Config.getInstance().cursorPos[1]);
+        moveCursorTo(lastCursorPos);
 
         attachDisplay(display);
         super.parentView = pView;
@@ -390,7 +392,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
     public void eventOk() {
         MenuItem mItem = (MenuItem) getFocusedObject();
 
-        Config.getInstance().cursorPos[1] = super.cursor;
+        lastCursorPos = cursor;
         if (item instanceof Contact) {
             Contact contact = (Contact) item;
 

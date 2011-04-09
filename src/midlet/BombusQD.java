@@ -83,10 +83,6 @@ public class BombusQD extends MIDlet implements Runnable {
     public SplashScreen s;
     private static BombusQD instance;
 
-//#ifdef LIGHT_CONTROL
-   LightConfig lcf;
-//#endif
-
     public void startApp() {
         if (isRunning) {
             hideApp(false, null);
@@ -182,8 +178,7 @@ public class BombusQD extends MIDlet implements Runnable {
 //#endif
 
 //#ifdef LIGHT_CONTROL
-        lcf=LightConfig.getInstance();
-        CustomLight.switchOn(lcf.light_control);
+        CustomLight.switchOn(Config.lightControl);
 //#endif
 
 //#ifdef PEP

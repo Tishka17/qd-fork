@@ -27,6 +27,7 @@
 
 package ui.controls.form;
 
+import client.Config;
 import colors.ColorTheme;
 import font.FontCache;
 import javax.microedition.lcdui.Font;
@@ -48,7 +49,7 @@ public abstract class LinkString extends IconTextElement {
     }
 
     public Font getFont() {
-        return FontCache.getFont(true, FontCache.msg);
+        return FontCache.getFont(true, Config.msgFont);
     }
 
     public int getColor() {

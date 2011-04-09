@@ -230,7 +230,7 @@ public class Account extends IconTextElement {
         if (active) {
             return FontCache.getFont(true, Font.SIZE_LARGE);
         }
-        return FontCache.getFont(getFontIndex(), FontCache.roster);
+        return FontCache.getFont(getFontIndex(), Config.rosterFont);
     }
 
     public int getImageIndex() {

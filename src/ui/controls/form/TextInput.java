@@ -26,6 +26,7 @@
  */
 package ui.controls.form;
 
+import client.Config;
 import colors.ColorTheme;
 import font.FontCache;
 import io.NvStorage;
@@ -72,12 +73,12 @@ public class TextInput extends IconTextElement implements InputTextBoxNotify {
         colorBorder = ColorTheme.getColor(ColorTheme.CURSOR_OUTLINE);
         colorBGnd = ColorTheme.getColor(ColorTheme.LIST_BGND);
 
-        font = FontCache.getFont(false, FontCache.roster);
+        font = FontCache.getFont(false, Config.rosterFont);
         fontHeight = font.getHeight();
         itemHeight = fontHeight;
 
         if (caption != null) {
-            captionFont = FontCache.getFont(true, FontCache.msg);
+            captionFont = FontCache.getFont(true, Config.rosterFont);
             captionFontHeight = captionFont.getHeight();
             itemHeight += captionFontHeight;
         }

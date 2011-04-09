@@ -34,7 +34,7 @@ import font.FontCache;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 //#ifdef GRADIENT
-//# import ui.Gradient;
+import ui.Gradient;
 //#endif
 
 /**
@@ -52,8 +52,8 @@ public class Progress {
     private static Font font;
     
 //#ifdef GRADIENT
-//#     private static Gradient gr=null;
-//#     private static int bottomColor;
+    private static Gradient gr=null;
+    private static int bottomColor;
 //#endif
     private static int topColor;
 
@@ -61,14 +61,14 @@ public class Progress {
     public Progress(int x, int y, int width) {
         this.x=x;
         this.width=width;
-        this.font=FontCache.getFont(false, FontCache.bar);
+        this.font=FontCache.getFont(false, Config.barFont);
         this.height=font.getHeight()*2;
         this.y=y-height;
         this.topColor=ColorTheme.getColor(ColorTheme.PGS_COMPLETE_TOP);
 //#ifdef GRADIENT
-//#         this.bottomColor=ColorTheme.getColor(ColorTheme.PGS_COMPLETE_BOTTOM);
-//#         if (topColor!=bottomColor)
-//#             this.gr=new Gradient(x, y-height, x+width, y, topColor, bottomColor, false);
+        this.bottomColor=ColorTheme.getColor(ColorTheme.PGS_COMPLETE_BOTTOM);
+        if (topColor!=bottomColor)
+            this.gr=new Gradient(x, y-height, x+width, y, topColor, bottomColor, false);
 //#endif
     }
     
@@ -76,14 +76,14 @@ public class Progress {
         g.setColor(ColorTheme.getColor(ColorTheme.PGS_REMAINED));
         g.fillRect(x, y, width, height);
 //#ifdef GRADIENT
-//#         if (topColor!=bottomColor) {
-//#             gr.paintWidth(g, x+filled);
-//#         } else {
+        if (topColor!=bottomColor) {
+            gr.paintWidth(g, x+filled);
+        } else {
 //#endif
             g.setColor(topColor);
             g.fillRect(x, y+1, filled, height);
 //#ifdef GRADIENT
-//#         }
+        }
 //#endif
        
         g.setColor(ColorTheme.getColor(ColorTheme.PGS_INK));

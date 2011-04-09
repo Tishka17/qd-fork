@@ -29,6 +29,7 @@
 //#ifdef POPUPS
 package ui.controls;
 
+import client.Config;
 import colors.ColorTheme;
 import images.RosterIcons;
 import java.util.Vector;
@@ -70,7 +71,7 @@ public class PopUp {
             
     synchronized public void addPopup(int type, String contact, String message){
         if (message!=null)
-            font=FontCache.getFont(false, FontCache.baloon);//den_po
+            font=FontCache.getFont(false, Config.baloonFont);//den_po
             popUps.addElement(new PopUpElement(type, contact, StringUtils.parseMessage(message, width-border-padding, font)));
 //#ifdef DEBUG
 //# //	System.out.println("added message to array = "+message);
@@ -79,7 +80,7 @@ public class PopUp {
 
     public PopUp() {
          popUps = new Vector(0);
-         font=FontCache.getFont(false, FontCache.baloon);
+         font=FontCache.getFont(false, Config.baloonFont);
          ri=RosterIcons.getInstance();
     }
     

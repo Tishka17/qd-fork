@@ -410,7 +410,7 @@ public abstract class VirtualList
         secondBar.addElement(null); //3
         setInfoBarItem(secondBar);
 
-        stringHeight=FontCache.getFont(false, FontCache.roster).getHeight();
+        stringHeight=FontCache.getFont(false, Config.rosterFont).getHeight();
 //#if (USE_ROTATOR)
         TimerTaskRotate.startRotate(0, this);
 //#endif

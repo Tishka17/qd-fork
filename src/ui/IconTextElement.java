@@ -26,6 +26,7 @@
  */
 
 package ui;
+import client.Config;
 import images.ImageList;
 import javax.microedition.lcdui.*;
 import colors.ColorTheme;
@@ -65,7 +66,7 @@ abstract public class IconTextElement implements VirtualElement {
     }
 
     public Font getFont() {
-        return FontCache.getFont(getFontIndex(),FontCache.roster);
+        return FontCache.getFont(getFontIndex(), Config.rosterFont);
     }
 
     public void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {

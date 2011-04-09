@@ -27,6 +27,7 @@
 
 package ui.controls.form;
 
+import client.Config;
 import font.FontCache;
 import images.RosterIcons;
 import java.util.Vector;
@@ -58,12 +59,12 @@ public  class DropChoiceBox extends IconTextElement {
         this.display = display;
         this.caption = caption;
 
-        font = FontCache.getFont(false, FontCache.roster);
+        font = FontCache.getFont(false, Config.rosterFont);
         fontHeight = font.getHeight();
         itemHeight = fontHeight;
 
         if (caption != null) {
-            captionFont = FontCache.getFont(true, FontCache.msg);
+            captionFont = FontCache.getFont(true, Config.rosterFont);
             captionFontHeight = captionFont.getHeight();
             itemHeight += captionFontHeight;
         }

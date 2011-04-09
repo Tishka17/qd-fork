@@ -53,13 +53,6 @@ public class FontCache {
     public final static int BOLD = Font.STYLE_BOLD;
     public final static int ITALIC = Font.STYLE_ITALIC;
 
-    // TODO remove or no?
-    public static int roster = 0;
-    public static int baloon = 0;
-    public static int menu = 0;
-    public static int msg = 0;
-    public static int bar = 0;
-
     private static Font getSmallBoldFont() {
         if (smallBold == null) {
             smallBold = Font.getFont(Font.FACE_PROPORTIONAL, Config.useItalic ? (BOLD | ITALIC) : BOLD, SMALL);

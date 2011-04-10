@@ -92,7 +92,7 @@ import xmpp.extensions.IqLast;
 import xmpp.extensions.IqPing;
 import xmpp.extensions.IqVersionReply;
 import xmpp.extensions.IqTimeReply;
-//#ifdef ADHOC
+//#if SERVICE_DISCOVERY && ADHOC
 import xmpp.extensions.IQCommands;
 //#endif
 
@@ -1615,7 +1615,7 @@ public class Roster
 
         theStream.addBlockListener(new IqLast());
         theStream.addBlockListener(new IqTimeReply());
-//#ifdef ADHOC
+//#if SERVICE_DISCOVERY && ADHOC
         if (midlet.BombusQD.cf.adhoc) {
             theStream.addBlockListener(new IQCommands());
         }

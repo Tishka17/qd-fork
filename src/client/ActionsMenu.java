@@ -25,6 +25,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
+
 package client;
 
 import alert.AlertCustomize;
@@ -40,16 +41,13 @@ import conference.QueryConfigForm;
 import conference.affiliation.AffiliationItem;
 import conference.affiliation.AffiliationList;
 import conference.affiliation.QuickPrivelegyEditForm;
+//#if SERVICE_DISCOVERY && ADHOC
 import disco.ServiceDiscovery;
-//#ifdef HISTORY
-import history.HistoryConfigForm;
 //#endif
 import images.ActionsIcons;
-//#ifdef FILE_IO
-//#ifdef FILE_TRANSFER
+//#if FILE_IO && FILE_TRANSFER
 import io.file.transfer.TransferImage;
 import io.file.transfer.TransferSendFile;
-//#endif
 //#endif
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
@@ -196,7 +194,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                 }
 //#endif
                 addItem(SR.get(SR.MS_CLIENT_INFO), MI_VERSION, ActionsIcons.ICON_VERSION);
-//#ifdef SERVICE_DISCOVERY
+//#if SERVICE_DISCOVERY && ADHOC
                 addItem(SR.get(SR.MS_COMMANDS), MI_COMMANDS, ActionsIcons.ICON_COMMAND);
 //#endif
             }
@@ -301,8 +299,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                 }
 //#endif
 
-//#ifdef FILE_IO
-//#ifdef FILE_TRANSFER
+//#if FILE_IO && FILE_TRANSFER
                 if (groupType != Groups.TYPE_TRANSP && midlet.BombusQD.cf.fileTransfer) {
                     if (groupType != Groups.TYPE_SELF) {
                         addItem(SR.get(SR.MS_SEND_FILE), MI_SEND_FILE, ActionsIcons.ICON_SEND_FILE);
@@ -314,7 +311,6 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                         }
                     }
                 }
-//#endif
 //#endif
             }
         } else {
@@ -516,7 +512,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                     return;
                 }
 //#endif
-//#ifdef SERVICE_DISCOVERY
+//#if SERVICE_DISCOVERY && ADHOC
                 case MI_COMMANDS:
                     new ServiceDiscovery(display, contact.getJid(), "http://jabber.org/protocol/commands", false);
                     return;
@@ -611,15 +607,13 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                 case MI_SEND_PRESENCE:
                     new StatusSelect(display, parentView, contact);
                     return;
-//#ifdef FILE_IO
-//#ifdef FILE_TRANSFER
+//#if FILE_IO && FILE_TRANSFER
                  case MI_SEND_FILE:
                      new TransferSendFile(display, parentView, contact.getNickJid());
                      return;
                 case MI_SEND_PHOTO:
                     new TransferImage(display, parentView, contact.getNickJid());
                     return;
-//#endif
 //#endif
             }
             if (isMucContact) {

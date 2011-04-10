@@ -116,16 +116,16 @@ public class EntityCaps implements JabberBlockListener{
         
         if (midlet.BombusQD.cf.eventComposing)
             features.addElement("http://jabber.org/protocol/chatstates"); //xep-0085
-//#ifdef ADHOC
+//#if SERVICE_DISCOVERY && ADHOC
         if (midlet.BombusQD.cf.adhoc)
             features.addElement("http://jabber.org/protocol/commands"); //xep-0050
 //#endif
         features.addElement("http://jabber.org/protocol/disco#info");
- //#ifdef FILE_TRANSFER
+//#if FILE_IO && FILE_TRANSFER
         if (midlet.BombusQD.cf.fileTransfer) {
             features.addElement("http://jabber.org/protocol/ibb");
         }
- //#endif
+//#endif
 //#ifdef PEP
          if (midlet.BombusQD.cf.sndrcvmood) {
             features.addElement("http://jabber.org/protocol/mood");
@@ -135,12 +135,12 @@ public class EntityCaps implements JabberBlockListener{
 //#ifndef WMUC
         features.addElement("http://jabber.org/protocol/muc");
 //#endif
- //#ifdef FILE_TRANSFER
+//#if FILE_IO && FILE_TRANSFER
         if (midlet.BombusQD.cf.fileTransfer) {
             features.addElement("http://jabber.org/protocol/si");
             features.addElement("http://jabber.org/protocol/si/profile/file-transfer");
         }
- //#endif
+//#endif
 //#ifdef PEP
 //#ifdef PEP
          if (midlet.BombusQD.cf.rcvtune) {

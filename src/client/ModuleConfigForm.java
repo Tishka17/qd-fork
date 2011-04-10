@@ -58,8 +58,9 @@ public class ModuleConfigForm extends DefForm {
     private CheckBox showTransports;
 //#ifdef CLIENTS_ICONS
 //#     private CheckBox showClientIcon;
+//#     private CheckBox iconsLeft;
 //#endif
-    private CheckBox iconsLeft;
+    
     private CheckBox ignore;
     private CheckBox autoFocus;
     private CheckBox showResources;
@@ -131,7 +132,7 @@ public class ModuleConfigForm extends DefForm {
     private CheckBox gradient_cursor;
     private CheckBox showBaloons;
 //#ifdef POPUPS
-//#     private CheckBox popUps;
+    private CheckBox popUps;
 //#endif
 //#ifdef MEMORY_MONITOR
 //#     private CheckBox memMon;
@@ -165,8 +166,8 @@ public class ModuleConfigForm extends DefForm {
 //#ifdef FILE_TRANSFER
     private CheckBox fileTransfer;
 //#endif
-//#ifdef ADHOC
-//#     private CheckBox adhoc;
+//#if SERVICE_DISCOVERY && ADHOC
+    private CheckBox adhoc;
 //#endif
     private NumberInput reconnectCount;
     private NumberInput reconnectTime;
@@ -223,10 +224,9 @@ public class ModuleConfigForm extends DefForm {
 //#ifdef CLIENTS_ICONS
 //#                 showClientIcon = new CheckBox(SR.get(SR.MS_SHOW_CLIENTS_ICONS), config.showClientIcon);
 //#                 addControl(showClientIcon);
+//#                 iconsLeft = new CheckBox(SR.get(SR.MS_CLIENT_ICONS_LEFT), config.iconsLeft);
+//#                 addControl(iconsLeft);
 //#endif
-
-                iconsLeft = new CheckBox(SR.get(SR.MS_CLIENT_ICONS_LEFT), config.iconsLeft);
-                addControl(iconsLeft);
 
                 ignore = new CheckBox(SR.get(SR.MS_IGNORE_LIST), config.ignore);
                 addControl(ignore);
@@ -333,16 +333,16 @@ public class ModuleConfigForm extends DefForm {
             if (config.userAppLevel == 1) {
 //#ifdef PEP
 //#                 addControl(new SimpleString(SR.get(SR.MS_PEP), true));
-//# 
+//#
 //#                 sndrcvmood = new CheckBox(SR.get(SR.MS_USERMOOD), config.sndrcvmood);
 //#                 addControl(sndrcvmood);
-//# 
+//#
 //#                 rcvtune = new CheckBox(SR.get(SR.MS_USERTUNE), config.rcvtune);
 //#                 addControl(rcvtune);
-//# 
+//#
 //#                 rcvactivity = new CheckBox(SR.get(SR.MS_USERACTIVITY), config.rcvactivity);
 //#                 addControl(rcvactivity);
-//# 
+//#
 //#                 addControl(new SpacerItem(10));
 //#endif
             }
@@ -371,13 +371,13 @@ public class ModuleConfigForm extends DefForm {
             addControl(nokiaReconnectHack);
 
             if (config.userAppLevel == 1) {
-//#ifdef FILE_TRANSFER
+//#if FILE_TRANSFER
                 fileTransfer = new CheckBox(SR.get(SR.MS_FILE_TRANSFERS), config.fileTransfer);
                 addControl(fileTransfer);
 //#endif
-//#ifdef ADHOC
-//#             adhoc = new CheckBox(SR.get(SR.MS_ADHOC), config.adhoc);
-//#             addControl(adhoc);
+//#if SERVICE_DISCOVERY && ADHOC
+            adhoc = new CheckBox(SR.get(SR.MS_ADHOC), config.adhoc);
+            addControl(adhoc);
 //#endif
             }
         } else if (type.equals(SR.get(SR.MS_grStr))) {
@@ -424,7 +424,7 @@ public class ModuleConfigForm extends DefForm {
 //#             backImgType.setSelectedIndex(Config.backImgType);
 //#endif
 //#             addControl(backImgType);
-//# 
+//#
 //#ifdef FILE_IO
 //#             backImgPath = new PathSelector(SR.get(SR.MS_BACK_IMG_PATH), Config.backImgPath, PathSelector.TYPE_FILE);
 //#             addControl(backImgPath);
@@ -453,8 +453,8 @@ public class ModuleConfigForm extends DefForm {
             addControl(showTimeAndTraffic);
 
 //#ifdef POPUPS
-//#             popUps = new CheckBox(SR.get(SR.MS_POPUPS), config.popUps);
-//#             addControl(popUps);
+            popUps = new CheckBox(SR.get(SR.MS_POPUPS), config.popUps);
+            addControl(popUps);
 //#endif
 
             showBaloons = new CheckBox(SR.get(SR.MS_SHOW_BALLONS), config.showBalloons);
@@ -582,8 +582,9 @@ public class ModuleConfigForm extends DefForm {
                 config.showResources = showResources.getValue();
 //#ifdef CLIENTS_ICONS
 //#                 config.showClientIcon = showClientIcon.getValue();
+//#                 config.iconsLeft = iconsLeft.getValue();
 //#endif
-                config.iconsLeft = iconsLeft.getValue();
+               
                 config.ignore = ignore.getValue();
             }
 
@@ -664,11 +665,11 @@ public class ModuleConfigForm extends DefForm {
             config.nokiaReconnectHack = nokiaReconnectHack.getValue();
 
             if(config.userAppLevel == 1) {
-//#ifdef FILE_TRANSFER
+//#if FILE_IO && FILE_TRANSFER
                 config.fileTransfer = fileTransfer.getValue();
 //#endif
-//#ifdef ADHOC
-//#             config.adhoc = adhoc.getValue();
+//#if SERVICE_DISCOVERY && ADHOC
+            config.adhoc = adhoc.getValue();
 //#endif
             }
             EntityCaps.initCaps();
@@ -700,7 +701,7 @@ public class ModuleConfigForm extends DefForm {
 
             Config.showTimeTraffic = showTimeAndTraffic.getValue();
 //#ifdef POPUPS
-//#             config.popUps = popUps.getValue();
+            config.popUps = popUps.getValue();
 //#endif
             config.showBalloons = showBaloons.getValue();
             config.gradient_cursor = gradient_cursor.getValue();

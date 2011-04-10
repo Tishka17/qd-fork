@@ -21,6 +21,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+//#if LIGHT_CONTROL
 package light;
 
 import client.Config;
@@ -156,3 +157,4 @@ public class LightConfigForm extends DefForm {
         destroyView();
     }
 }
+//#endif

@@ -64,7 +64,7 @@ public class ConfigForm extends DefForm implements MenuListener {
 //#endif
         addControl(new PluginBox(SR.get(SR.MS_AVATARS), config.module_avatars, PluginBox.AVATARS));
 //#ifdef HISTORY
-        addControl(new PluginBox(SR.get(SR.MS_historyStr), config.module_history, PluginBox.HISTORY));
+        addControl(new PluginBox(SR.get(SR.MS_HISTORY), config.module_history, PluginBox.HISTORY));
 //#endif
 
 //#ifdef IMPORT_EXPORT
@@ -113,7 +113,7 @@ public class ConfigForm extends DefForm implements MenuListener {
 //#             }
 //#endif
 //#ifdef HISTORY
-        } else if (text.equals(SR.get(SR.MS_historyStr))) {
+        } else if (text.equals(SR.get(SR.MS_HISTORY))) {
             if (!config.module_history) {
                 return null;
             }
@@ -156,7 +156,7 @@ public class ConfigForm extends DefForm implements MenuListener {
             display.setCurrent(new ui.keys.UserKeysList(display));
 //#endif
 //#ifdef HISTORY
-        } else if (type.equals(SR.get(SR.MS_historyStr))) {
+        } else if (type.equals(SR.get(SR.MS_HISTORY))) {
             display.setCurrent(new HistoryConfigForm(display, this));
 //#endif
         } else if (type.equals(SR.get(SR.MS_fontsStr))) {

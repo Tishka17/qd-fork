@@ -151,7 +151,7 @@ public class Commands {
 //#endif
 
 //#ifdef HISTORY
-        cmdHistory = new Command(SR.get(SR.MS_historyStr), Command.SCREEN, 101);
+        cmdHistory = new Command(SR.get(SR.MS_HISTORY), Command.SCREEN, 101);
         cmdHistory.setImg(0x64);
 //#endif
 

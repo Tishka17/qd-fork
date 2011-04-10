@@ -11,6 +11,7 @@
  * @author Vladimir Krukov
  */
 
+//#if LIGHT_CONTROL
 package light;
 
 import client.Config;
@@ -336,3 +337,4 @@ public final class CustomLight extends TimerTask {
         }
     }
 }
+//#endif

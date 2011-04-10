@@ -39,8 +39,8 @@ import font.*;
 import util.StringUtils;
 
 public class PopUp {
-    private final static int TYPE_SYSTEM = 1;
-    private final static int TYPE_MESSAGE = 2;
+    public final static int TYPE_SYSTEM = 1;
+    public final static int TYPE_MESSAGE = 2;
 
     private final static int COLOR_ALERT_INK = 0xffffff;
     private final static int COLOR_ALERT_BGND = 0xff0000;

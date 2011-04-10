@@ -120,7 +120,7 @@ public class InputTextBox extends TextBox implements CommandListener {
                 notify.okNotify(getString());
             }
 
-            if (id != null) {
+            if (id != null && getString().length() > 0) {
                 addToRecentList(getString());
                 saveRecentList();
             }
@@ -173,6 +173,13 @@ public class InputTextBox extends TextBox implements CommandListener {
     }
 
     private void addToRecentList(String text) {
+        if (!recentList.isEmpty()) {
+            String prev = (String)recentList.firstElement();
+            if (prev.equals(text)) {
+                return;
+            }
+        }       
+
         recentList.insertElementAt(text, 0);
         if (recentList.size() > MAX_RECENT_ELEMENTS) {
             recentList.removeElementAt(MAX_RECENT_ELEMENTS);

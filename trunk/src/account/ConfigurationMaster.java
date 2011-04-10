@@ -42,7 +42,7 @@ public class ConfigurationMaster {
         SR.get(SR.MS_DELIVERY),
         SR.get(SR.MS_FILE_TRANSFERS),
         SR.get(SR.MS_CONFIRM_EXIT),
-        SR.get(SR.MS_historyStr),
+        SR.get(SR.MS_HISTORY),
         SR.get(SR.MS_SUCCESS)
     };
 

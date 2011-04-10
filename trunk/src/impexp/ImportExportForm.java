@@ -24,8 +24,8 @@
  * along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-//#ifdef IMPORT_EXPORT
-//#ifdef FILE_IO
+
+//#if IMPORT_EXPORT && FILE_IO
 package impexp;
 
 import io.file.browse.Browser;
@@ -105,9 +105,8 @@ public class ImportExportForm extends Menu implements BrowserListener {
                 break;
         }
 //#ifdef POPUPS
-//#         setWobble(3, null, SR.get(SR.MS_DONE));
+        setWobble(3, null, SR.get(SR.MS_DONE));
 //#endif
     }
 }
-//#endif
 //#endif

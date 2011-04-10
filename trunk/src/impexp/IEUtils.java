@@ -21,7 +21,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-//#if IMPORT_EXPORT && ARCHIVE && FILE_IO
+//#if IMPORT_EXPORT && FILE_IO
 package impexp;
 
 import io.file.FileIO;

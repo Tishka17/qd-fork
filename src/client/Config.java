@@ -806,8 +806,9 @@ public class Config {
             outputStream.writeBoolean(createMessageByFive);
             outputStream.writeBoolean(gradientBarLigth);
             outputStream.writeBoolean(shadowBar);
+//#if LIGHT_CONTROL
             outputStream.writeBoolean(lightControl);
-
+//#endif
             outputStream.writeBoolean(simpleContacts);
             outputStream.writeInt(minItemHeight);
 

@@ -10,7 +10,6 @@ xa	давно отсутствую
 invisible	невидимка
 dnd	занят
 offline	не в сети
-Jid	Jid
 Privacy Lists	Серверные списки
 Message font	Шрифт сообщения
 Roster font	Шрифт ростера
@@ -97,8 +96,6 @@ heap monitor	монитор памяти(heap)
 change softkeys	поменять местами софт-кнопки
 Message	Сообщение
 <Other>	<Другой>
-history -	включить историю
-Append	Добавить
 Active Contacts	Актив. контакты
 Select nickname	Выбрать ник
 Group	Группа
@@ -206,10 +203,6 @@ error	ошибка
 Select history folder	Выбор папки истории
 Sound volume	Громкость звука
 Language	Язык
-Save history	сохранять историю
-Save presences	сохранять статусы
-Save conference history	сохранять историю конференции
-Save conference presences	сохранять статусы конференции
 History folder	Папка истории
 Copy	Копировать
 Paste	Вставить
@@ -233,7 +226,6 @@ Rejected	Отменено
 Send file	Послать файл
 Can't open file	Невозможно открыть файл
 New	Новый
-New Template	Новый шаблон
 Save photo	Сохранить фото
 balloon ink	Шрифт баллона
 balloon background	Фон баллона
@@ -476,7 +468,6 @@ User moods	Настроение
 User activity	Действие
 Personal events not supported	PEP не поддерживается
 User tune	Музыка
-user tune receive	инфо о музыке
 Bar font	Шрифт панелей
 Popup & ballon font	Шрифт попапов и баллунов
 Fonts options	Шрифты
@@ -523,17 +514,15 @@ Stats users for	Статистика юзеров
 Change password	Сменить пароль
 Remove from server	Удалить с сервера
 New password	Новый пароль
-To Clipboard	Копировать
 Add Search Query	Запрос поиска
 Find Text	Найти!
 End search!	Поиск окончен!
 Turn OFF Message Icon	Убрать иконки сообщения
 Autoloading vcard from server	Автозагрузка аватар с сервера
 Autoloading vcard from FS Phone	Автозагрузка аватар с ФС телефона
-Your text not found!	Текст не найден!
+Not found!	Не найдено!
 Generate	Сгенерировать
 Delete all statuses	Удалить все статусы
-Colored Bold String in chat(+many others strings)	Выделение ников цветом в чате(+включая другие строки)
 Autosave cursor position in chat	Автосохранение позиции курсора в чате
 Background Jimm image	Фоновая картинка Jimm
 Background image	Фоновая картинка

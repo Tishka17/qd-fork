@@ -56,7 +56,7 @@ public final class AffiliationEditForm extends DefForm {
 
         this.room = room;
 
-        jidItem = new TextInput(display, SR.get(SR.MS_JID), jid, null, TextField.ANY);
+        jidItem = new TextInput(display, "JID", jid, null, TextField.ANY);
         itemsList.addElement(jidItem);
 
         affiliationItem = new DropChoiceBox(display, SR.get(SR.MS_SET_AFFILIATION));

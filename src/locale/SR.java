@@ -39,7 +39,7 @@ public class SR {
      public final static short MS_INVISIBLE  = 6; //invisible
      public final static short MS_DND  = 7; //dnd
      public final static short MS_OFFLINE  = 8; //offline
-     public final static short MS_JID  = 9; //Jid
+     //public final static short MS_JID  = 9; //Jid
      public final static short MS_PRIVACY_LISTS  = 10; //Privacy Lists
      public final static short MS_MESSAGE_FONT  = 11; //Message font
      public final static short MS_ROSTER_FONT  = 12; //Roster font
@@ -129,7 +129,7 @@ public class SR {
      public final static short MS_KEYS_FOR_OLD_SE = 96; //change softkeys
      public final static short MS_MESSAGE  = 97; //Message
      public final static short MS_OTHER  = 98; //<Other>
-     public final static short MS_APPEND  = 99; //Append
+     //public final static short MS_APPEND  = 99; //Append
      public final static short MS_ACTIVE_CONTACTS  = 100; //Active Contacts
      public final static short MS_SELECT_NICKNAME  = 101; //Select nickname
      public final static short MS_GROUP  = 102; //Group
@@ -242,10 +242,10 @@ public class SR {
      public final static short MS_SELECT_HISTORY_FOLDER = 209; //Select history folder
      public final static short MS_SOUND_VOLUME = 210; //Sound volume
      public final static short MS_LANGUAGE = 211; //Language
-     public final static short MS_SAVE_HISTORY = 212; //Save history
-     public final static short MS_SAVE_PRESENCES = 213; //Save presences
-     public final static short MS_SAVE_HISTORY_CONF = 214; //Save conference history
-     public final static short MS_SAVE_PRESENCES_CONF = 215; //Save conference presences
+     //public final static short MS_SAVE_HISTORY = 212; //Save history
+     //public final static short MS_SAVE_PRESENCES = 213; //Save presences
+     //public final static short MS_SAVE_HISTORY_CONF = 214; //Save conference history
+     //public final static short MS_SAVE_PRESENCES_CONF = 215; //Save conference presences
      //public final static short MS_1251_CORRECTION = 216; //convert to cp1251
      public final static short MS_HISTORY_FOLDER = 217; //History folder
      public final static short MS_COPY = 218; //Copy
@@ -274,7 +274,7 @@ public class SR {
      public final static short MS_SEND_FILE = 241; //Send file
      public final static short MS_CANT_OPEN_FILE = 242; //Can't open file
      public final static short MS_NEW = 243; //New
-     public final static short MS_NEW_TEMPLATE = 244; //New Template
+     //public final static short MS_NEW_TEMPLATE = 244; //New Template
      public final static short MS_SAVE_PHOTO = 245; //Save photo
      public final static short MS_BALLOON_INK = 246; //balloon ink
      public final static short MS_BALLOON_BGND = 247; //balloon background
@@ -577,7 +577,7 @@ public class SR {
      public final static short MS_NEW_PASSWORD  = 544; //New password
      //public final static short MS_SEND_EVIL_MSG  = 545; //Send Evil Message
      //public final static short MS_ADD_SEL_TO_ARCHIVE  = 546; //save selection to archive
-     public final static short MS_COPY_CLIPBOARD  = 547; //To Clipboard
+     //public final static short MS_COPY_CLIPBOARD  = 547; //To Clipboard
      //public final static short MS_COLLAPS_ALL  = 548; //Collapse All
      public final static short MS_ADD_SEARCH_QUERY  = 549; //Add Search Query
      public final static short MS_FIND_TEXT  = 550; //Find Text
@@ -593,7 +593,7 @@ public class SR {
      //public final static short MS_ACTIVITY  = 560; //MyActivity
      //public final static short MS_UPDATE_PEP  = 561; //Update Moods+Actions+Music
      //public final static short MS_STOP_MUSIC  = 562; //Stop Music
-     public final static short MS_NOT_FOUND  = 563; //Your text not found!
+     public final static short MS_NOT_FOUND  = 563; //Not found!
      //public final static short MS_UP_MOODS  = 564; //Send my Moods+Actions(PEP) to all contacts(YES-recommended)?
      //public final static short MS_DRAWED_FONT  = 565; //Drawed font
      //public final static short MS_REQUIRED_FIELDS  = 566; //Required field
@@ -602,7 +602,7 @@ public class SR {
      //public final static short MS_FILL_VCARD_FIELDS  = 569; //Fill Required field(Full name,nickname and birthday)
      //public final static short MS_TRANSLATE_  = 570; //Translate
      public final static short MS_DELETE_ALL_STATUSES  = 571; //Delete all statuses
-     public final static short MS_BOLD_AND_COLORS_NICKS  = 572; //Colored Bold String in chat(+many others strings)
+     //public final static short MS_BOLD_AND_COLORS_NICKS  = 572; //Colored Bold String in chat(+many others strings)
      public final static short MS_SAVE_CURSOR  = 573; //Autosave cursor position in chat
      //public final static short MS_MSG_BY_ME = 574; //Messages,sended by me
      //public final static short MS_MSG_ME = 575; //Messages with /me
@@ -678,7 +678,7 @@ public class SR {
      //public final static short MS_clchatStr_  = 645; //Classic Chat
      public final static short MS_COLOR_SCHEMES  = 646; //Color Themes
      //public final static short MS_casheStr  = 647; //Cashe
-     public final static short MS_historyStr  = 648; //History
+     public final static short MS_HISTORY  = 648; //History
      public final static short MS_fontsStr  = 649; //Fonts
      //public final static short MS_IMPORT_EXPORT_ = 650; //Import/Export
      //public final static short MS_ieStr_  = 651; //Import/Export
@@ -802,7 +802,7 @@ public class SR {
         "invisible",
         "dnd",
         "offline",
-        "Jid",
+        null,
         "Privacy Lists",
         "Message font",
         "Roster font",
@@ -892,7 +892,7 @@ public class SR {
         "change softkeys",
         "Message",
         "<Other>",
-        "Append",
+        null,
         "Active Contacts",
         "Select nickname",
         "Group",
@@ -1005,10 +1005,10 @@ public class SR {
         "Select history folder",
         "Sound volume",
         "Language",
-        "Save history",
-        "Save presences",
-        "Save conference history",
-        "Save conference presences",
+        null,
+        null,
+        null,
+        null,
         null,
         "History folder",
         "Copy",
@@ -1023,8 +1023,8 @@ public class SR {
         "Add status",
         "Remove status",
         "Address",
-        "Make BackUp",
-        "Import from BackUp",
+        null,
+        null,
         "View",
         "Stop",
         "File transfers",
@@ -1340,7 +1340,7 @@ public class SR {
         "New password",
         null,
         null,
-        "To Clipboard",
+        null,
         null,
         "Add Search Query",
         "Find Text",
@@ -1356,7 +1356,7 @@ public class SR {
         null,
         null,
         null,
-        "Your text not found!",
+        "Not found!",
         null,
         null,
         null,
@@ -1365,7 +1365,7 @@ public class SR {
         null,
         null,
         "Delete all statuses",
-        "Colored Bold String in chat(+many others strings)",
+        null,
         "Autosave cursor position in chat",
         null,
         null,

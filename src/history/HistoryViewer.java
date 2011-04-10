@@ -27,12 +27,14 @@ package history;
 import client.Config;
 import client.Contact;
 import client.Msg;
+import images.MenuIcons;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.Vector;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
+import javax.microedition.lcdui.TextField;
 import javax.microedition.rms.RecordEnumeration;
 import javax.microedition.rms.RecordStore;
 import javax.microedition.rms.RecordStoreException;
@@ -42,27 +44,39 @@ import menu.Command;
 import message.MessageList;
 import midlet.Commands;
 import ui.MainBar;
+import ui.controls.PopUp;
+import ui.input.InputTextBox;
+import ui.input.InputTextBoxNotify;
 //#ifdef CLIPBOARD
 import util.ClipBoard;
 //#endif
 
-public class HistoryViewer extends MessageList implements Runnable {
+public class HistoryViewer extends MessageList implements Runnable, InputTextBoxNotify {
+    private static final String RECENT_LIST_ID = "history-srch";
+
     private Vector elements;
     private RecordStore store;
     private String storeName;
 
     private Thread thread;
 
+    private Command cmdFind;
+    private Command cmdClear;
+
     public HistoryViewer(Display display, Displayable pView, Contact contact) {
         super();
 
         elements = new Vector();
 
+        cmdFind = new Command(SR.get(SR.MS_SEARCH), Command.SCREEN, 0);
+        cmdFind.setImg(MenuIcons.ICON_SEARCH);
+
+        cmdClear = new Command(SR.get(SR.MS_CLEAR), Command.SCREEN, 0);
+        cmdClear.setImg(MenuIcons.ICON_CLEAR);
+
         setCommandListener(this);
 
-        moveCursorHome();
-
-        setMainBarItem(new MainBar(SR.get(SR.MS_historyStr)));
+        setMainBarItem(new MainBar(SR.get(SR.MS_HISTORY)));
 
         attachDisplay(display);
         this.parentView = pView;
@@ -108,37 +122,47 @@ public class HistoryViewer extends MessageList implements Runnable {
                 }
             }
             closeRecordStore();
-        } catch (RecordStoreNotOpenException e) {
-            // empty;
-        }
-        setMainBarItem(new MainBar(SR.get(SR.MS_historyStr) + " [" + storeSize + "]"));
+        } catch (RecordStoreNotOpenException e) {}
+        setMainBarItem(new MainBar(SR.get(SR.MS_HISTORY) + " [" + storeSize + "]"));
         redraw();
+    }
+
+    private int findString(String query) {
+        for (int i = (cursor + 1); i < getItemCount(); ++i) {
+            Msg msg = getMessage(i);
+            if (msg.body.indexOf(query) >= 0) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private boolean deleteHistory() {
+        try {
+            RecordStore.deleteRecordStore(storeName);
+            return true;
+        } catch (RecordStoreException e) {}
+        return false;
     }
 
     private void closeRecordStore() {
         try {
             store.closeRecordStore();
-        } catch (RecordStoreException e) {
-            // empty;
-        }
+        } catch (RecordStoreException e) {}
     }
 
     public void commandState() {
-//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
-//#endif
-
-//#ifndef GRAPHICS_MENU
-//#      addCommand(cmdBack);
-//#endif
+        addCommand(cmdFind);
 //#ifdef CLIPBOARD
-        if (Config.getInstance().useClipBoard) {
+        if (Config.useClipBoard) {
             addCommand(Commands.cmdCopy);
             if (!ClipBoard.isEmpty()) {
                 addCommand(Commands.cmdCopyPlus);
             }
         }
 //#endif
+        addCommand(cmdClear);
     }
 
     public int getItemCount() {
@@ -150,7 +174,30 @@ public class HistoryViewer extends MessageList implements Runnable {
     }
 
     public void commandAction(Command c, Displayable d) {
-        super.commandAction(c, d);
+        if (c == cmdFind) {
+            InputTextBox input = new InputTextBox(SR.get(SR.MS_SEARCH), null, RECENT_LIST_ID, 200, TextField.ANY);
+            input.setNotifyListener(this);
+            input.show();
+        } else if (c == cmdClear) {
+            if (deleteHistory()) {
+                destroyView();
+            } else {
+                setWobble(PopUp.TYPE_SYSTEM, null, SR.get(SR.MS_ERROR));
+            }
+        } else {
+            super.commandAction(c, d);
+        }
+    }
+
+    public void okNotify(String text) {
+        if (text.length() > 0) {
+            int index = findString(text);
+            if (index >= 0) {
+                moveCursorTo(index);
+            } else {
+                setWobble(PopUp.TYPE_SYSTEM, null, SR.get(SR.MS_NOT_FOUND));
+            }
+        }
     }
 
     public void destroyView() {

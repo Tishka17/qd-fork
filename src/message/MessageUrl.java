@@ -64,6 +64,7 @@ public class MessageUrl extends Menu implements MenuListener {
 	}
 
         cmdEdit = new Command(SR.get(SR.MS_EDIT), Command.ITEM, 0);
+        cmdEdit.setImg(0x40);
 
 	attachDisplay(display);
     }

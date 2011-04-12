@@ -129,7 +129,11 @@ public class ActivityText extends DefForm {
             midlet.BombusQD.cf.saveToStorage();
             setActivity=null;
             action=null;
-         } catch (Exception e) {e.printStackTrace(); }   
+         } catch (Exception e) {
+//#ifdef DEBUG
+//#             e.printStackTrace();
+//#endif
+         }
 
    }     
 }

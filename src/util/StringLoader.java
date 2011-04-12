@@ -111,13 +111,21 @@ public class StringLoader {
         		if (indexTo<0) indexTo=line.length();
         		if (indexFrom<indexTo) cell=line.substring(indexFrom, indexTo);
         		indexFrom=indexTo+1;
-        	    } catch (Exception e) { e.printStackTrace(); }
+        	    } catch (Exception e) {
+//#ifdef DEBUG
+//#                         e.printStackTrace();
+//#endif
+                    }
         	    
         	    table[i].addElement( cell );
         	}
             }
             in.close();
-        } catch (Exception e)	{ e.printStackTrace();}
+        } catch (Exception e)	{
+//#ifdef DEBUG
+//#             e.printStackTrace();
+//#endif
+        }
         return table;
     }
 
@@ -411,7 +419,11 @@ public class StringLoader {
                     key=line.substring(0, indexTab);
                     value=line.substring(indexTab+1, line.length() );
                     hash.put(key, value);
-                } catch (Exception e) { e.printStackTrace(); }
+                } catch (Exception e) {
+//#ifdef DEBUG
+//#                     e.printStackTrace();
+//#endif
+                }
             }
             in.close();
         } catch (Exception e)	{ /* Empty file or not found */}

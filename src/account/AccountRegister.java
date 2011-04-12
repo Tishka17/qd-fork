@@ -78,7 +78,9 @@ public class AccountRegister
             theStream.setJabberListener(this);
             theStream.initiateStream();
         } catch (Exception e) {
-            e.printStackTrace();
+//#ifdef DEBUG
+//#             e.printStackTrace();
+//#endif
             splash.setFailed();
         }
 
@@ -89,7 +91,9 @@ public class AccountRegister
 
     public void connectionTerminated(Exception e) {
         if (e != null) {
-            e.printStackTrace();
+//#ifdef DEBUG
+//#             e.printStackTrace();
+//#endif
         }
     }
 

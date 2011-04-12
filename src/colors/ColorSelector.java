@@ -390,9 +390,6 @@ public class ColorSelector extends DefForm implements Runnable {
         String val = ColorTheme.ColorToString(red, green, blue);
         int finalColor = ColorTheme.getColorInt(val);
 
-        System.out.println(red + green + blue);
-        System.out.println(finalColor);
-
         item.setColor(finalColor);
 
         ColorTheme.setColor(item.getIndex(), finalColor);

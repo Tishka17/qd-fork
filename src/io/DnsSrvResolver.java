@@ -111,7 +111,9 @@ public class DnsSrvResolver {
 
             return true;
         } catch (Exception e) { 
-            e.printStackTrace();
+//#ifdef DEBUG
+//#             e.printStackTrace();
+//#endif
         }
 
         return false;

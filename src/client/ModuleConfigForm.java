@@ -333,16 +333,16 @@ public class ModuleConfigForm extends DefForm {
             if (config.userAppLevel == 1) {
 //#ifdef PEP
 //#                 addControl(new SimpleString(SR.get(SR.MS_PEP), true));
-//#
+//# 
 //#                 sndrcvmood = new CheckBox(SR.get(SR.MS_USERMOOD), config.sndrcvmood);
 //#                 addControl(sndrcvmood);
-//#
+//# 
 //#                 rcvtune = new CheckBox(SR.get(SR.MS_USERTUNE), config.rcvtune);
 //#                 addControl(rcvtune);
-//#
+//# 
 //#                 rcvactivity = new CheckBox(SR.get(SR.MS_USERACTIVITY), config.rcvactivity);
 //#                 addControl(rcvactivity);
-//#
+//# 
 //#                 addControl(new SpacerItem(10));
 //#endif
             }
@@ -424,7 +424,7 @@ public class ModuleConfigForm extends DefForm {
 //#             backImgType.setSelectedIndex(Config.backImgType);
 //#endif
 //#             addControl(backImgType);
-//#
+//# 
 //#ifdef FILE_IO
 //#             backImgPath = new PathSelector(SR.get(SR.MS_BACK_IMG_PATH), Config.backImgPath, PathSelector.TYPE_FILE);
 //#             addControl(backImgPath);
@@ -636,7 +636,6 @@ public class ModuleConfigForm extends DefForm {
             if(aniSmiles != Config.animatedSmiles) {
                 // for SE
                 parser.restart();
-                System.out.println("restart parser");
             }
 //#endif
 

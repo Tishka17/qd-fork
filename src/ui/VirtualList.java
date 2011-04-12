@@ -133,7 +133,6 @@ public abstract class VirtualList
     boolean isSel=false;
 
     public void destroy() {
-        //System.out.println("    :::destroy mainbar&&infobar");
         if (null != mainbar) mainbar.destroy();
         mainbar = null;
         if (null != infobar) infobar.destroy();
@@ -366,7 +365,9 @@ public abstract class VirtualList
                        f.close();
                }
            } catch (Exception e) {
-               e.printStackTrace();
+//#ifdef DEBUG
+//#                 e.printStackTrace();
+//#endif
 //#ifdef DEBUG_CONSOLE
 //#               midlet.BombusQD.debug.add("VL -> createImage Exception: "+e.getMessage(),10);
 //#endif
@@ -870,9 +871,6 @@ public abstract class VirtualList
    public void pageLeft() {
         if (getItemCount()==0)
             return;
-//#ifdef DEBUG
-//#         System.out.println("keyLeft");
-//#endif
         try {
             stickyWindow=false;
             win_top-=winHeight;
@@ -894,9 +892,6 @@ public abstract class VirtualList
     public void pageRight() {
         if (getItemCount()==0)
             return;
-//#ifdef DEBUG
-//#         System.out.println("keyRight");
-//#endif
         try {
             stickyWindow=false;
             win_top+=winHeight;
@@ -923,9 +918,6 @@ public abstract class VirtualList
     public void keyUp() {
         if (getItemCount()==0)
             return;
-//#ifdef DEBUG
-//# 	System.out.println("keyUp");
-//#endif
         if (cursor<=0) {
             if (wrapping) {
                 if (getItemRef(getItemCount()-1).isSelectable())
@@ -952,9 +944,6 @@ public abstract class VirtualList
     public void keyDwn() {
         if (getItemCount()==0)
             return;
-//#ifdef DEBUG
-//#         System.out.println("keyDwn");
-//#endif
 	if (cursor==(getItemCount()-1)) {
             if (wrapping) {
                 moveCursorHome();
@@ -1720,13 +1709,8 @@ public abstract class VirtualList
          repaint();
      }
      else{
-
-//#if DEBUG
-//#    System.out.println(keyCode);
-//#endif
 //#ifdef POPUPS
         if (keyCode==greenKeyCode) {
-           System.out.println("popupGreen");
             if (getPopUp().getContact()!=null) {
 //#ifdef CLASSIC_CHAT
 //#                    if(midlet.BombusQD.cf.module_classicchat){
@@ -1880,7 +1864,9 @@ public abstract class VirtualList
                     userKeyPressed(keyCode);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+//#ifdef DEBUG
+//#                 e.printStackTrace();
+//#endif
             }
         }
         repaint();
@@ -2210,7 +2196,11 @@ public abstract class VirtualList
                 case 1: //Bookmarks
                     break;
             }
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+//#ifdef DEBUG
+//#             e.printStackTrace();
+//#endif
+        }
     }
 
 
@@ -2234,7 +2224,9 @@ public abstract class VirtualList
                     sortVector.setElementAt(left,i+1);
                 }
         } catch (Exception e) {
-            e.printStackTrace(); /* ClassCastException */
+//#ifdef DEBUG
+//#             e.printStackTrace();
+//#endif
         }
     }
 

@@ -90,7 +90,9 @@ public class SplashScreen extends Canvas implements CommandListener {
                 //this.img=img;
             }
         } catch (IOException e) {
-           System.out.println("splash NOT created ");
+//#ifdef DEBUG
+//#            System.out.println("splash NOT created ");
+//#endif
         }
     }
 

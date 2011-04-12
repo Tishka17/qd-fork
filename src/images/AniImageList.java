@@ -98,11 +98,15 @@ public class AniImageList extends ImageList implements Runnable {
             }
         }
         catch(OutOfMemoryError eom) {
-            System.out.println("Load Ani OutofMem");
+//#ifdef DEBUG
+//#             eom.printStackTrace();
+//#endif
             return false;
         }
         catch (IOException e) {
-            System.out.println("Error Loading animated.bin");
+//#ifdef DEBUG
+//#             e.printStackTrace();
+//#endif
             return false;
         }
         if (size() > 0) {

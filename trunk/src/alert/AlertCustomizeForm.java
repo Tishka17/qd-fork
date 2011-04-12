@@ -261,9 +261,6 @@ public class AlertCustomizeForm extends DefForm {
         String soundFile=(String)files[1].elementAt(selectedSound);
         String soundType=(String)files[0].elementAt(selectedSound);
         int soundVol=sndVol.getValue()*10;
-//#ifdef DEBUG
-//#         System.out.println(cursor+": "+sound+" "+soundFile+" "+soundType+" "+soundVol);
-//#endif
         new EventNotify(display, soundType, soundFile, soundVol, 0).startNotify();
     }
 

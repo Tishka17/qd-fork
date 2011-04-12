@@ -79,12 +79,13 @@
 //#         catch(OutOfMemoryError eom) {
 //#ifdef DEBUG
 //#             System.out.print("Ani OutofMem");
+//#             eom.printStackTrace();
 //#endif
 //#         }
 //#         catch (Exception e) {
 //#ifdef DEBUG
-//#             System.out.print("Can't load ");
-//#             System.out.println(resource);
+//#             System.out.print("Can't load " + resource);
+//#             e.printStackTrace();
 //#endif
 //#         }
 //#     }

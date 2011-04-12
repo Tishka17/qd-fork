@@ -533,7 +533,6 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                     BombusQD.sd.roster.theStream.send(IqLast.query(contact.getJid(), "idle"));
                     break;
                 case MI_ONLINE:
-                    System.out.println(contact.bareJid);
                     BombusQD.sd.roster.setQuerySign(true);
                     BombusQD.sd.roster.theStream.send(IqLast.query(contact.bareJid, "online_" + contact.getResource()));
                     break;

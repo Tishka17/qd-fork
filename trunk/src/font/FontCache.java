@@ -76,7 +76,6 @@ public class FontCache {
 
     private static Font getSmallFont() {
         if (small == null) {
-            System.out.println(Config.useItalic);
             small = Font.getFont(Font.FACE_PROPORTIONAL, Config.useItalic ? ITALIC : PLAIN, SMALL);
         }
         return small;
@@ -84,7 +83,6 @@ public class FontCache {
 
     private static Font getMiddleFont() {
         if (middle == null) {
-            System.out.println(Config.useItalic);
             middle = Font.getFont(Font.FACE_PROPORTIONAL, Config.useItalic ? ITALIC : PLAIN, MEDIUM);
         }
         return middle;
@@ -92,7 +90,6 @@ public class FontCache {
 
     private static Font getBigFont() {
         if (big == null) {
-            System.out.println(Config.useItalic);
             big = Font.getFont(Font.FACE_PROPORTIONAL, Config.useItalic ? ITALIC : PLAIN, LARGE);
         }
         return big;

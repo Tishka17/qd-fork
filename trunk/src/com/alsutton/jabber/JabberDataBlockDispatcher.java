@@ -96,7 +96,9 @@ public class JabberDataBlockDispatcher
               listener.destroy();
           }
           catch (Exception e) {
-              e.printStackTrace();
+//#ifdef DEBUG
+//#             e.printStackTrace();
+//#endif
           }
       }
   }
@@ -152,7 +154,9 @@ public class JabberDataBlockDispatcher
                 }
                 dataBlock.destroy();
             } catch (Exception e) {
-                //e.printStackTrace();
+//#ifdef DEBUG
+//#                 e.printStackTrace();
+//#endif
             }
     }
 
@@ -218,7 +222,9 @@ public class JabberDataBlockDispatcher
                 blockListeners = new Vector(0);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+//#ifdef DEBUG
+//#             e.printStackTrace();
+//#endif
         }
     }
 

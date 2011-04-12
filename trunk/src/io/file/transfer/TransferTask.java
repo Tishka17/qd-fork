@@ -130,7 +130,9 @@ public class TransferTask
 
                 fileSize=(int)file.fileSize();
             } catch (Exception e) {
-                e.printStackTrace();
+//#ifdef DEBUG
+//#                 e.printStackTrace();
+//#endif
                 state=ERROR;
                 errMsg=SR.get(SR.MS_CANT_OPEN_FILE);
                 showEvent=true;
@@ -183,7 +185,9 @@ public class TransferTask
             file=FileIO.createConnection(filePath+fileName);
             os=file.openOutputStream();
         } catch (Exception e) {
-            e.printStackTrace();
+//#ifdef DEBUG
+//#             e.printStackTrace();
+//#endif
             decline();
             return;
         }

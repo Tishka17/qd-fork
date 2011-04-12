@@ -316,7 +316,9 @@ public final class SelectPEP extends VirtualList implements
             action=null;
             item=null;
         } catch (Exception e) {
-            e.printStackTrace();
+//#ifdef DEBUG
+//#             e.printStackTrace();
+//#endif
         }
        midlet.BombusQD.cf.saveToStorage();//?
    } 

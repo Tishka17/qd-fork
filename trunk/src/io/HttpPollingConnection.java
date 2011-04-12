@@ -135,7 +135,9 @@ public class HttpPollingConnection implements StreamConnection {
         } catch (Exception e) {
             opened=false;
             error=e.toString();
-            e.printStackTrace();
+//#ifdef DEBUG
+//#             e.printStackTrace();
+//#endif
         }
     }
 

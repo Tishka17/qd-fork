@@ -24,6 +24,7 @@
  * along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
+
 package info;
 
 import client.Config;
@@ -33,7 +34,6 @@ import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import midlet.BombusQD;
-import ui.IconTextElement;
 import ui.controls.AlertBox;
 import ui.controls.form.DefForm;
 import ui.controls.form.LinkString;
@@ -208,6 +208,10 @@ public class InfoWindow extends DefForm {
 
         attachDisplay(display);
         this.parentView = pView;
+    }
+
+    public void cmdOk() {
+        destroyView();
     }
 
     private void showMsg() {

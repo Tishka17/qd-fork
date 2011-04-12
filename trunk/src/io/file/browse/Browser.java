@@ -52,8 +52,8 @@ import ui.IconTextElement;
 import ui.VirtualElement;
 import ui.VirtualList;
 //#ifdef GRAPHICS_MENU
-//# import ui.GMenu;
-//# import ui.GMenuConfig;
+import ui.GMenu;
+import ui.GMenuConfig;
 //#endif
 import ui.controls.AlertBox;
 
@@ -124,7 +124,7 @@ public class Browser
         addCommand(cmdRoot); cmdRoot.setImg(0x15);
         addCommand(cmdExit); cmdExit.setImg(0x33);//
 //#ifndef GRAPHICS_MENU
-     addCommand(cmdCancel);
+//#      addCommand(cmdCancel);
 //#endif
         //addCommand(cmdLoadPngSkin);
         setCommandListener(this);
@@ -268,7 +268,11 @@ public class Browser
             fio.close();
             dir.removeElement(getFocusedObject());
             redraw();
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) { 
+//#ifdef DEBUG
+//#             e.printStackTrace();
+//#endif
+        }
     }
 
     public void showFile() {
@@ -352,16 +356,16 @@ public class Browser
 //#ifdef MENU_LISTENER
 
 //#ifdef GRAPHICS_MENU
-//#     public int showGraphicsMenu() {
-//#        // commandState();
-//#         menuItem = new GMenu(display, parentView, this, null, menuCommands);
-//#         GMenuConfig.getInstance().itemGrMenu = GMenu.BROWSER;
-//#         return GMenu.BROWSER;
-//#     }
-//#else
-    public void showMenu() {
-        new MyMenu(display, parentView, this, SR.get(SR.MS_DISCO), null, menuCommands);
+    public int showGraphicsMenu() {
+       // commandState();
+        menuItem = new GMenu(display, parentView, this, null, menuCommands);
+        GMenuConfig.getInstance().itemGrMenu = GMenu.BROWSER;
+        return GMenu.BROWSER;
     }
+//#else
+//#     public void showMenu() {
+//#         new MyMenu(display, parentView, this, SR.get(SR.MS_DISCO), null, menuCommands);
+//#     }
 //#endif
 
     public void touchRightPressed() { cmdCancel(); }

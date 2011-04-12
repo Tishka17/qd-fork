@@ -1107,16 +1107,8 @@ public class Roster
         Contact c = findContact(J, true);
         if (null != c) return c;
          c = findContact(J, false);
-         Group grp = null; //System.out.println("findContact()=>" + c);
+         Group grp = null;
          if (c==null) {
-             /*
-             if (!createInNIL) return null;
-             c = new Contact(null, jid, Constants.PRESENCE_ONLINE, "none" );
-             c.origin=Contact.ORIGIN_PRESENCE;
-             grp = contactList.groups.getGroup(Groups.TYPE_NOT_IN_LIST);
-             c.setGroup(grp);
-             addContact(c);
-              */
             if (!createInNIL) {
                 J = null;
                 return null;
@@ -1126,13 +1118,6 @@ public class Roster
             c.setGroup(contactList.groups.getGroup(Groups.TYPE_NOT_IN_LIST));
             addContact(c);
          } else {
-
-            /*
-            System.out.println("   getContact=>" + jid + " C: " + c + " createInNIL: " + createInNIL + " || " + c.origin + "" +Contact.ORIGIN_ROSTER
-                + " c.group: " +c.group);
-            System.out.println("   getContact Type=>"+c.group.type+Groups.TYPE_SELF);
-             */
-
             if (c.origin == Constants.ORIGIN_ROSTER) {
                 c.origin = Constants.ORIGIN_ROSTERRES;
                 c.setStatus(Constants.PRESENCE_OFFLINE);
@@ -1145,11 +1130,9 @@ public class Roster
                  c.jid = J;
                  c.setNick(c.getNick());
                 }
-                //System.out.println("add resource");
             } else {
                 c = clone(c, J, Constants.PRESENCE_OFFLINE);
                 addContact(c);
-                //System.out.println("cloned");
             }
          }
          sortRoster(c);
@@ -1454,7 +1437,6 @@ public class Roster
                     subject,
                     groupchat
             );
-            System.out.println(to.getJid() +  "|");
 
             message.setAttribute("id", id);
 
@@ -1967,7 +1949,9 @@ public class Roster
                                 c.vcard = vc;
                             }
                         } catch(OutOfMemoryError eom){
-                              System.out.println("OutOfMemoryError onload " + vc.getJid());
+//#ifdef DEBUG
+//#                               System.out.println("OutOfMemoryError onload " + vc.getJid());
+//#endif
                         }  catch (Exception e) {
                             //e.printStackTrace();
                         }
@@ -2295,28 +2279,6 @@ public class Roster
                     } else {
                        c = getContact(m.from, (midlet.BombusQD.cf.notInListDropLevel!=NotInListFilter.DROP_MESSAGES_PRESENCES));
                     }
-                    /*
-                    if(m.from.startsWith("[j]")){
-                        //create temp [j] contact
-                        Group group = groups.getGroup("Juick@Temp");
-                        if (group==null) {
-                           group=groups.addGroup("Juick@Temp", Groups.TYPE_COMMON);
-                           reEnumRoster();
-                        }
-                        String jid = m.from.substring(3);//#POST_ID
-                        Jid J=new Jid(jid);
-                        Contact juick = findContact(J,false); // search by bare jid
-                        if (juick==null) {
-                            juick=new Contact("#"+jid, "juick@juick.com/Juick" , Constants.PRESENCE_ONLINE, "both");
-                            addContact(juick);
-                        }
-                        juick.setGroup(group);
-                        juick.setStatus(util.StringUtils.replaceNickTags(m.body));
-                        messageStore(juick,m);
-                        m = null;
-                        J = null;
-                    }
-                     */
                 }
 //#endif
                 if (tStamp!=0) m.dateGmt=tStamp;
@@ -2530,12 +2492,6 @@ public class Roster
                             contactList.removeContact(conferenceContact);
                             conferenceContact.destroy();
                         }
-                        /*
-                        if(null != room) {
-                           contactList.removeContact(room);
-                           room.destroy();
-                        }
-                        */
                     }
                     if(null != conferenceContact) conferenceContact = null;
                     //if(null != room) room = null;
@@ -2556,10 +2512,6 @@ public class Roster
                         if (midlet.BombusQD.cf.autoSubscribe==Config.SUBSCR_DROP)
                             return JabberBlockListener.BLOCK_REJECTED;
                         if (midlet.BombusQD.cf.autoSubscribe==Config.SUBSCR_REJECT) {
-//#if DEBUG
-//#                             System.out.print(from);
-//#                             System.out.println(": decline subscription");
-//#endif
                             sendPresence(from, "unsubscribed", null, false);
                             return JabberBlockListener.BLOCK_PROCESSED;
                         }
@@ -2602,9 +2554,6 @@ public class Roster
                             }
                             j2j=null;
                             String lang=pr.getAttribute("xml:lang");
-//#if DEBUG
-//#                         System.out.println(lang);
-//#endif
                             c.lang=lang; lang=null;
                             c.setStatus(pr.getStatus());
                         }
@@ -3024,10 +2973,6 @@ public class Roster
         if (!c.autoresponded && autorespond) {
             ExtendedStatus es=sl.getStatus(myStatus);
             if (es.getAutoRespond()) {
-//#if DEBUG
-//#                 System.out.println(SR.get(SR.MS_AUTORESPOND)+" "+c.getJid());
-//#endif
-
                 Message autoMessage = new Message(
                         c.getJid(),
                         es.getAutoRespondMessage(),
@@ -3079,9 +3024,6 @@ public class Roster
     public void playNotify(int event) {
         if(midlet.BombusQD.cf.profile==AlertProfile.NONE) return;
         if (notifyReady(event)==false) return;
-//#if DEBUG
-//#         System.out.println("event: "+event);
-//#endif
         AlertCustomize ac=AlertCustomize.getInstance();
 
         int volume=ac.soundVol;
@@ -3441,9 +3383,6 @@ public class Roster
                     } catch (Exception ex) {}
                     display.setCurrent(this);
                 }
-//#if DEBUG
-//#             System.out.println("Flip closed");
-//#endif
                 if (midlet.BombusQD.cf.autoAwayType==Config.AWAY_LOCK)
                     if (!autoAway)
                         autostatus.setTimeEvent(midlet.BombusQD.cf.autoAwayDelay* 60*1000);
@@ -3584,7 +3523,6 @@ public class Roster
         if (autostatus==null) return;
 
         if (midlet.BombusQD.cf.autoAwayType==Config.AWAY_MESSAGE) {
-             //System.out.println("messageActivity "+myStatus.getImageIndex());
              if (myStatus<2)
                 autostatus.setTimeEvent(midlet.BombusQD.cf.autoAwayDelay* 60*1000);
              else if (!autoAway)
@@ -3766,7 +3704,6 @@ public class Roster
         countNewMsgs();
 //#ifdef AUTOSTATUS
         if (midlet.BombusQD.cf.autoAwayType==Config.AWAY_IDLE){
-            //System.out.println("showNotify autostatus->" + autostatus);
             if(null == autostatus) autostatus = new AutoStatusTask(true);
             if (!autostatus.isAwayTimerSet())
                 if (!autoAway)
@@ -4086,7 +4023,6 @@ public class Roster
                   vContacts = null;
                   vContacts = new Vector(0);
                   vContacts = contactList.getVisibleTree(vContacts);
-                //System.out.println("     reenum vContacts" + sV + " ==> 0 ==> " + vContacts.size());
 
                   counts = new StringBuffer(0);
                   counts.append('(')

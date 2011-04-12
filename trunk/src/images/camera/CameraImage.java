@@ -96,7 +96,9 @@ public class CameraImage implements CommandListener{
             display.setCurrent(
                     new Alert("Error", e.toString(), null, null), 
                     parentView);
-            e.printStackTrace(); 
+//#ifdef DEBUG
+//#             e.printStackTrace();
+//#endif
         }
     }
     
@@ -106,7 +108,11 @@ public class CameraImage implements CommandListener{
                 byte photo[]=videoControl.getSnapshot(null/*sizes*/);
                 imgListener.cameraImageNotify(photo);
                 photo=null;
-            } catch (Exception e) { e.printStackTrace(); }
+            } catch (Exception e) {
+//#ifdef DEBUG
+//#                 e.printStackTrace();
+//#endif
+            }
         }
         // Shut down the player.
         player.close();

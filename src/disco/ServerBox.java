@@ -38,6 +38,8 @@ import ui.controls.form.TextInput;
  */
 
 public class ServerBox  extends DefForm {  
+    private static final String SERVERADD_RECENT_ID = "server-add";
+
     private TextInput serverName;
     private ServiceDiscovery sd;
 
@@ -46,7 +48,7 @@ public class ServerBox  extends DefForm {
 
         this.sd = sd;
 
-        serverName = new TextInput(SR.get(SR.MS_ADRESS), service, "disco", TextField.ANY);
+        serverName = new TextInput(SR.get(SR.MS_ADRESS), service, SERVERADD_RECENT_ID, TextField.ANY);
         addControl(serverName);
         
         moveCursorTo(getNextSelectableRef(-1));

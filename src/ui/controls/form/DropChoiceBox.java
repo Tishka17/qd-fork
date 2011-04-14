@@ -85,7 +85,7 @@ public  class DropChoiceBox extends IconTextElement {
         return font.stringWidth(text);
     }
 
-    private String getTextValue() {
+    public String getTextValue() {
         if (items.size() < 1) {
             return null;
         }

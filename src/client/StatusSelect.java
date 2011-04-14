@@ -143,9 +143,8 @@ public class StatusSelect extends VirtualList implements MenuListener {
     public void send() {
         int status = getSel().getImageIndex();
         if (to != null) {
-            if (BombusQD.sd.roster.isLoggedIn()) {
-                BombusQD.sd.roster.sendDirectPresence(status, to, null);
-            }
+            BombusQD.sd.roster.sendDirectPresence(status, to, null);
+            destroyView();
         } else {
             BombusQD.cf.isStatusFirst = true;
             if (!BombusQD.sd.roster.isLoggedIn()) {

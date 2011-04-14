@@ -56,9 +56,6 @@ import java.util.Vector;
 import menu.Command;
 import menu.MenuListener;
 //#endif
-//#ifdef LIGHT_CONTROL
-import light.CustomLight;
-//#endif
 
 public abstract class VirtualList extends CanvasEx {
 //#ifdef TOUCH
@@ -1290,9 +1287,6 @@ public abstract class VirtualList extends CanvasEx {
          if (keyCode==Config.SOFT_RIGHT || keyCode==')' || keyCode==Config.SOFT_LEFT || keyCode=='(' )
              return;
         key(keyCode);
-//#ifdef LIGHT_CONTROL
-        CustomLight.keyPressed();
-//#endif
     }
     protected void keyReleased(int keyCode) {
         kHold=0;
@@ -1301,9 +1295,6 @@ public abstract class VirtualList extends CanvasEx {
 
         kHold=0;
         key(keyCode);
-//#ifdef LIGHT_CONTROL
-    CustomLight.keyPressed();
-//#endif
     }
 
     int old_win_top;
@@ -1441,7 +1432,7 @@ public abstract class VirtualList extends CanvasEx {
             lastClickX=x;
             lastClickY=y;
 	    pointer_state = POINTER_NONE;
-	    repaint();
+	    redraw();
             return;
         }
         //soft buttons drown on top
@@ -1450,7 +1441,7 @@ public abstract class VirtualList extends CanvasEx {
                 if (height - y < mHeight) {
                     if (pointer_state == POINTER_PANEL) touchMainPanelPressed(x, y);
 		    pointer_state = POINTER_NONE;
-		    repaint();
+		    redraw();
                     return;
                 }
             }
@@ -1462,7 +1453,7 @@ public abstract class VirtualList extends CanvasEx {
                         if (pointer_state == POINTER_PANEL)touchRightPressed();
                     } else if (pointer_state == POINTER_PANEL)touchMiddlePressed();
 		    pointer_state = POINTER_NONE;
-		    repaint();
+		    redraw();
                     return;
                 }
             }
@@ -1477,7 +1468,7 @@ public abstract class VirtualList extends CanvasEx {
                     } else if (pointer_state == POINTER_PANEL)touchMiddlePressed();
                     stickyWindow=false;
 		    pointer_state = POINTER_NONE;
-		    repaint();
+		    redraw();
                     return;
                 }
             }
@@ -1485,7 +1476,7 @@ public abstract class VirtualList extends CanvasEx {
                 if (y < mHeight) {
                     if (pointer_state == POINTER_PANEL)touchMainPanelPressed(x, y);
 		    pointer_state = POINTER_NONE;
-		    repaint();
+		    redraw();
                     return;
                 }
             }
@@ -1500,7 +1491,7 @@ public abstract class VirtualList extends CanvasEx {
                 if (pointer_state == POINTER_SECOND) eventOk();
             }
         }
-	repaint();
+	redraw();
 	pointer_state = POINTER_NONE;
     }
 

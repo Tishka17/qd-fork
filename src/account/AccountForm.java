@@ -170,20 +170,13 @@ public class AccountForm extends DefForm {
         } else {
             uid.append('@').append(server);
         }
-        fulljid = new TextInput(SR.get(SR.MS_USER_PROFILE) + "(JID)", uid.toString(), null, TextField.ANY);
-        nickbox = new TextInput(SR.get(SR.MS_NICKNAME), account.getNick(), null, TextField.ANY);
+        fulljid = new TextInput(SR.get(SR.MS_USER_PROFILE) + "(JID)", uid.toString(), TextField.ANY);
+        nickbox = new TextInput(SR.get(SR.MS_NICKNAME), account.getNick(), TextField.ANY);
         addControl(nickbox);
         addControl(fulljid);
 
         if (register) {
-            passbox = new TextInput(SR.get(SR.MS_PASSWORD), password, null, TextField.ANY);
-        } else {
-            passbox = new PasswordInput(SR.get(SR.MS_PASSWORD), password);
-        }        
-        addControl(passbox);
-
-        if (register) {
-            passbox = new TextInput(SR.get(SR.MS_PASSWORD), password, null, TextField.ANY);
+            passbox = new TextInput(SR.get(SR.MS_PASSWORD), password, TextField.ANY);
         } else {
             passbox = new PasswordInput(SR.get(SR.MS_PASSWORD), password);
         }        
@@ -205,7 +198,7 @@ public class AccountForm extends DefForm {
             addControl(portbox);
         }
 
-        emailbox = new TextInput("E-mail:", account.getEmail(), null, TextField.EMAILADDR);
+        emailbox = new TextInput("E-mail", account.getEmail(), TextField.EMAILADDR);
         if (midlet.BombusQD.cf.userAppLevel == 1) {
             if (!createSimpleAddForm) {
                 addControl(emailbox);
@@ -333,7 +326,7 @@ public class AccountForm extends DefForm {
                 compressionBox_ = true;
                 break;
         }
-        ipbox = new TextInput(SR.get(SR.MS_HOST_IP), ip_box, null, TextField.ANY);
+        ipbox = new TextInput(SR.get(SR.MS_HOST_IP), ip_box, TextField.ANY);
         sslbox = new CheckBox(SR.get(SR.MS_SSL), sslbox_);
         plainPwdbox = new CheckBox(SR.get(SR.MS_PLAIN_PWD), plainPwdbox_);
         compressionBox = new CheckBox(SR.get(SR.MS_COMPRESSION), compressionBox_);

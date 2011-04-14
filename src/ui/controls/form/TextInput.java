@@ -35,8 +35,6 @@ import java.io.EOFException;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import ui.IconTextElement;
-import ui.input.InputTextBox;
-import ui.input.InputTextBoxNotify;
 import ui.VirtualList;
 import ui.input.InputTextBox;
 import ui.input.InputTextBoxNotify;
@@ -61,6 +59,10 @@ public class TextInput extends IconTextElement implements InputTextBoxNotify {
     private int colorItem;
     private int colorBorder;
     private int colorBGnd;
+
+    public TextInput(String caption, String text, int boxType) {
+        this(caption, text, null, boxType);
+    }
 
     public TextInput(String caption, String text, String id, int boxType) {
         super(null);
@@ -104,7 +106,7 @@ public class TextInput extends IconTextElement implements InputTextBoxNotify {
         if (caption == null) {
             return 0;
         }
-        if (caption.equals("")) {
+        if (caption.length() == 0) {
             return 0;
         }
         return captionFont.stringWidth(caption);
@@ -114,7 +116,7 @@ public class TextInput extends IconTextElement implements InputTextBoxNotify {
         if (text == null) {
             return 0;
         }
-        if (text.equals("")) {
+        if (text.length() == 0) {
             return 0;
         }
         return font.stringWidth(text);

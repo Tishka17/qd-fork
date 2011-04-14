@@ -36,6 +36,8 @@ import mood.UserActivityResult;
 import ui.controls.form.SimpleString;
 
 public class ActivityText extends DefForm {
+    private static final String ACTIVITY_RECENT_ID = "activity-text";
+
     private TextInput text;
     private String cat="";
     private String descr="";
@@ -54,7 +56,7 @@ public class ActivityText extends DefForm {
         }
         
         if(cat!=null && descr!=null){
-          text=new TextInput(locale.SR.get(locale.SR.MS_MESSAGE), "", "text", TextField.ANY);
+          text=new TextInput(locale.SR.get(locale.SR.MS_MESSAGE), "", ACTIVITY_RECENT_ID, TextField.ANY);
           itemsList.addElement(text);            
         }
         

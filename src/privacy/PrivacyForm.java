@@ -128,7 +128,7 @@ public class PrivacyForm extends DefForm {
          }
         }
 
-        textValue=new TextInput(SR.get(SR.MS_VALUE), tValue, "", TextField.ANY);//64, TextField.ANY);
+        textValue=new TextInput(SR.get(SR.MS_VALUE), tValue, TextField.ANY);//64, TextField.ANY);
         try{
          switch (selectedAction) {
             case 0: //jid

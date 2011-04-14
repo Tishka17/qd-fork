@@ -26,7 +26,6 @@
 //#ifdef USER_KEYS
 package ui.keys;
 
-import client.Config;
 import io.NvStorage;
 import java.io.DataOutputStream;
 import java.util.Vector;
@@ -41,9 +40,7 @@ import ui.VirtualList;
 //#else
 import menu.MenuListener;
 import menu.Command;
-import menu.MyMenu;
 //#endif
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 //#ifdef GRAPHICS_MENU        
 import ui.GMenu;
@@ -148,23 +145,12 @@ public class UserKeysList
         
         NvStorage.writeFileRecord(outputStream, UserKey.storage, 0, true);
     }
-    
-//#ifdef MENU_LISTENER
-    
-//#ifdef GRAPHICS_MENU        
+   
     public int showGraphicsMenu() {
         commandState();
         menuItem = new GMenu(this, null, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.USERKEYSLIST;            
         return GMenu.USERKEYSLIST;
     }
-//#else
-//#     public void showMenu() {
-//#         commandState();
-//#         new MyMenu(display, parentView, this, SR.get(SR.MS_CUSTOM_KEYS), null, menuCommands);
-//#     }   
-//#endif    
-
-//#endif
 }
 //#endif

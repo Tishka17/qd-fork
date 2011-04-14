@@ -49,7 +49,6 @@ import ui.controls.form.TextInput;
 public final class ContactEdit extends DefForm {
     private static String lastContactJID = "";
 
-    private LinkString vCardReq;
     private TextInput tJid;
     private TextInput tNick;
     private TextInput tGroup;
@@ -64,7 +63,7 @@ public final class ContactEdit extends DefForm {
     public ContactEdit(Contact c) {
         super(SR.get(SR.MS_ADD_CONTACT));
 
-        tJid = new TextInput(SR.get(SR.MS_USER_JID), lastContactJID, null, TextField.ANY);
+        tJid = new TextInput(SR.get(SR.MS_USER_JID), lastContactJID, TextField.ANY);
 
         tNick = new TextInput(SR.get(SR.MS_NAME), null, null, TextField.ANY);
 

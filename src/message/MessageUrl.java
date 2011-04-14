@@ -55,7 +55,7 @@ public class MessageUrl extends Menu implements MenuListener {
     private Command cmdEdit;
 
 public MessageUrl(Vector urlList) {
-	super("URLs", null, null);
+	super("URLs");
 	this.urlList = urlList;
 	
 	for (int i = 0; i < urlList.size(); ++i) {

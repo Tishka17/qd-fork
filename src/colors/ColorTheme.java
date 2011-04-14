@@ -125,6 +125,8 @@ public class ColorTheme {
 
     private static int[] colorsArray;
 
+    private ColorTheme() {};
+
     public static void initColors() {
         colorsArray = new int[defColors.length];
 

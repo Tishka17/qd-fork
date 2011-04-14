@@ -47,8 +47,7 @@ public class SubscriptionEdit extends DefForm {
 
         to = c.bareJid;
 
-		addControl(new SimpleString(c.getNickJid(), true));
-        addControl(new SpacerItem(10));
+	addControl(new SimpleString(c.getNickJid(), true));
 
         action = new DropChoiceBox(SR.get(SR.MS_ACTION));
         action.append(SR.get(SR.MS_NO));

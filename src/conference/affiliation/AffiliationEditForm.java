@@ -44,19 +44,20 @@ import ui.controls.form.TextInput;
  */
 
 public final class AffiliationEditForm extends DefForm {
+    private static final String REASON_RECENT_ID = "reason";
+
     private TextInput jidItem;
     private DropChoiceBox affiliationItem;
     private TextInput reasonItem;
 
     private String room;
-    private int recentAffiliation;
 
     public AffiliationEditForm(String room, String jid, String affiliation, String reason) {
         super(SR.get(SR.MS_AFFILIATION));
 
         this.room = room;
 
-        jidItem = new TextInput("JID", jid, null, TextField.ANY);
+        jidItem = new TextInput("JID", jid, TextField.ANY);
         addControl(jidItem);
 
         affiliationItem = new DropChoiceBox(SR.get(SR.MS_SET_AFFILIATION));
@@ -68,12 +69,15 @@ public final class AffiliationEditForm extends DefForm {
         affiliationItem.setSelectedIndex(AffiliationItem.getIndexByName(affiliation));
         addControl(affiliationItem);
 
-        reasonItem = new TextInput(SR.get(SR.MS_REASON), reason, "reason", TextField.ANY);
+        reasonItem = new TextInput(SR.get(SR.MS_REASON), reason, REASON_RECENT_ID, TextField.ANY);
         addControl(reasonItem);
     }
 
+    public void cmdOk() {
+        if (jidItem.getValue().length() == 0) {
+            return;
+        }
 
-    private void modify(){
         JabberStream stream=StaticData.getInstance().roster.theStream;
 
         JabberDataBlock request=new Iq(room, Iq.TYPE_SET, "admin_modify");
@@ -83,7 +87,9 @@ public final class AffiliationEditForm extends DefForm {
         child.setAttribute("affiliation", AffiliationItem.getNameByIndex(affiliationItem.getSelectedIndex()));
 
         String rs=reasonItem.getValue();
-        if (!rs.equals("")) child.addChild("reason", rs);
+        if (rs.length() != 0) {
+            child.addChild("reason", rs);
+        }
 
         stream.send(request);
         try {
@@ -91,32 +97,10 @@ public final class AffiliationEditForm extends DefForm {
         } catch (Exception ex) {}
 
         try {
-            AffiliationList a=(AffiliationList)getParentView();
+            AffiliationList a = (AffiliationList)getParentView();
             a.getList();
         } catch (Exception e) {}
+
         destroyView();
-    }
-
-    public void cmdOk() {
-        if (jidItem.getValue().equals("")) {
-            return;
-        }
-        if (recentAffiliation==AffiliationItem.AFFILIATION_OWNER) {
-            StringBuffer warn=new StringBuffer(SR.get(SR.MS_ARE_YOU_SURE_WANT_TO_DISCARD))
-            .append(jidItem.getValue())
-            .append(SR.get(SR.MS_FROM_OWNER_TO))
-            .append(AffiliationItem.getNameByIndex((short)affiliationItem.getSelectedIndex()));
-
-            AlertBox box = new AlertBox(SR.get(SR.MS_MODIFY_AFFILIATION), warn.toString(), false) {
-                    public void yes() {
-                        modify();
-                        destroyView();
-                    }
-                    public void no() {}
-            };
-            box.show();
-        } else {
-            modify();
-        }
     }
 }

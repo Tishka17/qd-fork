@@ -27,6 +27,7 @@ import client.Config;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
+import light.CustomLight;
 import midlet.BombusQD;
 
 public class VirtualCanvas extends Canvas {
@@ -73,10 +74,6 @@ public class VirtualCanvas extends Canvas {
         if(!isDoubleBuffered()) {
             offscreen = Image.createImage(w, h);
         }
-
-        //System.out.println("updated canvas size");
-        //System.out.println("new w: " + w);
-        //System.out.println("new h: " + h);
     }
 
     public CanvasEx getCanvas() {
@@ -98,6 +95,9 @@ public class VirtualCanvas extends Canvas {
     }
 
     protected void keyPressed(int code) {
+//#ifdef LIGHT_CONTROL
+        CustomLight.keyPressed();
+//#endif
         canvas.keyPressed(code);
     }
 
@@ -110,6 +110,9 @@ public class VirtualCanvas extends Canvas {
     }
 
     protected void pointerPressed(int x, int y) {
+//#ifdef LIGHT_CONTROL
+        CustomLight.keyPressed();
+//#endif
         canvas.pointerPressed(x, y);
     }
 

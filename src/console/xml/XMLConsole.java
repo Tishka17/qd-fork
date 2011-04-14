@@ -38,7 +38,6 @@
 //#else
 //# import menu.Command;
 //#endif
-//# import javax.microedition.lcdui.Display;
 //# import javax.microedition.lcdui.Displayable;
 //# import locale.SR;
 //#ifdef CLIPBOARD
@@ -56,6 +55,7 @@
 //#  *
 //#  * @author ad,aqent
 //#  */
+//# 
 //# public class XMLConsole extends MessageList {
 //#     private XMLList stanzas;
 //#     private Command cmdNew;
@@ -93,26 +93,25 @@
 //#ifndef GRAPHICS_MENU
 //#      addCommand(cmdBack);
 //#endif
-//#         addCommand(cmdNew);
-//#ifdef ARCHIVE
-//#         if (getItemCount() != 0) {
-//#             addCommand(Commands.cmdArch);
+//#         if (BombusQD.sd.roster.isLoggedIn()) {
+//#             addCommand(cmdNew);
 //#         }
+//# 
+//#         if (getItemCount() != 0) {
+//#ifdef ARCHIVE
+//#             addCommand(Commands.cmdArch);
 //#endif
 //#ifdef CLIPBOARD
-//#         if (getItemCount() != 0) {
-//#             if (Config.getInstance().useClipBoard) {
+//#             if (Config.useClipBoard) {
 //#                 addCommand(Commands.cmdCopy);
 //#                 if (!ClipBoard.isEmpty()) {
 //#                     addCommand(Commands.cmdCopyPlus);
 //#                 }
 //#             }
-//#         }
 //#endif
-//#         addCommand(cmdEnableDisable);
-//#         if (getItemCount() != 0) {
 //#             addCommand(cmdPurge);
 //#         }
+//#         addCommand(cmdEnableDisable);
 //#     }
 //# 
 //#     protected void beginPaint() {
@@ -143,36 +142,37 @@
 //#     }
 //# 
 //#     public void keyGreen() {
-//#         String stanza = "";
-//#         try {
-//#             stanza = getMessage(cursor).toString();
-//#         } catch (Exception e) {
-//#         }
-//#         // FIXME
-//#         new ConsoleTextEdit(stanza).show();
+//#         sendStanza(false);
 //#     }
 //# 
 //#     public void commandAction(Command c, Displayable d) {
-//#         Msg msg = getMessage(cursor);
 //#         if (c == cmdNew) {
-//#             keyGreen();
+//#             sendStanza(true);
 //#         } else if (c == cmdEnableDisable) {
 //#             XMLList.enabled = !XMLList.enabled;
 //#             redraw();
 //#         }
-//#         if (msg == null) {
-//#             return;
-//#         }
-//# 
 //#         if (c == cmdPurge) {
 //#             clearReadedMessageList();
 //#ifdef ARCHIVE
 //#         } else if (c == Commands.cmdArch) {
-//#             MessageArchive.store(util.StringUtils.replaceNickTags(msg));
+//#             MessageArchive.store(util.StringUtils.replaceNickTags(getMessage(cursor)));
 //#endif
 //#         }
 //# 
 //#         super.commandAction(c, d);
+//#     }
+//# 
+//#     private void sendStanza(boolean isNew) {
+//#         if (BombusQD.sd.roster.isLoggedIn()) {
+//#             String stanza = "";
+//#             if (!isNew) {
+//#                 try {
+//#                     stanza = getMessage(cursor).body;
+//#                 } catch (Exception e) {}
+//#             }
+//#             new ConsoleTextEdit(stanza).show();
+//#         }
 //#     }
 //# 
 //#     private void clearReadedMessageList() {
@@ -199,10 +199,6 @@
 //#         if (keyCode == '0') {
 //#             clearReadedMessageList();
 //#         }
-//#     }
-//# 
-//#     public void destroyView() {
-//#         super.destroyView();
 //#     }
 //# }
 //#endif

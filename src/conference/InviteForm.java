@@ -39,6 +39,7 @@ import ui.controls.form.DefForm;
 import ui.controls.form.DropChoiceBox;
 import ui.controls.form.TextInput;
 import com.alsutton.jabber.datablocks.Presence;
+import ui.controls.form.MultiLine;
 
 public class InviteForm extends DefForm {
     private TextInput reason;
@@ -60,10 +61,16 @@ public class InviteForm extends DefForm {
             } catch (Exception e) {
             }
         }
-        addControl(conferenceList);
+        if (conferenceList.size() > 0) {
+            addControl(conferenceList);
 
-        reason = new TextInput(SR.get(SR.MS_REASON), null, "", TextField.ANY);
-        addControl(reason);
+            reason = new TextInput(SR.get(SR.MS_REASON), null, TextField.ANY);
+            addControl(reason);
+        } else {
+            MultiLine line = new MultiLine(null, "There are no active conferences", width);
+            line.setSelectable(true);
+            addControl(line);
+        }
 
         // first control is unselectable
         moveCursorTo(1);
@@ -71,7 +78,7 @@ public class InviteForm extends DefForm {
 
     public void cmdOk() {
         if (conferenceList.size() != 0) {
-            String room = (String)conferenceList.toString();
+            String room = conferenceList.getTextValue();
             String rs = reason.getValue();
 
             Message inviteMsg = new Message(room);

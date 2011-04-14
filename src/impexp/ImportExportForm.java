@@ -50,7 +50,7 @@ public class ImportExportForm extends Menu implements BrowserListener {
     public static final int CONFIG_IMPORT = 5;
 
     public ImportExportForm() {
-        super(SR.get(SR.MS_IMPORT_EXPORT), null, null);
+        super(SR.get(SR.MS_IMPORT_EXPORT));
 
         addItem(SR.get(SR.MS_ACCOUNTS) + ": " + SR.get(SR.MS_LOAD_FROM_FILE), ACCOUNT_IMPORT);
         addItem(SR.get(SR.MS_ACCOUNTS) + ": " + SR.get(SR.MS_SAVE_TO_FILE), ACCOUNT_EXPORT);

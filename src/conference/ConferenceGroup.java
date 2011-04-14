@@ -32,7 +32,7 @@ import client.Group;
 import client.Groups;
 import client.Jid;
 import images.RosterIcons;
-import client.Constants;
+import com.alsutton.jabber.datablocks.Presence;
 
 /**
  *
@@ -110,14 +110,14 @@ public final class ConferenceGroup extends Group{
         }
 
         // rename contact
-        if (Constants.PRESENCE_OFFLINE <= selfContact.status) {
+        if (Presence.PRESENCE_OFFLINE <= selfContact.status) {
             selfContact.setNick(nick);
             selfContact.jid.setJid(jid);
             //selfContact.setBareJid(jid);
         }
 
         selfContact.setGroup(this);
-        selfContact.origin = Constants.ORIGIN_GC_MYSELF;
+        selfContact.origin = Contact.ORIGIN_GC_MYSELF;
         selfContact.setNick(selfContact.getNick());
         
         this.selfContact = selfContact;
@@ -133,7 +133,7 @@ public final class ConferenceGroup extends Group{
             }
             mucContact.setGroup(this);
             mucContact.transport = RosterIcons.ICON_GROUPCHAT_INDEX; //FIXME: убрать хардкод
-            mucContact.origin = Constants.ORIGIN_GROUPCHAT;
+            mucContact.origin = Contact.ORIGIN_GROUPCHAT;
             mucContact.setNick(mucContact.getNick());
             confContact = mucContact;
         }
@@ -145,7 +145,7 @@ public final class ConferenceGroup extends Group{
         if (null == c) {
             String nick = jid.substring(jid.indexOf('/') + 1);
             c = new MucContact(nick, jid);
-            c.origin = Constants.ORIGIN_GC_MEMBER;
+            c.origin = Contact.ORIGIN_GC_MEMBER;
             c.setNick(c.getNick());
             midlet.BombusQD.sd.roster.addContact(c);
         }

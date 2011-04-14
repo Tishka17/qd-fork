@@ -27,6 +27,7 @@
 //#if CHANGE_TRANSPORT
 package client;
 
+import com.alsutton.jabber.datablocks.Presence;
 import java.util.Enumeration;
 import locale.SR;
 import midlet.BombusQD;
@@ -48,7 +49,7 @@ public class ChangeTransportForm extends DefForm {
         selectJid = new DropChoiceBox(SR.get(SR.MS_TRANSPORT));
         for (Enumeration e=BombusQD.sd.roster.getHContacts().elements(); e.hasMoreElements(); ){
             Contact ct=(Contact)e.nextElement();
-            if (ct.jid.isTransport() && ct.status < Constants.PRESENCE_OFFLINE) {
+            if (ct.jid.isTransport() && ct.status < Presence.PRESENCE_OFFLINE) {
                 selectJid.append(ct.bareJid);
             }
         }

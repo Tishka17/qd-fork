@@ -28,6 +28,7 @@
 package client; 
 
 //import com.alsutton.jabber.datablocks.Presence;
+import com.alsutton.jabber.datablocks.Presence;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.util.Enumeration;
@@ -41,6 +42,8 @@ import ui.controls.form.SimpleString;
  * @author EvgS
  */
 public class StatusList {
+    public static final int STATUS_COUNT = 7;
+
     private static StatusList instance;
 
     public static StatusList getInstance() {
@@ -59,13 +62,13 @@ public class StatusList {
         try {
 	    DataInputStream inputStream=NvStorage.ReadFileRecord("status", 0);
 	    
-	    createFromStream(Constants.PRESENCE_ONLINE, Constants.PRS_ONLINE, inputStream);
-	    createFromStream(Constants.PRESENCE_CHAT, Constants.PRS_CHAT, inputStream);
-	    createFromStream(Constants.PRESENCE_AWAY, Constants.PRS_AWAY, inputStream);
- 	    createFromStream(Constants.PRESENCE_XA, Constants.PRS_XA, inputStream);
- 	    createFromStream(Constants.PRESENCE_DND, Constants.PRS_DND, inputStream);
- 	    createFromStream(Constants.PRESENCE_INVISIBLE, Constants.PRS_INVISIBLE, inputStream);
-	    createFromStream(Constants.PRESENCE_OFFLINE, Constants.PRS_OFFLINE, inputStream);
+	    createFromStream(Presence.PRESENCE_ONLINE, Presence.PRS_ONLINE, inputStream);
+	    createFromStream(Presence.PRESENCE_CHAT, Presence.PRS_CHAT, inputStream);
+	    createFromStream(Presence.PRESENCE_AWAY, Presence.PRS_AWAY, inputStream);
+ 	    createFromStream(Presence.PRESENCE_XA, Presence.PRS_XA, inputStream);
+ 	    createFromStream(Presence.PRESENCE_DND, Presence.PRS_DND, inputStream);
+ 	    createFromStream(Presence.PRESENCE_INVISIBLE, Presence.PRS_INVISIBLE, inputStream);
+	    createFromStream(Presence.PRESENCE_OFFLINE, Presence.PRS_OFFLINE, inputStream);
 	    
 	    inputStream.close();
             inputStream=null;
@@ -81,7 +84,7 @@ public class StatusList {
     }
     
     private void createFromStream(int presenceIndex, String presenceName, DataInputStream dataInputStream) {
-	ExtendedStatus status=new ExtendedStatus(presenceIndex, presenceName, (String) SR.getPresence(presenceName));
+	ExtendedStatus status=new ExtendedStatus(presenceIndex, presenceName, SR.getPresence(presenceName));
         try {
             int priority=dataInputStream.readInt();
 	    status.setPriority((priority>128)?128:priority);
@@ -96,7 +99,7 @@ public class StatusList {
         try {
             DataOutputStream outputStream=NvStorage.CreateDataOutputStream();
             
-            for (int i=0;i<7;i++) {
+            for (int i=0;i<STATUS_COUNT;i++) {
                 ExtendedStatus e=(ExtendedStatus)statusList.elementAt(i);
                 outputStream.writeInt(e.getPriority());
                 outputStream.writeUTF(e.getMessage());

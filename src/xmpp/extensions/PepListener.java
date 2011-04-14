@@ -225,7 +225,7 @@ public class PepListener implements JabberBlockListener{
                         c.pepTuneText=tune_.toString();
                         msg = tune_.toString();
                     }
-                    if(msg!=null && msg.length()>0 && c.getChatInfo().getMessageCount()>0) c.addMessage(new Msg(Constants.MESSAGE_TYPE_PRESENCE, from, type, msg));
+                    if(msg!=null && msg.length()>0 && c.getChatInfo().getMessageCount()>0) c.addMessage(new Msg(Msg.MESSAGE_TYPE_PRESENCE, from, type, msg));
                 }
             }
         //}

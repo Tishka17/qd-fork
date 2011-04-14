@@ -29,7 +29,6 @@
 //#if ADHOC
 package xmpp.extensions;
 
-import client.Constants;
 import client.Contact;
 import client.Jid;
 import client.StaticData;
@@ -40,7 +39,6 @@ import conference.ConferenceGroup;
 import conference.MucContact;
 import java.util.Enumeration;
 import ui.Time;
-
 
 /**
  *
@@ -169,7 +167,7 @@ public final class IQCommands implements JabberBlockListener {
                                 for (Enumeration c=sd.roster.getHContacts().elements(); c.hasMoreElements(); ) {
                                     try {
                                         Contact cl=(Contact) c.nextElement();
-                                        if (cl.origin!=Constants.ORIGIN_GROUPCHAT) continue;
+                                        if (cl.origin!=Contact.ORIGIN_GROUPCHAT) continue;
                                         if (!((MucContact)cl).commonPresence) continue; // stop if room left manually
                                         ConferenceGroup confGroup=(ConferenceGroup)cl.group;
 
@@ -266,7 +264,7 @@ public final class IQCommands implements JabberBlockListener {
         for (Enumeration c=sd.roster.getHContacts().elements(); c.hasMoreElements(); ) {
             try {
                 MucContact mc=(MucContact)c.nextElement();
-                if (mc.origin==Constants.ORIGIN_GROUPCHAT && mc.status==0) {
+                if (mc.origin==Contact.ORIGIN_GROUPCHAT && mc.status==0) {
                     JabberDataBlock labelOnline=fieldGroupchats.addChild("option", "");
                     labelOnline.setAttribute("label", mc.getJid());
                     labelOnline.addChild("value", mc.getJid());

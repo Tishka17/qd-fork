@@ -204,7 +204,7 @@ public final class CommandForm extends DefForm {
             case STATS_ITEM:
             {
                   try {
-                      ClipBoard.add(new Msg(Constants.MESSAGE_TYPE_EVIL,"bechmark",null,(String)obj));
+                      ClipBoard.add(new Msg(Msg.MESSAGE_TYPE_EVIL,"bechmark",null,(String)obj));
                   } catch (Exception e) {/*no messages*/}
                   destroyView();
                   break;

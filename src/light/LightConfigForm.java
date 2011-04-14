@@ -78,7 +78,7 @@ public class LightConfigForm extends DefForm {
         lightKeyPress = new LightControlItem(Config.lightKeyPress);
         addControl(lightKeyPress);
 
-        lightKeyPressTime = new NumberInput(SR.get(SR.L_KEYPRESS_TIMEOUT), Integer.toString(Config.lightKeyPressTime), 1, 600);
+        lightKeyPressTime = new NumberInput(SR.get(SR.L_KEYPRESS_TIMEOUT), Config.lightKeyPressTime, 1, 600);
         addControl(lightKeyPressTime);
 
         addControl(new SpacerItem(SPACE_HEIGHT));
@@ -87,7 +87,7 @@ public class LightConfigForm extends DefForm {
         lightMessage = new LightControlItem(Config.lightMessage);
         addControl(lightMessage);
 
-        lightMessageTime = new NumberInput(SR.get(SR.L_MESSAGE_TIMEOUT), Integer.toString(Config.lightMessageTime), 1, 600);
+        lightMessageTime = new NumberInput(SR.get(SR.L_MESSAGE_TIMEOUT), Config.lightMessageTime, 1, 600);
         addControl(lightMessageTime);
 
         addControl(new SpacerItem(SPACE_HEIGHT));
@@ -96,7 +96,7 @@ public class LightConfigForm extends DefForm {
         lightPresence = new LightControlItem(Config.lightPresence);
         addControl(lightPresence);
 
-        lightPresenceTime = new NumberInput("Presence idle timeout", Integer.toString(Config.lightPresenceTime), 1, 600);
+        lightPresenceTime = new NumberInput("Presence idle timeout", Config.lightPresenceTime, 1, 600);
         addControl(lightPresenceTime);
 
         addControl(new SpacerItem(SPACE_HEIGHT));
@@ -105,7 +105,7 @@ public class LightConfigForm extends DefForm {
         lightConnect = new LightControlItem(Config.lightConnect);
         addControl(lightConnect);
 
-        lightConnectTime = new NumberInput("Connect idle timeout", Integer.toString(Config.lightConnectTime), 1, 600);
+        lightConnectTime = new NumberInput("Connect idle timeout", Config.lightConnectTime, 1, 600);
         addControl(lightConnectTime);
 
         addControl(new SpacerItem(SPACE_HEIGHT));
@@ -114,14 +114,14 @@ public class LightConfigForm extends DefForm {
         lightError = new LightControlItem(Config.lightError);
         addControl(lightError);
 
-        lightErrorTime = new NumberInput("Error idle timeout", Integer.toString(Config.lightErrorTime), 1, 600);
+        lightErrorTime = new NumberInput("Error idle timeout", Config.lightErrorTime, 1, 600);
         addControl(lightErrorTime);
 
         addControl(new SimpleString("Blink brightness", true));
         lightBlink = new LightControlItem(Config.lightBlink);
         addControl(lightBlink);
 
-        lightBlinkTime = new NumberInput("Blink timeout", Integer.toString(Config.lightBlinkTime), 1, 600);
+        lightBlinkTime = new NumberInput("Blink timeout", Config.lightBlinkTime, 1, 600);
         addControl(lightBlinkTime);
     }
 
@@ -133,22 +133,22 @@ public class LightConfigForm extends DefForm {
         Config.lightIdle = lightIdle.getValue();
 
         Config.lightKeyPress = lightKeyPress.getValue();
-        Config.lightKeyPressTime = Integer.parseInt(lightKeyPressTime.getValue());
+        Config.lightKeyPressTime = lightKeyPressTime.getIntValue();
 
         Config.lightMessage = lightMessage.getValue();
-        Config.lightMessageTime = Integer.parseInt(lightMessageTime.getValue());
+        Config.lightMessageTime = lightMessageTime.getIntValue();
 
         Config.lightPresence = lightPresence.getValue();
-        Config.lightPresenceTime = Integer.parseInt(lightPresenceTime.getValue());
+        Config.lightPresenceTime = lightPresenceTime.getIntValue();
 
         Config.lightError = lightError.getValue();
-        Config.lightErrorTime = Integer.parseInt(lightErrorTime.getValue());
+        Config.lightErrorTime = lightErrorTime.getIntValue();
 
         Config.lightConnect = lightConnect.getValue();
-        Config.lightConnectTime = Integer.parseInt(lightConnectTime.getValue());
+        Config.lightConnectTime = lightConnectTime.getIntValue();
 
         Config.lightBlink = lightBlink.getValue();
-        Config.lightBlinkTime = Integer.parseInt(lightBlinkTime.getValue());
+        Config.lightBlinkTime = lightBlinkTime.getIntValue();
 
         CustomLight.switchOn(Config.lightControl);
         destroyView();

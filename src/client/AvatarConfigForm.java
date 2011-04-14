@@ -76,11 +76,11 @@ public class AvatarConfigForm extends DefForm {
             addControl(new SpacerItem(5));
         }
 
-        maxAvatarHeight = new NumberInput(SR.get(SR.MS_MAX_AVATAR_HEIGHT), Integer.toString(config.maxAvatarHeight), 12, 100);
+        maxAvatarHeight = new NumberInput(SR.get(SR.MS_MAX_AVATAR_HEIGHT), config.maxAvatarHeight, 12, 100);
         addControl(maxAvatarHeight);
 
         addControl(new SpacerItem(5));
-        maxAvatarWidth = new NumberInput(SR.get(SR.MS_MAX_AVATAR_WIDTH), Integer.toString(config.maxAvatarWidth), 12, 100);
+        maxAvatarWidth = new NumberInput(SR.get(SR.MS_MAX_AVATAR_WIDTH), config.maxAvatarWidth, 12, 100);
         addControl(maxAvatarWidth);
 
 //#ifdef FILE_IO
@@ -98,8 +98,8 @@ public class AvatarConfigForm extends DefForm {
             addControl(new LinkString(SR.get(SR.MS_UPDATE)) {
 
                 public void doAction() {
-                    config.maxAvatarHeight = Integer.parseInt(maxAvatarHeight.getValue());
-                    config.maxAvatarWidth = Integer.parseInt(maxAvatarWidth.getValue());
+                    config.maxAvatarHeight = maxAvatarHeight.getIntValue();
+                    config.maxAvatarWidth = maxAvatarWidth.getIntValue();
                     long s1 = System.currentTimeMillis();
 
                     int loadingAvatars_roster = applyAvatars(true);
@@ -130,8 +130,8 @@ public class AvatarConfigForm extends DefForm {
             config.showAvatarRect = showAvatarRect.getValue();
         }
 
-        int maxAvHeight = Integer.parseInt(maxAvatarHeight.getValue());
-        int maxAvWidth = Integer.parseInt(maxAvatarWidth.getValue());
+        int maxAvHeight = maxAvatarHeight.getIntValue();
+        int maxAvWidth = maxAvatarWidth.getIntValue();
 
         if (maxAvHeight != config.maxAvatarHeight || maxAvWidth != config.maxAvatarWidth) {
             config.maxAvatarHeight = maxAvHeight;

@@ -42,6 +42,7 @@ import images.ActivityIcons;
 //#endif
 import images.RosterIcons;
 import colors.ColorTheme;
+import com.alsutton.jabber.datablocks.Presence;
 import vcard.VCard;
 import ui.IconTextElement;
 import javax.microedition.lcdui.Image;
@@ -49,6 +50,16 @@ import ui.VirtualList;
 
 public class Contact extends IconTextElement {
     private static final int BLINK_COUNT = 10;
+
+    public final static byte ORIGIN_ROSTER=0;
+    public final static byte ORIGIN_ROSTERRES=1;
+    public final static byte ORIGIN_CLONE=2;
+    public final static byte ORIGIN_PRESENCE=3;
+    public final static byte ORIGIN_GROUPCHAT=4;
+//#ifndef WMUC
+    public final static byte ORIGIN_GC_MEMBER=5;
+    public final static byte ORIGIN_GC_MYSELF=6;
+//#endif
 
 //#ifdef PEP
     public byte pepMood=-1;//0..127
@@ -234,10 +245,10 @@ public class Contact extends IconTextElement {
 
     public int getMainColor() {
         switch (status) {
-            case Constants.PRESENCE_CHAT: return ColorTheme.getColor(ColorTheme.CONTACT_CHAT);
-            case Constants.PRESENCE_AWAY: return ColorTheme.getColor(ColorTheme.CONTACT_AWAY);
-            case Constants.PRESENCE_XA: return ColorTheme.getColor(ColorTheme.CONTACT_XA);
-            case Constants.PRESENCE_DND: return ColorTheme.getColor(ColorTheme.CONTACT_DND);
+            case Presence.PRESENCE_CHAT: return ColorTheme.getColor(ColorTheme.CONTACT_CHAT);
+            case Presence.PRESENCE_AWAY: return ColorTheme.getColor(ColorTheme.CONTACT_AWAY);
+            case Presence.PRESENCE_XA: return ColorTheme.getColor(ColorTheme.CONTACT_XA);
+            case Presence.PRESENCE_DND: return ColorTheme.getColor(ColorTheme.CONTACT_DND);
         }
         return ColorTheme.getColor(ColorTheme.CONTACT_DEFAULT);
     }
@@ -279,10 +290,10 @@ public class Contact extends IconTextElement {
 
         byte i=0;
         switch (state){
-            case Constants.INC_APPEARING:
+            case Roster.INC_APPEARING:
                 i=RosterIcons.ICON_APPEARING_INDEX;
                 break;
-            case Constants.INC_VIEWING:
+            case Roster.INC_VIEWING:
                 i=RosterIcons.ICON_VIEWING_INDEX;
                 break;
         }
@@ -307,7 +318,7 @@ public class Contact extends IconTextElement {
         if (msgCount >= midlet.BombusQD.cf.msglistLimit) {
             getML().deleteOldMessages();
         }
-        if (origin!=Constants.ORIGIN_GROUPCHAT) {
+        if (origin != ORIGIN_GROUPCHAT) {
             if (m.isPresence()) first_replace = chatInfo.isOnlyStatusMessage();
             else {
                 first_msgreplace = chatInfo.isFirstMessage();
@@ -318,7 +329,7 @@ public class Contact extends IconTextElement {
 //#if NICK_COLORS
                     temp.append("<nick>");
 //#endif
-                    temp.append((m.messageType==Constants.MESSAGE_TYPE_OUT)?midlet.BombusQD.sd.account.getNickName():getName());
+                    temp.append((m.messageType==Msg.MESSAGE_TYPE_OUT)?midlet.BombusQD.sd.account.getNickName():getName());
                     if (Config.showNickNames) {
                         temp.append(" (");
                         temp.append(m.getTime());
@@ -334,7 +345,7 @@ public class Contact extends IconTextElement {
                     temp = new StringBuffer(0);
                 } else if (Config.showNickNames) {
                     temp = new StringBuffer(0);
-                    temp.append((m.messageType==Constants.MESSAGE_TYPE_OUT)?midlet.BombusQD.sd.account.getNickName():getName());
+                    temp.append((m.messageType==Msg.MESSAGE_TYPE_OUT)?midlet.BombusQD.sd.account.getNickName():getName());
                         temp.append(" (");
                         temp.append(m.getTime());
                         temp.append(')');
@@ -345,7 +356,7 @@ public class Contact extends IconTextElement {
                 temp = null;
             }
         } else {
-            status = Constants.PRESENCE_ONLINE;
+            status = Presence.PRESENCE_ONLINE;
         }
         /*
             midlet.BombusQD.debug.add("deleteOldMessages "+this+" ..",10);
@@ -368,7 +379,7 @@ public class Contact extends IconTextElement {
         chatInfo.addMessage(m);
 
 
-        if(chatInfo.opened || m.messageType == Constants.MESSAGE_TYPE_OUT) chatInfo.reEnumCounts();
+        if(chatInfo.opened || m.messageType == Msg.MESSAGE_TYPE_OUT) chatInfo.reEnumCounts();
         if (first_msgreplace){
             chatInfo.setFirstMessage(m);
             if (null != messageList) {
@@ -383,8 +394,8 @@ public class Contact extends IconTextElement {
 		}
         }
         if (group.type!=Groups.TYPE_TRANSP && group.type!=Groups.TYPE_SEARCH_RESULT) {
-          boolean allowLog = (origin<Constants.ORIGIN_GROUPCHAT);
-          if (origin!=Constants.ORIGIN_GROUPCHAT && this instanceof MucContact) allowLog=false;
+          boolean allowLog = (origin < ORIGIN_GROUPCHAT);
+          if (origin != ORIGIN_GROUPCHAT && this instanceof MucContact) allowLog=false;
 //#ifdef HISTORY
           if(allowLog) getML().storeMessage(m);
 //#endif
@@ -451,7 +462,7 @@ public class Contact extends IconTextElement {
     public void setStatus(int status) {
         setIncoming(0);
         this.status = status;
-        if (status>=Constants.PRESENCE_OFFLINE) acceptComposing=false;
+        if (status>=Presence.PRESENCE_OFFLINE) acceptComposing=false;
     }
 
     final void markDelivered(String id) {
@@ -486,8 +497,8 @@ public class Contact extends IconTextElement {
 
     public String getFirstString() {
         if (!midlet.BombusQD.cf.showResources) return (nick==null)?getJid():nick;
-        else if (origin>Constants.ORIGIN_GROUPCHAT) return nick;
-        else if (origin==Constants.ORIGIN_GROUPCHAT) return getJid();
+        else if (origin > ORIGIN_GROUPCHAT) return nick;
+        else if (origin == ORIGIN_GROUPCHAT) return getJid();
         return (nick==null)?getJid():nick+jid.getResource();
     }
 
@@ -505,16 +516,16 @@ public class Contact extends IconTextElement {
 
     public int transport;
     public int status;
-    public int offline_type=Constants.PRESENCE_UNKNOWN;
+    public int offline_type=Presence.PRESENCE_UNKNOWN;
     public int getImageIndex() {
         if (showComposing) return RosterIcons.ICON_COMPOSING_INDEX;
-        int st=(status==Constants.PRESENCE_OFFLINE)?offline_type:status;
+        int st=(status==Presence.PRESENCE_OFFLINE)?offline_type:status;
         return (st < 8) ? st + transport : st;
     }
 
     public final int getSecImageIndex() {
         if (hasNewMsgs()) {
-            return (Constants.MESSAGE_TYPE_AUTH == chatInfo.getUnreadMessageType())
+            return (Msg.MESSAGE_TYPE_AUTH == chatInfo.getUnreadMessageType())
                     ? RosterIcons.ICON_AUTHRQ_INDEX
                     : RosterIcons.ICON_MESSAGE_INDEX;
         }

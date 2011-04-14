@@ -35,11 +35,12 @@ import com.alsutton.jabber.JabberBlockListener;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.*;
 import locale.SR;
-import client.Constants;
+
 /**
  *
  * @author EvgS
  */
+
 public class IqTimeReply implements JabberBlockListener{
     
     public IqTimeReply(){};
@@ -66,7 +67,7 @@ public class IqTimeReply implements JabberBlockListener{
                 query.addChild("tzo", ui.Time.tzOffset());
             }
             Contact c=StaticData.getInstance().roster.getContact( data.getAttribute("from"), false);
-            c.setIncoming(Constants.INC_VIEWING);
+            c.setIncoming(Roster.INC_VIEWING);
             Iq reply=new Iq(data.getAttribute("from"), Iq.TYPE_RESULT, data.getAttribute("id"));
             reply.addChild(query);
 
@@ -92,7 +93,7 @@ public class IqTimeReply implements JabberBlockListener{
                 roster.querysign=false;
             }
             if (body!=null) {
-                Msg m=new Msg(Constants.MESSAGE_TYPE_SYSTEM, "time", " "+SR.get(SR.MS_TIME), body);
+                Msg m=new Msg(Msg.MESSAGE_TYPE_SYSTEM, "time", " "+SR.get(SR.MS_TIME), body);
                 roster.messageStore(c, m);
                 roster.redraw();
                 return BLOCK_PROCESSED;

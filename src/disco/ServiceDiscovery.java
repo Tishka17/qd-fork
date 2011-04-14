@@ -71,6 +71,13 @@ public class ServiceDiscovery
 //#endif
         JabberBlockListener
 {
+     public final static String NS_ITEMS="http://jabber.org/protocol/disco#items";
+     public final static String NS_INFO="http://jabber.org/protocol/disco#info";
+     public final static String NS_REGS="jabber:iq:register";
+     public final static String NS_SRCH="jabber:iq:search";
+     public final static String NS_GATE="jabber:iq:gateway";
+     public final static String NS_MUC="http://jabber.org/protocol/muc";
+     public final static String NS_COMMANDS="http://jabber.org/protocol/commands";
 
     private Command cmdOk;
     private Command cmdRfsh;
@@ -138,10 +145,10 @@ public class ServiceDiscovery
 
         if (service!=null && search) {
             this.service=service;
-            requestQuery(Constants.NS_SRCH, "discosrch");
+            requestQuery(NS_SRCH, "discosrch");
         } else if (service!=null) {
             this.service=service;
-            requestQuery(Constants.NS_INFO, "disco");
+            requestQuery(NS_INFO, "disco");
         } else {
             this.service=null;
 
@@ -361,7 +368,7 @@ public class ServiceDiscovery
                     if(null == typeAttr) typeAttr = "-";
                     if (category.equals("automation") && typeAttr.equals("command-node"))  {
                         //cmds.addElement(new DiscoCommand(RosterIcons.ICON_AD_HOC, strCmds));
-                        requestCommand(Constants.NODE_CMDS, "discocmd");
+                        requestCommand(NS_COMMANDS, "discocmd");
                     }
                     if (category.equals("conference")) {
                         cmds.addElement(new DiscoCommand(RosterIcons.ICON_GCJOIN_INDEX, SR.get(SR.MS_JOIN_CONFERENCE)));
@@ -378,9 +385,9 @@ public class ServiceDiscovery
                         String var=i.getAttribute("var");
                         features.addElement(var);
                         //if (var.equals(NS_MUC)) { cmds.addElement(new DiscoCommand(RosterIcons.ICON_GCJOIN_INDEX, strJoin)); }
-                        if (var.equals(Constants.NS_SRCH)) { cmds.addElement(new DiscoCommand(RosterIcons.ICON_SEARCH_INDEX, SR.get(SR.MS_SEARCH))); }
-                        if (var.equals(Constants.NS_REGS)) { cmds.addElement(new DiscoCommand(RosterIcons.ICON_REGISTER_INDEX, SR.get(SR.MS_REGISTER))); }
-                        if (var.equals(Constants.NS_GATE)) { showPartialResults=true; }
+                        if (var.equals(NS_SRCH)) { cmds.addElement(new DiscoCommand(RosterIcons.ICON_SEARCH_INDEX, SR.get(SR.MS_SEARCH))); }
+                        if (var.equals(NS_REGS)) { cmds.addElement(new DiscoCommand(RosterIcons.ICON_REGISTER_INDEX, SR.get(SR.MS_REGISTER))); }
+                        if (var.equals(NS_GATE)) { showPartialResults=true; }
                         //if (var.equals(NODE_CMDS)) { cmds.addElement(new DiscoCommand(AD_HOC_INDEX,strCmds)); }
                     }
                 }
@@ -388,7 +395,7 @@ public class ServiceDiscovery
             /*if (data.getAttribute("from").equals(service)) */ { //FIXME!!!
                 this.cmds=cmds;
             //System.out.println("cmds: "+items.toString());
-                if (loadItems) requestQuery(Constants.NS_ITEMS, "disco2");
+                if (loadItems) requestQuery(NS_ITEMS, "disco2");
                 if (showPartialResults) showResults(new Vector(0));
             }
         } else if (id.startsWith ("discoreg")) {
@@ -484,13 +491,13 @@ public class ServiceDiscovery
 //#endif
             this.service=service;
             this.node=node;
-            requestQuery(Constants.NS_INFO,"disco");
+            requestQuery(NS_INFO,"disco");
     }
 
     public void commandAction(Command c, Displayable d){
 	if (c==cmdOk) eventOk();
         if (c==cmdBack) { exitDiscovery(false); }
-        if (c==cmdRfsh) { if (service!=null) requestQuery(Constants.NS_INFO, "disco"); }
+        if (c==cmdRfsh) { if (service!=null) requestQuery(NS_INFO, "disco"); }
         if (c == cmdSrv) {
             new ServerBox(service, serviceDisco).show();
         }
@@ -733,16 +740,16 @@ public class ServiceDiscovery
                 }
 //#endif
                 case RosterIcons.ICON_SEARCH_INDEX:
-                    requestQuery(Constants.NS_SRCH, "discosrch");
+                    requestQuery(NS_SRCH, "discosrch");
                     break;
                 case RosterIcons.ICON_REGISTER_INDEX:
-                    requestQuery(Constants.NS_REGS, "discoreg");
+                    requestQuery(NS_REGS, "discoreg");
                     break;
                 case RosterIcons.ICON_ROOMLIST:
-                    requestQuery(Constants.NS_ITEMS, "disco2");
+                    requestQuery(NS_ITEMS, "disco2");
                     break;
                 case RosterIcons.ICON_AD_HOC:
-                    requestCommand(Constants.NODE_CMDS, "discocmd");
+                    requestCommand(NS_COMMANDS, "discocmd");
                     break;
                 default:
             }

@@ -190,14 +190,10 @@ public class ModuleConfigForm extends DefForm {
             nil.append(SR.get(SR.MS_NIL_DROP_MP));
             nil.append(SR.get(SR.MS_NIL_DROP_P));
             nil.append(SR.get(SR.MS_NIL_ALLOW_ALL));
-            if (config.notInListDropLevel > NotInListFilter.ALLOW_ALL) {
-                nil.setSelectedIndex(NotInListFilter.ALLOW_ALL);
-            } else {
-                nil.setSelectedIndex(config.notInListDropLevel);
-            }
+            nil.setSelectedIndex(config.notInListDropLevel);
             addControl(nil);
 
-            contactXOffset = new NumberInput(SR.get(SR.MS_CONTACT_XOFFSET), Integer.toString(Config.contactXOffset), 0, 100);
+            contactXOffset = new NumberInput(SR.get(SR.MS_CONTACT_XOFFSET), Config.contactXOffset, 0, 100);
             addControl(contactXOffset);
 
             if(config.userAppLevel == 1) {
@@ -262,11 +258,11 @@ public class ModuleConfigForm extends DefForm {
             addControl(new SpacerItem(3));
 
             if(config.userAppLevel == 1) {
-                messageLimit = new NumberInput(SR.get(SR.MS_MESSAGE_COLLAPSE_LIMIT), Integer.toString(config.messageLimit), 200, 1000);
+                messageLimit = new NumberInput(SR.get(SR.MS_MESSAGE_COLLAPSE_LIMIT), config.messageLimit, 200, 1000);
                 addControl(messageLimit);
             }
 
-            msglistLimit = new NumberInput(SR.get(SR.MS_MESSAGE_COUNT_LIMIT), Integer.toString(config.msglistLimit), 10, 1000);
+            msglistLimit = new NumberInput(SR.get(SR.MS_MESSAGE_COUNT_LIMIT),config.msglistLimit, 10, 1000);
             addControl(msglistLimit);
 
             addControl(new SpacerItem(3));
@@ -358,10 +354,10 @@ public class ModuleConfigForm extends DefForm {
             addControl(new SpacerItem(10));
             addControl(new SimpleString(SR.get(SR.MS_RECONNECT), true));
 
-            reconnectCount = new NumberInput(SR.get(SR.MS_RECONNECT_COUNT_RETRY), Integer.toString(config.reconnectCount), 0, 100);
+            reconnectCount = new NumberInput(SR.get(SR.MS_RECONNECT_COUNT_RETRY), config.reconnectCount, 0, 100);
             addControl(reconnectCount);
 
-            reconnectTime = new NumberInput(SR.get(SR.MS_RECONNECT_WAIT), Integer.toString(config.reconnectTime), 1, 60 );
+            reconnectTime = new NumberInput(SR.get(SR.MS_RECONNECT_WAIT), config.reconnectTime, 1, 60 );
             addControl(reconnectTime);
 
             nokiaReconnectHack = new CheckBox(SR.get(SR.MS_NOKIA_RECONNECT_HACK), config.nokiaReconnectHack);
@@ -431,10 +427,10 @@ public class ModuleConfigForm extends DefForm {
 
             addControl(new SpacerItem(3));
 
-            scrollWidth = new NumberInput(SR.get(SR.MS_SCROLL_WIDTH), Integer.toString(config.scrollWidth), 3, 25);
+            scrollWidth = new NumberInput(SR.get(SR.MS_SCROLL_WIDTH), config.scrollWidth, 3, 25);
             addControl(scrollWidth);
 
-            minItemHeight = new NumberInput(SR.get(SR.MS_MIN_ITEM_HEIGHT), Integer.toString(config.minItemHeight), 0, 100);
+            minItemHeight = new NumberInput(SR.get(SR.MS_MIN_ITEM_HEIGHT), config.minItemHeight, 0, 100);
             addControl(minItemHeight);
             addControl(new SpacerItem(3));
 
@@ -501,7 +497,7 @@ public class ModuleConfigForm extends DefForm {
             addControl(new SpacerItem(10));
             addControl(new SimpleString(SR.get(SR.MS_TIME_SETTINGS), true));
 
-            fieldGmt = new NumberInput(SR.get(SR.MS_GMT_OFFSET), Integer.toString(config.gmtOffset), -12, 12);
+            fieldGmt = new NumberInput(SR.get(SR.MS_GMT_OFFSET), config.gmtOffset, -12, 12);
             addControl(fieldGmt);
 
             Vector langs[] = new StringLoader().stringLoader("/lang/res.txt", 3);
@@ -536,7 +532,7 @@ public class ModuleConfigForm extends DefForm {
             autoAwayType.setSelectedIndex(config.autoAwayType);
             addControl(autoAwayType);
 
-            fieldAwayDelay = new NumberInput("*" + SR.get(SR.MS_AWAY_PERIOD), Integer.toString(config.autoAwayDelay), 1, 60);
+            fieldAwayDelay = new NumberInput("*" + SR.get(SR.MS_AWAY_PERIOD), config.autoAwayDelay, 1, 60);
             addControl(fieldAwayDelay);
 
             awayStatus = new CheckBox(SR.get(SR.MS_AUTOSTATUS_MESSAGE), config.setAutoStatusMessage);
@@ -549,10 +545,10 @@ public class ModuleConfigForm extends DefForm {
 //#             usePhoneTheme = new CheckBox(SR.get(SR.MS_CLCHAT_BGNG_PHONE), config.usePhoneTheme);
 //#             addControl(usePhoneTheme);
 //#
-//#             classicChatHeight = new NumberInput(SR.get(SR.MS_CLCHAT_HEIGHT), Integer.toString(config.classicChatHeight), 80, 320);
+//#             classicChatHeight = new NumberInput(SR.get(SR.MS_CLCHAT_HEIGHT), config.classicChatHeight, 80, 320);
 //#             addControl(classicChatHeight);
 //#
-//#             lineCount = new NumberInput(SR.get(SR.MS_CLCHAT_MSGLIMIT), Integer.toString(config.lineCount), 1, 1000);
+//#             lineCount = new NumberInput(SR.get(SR.MS_CLCHAT_MSGLIMIT), config.lineCount, 1, 1000);
 //#             itemsList.addElement(lineCount);
 //#             itemsList.addElement(new SpacerItem(10));
 //#endif
@@ -566,7 +562,7 @@ public class ModuleConfigForm extends DefForm {
             config.autoSubscribe = subscr.getSelectedIndex();
             config.notInListDropLevel = nil.getSelectedIndex();
 
-            Config.contactXOffset = Integer.parseInt(contactXOffset.getValue());
+            Config.contactXOffset = contactXOffset.getIntValue();
 
             if (config.userAppLevel == 1) {
                 config.simpleContacts = simpleContacts.getValue();
@@ -600,10 +596,10 @@ public class ModuleConfigForm extends DefForm {
             config.textWrap = textWrap.getSelectedIndex();
 
             if(config.userAppLevel == 1) {
-                config.messageLimit = Integer.parseInt(messageLimit.getValue());
+                config.messageLimit = messageLimit.getIntValue();
             }
 
-            config.msglistLimit = Integer.parseInt(msglistLimit.getValue());
+            config.msglistLimit = msglistLimit.getIntValue();
             config.createMessageByFive = createMessageByFive.getValue();
 
             if(config.userAppLevel == 1) {
@@ -657,8 +653,8 @@ public class ModuleConfigForm extends DefForm {
             config.eventDelivery = eventDelivery.getValue();
             config.networkAnnotation = networkAnnotation.getValue();
 
-            config.reconnectCount = Integer.parseInt(reconnectCount.getValue());
-            config.reconnectTime = Integer.parseInt(reconnectTime.getValue());
+            config.reconnectCount = reconnectCount.getIntValue();
+            config.reconnectTime = reconnectTime.getIntValue();
             config.nokiaReconnectHack = nokiaReconnectHack.getValue();
 
             if(config.userAppLevel == 1) {
@@ -686,8 +682,8 @@ public class ModuleConfigForm extends DefForm {
 //#endif
 //#endif
 
-            config.scrollWidth = Integer.parseInt(scrollWidth.getValue());
-			config.minItemHeight = Integer.parseInt(minItemHeight.getValue());
+            config.scrollWidth = scrollWidth.getIntValue();
+            config.minItemHeight = minItemHeight.getIntValue();
 
             if(config.userAppLevel == 1) {
 //#ifdef MEMORY_MONITOR
@@ -727,7 +723,7 @@ public class ModuleConfigForm extends DefForm {
             }
 
             Config.executeByNum = executeByNum.getValue();
-            config.gmtOffset = Integer.parseInt(fieldGmt.getValue());
+            config.gmtOffset = fieldGmt.getIntValue();
 
             Vector langs[] = new StringLoader().stringLoader("/lang/res.txt", 3);
             if (langs[0].size() > 1) {
@@ -750,8 +746,8 @@ public class ModuleConfigForm extends DefForm {
 //#ifdef CLASSIC_CHAT
 //#         } else if (type.equals(SR.get(SR.MS_CLASSIC_CHAT))) {
 //#             config.usePhoneTheme = usePhoneTheme.getValue();
-//#             config.classicChatHeight = Integer.parseInt(classicChatHeight.getValue());
-//#             config.lineCount = Integer.parseInt(lineCount.getValue());
+//#             config.classicChatHeight = classicChatHeight.getIntValue();
+//#             config.lineCount = lineCount.getIntValue();
 //#endif
         }
         destroyView();

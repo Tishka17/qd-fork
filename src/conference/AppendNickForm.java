@@ -31,12 +31,10 @@ package conference;
 import client.Contact;
 import client.StaticData;
 import locale.SR;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextBox;
 import javax.microedition.lcdui.TextField;
 import java.util.Vector;
-import client.Constants;
+import com.alsutton.jabber.datablocks.Presence;
 import ui.controls.form.DefForm;
 
 /**
@@ -71,7 +69,7 @@ public class AppendNickForm extends DefForm {
 
         for (int i = 0; i < contacts.size(); ++i) {
             Contact c = (Contact)contacts.elementAt(i);
-            if (c.group == to.group && c.origin > Constants.ORIGIN_GROUPCHAT && c.status < Constants.PRESENCE_OFFLINE) {
+            if (c.group == to.group && c.origin > Contact.ORIGIN_GROUPCHAT && c.status < Presence.PRESENCE_OFFLINE) {
                 nicknames.addElement(c);
             }
         }

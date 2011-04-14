@@ -28,7 +28,6 @@
 package history;
 
 import client.Config;
-import client.Constants;
 import client.Contact;
 import client.Msg;
 import java.io.*;
@@ -79,13 +78,13 @@ public class HistoryStorage {
     private static String createBody(Msg m) {
         StringBuffer buf = new StringBuffer(0);
         switch (m.messageType) {
-            case Constants.MESSAGE_TYPE_OUT:
+            case Msg.MESSAGE_TYPE_OUT:
                 buf.append("->");
                 break;
-            case Constants.MESSAGE_TYPE_ERROR:
+            case Msg.MESSAGE_TYPE_ERROR:
                 buf.append("!");
                 break;
-            case Constants.MESSAGE_TYPE_SUBJ:
+            case Msg.MESSAGE_TYPE_SUBJ:
                 if (m.subject != null) {
                     buf.append('*').append(m.subject).append("\r\n");
                     break;

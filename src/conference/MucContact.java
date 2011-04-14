@@ -29,7 +29,7 @@
 package conference;
  
 import client.*;
-import client.Constants;
+import com.alsutton.jabber.datablocks.Presence;
 import ui.IconTextElement;
  
  /**
@@ -37,6 +37,20 @@ import ui.IconTextElement;
   * @author root(linux detected!),aqent
   */
  public class MucContact extends Contact {
+    public final static byte AFFILIATION_MEMBER=1;
+    public final static byte AFFILIATION_NONE=0;
+    public final static byte ROLE_VISITOR=-1;
+    public final static byte ROLE_PARTICIPANT=0;
+    public final static byte ROLE_MODERATOR=1;
+    public final static byte AFFILIATION_OUTCAST=-1;
+    public final static byte AFFILIATION_ADMIN=2;
+    public final static byte AFFILIATION_OWNER=3;
+
+    public final static byte GROUP_VISITOR=4;
+    public final static byte GROUP_MEMBER=3;
+    public final static byte GROUP_PARTICIPANT=2;
+    public final static byte GROUP_MODERATOR=1;
+
      public String realJid = null;
      public byte roleCode;
      public byte affiliationCode;
@@ -48,8 +62,8 @@ import ui.IconTextElement;
 
      /** Creates a new instance of MucContact */
      public MucContact(String nick, String jid) {
-        super(nick, jid, Constants.PRESENCE_OFFLINE, "muc");
-        offline_type=Constants.PRESENCE_OFFLINE;
+        super(nick, jid, Presence.PRESENCE_OFFLINE, "muc");
+        offline_type=Presence.PRESENCE_OFFLINE;
      }
      
      public void destroy(){
@@ -61,9 +75,9 @@ import ui.IconTextElement;
      public void addMessage(Msg m) {
          super.addMessage(m);
          switch (m.messageType) {
-            case Constants.MESSAGE_TYPE_IN:
-            case Constants.MESSAGE_TYPE_OUT:
-            case Constants.MESSAGE_TYPE_HISTORY: break;
+            case Msg.MESSAGE_TYPE_IN:
+            case Msg.MESSAGE_TYPE_OUT:
+            case Msg.MESSAGE_TYPE_HISTORY: break;
             default: return;
          }
          lastMessageTime=m.dateGmt;
@@ -71,9 +85,9 @@ import ui.IconTextElement;
     public int compare(IconTextElement right){
         if (right instanceof MucContact) {
             MucContact c = (MucContact) right;
-            if (c.origin==Constants.ORIGIN_GROUPCHAT && origin!=Constants.ORIGIN_GROUPCHAT)
+            if (c.origin==Contact.ORIGIN_GROUPCHAT && origin!=Contact.ORIGIN_GROUPCHAT)
                 return 1;
-            if (origin==Constants.ORIGIN_GROUPCHAT && c.origin!=Constants.ORIGIN_GROUPCHAT)
+            if (origin==Contact.ORIGIN_GROUPCHAT && c.origin!=Contact.ORIGIN_GROUPCHAT)
                 return -1;
             if (c.affiliationCode!=affiliationCode)
                 return c.affiliationCode - affiliationCode;

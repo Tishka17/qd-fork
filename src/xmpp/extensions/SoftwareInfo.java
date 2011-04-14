@@ -63,7 +63,7 @@ public class SoftwareInfo implements JabberBlockListener {
                      }
                   }   
                 }
-                Msg m=new Msg(Constants.MESSAGE_TYPE_IN, "softinfo", SR.get(SR.MS_FEATURES), softinfo.toString());
+                Msg m=new Msg(Msg.MESSAGE_TYPE_IN, "softinfo", SR.get(SR.MS_FEATURES), softinfo.toString());
                 //m.highlite=true;
                 m.itemCollapsed=true;
                 StaticData.getInstance().roster.setQuerySign(false);                
@@ -72,7 +72,7 @@ public class SoftwareInfo implements JabberBlockListener {
               return JabberBlockListener.BLOCK_PROCESSED;                
             }
             if(id.equals("agents1")){
-                Msg m=new Msg(Constants.MESSAGE_TYPE_IN, "agents1", "jabber:iq:agents", data.toString());                
+                Msg m=new Msg(Msg.MESSAGE_TYPE_IN, "agents1", "jabber:iq:agents", data.toString());
                 //m.highlite=true;
                 m.itemCollapsed=true;
                 StaticData.getInstance().roster.setQuerySign(false);                

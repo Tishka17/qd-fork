@@ -28,7 +28,6 @@
 //#ifdef ARCHIVE
 package archive;
 
-import client.Constants;
 import client.Msg;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.Displayable;
@@ -69,7 +68,7 @@ public class ArchiveEdit extends InputTextBox {
             if (body.length() == 0) {
                 body = null;
             }
-            byte type = Constants.MESSAGE_TYPE_OUT;
+            byte type = Msg.MESSAGE_TYPE_OUT;
             String from = "";
             String subj = "";
             if (pos > -1) {

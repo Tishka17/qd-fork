@@ -28,7 +28,6 @@
 //#if IMPORT_EXPORT && ARCHIVE && FILE_IO
 package impexp;
 
-import client.Constants;
 import client.Msg;
 import archive.MessageArchive;
 import java.util.Enumeration;
@@ -90,7 +89,7 @@ public class Archive {
                     String subj = findBlock(tempstr, START_SUBJ, END_SUBJ);
                     String body = findBlock(tempstr, START_BODY, END_BODY);
 
-                    Msg msg = new Msg(Constants.MESSAGE_TYPE_IN, from, subj, body);
+                    Msg msg = new Msg(Msg.MESSAGE_TYPE_IN, from, subj, body);
                     msg.setDayTime(date);
                     vector.insertElementAt(msg, 0);
                 } else {

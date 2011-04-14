@@ -24,10 +24,10 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-
 package client;
-import javax.microedition.lcdui.*; 
+
 import locale.SR;
+import midlet.BombusQD;
 import ui.controls.form.DefForm;
 import ui.controls.form.DropChoiceBox;
 import ui.controls.form.SimpleString;
@@ -37,25 +37,20 @@ import ui.controls.form.SpacerItem;
  *
  * @author Evg_S
  */
-public class SubscriptionEdit 
-        extends DefForm {
-    
-    private Display display;
-    
+
+public class SubscriptionEdit extends DefForm {
     private DropChoiceBox action;
+    private String to;
 
-    String to;
-    /** Creates a new instance of YesNoAlert */
-    public SubscriptionEdit(Display display, Displayable pView, Contact c) {
-        super(display, pView, SR.get(SR.MS_SUBSCRIPTION));
-        
-        this.display=display;
-        
-        to=c.bareJid;
+    public SubscriptionEdit(Contact c) {
+        super(SR.get(SR.MS_SUBSCRIPTION));
 
-        addControl(new SimpleString(c.getNickJid(), true));
+        to = c.bareJid;
 
-        action=new DropChoiceBox(display, SR.get(SR.MS_ACTION));
+		addControl(new SimpleString(c.getNickJid(), true));
+        addControl(new SpacerItem(10));
+
+        action = new DropChoiceBox(SR.get(SR.MS_ACTION));
         action.append(SR.get(SR.MS_NO));
         action.append(SR.get(SR.MS_ASK_SUBSCRIPTION));
         action.append(SR.get(SR.MS_GRANT_SUBSCRIPTION));
@@ -64,35 +59,29 @@ public class SubscriptionEdit
 
         // first control is unselectable
         moveCursorTo(1);
-        attachDisplay(display);
-        this.parentView=pView;
     }
-    
+
     public void cmdOk() {
-        int actionType=action.getSelectedIndex();
-        
-        if (actionType>0) {
-            String presence=null;
+        int actionType = action.getSelectedIndex();
+
+        if (actionType > 0) {
+            String type = null;
             switch (actionType) {
                 case 1:
-                    presence="subscribe";
+                    type = "subscribe";
                     break;
                 case 2:
-                    presence="subscribed";
+                    type = "subscribed";
                     break;
                 case 3:
-                    presence="unsubscribed";
+                    type = "unsubscribed";
                     break;
             }
 
-            if (presence!=null) StaticData.getInstance().roster.sendPresence(to, presence, null, false);
+            if (type != null) {
+                BombusQD.sd.roster.sendPresence(to, type, null, false);
+            }
         }
         destroyView();
     }
-
-    public void destroyView(){
-        if (display!=null)
-            display.setCurrent(StaticData.getInstance().roster);
-    }
-
 }

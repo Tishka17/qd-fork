@@ -60,8 +60,8 @@ public class LightConfigForm extends DefForm {
     private LightControlItem lightBlink;
     private NumberInput lightBlinkTime;
 
-    public LightConfigForm(Display display, Displayable pView) {
-        super(display, pView, SR.get(SR.L_CONFIG));
+    public LightConfigForm() {
+        super(SR.get(SR.L_CONFIG));
 
         config_enabled = new CheckBox(SR.get(SR.L_ENABLED), Config.lightControl);
         addControl(config_enabled);
@@ -78,7 +78,7 @@ public class LightConfigForm extends DefForm {
         lightKeyPress = new LightControlItem(Config.lightKeyPress);
         addControl(lightKeyPress);
 
-        lightKeyPressTime = new NumberInput(display, SR.get(SR.L_KEYPRESS_TIMEOUT), Integer.toString(Config.lightKeyPressTime), 1, 600);
+        lightKeyPressTime = new NumberInput(SR.get(SR.L_KEYPRESS_TIMEOUT), Integer.toString(Config.lightKeyPressTime), 1, 600);
         addControl(lightKeyPressTime);
 
         addControl(new SpacerItem(SPACE_HEIGHT));
@@ -87,7 +87,7 @@ public class LightConfigForm extends DefForm {
         lightMessage = new LightControlItem(Config.lightMessage);
         addControl(lightMessage);
 
-        lightMessageTime = new NumberInput(display, SR.get(SR.L_MESSAGE_TIMEOUT), Integer.toString(Config.lightMessageTime), 1, 600);
+        lightMessageTime = new NumberInput(SR.get(SR.L_MESSAGE_TIMEOUT), Integer.toString(Config.lightMessageTime), 1, 600);
         addControl(lightMessageTime);
 
         addControl(new SpacerItem(SPACE_HEIGHT));
@@ -96,7 +96,7 @@ public class LightConfigForm extends DefForm {
         lightPresence = new LightControlItem(Config.lightPresence);
         addControl(lightPresence);
 
-        lightPresenceTime = new NumberInput(display, "Presence idle timeout", Integer.toString(Config.lightPresenceTime), 1, 600);
+        lightPresenceTime = new NumberInput("Presence idle timeout", Integer.toString(Config.lightPresenceTime), 1, 600);
         addControl(lightPresenceTime);
 
         addControl(new SpacerItem(SPACE_HEIGHT));
@@ -105,7 +105,7 @@ public class LightConfigForm extends DefForm {
         lightConnect = new LightControlItem(Config.lightConnect);
         addControl(lightConnect);
 
-        lightConnectTime = new NumberInput(display, "Connect idle timeout", Integer.toString(Config.lightConnectTime), 1, 600);
+        lightConnectTime = new NumberInput("Connect idle timeout", Integer.toString(Config.lightConnectTime), 1, 600);
         addControl(lightConnectTime);
 
         addControl(new SpacerItem(SPACE_HEIGHT));
@@ -114,18 +114,15 @@ public class LightConfigForm extends DefForm {
         lightError = new LightControlItem(Config.lightError);
         addControl(lightError);
 
-        lightErrorTime = new NumberInput(display, "Error idle timeout", Integer.toString(Config.lightErrorTime), 1, 600);
+        lightErrorTime = new NumberInput("Error idle timeout", Integer.toString(Config.lightErrorTime), 1, 600);
         addControl(lightErrorTime);
 
         addControl(new SimpleString("Blink brightness", true));
         lightBlink = new LightControlItem(Config.lightBlink);
         addControl(lightBlink);
 
-        lightBlinkTime = new NumberInput(display, "Blink timeout", Integer.toString(Config.lightBlinkTime), 1, 600);
+        lightBlinkTime = new NumberInput("Blink timeout", Integer.toString(Config.lightBlinkTime), 1, 600);
         addControl(lightBlinkTime);
-
-        attachDisplay(display);
-        this.parentView = pView;
     }
 
     public void cmdOk() {

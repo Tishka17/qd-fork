@@ -41,8 +41,8 @@ import ui.controls.form.DefForm;
  */
 
 public class ColorsList extends DefForm {
-    public ColorsList(Display display) {
-        super(display, null, SR.get(SR.MS_COLOR_TUNE));
+    public ColorsList() {
+        super(SR.get(SR.MS_COLOR_TUNE));
 
         addControl(new ColorVisualItem(SR.get(SR.MS_BALLOON_INK), ColorTheme.BALLOON_INK));
         addControl(new ColorVisualItem(SR.get(SR.MS_BALLOON_BGND), ColorTheme.BALLOON_BGND));
@@ -102,8 +102,6 @@ public class ColorsList extends DefForm {
         addControl(new ColorVisualItem(SR.get(SR.MS_TRANSPARENCY_ARGB), ColorTheme.TRANSPARENCY_ARGB));
         addControl(new ColorVisualItem(SR.get(SR.MS_GRAPHICS_MENU_BGNG_ARGB), ColorTheme.GRAPHICS_MENU_BGNG_ARGB));
         addControl(new ColorVisualItem(SR.get(SR.MS_GRAPHICS_MENU_FONT), ColorTheme.GRAPHICS_MENU_FONT));
-
-        attachDisplay(display);
     }
 
     public String touchLeftCommand() {
@@ -121,7 +119,7 @@ public class ColorsList extends DefForm {
     private void showColorSelector() {
         ColorVisualItem item = (ColorVisualItem)getFocusedObject();
 
-        new ColorSelector(display, this, item);
+        new ColorSelector(item).show();
     }
 }
 //#endif

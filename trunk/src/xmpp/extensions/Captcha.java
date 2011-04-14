@@ -9,7 +9,6 @@
  
 package xmpp.extensions;
 
-import client.StaticData;
 import com.alsutton.jabber.JabberBlockListener;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.*;
@@ -19,31 +18,29 @@ import javax.microedition.lcdui.Display;
  *
  * @author root
  */
-public class Captcha implements JabberBlockListener{
 
-    private Display display;
-    
+public class Captcha implements JabberBlockListener {
     private String from;
     private String id;
     public void destroy() {
     }    
-    /** Creates a new instance of Captcha */
-    public Captcha(Display display) {
-        this.display=display;
+
+    public Captcha() {
+
     }
 
     public int blockArrived(JabberDataBlock data) {
         if (data instanceof Message) {
      
             JabberDataBlock challenge=data.findNamespace("captcha", "urn:xmpp:captcha");
-            if (challenge==null) return BLOCK_REJECTED;
-
-            JabberDataBlock xdata=challenge.findNamespace("x","jabber:x:data");
+            if (challenge==null) {
+                return BLOCK_REJECTED;
+            }
 
             from=data.getAttribute("from");
             id=data.getAttribute("id");
 
-            new XDataForm(display, data, id, from);
+            new XDataForm(data, id, from);
 
             return BLOCK_PROCESSED;
         }

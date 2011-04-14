@@ -219,11 +219,11 @@ public class Roster
     public static SelectPEP selectPEP = null;
 //#endif
 
-    public final void showActiveContacts(Displayable pView, Contact current){
-        new ActiveContacts(display, pView, current);
+    public final void showActiveContacts(Contact current){
+        new ActiveContacts(current).show();
     }
 
-    public final void showActionsMenu(Displayable pView, Object object) {
+    public final void showActionsMenu(Object object) {
        if (isLoggedIn()) {
            if (object instanceof Group) {
                int type = ((Group)object).type;
@@ -232,13 +232,15 @@ public class Roster
                }
            }
 
-           new ActionsMenu(display, pView, object);
+           new ActionsMenu(object).show();
        }
     }
 
 //#ifdef HISTORY
     public final void showHistory(Displayable pView, Contact c) {
-        new HistoryViewer(display, pView, c);
+        HistoryViewer form = new HistoryViewer(c);
+        form.setParentView(pView);
+        form.show();
     }
 //#endif
 
@@ -247,8 +249,8 @@ public class Roster
              messageEdit = altmessageEdit = null;
 
          if(null == messageEdit && null == altmessageEdit) {
-             messageEdit = new MessageEdit(display);
-             altmessageEdit = new MessageEdit(display, true);
+             messageEdit = new MessageEdit();
+             altmessageEdit = new MessageEdit(true);
          }
     }
 
@@ -273,10 +275,9 @@ public class Roster
 
 
 
-    public Roster(Display display) { //init
+    public Roster() { //init
         super();
         initCommands();
-        this.display=display;
         createMessageEdit(false);
 
         sl=StatusList.getInstance();
@@ -296,10 +297,9 @@ public class Roster
         //message.MessageParser.restart();
 
 //#ifdef PEP
-        if(selectPEP == null) selectPEP = new SelectPEP(display);
+        if(selectPEP == null) selectPEP = new SelectPEP();
 //#endif
 
-        midlet.BombusQD.getInstance().s.setExit(display, this);
 //#ifdef AUTOSTATUS
         if (midlet.BombusQD.cf.autoAwayType==Config.AWAY_IDLE || midlet.BombusQD.cf.autoAwayType==Config.AWAY_MESSAGE)
             autostatus=new AutoStatusTask(false);
@@ -307,10 +307,6 @@ public class Roster
         if (myStatus<2)
             messageActivity();
 //#endif
-    }
-
-    public void showRoster(){
-        midlet.BombusQD.getInstance().display.setCurrent(this);
     }
 
     public void setLight(boolean state) {
@@ -505,21 +501,21 @@ public class Roster
 
 //#ifdef GRAPHICS_MENU
         if (c == cmdActions) {
-            showActionsMenu(this, getFocusedObject());
+            showActionsMenu(getFocusedObject());
         }
            else if(c==cmdOptions) {
-              display.setCurrent(new ConfigForm(display, this));
+              new ConfigForm().show();
 //#ifdef SERVICE_DISCOVERY
            } else if(c==cmdMyService) {
-               new ServiceDiscovery(display, null, null, false);
+               new ServiceDiscovery(null, null, false).show();
 //#endif
 //#ifdef XML_CONSOLE
 //#             } else if(c==cmdXMLConsole){
-//#                 new XMLConsole(display,this);
+//#                 new XMLConsole().show();
 //#endif
 //#ifdef DEBUG_CONSOLE
 //#           } else if(c==cmdDebugConsole){
-//#                 new DebugConsole(display, this);
+//#                 new DebugConsole().show();
 //#endif
          } else if (c==cmdMinimize) { cmdMinimize();  }
 
@@ -555,13 +551,24 @@ public class Roster
 //menu actions
 
     public void cmdMinimize() { BombusQD.getInstance().hideApp(true, null);  }
-    public void cmdAccount(){ new AccountSelect(display, this, false,-1); }
-    public void cmdStatus() { currentReconnect=0; new StatusSelect(display, this, null); }
-    public void cmdAlert() { new AlertProfile(display, this); }
+
+    public void cmdAccount() {
+        new AccountSelect(false, -1).show();
+    }
+
+    public void cmdStatus() {
+        currentReconnect = 0;
+        new StatusSelect(null).show();
+    }
+
+    public void cmdAlert() { new AlertProfile().show(); }
 //#ifdef ARCHIVE
-    public void cmdArchive() { new ArchiveList(display , -1, null, null); }
+    public void cmdArchive() { new ArchiveList(-1, null, null).show(); }
 //#endif
-    public void cmdInfo() { new info.InfoWindow(display, this); }
+
+    public void cmdInfo() {
+        new info.InfoWindow().show();
+    }
 
 //#ifndef GRAPHICS_MENU
 //#     public void cmdTools() { new RosterToolsMenu(display, this); }
@@ -571,7 +578,11 @@ public class Roster
     public void cmdClearPopups() { VirtualList.getPopUp().clear(); }
 //#endif
 //#ifndef WMUC
-   public void cmdConference() { if (isLoggedIn()) new Bookmarks(display, this, null); }
+    public void cmdConference() {
+        if (isLoggedIn()) {
+            new Bookmarks(null).show();
+        }
+    }
 //#endif
 
     public void setProgress(String pgs,int percent){
@@ -757,10 +768,11 @@ public class Roster
 
     public void cmdCleanAllMessages(){
         if (messageCount>0) {
-           new AlertBox(SR.get(SR.MS_UNREAD_MESSAGES)+": "+messageCount, SR.get(SR.MS_SURE_DELETE), display, this, false) {
+            AlertBox box = new AlertBox(SR.get(SR.MS_UNREAD_MESSAGES)+": "+messageCount, SR.get(SR.MS_SURE_DELETE), false) {
                 public void yes() { cleanAllMessages(); }
                 public void no() { }
             };
+            box.show();
         } else {
             cleanAllMessages();
         }
@@ -770,7 +782,8 @@ public class Roster
          contactList.cleanAllMessages();
          highliteMessageCount=0;
          messageCount=0;
-         midlet.BombusQD.sd.roster.showRoster();
+
+         show();
          setModified();
          redraw();
      }
@@ -1183,16 +1196,17 @@ public class Roster
     int firstStatus = -1;
 
     public void sendPresence(int newStatus, String message) {
-        if (newStatus!=Constants.PRESENCE_SAME)
-            myStatus=newStatus;
+        myStatus=newStatus;
 //#ifdef AUTOSTATUS
         messageActivity();
 //#endif
-	if (message!=null) myMessage=message;
+	if (message!=null) {
+            myMessage=message;
+        }
 
         setQuerySign(false);
 
-        if (myStatus!=Constants.PRESENCE_OFFLINE) {
+        if (myStatus != Constants.PRESENCE_OFFLINE) {
              lastOnlineStatus=myStatus;
         }
 
@@ -1623,7 +1637,7 @@ public class Roster
 //#endif
 
 //#ifdef CAPTCHA
-        theStream.addBlockListener(new Captcha(display));
+        theStream.addBlockListener(new Captcha());
 //#endif
 
         playNotify(SOUND_CONNECTED);
@@ -1909,15 +1923,15 @@ public class Roster
 //#endif
                          if (c != null) {
                              c.vcard = vcard;
-                             if (display.getCurrent() instanceof VirtualList) {
+                             if (BombusQD.sd.canvas.isShown()) {
                                  if (c.getGroupType() == Groups.TYPE_SELF) {
-                                     new VCardEdit(display, this, vcard);
+                                     new VCardEdit(vcard).show();
                                  } else {
-                                     new VCardView(display, this, c);
+                                     new VCardView(c).show();
                                  }
                              }
                          } else {
-                             new VCardView(display, this, vcard);
+                             new VCardView(vcard).show();
                          }
                          vcard = null;
                          return JabberBlockListener.BLOCK_PROCESSED;
@@ -1966,7 +1980,7 @@ public class Roster
                         JabberDataBlock reg=data.findNamespace("query","jabber:iq:register");
                         JabberDataBlock remove=reg.getChildBlock("remove");
                         if(remove!=null){
-                          new CommandForm(display,parentView,4,SR.get(SR.MS_ACCOUNT_DELETED),from,null);
+                          new CommandForm(4,SR.get(SR.MS_ACCOUNT_DELETED),from,null).show();
                         }
                        redraw();
                     }
@@ -1996,7 +2010,7 @@ public class Roster
                     if(id.equals("changemypass")) {
                          JabberDataBlock reg=data.findNamespace("query","jabber:iq:register");
                          redraw();
-                         new CommandForm(display,parentView,3,SR.get(SR.MS_CHANGE_PASSWORD),"", reg.getChildBlockText("password"));
+                         new CommandForm(3,SR.get(SR.MS_CHANGE_PASSWORD),"", reg.getChildBlockText("password")).show();
                     }
 
 //#ifdef POPUPS
@@ -2028,22 +2042,25 @@ public class Roster
 
 
                     if (id.startsWith("statistic")) {
-                                 JabberDataBlock query = data.findNamespace("query","http://jabber.org/protocol/stats");
-                                 Vector children = query.getChildBlocks();
+                        JabberDataBlock get_query = data.findNamespace("query", "http://jabber.org/protocol/stats");
+                        String server_name = data.getAttribute("from");
+                        int size = get_query.getChildBlocks().size();
+                        CommandForm cmd = new CommandForm(5, "", null, null);
 
-                                 CommandForm cmd = new CommandForm(midlet.BombusQD.getInstance().display, this , 5 , "", null, null);
-                                 cmd.setParentView(from, this);
-
-                                  try {
-                                      for (int i = 0; i < children.size(); ++i){
-                                          JabberDataBlock value = (JabberDataBlock)children.elementAt(i);
-                                          MultiLine line = new MultiLine(value.getAttribute("name"), value.getAttribute("value"), cmd.superWidth);
-                                          line.setSelectable(true);                                          
-                                          cmd.addControl(line);
-                                      }
-                                 } catch (Exception e) {}
-                                 query = null;
-                      }
+                        JabberDataBlock value;
+                        try {
+                            for (int i = 0; i < size; i++) {
+                                value = (JabberDataBlock)get_query.getChildBlocks().elementAt(i);
+                                MultiLine line = new MultiLine(value.getAttribute("name"), value.getAttribute("value"), cmd.getWidth());
+                                line.setSelectable(true);
+                                cmd.addControl(line);
+                            }
+                        } catch (Exception e) {
+                        }
+                        cmd.addObject(server_name, 0, 0);
+                        cmd.show();
+                        get_query = null;
+                    }
 
 
 
@@ -2381,7 +2398,7 @@ public class Roster
                        int index = from.indexOf('/');
                        int statusCode=Integer.parseInt( status.getAttribute("code") );
                        if(statusCode==201) {
-                           new QueryConfigForm(display,from.substring(0,index));
+                           new QueryConfigForm(from.substring(0,index));
                        }
                     }
 
@@ -2646,7 +2663,7 @@ public class Roster
          return null;
      }
 
-     private final static String getRoleLocale(int rol) {
+     private static String getRoleLocale(int rol) {
          switch (rol) {
              case Constants.ROLE_VISITOR: return SR.get(SR.MS_ROLE_VISITOR);
              case Constants.ROLE_PARTICIPANT: return SR.get(SR.MS_ROLE_PARTICIPANT);
@@ -2657,8 +2674,10 @@ public class Roster
 
      public void testMeOffline(MucContact mc, ConferenceGroup grp, boolean isKick) {
           if ( grp.selfContact == mc ) {
-             if(isKick) display.setCurrent(midlet.BombusQD.sd.roster);
-             midlet.BombusQD.sd.roster.roomOffline(grp, true);
+             if(isKick) {
+                 show();
+             }
+             roomOffline(grp, true);
           }
      }
 
@@ -3098,9 +3117,9 @@ public class Roster
         EventNotify notify=null;
 
         switch (profile) {                                //display   fileType   soundName   volume      vibrate
-            case AlertProfile.ALL:   notify=new EventNotify(display,    type,   message,    volume,     vibraLen); break;
-            case AlertProfile.VIBRA: notify=new EventNotify(display,    null,   null,       volume,     vibraLen); break;
-            case AlertProfile.SOUND: notify=new EventNotify(display,    type,   message,    volume,     0); break;
+            case AlertProfile.ALL:   notify=new EventNotify(type,   message,    volume,     vibraLen); break;
+            case AlertProfile.VIBRA: notify=new EventNotify(null,   null,       volume,     vibraLen); break;
+            case AlertProfile.SOUND: notify=new EventNotify(type,   message,    volume,     0); break;
         }
         if (notify!=null) notify.startNotify();
         type=null;
@@ -3178,7 +3197,7 @@ public class Roster
 
         //reconnectWindow.getInstance().startReconnect();
         //doReconnect();
-        new Reconnect(topBar, error.toString(), display);
+        new Reconnect(topBar, error.toString(), BombusQD.display);
      }
 
      public void doReconnect() {
@@ -3211,7 +3230,7 @@ public class Roster
 
     public void eventLongOk(){
         super.eventLongOk();
-        showActionsMenu(this, getFocusedObject());
+        showActionsMenu(getFocusedObject());
     }
 
 
@@ -3220,7 +3239,7 @@ public class Roster
         if (e instanceof Contact) {
            Contact c = (Contact)e;
            if(c.getChatInfo().getMessageCount()==0){
-               createMessageEdit(c, c.msgSuspended, this, true);
+               createMessageEdit(c, c.msgSuspended, true);
                return null;
            }
            return ((Contact)e).getMessageList();
@@ -3228,33 +3247,33 @@ public class Roster
         return null;
     }
 
-    public void replaceMessageEditText(Contact to, String bodyNew, Displayable pview){
+    public void replaceMessageEditText(Contact to, String bodyNew){
          switch(midlet.BombusQD.cf.msgEditType){
             case 0:
-                messageEdit.replaceText(to, bodyNew, pview);
+                messageEdit.replaceText(to, bodyNew);
                 break;
             case 1:
-                altmessageEdit.replaceText(to, bodyNew, pview);
+                altmessageEdit.replaceText(to, bodyNew);
                 break;
          }
     }
 
-    public void createMultiMessage(Displayable pview,Vector contacts){
+    public void createMultiMessage(Vector contacts){
          switch(midlet.BombusQD.cf.msgEditType){
-            case 0: messageEdit.setText(pview, contacts, true); break;
-            case 1:  altmessageEdit.setText(pview, contacts, true); break;
+            case 0: messageEdit.setText(contacts, true); break;
+            case 1:  altmessageEdit.setText(contacts, true); break;
          }
     }
 
-    public void createMessageEdit(Contact c, String body, Displayable pview, boolean emptyChat){
+    public void createMessageEdit(Contact c, String body,boolean emptyChat){
          switch(midlet.BombusQD.cf.msgEditType){
             case 0:
                 if(messageEdit.ticker!=null) messageEdit.ticker.setString("BombusQD");
-                messageEdit.setText(body, c, pview, emptyChat);
+                messageEdit.setText(body, c, emptyChat);
                 break;
             case 1:
                 if(altmessageEdit.ticker!=null) altmessageEdit.ticker.setString("BombusQD");
-                altmessageEdit.setText(body, c, pview, emptyChat);
+                altmessageEdit.setText(body, c, emptyChat);
                 break;
          }
     }
@@ -3269,10 +3288,10 @@ public class Roster
 
 //#ifdef CLASSIC_CHAT
 //#             if (midlet.BombusQD.cf.module_classicchat) {
-//#                 new SimpleItemChat(display, this, c);
+//#                 new SimpleItemChat(this, c);
 //#             } else {
 //#endif
-                createMessageEdit(c, c.msgSuspended, pview, (c.getChatInfo().getMessageCount() == 0));
+                createMessageEdit(c, c.msgSuspended, (c.getChatInfo().getMessageCount() == 0));
 //#ifdef CLASSIC_CHAT
 //#             }
 //#endif
@@ -3291,12 +3310,13 @@ public class Roster
 //#             boolean isMucContact=false;
 //#endif
                 if (isContact && !isMucContact) {
-                   new AlertBox(SR.get(SR.MS_DELETE_ASK), c.getNickJid(), display, this, false) {
+                    AlertBox box = new AlertBox(SR.get(SR.MS_DELETE_ASK), c.getNickJid(), false) {
                         public void yes() {
                             deleteContact((Contact)getFocusedObject());
                         }
                         public void no() {}
                     };
+                    box.show();
                 }
 //#ifndef WMUC
                 else if (isContact && isMucContact && c.origin!=Constants.ORIGIN_GROUPCHAT) {
@@ -3304,7 +3324,7 @@ public class Roster
                     if (mucGrp.selfContact.roleCode==Constants.ROLE_MODERATOR) {
                         String myNick=mucGrp.selfContact.getName();
                         MucContact mc=(MucContact) c;
-                        new QuickPrivelegyEditForm(display, this, mc, QuickPrivelegyEditForm.KICK,myNick);
+                        new QuickPrivelegyEditForm(mc, QuickPrivelegyEditForm.KICK,myNick).show();
                     }
                 }
 //#endif
@@ -3322,19 +3342,18 @@ public class Roster
             Contact c = (Contact)e;
 
             if (c.getChatInfo().getMessageCount() == 0) {
-                createMessageEdit(c, c.msgSuspended, this, true);
+                createMessageEdit(c, c.msgSuspended, true);
                 return;
             }
 //#ifdef CLASSIC_CHAT
 //#             if (midlet.BombusQD.cf.module_classicchat) {
-//#                 new SimpleItemChat(display, this, c);
+//#                 new SimpleItemChat(this, c);
 //#             } else {
 //#endif
-                display.setCurrent(c.getMessageList());
+                c.getMessageList().show();
 //#ifdef CLASSIC_CHAT
 //#             }
 //#endif
-            c = null;
         } else {
             cleanupGroup();
             reEnumRoster();
@@ -3343,9 +3362,11 @@ public class Roster
     }
 
     public void keyPressed(int keyCode){
-        super.keyPressed(keyCode);
-        if(gm.itemGrMenu>0 && midlet.BombusQD.cf.graphicsMenu){
+        if (gm.itemGrMenu > 0) {
+            super.keyPressed(keyCode);
             return;
+        } else {
+            super.keyPressed(keyCode);
         }
         switch (keyCode) {
 //#ifdef POPUPS
@@ -3377,11 +3398,11 @@ public class Roster
             case SIEMENS_FLIPCLOSE:
             case MOTOROLA_FLIP:
                 if (phoneManufacturer!=Config.SONYE) { //workaround for SE JP6 - enabling vibra in closed state
-                    display.setCurrent(null);
+                    BombusQD.setCurrentView(null);
                     try {
                         Thread.sleep(300);
                     } catch (Exception ex) {}
-                    display.setCurrent(this);
+                    BombusQD.setCurrentView(this);
                 }
                 if (midlet.BombusQD.cf.autoAwayType==Config.AWAY_LOCK)
                     if (!autoAway)
@@ -3412,7 +3433,7 @@ public class Roster
                 break;
 
             case KEY_NUM3:
-                showActiveContacts(this, null);
+                showActiveContacts(null);
                 break;
             case KEY_NUM9:
                 if (getItemCount()==0)
@@ -3427,7 +3448,7 @@ public class Roster
                 if (midlet.BombusQD.cf.ghostMotor) {
                     // backlight management
                     blState=(blState==1)? Integer.MAX_VALUE : 1;
-                    display.flashBacklight(blState);
+                    BombusQD.display.flashBacklight(blState);
                 }
                 break;
         }
@@ -3454,8 +3475,8 @@ public class Roster
                 }
             }
 //#endif
-            midlet.BombusQD.getInstance().s = new SplashScreen(display, getMainBarItem(), midlet.BombusQD.cf.keyLock);
-            //midlet.BombusQD.getInstance().s.createSnow();
+            midlet.BombusQD.getInstance().s = new SplashScreen(getMainBarItem(), midlet.BombusQD.cf.keyLock);
+            midlet.BombusQD.getInstance().s.show();
             return;
         } else if (keyCode==midlet.BombusQD.cf.keyVibra || keyCode==MOTOE680_FMRADIO /* TODO: redefine keyVibra*/) {
             // swap profiles
@@ -3474,20 +3495,22 @@ public class Roster
             return;
         }
 //#ifndef WMUC
-        else if (keyCode==KEY_NUM1 && isLoggedIn()) new Bookmarks(display, this, null);
+        else if (keyCode==KEY_NUM1 && isLoggedIn()) {
+            new Bookmarks(null).show();
+        }
 //#endif
 
        	else if (keyCode==KEY_NUM4) {
-              display.setCurrent(new ConfigForm(display, this));
+              new ConfigForm().show();
         }
         else if (keyCode==KEY_NUM6) {
             Config.fullscreen =! Config.fullscreen;
-            setFullScreenMode(Config.fullscreen);
+            BombusQD.sd.canvas.setFullScreenMode(Config.fullscreen);
             midlet.BombusQD.cf.saveToStorage();
         }
 //#ifdef SERVICE_DISCOVERY
         else if (keyCode==KEY_NUM7 && isLoggedIn())
-            new ServiceDiscovery(display, null, null, false);
+            new ServiceDiscovery(null, null, false).show();
 //#endif
         else if (keyCode==KEY_NUM9) {
             if (midlet.BombusQD.cf.allowMinimize)
@@ -3673,10 +3696,11 @@ public class Roster
 
     public void cmdQuit() {
         if (midlet.BombusQD.cf.queryExit) {
-            new AlertBox(SR.get(SR.MS_QUIT_ASK), SR.get(SR.MS_SURE_QUIT), display, null, false) {
+            AlertBox box = new AlertBox(SR.get(SR.MS_QUIT_ASK), SR.get(SR.MS_SURE_QUIT), false) {
                 public void yes() {quit(); }
                 public void no() { }
             };
+            box.show();
         } else {
             quit();
         }
@@ -3695,7 +3719,7 @@ public class Roster
             if (o instanceof MucContact)
                 cn=(Contact)o;
 //#endif
-            new ContactEdit(display, this, cn);
+            new ContactEdit(cn).show();
        }
    }
 
@@ -3744,7 +3768,6 @@ public class Roster
         aContacts = new Vector(0);
         Vector search = contactList.contacts;
         int size = search.size();
-        short activePos = 0;
         Contact activeContact;
         Contact showNext;
         for(int i = 0; i < size; ++i) {
@@ -3761,7 +3784,7 @@ public class Roster
         } else {
           showNext = (0 == pos) ? (Contact)aContacts.lastElement() : (Contact)aContacts.elementAt(pos - 1);
         }
-        display.setCurrent(showNext.getMessageList());
+        showNext.getMessageList().show();
     }
 
     public void deleteContact(Contact c) {
@@ -3869,7 +3892,7 @@ public class Roster
     public int showGraphicsMenu() {
          GMenuConfig.getInstance().itemGrMenu = GMenu.MAIN_MENU_ROSTER;
          commandState();
-         menuItem = new GMenu(display, parentView, this, MenuIcons.getInstance(), menuCommands, cmdfirstList, cmdsecondList, cmdThirdList);
+         menuItem = new GMenu(this, MenuIcons.getInstance(), menuCommands, cmdfirstList, cmdsecondList, cmdThirdList);
          redraw();
         return GMenu.MAIN_MENU_ROSTER;
     }
@@ -3891,7 +3914,7 @@ public class Roster
         } else if (x < 50){
             cmdStatus();
         } else {
-            showActiveContacts(this, null);
+            showActiveContacts(null);
         }
     }
 
@@ -3923,13 +3946,13 @@ public class Roster
         if (midlet.BombusQD.cf.oldSE) {
             showGraphicsMenu();
         } else {
-            showActionsMenu(this, getFocusedObject());
+            showActionsMenu(getFocusedObject());
         }
     }
 
     public void touchLeftPressed() {
         if (midlet.BombusQD.cf.oldSE) {
-            showActionsMenu(this, getFocusedObject());
+            showActionsMenu(getFocusedObject());
         } else {
             showGraphicsMenu();
         }

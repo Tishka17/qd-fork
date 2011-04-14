@@ -47,12 +47,12 @@ public class InviteForm extends DefForm {
     private DropChoiceBox conferenceList;
     private Contact contact;
 
-    public InviteForm(Display display, Displayable pView, Contact contact) {
-        super(display, pView, SR.get(SR.MS_INVITE));
+    public InviteForm(Contact contact) {
+        super(SR.get(SR.MS_INVITE));
         this.contact = contact;
 
         addControl(new SimpleString(contact.getNickJid(), true));
-        conferenceList = new DropChoiceBox(display, SR.get(SR.MS_CONFERENCE));
+        conferenceList = new DropChoiceBox(SR.get(SR.MS_CONFERENCE));
         for (Enumeration c = StaticData.getInstance().roster.getHContacts().elements(); c.hasMoreElements();) {
             try {
                 MucContact mc = (MucContact)c.nextElement();
@@ -64,14 +64,11 @@ public class InviteForm extends DefForm {
         }
         addControl(conferenceList);
 
-        reason = new TextInput(display, SR.get(SR.MS_REASON), null, "", TextField.ANY);
+        reason = new TextInput(SR.get(SR.MS_REASON), null, "", TextField.ANY);
         addControl(reason);
 
         // first control is unselectable
         moveCursorTo(1);
-
-        attachDisplay(display);
-        this.parentView = pView;
     }
 
     public void cmdOk() {

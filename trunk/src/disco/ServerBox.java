@@ -27,8 +27,6 @@
 //#ifdef SERVICE_DISCOVERY
 package disco;
 
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
 import ui.controls.form.DefForm;
@@ -38,35 +36,33 @@ import ui.controls.form.TextInput;
  *
  * @author ad
  */
-public class ServerBox  
-    extends DefForm {
-    
-    private Display display;
+
+public class ServerBox  extends DefForm {  
     private TextInput serverName;
     private ServiceDiscovery sd;
 
-    /**
-     * Creates a new instance of ServerBox
-     */
-    public ServerBox(Display display, Displayable pView, String service, ServiceDiscovery sd) {
-        super(display, pView, SR.get(SR.MS_DISCO));
-        
-        this.display=display;
-        this.sd=sd;
-        serverName=new TextInput(display, SR.get(SR.MS_ADRESS), service, "disco", TextField.ANY);
-        addControl(serverName);
+    public ServerBox(String service, ServiceDiscovery sd) {
+        super(SR.get(SR.MS_DISCO));
 
-        attachDisplay(display);
-        this.parentView=pView;
+        this.sd = sd;
+
+        serverName = new TextInput(SR.get(SR.MS_ADRESS), service, "disco", TextField.ANY);
+        addControl(serverName);
+        
+        moveCursorTo(getNextSelectableRef(-1));
     }
 
-    public void  cmdOk() {
-        String server=serverName.getValue();
-        if (server.length()==0) server=null;
-        if (server!=null) sd.browse(server, null);
-        
-        //destroyView();
-        display.setCurrent(sd);
+    public void cmdOk() {
+        String server = serverName.getValue();
+        if (server.length() == 0) {
+            server = null;
+        }
+        if (server != null) {
+            destroyView();
+            sd.browse(server, null);
+            return;
+        }
+        destroyView();
     }
 }
 //#endif

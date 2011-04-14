@@ -28,9 +28,7 @@
 //#ifdef PRIVACY
 package privacy;
 
-import client.Config;
 import client.StaticData;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import images.RosterIcons;
 //#ifndef MENU_LISTENER
@@ -39,7 +37,6 @@ import images.RosterIcons;
 //#else
 import menu.MenuListener;
 import menu.Command;
-import menu.MyMenu;
 //#endif
 import locale.SR;
 import ui.*;
@@ -47,13 +44,14 @@ import java.util.*;
 import com.alsutton.jabber.*;
 //#ifdef GRAPHICS_MENU        
 import ui.GMenu;
-//#endif 
+//#endif
+
 /**
  *
  * @author EvgS,aqent
  */
-public class PrivacyModifyList 
-        extends VirtualList 
+
+public class PrivacyModifyList extends VirtualList 
         implements
 //#ifndef MENU_LISTENER
 //#         CommandListener,
@@ -77,10 +75,9 @@ public class PrivacyModifyList
     private Command cmdSave;
     
     JabberStream stream=StaticData.getInstance().roster.theStream;
-    
-    /** Creates a new instance of PrivacySelect */
-    public PrivacyModifyList(Display display, Displayable pView, PrivacyList privacyList) {
-        super(display);
+
+    public PrivacyModifyList(PrivacyList privacyList) {
+        super();
         
         cmdCancel=new Command (SR.get(SR.MS_CANCEL), Command.BACK, 99);
         cmdAdd=new Command (SR.get(SR.MS_ADD_RULE), Command.SCREEN, 10);
@@ -96,7 +93,6 @@ public class PrivacyModifyList
 
         plist=privacyList;
         getList();
-        this.parentView=pView;
     }
 
     public void commandState() {
@@ -119,7 +115,7 @@ public class PrivacyModifyList
 //#ifdef GRAPHICS_MENU        
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(display, parentView, this,  null, menuCommands);
+        menuItem = new GMenu(this,  null, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.PRIVACY_MODIFY_LIST;        
         return GMenu.PRIVACY_MODIFY_LIST;
     }
@@ -154,9 +150,11 @@ public class PrivacyModifyList
             destroyView();
         }
         if (c==cmdAdd) {
-            new PrivacyForm(display, this, new PrivacyItem(), plist);
+            new PrivacyForm(new PrivacyItem(), plist).show();
         }
-        if (c==cmdEdit) eventOk();
+        if (c==cmdEdit) {
+            eventOk();
+        }
         if (c==cmdDel) {
             Object del=getFocusedObject();
             if (del!=null) plist.rules.removeElement(del);
@@ -165,6 +163,7 @@ public class PrivacyModifyList
             plist.generateList();
             stream.cancelBlockListener(this);
             PrivacyList.privacyListRq(false, null, "setplists");
+
             destroyView();
         }
         
@@ -192,7 +191,7 @@ public class PrivacyModifyList
     public void eventOk(){
         PrivacyItem pitem=(PrivacyItem) getFocusedObject();
         if (pitem!=null) {
-            new PrivacyForm(display, this, pitem, null);
+            new PrivacyForm(pitem, null).show();
         }
     }
     

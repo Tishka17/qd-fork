@@ -94,8 +94,9 @@ public class Config {
     public final static byte WTK=50;
     public final static byte OTHER=99;
     public final static byte NOKIA_5800=44;
+
 //#ifdef TOUCH
-    public boolean isTouchPhone;
+    public static boolean isTouchPhone;
 //#endif
 
     public boolean flagQuerySign = false;

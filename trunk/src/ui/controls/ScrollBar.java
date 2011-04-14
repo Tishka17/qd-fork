@@ -116,14 +116,14 @@ public class ScrollBar {
             int pos=position-windowSize;
             if (pos<0) pos=0;
             list.win_top=pos;
-            list.repaint();
+            list.redraw();
             return true;
         }
         if (y>scrollerPos+scrollerSize) {
             int pos=position+windowSize;
             int listEnd=size-windowSize;
             list.win_top=(pos<listEnd)?pos:listEnd;
-            list.repaint();
+            list.redraw();
             return true;
         } // page down
         point_y=y-scrollerPos;

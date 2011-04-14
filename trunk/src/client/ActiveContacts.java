@@ -37,7 +37,6 @@ import java.util.Vector;
 import menu.MenuListener;
 import menu.Command;
 //#endif
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import midlet.BombusQD;
@@ -61,13 +60,10 @@ public final class ActiveContacts extends VirtualList implements
         MenuListener
 //#endif
 {
-
     private static final int SORT_BY_STATUS = 0;
     private static final int SORT_BY_MSGCOUNT = 1;
 
     private Vector contacts = new Vector();
-
-    public static boolean isActive = false;
 
     private Command cmdCancel;
     private Command cmdOk;
@@ -78,7 +74,7 @@ public final class ActiveContacts extends VirtualList implements
     private Command cmdSortByMsgsCount;
     private Command cmdClearAllMessages;
 
-    public ActiveContacts(Display display, Displayable pView, Contact current) {
+    public ActiveContacts(Contact current) {
         cmdCancel = new Command(SR.get(SR.MS_BACK), Command.BACK, 99);
 
         cmdOk = new Command(SR.get(SR.MS_SELECT), Command.SCREEN, 1);
@@ -116,9 +112,6 @@ public final class ActiveContacts extends VirtualList implements
         }
 
         setMainBarItem(new MainBar(SR.get(SR.MS_ACTIVE_CONTACTS) + " (" + getItemCount() + ")"));
-
-        attachDisplay(display);
-        super.parentView = pView;
     }
 
     private void sortContacts(int type) {
@@ -158,7 +151,7 @@ public final class ActiveContacts extends VirtualList implements
         }
         commandState();
 
-        menuItem = new GMenu(display, parentView, this, null, menuCommands, cmdfirstList, null, null);
+        menuItem = new GMenu(this, null, menuCommands, cmdfirstList, null, null);
         GMenuConfig.getInstance().itemGrMenu = GMenu.ACTIVE_CONTACTS;
         return GMenu.ACTIVE_CONTACTS;
     }
@@ -178,13 +171,12 @@ public final class ActiveContacts extends VirtualList implements
 
     public void eventOk() {
         Contact contact = (Contact) getFocusedObject();
-        isActive = false;
 //#ifdef CLASSIC_CHAT
-//#         if (Config.getInstance().module_classicchat) {
-//#             new SimpleItemChat(display, BombusQD.sd.roster, contact);
+//#         if (Config.module_classicchat) {
+//#             new SimpleItemChat(BombusQD.sd.roster, contact);
 //#         } else {
 //#endif
-            display.setCurrent(contact.getMessageList());
+            contact.getMessageList().show();
 //#ifdef CLASSIC_CHAT
 //#         }
 //#endif
@@ -198,7 +190,7 @@ public final class ActiveContacts extends VirtualList implements
             eventOk();
         }
         if (c == cmdCreateMultiMessage) {
-            BombusQD.sd.roster.createMultiMessage(this, contacts);
+            BombusQD.sd.roster.createMultiMessage(contacts);
         }
         if (c == cmdClearAllMessages) {
             BombusQD.sd.roster.cmdCleanAllMessages();
@@ -270,7 +262,7 @@ public final class ActiveContacts extends VirtualList implements
 
     public void destroyView() {
         BombusQD.sd.roster.reEnumRoster();
-        display.setCurrent(parentView);
+        super.destroyView();
     }
 
 //#ifdef MENU_LISTENER

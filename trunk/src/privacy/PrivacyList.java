@@ -104,7 +104,7 @@ public class PrivacyList extends IconTextElement {
         rules.insertElementAt(rule, index);
     }
     
-    public final static void privacyListRq(boolean set, JabberDataBlock child, String id){
+    public static void privacyListRq(boolean set, JabberDataBlock child, String id){
         JabberDataBlock pl=new Iq(null, (set)? Iq.TYPE_SET: Iq.TYPE_GET, id);
         JabberDataBlock qry=pl.addChildNs("query", "jabber:iq:privacy");
         if (child!=null) qry.addChild(child);

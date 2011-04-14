@@ -23,17 +23,13 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
+
 //#ifdef HISTORY
 
 package history;
 
 import client.Config;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
-//#ifdef DETRANSLIT
-//# import ui.controls.form.CheckBox;
-//#endif
 import ui.controls.form.DefForm;
 import ui.controls.form.DropChoiceBox;
 import ui.controls.form.PathSelector;
@@ -46,14 +42,11 @@ import ui.controls.form.PathSelector;
 public class HistoryConfigForm extends DefForm {   
     private DropChoiceBox historyType;
     private PathSelector historyFolder;
-//#ifdef DETRANSLIT
-//#     private CheckBox translit;
-//#endif
 
-    public HistoryConfigForm(Display display, Displayable pView) {
-        super(display, pView, SR.get(SR.MS_HISTORY_OPTIONS));
+    public HistoryConfigForm() {
+        super(SR.get(SR.MS_HISTORY_OPTIONS));
 
-        historyType = new DropChoiceBox(display, SR.get(SR.MS_HISTORY_TYPE));
+        historyType = new DropChoiceBox(SR.get(SR.MS_HISTORY_TYPE));
         historyType.append(SR.get(SR.MS_HISTORY_RMS));
 //#ifdef FILE_IO
         historyType.append(SR.get(SR.MS_HISTORY_FS));
@@ -62,28 +55,16 @@ public class HistoryConfigForm extends DefForm {
         addControl(historyType);
 
 //#ifdef FILE_IO
-//#ifdef DETRANSLIT
-//#         translit = new CheckBox(SR.get(SR.MS_1251_TRANSLITERATE_FILENAMES), Config.transliterateFilenames);
-//#         addControl(translit);
-//#endif
         historyFolder = new PathSelector(SR.get(SR.MS_HISTORY_FOLDER), Config.historyPath, PathSelector.TYPE_DIR);
         addControl(historyFolder);
 //#endif
-
-        attachDisplay(display);
-        this.parentView = pView;
     }
 
     public void cmdOk() {
-        Config.historyPath = historyFolder.getValue();
-        Config.historyTypeIndex = historyType.getValue();
 //#ifdef FILE_IO
-//#ifdef DETRANSLIT
-//#         Config.transliterateFilenames = translit.getValue();
+        Config.historyPath = historyFolder.getValue();
 //#endif
-//#endif
-
-        destroyView();
+        Config.historyTypeIndex = historyType.getValue();
     }
 }
 //#endif

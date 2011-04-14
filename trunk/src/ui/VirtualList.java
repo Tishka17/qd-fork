@@ -60,9 +60,7 @@ import menu.MenuListener;
 import light.CustomLight;
 //#endif
 
-
-public abstract class VirtualList
-    extends Canvas {
+public abstract class VirtualList extends CanvasEx {
 
     protected void focusedItem(int index) {}
 
@@ -196,11 +194,6 @@ public abstract class VirtualList
 
     public static boolean canBack=true;
 
-    public int width;
-    public int height;
-
-    private Image offscreen = null;
-
     protected int cursor;
 
     protected boolean stickyWindow=true;
@@ -292,11 +285,6 @@ public abstract class VirtualList
     public MainBar getInfoBarItem() {return infobar;}
     public void setInfoBarItem(MainBar infobar) { this.infobar=infobar; }
 
-//#ifdef ELF
-//#     private static boolean sie_accu=true;
-//#     private static boolean sie_net=true;
-//#endif
-
     public Object getFocusedObject() {
         try {
             return getItemRef(cursor);
@@ -304,12 +292,9 @@ public abstract class VirtualList
         return null;
     }
 
-    protected Display display;
-    protected Displayable parentView;
+    //protected Display display;
 
     protected ScrollBar scrollbar;
-
-    /** Creates a new instance of VirtualList */
 
     int scrWidth;
     int scrHeight;
@@ -338,9 +323,10 @@ public abstract class VirtualList
 //#ifdef BACK_IMAGE
     private static Image bgndImage = null;
 
-    public static Image getImage(int type) {
+    public static Image getImage() {
 	return bgndImage;
     }
+
     public static void createImage(boolean create) {
            if(create) {
                if (bgndImage != null) {
@@ -379,9 +365,8 @@ public abstract class VirtualList
         width=getWidth();
         height=getHeight();
 
-         gm.phoneWidth = width;
-         gm.phoneHeight = height;
-
+         gm.phoneWidth = getWidth();
+         gm.phoneHeight = getHeight();
 
 //#ifdef BACK_IMAGE
         createImage(true);
@@ -393,17 +378,13 @@ public abstract class VirtualList
         }
 
         changeOrient(Config.panelsState);
-//#ifdef TOUCH
-        midlet.BombusQD.cf.isTouchPhone = hasPointerEvents();
-//#endif
-        setFullScreenMode(Config.fullscreen);
 
         itemBorder=null;
         itemBorder=new int[32];
 
         scrollbar=new ScrollBar();
 //#ifdef TOUCH
-        scrollbar.setHasPointerEvents(midlet.BombusQD.cf.isTouchPhone);
+        scrollbar.setHasPointerEvents(Config.isTouchPhone);
 //#endif
         MainBar secondBar=new MainBar("", true);
         secondBar.addElement(null); //1
@@ -417,35 +398,7 @@ public abstract class VirtualList
 //#endif
     }
 
-    /** Creates a new instance of VirtualList */
-    public VirtualList(Display display) {
-        this();
-        attachDisplay(display);
-
-    }
-
-    public void attachDisplay (Display display) {
-        this.display=display;
-        parentView=display.getCurrent();
-        display.setCurrent(this);
-        redraw();
-    }
-
-
-    public void redraw(){
-        Displayable d = midlet.BombusQD.getInstance().display.getCurrent();
-        if (d instanceof Canvas) {
-            ((Canvas)d).repaint();
-        }
-    }
-
-
-    protected void hideNotify() {
-	offscreen=null;
-    }
-
     protected void showNotify() {
-	if (!isDoubleBuffered()) offscreen=Image.createImage(width, height);
 //#if (USE_ROTATOR)
         TimerTaskRotate.startRotate(-1, this);
 //#endif
@@ -456,14 +409,10 @@ public abstract class VirtualList
 //#ifdef DEBUG_CONSOLE
 //#         midlet.BombusQD.debug.add("VirtualList::sizeChanged " + width+"x"+height + "->"+w+"x"+h ,10);
 //#endif
-        width=w;
-        height=h;
 //#ifdef GRADIENT
         iHeight=0;
         mHeight=0;
 //#endif
-        if (!isDoubleBuffered()) offscreen=Image.createImage(width, height);
-        repaint();
     }
 
     protected void beginPaint(){};
@@ -486,12 +435,11 @@ public abstract class VirtualList
 
 //#endif
 
-    public void paint(Graphics graphics) {
+    public void paint(Graphics g) {
 
         mHeight=0;
         iHeight=0;
         lastPaint = System.currentTimeMillis();
-        Graphics g=(offscreen==null)? graphics: offscreen.getGraphics();
         /*
         if((time_wait-time_start)>=1000) {
             time_start = System.currentTimeMillis();
@@ -513,7 +461,6 @@ public abstract class VirtualList
 //#ifdef GRAPHICS_MENU
         if(midlet.BombusQD.cf.graphicsMenu) {
            if(null != menuItem) {
-             if(gm.itemGrMenu>0) menuItem.init(g, width, height,this);
              if(gm.ml!=null && gm.itemGrMenu==-1) menuItem.select(gm.inMenuSelected);
            }
         }
@@ -693,7 +640,9 @@ public abstract class VirtualList
                     drawInfoPanel(g, 0);
                 }
             } else {
+                if (mainbar != null) {
                     drawMainPanel(g, 0);
+                }
               }
         }
 
@@ -800,7 +749,6 @@ public abstract class VirtualList
 	    g.drawArc(lastClickX-(r>>1), lastClickY-(r>>1), r, r, 180, 270);
 	}
 //#endif
-        if (g != graphics) g.drawImage(offscreen, 0, 0, Graphics.LEFT | Graphics.TOP);
     }
 
 //#ifdef POPUPS
@@ -1287,7 +1235,7 @@ public abstract class VirtualList
 
         if (getItemRef(index).isSelectable()) cursor=index;
         stickyWindow=true;
-        repaint();
+        redraw();
     }
 
     public void moveCursorTo(int index, boolean force){
@@ -1296,7 +1244,7 @@ public abstract class VirtualList
         if (index>=count) index=count-1;
         cursor=index;
         stickyWindow=true;
-        repaint();
+        redraw();
     }
 
     protected void fitCursorByTop(){
@@ -1364,7 +1312,7 @@ public abstract class VirtualList
         if(gm.itemGrMenu>0){
             if(null != menuItem) {
                 menuItem.pointerPressed(x, y);
-                repaint();
+                redraw();
             }
             return;
         }
@@ -1426,7 +1374,7 @@ public abstract class VirtualList
 
         if(cursor==-1) cursor = 0;
 	setRotator();
-        repaint();
+        redraw();
    }
 
 
@@ -1437,7 +1385,7 @@ public abstract class VirtualList
             if(null != menuItem) {
                 menuItem.pointerPressed(x, y);
                 if (clickTime-lastPaint>80) {
-                    repaint();
+                    redraw();
                 }
             }
             return;
@@ -1448,7 +1396,7 @@ public abstract class VirtualList
       if (pointer_state == client.Constants.POINTER_SCROLLBAR) {
             scrollbar.pointerDragged(x, y, this);
             if (clickTime-lastPaint>80) {
-                    repaint();
+                    redraw();
             }
             stickyWindow=false;
             return;
@@ -1463,7 +1411,7 @@ public abstract class VirtualList
       if (win_top<0) win_top=0;
       stickyWindow=false;
       if (clickTime-lastPaint>70 || old_state!=pointer_state) {
-                    repaint();
+                    redraw();
       }
       return;
     }
@@ -1476,7 +1424,7 @@ public abstract class VirtualList
         if(gm.itemGrMenu>0){
             if(null != menuItem && y>lastClickY-7 && y<lastClickY+7) {
                 menuItem.pointerReleased(x, y);
-                repaint();
+                redraw();
             }
             lastClickTime=clickTime;
             lastClickX=x;
@@ -1548,19 +1496,20 @@ public abstract class VirtualList
 //#endif //TOUCH
 
 //#ifdef USER_KEYS
+    // TODO укоротить
     private void additionKeyPressed(int keyCode) {
         switch (keyCode) {
-            case KEY_NUM0: UserKeyExec.getInstance().commandExecute(display, 0); break;
-            case KEY_NUM1: UserKeyExec.getInstance().commandExecute(display, 1); break;
-            case KEY_NUM2: UserKeyExec.getInstance().commandExecute(display, 2); break;
-            case KEY_NUM3: UserKeyExec.getInstance().commandExecute(display, 3); break;
-            case KEY_NUM4: UserKeyExec.getInstance().commandExecute(display, 4); break;
-            case KEY_NUM5: UserKeyExec.getInstance().commandExecute(display, 5); break;
-            case KEY_NUM6: UserKeyExec.getInstance().commandExecute(display, 6); break;
-            case KEY_NUM7: UserKeyExec.getInstance().commandExecute(display, 7); break;
-            case KEY_NUM8: UserKeyExec.getInstance().commandExecute(display, 8); break;
-            case KEY_NUM9: UserKeyExec.getInstance().commandExecute(display, 9); break;
-            case KEY_POUND: UserKeyExec.getInstance().commandExecute(display, 10); break;
+            case KEY_NUM0: UserKeyExec.getInstance().commandExecute(0); break;
+            case KEY_NUM1: UserKeyExec.getInstance().commandExecute(1); break;
+            case KEY_NUM2: UserKeyExec.getInstance().commandExecute(2); break;
+            case KEY_NUM3: UserKeyExec.getInstance().commandExecute(3); break;
+            case KEY_NUM4: UserKeyExec.getInstance().commandExecute(4); break;
+            case KEY_NUM5: UserKeyExec.getInstance().commandExecute(5); break;
+            case KEY_NUM6: UserKeyExec.getInstance().commandExecute(6); break;
+            case KEY_NUM7: UserKeyExec.getInstance().commandExecute(7); break;
+            case KEY_NUM8: UserKeyExec.getInstance().commandExecute(8); break;
+            case KEY_NUM9: UserKeyExec.getInstance().commandExecute(9); break;
+            case KEY_POUND: UserKeyExec.getInstance().commandExecute(10); break;
         }
     }
 //#endif
@@ -1672,7 +1621,7 @@ public abstract class VirtualList
     public void touchLeftPressed(){
 //#ifdef GRAPHICS_MENU
          gm.itemGrMenu = showGraphicsMenu();
-         repaint();
+         redraw();
 //#else
 //#         showMenu();
 //#endif
@@ -1706,7 +1655,7 @@ public abstract class VirtualList
 //#ifdef GRAPHICS_MENU
      if(gm.itemGrMenu>0 && midlet.BombusQD.cf.graphicsMenu ) { //�������� ����
          if(null != menuItem) menuItem.keyPressed(keyCode);
-         repaint();
+         redraw();
      }
      else{
 //#ifdef POPUPS
@@ -1714,15 +1663,15 @@ public abstract class VirtualList
             if (getPopUp().getContact()!=null) {
 //#ifdef CLASSIC_CHAT
 //#                    if(midlet.BombusQD.cf.module_classicchat){
-//#                       new SimpleItemChat(midlet.BombusQD.getInstance().display,sd.roster,sd.roster.getContact(popup.getContact(), false));
+//#                       new SimpleItemChat(sd.roster,sd.roster.getContact(popup.getContact(), false));
 //#                    } else {
 //#endif
                        Contact c = sd.roster.getContact(popup.getContact(), false);
-                       if(c.getChatInfo().getMessageCount()<=0 ){
-                          midlet.BombusQD.sd.roster.createMessageEdit(c, c.msgSuspended, this, true);
+                       if(c.getChatInfo().getMessageCount() <= 0){
+                          midlet.BombusQD.sd.roster.createMessageEdit(c, c.msgSuspended, true);
                           return;
                        }
-                       midlet.BombusQD.getInstance().display.setCurrent(c.getMessageList());
+                       c.getMessageList().show();
 //#ifdef CLASSIC_CHAT
 //#                    }
 //#endif
@@ -1767,7 +1716,7 @@ public abstract class VirtualList
 //#          }
 //#endif
         if (sendEvent(keyCode)) {
-            repaint();
+            redraw();
             return;
         }
 //#ifdef USER_KEYS
@@ -1869,7 +1818,7 @@ public abstract class VirtualList
 //#endif
             }
         }
-        repaint();
+        redraw();
      }
 //#else
 //#if DEBUG
@@ -1918,7 +1867,7 @@ public abstract class VirtualList
 //#          }
 //#endif
 //#         if (sendEvent(keyCode)) {
-//#             repaint();
+//#             redraw();
 //#             return;
 //#         }
 //#ifdef USER_KEYS
@@ -2012,7 +1961,7 @@ public abstract class VirtualList
 //#                 }
 //#             } catch (Exception e) {/* IllegalArgumentException @ getGameAction */}
 //#         }
-//#         repaint();
+//#         redraw();
 //#endif
     }
 
@@ -2128,16 +2077,6 @@ public abstract class VirtualList
             TimerTaskRotate.startRotate(itemWidth, this);
         }
  //#endif
-    }
-
-    public void setParentView(Displayable parentView){
-        this.parentView=parentView;
-    }
-
-    public void destroyView(){
-        sd.roster.activeContact=null;
-        if (display!=null && parentView!=null) /*prevents potential app hiding*/
-            display.setCurrent(parentView);
     }
 
     public int getListWidth() {

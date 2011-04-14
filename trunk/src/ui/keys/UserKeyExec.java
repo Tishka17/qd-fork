@@ -101,9 +101,7 @@ public class UserKeyExec {
         return commandNum;
     }
 
-    public void commandExecute(Display display, int command) { //return false if key not executed
-        this.display=display;
-
+    public void commandExecute(int command) { //return false if key not executed
         int commandId=getCommandByKey(command);
 
         if (commandId<1) return;
@@ -111,9 +109,6 @@ public class UserKeyExec {
         boolean connected= ( sd.roster.isLoggedIn() );
 
         switch (commandId) {
-            case 1:
-                //new ConfigForm(display, sd.roster);//?
-                break;
             case 2:
                 sd.roster.cmdCleanAllMessages();
                 break;
@@ -126,7 +121,7 @@ public class UserKeyExec {
 //#ifdef PLUGINS
 //#                 if (sd.Stats)
 //#endif
-                    new StatsWindow(display);
+                    new StatsWindow().show();
                 break;
 //#endif
 //#endif
@@ -136,7 +131,7 @@ public class UserKeyExec {
             case 6:
 //#ifdef FILE_IO
 //#if FILE_TRANSFER
-                new io.file.transfer.TransferManager(display);
+                new io.file.transfer.TransferManager().show();
 //#endif
 //#endif
                 break;
@@ -150,16 +145,20 @@ public class UserKeyExec {
                 break;
             case 8:
 //#ifdef SERVICE_DISCOVERY
-                if (connected) new ServiceDiscovery(display, null, null, false);
+                if (connected) {
+                    new ServiceDiscovery(null, null, false).show();
+                }
 //#endif
                 break;
             case 9:
 //#ifdef PRIVACY
-                if (connected) new PrivacySelect(display, sd.roster);
+                if (connected) {
+                    new PrivacySelect().show();
+                }
 //#endif
                 break;
             case 10: //key pound
-                new UserKeysList(display);
+                new UserKeysList().show();
                 break;
             case 11:
 //#ifdef POPUPS

@@ -46,17 +46,14 @@ public  class DropChoiceBox extends IconTextElement {
     public int index = 0;
     public Vector items = new Vector(0);
 
-    private Display display;
-
     private String caption;
     private Font font;
     private int fontHeight;
     private Font captionFont;
     private int captionFontHeight;
 
-    public DropChoiceBox(Display display, String caption) {
+    public DropChoiceBox(String caption) {
         super(RosterIcons.getInstance());
-        this.display = display;
         this.caption = caption;
 
         font = FontCache.getFont(false, Config.rosterFont);
@@ -107,7 +104,7 @@ public  class DropChoiceBox extends IconTextElement {
 
     public void onSelect(VirtualList view) {
         if (items.size() > 1) {
-            new DropListBox(display, items, this);
+            new DropListBox(items, this).show();
         }
     }
 

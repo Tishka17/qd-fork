@@ -42,7 +42,6 @@ import menu.MenuListener;
 import menu.Command;
 //#endif
 import javax.microedition.lcdui.Displayable;
-import javax.microedition.lcdui.Display;
 import locale.SR;
 import ui.*;
 import java.util.*;
@@ -55,8 +54,7 @@ import ui.GMenu;
  *
  * @author EvgS,aqent
  */
-public final class Bookmarks
-        extends VirtualList
+public final class Bookmarks extends VirtualList
         implements
 //#ifndef MENU_LISTENER
 //#         CommandListener
@@ -88,12 +86,10 @@ public final class Bookmarks
 
     private BookmarkItem toAdd;
 
-    //JabberStream stream=sd.roster.theStream;
-    /** Creates a new instance of Bookmarks */
-    public Bookmarks(Display display, Displayable pView, BookmarkItem toAdd) {
+    public Bookmarks(BookmarkItem toAdd) {
         super ();
         if (getItemCount()==0 && toAdd==null) {
-            new ConferenceForm(display, pView);
+            new ConferenceForm().show();
             return;
         }
 
@@ -107,8 +103,6 @@ public final class Bookmarks
         initCommands();//fix
 
         setCommandListener(this);
-	attachDisplay(display);
-        this.parentView=pView;
     }
 
     public void initCommands() {
@@ -228,14 +222,14 @@ public final class Bookmarks
               ConferenceForm.join(join.getDesc(), join.getJidNick(), join.getPassword(), midlet.BombusQD.cf.confMessageCount);
           }
        } catch (Exception e) { }
-       midlet.BombusQD.sd.roster.showRoster(); //N78 hardfix
+       midlet.BombusQD.sd.roster.show(); //N78 hardfix
     }
 
     public void commandAction(Command c, Displayable d){
         if (c == cmdCancel) {
             destroyView();
         } else if (c == cmdNew) {
-            new ConferenceForm(display, this);
+            new ConferenceForm().show();
             return;
         } else if (c == cmdJoin) {
             eventOk();
@@ -249,7 +243,7 @@ public final class Bookmarks
 
         if (c == cmdAdvJoin) {
             BookmarkItem join = (BookmarkItem)getFocusedObject();
-            new ConferenceForm(display, this, join);
+            new ConferenceForm(join).show();
         } else if (c == cmdDel) {
             deleteBookmark();
             setMainBarItem(new MainBar(2, null, SR.get(SR.MS_BOOKMARKS) + " (" + getItemCount() + ") ", false));
@@ -257,19 +251,19 @@ public final class Bookmarks
         }
 //#ifdef SERVICE_DISCOVERY
         else if (c == cmdDisco) {
-            new ServiceDiscovery(display, roomJid, null, false);
+            new ServiceDiscovery(roomJid, null, false).show();
         }
 //#endif
         else if (c == cmdConfigure) {
-            new QueryConfigForm(display, roomJid);
+            new QueryConfigForm(roomJid);
         } else if (c == cmdRoomOwners) {
-            new AffiliationList(display, this, roomJid, AffiliationItem.AFFILIATION_OWNER);
+            new AffiliationList(roomJid, AffiliationItem.AFFILIATION_OWNER).show();
         } else if (c == cmdRoomAdmins) {
-            new AffiliationList(display, this, roomJid, AffiliationItem.AFFILIATION_ADMIN);
+            new AffiliationList(roomJid, AffiliationItem.AFFILIATION_ADMIN).show();
         } else if (c == cmdRoomMembers) {
-            new AffiliationList(display, this, roomJid, AffiliationItem.AFFILIATION_MEMBER);
+            new AffiliationList(roomJid, AffiliationItem.AFFILIATION_MEMBER).show();
         } else if (c == cmdRoomBanned) {
-            new AffiliationList(display, this, roomJid, AffiliationItem.AFFILIATION_OUTCAST);
+            new AffiliationList(roomJid, AffiliationItem.AFFILIATION_OUTCAST).show();
         } else if (c == cmdSort) {
             sort(midlet.BombusQD.sd.roster.bookmarks);
         } else if (c == cmdDoAutoJoin) {
@@ -279,7 +273,7 @@ public final class Bookmarks
                     ConferenceForm.join(bm.getDesc(), bm.getJidNick(), bm.getPassword(), midlet.BombusQD.cf.confMessageCount);
                 }
             }
-            midlet.BombusQD.sd.roster.showRoster();
+            midlet.BombusQD.sd.roster.show();
         } else if (c == cmdSave) {
             saveBookmarks();
         } else if (c == cmdUp) {
@@ -327,7 +321,7 @@ public final class Bookmarks
     public void keyPressed(int keyCode) {
 //#ifdef SERVICE_DISCOVERY
         if (keyCode == KEY_POUND) {
-            new ServiceDiscovery(display, ((BookmarkItem)getFocusedObject()).getJid() , null, false);
+            new ServiceDiscovery(((BookmarkItem)getFocusedObject()).getJid() , null, false).show();
             return;
         }
 //#endif
@@ -335,19 +329,20 @@ public final class Bookmarks
     }
 
     protected void keyClear(){
-        new AlertBox(SR.get(SR.MS_DELETE_ASK), ((BookmarkItem)getFocusedObject()).getJid(), display, this, false) {
+        AlertBox box = new AlertBox(SR.get(SR.MS_DELETE_ASK), ((BookmarkItem)getFocusedObject()).getJid(), false) {
             public void yes() {
                 deleteBookmark();
             }
             public void no() {}
         };
+        box.show();
     }
 
 //#ifdef MENU_LISTENER
 //#ifdef GRAPHICS_MENU
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(display, parentView, this, null, menuCommands, cmdfirstList, cmdsecondList, cmdThirdList);
+        menuItem = new GMenu(this, null, menuCommands, cmdfirstList, cmdsecondList, cmdThirdList);
         GMenuConfig.getInstance().itemGrMenu=GMenu.BOOKMARKS;
         return GMenu.BOOKMARKS;
     }

@@ -77,7 +77,7 @@ public final class AffiliationList extends VirtualList implements
     private Command cmdModify;
     private Command cmdNew;
 
-    public AffiliationList(Display display, Displayable pView, String room, int affiliationIndex) {
+    public AffiliationList(String room, int affiliationIndex) {
         super();
         this.room=room;
 
@@ -103,8 +103,6 @@ public final class AffiliationList extends VirtualList implements
         cmdNew.setImg(0x02);
 
         setCommandListener(this);
-        attachDisplay(display);
-        this.parentView=pView;
         getList();
     }
 
@@ -135,7 +133,7 @@ public final class AffiliationList extends VirtualList implements
 
     public void commandAction(Command c, Displayable d){
         if (c == cmdNew) {
-            new AffiliationEditForm(display, this, room, null, affiliation, "");
+            new AffiliationEditForm(room, null, affiliation, "").show();
         }
         if (c == cmdModify) {
             eventOk();
@@ -166,12 +164,14 @@ public final class AffiliationList extends VirtualList implements
     public void eventOk(){
         try {
             AffiliationItem item=(AffiliationItem)getFocusedObject();
-            new AffiliationEditForm(display, this, room, item.getJid(),
-					AffiliationItem.getNameByIndex(item.getIndex()),
+            new AffiliationEditForm(room, item.getJid(),
+                                        AffiliationItem.getNameByIndex(item.getIndex()),
                                         (item.getReason() == null) ? "" : item.getReason()
-                    );
+                    ).show();
         } catch (Exception e) { }
     }
+
+
 
     private void processIcon(boolean processing){
         String count=(items==null)? null: String.valueOf(items.size());
@@ -201,9 +201,7 @@ public final class AffiliationList extends VirtualList implements
                         items = tempItems;
                     }
                 }
-                if (display != null) {
-                    redraw();
-                }
+                redraw();
 
                 processIcon(false);
                 return JabberBlockListener.NO_MORE_BLOCKS;
@@ -227,7 +225,7 @@ public final class AffiliationList extends VirtualList implements
 //#ifdef GRAPHICS_MENU
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(display, parentView, this, null, menuCommands, cmdfirstList, cmdsecondList, cmdThirdList);
+        menuItem = new GMenu(this, null, menuCommands, cmdfirstList, cmdsecondList, cmdThirdList);
         GMenuConfig.getInstance().itemGrMenu = GMenu.AFFILIATIONS_EDIT;
         return GMenu.AFFILIATIONS_EDIT;
     }

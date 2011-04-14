@@ -29,7 +29,6 @@ package message;
 
 import java.util.Vector;
 import javax.microedition.io.ConnectionNotFoundException;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
@@ -55,7 +54,7 @@ public class MessageUrl extends Menu implements MenuListener {
 
     private Command cmdEdit;
 
-    public MessageUrl(Display display, Vector urlList) {
+public MessageUrl(Vector urlList) {
 	super("URLs", null, null);
 	this.urlList = urlList;
 	
@@ -65,8 +64,6 @@ public class MessageUrl extends Menu implements MenuListener {
 
         cmdEdit = new Command(SR.get(SR.MS_EDIT), Command.ITEM, 0);
         cmdEdit.setImg(0x40);
-
-	attachDisplay(display);
     }
 
     private void commandState() {
@@ -108,7 +105,7 @@ public class MessageUrl extends Menu implements MenuListener {
 
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(display, parentView, this, null, menuCommands);
+        menuItem = new GMenu(this, null, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.STATS_WINDOW;
         redraw();
         return GMenu.STATS_WINDOW;
@@ -118,7 +115,7 @@ public class MessageUrl extends Menu implements MenuListener {
         try {
             midlet.BombusQD.getInstance().platformRequest((String)urlList.elementAt(cursor));
         } catch (ConnectionNotFoundException ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
 	destroyView();
     }

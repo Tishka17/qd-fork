@@ -242,9 +242,8 @@ public class Contact extends IconTextElement {
         return ColorTheme.getColor(ColorTheme.CONTACT_DEFAULT);
     }
 
-    public int setCursor(int cursor) {
-       cursorPos=cursor;
-       return cursorPos;
+    public void setCursor(int cursorPos) {
+       this.cursorPos = cursorPos;
     }
 
     public final int getNewMsgsCount() {

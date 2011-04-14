@@ -36,7 +36,6 @@ import client.Config;
 import client.Roster;
 import menu.Command;
 //#endif
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import midlet.Commands;
@@ -55,13 +54,13 @@ import util.ClipBoard;
  * @author ad,aqent
  */
 public class StatsWindow extends DefForm {
-    private Stats st = Stats.getInstance();
+    Stats st=Stats.getInstance();
 
-    private Command cmdClear;
-    private Command cmdSave;
+    public Command cmdClear;
+    public Command cmdSave;
 
-    public StatsWindow(Display display) {
-        super(display, midlet.BombusQD.sd.roster , SR.get(SR.MS_STATS));
+    public StatsWindow() {
+        super(SR.get(SR.MS_STATS));
         StringBuffer sb = new StringBuffer(0);
 
         cmdClear = new Command(SR.get(SR.MS_CLEAR), Command.SCREEN, 2);
@@ -69,8 +68,6 @@ public class StatsWindow extends DefForm {
 
         cmdSave = new Command(SR.get(SR.MS_SAVE), Command.OK, 3);
         cmdSave.setImg(0x44);
-
-        this.display=display;
 
         sb.append(SR.get(SR.MS_ALL))
           .append(StringUtils.getSizeString(st.getAllTraffic()))
@@ -106,12 +103,9 @@ public class StatsWindow extends DefForm {
         sb.append(SR.get(SR.MS_APPRUN_COUNT))
           .append(st.appRunCount);
 
-        MultiLine item = new MultiLine( null, sb.toString(), super.superWidth);
+        MultiLine item = new MultiLine( null, sb.toString(), getWidth());
         item.setSelectable(true);
         addControl(item);
-
-        attachDisplay(display);
-        this.parentView=midlet.BombusQD.sd.roster;
     }
 
 
@@ -165,7 +159,7 @@ public class StatsWindow extends DefForm {
 
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(display, parentView, this, null, menuCommands);
+        menuItem = new GMenu(this, null, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.STATS_WINDOW;
         redraw();
         return GMenu.STATS_WINDOW;

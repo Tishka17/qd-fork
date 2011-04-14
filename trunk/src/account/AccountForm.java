@@ -29,7 +29,6 @@
 package account;
 
 import java.util.Random;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
 import ui.controls.form.CheckBox;
@@ -39,13 +38,13 @@ import ui.controls.form.LinkString;
 import ui.controls.form.NumberInput;
 import ui.controls.form.TextInput;
 import ui.controls.form.PasswordInput;
+import ui.MainBar;
 import ui.controls.form.SpacerItem;
 //#ifdef CLIPBOARD
 import util.ClipBoard;
 //#endif
 
 public class AccountForm extends DefForm {
-    private final AccountSelect accountSelect;
     private TextInput fulljid;
     private TextInput passbox;
     private TextInput ipbox;
@@ -87,22 +86,20 @@ public class AccountForm extends DefForm {
 
     private StringBuffer uid;
 
-    public AccountForm(Display display, AccountSelect accountSelect, Account account, int type_profile) {
-        this(display, accountSelect, account, type_profile, false, null);
+    public AccountForm(Account account, int type_profile) {
+        this(account, type_profile, false, null);
     }
 
-    public AccountForm(Display display, AccountSelect accountSelect, String regServer) {
-        this(display, accountSelect, null, 1, true, regServer);
+    public AccountForm(String regServer) {
+        this(null, 1, true, regServer);
     }
 
-    public AccountForm(Display display, AccountSelect accountSelect, Account account, int type_profile,
-            boolean register, String serverReg) {
-        super(display, accountSelect, null);
+    public AccountForm(Account account, int type_profile, boolean register, String serverReg) {
+        super(null);
+
         this.type_profile = type_profile;
         this.register = register;
         this.serverReg = serverReg;
-
-        this.accountSelect = accountSelect;
 
         newaccount = (account == null);
         if (newaccount) {
@@ -111,12 +108,12 @@ public class AccountForm extends DefForm {
         this.account = account;
 
         if (register) {
-            getMainBarItem().setElementAt(SR.get(SR.MS_REGISTER), 0);
+            setMainBarItem(new MainBar(SR.get(SR.MS_REGISTER)));
         } else {
             if (newaccount) {
-                getMainBarItem().setElementAt(SR.get(SR.MS_NEW_ACCOUNT), 0);
+                setMainBarItem(new MainBar(SR.get(SR.MS_NEW_ACCOUNT)));
             } else {
-                getMainBarItem().setElementAt(account.toString(), 0);
+                setMainBarItem(new MainBar(this.account.toString()));
             }
         }
 
@@ -173,16 +170,22 @@ public class AccountForm extends DefForm {
         } else {
             uid.append('@').append(server);
         }
-        fulljid = new TextInput(display, SR.get(SR.MS_USER_PROFILE) + "(JID)", uid.toString(), null, TextField.ANY);
-        nickbox = new TextInput(display, SR.get(SR.MS_NICKNAME), account.getNick(), null, TextField.ANY);
+        fulljid = new TextInput(SR.get(SR.MS_USER_PROFILE) + "(JID)", uid.toString(), null, TextField.ANY);
+        nickbox = new TextInput(SR.get(SR.MS_NICKNAME), account.getNick(), null, TextField.ANY);
         addControl(nickbox);
         addControl(fulljid);
 
+        if (register) {
+            passbox = new TextInput(SR.get(SR.MS_PASSWORD), password, null, TextField.ANY);
+        } else {
+            passbox = new PasswordInput(SR.get(SR.MS_PASSWORD), password);
+        }        
+        addControl(passbox);
 
         if (register) {
-            passbox = new TextInput(display, SR.get(SR.MS_PASSWORD), password, null, TextField.ANY);
+            passbox = new TextInput(SR.get(SR.MS_PASSWORD), password, null, TextField.ANY);
         } else {
-            passbox = new PasswordInput(display, SR.get(SR.MS_PASSWORD), password);
+            passbox = new PasswordInput(SR.get(SR.MS_PASSWORD), password);
         }        
         addControl(passbox);
 
@@ -197,12 +200,12 @@ public class AccountForm extends DefForm {
             addControl(new SpacerItem(5));
         }
 
-        portbox = new NumberInput(display, SR.get(SR.MS_PORT), Integer.toString(port_box), 0, 65535);
+        portbox = new NumberInput(SR.get(SR.MS_PORT), Integer.toString(port_box), 0, 65535);
         if (!createSimpleAddForm) {
             addControl(portbox);
         }
 
-        emailbox = new TextInput(display, "E-mail:", account.getEmail(), null, TextField.EMAILADDR);
+        emailbox = new TextInput("E-mail:", account.getEmail(), null, TextField.EMAILADDR);
         if (midlet.BombusQD.cf.userAppLevel == 1) {
             if (!createSimpleAddForm) {
                 addControl(emailbox);
@@ -230,9 +233,6 @@ public class AccountForm extends DefForm {
         if (!register) {
             showExtended();
         }
-
-        attachDisplay(display);
-        this.parentView = accountSelect;
     }
 
     protected void beginPaint() {
@@ -333,7 +333,7 @@ public class AccountForm extends DefForm {
                 compressionBox_ = true;
                 break;
         }
-        ipbox = new TextInput(display, SR.get(SR.MS_HOST_IP), ip_box, null, TextField.ANY);
+        ipbox = new TextInput(SR.get(SR.MS_HOST_IP), ip_box, null, TextField.ANY);
         sslbox = new CheckBox(SR.get(SR.MS_SSL), sslbox_);
         plainPwdbox = new CheckBox(SR.get(SR.MS_PLAIN_PWD), plainPwdbox_);
         compressionBox = new CheckBox(SR.get(SR.MS_COMPRESSION), compressionBox_);
@@ -356,22 +356,22 @@ public class AccountForm extends DefForm {
 //#endif
         }
 
-        keepAliveType = new DropChoiceBox(display, SR.get(SR.MS_KEEPALIVE));
+        keepAliveType = new DropChoiceBox(SR.get(SR.MS_KEEPALIVE));
         keepAliveType.append("by socket");
         keepAliveType.append("1 byte");
         keepAliveType.append("<iq/>");
         keepAliveType.append("ping");
         keepAliveType.setSelectedIndex(account.getKeepAliveType());
-        keepAlive = new NumberInput(display, SR.get(SR.MS_KEEPALIVE_PERIOD), Integer.toString(account.getKeepAlivePeriod()), 10, 2048);
+        keepAlive = new NumberInput(SR.get(SR.MS_KEEPALIVE_PERIOD), Integer.toString(account.getKeepAlivePeriod()), 10, 2048);
         if (!createSimpleAddForm) {
             addControl(keepAliveType);
             addControl(keepAlive);
 //#if HTTPCONNECT
-//# 	proxyHost = new TextInput(display, SR.get(SR.MS_PROXY_HOST), account.getProxyHostAddr(), null, TextField.URL);
+//# 	proxyHost = new TextInput(SR.get(SR.MS_PROXY_HOST), account.getProxyHostAddr(), null, TextField.URL);
 //#
-//# 	proxyPort = new TextInput(display, SR.get(SR.MS_PROXY_PORT), Integer.toString(account.getProxyPort()));
+//# 	proxyPort = new TextInput(SR.get(SR.MS_PROXY_PORT), Integer.toString(account.getProxyPort()));
 //#elif HTTPPOLL
-//# 	proxyHost = new TextInput(display, SR.get(SR.MS_PROXY_HOST), account.getProxyHostAddr(), null, TextField.URL);
+//# 	proxyHost = new TextInput(SR.get(SR.MS_PROXY_HOST), account.getProxyHostAddr(), null, TextField.URL);
 //#endif
             addControl(ipbox);
 
@@ -443,15 +443,16 @@ public class AccountForm extends DefForm {
         }
 
         if (newaccount) {
-            accountSelect.addAccount(account);
+            ((AccountSelect)getParentView()).addAccount(account);
+            newaccount = false;
             newaccount = false;
         }
-        accountSelect.rmsUpdate();
+        ((AccountSelect)getParentView()).rmsUpdate();
         if (!register) {
             destroyView();
             account = null;
         } else {
-            new AccountRegister(account, display, this, accountSelect);
+            new AccountRegister(account, getParentView());
         }
     }
 }

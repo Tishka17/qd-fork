@@ -36,6 +36,7 @@ import java.util.Vector;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
+import midlet.BombusQD;
 import ui.controls.form.TrackItem;
 import ui.controls.form.DefForm;
 import ui.controls.form.LinkString;
@@ -67,15 +68,15 @@ public class ColorConfigForm extends DefForm
     private TrackItem popup_bgnd;
     private TrackItem cursor_bgnd;
 
-    public ColorConfigForm(final Display display, Displayable pView) {
-        super(display, pView, SR.get(SR.MS_COLOR_TUNE));
+    public ColorConfigForm() {
+        super(SR.get(SR.MS_COLOR_TUNE));
 
         Vector[] files = new StringLoader().stringLoader("/themes/res.txt", 2);
         if (files != null) {
             int size = files[0].size();
 
             if (size > 0) {
-                skinFiles = new ColorThemeSelector(display, SR.get(SR.MS_COLOR_SCHEMES));
+                skinFiles = new ColorThemeSelector(SR.get(SR.MS_COLOR_SCHEMES));
 
                 for (int i = 0; i < size; ++i) {
                     String themeName = (String)files[1].elementAt(i);
@@ -91,7 +92,7 @@ public class ColorConfigForm extends DefForm
 //#ifdef COLOR_TUNE
         addControl(new LinkString(SR.get(SR.MS_EDIT_COLORS)) {
             public void doAction() {
-                new ColorsList(display);
+                new ColorsList().show();
             }
 
         });
@@ -142,7 +143,7 @@ public class ColorConfigForm extends DefForm
 //#endif
         addControl(new LinkString(SR.get(SR.MS_CLEAR)) {
             public void doAction() {
-                new AlertBox("Query", "Load lime theme?", display, parentView, true) {
+                AlertBox box = new AlertBox("Query", "Load lime theme?", true) {
                     public void yes() {
                         ColorTheme.loadSkin("/themes/default.txt", 1, true);
                     }
@@ -152,12 +153,11 @@ public class ColorConfigForm extends DefForm
                         ColorTheme.saveToStorage();
                     }
                 };
+                box.setParentView(getParentView());
+                box.show();
             }
         });
 //#endif
-
-        attachDisplay(display);
-        this.parentView = pView;
     }
 
     public void cmdOk() {
@@ -170,16 +170,16 @@ public class ColorConfigForm extends DefForm
 
     public void destroyView() {
         ColorTheme.saveToStorage();
-        display.setCurrent(parentView);
+        super.destroyView();
     }
 
 //#if FILE_IO
     public void initBrowser(int type) {
         loadType=type;
         if (type == 0) {
-            new Browser(null,display, this, this, true);
+            new Browser(null, this, true).show();
         } else if(type == 1) {
-            new Browser(null, display, this, this, false);
+            new Browser(null, this, false).show();
         }
     }
 

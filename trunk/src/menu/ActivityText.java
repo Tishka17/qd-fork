@@ -26,8 +26,7 @@
  */
 //#ifdef PEP 
 package menu;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
+
 import ui.controls.form.TextInput;
 import ui.controls.form.DefForm;
 import javax.microedition.lcdui.TextField;
@@ -41,8 +40,8 @@ public class ActivityText extends DefForm {
     private String cat="";
     private String descr="";
     
-    public ActivityText(Display display, Displayable pView,String category,String descr, String title) {
-        super(display, pView, title);
+    public ActivityText(String category,String descr, String title) {
+        super(title);
         
         this.cat=category;
         this.descr=descr;
@@ -55,7 +54,7 @@ public class ActivityText extends DefForm {
         }
         
         if(cat!=null && descr!=null){
-          text=new TextInput(display, locale.SR.get(locale.SR.MS_MESSAGE), "", "text", TextField.ANY);
+          text=new TextInput(locale.SR.get(locale.SR.MS_MESSAGE), "", "text", TextField.ANY);
           itemsList.addElement(text);            
         }
         
@@ -63,11 +62,6 @@ public class ActivityText extends DefForm {
            itemsList.addElement(new SimpleString(locale.SR.get(locale.SR.MS_PUBLISH)+"?", true)); 
            midlet.BombusQD.cf.actDescr=null;
         }
-                
-        
-        attachDisplay(display);
-        this.parentView=pView;
-
     }
     
     public void cmdOk() {
@@ -124,7 +118,7 @@ public class ActivityText extends DefForm {
             }
          }
          try {
-            midlet.BombusQD.sd.roster.theStream.addBlockListener(new UserActivityResult(display, sid));             
+            midlet.BombusQD.sd.roster.theStream.addBlockListener(new UserActivityResult(sid));             
             midlet.BombusQD.sd.roster.theStream.send(setActivity);
             midlet.BombusQD.cf.saveToStorage();
             setActivity=null;

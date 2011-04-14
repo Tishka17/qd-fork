@@ -38,6 +38,7 @@ import ui.controls.form.LinkString;
 import java.util.Vector;
 //#ifdef FILE_IO
 import io.file.FileIO;
+import midlet.BombusQD;
 import ui.controls.form.PathSelector;
 //#endif
 import util.StringUtils;
@@ -57,8 +58,8 @@ public class AvatarConfigForm extends DefForm {
     private PathSelector avatarFolder;
 //#endif
     private Config config;
-    public AvatarConfigForm(Display display, Displayable pView) {
-        super(display, pView, SR.get(SR.MS_AVATARS));
+    public AvatarConfigForm() {
+        super(SR.get(SR.MS_AVATARS));
 
         config = Config.getInstance();
 
@@ -75,11 +76,11 @@ public class AvatarConfigForm extends DefForm {
             addControl(new SpacerItem(5));
         }
 
-        maxAvatarHeight = new NumberInput(display, SR.get(SR.MS_MAX_AVATAR_HEIGHT), Integer.toString(config.maxAvatarHeight), 12, 100);
+        maxAvatarHeight = new NumberInput(SR.get(SR.MS_MAX_AVATAR_HEIGHT), Integer.toString(config.maxAvatarHeight), 12, 100);
         addControl(maxAvatarHeight);
 
         addControl(new SpacerItem(5));
-        maxAvatarWidth = new NumberInput(display, SR.get(SR.MS_MAX_AVATAR_WIDTH), Integer.toString(config.maxAvatarWidth), 12, 100);
+        maxAvatarWidth = new NumberInput(SR.get(SR.MS_MAX_AVATAR_WIDTH), Integer.toString(config.maxAvatarWidth), 12, 100);
         addControl(maxAvatarWidth);
 
 //#ifdef FILE_IO
@@ -111,16 +112,13 @@ public class AvatarConfigForm extends DefForm {
                         addControl(new SimpleString("Update Success!", true));
                         addControl(new SimpleString("Time: " + Long.toString(s2 - s1) + " msec", true));
                         addControl(new SpacerItem(10));
-                        repaint();
+                        redraw();
                     }
                 }
 
             });
         }
 //#endif
-
-        attachDisplay(display);
-        this.parentView = pView;
     }
 
     public void cmdOk() {

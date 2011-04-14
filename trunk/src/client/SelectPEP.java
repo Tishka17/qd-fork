@@ -25,6 +25,8 @@
  *
  */
 
+//TODO переписать!
+
 //#ifdef PEP
 package client;
 import ui.input.InputTextBoxNotify;
@@ -46,7 +48,6 @@ import ui.controls.Balloon;
 import menu.MenuListener;
 import menu.Command;
 //#endif
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.TextField;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Graphics;
@@ -58,7 +59,8 @@ import mood.MoodPublishResult;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.Iq;
 import locale.Activity;
-import midlet.BombusQD;
+import ui.input.InputTextBox;
+import ui.input.InputTextBoxNotify;
 
 /**
  *
@@ -133,7 +135,7 @@ public final class SelectPEP extends VirtualList implements
     private static Vector pep;
     private boolean isMood;
     
-    public void show(Displayable pView,boolean isMood) {
+    public void show(boolean isMood) {
         
         mainbar = new MainBar(locale.SR.get(SR.MS_SELECT));
         setMainBarItem(mainbar);
@@ -177,18 +179,13 @@ public final class SelectPEP extends VirtualList implements
         if (xLastCnt>0) lines++; else xLastCnt=xCnt;
 
         xBorder=(realWidth-(xCnt*imgWidth))/2;
-        attachDisplay(display);
-        this.parentView=pView;
-    }
-    
-    
-     /** Creates a new instance of SelectPEP */
+        super.show();
+     }
     
     private MainBar mainbar;
-    public SelectPEP(Display display) {
+    public SelectPEP() {
          mainbar = new MainBar(locale.SR.get(SR.MS_SELECT));
          setMainBarItem(mainbar);
-         this.display = display;
     }
     
     public void commandState() {
@@ -219,7 +216,9 @@ public final class SelectPEP extends VirtualList implements
             input.setNotifyListener(this);
             input.show();
           }
-      } else publishActivity();
+      } else {
+          publishActivity();
+      }
     }
 
 
@@ -271,7 +270,7 @@ public final class SelectPEP extends VirtualList implements
                 case 12: category=null; break;                                                                
         }
         if(type>0){
-          new ActivityText(display, BombusQD.sd.roster, category, descr, getTipString() );
+          new ActivityText(category, descr, getTipString()).show();
           return;
         }
     }
@@ -286,7 +285,7 @@ public final class SelectPEP extends VirtualList implements
         String moodName = Moods.getInstance().getMoodName(index);
         publishMood(moodText, moodName);
         destroyView();
-        midlet.BombusQD.sd.roster.showRoster();
+        midlet.BombusQD.sd.roster.show();
     }
     
     
@@ -310,7 +309,7 @@ public final class SelectPEP extends VirtualList implements
             action.setAttribute("notify","1");
         }
         try {
-            midlet.BombusQD.sd.roster.theStream.addBlockListener(new MoodPublishResult(display, sid));           
+            midlet.BombusQD.sd.roster.theStream.addBlockListener(new MoodPublishResult(sid));           
             midlet.BombusQD.sd.roster.theStream.send(setMood);
             setMood=null;
             action=null;
@@ -449,7 +448,7 @@ public final class SelectPEP extends VirtualList implements
 //#ifdef GRAPHICS_MENU        
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(display, parentView, this, null, menuCommands);        
+        menuItem = new GMenu(this, null, menuCommands);        
         GMenuConfig.getInstance().itemGrMenu=555;
         return 555;
     }

@@ -34,7 +34,6 @@ import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.util.Enumeration;
 import java.util.Vector;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
@@ -54,6 +53,9 @@ import disco.ServiceDiscovery;
 import images.MenuIcons;
 import menu.MenuListener;
 import menu.Command;
+//#endif
+//#ifdef GRAPHICS_MENU
+import midlet.BombusQD;
 //#endif
 //#ifdef GRAPHICS_MENU        
 import ui.GMenu;
@@ -91,9 +93,9 @@ public class DiscoSearchForm
      * Creates a new instance of DiscoSearchForm
      */
     
-    public DiscoSearchForm(Display display, Displayable pView,Vector list,int type) {
+    public DiscoSearchForm(Vector list, int type) {
         super();
-        this.display=display;
+
         this.list=list;
         this.type=type;
         
@@ -115,8 +117,6 @@ public class DiscoSearchForm
         updateMainBar();
         commandState();
         setCommandListener(this);
-        attachDisplay(display);
-        this.parentView=pView;
     }
    
     protected int getItemCount() {
@@ -189,16 +189,16 @@ public class DiscoSearchForm
         } else if (c==cmdCancel) {
             exitSearchForm();
         } else if (c==cmdAddServer) {
-            InputTextBox input = new InputTextBox(SR.get(SR.MS_SERVER), null, 50, TextField.ANY);
-            input.setNotifyListener(this);
-            input.show();
+            InputTextBox box = new InputTextBox(SR.get(SR.MS_SERVER), null, 50, TextField.ANY);
+            box.setNotifyListener(this);
+            box.show();
 	} else if (c==cmdDel) {
             delServer();
         }
     }
     
     private void exitSearchForm(){
-        display.setCurrent(StaticData.getInstance().roster);
+        BombusQD.sd.roster.show();
     }
     
     
@@ -244,15 +244,13 @@ public class DiscoSearchForm
         updateMainBar();
         redraw();
     }
-    
-    
 
     public void eventOk(){
 //#ifdef SERVICE_DISCOVERY
         if (getItemCount()==0) 
             return;
         ListItem join=(ListItem)getFocusedObject();
-        new ServiceDiscovery(display, join.toString(), null, (list!=null)?false:true);
+        new ServiceDiscovery(join.toString(), null, (list!=null)?false:true).show();
 //#endif
     }
     
@@ -262,7 +260,7 @@ public class DiscoSearchForm
 //#ifdef GRAPHICS_MENU        
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(display, parentView, this,null, menuCommands);        
+        menuItem = new GMenu(this,null, menuCommands);        
         GMenuConfig.getInstance().itemGrMenu=GMenu.SEARCH_FORM;
         return GMenu.SEARCH_FORM;
     }

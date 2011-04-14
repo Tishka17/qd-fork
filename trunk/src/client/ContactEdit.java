@@ -25,6 +25,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package client;
+
 //#ifndef WMUC
 import conference.MucContact;
 //#endif
@@ -44,6 +45,7 @@ import ui.controls.form.TextInput;
  *
  * @author Evg_S
  */
+
 public final class ContactEdit extends DefForm {
     private static String lastContactJID = "";
 
@@ -59,17 +61,16 @@ public final class ContactEdit extends DefForm {
     boolean newContact = true;
     private boolean newGroup;
 
-    public ContactEdit(Display display, Displayable pView, Contact c) {
-        super(display, pView, SR.get(SR.MS_ADD_CONTACT));
-        this.display = display;
+    public ContactEdit(Contact c) {
+        super(SR.get(SR.MS_ADD_CONTACT));
 
-        tJid = new TextInput(display, SR.get(SR.MS_USER_JID), lastContactJID, null, TextField.ANY);
+        tJid = new TextInput(SR.get(SR.MS_USER_JID), lastContactJID, null, TextField.ANY);
 
-        tNick = new TextInput(display, SR.get(SR.MS_NAME), null, null, TextField.ANY);
+        tNick = new TextInput(SR.get(SR.MS_NAME), null, null, TextField.ANY);
 
-        tGroup = new TextInput(display, SR.get(SR.MS_NEWGROUP), (c == null) ? "" : c.group.name, null, TextField.ANY);
+        tGroup = new TextInput(SR.get(SR.MS_NEWGROUP), (c == null) ? "" : c.group.name, null, TextField.ANY);
 
-        tTranspList = new DropChoiceBox(display, SR.get(SR.MS_TRANSPORT));
+        tTranspList = new DropChoiceBox(SR.get(SR.MS_TRANSPORT));
         // Transport droplist
         tTranspList.append(BombusQD.sd.account.getServer());
         for (Enumeration e = BombusQD.sd.roster.getHContacts().elements(); e.hasMoreElements();) {
@@ -122,7 +123,7 @@ public final class ContactEdit extends DefForm {
 
         Vector groups = BombusQD.sd.roster.contactList.groups.getRosterGroupNames();
         if (groups != null) {
-            tGrpList = new DropChoiceBox(display, SR.get(SR.MS_GROUP));
+            tGrpList = new DropChoiceBox(SR.get(SR.MS_GROUP));
             for (int i = 0; i < groups.size(); i++) {
                 String gn = (String)groups.elementAt(i);
                 tGrpList.append(gn);
@@ -149,17 +150,14 @@ public final class ContactEdit extends DefForm {
             addControl(new SimpleString(SR.get(SR.MS_SUBSCRIPTION), true));
             addControl(tAskSubscrCheckBox);
 
-            vCardReq = new LinkString(SR.get(SR.MS_VCARD)) {
+            addControl(new LinkString(SR.get(SR.MS_VCARD)) {
                 public void doAction() {
                     requestVCard();
                 }
 
-            };
-            addControl(vCardReq);
+            });
         }
 
-        attachDisplay(display);
-        this.parentView = pView;
     }
 
     private void requestVCard() {

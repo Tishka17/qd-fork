@@ -30,8 +30,6 @@ package impexp;
 
 import io.file.browse.Browser;
 import io.file.browse.BrowserListener;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import menu.Menu;
 import menu.MenuItem;
@@ -40,6 +38,7 @@ import menu.MenuItem;
  *
  * @author ad
  */
+
 public class ImportExportForm extends Menu implements BrowserListener {
     public static final int ARCHIVE_EXPORT = 0;
     public static final int ARCHIVE_IMPORT = 1;
@@ -50,7 +49,7 @@ public class ImportExportForm extends Menu implements BrowserListener {
     public static final int CONFIG_EXPORT = 4;
     public static final int CONFIG_IMPORT = 5;
 
-    public ImportExportForm(Display display, Displayable pView) {
+    public ImportExportForm() {
         super(SR.get(SR.MS_IMPORT_EXPORT), null, null);
 
         addItem(SR.get(SR.MS_ACCOUNTS) + ": " + SR.get(SR.MS_LOAD_FROM_FILE), ACCOUNT_IMPORT);
@@ -63,9 +62,6 @@ public class ImportExportForm extends Menu implements BrowserListener {
 
         addItem(SR.get(SR.MS_OPTIONS) + ": " + SR.get(SR.MS_LOAD_FROM_FILE), CONFIG_IMPORT);
         addItem(SR.get(SR.MS_OPTIONS) + ": " + SR.get(SR.MS_SAVE_TO_FILE), CONFIG_EXPORT);
-
-        attachDisplay(display);
-        this.parentView = pView;
     }
 
     public void eventOk() {
@@ -75,19 +71,19 @@ public class ImportExportForm extends Menu implements BrowserListener {
             case ARCHIVE_IMPORT:
             case ACCOUNT_IMPORT:
             case CONFIG_IMPORT:
-                new Browser(null, display, this, this, false);
+                new Browser(null, this, false).show();
                 break;
             case ARCHIVE_EXPORT:
             case ACCOUNT_EXPORT:
             case CONFIG_EXPORT:
-                new Browser(null, display, this, this, true);
+                new Browser(null, this, true).show();
                 break;
         }
     }
 
     public void BrowserFilePathNotify(String path) {
         MenuItem mItem = (MenuItem)getFocusedObject();
-
+        System.out.println(path);
         switch (mItem.index) {
 //#if ARCHIVE
             case ARCHIVE_EXPORT:

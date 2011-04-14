@@ -33,6 +33,7 @@ import javax.microedition.media.Player;
 import javax.microedition.media.PlayerListener;
 import javax.microedition.media.control.VolumeControl;
 import alert.AlertCustomize;
+import midlet.BombusQD;
 
 /**
  *
@@ -47,9 +48,7 @@ public class EventNotify
     private boolean toneSequence;
     private String soundName;
     private String soundType;
-    
-    private Display display;
-
+ 
     private static Player player;
     
     private final static String tone="A6E6J6";
@@ -60,13 +59,11 @@ public class EventNotify
     
     /** Creates a new instance of EventNotify */
     public EventNotify(
-	Display display, 
 	String soundMediaType, 
 	String soundFileName, 
 	int sndVolume,
 	int vibraLength)
     {
-        this.display=display;
         this.soundName=soundFileName;
         this.soundType=soundMediaType;
         this.vibraLength=vibraLength;
@@ -77,7 +74,6 @@ public class EventNotify
     
     public void startNotify (){
         release();
-        //try { if (flashBackLight) display.flashBacklight(1000); } catch (Exception e2) { /* e.printStackTrace(); */}
         
         if (soundName!=null) {
             try {
@@ -101,7 +97,7 @@ public class EventNotify
              int count = AlertCustomize.getInstance().vibraRepeatCount;
              int pause = AlertCustomize.getInstance().vibraRepeatPause;
              for(int i=0;i<count;i++){
-                display.vibrate(vibraLength);
+                BombusQD.display.vibrate(vibraLength);
                 try {
                     Thread.sleep(pause+vibraLength);
                 } catch (Exception e) {}

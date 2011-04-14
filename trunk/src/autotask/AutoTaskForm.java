@@ -26,117 +26,109 @@
  */
 
 //#if AUTOTASK
-//# package autotask;
-//# 
-//# import ui.controls.form.DropChoiceBox;
-//# import ui.controls.form.NumberInput;
-//# import ui.controls.form.SimpleString;
-//# 
-//# import ui.controls.form.DefForm;
-//# import javax.microedition.lcdui.Display;
-//# import javax.microedition.lcdui.Displayable;
-//# import locale.SR;
-//# 
-//# /**
-//#  *
-//#  * @author ad
-//#  */
-//# public class AutoTaskForm extends DefForm {    
-//#     //private Display display;
-//#    
-//#     int hour =0;
-//#     int min  =0;
-//#     int wait =1;
-//# 
-//#     private DropChoiceBox taskType;
-//#     private DropChoiceBox actionType;
-//# 
-//#     private SimpleString autoTaskTimeDesc;
-//# 
-//#     private NumberInput autoTaskDelay;
-//# 
-//#     private NumberInput autoTaskMin;
-//#     private NumberInput autoTaskHour;
-//#     
-//#     private AutoTask at=midlet.BombusQD.sd.autoTask;
-//# 
-//#     private int actionIndex;
-//#     private int typeIndex;
-//#     
-//#     /** Creates a new instance of AutoTaskForm */
-//#     public AutoTaskForm(Display display, Displayable pView) {
-//#         super(display, pView, SR.get(SR.MS_AUTOTASKS));
-//#         //this.display=display;
-//# 
-//#         typeIndex=at.taskType;
-//#         actionIndex=at.taskAction;
-//#         
-//#         hour = at.startHour;
-//#         min = at.startMin;
-//#         wait = at.waitTime/60000;
-//#         
-//#         taskType=new DropChoiceBox(display, SR.get(SR.MS_AUTOTASK_TYPE));
-//#         taskType.append(SR.get(SR.MS_DISABLED));
-//#         taskType.append(SR.get(SR.MS_BY_TIME_));
-//#         taskType.append(SR.get(SR.MS_BY_TIMER_));
-//#         taskType.setSelectedIndex(typeIndex);
-//# 
-//#         actionType=new DropChoiceBox(display, SR.get(SR.MS_AUTOTASK_ACTION_TYPE));
-//#         actionType.append(SR.get(SR.MS_AUTOTASK_QUIT_BOMBUSMOD));
-//#         actionType.append(SR.get(SR.MS_AUTOTASK_QUIT_CONFERENCES));
-//#         actionType.append(SR.get(SR.MS_AUTOTASK_LOGOFF));
-//#         actionType.append(SR.get(SR.MS_BREAK_CONECTION));
-//#         actionType.setSelectedIndex(actionIndex);
-//#         
-//#         autoTaskTimeDesc=new SimpleString(SR.get(SR.MS_AUTOTASK_TIME), true);
-//# 
-//#         autoTaskHour=new NumberInput(display, SR.get(SR.MS_AUTOTASK_HOUR), Integer.toString(hour), 0, 23);
-//#         autoTaskMin=new NumberInput(display, SR.get(SR.MS_AUTOTASK_MIN), Integer.toString(min), 0, 59);
-//#         autoTaskDelay=new NumberInput(display, SR.get(SR.MS_AUTOTASK_DELAY), Integer.toString(wait), 1, 600);
-//#         
-//#         itemsList.addElement(taskType);
-//#         itemsList.addElement(actionType);
-//#         
-//#         update();
-//#         attachDisplay(display);
-//#         this.parentView=pView;
-//#     }
-//# 
-//#     public void cmdOk() {
-//#         at.taskType=taskType.getSelectedIndex();
-//#         at.taskAction=actionType.getSelectedIndex();
-//#         if (at.taskType==1) {
-//#             at.startHour=Integer.parseInt(autoTaskHour.getValue());
-//#             at.startMin=Integer.parseInt(autoTaskMin.getValue());
-//#         } else if(at.taskType==2) {
-//#             at.waitTime=Integer.parseInt(autoTaskDelay.getValue())*1000*60;
-//#             at.initTime=System.currentTimeMillis();
-//#         }
-//#         if (at.taskType!=0)
-//#             at.startTask();
-//#         destroyView();
-//#     }
-//#     
-//#     protected void beginPaint(){
-//#         if(typeIndex!=taskType.getSelectedIndex()); {
-//#             typeIndex=taskType.getSelectedIndex();       
-//#             update();
-//#         }
-//#     }
-//# 
-//#     private void update(){
-//#         itemsList.removeElement(autoTaskTimeDesc);
-//#         itemsList.removeElement(autoTaskHour);
-//#         itemsList.removeElement(autoTaskMin);
-//#         itemsList.removeElement(autoTaskDelay);
-//#         
-//#         if (typeIndex==1) {
-//#             itemsList.addElement(autoTaskTimeDesc);
-//#             itemsList.addElement(autoTaskHour);
-//#             itemsList.addElement(autoTaskMin);
-//#         } else if (typeIndex==2) {
-//#             itemsList.addElement(autoTaskDelay);
-//#         }
-//#     }
-//# }
+package autotask;
+
+import ui.controls.form.DropChoiceBox;
+import ui.controls.form.NumberInput;
+import ui.controls.form.SimpleString;
+import ui.controls.form.DefForm;
+import locale.SR;
+
+/**
+ *
+ * @author ad
+ */
+
+public class AutoTaskForm extends DefForm {
+    int hour =0;
+    int min  =0;
+    int wait =1;
+
+    private DropChoiceBox taskType;
+    private DropChoiceBox actionType;
+
+    private SimpleString autoTaskTimeDesc;
+
+    private NumberInput autoTaskDelay;
+
+    private NumberInput autoTaskMin;
+    private NumberInput autoTaskHour;
+    
+    private AutoTask at=midlet.BombusQD.sd.autoTask;
+
+    private int actionIndex;
+    private int typeIndex;
+
+    public AutoTaskForm() {
+        super(SR.get(SR.MS_AUTOTASKS));
+
+        typeIndex=at.taskType;
+        actionIndex=at.taskAction;
+        
+        hour = at.startHour;
+        min = at.startMin;
+        wait = at.waitTime/60000;
+        
+        taskType=new DropChoiceBox(SR.get(SR.MS_AUTOTASK_TYPE));
+        taskType.append(SR.get(SR.MS_DISABLED));
+        taskType.append(SR.get(SR.MS_BY_TIME_));
+        taskType.append(SR.get(SR.MS_BY_TIMER_));
+        taskType.setSelectedIndex(typeIndex);
+
+        actionType=new DropChoiceBox(SR.get(SR.MS_AUTOTASK_ACTION_TYPE));
+        actionType.append(SR.get(SR.MS_AUTOTASK_QUIT_BOMBUSMOD));
+        actionType.append(SR.get(SR.MS_AUTOTASK_QUIT_CONFERENCES));
+        actionType.append(SR.get(SR.MS_AUTOTASK_LOGOFF));
+        actionType.append(SR.get(SR.MS_BREAK_CONECTION));
+        actionType.setSelectedIndex(actionIndex);
+        
+        autoTaskTimeDesc=new SimpleString(SR.get(SR.MS_AUTOTASK_TIME), true);
+
+        autoTaskHour=new NumberInput(SR.get(SR.MS_AUTOTASK_HOUR), Integer.toString(hour), 0, 23);
+        autoTaskMin=new NumberInput(SR.get(SR.MS_AUTOTASK_MIN), Integer.toString(min), 0, 59);
+        autoTaskDelay=new NumberInput(SR.get(SR.MS_AUTOTASK_DELAY), Integer.toString(wait), 1, 600);
+        
+        itemsList.addElement(taskType);
+        itemsList.addElement(actionType);
+        
+        update();
+    }
+
+    public void cmdOk() {
+        at.taskType=taskType.getSelectedIndex();
+        at.taskAction=actionType.getSelectedIndex();
+        if (at.taskType==1) {
+            at.startHour=Integer.parseInt(autoTaskHour.getValue());
+            at.startMin=Integer.parseInt(autoTaskMin.getValue());
+        } else if(at.taskType==2) {
+            at.waitTime=Integer.parseInt(autoTaskDelay.getValue())*1000*60;
+            at.initTime=System.currentTimeMillis();
+        }
+        if (at.taskType!=0)
+            at.startTask();
+        destroyView();
+    }
+    
+    protected void beginPaint(){
+        if(typeIndex!=taskType.getSelectedIndex()); {
+            typeIndex=taskType.getSelectedIndex();       
+            update();
+        }
+    }
+
+    private void update(){
+        itemsList.removeElement(autoTaskTimeDesc);
+        itemsList.removeElement(autoTaskHour);
+        itemsList.removeElement(autoTaskMin);
+        itemsList.removeElement(autoTaskDelay);
+        
+        if (typeIndex==1) {
+            itemsList.addElement(autoTaskTimeDesc);
+            itemsList.addElement(autoTaskHour);
+            itemsList.addElement(autoTaskMin);
+        } else if (typeIndex==2) {
+            itemsList.addElement(autoTaskDelay);
+        }
+    }
+}
 //#endif

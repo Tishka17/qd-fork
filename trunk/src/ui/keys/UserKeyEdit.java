@@ -24,87 +24,78 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 //#ifdef USER_KEYS
-//# package ui.keys;
-//# import locale.SR;
-//# import javax.microedition.lcdui.Display;
-//# import javax.microedition.lcdui.Displayable;
-//# import ui.controls.form.CheckBox;
-//# import ui.controls.form.DefForm;
-//# import ui.controls.form.DropChoiceBox;
-//# 
-//# /**
-//#  *
-//#  * @author ad
-//#  */
-//# class UserKeyEdit
-//#      extends DefForm {
+package ui.keys;
+import locale.SR;
+import javax.microedition.lcdui.Display;
+import javax.microedition.lcdui.Displayable;
+import ui.controls.form.CheckBox;
+import ui.controls.form.DefForm;
+import ui.controls.form.DropChoiceBox;
+
+/**
+ *
+ * @author ad
+ */
+class UserKeyEdit
+     extends DefForm {
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_USER_KEYS");
 //#endif
-//# 
-//#     private final UserKeysList keysList;
-//#     
-//#     private Display display;
-//# 
-//#     private CheckBox active;
-//#     private DropChoiceBox keyDesc;
-//#     private DropChoiceBox keyCode;
-//# 
-//#     UserKey u;
-//#     
-//#     boolean newKey;
-//# 
-//#     public UserKeyEdit(Display display, Displayable pView, UserKeysList keysList, UserKey u) {
-//# 
-//#         super(display, pView, (u==null)?SR.get(SR.MS_ADD_CUSTOM_KEY):(u.toString()));
-//#         
-//#         this.display=display;
-//#         
-//# 	this.keysList = keysList;
-//# 	
-//# 	newKey=(u==null);
-//# 	if (newKey) u=new UserKey();
-//# 	this.u=u;
-//#      
-//#         active=new CheckBox(SR.get(SR.MS_ENABLED), u.active);
-//#         itemsList.addElement(active);
-//# 
-//#         keyDesc=new DropChoiceBox(display, SR.get(SR.MS_KEYS_ACTION));
-//#         for (int i=0;i<u.COMMANDS_DESC.length;i++) {
-//#             keyDesc.append(u.COMMANDS_DESC[i]);
-//#         }
-//#         keyDesc.setSelectedIndex(u.commandId);
-//#         itemsList.addElement(keyDesc);
-//# 
-//#         keyCode=new DropChoiceBox(display, SR.get(SR.MS_KEY));
-//#         for (int i=0;i<u.KEYS_NAME.length;i++) {
-//#             keyCode.append(u.KEYS_NAME[i]);
-//#         }
-//#         keyCode.setSelectedIndex((u.key<0)?0:u.key);
-//#         itemsList.addElement(keyCode);
-//#         
-//#         moveCursorTo(getNextSelectableRef(-1));
-//#         attachDisplay(display);
-//#         this.parentView=pView;
-//# 
-//#     }
-//#     
-//#     public void cmdOk() {
-//#         u.active=active.getValue();
-//#         u.commandId=keyDesc.getSelectedIndex();
-//#         u.key=keyCode.getSelectedIndex();
-//# 
-//#         if (newKey) {
-//#             keysList.commandsList.addElement(u);
-//#         }
-//# 
-//#         keysList.rmsUpdate();
-//#         keysList.commandState();
-//#         destroyView();
-//#     }
-//#     
-//#     public void destroyView()	{
-//# 	if (display!=null) display.setCurrent(parentView);
-//#     }
-//# }
+
+    private final UserKeysList keysList;
+    
+    private Display display;
+
+    private CheckBox active;
+    private DropChoiceBox keyDesc;
+    private DropChoiceBox keyCode;
+
+    UserKey u;
+    
+    boolean newKey;
+
+    public UserKeyEdit(UserKeysList keysList, UserKey u) {
+
+        super((u==null)?SR.get(SR.MS_ADD_CUSTOM_KEY):(u.toString()));
+        
+	this.keysList = keysList;
+	
+	newKey=(u==null);
+	if (newKey) u=new UserKey();
+	this.u=u;
+     
+        active=new CheckBox(SR.get(SR.MS_ENABLED), u.active);
+        itemsList.addElement(active);
+
+        keyDesc=new DropChoiceBox(SR.get(SR.MS_KEYS_ACTION));
+        for (int i=0;i<u.COMMANDS_DESC.length;i++) {
+            keyDesc.append(u.COMMANDS_DESC[i]);
+        }
+        keyDesc.setSelectedIndex(u.commandId);
+        itemsList.addElement(keyDesc);
+
+        keyCode=new DropChoiceBox(SR.get(SR.MS_KEY));
+        for (int i=0;i<u.KEYS_NAME.length;i++) {
+            keyCode.append(u.KEYS_NAME[i]);
+        }
+        keyCode.setSelectedIndex((u.key<0)?0:u.key);
+        itemsList.addElement(keyCode);
+        
+        moveCursorTo(getNextSelectableRef(-1));
+    }
+    
+    public void cmdOk() {
+        u.active=active.getValue();
+        u.commandId=keyDesc.getSelectedIndex();
+        u.key=keyCode.getSelectedIndex();
+
+        if (newKey) {
+            keysList.commandsList.addElement(u);
+        }
+
+        keysList.rmsUpdate();
+        keysList.commandState();
+        destroyView();
+    }
+}
 //#endif

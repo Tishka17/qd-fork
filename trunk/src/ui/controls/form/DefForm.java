@@ -36,7 +36,6 @@ import java.util.Vector;
 import menu.MenuListener;
 import menu.Command;
 //#endif
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import midlet.Commands;
@@ -50,8 +49,7 @@ import ui.GMenu;
  *
  * @author ad,aqent
  */
-public class DefForm
-        extends VirtualList
+public class DefForm extends VirtualList
         implements
 //#ifndef MENU_LISTENER
 //#         CommandListener
@@ -59,43 +57,38 @@ public class DefForm
         MenuListener
 //#endif
     {
-
-    //public Display display;
-
-    public Vector itemsList=new Vector(0);
+    public Vector itemsList = new Vector(0);
 
     public Command cmdCancel;
 
-    public int superWidth;
-    /**
-     * Creates a new instance of DefForm
-     */
-    public DefForm() {};
-
-    public DefForm(final Display display, Displayable pView, String caption) {
-	//this.display=display;
-
-        cmdCancel = new Command(SR.get(SR.MS_BACK), Command.BACK, 99);
+    public DefForm(String caption) {
+        super();
         setMainBarItem(new MainBar(caption));
 
-        superWidth=super.getWidth();
-
-	setCommandListener(this);
-
-        enableListWrapping(true);
-
-        this.parentView=pView;
+        cmdCancel = new Command(SR.get(SR.MS_BACK), Command.BACK, 99);      
     }
 
-    protected int getItemCount() { return itemsList.size(); }
+    public void show() {
+        enableListWrapping(true);
+        setCommandListener(this);
+        super.show();
+    }
+
+    protected int getItemCount() {
+        return itemsList.size();
+    }
 
     protected VirtualElement getItemRef(int index) {
         return (VirtualElement)itemsList.elementAt(index);
     }
 
-    public void touchLeftPressed(){ cmdOk(); }
+    public void touchLeftPressed() {
+        cmdOk();
+    }
 
-    public void touchRightPressed(){ cmdCancel(); }
+    public void touchRightPressed() {
+        cmdCancel();
+    }
 
     public void commandAction(Command command, Displayable displayable) {
 	if (command == cmdCancel) {
@@ -106,17 +99,11 @@ public class DefForm
         }
     }
 
-    public void destroyView()	{
-        //System.out.println("DefForm destroyView->" + itemsList.toString());
-        int size = itemsList.size();
-        Object obj;
-        for(int i = 0; i < size; ++i){
-            obj = (Object)itemsList.elementAt(i);
-            if(obj instanceof DropChoiceBox) ((DropChoiceBox)obj).destroy();
-            if(obj instanceof NumberInput) ((NumberInput)obj).destroy();
-        }
-        itemsList.removeAllElements();
-	if (display!=null) display.setCurrent(parentView);
+    public void destroyView() {
+        itemsList = null;
+        itemsList = new Vector(0);
+
+        super.destroyView();
     }
 
     public final void addControl(Object obj) {
@@ -142,15 +129,15 @@ public class DefForm
     public void cmdOk() { }
 
 //#ifdef MENU_LISTENER
-    public void userKeyPressed(int keyCode){
-     switch (keyCode) {
-        case KEY_NUM4:
-            pageLeft();
-            break;
-        case KEY_NUM6:
-            pageRight();
-            break;
-     }
+    public void userKeyPressed(int keyCode) {
+        switch (keyCode) {
+            case KEY_NUM4:
+                pageLeft();
+                break;
+            case KEY_NUM6:
+                pageRight();
+                break;
+        }
     }
 //#endif
 
@@ -179,8 +166,6 @@ public class DefForm
 //# 
 //#endif
 
-
-
 //#ifdef MENU_LISTENER
 
 //#ifdef GRAPHICS_MENU
@@ -202,7 +187,6 @@ public class DefForm
 //#         new MyMenu(display, parentView, this, "", null, menuCommands);
 //#     }
 //#endif
-
 
     public String touchLeftCommand(){ return SR.get(SR.MS_OK); }
 //#endif

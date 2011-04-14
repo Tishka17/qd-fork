@@ -46,17 +46,13 @@ import ui.controls.form.TextInput;
  */
 
 public class TransferAcceptFile extends DefForm {
-    private Display display;
-
     private TransferTask t;
     private TextInput fileName;
 
     private PathSelector selectFile;
 
-    public TransferAcceptFile(Display display, Displayable pView, TransferTask transferTask) {
-        super(display, pView, SR.get(SR.MS_ACCEPT_FILE));
-
-        this.display=display;
+    public TransferAcceptFile(TransferTask transferTask) {
+        super(SR.get(SR.MS_ACCEPT_FILE));
 
         t=transferTask;
 
@@ -77,19 +73,15 @@ public class TransferAcceptFile extends DefForm {
             }
         }
 
-        fileName=new TextInput(display, SR.get(SR.MS_FILE), name, "", TextField.ANY);
+        fileName=new TextInput(SR.get(SR.MS_FILE), name, "", TextField.ANY);
         addControl(fileName);
         addControl(new SimpleString(SR.get(SR.MS_FILE_SIZE)+" "+String.valueOf(t.fileSize)+" bytes", true));
 
         selectFile=new PathSelector(SR.get(SR.MS_PATH), null, PathSelector.TYPE_DIR);
         addControl(selectFile);
 
-        addControl(new MultiLine(SR.get(SR.MS_SENDER), t.jid, super.superWidth));
-
-        addControl(new MultiLine(SR.get(SR.MS_DESCRIPTION), t.description, super.superWidth));
-
-        attachDisplay(display);
-        this.parentView=pView;
+        addControl(new MultiLine(SR.get(SR.MS_SENDER), t.jid, getWidth()));
+        addControl(new MultiLine(SR.get(SR.MS_DESCRIPTION), t.description, getWidth()));
     }
 
     public void cmdOk() {

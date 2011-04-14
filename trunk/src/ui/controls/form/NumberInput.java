@@ -26,19 +26,19 @@
  */
 package ui.controls.form;
 
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.TextField;
 
 /**
  *
  * @author ad
  */
+
 public class NumberInput extends TextInput {
     private int max;
     private int min;
 
-    public NumberInput(Display display, String caption, String text, int min, int max) {
-        super(display, caption, text, null, (min < 0) ? TextField.DECIMAL : TextField.NUMERIC);
+    public NumberInput(String caption, String text, int min, int max) {
+        super(caption, text, null, (min < 0) ? TextField.DECIMAL : TextField.NUMERIC);
         this.min = min;
         this.max = max;
     }

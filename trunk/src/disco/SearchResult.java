@@ -66,10 +66,9 @@ public class SearchResult
     
     private Vector items;
     boolean xData;
-    
-    /** Creates a new instance of SearchResult */
-    public SearchResult(Display display, JabberDataBlock result) {
-        super(display);
+
+    public SearchResult(JabberDataBlock result) {
+        super();
         
         cmdAdd=new Command(SR.get(SR.MS_ADD), Command.SCREEN, 1);
         String service=result.getAttribute("from");
@@ -149,8 +148,7 @@ public class SearchResult
         queryElements = new Vector(0);
         childBlocks = new Vector(0);
         sd.roster.reEnumRoster();
-        attachDisplay(display);
-    }
+     }
     
     public void commandState(){
 //#ifdef MENU_LISTENER
@@ -160,18 +158,22 @@ public class SearchResult
     
     
 //#ifdef MENU_LISTENER
-    public String touchLeftCommand(){ return SR.get(SR.MS_ADD); }
-    public void touchLeftPressed(){ new ContactEdit(display, sd.roster, (Contact)getFocusedObject()); }
-    public void touchRigthPressed(){ destroyView(); }
-    
-    public void destroyView(){
-       if (display!=null) midlet.BombusQD.sd.roster.showRoster();
+    public String touchLeftCommand() {
+        return SR.get(SR.MS_ADD);
+    }
+
+    public void touchLeftPressed() {
+        showContactEditForm();
+    }
+
+    public void touchRigthPressed() {
+        destroyView();
     }
     
 //#ifdef GRAPHICS_MENU        
     public int showGraphicsMenu() {
          commandState();
-         menuItem = new GMenu(display, parentView, this, null, menuCommands);
+         menuItem = new GMenu(this, null, menuCommands);
          GMenuConfig.getInstance().itemGrMenu = -1;        
          eventOk();
          return -1;
@@ -190,17 +192,21 @@ public class SearchResult
 
     public void commandAction(Command c, Displayable d){
         if (c==cmdAdd){
-            //destroyView();
-            new ContactEdit(display, sd.roster, (Contact)getFocusedObject());
-            //return;
+            showContactEditForm();
         }
+    }
+
+    private void showContactEditForm() {
+        ContactEdit form = new ContactEdit((Contact)getFocusedObject());
+        form.setParentView(sd.roster);
+        form.show();
     }
     
     public void eventOk(){
         try {
             Contact c=(Contact)getFocusedObject();
             if (c==null) return;
-            display.setCurrent(c.getMessageList());
+            c.getMessageList().show();
         } catch (Exception e) {}
     }
 }

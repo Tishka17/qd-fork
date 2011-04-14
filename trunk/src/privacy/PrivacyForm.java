@@ -44,14 +44,10 @@ import ui.controls.form.TextInput;
  *
  * @author EvgS
  */
-public class PrivacyForm
-        extends DefForm {
+public class PrivacyForm extends DefForm {
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_PRIVACY");
-//#endif
-    
-    private Display display;
-    
+//#endif  
     private PrivacyList targetList;
     private PrivacyItem item;
     
@@ -72,18 +68,14 @@ public class PrivacyForm
     private boolean subscrField=true;
     private int newSubscrPos=0;    
 
-    /** Creates a new instance of PrivacyForm */
-    public PrivacyForm(Display display, Displayable pView, PrivacyItem item, PrivacyList plist) {
-        super(display, pView, SR.get(SR.MS_PRIVACY_RULE));
-        this.display=display;
-        
+    public PrivacyForm(PrivacyItem item, PrivacyList plist) {
+        super(SR.get(SR.MS_PRIVACY_RULE));
+       
         this.item=item;
         targetList=plist;
         
         update();
 
-        attachDisplay(display);
-        this.parentView=pView;
     }
     
     private void update() {
@@ -95,35 +87,35 @@ public class PrivacyForm
         itemsList=null;
         itemsList=new Vector(0);
 
-        choiceAction=new DropChoiceBox(display, SR.get(SR.MS_ACTION));
+        choiceAction=new DropChoiceBox(SR.get(SR.MS_ACTION));
         len = PrivacyItem.actions.length;
         for(int i=0; i<len; i++){
             choiceAction.append(PrivacyItem.actions_[i]);
         }
         choiceAction.setSelectedIndex(selectedAction);
-        itemsList.addElement(choiceAction);
+        addControl(choiceAction);
 
           messageStz=new CheckBox(PrivacyItem.stanzas_[0], item.messageStz); 
           presenceInStz=new CheckBox(PrivacyItem.stanzas_[1], item.presenceInStz); 
           presenceOutStz=new CheckBox(PrivacyItem.stanzas_[2], item.presenceOutStz); 
           iqStz=new CheckBox(PrivacyItem.stanzas_[3], item.iqStz); 
           
-        itemsList.addElement(messageStz);
-        itemsList.addElement(presenceInStz);
-        itemsList.addElement(presenceOutStz);
-        itemsList.addElement(iqStz);
+        addControl(messageStz);
+        addControl(presenceInStz);
+        addControl(presenceOutStz);
+        addControl(iqStz);
         
-        choiceType=new DropChoiceBox(display, SR.get(SR.MS_PRIVACY_TYPE));
+        choiceType=new DropChoiceBox(SR.get(SR.MS_PRIVACY_TYPE));
         len = PrivacyItem.types.length;
         for(int i=0; i<len; i++){
             choiceType.append(PrivacyItem.types_[i]);
         }
         choiceType.setSelectedIndex(item.type);
-        itemsList.addElement(choiceType);
+        addControl(choiceType);
         newSubscrPos=itemsList.indexOf(choiceType)+1;
         
        
-        choiceSubscr=new DropChoiceBox(display, SR.get(SR.MS_SUBSCRIPTION));
+        choiceSubscr=new DropChoiceBox(SR.get(SR.MS_SUBSCRIPTION));
           len = PrivacyItem.subscrs.length;
           for(int i=0; i<len; i++) choiceSubscr.append(PrivacyItem.subscrs_[i]);
           
@@ -136,7 +128,7 @@ public class PrivacyForm
          }
         }
 
-        textValue=new TextInput(display, SR.get(SR.MS_VALUE), tValue, "", TextField.ANY);//64, TextField.ANY);
+        textValue=new TextInput(SR.get(SR.MS_VALUE), tValue, "", TextField.ANY);//64, TextField.ANY);
         try{
          switch (selectedAction) {
             case 0: //jid
@@ -151,7 +143,7 @@ public class PrivacyForm
                     textValue.setValue(((rfocus instanceof Group)?(Group)rfocus:((Contact)rfocus).group).getName());
                 break;
          }
-         itemsList.addElement(textValue);
+         addControl(textValue);
          
         } catch (Exception e) { }
     }
@@ -165,14 +157,14 @@ public class PrivacyForm
                     subscrField=true;
                 }else{ 
                 //subscrField == TRUE when user �pen SUBSCR rule
-                   if(!itemsList.contains(choiceSubscr)) itemsList.addElement(choiceSubscr);
+                   if(!itemsList.contains(choiceSubscr)) addControl(choiceSubscr);
                    if(itemsList.contains(textValue)) itemsList.removeElement(textValue);
                    
                 }
             } else {
                 if (subscrField) {
                     if(itemsList.contains(choiceSubscr)) itemsList.removeElement(choiceSubscr);
-                    if(!itemsList.contains(textValue)) itemsList.addElement(textValue);
+                    if(!itemsList.contains(textValue)) addControl(textValue);
                     subscrField=false;
                 }
             }

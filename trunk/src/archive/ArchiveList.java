@@ -37,7 +37,6 @@ import message.MessageList;
 //#else
 import menu.Command;
 //#endif
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import ui.controls.AlertBox;
@@ -54,12 +53,7 @@ import ui.GMenuConfig;
  *
  * @author EvgS,aqent
  */
-public class ArchiveList
-        extends MessageList {
-//#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_ARCHIVE");
-//#endif
-
+public class ArchiveList extends MessageList {
     Command cmdPaste;
     Command cmdJid;
     Command cmdSubj;
@@ -80,7 +74,7 @@ public class ArchiveList
         mi.onSelect(this);
     }
 
-    public ArchiveList(Display display, int caretPos, TextField tf, TextBox tb) {
+    public ArchiveList(int caretPos, TextField tf, TextBox tb) {
         super();
 
         this.caretPos = caretPos;
@@ -126,8 +120,6 @@ public class ArchiveList
         setMainBarItem(bar);
 
         setCommandListener(this);
-
-        attachDisplay(display);
     }
 
     public final void commandState() {
@@ -192,7 +184,7 @@ public class ArchiveList
 //#ifdef IMPORT_EXPORT
 //#ifdef FILE_IO
         } else if (c == cmdExport) {
-            new ImportExportForm(display, this);
+            new ImportExportForm().show();
 //#endif
 //#endif
         }
@@ -209,8 +201,7 @@ public class ArchiveList
     }
 
     private void deleteAllMessages() {
-        new AlertBox(SR.get(SR.MS_ACTION), SR.get(SR.MS_DELETE_ALL) + "?", display, this, false) {
-
+        AlertBox box = new AlertBox(SR.get(SR.MS_ACTION), SR.get(SR.MS_DELETE_ALL) + "?", false) {
             public void yes() {
                 archive.deleteAll();
                 messages.removeAllElements();
@@ -218,8 +209,8 @@ public class ArchiveList
 
             public void no() {
             }
-
         };
+        box.show();
     }
 
     private void pasteData(int field) {
@@ -262,16 +253,15 @@ public class ArchiveList
 
     public void keyClear() {
         if (getItemCount() > 0) {
-            new AlertBox(SR.get(SR.MS_DELETE), SR.get(SR.MS_SURE_DELETE), display, this, false) {
-
+            AlertBox box = new AlertBox(SR.get(SR.MS_DELETE), SR.get(SR.MS_SURE_DELETE), false) {
                 public void yes() {
                     deleteMessage();
                 }
 
                 public void no() {
                 }
-
             };
+            box.show();
             redraw();
         }
     }
@@ -287,7 +277,7 @@ public class ArchiveList
 
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(display, parentView, this,  null, menuCommands);
+        menuItem = new GMenu(this,  null, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.MESSAGE_LIST;
         return GMenu.MESSAGE_LIST;
     }

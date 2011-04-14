@@ -72,7 +72,7 @@ public class UserKeysList
     Command cmdCancel;
 
     /** Creates a new instance of AccountPicker */
-    public UserKeysList(Display display) {
+    public UserKeysList() {
         super();
         
         cmdOK=new Command(SR.get(SR.MS_OK), Command.OK,1);
@@ -86,8 +86,6 @@ public class UserKeysList
         commandsList=UserKeyExec.getInstance().commandsList;
 
         setCommandListener(this);
-        
-        attachDisplay(display);
     }
 
     void commandState(){
@@ -125,9 +123,9 @@ public class UserKeysList
             destroyView();    
         }
         if (c==cmdEdit) 
-            new UserKeyEdit(display, this, this, (UserKey)getFocusedObject());
+            new UserKeyEdit(this, (UserKey)getFocusedObject()).show();
         if (c==cmdAdd)
-            new UserKeyEdit(display, this, this, null);
+            new UserKeyEdit(this, null).show();
         if (c==cmdDel) {
             UserKeyExec.getInstance().commandsList.removeElement(getFocusedObject());
             
@@ -138,7 +136,7 @@ public class UserKeysList
     }
     
     public void eventOk(){
-        new UserKeyEdit(display, parentView, this, (UserKey)getFocusedObject());
+        new UserKeyEdit(this, (UserKey)getFocusedObject()).show();
     }
     
     void rmsUpdate(){
@@ -156,7 +154,7 @@ public class UserKeysList
 //#ifdef GRAPHICS_MENU        
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(display, parentView, this, null, menuCommands);
+        menuItem = new GMenu(this, null, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.USERKEYSLIST;            
         return GMenu.USERKEYSLIST;
     }

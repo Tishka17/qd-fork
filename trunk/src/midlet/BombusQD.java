@@ -62,6 +62,7 @@ import ui.controls.AlertBox;
 import io.NvStorage;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import ui.VirtualCanvas;
 
 /** Entry point class
  *
@@ -98,8 +99,10 @@ public class BombusQD extends MIDlet implements Runnable {
             ColorTheme.initColors();
             ColorTheme.loadFromStorage();
 
-            s = SplashScreen.getInstance(display);
-            display.setCurrent(s);
+            sd.canvas = new VirtualCanvas();
+
+            s = SplashScreen.getInstance();
+            s.show();
 
             s.setProgress("Loading", 3);
 
@@ -118,10 +121,11 @@ public class BombusQD extends MIDlet implements Runnable {
                String ver = is.readUTF();
                if(ver.indexOf(key) == -1 ) {
                   //alerbox
-                  new AlertBox( "WARNING", SR.get(SR.MS_WARNING_MESSAGE_INSTALL) , display, parentView, true) {
+                  AlertBox box = new AlertBox( "WARNING", SR.get(SR.MS_WARNING_MESSAGE_INSTALL), true) {
                       public void yes() { notifyDestroyed(); }
                       public void no() {}
                   };
+                  box.show();
                }
                is.close();
                is=null;
@@ -154,7 +158,7 @@ public class BombusQD extends MIDlet implements Runnable {
 //#endif
 
         if (sd.roster == null) {
-            sd.roster = new Roster(display);
+            sd.roster = new Roster();
         }
 
         s.getKeys();
@@ -162,9 +166,11 @@ public class BombusQD extends MIDlet implements Runnable {
         boolean selAccount=((cf.accountIndex<0));
         if (!selAccount && cf.autoLogin) {
             Account.loadAccount(cf.autoLogin, cf.accountIndex, -1);
-	    display.setCurrent(sd.roster);
+	    sd.roster.show();
 	} else {
-	    new AccountSelect(display, sd.roster, false, 0);
+            AccountSelect select = new AccountSelect(false, 0);
+            select.setParentView(sd.roster);
+	    select.show();
 	}
 
         rmsVersion(false, sd.roster);
@@ -189,7 +195,7 @@ public class BombusQD extends MIDlet implements Runnable {
         Stats.getInstance().updateRunValue();
 //#endif
 //#ifdef AUTOTASK
-        sd.autoTask=new AutoTask(display);
+        sd.autoTask=new AutoTask();
 //#endif
     }
 
@@ -204,9 +210,9 @@ public class BombusQD extends MIDlet implements Runnable {
         } else {
             cf.isMinimized = false;
             if (c != null) {
-                display.setCurrent(c.getMessageList());
+                c.getMessageList().show();
             } else {
-                display.setCurrent(sd.roster);
+                sd.roster.show();
             }
         }
     }

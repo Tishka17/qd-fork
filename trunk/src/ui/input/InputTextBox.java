@@ -1,6 +1,24 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * InputTextBox.java
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * You can also redistribute and/or modify this program under the
+ * terms of the Psi License, specified in the accompanied COPYING
+ * file, as published by the Psi Project; either dated January 1st,
+ * 2005, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
 package ui.input;
@@ -10,6 +28,7 @@ import io.NvStorage;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
+import java.io.IOException;
 import java.util.Vector;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
@@ -18,14 +37,10 @@ import javax.microedition.lcdui.TextBox;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
 import midlet.BombusQD;
+import ui.CanvasEx;
 //#ifdef CLIPBOARD
 import util.ClipBoard;
 //#endif
-
-/**
- *
- * @author esprit
- */
 
 public class InputTextBox extends TextBox implements CommandListener {
     private static final int MAX_RECENT_ELEMENTS = 10;
@@ -52,8 +67,10 @@ public class InputTextBox extends TextBox implements CommandListener {
         super(caption, text, len, mode);
 
         this.id = id;
-        loadRecentList();
-
+        if (id != null) {
+            loadRecentList();
+        }
+ 
         if (Config.getInstance().capsState) {
             setConstraints(TextField.INITIAL_CAPS_SENTENCE);
         }
@@ -77,7 +94,7 @@ public class InputTextBox extends TextBox implements CommandListener {
         addCommand(cmdOk);
         addCommand(cmdCancel);
 
-        if (!recentList.isEmpty()) {
+        if (id != null && !recentList.isEmpty()) {
             addCommand(cmdRecent);
         }
 
@@ -100,15 +117,26 @@ public class InputTextBox extends TextBox implements CommandListener {
         this.notify = notify;
     }
 
+    public void setParentView(CanvasEx parentView) {
+        this.parentView = parentView;
+    }
+
     public void show() {
         setCommandListener(this);
 
-        parentView = BombusQD.getCurrentView();
+        if (parentView == null) {
+            parentView = BombusQD.sd.canvas.getCanvas();
+        }
         BombusQD.setCurrentView(this);
     }
 
     public void destroyView() {
-        BombusQD.setCurrentView(parentView);
+        // FIXME: CanvasEx has the same code
+        if (parentView instanceof CanvasEx) {
+            BombusQD.sd.canvas.show((CanvasEx)parentView);
+        } else {
+            BombusQD.setCurrentView(parentView);
+        }
     }
 
     public void commandAction(Command c, Displayable d) {
@@ -133,15 +161,15 @@ public class InputTextBox extends TextBox implements CommandListener {
         } else if (c == cmdCopyPlus) {
             ClipBoard.addToClipBoard(getString());
         } else  if (c == cmdPasteText) {
-            insert(ClipBoard.getClipBoard(), getCaretPos());
+            insert(ClipBoard.getClipBoard(), getCaretPosition());
 //#endif
         } else if (c == cmdRecent) {
-            new RecentInputList(BombusQD.display, this);
+            new RecentInputList(this).show();
         }
     }
     
 //#ifdef CLIPBOARD
-    public int getCaretPos() {
+    public int getCaretPosition() {
         int caretPos = getCaretPosition();
         // +MOTOROLA STUB
         if (Config.getInstance().phoneManufacturer == Config.MOTO) {
@@ -158,6 +186,9 @@ public class InputTextBox extends TextBox implements CommandListener {
         recentList = new Vector(0);
         try {
             DataInputStream is = NvStorage.ReadFileRecord(id, 0);
+            if (is == null) {
+                return;
+            }
 
             try {
                 while (true) {
@@ -167,7 +198,11 @@ public class InputTextBox extends TextBox implements CommandListener {
                 is.close();
                 is = null;
             }
-        } catch (Exception e) {}
+        } catch (IOException e) {
+//#if DEBUG
+//#             e.printStackTrace();
+//#endif
+        }
     }
 
     private void addToRecentList(String text) {

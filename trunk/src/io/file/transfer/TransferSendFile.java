@@ -35,6 +35,7 @@ import javax.microedition.lcdui.TextField;
 import locale.SR;
 import ui.controls.form.DefForm;
 import ui.controls.form.PathSelector;
+import ui.controls.form.PathSelector;
 import ui.controls.form.SimpleString;
 import ui.controls.form.TextInput;
 
@@ -42,17 +43,13 @@ public class TransferSendFile extends DefForm {
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_FILE_TRANSFER");
 //#endif
-
-    private Display display;
-
     private String to;
 
     private PathSelector selectFile;
     private TextInput description;
 
-    public TransferSendFile(final Display display, Displayable pView, String recipientJid) {
-        super(display, pView, SR.get(SR.MS_SEND_FILE));
-        this.display=display;
+    public TransferSendFile(String recipientJid) {
+        super(SR.get(SR.MS_SEND_FILE));
         this.to=recipientJid;
 
         addControl(new SimpleString(recipientJid, true));
@@ -60,12 +57,10 @@ public class TransferSendFile extends DefForm {
         selectFile = new PathSelector(SR.get(SR.MS_SELECT_FILE), null, PathSelector.TYPE_FILE);
         addControl(selectFile);
 
-        description = new TextInput(display, SR.get(SR.MS_DESCRIPTION), null, null, TextField.ANY);
+        description = new TextInput(SR.get(SR.MS_DESCRIPTION), null, null, TextField.ANY);
         addControl(description);
 
         moveCursorTo(2);
-        attachDisplay(display);
-        this.parentView=pView;
     }
 
     public void cmdOk() {
@@ -77,9 +72,9 @@ public class TransferSendFile extends DefForm {
             TransferTask task=new TransferTask(to, String.valueOf(System.currentTimeMillis()), selectFile.getValue(), description.getValue(), false, null);
             TransferDispatcher.getInstance().sendFile(task);
             //switch to file transfer manager
-            (new io.file.transfer.TransferManager(display)).setParentView(parentView);
             return;
         } catch (Exception e) {}
+        destroyView();
     }
 }
 //#endif

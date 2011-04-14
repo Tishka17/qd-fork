@@ -40,7 +40,6 @@ import java.util.*;
 import menu.MenuListener;
 import menu.Command;
 //#endif
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import colors.ColorTheme;
@@ -48,6 +47,7 @@ import ui.*;
 import com.alsutton.jabber.*;
 import com.alsutton.jabber.datablocks.*;
 import client.*;
+import conference.bookmark.Bookmarks;
 import io.NvStorage;
 import java.io.DataInputStream;
 import java.io.EOFException;
@@ -60,6 +60,7 @@ import vcard.*;
  *
  * @author Evg_S,aqent,tishka17
  */
+
 public class ServiceDiscovery
         extends VirtualList
         implements
@@ -94,11 +95,9 @@ public class ServiceDiscovery
     private JabberStream stream;
 
     private ServiceDiscovery serviceDisco;
-    private Displayable currentDisplay;
 
-    /** Creates a new instance of ServiceDiscovery */
-    public ServiceDiscovery(Display display, String service, String node, boolean search) {
-        super(display);
+    public ServiceDiscovery(String service, String node, boolean search) {
+        super();
 
         cmdOk=new Command(SR.get(SR.MS_BROWSE), Command.SCREEN, 1);
         cmdRfsh=new Command(SR.get(SR.MS_REFRESH), Command.SCREEN, 2);
@@ -115,7 +114,6 @@ public class ServiceDiscovery
         stream=midlet.BombusQD.sd.roster.theStream;
         stream.cancelBlockListenerByClass(this.getClass());
         stream.addBlockListener(this);
-        //sd.roster.discoveryListener=this;
 
 //#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
@@ -204,7 +202,6 @@ public class ServiceDiscovery
             redraw();
         }
         serviceDisco = this;
-        currentDisplay = this;
         isServiceDiscoWindow = true;
     }
 
@@ -215,8 +212,9 @@ public class ServiceDiscovery
     public int getItemCount(){ return items.size();}
     public VirtualElement getItemRef(int index) { return (VirtualElement) items.elementAt(index);}
 
-    protected void beginPaint(){ getMainBarItem().setElementAt(midlet.BombusQD.sd.roster.getEventIcon(), 4); }
-
+    protected void beginPaint(){
+        getMainBarItem().setElementAt(midlet.BombusQD.sd.roster.getEventIcon(), 4);
+    }
 
     private void mainbarUpdate(){
         getMainBarItem().setElementAt(new Integer(discoIcon), 0);
@@ -291,10 +289,11 @@ public class ServiceDiscovery
 
             XmppError xe=XmppError.findInStanza(data);
 
-            new AlertBox(data.getAttribute("from"), xe.toString(), display, this, false) {
+            AlertBox box = new AlertBox(data.getAttribute("from"), xe.toString(), false) {
                 public void yes() { };
                 public void no() { };
             };
+            box.show();
 
             return JabberBlockListener.BLOCK_PROCESSED;
           }
@@ -394,25 +393,31 @@ public class ServiceDiscovery
             }
         } else if (id.startsWith ("discoreg")) {
             discoIcon=0;
-            new DiscoForm(display, data, stream, "discoResult", "query");
-
+            DiscoForm form = new DiscoForm(data, stream, "discoResult", "query");
+            form.setParentView(BombusQD.sd.roster);
+            form.show();
         } else if (id.startsWith("discocmd")) {
             discoIcon=0;
-            new DiscoForm(display, data, stream, "discocmd", "command");
+            DiscoForm form = new DiscoForm(data, stream, "discocmd", "command");
+            //form.setParentView(BombusQD.sd.roster);
+            form.show();
         } else if (id.startsWith("discosrch")) {
             discoIcon=0;
-            new DiscoForm(display, data, stream, "discoRSearch", "query");
+            DiscoForm form = new DiscoForm(data, stream, "discoRSearch", "query");
+            form.setParentView(BombusQD.sd.roster);
+            form.show();
         } else if (id.startsWith("discoR")) {
             String text=SR.get(SR.MS_DONE);
             if(null == typeAttr) typeAttr = "-";
             if (typeAttr.equals("error")) text=XmppError.findInStanza(data).toString();
             if (text.equals(SR.get(SR.MS_DONE)) && id.endsWith("Search") ) {
-                new SearchResult(display, data);
+                new SearchResult(data).show();
             } else {
-                new AlertBox(typeAttr, text, display, null, false) {
+                AlertBox box = new AlertBox(typeAttr, text, false) {
                     public void yes() { }
                     public void no() { }
                 };
+                box.show();
             }
         }
         redraw();
@@ -486,8 +491,12 @@ public class ServiceDiscovery
 	if (c==cmdOk) eventOk();
         if (c==cmdBack) { exitDiscovery(false); }
         if (c==cmdRfsh) { if (service!=null) requestQuery(Constants.NS_INFO, "disco"); }
-        if (c==cmdSrv) { new ServerBox(display, currentDisplay, service, serviceDisco); }
-        if (c==cmdFeatures) { new DiscoFeatures(display, service, features); }
+        if (c == cmdSrv) {
+            new ServerBox(service, serviceDisco).show();
+        }
+        if (c == cmdFeatures) {
+            new DiscoFeatures(service, features).show();
+        }
         if (c==cmdCancel) exitDiscovery(true);
         if (c==cmdShowStatistics) {
             Object o=getFocusedObject();
@@ -504,11 +513,11 @@ public class ServiceDiscovery
         try {
         if(stackItems != null) stackItemsEmpty = stackItems.isEmpty();
         if (cancel || stackItems==null || stackItemsEmpty) {
-            if (stream!=null) stream.cancelBlockListener(this);
-            if (display!=null && parentView!=null /*prevents potential app hiding*/ ) {
-                display.setCurrent(parentView);
-                isServiceDiscoWindow = false;
+            if (stream!=null) {
+                stream.cancelBlockListener(this);
             }
+            isServiceDiscoWindow = false;
+            super.destroyView();
         } else {
             if (stackItems!=null) {
               if(stackItems.size()>0) {
@@ -646,32 +655,35 @@ public class ServiceDiscovery
             if(userCommands) {
                 switch (icon) {
                     case MenuIcons.ICON_VCARD:
-                        Contact cs=midlet.BombusQD.sd.roster.selfContact();
-                        if (cs.vcard!=null) {
-                          new VCardEdit(display, view, cs.vcard);
+                        Contact self=midlet.BombusQD.sd.roster.selfContact();
+                        if (self.vcard!=null) {
+                            showForm(new VCardEdit(self.vcard));
                           return;
                         }
-                        VCard.request(cs.bareJid, cs.getJid());
+                        VCard.request(self.bareJid, self.getJid());
                         break;
-                    case MenuIcons.ICON_CONFERENCE:
-                        //new Bookmarks(display, view, null);
-                        BombusQD.sd.roster.cmdConference();
+                    case MenuIcons.ICON_CONFERENCE: {
+                        showForm(new Bookmarks(null));
                         break;
-                    case MenuIcons.ICON_ADD_CONTACT:
-                        new ContactEdit(display, view, null);
+                    }
+                    case MenuIcons.ICON_ADD_CONTACT: {
+                        showForm(new ContactEdit(null));
                         break;
-                    case MenuIcons.ICON_USER_SEARCH:
-                        new DiscoSearchForm(display, view , null , -1);
+                    }
+                    case MenuIcons.ICON_USER_SEARCH: {
+                        showForm(new DiscoSearchForm(null , -1));
                         break;
+                    }
 //#ifdef PRIVACY
-                    case MenuIcons.ICON_PRIVACY:
-                        new privacy.PrivacySelect(display, view);
+                    case MenuIcons.ICON_PRIVACY: {
+                        showForm(new privacy.PrivacySelect());
                         break;
+                    }
 //#endif
 //#ifdef FILE_IO
 //#ifdef FILE_TRANSFER
                     case MenuIcons.ICON_FT:
-                        new io.file.transfer.TransferManager(display);
+                        showForm(new io.file.transfer.TransferManager());
                         break;
 //#endif
 //#endif
@@ -679,7 +691,7 @@ public class ServiceDiscovery
                         midlet.BombusQD.sd.roster.theStream.send(xmpp.extensions.IqGmail.query());
                         break;
                     case MenuIcons.ICON_RECONNECT:
-                        midlet.BombusQD.sd.roster.showRoster();
+                        midlet.BombusQD.sd.roster.show();
                         midlet.BombusQD.sd.roster.errorLog(SR.get(SR.MS_SIMULATED_BREAK));
                         midlet.BombusQD.sd.roster.doReconnect();
                         return;
@@ -687,7 +699,7 @@ public class ServiceDiscovery
                         showIMmenu();
                         break;
                     case MenuIcons.ICON_ADD_SERVER: //add server
-                        new ServerBox(display, currentDisplay, service, serviceDisco);
+                        new ServerBox(service, serviceDisco).show();
                         break;
                     case MenuIcons.ICON_REMOVE_ICON: //remove server
                         try {
@@ -703,7 +715,7 @@ public class ServiceDiscovery
 //#                           System.out.println("disco rms exception");
 //#endif
                         }
-                        midlet.BombusQD.sd.roster.showRoster();
+                        midlet.BombusQD.sd.roster.show();
                         break;
                 }
                 return;
@@ -716,7 +728,7 @@ public class ServiceDiscovery
                     if (rp>0) {
                         room=service.substring(0,rp);
                     }
-                    new ConferenceForm(display, parentView, room, service, null, false);
+                    new ConferenceForm(room, service, null, false).show();
                     break;
                 }
 //#endif
@@ -737,6 +749,10 @@ public class ServiceDiscovery
         }
     }
 
+    private void showForm(VirtualList list) {
+        list.setParentView(getParentView());
+        list.show();
+    }
 
     public void showIMmenu() {
         Object add = items.elementAt(3);
@@ -777,7 +793,7 @@ public class ServiceDiscovery
 
 //#ifdef GRAPHICS_MENU
     public int showGraphicsMenu() {
-        menuItem = new GMenu(display, parentView, this, null, menuCommands);
+        menuItem = new GMenu(this, null, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.SERVICE_DISCOVERY;
         redraw();
         return GMenu.SERVICE_DISCOVERY;

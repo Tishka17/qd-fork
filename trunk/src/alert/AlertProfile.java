@@ -30,7 +30,6 @@ package alert;
 
 import client.*;
 import images.RosterIcons;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import ui.*;
@@ -40,7 +39,6 @@ import ui.*;
 //#else
 import menu.MenuListener;
 import menu.Command;
-import menu.MyMenu;
 //#endif
 import ui.MainBar;
 //#ifdef GRAPHICS_MENU        
@@ -73,7 +71,7 @@ public class AlertProfile extends VirtualList implements
     private Command cmdDef;
     private Command cmdCancel;
 
-    public AlertProfile(Display d, Displayable pView) {
+    public AlertProfile() {
         super();
         
         cf=midlet.BombusQD.cf;
@@ -94,8 +92,6 @@ public class AlertProfile extends VirtualList implements
         defp=cf.def_profile;
         
         moveCursorTo(p);
-        attachDisplay(d);
-        this.parentView=pView;
     }
 
     public void commandState() {
@@ -114,7 +110,7 @@ public class AlertProfile extends VirtualList implements
 //#ifdef GRAPHICS_MENU        
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(display, parentView, this,null, menuCommands);        
+        menuItem = new GMenu(this,null, menuCommands);        
         return GMenu.ALERT_PROFILE;
     }
 //#else

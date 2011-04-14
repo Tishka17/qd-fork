@@ -31,7 +31,6 @@ import client.Config;
 import font.FontCache;
 import images.RosterIcons;
 import java.util.Vector;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import ui.IconTextElement;
@@ -65,11 +64,6 @@ public  class DropChoiceBox extends IconTextElement {
             captionFontHeight = captionFont.getHeight();
             itemHeight += captionFontHeight;
         }
-    }
-
-    public void destroy() {
-        items.removeAllElements();
-        caption = null;
     }
 
     public String getCaption() {

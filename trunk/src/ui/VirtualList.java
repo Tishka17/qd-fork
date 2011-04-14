@@ -192,7 +192,6 @@ public abstract class VirtualList extends CanvasEx {
 
     public static byte keyClear=-8;
     public static short keyVolDown=0x1000;
-    public static byte keyBack=-11;
     public static short greenKeyCode=SIEMENS_GREEN;
 
 //#ifdef MEMORY_MONITOR
@@ -200,7 +199,7 @@ public abstract class VirtualList extends CanvasEx {
 //#endif
     public static boolean showTimeTraffic = true;
 
-    public static boolean canBack=true;
+    protected boolean canBack=true;
 
     protected int cursor;
 
@@ -1809,7 +1808,7 @@ public abstract class VirtualList extends CanvasEx {
                     if (keyCode==keyClear) { keyClear(); break; }
                     if (keyCode==keyVolDown) { moveCursorEnd(); break; }
                     if (keyCode=='5') {  eventOk(); break; }
-                    if (keyCode==Config.KEY_BACK /*&&  canBack==true*/) { destroyView(); }
+                    if (keyCode==Config.KEY_BACK &&  canBack) { destroyView(); }
                     if (keyCode==greenKeyCode) { keyGreen(); }
 
                     userKeyPressed(keyCode);

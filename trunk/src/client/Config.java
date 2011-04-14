@@ -118,8 +118,6 @@ public class Config {
     public boolean setAutoStatusMessage = true;
 //#endif
 
-    public boolean cp1251 = true;
-
 //#ifndef WMUC
     public static String defConference = BombusQD.getStrProperty("Def-Room", "qd@conference.jabber.ru");
 
@@ -488,7 +486,8 @@ public class Config {
             storeConfPresence = inputStream.readBoolean();
             capsState = inputStream.readBoolean();
 
-            cp1251 = inputStream.readBoolean();
+            // free
+            inputStream.readBoolean();
 
             fileTransfer = inputStream.readBoolean(); //newMenu
             lightState = inputStream.readBoolean();
@@ -760,7 +759,8 @@ public class Config {
             outputStream.writeBoolean(storeConfPresence);
             outputStream.writeBoolean(capsState);
 
-            outputStream.writeBoolean(cp1251);
+            // free
+            outputStream.writeBoolean(false);
 
             outputStream.writeBoolean(fileTransfer); //newMenu
             outputStream.writeBoolean(lightState);

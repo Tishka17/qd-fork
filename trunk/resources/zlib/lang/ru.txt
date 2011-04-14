@@ -171,8 +171,6 @@ vCard	Визитка
 Set Subject	Установить тему
 Port	Порт
 Resume Message	Черновик
-Are You sure want to discard 	Вы действительно собираетесь понизить у 
- from OWNER to 	 право OWNER до 
 Modify affiliation	Изменение членства
 Clear	Очистить
 Connect	Подключиться
@@ -581,7 +579,6 @@ Debug Menu	Консоль отладки
 Please,edit this account to save new password!	Откройте форму редактирования аккаунта для сохранения пароля!
 Account deleted!	Аккаунт удален!
 Insert New Password	Вставить пароль из буфера
-Highlite Out Messages	Подсвечивать исходящие сообщения
 Contact is now offline.Continue?	Возможно контакт отключен.Продолжить?
 clipboard NOT sended	Ошибка отправки
 Collapse presences	Сворачивать статусные сообщения

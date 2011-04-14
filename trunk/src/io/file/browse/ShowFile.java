@@ -61,6 +61,7 @@ public class ShowFile implements CommandListener{
     private Config cf;
 
     boolean play=false;
+    private boolean useWin1251 = false;
 
     int width;
     int height;
@@ -82,8 +83,8 @@ public class ShowFile implements CommandListener{
         if (type==2) view(fileName); //images
         if (type==3) {
             AlertBox box = new AlertBox( "Info", "Windows cp1251?" , false) {
-               public void yes() { cf.cp1251 = true; read(fileName);  }
-               public void no() { cf.cp1251 = false; read(fileName);  }
+               public void yes() { useWin1251 = true; read(fileName);  }
+               public void no() { useWin1251 = false; read(fileName);  }
             };
             box.show();
         }
@@ -142,7 +143,9 @@ public class ShowFile implements CommandListener{
                 }
             } catch (Exception e) {}
 
-            if (cf.cp1251) tf.setString(Strconv.convCp1251ToUnicode(s));
+            if (useWin1251) {
+                tf.setString(Strconv.convCp1251ToUnicode(s));
+            }
             else {
                tf.setString(s);
             }

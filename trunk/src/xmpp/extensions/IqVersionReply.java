@@ -50,7 +50,7 @@ public class IqVersionReply implements JabberBlockListener {
             if (query==null) return BLOCK_REJECTED;
             
             Contact c=StaticData.getInstance().roster.getContact( data.getAttribute("from"), false);
-            c.setIncoming(Constants.INC_VIEWING);
+            c.setIncoming(Roster.INC_VIEWING);
             
             Iq reply=new Iq(data.getAttribute("from"), Iq.TYPE_RESULT, data.getAttribute("id"));
             reply.addChild(query);
@@ -80,7 +80,7 @@ public class IqVersionReply implements JabberBlockListener {
             
             if (body!=null) {
                 Roster roster=StaticData.getInstance().roster;
-                Msg m=new Msg(Constants.MESSAGE_TYPE_SYSTEM, "ver", " "+locale.SR.get(locale.SR.MS_CLIENT_INFO), body);
+                Msg m=new Msg(Msg.MESSAGE_TYPE_SYSTEM, "ver", " "+locale.SR.get(locale.SR.MS_CLIENT_INFO), body);
                 roster.messageStore(roster.getContact( data.getAttribute("from"), false), m);
                 roster.querysign=false;
                 Config.getInstance().flagQuerySign=false;

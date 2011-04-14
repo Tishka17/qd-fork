@@ -32,6 +32,7 @@ import conference.bookmark.BookmarkItem;
 import conference.bookmark.BookmarkQuery;
 import client.*;
 import com.alsutton.jabber.JabberDataBlock;
+import com.alsutton.jabber.datablocks.Presence;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
@@ -157,7 +158,7 @@ public final class ConferenceForm extends DefForm {
         nickField=new TextInput(SR.get(SR.MS_NICKNAME), nick, "roomnick", TextField.ANY);//, 32, TextField.ANY, "roomnick", display);
         addControl(nickField);
 
-        msgLimitField=new NumberInput(SR.get(SR.MS_MSG_LIMIT), Integer.toString(midlet.BombusQD.cf.confMessageCount), 0, 100);
+        msgLimitField=new NumberInput(SR.get(SR.MS_MSG_LIMIT), midlet.BombusQD.cf.confMessageCount, 0, 100);
         addControl(msgLimitField);
 
         nameField=new TextInput(SR.get(SR.MS_DESCRIPTION), name, null, TextField.ANY);//, 128, TextField.ANY);
@@ -187,7 +188,7 @@ public final class ConferenceForm extends DefForm {
         String name = nameField.getValue();
         String pass = passField.getValue();
 
-        int msgLimit = Integer.parseInt(msgLimitField.getValue());
+        int msgLimit = msgLimitField.getIntValue();
         boolean autojoin = autoJoin.getValue();
 
         StringBuffer gchat = new StringBuffer(room.trim()).append('@').append(host.trim());
@@ -289,8 +290,8 @@ public final class ConferenceForm extends DefForm {
         } catch (Exception e) {}
 
         int status=midlet.BombusQD.sd.roster.myStatus;
-        if (status==Constants.PRESENCE_INVISIBLE)
-            status=Constants.PRESENCE_ONLINE;
+        if (status==Presence.PRESENCE_INVISIBLE)
+            status=Presence.PRESENCE_ONLINE;
         midlet.BombusQD.sd.roster.sendDirectPresence(status, jid, x);
         grp.inRoom=true;
     }

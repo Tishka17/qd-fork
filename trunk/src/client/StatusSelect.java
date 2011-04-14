@@ -28,36 +28,25 @@
 
 package client;
 
-import java.util.*;
+import account.AccountSelect;
+import java.util.Vector;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
-import ui.*;
-import ui.MainBar;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
-import menu.MenuListener;
 import menu.Command;
-//#endif
-//#ifdef GRAPHICS_MENU
-import ui.GMenu;
-//#endif
-import account.AccountSelect;
+import menu.MenuListener;
 import midlet.BombusQD;
+import ui.GMenu;
+import ui.GMenuConfig;
+import ui.MainBar;
+import ui.VirtualElement;
+import ui.VirtualList;
 
 /**
  *
  * @author ad,aqent
  */
 
-public class StatusSelect extends VirtualList implements
-//#ifndef MENU_LISTENER
-//#         CommandListener,
-//#else
-        MenuListener//,
-//#endif
-{
+public class StatusSelect extends VirtualList implements MenuListener {
 
     private Command cmdOk;
     private Command cmdEdit;
@@ -90,7 +79,7 @@ public class StatusSelect extends VirtualList implements
             setMainBarItem(new MainBar(to));
         }
 
-        defp=midlet.BombusQD.cf.loginstatus;
+        defp = BombusQD.cf.loginstatus;
         moveCursorTo(defp);
     }
 
@@ -100,18 +89,13 @@ public class StatusSelect extends VirtualList implements
     }
 
     public void commandState() {
-//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
-//#endif
         ExtendedStatus ex = (ExtendedStatus)getFocusedObject();
         if(-1 == ex.getName().indexOf("pep")) {
           addCommand(cmdEdit);
           addCommand(cmdDef);
         }
         addCommand(cmdOk);
-//#ifndef GRAPHICS_MENU
-//#      addCommand(cmdCancel);
-//#endif
     }
 
     public VirtualElement getItemRef(int Index){
@@ -124,7 +108,7 @@ public class StatusSelect extends VirtualList implements
        ExtendedStatus ex = (ExtendedStatus)getFocusedObject();
 //#ifdef PEP
        if(-1 != ex.getName().indexOf("pep")) {
-          midlet.BombusQD.sd.roster.selectPEP.show(ex.usermood);
+          BombusQD.sd.roster.selectPEP.show(ex.usermood);
           return true;
        }
 //#endif
@@ -138,9 +122,9 @@ public class StatusSelect extends VirtualList implements
         }
 
         if (c==cmdDef) {
-            midlet.BombusQD.cf.loginstatus=cursor;
+            BombusQD.cf.loginstatus=cursor;
             redraw();
-            midlet.BombusQD.cf.saveToStorage();
+            BombusQD.cf.saveToStorage();
         }
 
         if (c==cmdCancel) destroyView();
@@ -159,41 +143,39 @@ public class StatusSelect extends VirtualList implements
     public void send() {
         int status = getSel().getImageIndex();
         if (to != null) {
-            if (midlet.BombusQD.sd.roster.isLoggedIn()) {
-                midlet.BombusQD.sd.roster.sendDirectPresence(status, to, null);
+            if (BombusQD.sd.roster.isLoggedIn()) {
+                BombusQD.sd.roster.sendDirectPresence(status, to, null);
             }
         } else {
-            midlet.BombusQD.cf.isStatusFirst = true;
-            if (!midlet.BombusQD.sd.roster.isLoggedIn()) {
+            BombusQD.cf.isStatusFirst = true;
+            if (!BombusQD.sd.roster.isLoggedIn()) {
                 AccountSelect select = new AccountSelect(false, status);
                 select.setParentView(BombusQD.sd.roster);
                 select.show();
             } else {
-                midlet.BombusQD.sd.roster.sendPresence(status, null);
+                BombusQD.sd.roster.sendPresence(status, null);
                 destroyView();
             }
         }
     }
 
-    public int getItemCount(){   return statusList.size(); }
+    public int getItemCount() {
+        if (BombusQD.sd.roster.isLoggedIn()) {
+            if (to == null) {
+                return statusList.size();
+            }
+        }
+        return StatusList.STATUS_COUNT;
+    }
 
     public static void save(){
         StatusList.getInstance().saveStatusToStorage();
     }
 
-//#ifdef MENU_LISTENER
-//#ifdef GRAPHICS_MENU
     public int showGraphicsMenu() {
         commandState();
         menuItem = new GMenu(this, null, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.STATUS_SELECT;
         return GMenu.STATUS_SELECT;
     }
-//#else
-//#     public void showMenu() {
-//#         commandState();
-//#         new MyMenu(display, parentView, this, SR.get(SR.MS_STATUS), null, menuCommands);
-//#     }
-//#endif
-//#endif
 }

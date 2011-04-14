@@ -200,7 +200,7 @@ public class AccountForm extends DefForm {
             addControl(new SpacerItem(5));
         }
 
-        portbox = new NumberInput(SR.get(SR.MS_PORT), Integer.toString(port_box), 0, 65535);
+        portbox = new NumberInput(SR.get(SR.MS_PORT), port_box, 0, 65535);
         if (!createSimpleAddForm) {
             addControl(portbox);
         }
@@ -362,7 +362,7 @@ public class AccountForm extends DefForm {
         keepAliveType.append("<iq/>");
         keepAliveType.append("ping");
         keepAliveType.setSelectedIndex(account.getKeepAliveType());
-        keepAlive = new NumberInput(SR.get(SR.MS_KEEPALIVE_PERIOD), Integer.toString(account.getKeepAlivePeriod()), 10, 2048);
+        keepAlive = new NumberInput(SR.get(SR.MS_KEEPALIVE_PERIOD), account.getKeepAlivePeriod(), 10, 2048);
         if (!createSimpleAddForm) {
             addControl(keepAliveType);
             addControl(keepAlive);
@@ -417,7 +417,7 @@ public class AccountForm extends DefForm {
 
         account.setUserName(user);
         account.setServer(server);
-        account.setPort(Integer.parseInt(portbox.getValue()));
+        account.setPort(portbox.getIntValue());
         if (midlet.BombusQD.cf.userAppLevel == 1) {
             account.setEmail(emailbox.getValue().trim());
         }
@@ -438,7 +438,7 @@ public class AccountForm extends DefForm {
 //#         account.setProxyPort(proxyPort.getValue());
 //#endif
 
-            account.setKeepAlivePeriod(Integer.parseInt(keepAlive.getValue()));
+            account.setKeepAlivePeriod(keepAlive.getIntValue());
             account.setKeepAliveType(keepAliveType.getValue());
         }
 

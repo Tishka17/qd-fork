@@ -24,7 +24,7 @@ public class StatusEditForm extends DefForm {
         tfMessage = new TextInput(SR.get(SR.MS_MESSAGE), status.getMessage(), "ex_status_list", TextField.ANY); //, 100, TextField.ANY "ex_status_list"
         addControl(tfMessage);
 
-        tfPriority = new NumberInput(SR.get(SR.MS_PRIORITY), Integer.toString(status.getPriority()), -128, 128); //, 100, TextField.ANY "ex_status_list"
+        tfPriority = new NumberInput(SR.get(SR.MS_PRIORITY), status.getPriority(), -128, 128); //, 100, TextField.ANY "ex_status_list"
         addControl(tfPriority);
         if (status.getImageIndex() < 5) {
             addControl(new SpacerItem(10));
@@ -36,7 +36,6 @@ public class StatusEditForm extends DefForm {
         addControl(new SpacerItem(10));
         addControl(new SimpleString("%t - time", false));
         addControl(new SimpleString("%dt - date time", false));
-        addControl(new SimpleString("%qd - random phrase", false));
     }
 
     public void cmdOk() {
@@ -45,7 +44,7 @@ public class StatusEditForm extends DefForm {
             status.setAutoRespond(autoRespond.getValue());
         }
         status.setMessage(tfMessage.getValue());
-        status.setPriority(Integer.parseInt(tfPriority.getValue()));
+        status.setPriority(tfPriority.getIntValue());
         StatusSelect.save();
 
         destroyView();

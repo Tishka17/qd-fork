@@ -38,8 +38,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import ui.IconTextElement;
 import io.NvStorage;
-import client.Constants;
 import client.StaticData;
+import com.alsutton.jabber.datablocks.Presence;
 
 public class Account extends IconTextElement {
     private int accountImgIndex = 0;
@@ -78,8 +78,8 @@ public class Account extends IconTextElement {
             sd.roster.resetRoster();
             if (launch) {
                 int loginstatus = Config.getInstance().loginstatus;
-                if (loginstatus >= Constants.PRESENCE_OFFLINE) {
-                    sd.roster.sendPresence(Constants.PRESENCE_INVISIBLE, null);
+                if (loginstatus >= Presence.PRESENCE_OFFLINE) {
+                    sd.roster.sendPresence(Presence.PRESENCE_INVISIBLE, null);
                 } else {
                     if (status == -1) {
                         sd.roster.sendPresence(loginstatus, null);

@@ -145,7 +145,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
             int groupType = contact.getGroupType();
 
             boolean isMucContact = (contact instanceof MucContact);
-            boolean isConference = (contact.origin == Constants.ORIGIN_GROUPCHAT);
+            boolean isConference = (contact.origin == Contact.ORIGIN_GROUPCHAT);
 
             if (!isConference) {
                 if (groupType == Groups.TYPE_TRANSP) {
@@ -213,7 +213,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                 if (groupType != Groups.TYPE_SELF) {
                     addItem(SR.get(SR.MS_SEND_COLOR_SCHEME), MI_SEND_SCHEME, ActionsIcons.ICON_SEND_COLORS);
                 }
-                if (contact.status < Constants.PRESENCE_OFFLINE) {
+                if (contact.status < Presence.PRESENCE_OFFLINE) {
                     addItem(SR.get(SR.MS_TIME), MI_TIME, ActionsIcons.ICON_TIME);
                     addItem(SR.get(SR.MS_IDLE), MI_IDLE, ActionsIcons.ICON_IDLE);
                     addItem(SR.get(SR.MS_PING), MI_PING, ActionsIcons.ICON_PING);
@@ -224,7 +224,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                 if (groupType != Groups.TYPE_SELF
                         && groupType != Groups.TYPE_SEARCH_RESULT) {
                         if (!isMucContact) {
-                            if (contact.status < Constants.PRESENCE_OFFLINE) {
+                            if (contact.status < Presence.PRESENCE_OFFLINE) {
                                 addItem(SR.get(SR.MS_ONLINE_TIME), MI_ONLINE, ActionsIcons.ICON_ONLINE);
                             } else {
                                 addItem(SR.get(SR.MS_SEEN), MI_SEEN, ActionsIcons.ICON_ONLINE);
@@ -242,49 +242,49 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                     int myAff = self.affiliationCode;
 
                     if (mcontact.realJid != null) {
-                        if (myAff >= Constants.AFFILIATION_MEMBER) {
+                        if (myAff >= MucContact.AFFILIATION_MEMBER) {
                             addItem(SR.get(SR.MS_INVITE), MI_INVITE, ActionsIcons.ICON_INVITE);
                         }
                     }
-                    if (myRole == Constants.ROLE_MODERATOR) {
-                        if (mcontact.roleCode < Constants.ROLE_MODERATOR) {
+                    if (myRole == MucContact.ROLE_MODERATOR) {
+                        if (mcontact.roleCode < MucContact.ROLE_MODERATOR) {
                             addItem(SR.get(SR.MS_KICK), MI_KICK, ActionsIcons.ICON_KICK);
                         }
-                        if (myAff >= Constants.AFFILIATION_ADMIN && mcontact.affiliationCode < myAff) {
+                        if (myAff >= MucContact.AFFILIATION_ADMIN && mcontact.affiliationCode < myAff) {
                             addItem(SR.get(SR.MS_BAN), MI_BAN, ActionsIcons.ICON_BAN);
                         }
 
-                        if (mcontact.affiliationCode < Constants.AFFILIATION_ADMIN) {
-                            if (mcontact.roleCode == Constants.ROLE_VISITOR) {
+                        if (mcontact.affiliationCode < MucContact.AFFILIATION_ADMIN) {
+                            if (mcontact.roleCode == MucContact.ROLE_VISITOR) {
                                 addItem(SR.get(SR.MS_GRANT_VOICE), MI_VOICE, ActionsIcons.ICON_VOICE);
                             } else {
                                 addItem(SR.get(SR.MS_REVOKE_VOICE), MI_DEVOICE, ActionsIcons.ICON_DEVOICE);
                             }
                         }
                     }
-                    if (myAff >= Constants.AFFILIATION_ADMIN) {
-                        if (mcontact.affiliationCode < Constants.AFFILIATION_ADMIN) {
-                            if (mcontact.roleCode == Constants.ROLE_MODERATOR) {
+                    if (myAff >= MucContact.AFFILIATION_ADMIN) {
+                        if (mcontact.affiliationCode < MucContact.AFFILIATION_ADMIN) {
+                            if (mcontact.roleCode == MucContact.ROLE_MODERATOR) {
                                 addItem(SR.get(SR.MS_REVOKE_MODERATOR), MI_DEL_MODER, ActionsIcons.ICON_MEMBER);
                             } else {
                                 addItem(SR.get(SR.MS_GRANT_MODERATOR), MI_ADD_MODER, ActionsIcons.ICON_ADMIN);
                             }
                         }
                         if (mcontact.affiliationCode < myAff) {
-                            if (mcontact.affiliationCode != Constants.AFFILIATION_NONE) {
+                            if (mcontact.affiliationCode != MucContact.AFFILIATION_NONE) {
                                 addItem(SR.get(SR.MS_UNAFFILIATE), MI_UNMEMBER, ActionsIcons.ICON_DEMEMBER);
                             }
-                            if (mcontact.affiliationCode != Constants.AFFILIATION_MEMBER) {
+                            if (mcontact.affiliationCode != MucContact.AFFILIATION_MEMBER) {
                                 addItem(SR.get(SR.MS_GRANT_MEMBERSHIP), MI_MEMBER, ActionsIcons.ICON_MEMBER);
                             }
                         }
                     }
-                    if (myAff == Constants.AFFILIATION_OWNER) {
-                        if (mcontact.affiliationCode != Constants.AFFILIATION_ADMIN) {
+                    if (myAff == MucContact.AFFILIATION_OWNER) {
+                        if (mcontact.affiliationCode != MucContact.AFFILIATION_ADMIN) {
                             addItem(SR.get(SR.MS_GRANT_ADMIN), MI_ADMIN, ActionsIcons.ICON_ADMIN);
                         }
 
-                        if (mcontact.affiliationCode != Constants.AFFILIATION_OWNER) {
+                        if (mcontact.affiliationCode != MucContact.AFFILIATION_OWNER) {
                             addItem(SR.get(SR.MS_GRANT_OWNERSHIP), MI_OWNER, ActionsIcons.ICON_OWNER);
                         }
                     }
@@ -324,16 +324,16 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                 addItem(SR.get(SR.MS_LEAVE_ROOM), MI_LEAVE, ActionsIcons.ICON_LEAVE);
                 addItem(SR.get(SR.MS_CLOSE_ALL_ROOMS), MI_LEAVE_ALL, ActionsIcons.ICON_LEAVE);
 
-                if (self.status == Constants.PRESENCE_OFFLINE) {
+                if (self.status == Presence.PRESENCE_OFFLINE) {
                     addItem(SR.get(SR.MS_REENTER), MI_REJOIN, ActionsIcons.ICON_CHANGE_NICK);
                 } else {
                     addItem(SR.get(SR.MS_DIRECT_PRESENCE), MI_SEND_PRESENCE, ActionsIcons.ICON_SET_STATUS);
                     addItem(SR.get(SR.MS_CHANGE_NICKNAME), MI_CHANGE_NICK, ActionsIcons.ICON_CHANGE_NICK);
-                    if (self.affiliationCode == Constants.AFFILIATION_OWNER) {
+                    if (self.affiliationCode == MucContact.AFFILIATION_OWNER) {
                         addItem(SR.get(SR.MS_CONFIG_ROOM), MI_CONFIG, ActionsIcons.ICON_CONFIGURE);
                         addItem(SR.get(SR.MS_DESTROY_ROOM), MI_DELETE, ActionsIcons.ICON_DESTROY);
                     }
-                    if (self.affiliationCode >= Constants.AFFILIATION_ADMIN) {
+                    if (self.affiliationCode >= MucContact.AFFILIATION_ADMIN) {
                         addItem(SR.get(SR.MS_OWNERS), MI_OWNERLIST, ActionsIcons.ICON_OWNERS);
                         addItem(SR.get(SR.MS_ADMINS), MI_ADMINLIST, ActionsIcons.ICON_ADMINS);
                         addItem(SR.get(SR.MS_MEMBERS), MI_MEMBERLIST, ActionsIcons.ICON_MEMBERS);
@@ -388,7 +388,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
             Contact contact = (Contact) item;
 
             boolean isMucContact = (contact instanceof MucContact);
-            boolean isConference = (contact.origin == Constants.ORIGIN_GROUPCHAT);
+            boolean isConference = (contact.origin == Contact.ORIGIN_GROUPCHAT);
 
             switch (mItem.index) {
                 case MI_VERSION:
@@ -412,7 +412,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                     BombusQD.sd.roster.sendMessage(contact, id, body, null, null);
 
                     String from2 = midlet.BombusQD.sd.account.toString();
-                    contact.addMessage(new Msg(Constants.MESSAGE_TYPE_OUT, from2, null, SR.get(SR.MS_SCHEME_SENT)));
+                    contact.addMessage(new Msg(Msg.MESSAGE_TYPE_OUT, from2, null, SR.get(SR.MS_SCHEME_SENT)));
                 } break;
                 case MI_VCARD: {
                     if (contact.vcard != null) {
@@ -485,7 +485,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                 case MI_LOGOUT: {
                     midlet.BombusQD.sd.roster.blockNotify(-111, 10000);
                     Presence presence = new Presence(
-                            Constants.PRESENCE_OFFLINE, -1, "", null);
+                            Presence.PRESENCE_OFFLINE, -1, "", null);
                     presence.setTo(contact.getJid());
                     BombusQD.sd.roster.theStream.send(presence);
                     break;
@@ -527,7 +527,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
 
                     String from = midlet.BombusQD.sd.account.toString();
                     contact.addMessage(
-                            new Msg(Constants.MESSAGE_TYPE_OUT, from, null, SR.get(SR.MS_YOU_WOKE_UP) + " " + contact.getName()));
+                            new Msg(Msg.MESSAGE_TYPE_OUT, from, null, SR.get(SR.MS_YOU_WOKE_UP) + " " + contact.getName()));
                     break;
                 }
                 case MI_IDLE:
@@ -593,7 +593,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
 
                     BombusQD.sd.roster.sendMessage(contact, id, body, null, null);
 
-                    Msg msg = new Msg(Constants.MESSAGE_TYPE_OUT, from, null, body);
+                    Msg msg = new Msg(Msg.MESSAGE_TYPE_OUT, from, null, body);
                     msg.id = id;
                     msg.itemCollapsed = true;
 

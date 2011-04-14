@@ -28,7 +28,6 @@
 package info;
 
 import client.Msg;
-import client.Constants;
 import images.RosterIcons;
 import java.io.InputStream;
 import java.util.Vector;
@@ -149,7 +148,7 @@ public class GetFileServer extends DefForm implements Runnable {
             }
             c = null;
         } catch (Exception e) {
-            news.addElement(new Msg(Constants.MESSAGE_TYPE_IN, null, null, SR.get(SR.MS_ERROR)));
+            news.addElement(new Msg(Msg.MESSAGE_TYPE_IN, null, null, SR.get(SR.MS_ERROR)));
         }
         wait = false;
         rePaint();

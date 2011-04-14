@@ -61,6 +61,17 @@ import light.CustomLight;
 //#endif
 
 public abstract class VirtualList extends CanvasEx {
+//#ifdef TOUCH
+    public final static byte POINTER_NONE=-1;
+    public final static byte POINTER_FIRST=0;
+    public final static byte POINTER_SECOND=1;
+    public final static byte POINTER_SCROLLBAR=2;
+    public final static byte POINTER_DRAG=3;
+    public final static byte POINTER_DRAGLEFT=4;
+    public final static byte POINTER_DRAGRIGHT=5;
+    public final static byte POINTER_PANEL=6;
+    public final static byte POINTER_LONG=7;
+//#endif
 
     protected void focusedItem(int index) {}
 
@@ -80,7 +91,7 @@ public abstract class VirtualList extends CanvasEx {
     private int mHeight;
 
 //#ifdef TOUCH
-    public static int pointer_state = client.Constants.POINTER_NONE;
+    public static int pointer_state = POINTER_NONE;
 //#endif
 
 //#ifdef GRADIENT
@@ -738,7 +749,7 @@ public abstract class VirtualList extends CanvasEx {
         g.drawString(Long.toString(showFrames)+" fps", xpos+2, 2, g.LEFT|g.TOP);
 */
 //#ifdef TOUCH
-	if (pointer_state == client.Constants.POINTER_LONG) {
+	if (pointer_state == POINTER_LONG) {
 	    int r=midlet.BombusQD.cf.minItemHeight;
 	    if (r<1) r=10;
 	    g.setColor(ColorTheme.getColor(ColorTheme.CURSOR_OUTLINE));
@@ -1307,7 +1318,7 @@ public abstract class VirtualList extends CanvasEx {
         lastClickTime=clickTime;
         lastClickX=x;
         lastClickY=y;
-        pointer_state = client.Constants.POINTER_FIRST;
+        pointer_state = POINTER_FIRST;
         old_win_top = win_top;
         if(gm.itemGrMenu>0){
             if(null != menuItem) {
@@ -1347,11 +1358,11 @@ public abstract class VirtualList extends CanvasEx {
             }
         }
         if (on_panel) {
-            pointer_state = client.Constants.POINTER_PANEL;
+            pointer_state = POINTER_PANEL;
             return;
         }
         else if (scrollbar.pointerPressed(x, y, this)) {
-            pointer_state = client.Constants.POINTER_SCROLLBAR;
+            pointer_state = POINTER_SCROLLBAR;
             stickyWindow=false;
             return;
         }
@@ -1368,7 +1379,7 @@ public abstract class VirtualList extends CanvasEx {
         if (cursor>=0 && cursor != newcursor) {
             if (!on_panel) moveCursorTo(newcursor);
             setRotator();
-        }  else if (cursor>=0) pointer_state = client.Constants.POINTER_SECOND;
+        }  else if (cursor>=0) pointer_state = POINTER_SECOND;
 
         //lastClickItem=cursor;
 
@@ -1391,9 +1402,9 @@ public abstract class VirtualList extends CanvasEx {
             return;
       }
 
-      if (pointer_state == client.Constants.POINTER_PANEL)
+      if (pointer_state == POINTER_PANEL)
             return;
-      if (pointer_state == client.Constants.POINTER_SCROLLBAR) {
+      if (pointer_state == POINTER_SCROLLBAR) {
             scrollbar.pointerDragged(x, y, this);
             if (clickTime-lastPaint>80) {
                     redraw();
@@ -1405,7 +1416,7 @@ public abstract class VirtualList extends CanvasEx {
       win_top = old_win_top - y + lastClickY;
       if (x - lastClickX > 9 || lastClickX-x >9
               || y - lastClickY > 9 || lastClickY-y>9)
-          pointer_state = client.Constants.POINTER_DRAG;
+          pointer_state = POINTER_DRAG;
 
       if (win_top+winHeight>listHeight) win_top=listHeight-winHeight;
       if (win_top<0) win_top=0;
@@ -1429,7 +1440,7 @@ public abstract class VirtualList extends CanvasEx {
             lastClickTime=clickTime;
             lastClickX=x;
             lastClickY=y;
-	    pointer_state = client.Constants.POINTER_NONE;
+	    pointer_state = POINTER_NONE;
 	    repaint();
             return;
         }
@@ -1437,8 +1448,8 @@ public abstract class VirtualList extends CanvasEx {
         if (reverse) {
             if (mainbar!=null && paintBottom) {
                 if (height - y < mHeight) {
-                    if (pointer_state == client.Constants.POINTER_PANEL) touchMainPanelPressed(x, y);
-		    pointer_state = client.Constants.POINTER_NONE;
+                    if (pointer_state == POINTER_PANEL) touchMainPanelPressed(x, y);
+		    pointer_state = POINTER_NONE;
 		    repaint();
                     return;
                 }
@@ -1446,11 +1457,11 @@ public abstract class VirtualList extends CanvasEx {
             if (infobar!=null && paintTop) {
                 if (y < iHeight) {
                     if (x < width/2-40) {
-                        if (pointer_state == client.Constants.POINTER_PANEL)touchLeftPressed();
+                        if (pointer_state == POINTER_PANEL)touchLeftPressed();
                     }else if (x>width/2+40){
-                        if (pointer_state == client.Constants.POINTER_PANEL)touchRightPressed();
-                    } else if (pointer_state == client.Constants.POINTER_PANEL)touchMiddlePressed();
-		    pointer_state = client.Constants.POINTER_NONE;
+                        if (pointer_state == POINTER_PANEL)touchRightPressed();
+                    } else if (pointer_state == POINTER_PANEL)touchMiddlePressed();
+		    pointer_state = POINTER_NONE;
 		    repaint();
                     return;
                 }
@@ -1460,37 +1471,37 @@ public abstract class VirtualList extends CanvasEx {
             if (infobar!=null && paintBottom) {
                 if (y > height-iHeight) {
                     if (x < width/2-40) {
-                        if (pointer_state == client.Constants.POINTER_PANEL)touchLeftPressed();
+                        if (pointer_state == POINTER_PANEL)touchLeftPressed();
                     }else if (x>width/2+40){
-                        if (pointer_state == client.Constants.POINTER_PANEL)touchRightPressed();
-                    } else if (pointer_state == client.Constants.POINTER_PANEL)touchMiddlePressed();
+                        if (pointer_state == POINTER_PANEL)touchRightPressed();
+                    } else if (pointer_state == POINTER_PANEL)touchMiddlePressed();
                     stickyWindow=false;
-		    pointer_state = client.Constants.POINTER_NONE;
+		    pointer_state = POINTER_NONE;
 		    repaint();
                     return;
                 }
             }
             if (mainbar!=null && paintTop) {
                 if (y < mHeight) {
-                    if (pointer_state == client.Constants.POINTER_PANEL)touchMainPanelPressed(x, y);
-		    pointer_state = client.Constants.POINTER_NONE;
+                    if (pointer_state == POINTER_PANEL)touchMainPanelPressed(x, y);
+		    pointer_state = POINTER_NONE;
 		    repaint();
                     return;
                 }
             }
         }
-        if (pointer_state==client.Constants.POINTER_SCROLLBAR) scrollbar.pointerReleased(x, y, this);
+        if (pointer_state==POINTER_SCROLLBAR) scrollbar.pointerReleased(x, y, this);
 
-        if (pointer_state == client.Constants.POINTER_FIRST || pointer_state==client.Constants.POINTER_SECOND || pointer_state==client.Constants.POINTER_LONG) {
-            if (clickTime-lastClickTime>500 || pointer_state==client.Constants.POINTER_LONG) {
+        if (pointer_state == POINTER_FIRST || pointer_state==POINTER_SECOND || pointer_state==POINTER_LONG) {
+            if (clickTime-lastClickTime>500 || pointer_state==POINTER_LONG) {
                 y=0;
                 eventLongOk();
             } else {
-                if (pointer_state == client.Constants.POINTER_SECOND) eventOk();
+                if (pointer_state == POINTER_SECOND) eventOk();
             }
         }
 	repaint();
-	pointer_state = client.Constants.POINTER_NONE;
+	pointer_state = POINTER_NONE;
     }
 
 //#endif //TOUCH
@@ -2245,12 +2256,12 @@ class TimerTaskRotate extends Thread{
             try {  sleep(100);  } catch (Exception e) { instance=null; break; }
 	    //#ifdef TOUCH
     	    if (holdCount==5 ) {
-		if (attachedList.pointer_state == client.Constants.POINTER_FIRST || attachedList.pointer_state == client.Constants.POINTER_SECOND)
-		attachedList.pointer_state = client.Constants.POINTER_LONG;
+		if (attachedList.pointer_state == VirtualList.POINTER_FIRST || attachedList.pointer_state == VirtualList.POINTER_SECOND)
+		attachedList.pointer_state = VirtualList.POINTER_LONG;
 		holdCount=0;
 		attachedList.redraw();
 	    }
-	    if (attachedList.pointer_state == client.Constants.POINTER_FIRST || attachedList.pointer_state == client.Constants.POINTER_SECOND) {
+	    if (attachedList.pointer_state == VirtualList.POINTER_FIRST || attachedList.pointer_state == VirtualList.POINTER_SECOND) {
 		holdCount++;
 		continue;
 	    } else {

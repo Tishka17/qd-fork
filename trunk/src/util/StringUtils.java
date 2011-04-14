@@ -24,12 +24,12 @@ import java.util.Random;
 //#endif
 import client.Msg;
 import client.Config;
-import client.StaticData;
-import client.Constants;
+
 /**
  *
  * @author ad
  */
+
 public class StringUtils {
 
     /** Creates a new instance of StringUtils */
@@ -378,9 +378,9 @@ public class StringUtils {
         int errCode=xe.getCondition();
 
         //ConferenceGroup grp=(ConferenceGroup)group;//?
-        if (presenceType>=Constants.PRESENCE_OFFLINE)
+        if (presenceType>=Presence.PRESENCE_OFFLINE)
             midlet.BombusQD.sd.roster.testMeOffline(muc, group, true);
-        if (errCode!=XmppError.CONFLICT || presenceType>=Constants.PRESENCE_OFFLINE)
+        if (errCode!=XmppError.CONFLICT || presenceType>=Presence.PRESENCE_OFFLINE)
             muc.setStatus(presenceType);
 
         String errText=xe.getText();

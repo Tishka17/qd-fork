@@ -36,11 +36,12 @@ import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.*;
 import locale.SR;
 import ui.Time;
-import client.Constants;
+
 /**
  *
  * @author EvgS
  */
+
 public class IqLast implements JabberBlockListener {
     
     public IqLast(){}
@@ -60,7 +61,7 @@ public class IqLast implements JabberBlockListener {
             if (query==null) return BLOCK_REJECTED;
             
             Contact c=StaticData.getInstance().roster.getContact( data.getAttribute("from"), false);
-            c.setIncoming(Constants.INC_VIEWING);
+            c.setIncoming(Roster.INC_VIEWING);
             
             long last=(Time.utcTimeMillis() - StaticData.getInstance().roster.lastMessageTime)/1000;
 
@@ -101,7 +102,7 @@ public class IqLast implements JabberBlockListener {
                     lastType=SR.get(SR.MS_ONLINE_TIME);
                 }
                 String status=(data.getChildBlockText("query").length()!=0)?" ("+data.getChildBlockText("query")+")":"";
-                Msg m=new Msg(Constants.MESSAGE_TYPE_SYSTEM, "last", " "+lastType, body+status);
+                Msg m=new Msg(Msg.MESSAGE_TYPE_SYSTEM, "last", " "+lastType, body+status);
                 roster.messageStore(c, m);
                 roster.redraw();
                 return BLOCK_PROCESSED;

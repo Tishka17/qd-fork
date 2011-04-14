@@ -194,7 +194,7 @@ public class Config {
 //#endif
 
     public boolean queryExit = false;
-    public int notInListDropLevel = NotInListFilter.ALLOW_ALL;
+    public int notInListDropLevel = Roster.ALLOW_ALL;
     public boolean showBalloons = false;
 
     public int msglistLimit = 50;

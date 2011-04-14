@@ -103,7 +103,7 @@ public class SearchResult
                 vcard = new StringBuffer(0);
                 String jid="";
 		
-	        byte status=Constants.PRESENCE_OFFLINE;
+	        byte status=Presence.PRESENCE_OFFLINE;
                 if (!xData) { jid=child.getAttribute("jid"); }
 
                 childBlocks = child.getChildBlocks();
@@ -129,11 +129,11 @@ public class SearchResult
                              .append((char)'\n');
                     }
 		    // status returned by jit
-		    if (name.equals("status")) if (!value.equals("offline")) status=Constants.PRESENCE_ONLINE;
+		    if (name.equals("status")) if (!value.equals("offline")) status=Presence.PRESENCE_ONLINE;
                 }
                 serv = new Contact(null, jid, status,"search");
                 serv.setGroup(sd.roster.contactList.groups.getGroup(Groups.TYPE_SEARCH_RESULT));
-                m=new Msg(Constants.MESSAGE_TYPE_PRESENCE, jid, "Short info", vcard.toString());
+                m=new Msg(Msg.MESSAGE_TYPE_PRESENCE, jid, "Short info", vcard.toString());
                 m.unread=false;
                 m.itemCollapsed = false;
                 serv.addMessage(m);

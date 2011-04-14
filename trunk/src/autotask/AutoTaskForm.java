@@ -84,9 +84,9 @@ public class AutoTaskForm extends DefForm {
         
         autoTaskTimeDesc=new SimpleString(SR.get(SR.MS_AUTOTASK_TIME), true);
 
-        autoTaskHour=new NumberInput(SR.get(SR.MS_AUTOTASK_HOUR), Integer.toString(hour), 0, 23);
-        autoTaskMin=new NumberInput(SR.get(SR.MS_AUTOTASK_MIN), Integer.toString(min), 0, 59);
-        autoTaskDelay=new NumberInput(SR.get(SR.MS_AUTOTASK_DELAY), Integer.toString(wait), 1, 600);
+        autoTaskHour=new NumberInput(SR.get(SR.MS_AUTOTASK_HOUR), hour, 0, 23);
+        autoTaskMin=new NumberInput(SR.get(SR.MS_AUTOTASK_MIN), min, 0, 59);
+        autoTaskDelay=new NumberInput(SR.get(SR.MS_AUTOTASK_DELAY), wait, 1, 600);
         
         itemsList.addElement(taskType);
         itemsList.addElement(actionType);
@@ -98,10 +98,10 @@ public class AutoTaskForm extends DefForm {
         at.taskType=taskType.getSelectedIndex();
         at.taskAction=actionType.getSelectedIndex();
         if (at.taskType==1) {
-            at.startHour=Integer.parseInt(autoTaskHour.getValue());
-            at.startMin=Integer.parseInt(autoTaskMin.getValue());
+            at.startHour=autoTaskHour.getIntValue();
+            at.startMin=autoTaskMin.getIntValue();
         } else if(at.taskType==2) {
-            at.waitTime=Integer.parseInt(autoTaskDelay.getValue())*1000*60;
+            at.waitTime=autoTaskDelay.getIntValue()*1000*60;
             at.initTime=System.currentTimeMillis();
         }
         if (at.taskType!=0)

@@ -24,7 +24,7 @@
  */
 
 package xmpp.extensions;
-import client.Constants;
+
 import client.Contact;
 import client.Msg;
 import client.Roster;
@@ -84,7 +84,7 @@ public class IqPing implements JabberBlockListener {
                 roster.querysign=false;
 
                 if (pong!=null) {
-                    Msg m=new Msg(Constants.MESSAGE_TYPE_SYSTEM, "pong", " "+SR.get(SR.MS_PING), pong);
+                    Msg m=new Msg(Msg.MESSAGE_TYPE_SYSTEM, "pong", " "+SR.get(SR.MS_PING), pong);
                     roster.messageStore(c, m);
                     roster.redraw();
                 }

@@ -33,31 +33,28 @@ import javax.microedition.lcdui.TextField;
  * @author ad
  */
 
-public class NumberInput extends TextInput {
+public final class NumberInput extends TextInput {
     private int max;
     private int min;
+    private int val;
 
-    public NumberInput(String caption, String text, int min, int max) {
-        super(caption, text, null, (min < 0) ? TextField.DECIMAL : TextField.NUMERIC);
+    public NumberInput(String caption, int val, int min, int max) {
+        super(caption, String.valueOf(val), null, (min < 0) ? TextField.DECIMAL : TextField.NUMERIC);
+
+        this.val = val;
         this.min = min;
         this.max = max;
     }
 
-    public void destroy() {
-        // empty;
-    }
-
-    public String getValue() {
+    public int getIntValue() {
         try {
             int value = Integer.parseInt(text);
             if (value > max) {
-                return Integer.toString(max);
+                return max;
+            } else if (value < min) {
+                return min;
             }
-            if (value < min) {
-                return Integer.toString(min);
-            }
-            return Integer.toString(value);
-        } catch (NumberFormatException e) { /* returning initValue */ }
-        return text;
+        } catch (NumberFormatException e) {}
+        return val;
     }
 }

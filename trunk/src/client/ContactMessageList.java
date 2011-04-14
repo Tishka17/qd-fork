@@ -160,19 +160,19 @@ public final class ContactMessageList extends VirtualList implements MenuListene
         //if (Commands.cmdSubscribe == null) return;
         try {
             Msg msg=getMessageAt(cursor);
-            if (msg.messageType==Constants.MESSAGE_TYPE_AUTH) {
+            if (msg.messageType==Msg.MESSAGE_TYPE_AUTH) {
                 addCommand(Commands.cmdSubscribe);
                 addCommand(Commands.cmdUnsubscribed);
             }
         } catch (Exception e) {}
 
         addCommand(Commands.cmdMessage);
-        if (contact.origin != Constants.ORIGIN_GROUPCHAT) {
+        if (contact.origin != Contact.ORIGIN_GROUPCHAT) {
             addCommand(Commands.cmdActions);
         }
 
 //#ifdef HISTORY
-        if (contact.origin != Constants.ORIGIN_GROUPCHAT) {
+        if (contact.origin != Contact.ORIGIN_GROUPCHAT) {
             if (midlet.BombusQD.cf.module_history) {
                 if (Config.historyTypeIndex == Config.HISTORY_RMS) {
                     addCommand(Commands.cmdHistory);
@@ -183,7 +183,7 @@ public final class ContactMessageList extends VirtualList implements MenuListene
 
         if (contact.getChatInfo().getMessageCount()>0) {
 //#ifndef WMUC
-            if (contact instanceof MucContact && contact.origin==Constants.ORIGIN_GROUPCHAT
+            if (contact instanceof MucContact && contact.origin==Contact.ORIGIN_GROUPCHAT
                     || contact.getJid().indexOf("juick@juick.com")>-1 ) {
                 addCommand(Commands.cmdReply);
             }
@@ -463,19 +463,19 @@ public final class ContactMessageList extends VirtualList implements MenuListene
             String body = ClipBoard.getClipBoard();
 
             String id = String.valueOf((int) System.currentTimeMillis());
-            Msg msg = new Msg(Constants.MESSAGE_TYPE_OUT, from, null, body);
+            Msg msg = new Msg(Msg.MESSAGE_TYPE_OUT, from, null, body);
             msg.id = id;
             msg.itemCollapsed = true;
 
             try {
                 if (body != null && body.length() > 0) {
                     midlet.BombusQD.sd.roster.sendMessage(contact, id, body, null, null);
-                    if (contact.origin < Constants.ORIGIN_GROUPCHAT) {
+                    if (contact.origin < Contact.ORIGIN_GROUPCHAT) {
                         contact.addMessage(msg);
                     }
                 }
             } catch (Exception e) {
-                contact.addMessage(new Msg(Constants.MESSAGE_TYPE_OUT, from, null, SR.get(SR.MS_CLIPBOARD_SENDERROR)));
+                contact.addMessage(new Msg(Msg.MESSAGE_TYPE_OUT, from, null, SR.get(SR.MS_CLIPBOARD_SENDERROR)));
             }
             redraw();
             return;
@@ -608,14 +608,14 @@ public final class ContactMessageList extends VirtualList implements MenuListene
             Msg msg = getMessage(cursor);
             if(msg != null) msg=util.StringUtils.replaceNickTags(msg);
             if (msg==null ||
-                msg.messageType == Constants.MESSAGE_TYPE_OUT ||
-                msg.messageType == Constants.MESSAGE_TYPE_SUBJ)
+                msg.messageType == Msg.MESSAGE_TYPE_OUT ||
+                msg.messageType == Msg.MESSAGE_TYPE_SUBJ)
                 keyGreen();
             else {
 //#ifdef RUNNING_MESSAGE
                String messg = msg.from+": ";
 //#ifdef JUICK.COM
-               if(msg.messageType==Constants.MESSAGE_TYPE_JUICK){
+               if(msg.messageType==Msg.MESSAGE_TYPE_JUICK){
                     messg=util.StringUtils.replaceNickTags(msg.id);
                }
 //#endif
@@ -678,7 +678,7 @@ public final class ContactMessageList extends VirtualList implements MenuListene
 
     private void answer() {
 //#ifndef WMUC
-            if (contact instanceof MucContact && contact.origin==Constants.ORIGIN_GROUPCHAT) {
+            if (contact instanceof MucContact && contact.origin==Contact.ORIGIN_GROUPCHAT) {
                 checkOffline();
                 return;
             }

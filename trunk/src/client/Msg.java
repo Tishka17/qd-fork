@@ -37,7 +37,22 @@ import ui.Time;
  * @author Eugene Stahov 
  */
 public class Msg {
-
+    // without signaling
+    public final static byte MESSAGE_TYPE_OUT=1;
+    public final static byte MESSAGE_TYPE_PRESENCE=2;
+    public final static byte MESSAGE_TYPE_HISTORY=3;
+    // with signaling
+    public final static byte MESSAGE_TYPE_IN=10;
+    public final static byte MESSAGE_TYPE_HEADLINE=11;
+    public final static byte MESSAGE_TYPE_ERROR=12;
+    public final static byte MESSAGE_TYPE_SUBJ=13;
+    public final static byte MESSAGE_TYPE_AUTH=14;
+    public final static byte MESSAGE_TYPE_SYSTEM=15;
+    public final static byte MESSAGE_TYPE_EVIL=16;
+    //public final static byte MESSAGE_TYPE_GAME=17;
+//#ifdef JUICK.COM
+    public final static byte MESSAGE_TYPE_JUICK=18;
+//#endif    
     public boolean highlite;
     public boolean history;
     
@@ -79,10 +94,10 @@ public class Msg {
         this.subject=subj;
         this.dateGmt=Time.utcTimeMillis();
         this.id=null;
-        if (messageType>=Constants.MESSAGE_TYPE_IN) unread=true;
-        if (messageType==Constants.MESSAGE_TYPE_PRESENCE) itemCollapsed = midlet.BombusQD.cf.showCollapsedPresences;
-        else if (messageType==Constants.MESSAGE_TYPE_HEADLINE) itemCollapsed=true;
-        else if (body!=null && messageType!=Constants.MESSAGE_TYPE_SUBJ)
+        if (messageType>=Msg.MESSAGE_TYPE_IN) unread=true;
+        if (messageType==Msg.MESSAGE_TYPE_PRESENCE) itemCollapsed = midlet.BombusQD.cf.showCollapsedPresences;
+        else if (messageType==Msg.MESSAGE_TYPE_HEADLINE) itemCollapsed=true;
+        else if (body!=null && messageType!=Msg.MESSAGE_TYPE_SUBJ)
             if (body.length()>midlet.BombusQD.cf.messageLimit) itemCollapsed=true;
     }
     
@@ -101,8 +116,22 @@ public class Msg {
     
     public int getColor() {
         if (selected || highlite) return ColorTheme.getColor(ColorTheme.MSG_HIGHLIGHT);
-        if (color>-1) return color; 
-        return Constants.getMessageColor(messageType);
+        if (color>-1) return color;
+
+         switch (messageType) {
+             case MESSAGE_TYPE_IN: return ColorTheme.getColor(ColorTheme.MESSAGE_IN);
+             case MESSAGE_TYPE_PRESENCE: return ColorTheme.getColor(ColorTheme.MESSAGE_PRESENCE);
+             case MESSAGE_TYPE_OUT: return ColorTheme.getColor(ColorTheme.MESSAGE_OUT);
+             case MESSAGE_TYPE_SUBJ:return ColorTheme.getColor(ColorTheme.MSG_SUBJ);
+             case MESSAGE_TYPE_HEADLINE: return ColorTheme.getColor(ColorTheme.MESSAGE_IN);
+             case MESSAGE_TYPE_AUTH: return ColorTheme.getColor(ColorTheme.MESSAGE_AUTH);
+             case MESSAGE_TYPE_EVIL: return 0xFF0000;
+             case MESSAGE_TYPE_HISTORY: return ColorTheme.getColor(ColorTheme.MESSAGE_HISTORY);
+ //#ifdef JUICK.COM
+            case MESSAGE_TYPE_JUICK: return ColorTheme.getColor(ColorTheme.MESSAGE_IN);
+ //#endif
+         }
+         return ColorTheme.getColor(ColorTheme.LIST_INK);
     }
 
     //memory leak
@@ -123,7 +152,7 @@ public class Msg {
         return buf.toString();
     }
 
-    public boolean isPresence() { return messageType==Constants.MESSAGE_TYPE_PRESENCE; }
+    public boolean isPresence() { return messageType==Msg.MESSAGE_TYPE_PRESENCE; }
     
     public void serialize(DataOutputStream os) throws IOException {
 	os.writeUTF(from);
@@ -136,7 +165,7 @@ public class Msg {
 	from=is.readUTF();
 	body=is.readUTF();
 	dateGmt=is.readLong();
-        messageType=Constants.MESSAGE_TYPE_IN;
+        messageType=Msg.MESSAGE_TYPE_IN;
 	try { subject=is.readUTF(); } catch (Exception e) { subject=null; }
     }
 }

@@ -32,15 +32,13 @@ import client.StaticData;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.Message;
 import java.util.Enumeration;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
 import ui.controls.form.SimpleString;
 import ui.controls.form.DefForm;
 import ui.controls.form.DropChoiceBox;
 import ui.controls.form.TextInput;
-import client.Constants;
+import com.alsutton.jabber.datablocks.Presence;
 
 public class InviteForm extends DefForm {
     private TextInput reason;
@@ -56,7 +54,7 @@ public class InviteForm extends DefForm {
         for (Enumeration c = StaticData.getInstance().roster.getHContacts().elements(); c.hasMoreElements();) {
             try {
                 MucContact mc = (MucContact)c.nextElement();
-                if (mc.origin == Constants.ORIGIN_GROUPCHAT && mc.status == Constants.PRESENCE_ONLINE) {
+                if (mc.origin == Contact.ORIGIN_GROUPCHAT && mc.status == Presence.PRESENCE_ONLINE) {
                     conferenceList.append(mc.getJid());
                 }
             } catch (Exception e) {

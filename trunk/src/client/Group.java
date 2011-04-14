@@ -29,6 +29,7 @@ package client;
 import images.RosterIcons;
 import java.util.*;
 import colors.ColorTheme;
+import com.alsutton.jabber.datablocks.Presence;
 import javax.microedition.lcdui.Graphics;
 import ui.*;
 
@@ -65,7 +66,7 @@ public class Group extends IconTextElement {
     }
 
     private boolean isOnline(Contact c) {
-        return Constants.PRESENCE_OFFLINE > c.status;
+        return Presence.PRESENCE_OFFLINE > c.status;
     }
 
     public void removeContact(Contact c) {
@@ -173,7 +174,7 @@ public class Group extends IconTextElement {
     private boolean isVisibleContact(Contact c) {
         // hide offlines whithout new messages
         return midlet.BombusQD.cf.showOfflineContacts || c.hasNewMsgs()
-                || isAlwaysVisible() || Constants.ORIGIN_GROUPCHAT == c.origin;
+                || isAlwaysVisible() || Contact.ORIGIN_GROUPCHAT == c.origin;
     }
 
     public final boolean hasNewMsgs() {

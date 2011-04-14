@@ -182,13 +182,13 @@ public class AlertCustomizeForm extends DefForm {
         addControl(sndVol);
 
         if(isVibroProfile){
-          vibraLen=new NumberInput(SR.get(SR.MS_VIBRATION_LEN) + "(1-5000)", Integer.toString(ac.vibraLen), 1, 5000);
+          vibraLen=new NumberInput(SR.get(SR.MS_VIBRATION_LEN) + "(1-5000)", ac.vibraLen, 1, 5000);
           addControl(vibraLen);
 
-          vibraRepeatCount=new NumberInput(SR.get(SR.MS_VIBRATION_REPEAT), Integer.toString(ac.vibraRepeatCount), 1, 8);
+          vibraRepeatCount=new NumberInput(SR.get(SR.MS_VIBRATION_REPEAT), ac.vibraRepeatCount, 1, 8);
           addControl(vibraRepeatCount);
 
-          vibraRepeatPause=new NumberInput(SR.get(SR.MS_VIBRATION_INTERVAL), Integer.toString(ac.vibraRepeatPause), 1, 400);
+          vibraRepeatPause=new NumberInput(SR.get(SR.MS_VIBRATION_INTERVAL), ac.vibraRepeatPause, 1, 400);
           addControl(vibraRepeatPause);
         }
 
@@ -209,9 +209,9 @@ public class AlertCustomizeForm extends DefForm {
         ac.soundsMsgIndex=MessageFile.getSelectedIndex();
         ac.soundVol=sndVol.getValue()*10;
         if(isVibroProfile) {
-            ac.vibraLen=Integer.parseInt(vibraLen.getValue());
-            ac.vibraRepeatCount=Integer.parseInt(vibraRepeatCount.getValue());
-            ac.vibraRepeatPause=Integer.parseInt(vibraRepeatPause.getValue());
+            ac.vibraLen=vibraLen.getIntValue();
+            ac.vibraRepeatCount=vibraRepeatCount.getIntValue();
+            ac.vibraRepeatPause=vibraRepeatPause.getIntValue();
         }
         ac.soundOnlineIndex=OnlineFile.getSelectedIndex();
         ac.soundOfflineIndex=OfflineFile.getSelectedIndex();
@@ -259,9 +259,9 @@ public class AlertCustomizeForm extends DefForm {
 
     private void PlaySound(boolean vibration){
         if(vibration){
-          ac.vibraRepeatCount=Integer.parseInt(vibraRepeatCount.getValue());
-          ac.vibraRepeatPause=Integer.parseInt(vibraRepeatPause.getValue());
-          new EventNotify(null, null, -1, Integer.parseInt(vibraLen.getValue()) ).startNotify();
+          ac.vibraRepeatCount=vibraRepeatCount.getIntValue();
+          ac.vibraRepeatPause=vibraRepeatPause.getIntValue();
+          new EventNotify(null, null, -1, vibraLen.getIntValue()).startNotify();
           return;
         }
         int sound=playable();

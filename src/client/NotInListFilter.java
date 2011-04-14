@@ -31,6 +31,9 @@ package client;
  *
  * @author evgs
  */
+
+// TODO this class is unnecessary
+
 public class NotInListFilter {
     public final static int DROP_MESSAGES_PRESENCES=0;
     public final static int DROP_PRESENCES=1;

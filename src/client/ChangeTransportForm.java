@@ -28,8 +28,6 @@
 package client;
 
 import java.util.Enumeration;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import midlet.BombusQD;
 import ui.controls.form.DefForm;
@@ -40,14 +38,14 @@ public class ChangeTransportForm extends DefForm {
     private DropChoiceBox selectJid;
     private String jid;
 
-    public ChangeTransportForm(Display display, Displayable pView, String jid) {
-        super(display, pView, SR.get(SR.MS_TRANSPORT));
+    public ChangeTransportForm(String jid) {
+        super(SR.get(SR.MS_TRANSPORT));
 
         this.jid = jid;
 
-        addControl(new MultiLine("Warning!", "Gateway "+jid+" will be replaced by one from the list of online gateways for all JIDs in your roster (please logoff old gateway to avoid damaging contact list of your guest IM account)", superWidth));
+        addControl(new MultiLine("Warning!", "Gateway "+jid+" will be replaced by one from the list of online gateways for all JIDs in your roster (please logoff old gateway to avoid damaging contact list of your guest IM account)", getWidth()));
 
-        selectJid = new DropChoiceBox(display, SR.get(SR.MS_TRANSPORT));
+        selectJid = new DropChoiceBox(SR.get(SR.MS_TRANSPORT));
         for (Enumeration e=BombusQD.sd.roster.getHContacts().elements(); e.hasMoreElements(); ){
             Contact ct=(Contact)e.nextElement();
             if (ct.jid.isTransport() && ct.status < Constants.PRESENCE_OFFLINE) {
@@ -59,8 +57,6 @@ public class ChangeTransportForm extends DefForm {
             selectJid.append(jid);
         }
         addControl(selectJid);
-
-        attachDisplay(display);
     }
 
     public void cmdOk() {

@@ -36,6 +36,7 @@ import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
+import midlet.BombusQD;
 import ui.controls.form.DefForm;
 import ui.controls.form.ImageItem;
 import ui.controls.form.LinkString;
@@ -46,9 +47,7 @@ import ui.controls.form.TextInput;
  *
  * @author ad
  */
-public class TransferImage
-        extends DefForm
-        implements CameraImageListener {
+public class TransferImage extends DefForm implements CameraImageListener {
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_IMAGE_TRANSFER");
 //#endif
@@ -60,27 +59,23 @@ public class TransferImage
     private LinkString shot;
     private TextInput description;
 
-    /** Creates a new instance of TransferImage */
-    public TransferImage(final Display display, Displayable pView, String recipientJid) {
-        super(display, pView, SR.get(SR.MS_SEND_PHOTO));
-        this.display=display;
+    public TransferImage(String recipientJid) {
+        super(SR.get(SR.MS_SEND_PHOTO));
         this.to=recipientJid;
 
-        addControl(new SimpleString(recipientJid, true));
+        itemsList.addElement(new SimpleString(recipientJid, false));
 
         shot=new LinkString(SR.get(SR.MS_CAMERASHOT)) { public void doAction() { initCamera(); } };
-        addControl(shot);
+        itemsList.addElement(shot);
 
-        description = new TextInput(display, SR.get(SR.MS_DESCRIPTION), null, null, TextField.ANY);
-        addControl(description);
+        description = new TextInput(SR.get(SR.MS_DESCRIPTION), null, null, TextField.ANY);
+        itemsList.addElement(description);
 
         moveCursorTo(1);
-        attachDisplay(display);
-        this.parentView=pView;
     }
 
     public void initCamera() {
-        new CameraImage(display, this);
+        new CameraImage(this);
     }
 
     public void cameraImageNotify(byte[] capturedPhoto) {
@@ -98,7 +93,7 @@ public class TransferImage
             TransferTask task=new TransferTask(to, String.valueOf(System.currentTimeMillis()), "photo.png", description.getValue(), true, photo);
             TransferDispatcher.getInstance().sendFile(task);
             //switch to file transfer manager
-            (new io.file.transfer.TransferManager(display)).setParentView(parentView);
+            destroyView();
             photo=null;
             //return;
         } catch (Exception e) { photo=null; }
@@ -106,3 +101,4 @@ public class TransferImage
 }
 //#endif
 //#endif
+

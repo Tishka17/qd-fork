@@ -24,8 +24,7 @@
  * along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
-package client; 
+package client;
 
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.Iq;
@@ -34,6 +33,7 @@ import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
+import midlet.BombusQD;
 import ui.controls.form.DefForm;
 import ui.controls.form.SpacerItem;
 import ui.controls.form.TextInput;
@@ -42,54 +42,38 @@ import ui.controls.form.TextInput;
  *
  * @author ad
  */
-public class RenameGroup 
-        extends DefForm {
-    
-    private Display display;
-    private Group group;
-    //private Contact contact;
-    StaticData sd=StaticData.getInstance();
-    
-    private TextInput groupName;
-    
-    /** Creates a new instance of newRenameGroup */
-    public RenameGroup(Display display, Displayable pView, Group group/*, Contact contact*/) {
-        super(display, pView, SR.get(SR.MS_RENAME));
-        //this.contact=contact;
-        this.group=group;
-        this.display=display;
-        
-        groupName = new TextInput(display, null, /*(contact==null)?*/group.getName()/*:contact.getGroup().getName()*/, "groups", TextField.ANY); // 32, TextField.ANY
-        addControl(groupName);
+public class RenameGroup extends DefForm {
 
-        attachDisplay(display);
-        this.parentView=pView;
+    private Group group;
+    private TextInput groupName;
+    public RenameGroup(Group group) {
+        super(SR.get(SR.MS_RENAME));
+        this.group = group;
+
+        groupName = new TextInput(null, group.getName(), "groups", TextField.ANY);
+        addControl(groupName);
     }
 
-    public void  cmdOk() {
-            sd.roster.theStream.send(new IqQueryRenameGroup (group.getName(), groupName.getValue()));
+    public void cmdOk() {
+        BombusQD.sd.roster.theStream.send(new IqQueryRenameGroup(group.getName(), groupName.getValue()));
         destroyView();
     }
-    
-    public void destroyView() {
-        display.setCurrent(StaticData.getInstance().roster);
-    }
-    
-    
+
+    // TODO extract class?
     class IqQueryRenameGroup extends Iq {
-        public IqQueryRenameGroup(String sourceGroup, String destGroup){
+        public IqQueryRenameGroup(String sourceGroup, String destGroup) {
             super(null, Iq.TYPE_SET, "addros");
 
-            JabberDataBlock qB = addChildNs("query", "jabber:iq:roster" );
-            for (Enumeration e=sd.roster.getHContacts().elements(); e.hasMoreElements();){
-                Contact cr=(Contact)e.nextElement();
+            JabberDataBlock qB = addChildNs("query", "jabber:iq:roster");
+            for (Enumeration e = BombusQD.sd.roster.getHContacts().elements(); e.hasMoreElements();) {
+                Contact cr = (Contact)e.nextElement();
                 if (cr.group.getName().equals(sourceGroup)) {
-                    JabberDataBlock item= qB.addChild("item",null);
+                    JabberDataBlock item = qB.addChild("item", null);
                     item.setAttribute("jid", cr.bareJid);
                     item.setAttribute("name", cr.getNick());
                     item.setAttribute("subscription", null);
-                    if (destGroup!=null && destGroup.length()>0) {//patch by Tishka17
-                        item.addChild("group",destGroup);
+                    if (destGroup != null && destGroup.length() > 0) {//patch by Tishka17
+                        item.addChild("group", destGroup);
                     }
                 }
             }

@@ -32,13 +32,12 @@
 //#endif
 //# import util.StringUtils;
 //# import conference.AppendNickForm;
+//# import midlet.BombusQD;
 //#ifndef GRAPHICS_MENU
 //# import Menu.RosterToolsMenu;
 //#endif
 //# 
 //# public class SimpleItemChat implements CommandListener {
-//# 
-//#   private Display display;
 //#   Displayable parentView;
 //# 
 //#   private Form form;
@@ -57,9 +56,7 @@
 //#   public ClassicChat scroller;
 //#endif
 //# 
-//# 
-//#   public SimpleItemChat(Display display, Displayable pView,Contact contact) {
-//#     this.display=display;
+//#   public SimpleItemChat(Displayable pView,Contact contact) {
 //#     this.contact=contact;
 //# 
 //#     StaticData.getInstance().roster.activeContact=contact;
@@ -103,9 +100,8 @@
 //#       }
 //#     contact.getChatInfo().reEnumCounts();
 //# 
-//#     display.setCurrent(form);
-//#     this.parentView=pView;
-//#     scroller.setDisplay(display,parentView);
+//#     this.parentView = pView;
+//#     BombusQD.setCurrentView(form);
 //#   }
 //# 
 //#   public void commandAction(Command c, Displayable s) {
@@ -117,13 +113,14 @@
 //#       }
 //#     }
 //#     if (c == cmdInsNick){
-//#          new AppendNickForm(display, display.getCurrent(), contact, msgTF.getCaretPosition() , msgTF, null, true); return;
+//#          new AppendNickForm(contact, msgTF.getCaretPosition() , msgTF, null, true).show();
+//#          return;
 //#     }
 //#     if (c == cmdInsMe){
 //#         msgTF.setString("/me ");
 //#     }
 //#     if (c == cmdCancel){
-//#         display.setCurrent(parentView);
+//#         BombusQD.setCurrentView(parentView);
 //#     }
 //#   }
 //# }

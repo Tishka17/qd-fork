@@ -34,8 +34,8 @@ import ui.controls.form.DropChoiceBox;
 import ui.controls.form.TextInput;
 import ui.controls.form.CollapsibleItem;
 //#ifdef GRAPHICS_MENU
-//# import ui.GMenu;
-//# import ui.GMenuConfig;
+import ui.GMenu;
+import ui.GMenuConfig;
 //#endif
 
 public class FormField {
@@ -51,7 +51,7 @@ public class FormField {
     private boolean numericBoolean;
     private boolean registered;
 
-    public FormField(JabberDataBlock field,Display display) {
+    public FormField(JabberDataBlock field) {
         name=field.getTagName();
         label=name;
         String body=field.getText();
@@ -73,7 +73,7 @@ public class FormField {
                 formItem = new CheckBox( label + ( desc==null?"":"%"+desc.getText() ) ,set);
             }
             else if (type.equals("list-single")) {
-                DropChoiceBox listsingle=new DropChoiceBox(display, label);
+                DropChoiceBox listsingle=new DropChoiceBox(label);
                 optionsList=null;
                 optionsList=new Vector(0);
                 int size = field.getChildBlocks().size();
@@ -99,7 +99,7 @@ public class FormField {
                 }
                 //[<instructions>Choose a username and password to register with this server</instructions>, <username/>, <password/>]
             }else if (type.equals("list-multi")) {
-                DropChoiceBox listmulti=new DropChoiceBox(display, label);
+                DropChoiceBox listmulti=new DropChoiceBox(label);
                 optionsList=new Vector(0);
                 int size = field.getChildBlocks().size();
                 int index = -1;
@@ -127,7 +127,7 @@ public class FormField {
                     body=body.substring(0,198);
                 }
                 int constrains=(type.equals("text-private"))? TextField.PASSWORD: TextField.ANY;
-                formItem =new TextInput(display, label, body, null, constrains);
+                formItem =new TextInput(label, body, null, constrains);
             }
         } else {
             // not x-data
@@ -144,7 +144,7 @@ public class FormField {
                 registered=true;
             }
             else{
-                formItem =new TextInput(display, label, body, null, TextField.ANY);
+                formItem =new TextInput(label, body, null, TextField.ANY);
             }
         }
         if (name!=null)

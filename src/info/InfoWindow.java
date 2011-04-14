@@ -30,10 +30,11 @@ package info;
 import client.Config;
 import conference.ConferenceForm;
 import javax.microedition.io.ConnectionNotFoundException;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import midlet.BombusQD;
+//#ifdef STATS
+import stats.StatsWindow;
+//#endif
 import ui.controls.AlertBox;
 import ui.controls.form.DefForm;
 import ui.controls.form.LinkString;
@@ -48,32 +49,30 @@ import ui.controls.form.SpacerItem;
 public class InfoWindow extends DefForm {
     private int auth = 0;
 
-    public InfoWindow(final Display display, Displayable pView) {
-        super(display, pView, SR.get(SR.MS_ABOUT));
+    public InfoWindow() {
+        super(SR.get(SR.MS_ABOUT));
 
         MultiLine item;
 
         item = new MultiLine(Version.NAME, Version.getVersionNumber()
                 + "\n" + Config.platformName
-                + "\nMobile Jabber client", super.superWidth);
+                + "\nMobile Jabber client", getWidth());
 
         item.setSelectable(true);
         addControl(item);
 
         addControl(new LinkString("QD ".concat(SR.get(SR.MS_QD_NEWS))) {
             public void doAction() {
-                new GetFileServer(display, BombusQD.sd.roster);
+                GetFileServer form = new GetFileServer();
+                form.setParentView(BombusQD.sd.roster);
+                form.show();
             }
         });
 
         if (midlet.BombusQD.sd.roster.isLoggedIn()) {
             addControl( new LinkString(SR.get(SR.MS_SUPPORT)) {
                 public void doAction() {
-                    new ConferenceForm(
-                            display,
-                            BombusQD.sd.roster,
-                            "BombusQD@",
-                            "qd@conference.jabber.ru", null, false);
+                    new ConferenceForm("BombusQD@", "qd@conference.jabber.ru", null, false).show();
                 }
             });
         }
@@ -81,9 +80,10 @@ public class InfoWindow extends DefForm {
 //#ifdef STATS
         addControl(new LinkString(SR.get(SR.MS_STATS)) {
             public void doAction() {
-                new stats.StatsWindow(display);
+                StatsWindow form = new StatsWindow();
+                form.setParentView(BombusQD.sd.roster);
+                form.show();
             }
-
         });
 //#endif
 
@@ -123,7 +123,7 @@ public class InfoWindow extends DefForm {
 
 //#ifdef TOUCH
         if (midlet.BombusQD.cf.isTouchPhone) {
-            item = new MultiLine("Easter Egg", "Press link under this text", super.superWidth);
+            item = new MultiLine("Easter Egg", "Press link under this text", getWidth());
             item.setSelectable(true);
             addControl(item);
 
@@ -138,7 +138,7 @@ public class InfoWindow extends DefForm {
         } else 
 //#endif
         {
-            item = new MultiLine("Easter Egg:", "Press 5-1-2 keys to lock/unlock new options", super.superWidth);
+            item = new MultiLine("Easter Egg:", "Press 5-1-2 keys to lock/unlock new options", getWidth());
             item.setSelectable(true);
             addControl(item);
         }
@@ -146,7 +146,7 @@ public class InfoWindow extends DefForm {
         item = new MultiLine("Copyright (c) 2005-2011",
                 "Eugene Stahov (evgs,Bombus);\nDaniel Apatin (ad,BombusMod);\nAlexej Kotov(aqent,BombusQD);\n"
                 + "Andrey Tikhonov(Tishka17,BombusQD)\n"
-                + "Distributed under GPL v2 License", super.superWidth);
+                + "Distributed under GPL v2 License", getWidth());
         item.setSelectable(true);
         addControl(item);
 
@@ -158,7 +158,7 @@ public class InfoWindow extends DefForm {
                 + "Jimm Dev's for back.png ;)\n"
                 + "Windows Fonts: magdelphi(mobilab.ru)"
                 + "\nMathFP library"
-                + "\nSmiles Author: Copyright (c) Aiwan. Kolobok smiles", super.superWidth);
+                + "\nSmiles Author: Copyright (c) Aiwan. Kolobok smiles", getWidth());
         item.setSelectable(true);
         addControl(item);
 
@@ -200,14 +200,11 @@ public class InfoWindow extends DefForm {
         memInfo.append(SR.get(SR.MS_FREE)).append(freemem).append("\n");
         memInfo.append(SR.get(SR.MS_TOTAL)).append(totalmem);
 
-        item = new MultiLine(SR.get(SR.MS_MEMORY), memInfo.toString(), super.superWidth);
+        item = new MultiLine(SR.get(SR.MS_MEMORY), memInfo.toString(), getWidth());
         item.setSelectable(true);
         addControl(item);
 
         enableListWrapping(false);
-
-        attachDisplay(display);
-        this.parentView = pView;
     }
 
     public void cmdOk() {
@@ -224,14 +221,15 @@ public class InfoWindow extends DefForm {
             authMsg = "Advanced Mode now OFF!";
         }
         midlet.BombusQD.cf.saveInt();
-        new AlertBox(SR.get(SR.MS_INFO), authMsg, display, parentView, false) {
+        AlertBox box = new AlertBox(SR.get(SR.MS_INFO), authMsg, false) {
             public void yes() {
             }
 
             public void no() {
             }
-
         };
+        box.setParentView(getParentView());
+        box.show();
     }
 
     public void keyPressed(int keyCode) {

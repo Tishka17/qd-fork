@@ -32,13 +32,14 @@ import font.FontCache;
 import io.NvStorage;
 import java.io.DataInputStream;
 import java.io.EOFException;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import ui.IconTextElement;
 import ui.input.InputTextBox;
 import ui.input.InputTextBoxNotify;
 import ui.VirtualList;
+import ui.input.InputTextBox;
+import ui.input.InputTextBoxNotify;
 
 /**
  *
@@ -49,7 +50,6 @@ public class TextInput extends IconTextElement implements InputTextBoxNotify {
     protected String text;
     protected String caption;
 
-    private Display display;
     public String id;
     private int boxType;
 
@@ -62,9 +62,8 @@ public class TextInput extends IconTextElement implements InputTextBoxNotify {
     private int colorBorder;
     private int colorBGnd;
 
-    public TextInput(Display display, String caption, String text, String id, int boxType) {
+    public TextInput(String caption, String text, String id, int boxType) {
         super(null);
-        this.display = display;
         this.caption = caption;
         this.id = id;
         this.boxType = boxType;
@@ -126,8 +125,8 @@ public class TextInput extends IconTextElement implements InputTextBoxNotify {
     } //Tishka17
 
     public void onSelect(VirtualList view) {
-        //new EditBox(display, caption, text, this, boxType);
-        InputTextBox input = new InputTextBox(caption, text, id, 1024, boxType);
+        //new EditBox(caption, text, this, boxType);
+        InputTextBox input = new InputTextBox(caption, text, id, 255, boxType);
         input.setNotifyListener(this);
         input.show();
     }

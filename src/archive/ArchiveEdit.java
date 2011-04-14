@@ -25,6 +25,7 @@
  *
  */
 
+//#ifdef ARCHIVE
 package archive;
 
 import client.Constants;
@@ -89,3 +90,4 @@ public class ArchiveEdit extends InputTextBox {
         }
     }
 }
+//#endif

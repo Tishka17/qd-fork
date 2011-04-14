@@ -30,17 +30,12 @@ import client.Contact;
 import client.Msg;
 import client.Roster;
 import client.StaticData;
-import client.MessageEdit;
 import java.io.*; 
 import javax.microedition.io.Connector;
 import javax.microedition.io.HttpConnection;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
-import util.Strconv;
-import java.util.*;
-import client.ContactMessageList;
-
 
 public class TranslateText implements Runnable{
     
@@ -93,8 +88,7 @@ public class TranslateText implements Runnable{
    private String to="";
    
    private Contact c;
-   
-   Display display;
+
    Displayable pView;   
    Thread mostRecent=null;
    Thread thisThread = null;   
@@ -103,7 +97,7 @@ public class TranslateText implements Runnable{
    private int cursor;
    private String fromMucNick;   
            
-   public void runTranslate(Display display,Displayable pView,Contact c,
+   public void runTranslate(Displayable pView,Contact c,
            String body,String from,String to,String fromMucNick,boolean trCMsgList,int cursor) {
       mostRecent = new Thread(this);
       mostRecent.start();
@@ -111,7 +105,6 @@ public class TranslateText implements Runnable{
       this.to=to;
       this.from=from;
       this.c=c;
-      this.display=display;
       this.pView=pView;
       this.trCMsgList=trCMsgList;
       this.cursor=cursor;
@@ -198,7 +191,7 @@ public class TranslateText implements Runnable{
                 //fixit
                 if(str.indexOf("invalid translation language pair")>-1){
                   midlet.BombusQD.sd.roster.replaceMessageEditText(c, SR.get(SR.MS_TRANSLATE)+": [" + from + "-" + to + "]"+
-                         "\nERROR: invalid translation language pair", pView);             
+                         "\nERROR: invalid translation language pair");             
                 }else{
                 
                 int i = str.indexOf("\"translatedText\":\"");
@@ -242,12 +235,12 @@ public class TranslateText implements Runnable{
                                  b.append(" "+translated_text);
                                  Msg tr=new Msg(tr_mess.messageType,tr_mess.from,tr_mess.subject,b.toString());
                                  c.getChatInfo().msgs.insertElementAt(tr,cursor);
-                                 display.setCurrent(c.getMessageList());
+                                 c.getMessageList().show();
                                  //new ContactMessageList(c);//  
                              }
                     }                    
                 }else {
-                    midlet.BombusQD.sd.roster.replaceMessageEditText(c, translated_text, pView);
+                    midlet.BombusQD.sd.roster.replaceMessageEditText(c, translated_text);
                     //midlet.BombusQD.sd.roster.createMessageEdit(c, translated_text, pView);
                 } 
              }

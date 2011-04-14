@@ -57,7 +57,7 @@
 //#     private Command cmdEnableDisable;
 //#     private Command cmdPurge;
 //# 
-//#     public DebugConsole(Display display, Displayable pView) {
+//#     public DebugConsole() {
 //#         super ();
 //# 
 //#         cmdEnableDisable = new Command(SR.get(SR.MS_ENABLE_DISABLE), Command.SCREEN, 6);
@@ -73,9 +73,6 @@
 //#         moveCursorHome();
 //# 
 //#         setMainBarItem(new MainBar(SR.get(SR.MS_DEBUG_MENU)));
-//# 
-//#         attachDisplay(display);
-//#         this.parentView=pView;
 //#     }
 //# 
 //#     public void commandState() {

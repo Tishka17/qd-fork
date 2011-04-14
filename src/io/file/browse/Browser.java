@@ -28,7 +28,6 @@
 //#ifdef FILE_IO
 package io.file.browse;
 
-import client.Config;
 import client.StaticData;
 //#ifndef MENU_LISTENER
 //# import javax.microedition.lcdui.CommandListener;
@@ -36,7 +35,6 @@ import client.StaticData;
 //#else
 import menu.MenuListener;
 import menu.Command;
-import menu.MyMenu;
 //#endif
 
 import ui.MainBar;
@@ -44,8 +42,6 @@ import images.RosterIcons;
 import io.file.FileIO;
 import java.util.Enumeration;
 import java.util.Vector;
-
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import ui.IconTextElement;
@@ -61,6 +57,7 @@ import ui.controls.AlertBox;
  *
  * @author evgs
  */
+
 public class Browser
     extends VirtualList
     implements
@@ -88,8 +85,8 @@ public class Browser
     private boolean getDirectory;
 
     /** Creates a new instance of Browser */
-    public Browser(String path, Display display, Displayable pView, BrowserListener browserListener, boolean getDirectory) {
-        super(display);
+    public Browser(String path, BrowserListener browserListener, boolean getDirectory) {
+        super();
 
         cmdOk=new Command(SR.get(SR.MS_BROWSE), Command.OK, 1);
         cmdSelect=new Command(SR.get(SR.MS_SELECT), Command.SCREEN, 2);
@@ -113,20 +110,25 @@ public class Browser
         menuCommands.removeAllElements();
 //#endif
 
-        addCommand(cmdOk); cmdOk.setImg(0x43);//OK
+        addCommand(cmdOk);
+        cmdOk.setImg(0x43);
 
         if (getDirectory) {
-            addCommand(cmdSelect); cmdSelect.setImg(0x60);
+            addCommand(cmdSelect);
+            cmdSelect.setImg(0x60);
         } else {
-            addCommand(cmdView); cmdView.setImg(0x77);
+            addCommand(cmdView);
+            cmdView.setImg(0x77);
         }
-	addCommand(cmdDelete); cmdDelete.setImg(0x41);
-        addCommand(cmdRoot); cmdRoot.setImg(0x15);
-        addCommand(cmdExit); cmdExit.setImg(0x33);//
+	addCommand(cmdDelete);
+        cmdDelete.setImg(0x41);
+        addCommand(cmdRoot);
+        cmdRoot.setImg(0x15);
+        addCommand(cmdExit);
+        cmdExit.setImg(0x33);
 //#ifndef GRAPHICS_MENU
 //#      addCommand(cmdCancel);
 //#endif
-        //addCommand(cmdLoadPngSkin);
         setCommandListener(this);
 
         // trim filename
@@ -137,9 +139,6 @@ public class Browser
             path=path.substring(0,l+1);
 
         chDir(path);
-
-        attachDisplay(display);
-        this.parentView=pView;
     }
 
     protected int getItemCount() { return dir.size(); }
@@ -186,19 +185,19 @@ public class Browser
             if (f.endsWith("/")) {
                 if (f.startsWith("../")) f="";
                 if (browserListener==null) return;
-                destroyView();
                 browserListener.BrowserFilePathNotify(path+f);
+                destroyView();
                 return;
             }
             //todo: choose directory here, drop ../
         }
 
         if (command==cmdDelete) {
-            AlertBox alert = new AlertBox( "Alert", SR.get(SR.MS_DELETE) + '?' , display, this, false) {
+            AlertBox box = new AlertBox( "Alert", SR.get(SR.MS_DELETE) + '?' , false) {
                public void yes() { fileDelete(); }
                public void no() {}
             };
-            alert = null;
+            box.show();
             return;
         }
 
@@ -210,6 +209,7 @@ public class Browser
 
     public void destroyView(){
         StaticData.getInstance().previousPath=path;
+        browserListener = null;
         super.destroyView();
     }
 
@@ -278,7 +278,7 @@ public class Browser
     public void showFile() {
         FileItem fi=(FileItem)getFocusedObject();
         if (fi.getType()<4 && fi.getType()>0){
-         new ShowFile(display, path+fi.name, fi.getType(),fi.name, width, height);
+         new ShowFile(path+fi.name, fi.getType(),fi.name, width, height);
         }
     }
 
@@ -289,8 +289,8 @@ public class Browser
                 showFile();
                 return;
             }
-            destroyView();
             browserListener.BrowserFilePathNotify(path+f);
+            destroyView();
             return;
         }
         if (!chDir(f)) {
@@ -358,7 +358,7 @@ public class Browser
 //#ifdef GRAPHICS_MENU
     public int showGraphicsMenu() {
        // commandState();
-        menuItem = new GMenu(display, parentView, this, null, menuCommands);
+        menuItem = new GMenu(this, null, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.BROWSER;
         return GMenu.BROWSER;
     }

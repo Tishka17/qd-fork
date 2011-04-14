@@ -28,8 +28,6 @@
 package font;
 
 import client.Config;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import midlet.BombusQD;
 import ui.controls.form.CheckBox;
@@ -46,40 +44,40 @@ public class FontConfigForm extends DefForm {
 
     private CheckBox useItalic;
 
-    public FontConfigForm(Display display, Displayable pView) {
-        super(display, pView, SR.get(SR.MS_FONTS_OPTIONS));
+    public FontConfigForm() {
+        super(SR.get(SR.MS_FONTS_OPTIONS));
 
         addControl(new SimpleString("(!) " + SR.get(SR.MS_RESTART_APP), true));
 
-        rosterFont = new DropChoiceBox(display, SR.get(SR.MS_ROSTER_FONT));
+        rosterFont = new DropChoiceBox(SR.get(SR.MS_ROSTER_FONT));
         rosterFont.append(SR.get(SR.MS_FONTSIZE_NORMAL));
         rosterFont.append(SR.get(SR.MS_FONTSIZE_SMALL));
         rosterFont.append(SR.get(SR.MS_FONTSIZE_LARGE));
         rosterFont.setSelectedIndex(Config.rosterFont / 8);
         addControl(rosterFont);
 
-        msgFont = new DropChoiceBox(display, SR.get(SR.MS_MESSAGE_FONT));
+        msgFont = new DropChoiceBox(SR.get(SR.MS_MESSAGE_FONT));
         msgFont.append(SR.get(SR.MS_FONTSIZE_NORMAL));
         msgFont.append(SR.get(SR.MS_FONTSIZE_SMALL));
         msgFont.append(SR.get(SR.MS_FONTSIZE_LARGE));
         msgFont.setSelectedIndex(Config.msgFont / 8);
         addControl(msgFont);
  
-        barFont = new DropChoiceBox(display, SR.get(SR.MS_BAR_FONT));
+        barFont = new DropChoiceBox(SR.get(SR.MS_BAR_FONT));
         barFont.append(SR.get(SR.MS_FONTSIZE_NORMAL));
         barFont.append(SR.get(SR.MS_FONTSIZE_SMALL));
         barFont.append(SR.get(SR.MS_FONTSIZE_LARGE));
         barFont.setSelectedIndex(Config.barFont / 8);
         addControl(barFont);
         
-        ballonFont = new DropChoiceBox(display, SR.get(SR.MS_POPUP_FONT));
+        ballonFont = new DropChoiceBox(SR.get(SR.MS_POPUP_FONT));
         ballonFont.append(SR.get(SR.MS_FONTSIZE_NORMAL));
         ballonFont.append(SR.get(SR.MS_FONTSIZE_SMALL));
         ballonFont.append(SR.get(SR.MS_FONTSIZE_LARGE));
         ballonFont.setSelectedIndex(Config.baloonFont / 8);
         addControl(ballonFont);
 
-        menuFont = new DropChoiceBox(display, SR.get(SR.MS_MENU_FONT));
+        menuFont = new DropChoiceBox(SR.get(SR.MS_MENU_FONT));
         menuFont.append(SR.get(SR.MS_FONTSIZE_NORMAL));
         menuFont.append(SR.get(SR.MS_FONTSIZE_SMALL));
         menuFont.append(SR.get(SR.MS_FONTSIZE_LARGE));
@@ -91,9 +89,6 @@ public class FontConfigForm extends DefForm {
 
         // first control is unselectable
         moveCursorTo(1);
-
-        attachDisplay(display);
-        this.parentView=pView;
     }
     
     public void cmdOk() {

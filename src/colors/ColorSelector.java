@@ -55,8 +55,8 @@ public class ColorSelector extends DefForm implements Runnable {
 
     private ColorVisualItem item;
 
-    public ColorSelector(Display display, ColorsList list, ColorVisualItem item) {
-        super(display, list, item.toString());
+    public ColorSelector(ColorVisualItem item) {
+        super(item.toString());
 
         this.item = item;
 
@@ -105,9 +105,6 @@ public class ColorSelector extends DefForm implements Runnable {
 
         exit = false;
         (new Thread(this)).start();
-
-        attachDisplay(display);
-        this.parentView = list;
     }
 
     public void paint(Graphics g) {
@@ -231,7 +228,7 @@ public class ColorSelector extends DefForm implements Runnable {
 
             }
 
-            repaint();
+            redraw();
         }
      }
 //#endif
@@ -280,7 +277,7 @@ public class ColorSelector extends DefForm implements Runnable {
                         moveCursorRight();
                         return;
                 }
-                repaint();
+                redraw();
         }
         super.keyPressed(key);
     }
@@ -299,7 +296,7 @@ public class ColorSelector extends DefForm implements Runnable {
                 cpos = 2;
             }
         }
-        repaint();
+        redraw();
     }
 
     private void moveCursorRight() {
@@ -316,7 +313,7 @@ public class ColorSelector extends DefForm implements Runnable {
                 cpos = 0;
             }
         }
-        repaint();
+        redraw();
     }
 
     protected void keyReleased(int key) {
@@ -357,7 +354,7 @@ public class ColorSelector extends DefForm implements Runnable {
                 if (alpha<0) alpha=255;
                 break;
         }
-        repaint();
+        redraw();
     }
 
     public void cmdOk() {

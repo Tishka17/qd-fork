@@ -1,6 +1,24 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * PathSelector.java
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * You can also redistribute and/or modify this program under the
+ * terms of the Psi License, specified in the accompanied COPYING
+ * file, as published by the Psi Project; either dated January 1st,
+ * 2005, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
 //#ifdef FILE_IO
@@ -17,11 +35,6 @@ import locale.SR;
 import midlet.BombusQD;
 import ui.IconTextElement;
 import ui.VirtualList;
-
-/**
- *
- * @author esprit
- */
 
 public final class PathSelector extends IconTextElement implements BrowserListener {
     public static final int TYPE_FILE = 0;
@@ -97,14 +110,12 @@ public final class PathSelector extends IconTextElement implements BrowserListen
     }
 
     public void onSelect(VirtualList view) {
-        Displayable d = BombusQD.getCurrentView();
-
         switch (type) {
             case TYPE_FILE:
-                new Browser(null, BombusQD.display, d, this, false);
+                new Browser(null, this, false).show();
                 break;
             case TYPE_DIR:
-                new Browser(null, BombusQD.display, d, this, true);
+                new Browser(null, this, true).show();
                 break;
         }        
     }

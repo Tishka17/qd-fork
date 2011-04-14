@@ -69,8 +69,8 @@ public final class QuickPrivelegyEditForm extends DefForm {
 
     private String myNick;
 
-    public QuickPrivelegyEditForm(Display display, Displayable pView, MucContact victim, int action, String myNick) {
-        super(display, pView, null);
+    public QuickPrivelegyEditForm(MucContact victim, int action, String myNick) {
+        super(null);
 
         cmdNoReason=new Command(SR.get(SR.MS_NO_REASON), Command.SCREEN, 2);
 
@@ -100,17 +100,15 @@ public final class QuickPrivelegyEditForm extends DefForm {
             .append(victim.realJid)
             .append(")");
         }
-        addControl(new MultiLine(SR.get(SR.MS_USER), user.toString(), super.superWidth));
+        addControl(new MultiLine(SR.get(SR.MS_USER), user.toString(), getWidth()));
 
 
-        reason=new TextInput(display, SR.get(SR.MS_REASON), "", "reason", TextField.ANY);
+        reason=new TextInput(SR.get(SR.MS_REASON), "", "reason", TextField.ANY);
         addControl(reason);
 
 //#ifndef MENU
         addCommand(cmdNoReason);
 //#endif
-        attachDisplay(display);
-        this.parentView=pView;
     }
 
     public void cmdOk() {

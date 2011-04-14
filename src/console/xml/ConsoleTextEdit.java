@@ -25,7 +25,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-//#if XML_CONSOLE || DEBUG_CONSOLE
+//#if XML_CONSOLE
 //# package console.xml;
 //# 
 //# import archive.ArchiveList;
@@ -101,7 +101,7 @@
 //#                     insert(TEMPLATE_IQ_VERSION, caretPos);
 //#ifdef ARCHIVE
 //#                 } else if (c == cmdArchive) {
-//#                     new ArchiveList(BombusQD.display, caretPos, null, this);
+//#                     new ArchiveList(caretPos, null, this).show();
 //#endif
 //#                 } else if (c == cmdPastePresence) {
 //#                     insert(TEMPLATE_PRESENCE, caretPos);

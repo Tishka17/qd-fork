@@ -25,51 +25,50 @@
  *
  */
 //#ifdef PEP
-//# package mood;
-//# 
-//# import com.alsutton.jabber.JabberBlockListener;
-//# import com.alsutton.jabber.JabberDataBlock;
-//# import com.alsutton.jabber.datablocks.Iq;
-//# import javax.microedition.lcdui.Display;
-//# import locale.SR;
-//# import ui.controls.AlertBox;
-//# import xmpp.XmppError; 
-//# 
-//# public class MoodPublishResult implements JabberBlockListener {
-//#     public void destroy() {
-//#     }
-//#     private Display display;
-//#     private String id;
-//#     
-//#     /** Creates a new instance of MoodPublishResult */
-//#     public MoodPublishResult(Display display, String id) {
-//#         this.display=display;
-//#         this.id=id;
-//#     }
-//# 
-//#     public int blockArrived(JabberDataBlock data) {
-//#         if (!(data instanceof Iq)) return BLOCK_REJECTED;
-//#         if (!data.getAttribute("id").equals(id)) return BLOCK_REJECTED;
-//#         
-//#         String type=data.getTypeAttribute();
-//#         if (type.equals("result")){
-//#             new AlertBox(SR.get(SR.MS_USERMOOD), SR.get(SR.MS_SUCCESS)  + '!', display, null, false) {
-//#                public void yes() { }
-//#                public void no() { }
-//#             };
-//#             midlet.BombusQD.sd.roster.theStream.cancelBlockListener(this);
-//#             return NO_MORE_BLOCKS;
-//#         }
-//#         
-//#         XmppError e=XmppError.findInStanza(data);
-//#         
-//#         new AlertBox(SR.get(SR.MS_ERROR_), SR.get(SR.MS_PEP_NOT_SUPPORTED)+"("+e.toString()+")", display, null, false) {
-//#             public void yes() { }
-//#             public void no() { }
-//#         };
-//#         
-//#         return NO_MORE_BLOCKS;
-//#     }
-//#     
-//# }
+package mood;
+
+import com.alsutton.jabber.JabberBlockListener;
+import com.alsutton.jabber.JabberDataBlock;
+import com.alsutton.jabber.datablocks.Iq;
+import javax.microedition.lcdui.Display;
+import locale.SR;
+import ui.controls.AlertBox;
+import xmpp.XmppError; 
+
+public class MoodPublishResult implements JabberBlockListener {
+    public void destroy() {
+    }
+    private String id;
+
+    public MoodPublishResult(String id) {
+         this.id=id;
+    }
+
+    public int blockArrived(JabberDataBlock data) {
+        if (!(data instanceof Iq)) return BLOCK_REJECTED;
+        if (!data.getAttribute("id").equals(id)) return BLOCK_REJECTED;
+        
+        String type=data.getTypeAttribute();
+        if (type.equals("result")){
+            AlertBox box = new AlertBox(SR.get(SR.MS_USERMOOD), SR.get(SR.MS_SUCCESS)  + '!', false) {
+               public void yes() { }
+               public void no() { }
+            };
+            box.show();
+            midlet.BombusQD.sd.roster.theStream.cancelBlockListener(this);
+            return NO_MORE_BLOCKS;
+        }
+        
+        XmppError e=XmppError.findInStanza(data);
+        
+        AlertBox box = new AlertBox(SR.get(SR.MS_ERROR_), SR.get(SR.MS_PEP_NOT_SUPPORTED)+"("+e.toString()+")", false) {
+            public void yes() { }
+            public void no() { }
+        };
+        box.show();
+        
+        return NO_MORE_BLOCKS;
+    }
+    
+}
 //#endif

@@ -63,7 +63,7 @@ public class HistoryViewer extends MessageList implements Runnable, InputTextBox
     private Command cmdFind;
     private Command cmdClear;
 
-    public HistoryViewer(Display display, Displayable pView, Contact contact) {
+    public HistoryViewer(Contact contact) {
         super();
 
         elements = new Vector();
@@ -77,9 +77,6 @@ public class HistoryViewer extends MessageList implements Runnable, InputTextBox
         setCommandListener(this);
 
         setMainBarItem(new MainBar(SR.get(SR.MS_HISTORY)));
-
-        attachDisplay(display);
-        this.parentView = pView;
 
         loadHistory(contact);
     }

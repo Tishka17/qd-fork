@@ -28,7 +28,6 @@
 package account;
 
 import client.*;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import ui.*;
@@ -84,7 +83,7 @@ public class AccountSelect extends VirtualList implements
 
     int status;
 
-    public AccountSelect(Display display, Displayable pView, boolean enableQuit, int status) {
+    public AccountSelect(boolean enableQuit, int status) {
         super();
 
         cmdConfigurationMaster = new Command(SR.get(SR.MS_CONFIGURATION_MASTER), Command.OK, 1);
@@ -126,7 +125,6 @@ public class AccountSelect extends VirtualList implements
         cmdQip.setImg(0x94);
         cmdVk.setImg(0x95);
 
-        this.display = display;
         this.status = status;
         String str = "";
         switch (status) {
@@ -175,8 +173,6 @@ public class AccountSelect extends VirtualList implements
         }
 
         setCommandListener(this);
-        display.setCurrent(this);
-        this.parentView = pView;
     }
 
     public void commandState() {
@@ -234,51 +230,52 @@ public class AccountSelect extends VirtualList implements
     }
 
     public void commandAction(Command c, Displayable d) {
+        try {
         if (c == cmdCancel) {
             destroyView();
         }
 //#ifdef GRAPHICS_MENU
         if (c == cmdServ1_reg) {
-            new AccountForm(display, this, "jabber.ru");
+            new AccountForm("jabber.ru").show();
         }
         if (c == cmdServ2_reg) {
-            new AccountForm(display, this, "silper.cz");
+            new AccountForm("silper.cz").show();
         }
         if (c == cmdServ3_reg) {
-            new AccountForm(display, this, "jabbus.org");
+            new AccountForm("jabbus.org").show();
         }
         if (c == cmdServ4_reg) {
-            new AccountForm(display, this, "mytlt.ru");
+            new AccountForm("mytlt.ru").show();
         }
         if (c == cmdServ5_reg) {
-            new AccountForm(display, this, "jabbim.com");
+            new AccountForm("jabbim.com").show();
         }
         if (c == cmdServ6_reg) {
-            new AccountForm(display, this, "");
+            new AccountForm("").show();
         }
 
         if (c == cmdJabber) {
-            new AccountForm(display, this, null, AccountForm.PROFILE_JABBER);
+            new AccountForm(null, AccountForm.PROFILE_JABBER).show();
         }
         if (c == cmdYaru) {
-            new AccountForm(display, this, null, AccountForm.PROFILE_YANDEX);
+            new AccountForm(null, AccountForm.PROFILE_YANDEX).show();
         }
 
         if (c == cmdGTalk_SSL) {
-            new AccountForm(display, this, null, AccountForm.PROFILE_GTALK_SSL);
+            new AccountForm(null, AccountForm.PROFILE_GTALK_SSL).show();
         }
         if (c == cmdGTalk_HTTPS) {
-            new AccountForm(display, this, null, AccountForm.PROFILE_GTALK_HTTPS);
+            new AccountForm(null, AccountForm.PROFILE_GTALK_HTTPS).show();
         }
 
         if (c == cmdLj) {
-            new AccountForm(display, this, null, AccountForm.PROFILE_LIVEJOURNAL);
+            new AccountForm(null, AccountForm.PROFILE_LIVEJOURNAL).show();
         }
         if (c == cmdQip) {
-            new AccountForm(display, this, null, AccountForm.PROFILE_QIP);
+            new AccountForm(null, AccountForm.PROFILE_QIP).show();
         }
         if (c == cmdVk) {
-            new AccountForm(display, this, null, AccountForm.PROFILE_VKONTAKTE);
+            new AccountForm(null, AccountForm.PROFILE_VKONTAKTE).show();
         }
 //#else
 //#         if (c==cmdAdd) {
@@ -286,20 +283,21 @@ public class AccountSelect extends VirtualList implements
 //#         }
 //#endif
         if (c == cmdConfigurationMaster) {
-            new ConfigurationMaster(display, this);
+            new ConfigurationMaster(this);
         }
         if (c == cmdLogin) {
             switchAccount(true);
         }
         if (c == cmdEdit) {
-            new AccountForm(display, this, (Account)getFocusedObject(), -1);
+            System.out.println((Account)getFocusedObject() == null);
+            new AccountForm((Account)getFocusedObject(), -1).show();
         }
         if (c == cmdChangePass) {
             Object cursor_acc = getFocusedObject();
             Object active_acc = accountList.elementAt(activeAccount);
             if (active_acc.equals(cursor_acc)) {
                 Account acc = (Account) getFocusedObject();
-                new CommandForm(display, parentView, 2, "Form", acc, this);
+                new CommandForm(2, "Form", acc, this).show();
             }
 
         }
@@ -308,7 +306,7 @@ public class AccountSelect extends VirtualList implements
             Object active_acc = accountList.elementAt(activeAccount);
             if (active_acc.equals(cursor_acc)) {
                 Account acc = (Account) getFocusedObject();
-                new CommandForm(display, parentView, 1, "Form", acc, accountList);
+                new CommandForm(1, "Form", acc, accountList).show();
             }
         }
         if (c == cmdDel) {
@@ -316,7 +314,7 @@ public class AccountSelect extends VirtualList implements
                 if (cursor == midlet.BombusQD.cf.accountIndex && midlet.BombusQD.sd.roster.isLoggedIn()) {
                     return;
                 }
-                new AlertBox(SR.get(SR.MS_DELETE), getFocusedObject().toString(), display, this, false)  {
+                AlertBox box = new AlertBox(SR.get(SR.MS_DELETE), getFocusedObject().toString(),false)  {
                     public void yes() {
                         delAccount();
                     }
@@ -324,17 +322,12 @@ public class AccountSelect extends VirtualList implements
                     public void no() {
                     }
                 };
+                box.show();
             }
         }
-
-    }
-
-    public void touchRightPressed() {
-        destroyView();
-    }
-
-    public void destroyView() {
-        midlet.BombusQD.sd.roster.showRoster();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void delAccount() {
@@ -384,7 +377,7 @@ public class AccountSelect extends VirtualList implements
 //#ifdef GRAPHICS_MENU
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(display, parentView, this, null, menuCommands, cmdfirstList, cmdsecondList, cmdThirdList);
+        menuItem = new GMenu(this, null, menuCommands, cmdfirstList, cmdsecondList, cmdThirdList);
         GMenuConfig.getInstance().itemGrMenu = GMenu.ACCOUNT_SELECT_MENU;
         return GMenu.ACCOUNT_SELECT_MENU;
     }

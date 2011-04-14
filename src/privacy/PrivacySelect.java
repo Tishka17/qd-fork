@@ -31,7 +31,6 @@ package privacy;
 import ui.input.InputTextBoxNotify;
 import ui.input.InputTextBox;
 import client.StaticData;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import images.RosterIcons;
@@ -48,11 +47,15 @@ import java.util.*;
 import com.alsutton.jabber.*;
 //#ifdef GRAPHICS_MENU        
 import ui.GMenu;
-//#endif 
+//#endif
+import ui.input.InputTextBox;
+import ui.input.InputTextBoxNotify;
+
 /**
  *
  * @author EvgS,aqent
  */
+
 public class PrivacySelect 
         extends VirtualList 
         implements
@@ -78,10 +81,9 @@ public class PrivacySelect
     private Command cmdIL;
     
     JabberStream stream=StaticData.getInstance().roster.theStream;
-    
-    /** Creates a new instance of PrivacySelect */
-    public PrivacySelect(Display display, Displayable pView) {
-        super(display);
+
+    public PrivacySelect() {
+        super();
         
        cmdCancel=new Command (SR.get(SR.MS_BACK), Command.BACK, 99);
 
@@ -100,7 +102,6 @@ public class PrivacySelect
        cmdIL=new Command (SR.get(SR.MS_MK_ILIST), Command.SCREEN, 16);
        cmdIL.setImg(0x47);
     
-        this.parentView=pView;
 
         setMainBarItem(new MainBar(2, null, SR.get(SR.MS_PRIVACY_LISTS), false));
 
@@ -108,9 +109,7 @@ public class PrivacySelect
 
         setCommandListener(this);
         
-        getLists();
-        
-        //attachDisplay(display);        
+        getLists();      
     }
     
     public void commandState() {
@@ -185,7 +184,7 @@ public class PrivacySelect
 //#ifdef GRAPHICS_MENU        
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(display, parentView, this, null, menuCommands);
+        menuItem = new GMenu(this, null, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.PRIVACY_SELECT;         
         return GMenu.PRIVACY_SELECT;
     }
@@ -199,8 +198,11 @@ public class PrivacySelect
 //#endif
 
     public void okNotify(String listName) {
-        if (listName.length()>0)
-            new PrivacyModifyList(display, this, new PrivacyList(listName));
+        if (listName.length()>0) {
+            PrivacyModifyList list = new PrivacyModifyList(new PrivacyList(listName));
+            list.setParentView(this);
+            list.show();
+        }
     }
     
     public int blockArrived(JabberDataBlock data){
@@ -246,7 +248,9 @@ public class PrivacySelect
     public void eventOk(){
         PrivacyList pl=(PrivacyList) getFocusedObject();
         if (pl!=null) {
-            if (pl.name!=null) new PrivacyModifyList(display, this, pl);
+            if (pl.name!=null) {
+                new PrivacyModifyList(pl).show();
+            }
         }
     }
     private void generateIgnoreList(){

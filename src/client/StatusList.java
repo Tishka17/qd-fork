@@ -41,9 +41,8 @@ import ui.controls.form.SimpleString;
  * @author EvgS
  */
 public class StatusList {
-    
-    // Singleton implementation
     private static StatusList instance;
+
     public static StatusList getInstance() {
 	if (instance==null) instance=new StatusList();
 	return instance;
@@ -55,7 +54,6 @@ public class StatusList {
 
     public Vector statusList;
 
-    /** Creates a new instance of StatusList */
     private StatusList() {
         statusList = new Vector(0);
         try {
@@ -119,5 +117,4 @@ public class StatusList {
 	}
 	return es;
     }
-
 }

@@ -27,12 +27,11 @@
  */
 
 package conference;
-import conference.bookmark.Bookmarks;
+
 import conference.bookmark.BookmarkItem;
 import conference.bookmark.BookmarkQuery;
 import client.*;
 import com.alsutton.jabber.JabberDataBlock;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
@@ -59,7 +58,7 @@ public final class ConferenceForm extends DefForm {
 //#ifndef MENU
     Command cmdJoin;
     Command cmdAdd;
-    Command cmdEdit;
+    Command cmdSave;
 //#endif
     private TextInput roomField;
     private TextInput hostField;
@@ -71,8 +70,8 @@ public final class ConferenceForm extends DefForm {
 
     BookmarkItem editConf;
 
-    public ConferenceForm(Display display, Displayable pView, String name, String confJid, String password, boolean autojoin) {
-        super(display, pView, SR.get(SR.MS_JOIN_CONFERENCE));
+    public ConferenceForm(String name, String confJid, String password, boolean autojoin) {
+        super(SR.get(SR.MS_JOIN_CONFERENCE));
 
         int roomEnd=confJid.indexOf('@');
         String room="";
@@ -86,12 +85,11 @@ public final class ConferenceForm extends DefForm {
         } else {
             server=confJid.substring(roomEnd+1);
         }
-        createForm(display, pView, name, room, server, nick, password, autojoin);
-        this.parentView=pView;
+        createForm(name, room, server, nick, password, autojoin);
     }
 
-    public ConferenceForm(Display display, Displayable pView, BookmarkItem join) {
-        super(display, pView, SR.get(SR.MS_JOIN_CONFERENCE));
+    public ConferenceForm(BookmarkItem join) {
+        super(SR.get(SR.MS_JOIN_CONFERENCE));
         if (join==null) {
             return;
         }
@@ -114,11 +112,11 @@ public final class ConferenceForm extends DefForm {
         } else {
             server=confJid.substring(roomEnd+1);
         }
-        createForm(display, pView, join.getDesc(), room, server, nick, join.getPassword(), join.isAutoJoin());
+        createForm(join.getDesc(), room, server, nick, join.getPassword(), join.isAutoJoin());
     }
 
-    public ConferenceForm(Display display, Displayable pView) {
-        super(display, pView, SR.get(SR.MS_JOIN_CONFERENCE));
+    public ConferenceForm() {
+        super(SR.get(SR.MS_JOIN_CONFERENCE));
 
         String room = Config.defConference;
         String server=null;
@@ -130,51 +128,49 @@ public final class ConferenceForm extends DefForm {
         }
         // default server
         if (server==null) server="conference."+midlet.BombusQD.sd.account.getServer();
-        createForm(display, pView, null, room, server, null, null, false);
+        createForm(null, room, server, null, null, false);
     }
 
-    public ConferenceForm(Display display, Displayable pView, String name, String room, String server, String nick, String password, boolean autojoin) {
-        super(display, pView, SR.get(SR.MS_JOIN_CONFERENCE));
+    public ConferenceForm(String name, String room, String server, String nick, String password, boolean autojoin) {
+        super(SR.get(SR.MS_JOIN_CONFERENCE));
         
-        createForm(display, pView, name, room, server, nick, password, autojoin);
+        createForm(name, room, server, nick, password, autojoin);
     }
 
-    private void createForm(Display display, Displayable pView, String name, String room, String server, String nick, final String password, boolean autojoin) {
+    private void createForm(String name, String room, String server, String nick, final String password, boolean autojoin) {
         cmdJoin=new Command(SR.get(SR.MS_JOIN), Command.SCREEN, 1);
         cmdJoin.setImg(0x43);
 
         cmdAdd=new Command(SR.get(SR.MS_ADD_BOOKMARK), Command.SCREEN, 5);
         cmdAdd.setImg(0x42);
 
-        cmdEdit=new Command(SR.get(SR.MS_SAVE), Command.SCREEN, 6);
-        cmdEdit.setImg(0x40);
+        cmdSave=new Command(SR.get(SR.MS_SAVE), Command.SCREEN, 6);
+        cmdSave.setImg(0x40);
 
-        roomField=new TextInput(display, SR.get(SR.MS_ROOM), room, null, TextField.ANY);//, 64, TextField.ANY);
-        itemsList.addElement(roomField);
+        roomField=new TextInput(SR.get(SR.MS_ROOM), room, null, TextField.ANY);//, 64, TextField.ANY);
+        addControl(roomField);
 
-        hostField=new TextInput(display, SR.get(SR.MS_AT_HOST), server, "muc-host", TextField.ANY);//, 64, TextField.ANY, "muc-host", display);
-        itemsList.addElement(hostField);
+        hostField=new TextInput(SR.get(SR.MS_AT_HOST), server, "muc-host", TextField.ANY);//, 64, TextField.ANY, "muc-host", display);
+        addControl(hostField);
 
         if (nick==null) nick=midlet.BombusQD.sd.account.getNickName();
-        nickField=new TextInput(display, SR.get(SR.MS_NICKNAME), nick, "roomnick", TextField.ANY);//, 32, TextField.ANY, "roomnick", display);
-        itemsList.addElement(nickField);
+        nickField=new TextInput(SR.get(SR.MS_NICKNAME), nick, "roomnick", TextField.ANY);//, 32, TextField.ANY, "roomnick", display);
+        addControl(nickField);
 
-        msgLimitField=new NumberInput(display, SR.get(SR.MS_MSG_LIMIT), Integer.toString(midlet.BombusQD.cf.confMessageCount), 0, 100);
-        itemsList.addElement(msgLimitField);
+        msgLimitField=new NumberInput(SR.get(SR.MS_MSG_LIMIT), Integer.toString(midlet.BombusQD.cf.confMessageCount), 0, 100);
+        addControl(msgLimitField);
 
-        nameField=new TextInput(display, SR.get(SR.MS_DESCRIPTION), name, null, TextField.ANY);//, 128, TextField.ANY);
-        itemsList.addElement(nameField);
+        nameField=new TextInput(SR.get(SR.MS_DESCRIPTION), name, null, TextField.ANY);//, 128, TextField.ANY);
+        addControl(nameField);
 
-        passField=new PasswordInput(display, SR.get(SR.MS_PASSWORD), password);//, 32, TextField.ANY | TextField.SENSITIVE );
-        itemsList.addElement(passField);
+        passField=new PasswordInput(SR.get(SR.MS_PASSWORD), password);//, 32, TextField.ANY | TextField.SENSITIVE );
+        addControl(passField);
 
         autoJoin=new CheckBox(SR.get(SR.MS_AUTOLOGIN), autojoin);
-        itemsList.addElement(autoJoin);
+        addControl(autoJoin);
 
 	setCommandListener(this);
 
-        attachDisplay(display);
-        this.parentView=pView;
     }
 
     public void commandAction(Command c, Displayable d){
@@ -188,8 +184,8 @@ public final class ConferenceForm extends DefForm {
             return;
         }
         
-        String name=nameField.getValue();  
-        String pass=passField.getValue();
+        String name = nameField.getValue();
+        String pass = passField.getValue();
 
         int msgLimit = Integer.parseInt(msgLimitField.getValue());
         boolean autojoin = autoJoin.getValue();
@@ -202,7 +198,7 @@ public final class ConferenceForm extends DefForm {
 
         saveMsgCount(msgLimit);
 
-        if (c==cmdEdit) {
+        if (c==cmdSave) {
             editConf.setJid(gchat.toString());
             editConf.setDesc(name);
             editConf.setPassword(pass);
@@ -221,24 +217,18 @@ public final class ConferenceForm extends DefForm {
                 Config.defConference = room + "@" + host;
                  gchat.append('/').append(nick);
                 join(name, gchat.toString(),pass, msgLimit);
-                midlet.BombusQD.sd.roster.showRoster();
+                midlet.BombusQD.sd.roster.show();
             } catch (Exception e) { }
         }
-        gchat=null;
-        nick=null;
-        name=null;
-        host=null;
-        room=null;
-        pass=null;
     }
 
     public void commandState(){
 //#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
 //#endif
+        addCommand(cmdAdd);
+        addCommand(cmdSave);
         addCommand(cmdJoin); 
-        addCommand(cmdAdd); 
-        addCommand(cmdEdit); 
 //#ifndef GRAPHICS_MENU
 //#      addCommand(cmdCancel);
 //#endif
@@ -254,7 +244,7 @@ public final class ConferenceForm extends DefForm {
 
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(display, parentView, this, null, menuCommands);
+        menuItem = new GMenu(this, null, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.CONFERENCE_FORM;
         redraw();
         return GMenu.CONFERENCE_FORM;

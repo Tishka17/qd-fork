@@ -93,10 +93,9 @@ public class SmilePicker
     private TextField tf;
     private TextBox tb;
     private boolean aniSmiles = false;
-    
-     /** Creates a new instance of SmilePicker */
-    public SmilePicker(Display display, Displayable pView, int caretPos, TextField tf, TextBox tb) {
-         super(display);
+
+    public SmilePicker(int caretPos, TextField tf, TextBox tb) {
+         super();
          this.caretPos=caretPos;
 
          cmdCancel=new Command(SR.get(SR.MS_CANCEL),Command.BACK,99);
@@ -130,8 +129,6 @@ public class SmilePicker
         if (xLastCnt>0) lines++; else xLastCnt=xCnt;
 
         xBorder=(realWidth-(xCnt*imgWidth))/2;
-
-        this.parentView=pView;
     }
     
     public void commandState() {
@@ -292,7 +289,7 @@ public class SmilePicker
 //#ifdef GRAPHICS_MENU        
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(display, parentView, this, null, menuCommands);        
+        menuItem = new GMenu(this, null, menuCommands);        
         GMenuConfig.getInstance().itemGrMenu=GMenu.SMILE_PEAKER;
         return GMenu.SMILE_PEAKER;
     }

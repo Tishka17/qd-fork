@@ -25,48 +25,44 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
+
 package account;
 
 import com.alsutton.jabber.*;
 import com.alsutton.jabber.datablocks.*;
 import javax.microedition.lcdui.*;
 import locale.SR;
+import midlet.BombusQD;
 import ui.*;
 import xmpp.XmppError;
 
-/**
- *
- * @author Evg_S,aqent
- */
 public class AccountRegister
         implements
         JabberListener,
         CommandListener,
         Runnable {
-    private Display display;
-    private Displayable parentView;
     private Displayable accountselect;
     private Account raccount;
     private JabberStream theStream;
     private SplashScreen splash;
-    private Command cmdOK;
     private Command cmdCancel;
 
-    /** Creates a new instance of AccountRegister */
-    public AccountRegister(Account account, Display display, Displayable pView, Displayable accountselect) {
-        this.display = display;
-        this.parentView = pView;
+    public AccountRegister(Account account, Displayable accountselect) {
+        this.accountselect = accountselect;
         this.accountselect = accountselect;
         raccount = account;
 
-        cmdOK = new Command(SR.get(SR.MS_OK), Command.OK, 1);
         cmdCancel = new Command(SR.get(SR.MS_BACK), Command.BACK, 2);
 
         splash = midlet.BombusQD.getInstance().s;
         splash.setProgress(SR.get(SR.MS_STARTUP), 5);
-        display.setCurrent(splash);
         splash.addCommand(cmdCancel);
         splash.setCommandListener(this);
+        
+        System.out.println(splash.getParentView());
+
+        splash.show();
+
         new Thread(this).start();
     }
 
@@ -115,20 +111,19 @@ public class AccountRegister
             String type = data.getTypeAttribute();
             String mainbar = SR.get(SR.MS_DONE);
             if (type.equals("result")) {
-                splash.removeCommand(cmdCancel);
-                if (parentView instanceof AccountForm) {((AccountForm)parentView).destroyView();}
-                splash.setExit(display, accountselect);
+                //if (parentView instanceof AccountForm) {((AccountForm)parentView).destroyView();}
+                splash.setParentView(accountselect);
             } else {
-                splash.removeCommand(cmdCancel);
                 mainbar = SR.get(SR.MS_ERROR_) + XmppError.findInStanza(data).toString();
-                splash.setExit(display, parentView);
             }
+            splash.removeCommand(cmdCancel);
             splash.setProgress(mainbar, pgs);
 
             theStream.close();
         }
         return JabberBlockListener.BLOCK_PROCESSED;
     }
+
 
     public void commandAction(Command c, Displayable d) {
         splash.setCommandListener(null);
@@ -137,12 +132,6 @@ public class AccountRegister
             theStream.close();
         } catch (Exception e) {
         }
-        destroyView();
-    }
-
-    public void destroyView() {
-        if (display != null) {
-            display.setCurrent(parentView);
-        }
+        splash.close();
     }
 }

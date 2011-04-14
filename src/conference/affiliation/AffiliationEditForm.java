@@ -51,28 +51,25 @@ public final class AffiliationEditForm extends DefForm {
     private String room;
     private int recentAffiliation;
 
-    public AffiliationEditForm(Display display, Displayable pView, String room, String jid, String affiliation, String reason) {
-        super(display, pView, SR.get(SR.MS_AFFILIATION));
+    public AffiliationEditForm(String room, String jid, String affiliation, String reason) {
+        super(SR.get(SR.MS_AFFILIATION));
 
         this.room = room;
 
-        jidItem = new TextInput(display, "JID", jid, null, TextField.ANY);
-        itemsList.addElement(jidItem);
+        jidItem = new TextInput("JID", jid, null, TextField.ANY);
+        addControl(jidItem);
 
-        affiliationItem = new DropChoiceBox(display, SR.get(SR.MS_SET_AFFILIATION));
+        affiliationItem = new DropChoiceBox(SR.get(SR.MS_SET_AFFILIATION));
         affiliationItem.append("owner");
         affiliationItem.append("admin");
         affiliationItem.append("member");
         affiliationItem.append("none");
         affiliationItem.append("outcast");
         affiliationItem.setSelectedIndex(AffiliationItem.getIndexByName(affiliation));
-        itemsList.addElement(affiliationItem);
+        addControl(affiliationItem);
 
-        reasonItem = new TextInput(display, SR.get(SR.MS_REASON), reason, "reason", TextField.ANY);
-        itemsList.addElement(reasonItem);
-
-        attachDisplay(display);
-        this.parentView = pView;
+        reasonItem = new TextInput(SR.get(SR.MS_REASON), reason, "reason", TextField.ANY);
+        addControl(reasonItem);
     }
 
 
@@ -94,7 +91,7 @@ public final class AffiliationEditForm extends DefForm {
         } catch (Exception ex) {}
 
         try {
-            AffiliationList a=(AffiliationList) parentView;
+            AffiliationList a=(AffiliationList)getParentView();
             a.getList();
         } catch (Exception e) {}
         destroyView();
@@ -110,13 +107,16 @@ public final class AffiliationEditForm extends DefForm {
             .append(SR.get(SR.MS_FROM_OWNER_TO))
             .append(AffiliationItem.getNameByIndex((short)affiliationItem.getSelectedIndex()));
 
-            new AlertBox(SR.get(SR.MS_MODIFY_AFFILIATION), warn.toString(), display, null, false) {
+            AlertBox box = new AlertBox(SR.get(SR.MS_MODIFY_AFFILIATION), warn.toString(), false) {
                     public void yes() {
                         modify();
                         destroyView();
                     }
                     public void no() {}
             };
-        } else modify();
+            box.show();
+        } else {
+            modify();
+        }
     }
 }

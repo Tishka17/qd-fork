@@ -43,17 +43,14 @@ import java.util.Vector;
 import ui.MainBar;
 import ui.controls.form.MultiLine;
 //#ifdef CLIPBOARD
-//# import util.ClipBoard;
+import util.ClipBoard;
 //#endif
 //#ifdef GRAPHICS_MENU
 //#endif
 //#ifdef CLIPBOARD
 //#endif
 
-public final class CommandForm extends DefForm
-{
-    private Display display;
-    private Displayable parentView;
+public final class CommandForm extends DefForm {
     private static TextInput textbox;
 
 
@@ -70,8 +67,6 @@ public final class CommandForm extends DefForm
     private static final int STATS_ITEM=5;
     private static final int HISTORY_ITEM=6;
 
-    public CommandForm(){};
-
     public void addObject(Object res, int current, int size){
         sb = new StringBuffer(0);
         if(current != 0) {
@@ -87,24 +82,9 @@ public final class CommandForm extends DefForm
         }
     }
 
-    public void setParentView(String title, Displayable pView) {
-        mainbar.setElementAt( title , 0);
-        midlet.BombusQD.getInstance().display.setCurrent(this);
-        moveCursorHome();
-        this.parentView = pView;
-    }
+    public CommandForm(int type, String title, Object obj, Object res) {
+        super(title);
 
-    public void setParentView(Contact c) {
-        mainbar.setElementAt( c.bareJid , 0);
-        midlet.BombusQD.getInstance().display.setCurrent(this);
-        moveCursorHome();
-        this.parentView = c.getMessageList();
-    }
-
-    public CommandForm(Display display, Displayable pView,int type, String title, Object obj, Object res) {
-        super(display, pView, title);
-
-        this.display=display;
         this.obj=obj;
         this.type=type;
         this.res=res;
@@ -125,7 +105,7 @@ public final class CommandForm extends DefForm
                 break;
             }
             case _CHANGE_PASS_RMS:{
-                itemsList.addElement(new MultiLine(SR.get(SR.MS_NEW_PASSWORD), (String)res, super.superWidth));
+                itemsList.addElement(new MultiLine(SR.get(SR.MS_NEW_PASSWORD), (String)res, getWidth()));
                 itemsList.addElement(new SimpleString(SR.get(SR.MS_COPY)+"?", true));
                 itemsList.addElement(new SimpleString(SR.get(SR.MS_EDIT_ACCOUNT_MSG), true));
                 break;
@@ -150,22 +130,19 @@ public final class CommandForm extends DefForm
         }
 
         if(field_text.length()>0){
-         textbox=new TextInput(display,field_text, "",null,TextField.ANY);
+         textbox=new TextInput(field_text, "",null,TextField.ANY);
          itemsList.addElement(textbox);
         }
 
         mainbar = new MainBar(title);
         setMainBarItem(mainbar);
-
-        if(title.length()>0){
-          attachDisplay(display);
-          this.parentView=pView;
-        }
     }
 
     public void destroyView() {
-        if(sb.length()>0) destroy();
-	if (display!=null) display.setCurrent(midlet.BombusQD.sd.roster);
+        if(sb.length()>0) {
+            destroy();
+        }
+	super.destroyView();
     }
 
     public void cmdOk() {
@@ -212,26 +189,26 @@ public final class CommandForm extends DefForm
             case _CHANGE_PASS_RMS://FIX
             {
 //#ifdef CLIPBOARD
-//#                   ClipBoard.setClipBoard("");
-//#                   ClipBoard.setClipBoard("!"+(String)res);
+                  ClipBoard.setClipBoard("");
+                  ClipBoard.setClipBoard("!"+(String)res);
 //#endif
-                  new AccountSelect(display, parentView, false,-1);
+                  new AccountSelect(false, -1).show();
                   break;
             }
             case _DEL_ACCOUNT_FROM_RMS:
             {
-                  new AccountSelect(display, parentView, false,-1);
+                  new AccountSelect(false, -1).show();
                   break;
             }
 //#ifdef CLIPBOARD
-//#             case STATS_ITEM:
-//#             {
-//#                   try {
-//#                       ClipBoard.add(new Msg(Constants.MESSAGE_TYPE_EVIL,"bechmark",null,(String)obj));
-//#                   } catch (Exception e) {/*no messages*/}
-//#                   destroyView();
-//#                   break;
-//#             }
+            case STATS_ITEM:
+            {
+                  try {
+                      ClipBoard.add(new Msg(Constants.MESSAGE_TYPE_EVIL,"bechmark",null,(String)obj));
+                  } catch (Exception e) {/*no messages*/}
+                  destroyView();
+                  break;
+            }
 //#endif
             case HISTORY_ITEM:
             {

@@ -96,16 +96,16 @@ public class VCardView extends DefForm
 
     private Contact contact;
 
-    public VCardView(Display display, Displayable pView, VCard vcard) {
-        this(display, pView, null, vcard);
+    public VCardView(VCard vcard) {
+        this(null, vcard);
     }
 
-    public VCardView(Display display, Displayable pView, Contact contact) {
-        this(display, pView, contact, contact.vcard);
+    public VCardView(Contact contact) {
+        this(contact, contact.vcard);
     }
 
-    public VCardView(Display display, Displayable pView, Contact contact, final VCard vcard) {
-        super(display, pView, null);
+    public VCardView(Contact contact, final VCard vcard) {
+        super(null);
 
         cmdRefresh = new Command(SR.get(SR.MS_REFRESH), Command.SCREEN, 3);
         cmdRefresh.setImg(0x10);
@@ -141,7 +141,7 @@ public class VCardView extends DefForm
 
                 if (data != null && name != null) {
                     if (!VCard.vCardFields.elementAt(index).equals("URL")) {
-                        MultiLine item = new MultiLine(name, data, super.superWidth);
+                        MultiLine item = new MultiLine(name, data, getWidth());
                         item.setSelectable(true);
                         addControl(item);
                     } else {
@@ -167,9 +167,6 @@ public class VCardView extends DefForm
                     refreshVCard();
                 }
         });
-
-        attachDisplay(display);
-        this.parentView = pView;
     }
 
     private void setPhoto() {
@@ -226,7 +223,7 @@ public class VCardView extends DefForm
             refreshVCard();
 //#if FILE_IO
         } else if (c == cmdSavePhoto) {
-            new Browser(null, display, this, this, true);
+            new Browser(null, this, true).show();
 //#endif
 //#ifdef CLIPBOARD
         } else if (c == Commands.cmdCopy) {
@@ -336,7 +333,7 @@ public class VCardView extends DefForm
 
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(display, parentView, this, null, menuCommands);
+        menuItem = new GMenu(this, null, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.VCARD_VIEW;
         redraw();
         return GMenu.VCARD_VIEW;
@@ -351,6 +348,5 @@ public class VCardView extends DefForm
 //#         new MyMenu(display, parentView, this, SR.get(SR.MS_VCARD), null, menuCommands);
 //#    }
 //#endif
-
 //#endif
 }

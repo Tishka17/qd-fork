@@ -49,20 +49,19 @@ import images.ActionsIcons;
 import io.file.transfer.TransferImage;
 import io.file.transfer.TransferSendFile;
 //#endif
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
 import menu.Menu;
 import menu.MenuItem;
 import midlet.BombusQD;
-import ui.input.InputTextBox;
-import ui.input.InputTextBoxNotify;
+import ui.CanvasEx;
 import ui.controls.AlertBox;
 import ui.MainBar;
 //#ifdef CLIPBOARD
 import util.ClipBoard;
 //#endif
+import ui.input.InputTextBox;
+import ui.input.InputTextBoxNotify;
 import vcard.VCard;
 import vcard.VCardEdit;
 import vcard.VCardView;
@@ -131,7 +130,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
 
     private Object item;
 
-    public ActionsMenu(Display display, Displayable pView, Object item) {
+    public ActionsMenu(Object item) {
         super(null, ActionsIcons.getInstance(), null);
 
         this.item = item;
@@ -357,9 +356,6 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
         }
 
         moveCursorTo(lastCursorPos);
-
-        attachDisplay(display);
-        super.parentView = pView;
     }
 
     public void okNotify(String annotationText) {
@@ -382,7 +378,6 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
             }
         }
         midlet.BombusQD.sd.roster.theStream.send(query);
-        destroyView();
     }
 
     public void eventOk() {
@@ -419,12 +414,13 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                     String from2 = midlet.BombusQD.sd.account.toString();
                     contact.addMessage(new Msg(Constants.MESSAGE_TYPE_OUT, from2, null, SR.get(SR.MS_SCHEME_SENT)));
                 } break;
-                case MI_VCARD:
+                case MI_VCARD: {
                     if (contact.vcard != null) {
                         if (contact.getGroupType() == Groups.TYPE_SELF) {
-                            new VCardEdit(display, parentView, contact.vcard);
+                            showForm(new VCardEdit(contact.vcard));
+
                         } else {
-                            new VCardView(display, parentView, contact);
+                            showForm(new VCardView(contact));
                         }
                         return;
                     } else {
@@ -441,6 +437,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                         }
                     }
                     break;
+                }
                 case MI_DELVCARD:
                     contact.clearVCard();
                     break;
@@ -465,14 +462,16 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                         }
                     }
                     break;
-                case MI_EDIT:
-                    new ContactEdit(display, parentView, contact);
+                case MI_EDIT: {
+                    showForm(new ContactEdit(contact));
                     return;
-                case MI_SUBSCRIBTION:
-                    new SubscriptionEdit(display, parentView, contact);
+                }
+                case MI_SUBSCRIBTION: {
+                    showForm(new SubscriptionEdit(contact));
                     return;
-                case MI_DELETE:
-                    new AlertBox(SR.get(SR.MS_DELETE_ASK), contact.getName(), display, BombusQD.sd.roster, false) {
+                }
+                case MI_DELETE: {
+                    AlertBox box = new AlertBox(SR.get(SR.MS_DELETE_ASK), contact.getName(), false) {
                         public void yes() {
                             BombusQD.sd.roster.deleteContact((Contact) item);
                         }
@@ -480,7 +479,9 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                         public void no() {
                         }
                     };
+                    showForm(box);
                     return;
+                }
                 case MI_LOGOUT: {
                     midlet.BombusQD.sd.roster.blockNotify(-111, 10000);
                     Presence presence = new Presence(
@@ -502,20 +503,21 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                 }
 //#ifdef CHANGE_TRANSPORT
                 case MI_CHTRANSPORT: {
-                    new ChangeTransportForm(display, parentView, contact.bareJid);
+                    new ChangeTransportForm(contact.bareJid).show();
                     return;
                 }
 //#endif
 //#ifdef HISTORY
                 case MI_HISTORY: {
-                    BombusQD.sd.roster.showHistory(parentView, contact);
+                    BombusQD.sd.roster.showHistory(getParentView(), contact);
                     return;
                 }
 //#endif
 //#if SERVICE_DISCOVERY && ADHOC
-                case MI_COMMANDS:
-                    new ServiceDiscovery(display, contact.getJid(), "http://jabber.org/protocol/commands", false);
+                case MI_COMMANDS: {
+                    showForm(new ServiceDiscovery(contact.getJid(), "http://jabber.org/protocol/commands", false));
                     return;
+                }                 
 //#endif
                 case MI_ATTENTION: {
                     Message message = new Message(contact.getJid(), SR.get(SR.LA_WAKEUP), SR.get(SR.LA_ATTENTION), false);
@@ -548,11 +550,12 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                     BombusQD.sd.roster.setQuerySign(true);
                     BombusQD.sd.roster.theStream.send(IqTimeReply.query(contact.getJid()));
                     break;
-                case MI_ANNOTATION:
+                case MI_ANNOTATION: {
                     InputTextBox input = new InputTextBox(SR.get(SR.MS_NEW), contact.annotations, 200, TextField.ANY);
                     input.setNotifyListener(this);
                     input.show();
                     return;
+                }
                 case MI_DEL_ANNOTATION:
                     okNotify(null);
                     break;
@@ -600,18 +603,19 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
 //#endif
 //#ifndef WMUC
                 case MI_INVITE:
-                    new InviteForm(display, parentView, contact);
+                    showForm(new InviteForm(contact));
                     return;
 //#endif
-                case MI_SEND_PRESENCE:
-                    new StatusSelect(display, parentView, contact);
+                case MI_SEND_PRESENCE: {
+                    showForm(new StatusSelect(contact));
                     return;
+                }
 //#if FILE_IO && FILE_TRANSFER
-                 case MI_SEND_FILE:
-                     new TransferSendFile(display, parentView, contact.getNickJid());
-                     return;
+                case MI_SEND_FILE:
+                    showForm(new TransferSendFile(contact.getJid()));
+                    return;
                 case MI_SEND_PHOTO:
-                    new TransferImage(display, parentView, contact.getNickJid());
+                    showForm(new TransferImage(contact.getJid()));
                     return;
 //#endif
             }
@@ -653,7 +657,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                         break;
                 }
                 if (action != -1) {
-                    new QuickPrivelegyEditForm(display, parentView, mcontact, action, myNick);
+                    showForm(new QuickPrivelegyEditForm(mcontact, action, myNick));
                     return;
                 }
             }
@@ -665,19 +669,19 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
 
                 switch (mItem.index) {
                     case MI_CONFIG: // room config
-                        new QueryConfigForm(display, roomjid);
+                        new QueryConfigForm(roomjid);
                         return;
                     case MI_BANLIST:
-                        new AffiliationList(display, this, roomjid, AffiliationItem.AFFILIATION_OUTCAST);
+                        showForm(new AffiliationList(roomjid, AffiliationItem.AFFILIATION_OUTCAST));
                         return;
                     case MI_MEMBERLIST:
-                        new AffiliationList(display, this, roomjid, AffiliationItem.AFFILIATION_MEMBER);
+                        showForm(new AffiliationList(roomjid, AffiliationItem.AFFILIATION_MEMBER));
                         return;
                     case MI_ADMINLIST:
-                        new AffiliationList(display, this, roomjid, AffiliationItem.AFFILIATION_ADMIN);
+                        showForm(new AffiliationList(roomjid, AffiliationItem.AFFILIATION_ADMIN));
                         return;
                     case MI_OWNERLIST:
-                        new AffiliationList(display, this, roomjid, AffiliationItem.AFFILIATION_OWNER);
+                        showForm(new AffiliationList(roomjid, AffiliationItem.AFFILIATION_OWNER));
                         return;
                     case MI_LEAVE:
                         ((ConferenceGroup) group).leaveRoom();
@@ -689,20 +693,21 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                     case MI_REJOIN:
                         ((ConferenceGroup) group).reEnterRoom();
                         return;
-                    case MI_SEND_PRESENCE:
-                        new StatusSelect(display, this, ((ConferenceGroup) group).confContact);
+                    case MI_SEND_PRESENCE: {
+                        showForm(new StatusSelect(((ConferenceGroup) group).confContact));
                         return;
+                    }
                     case MI_DELETE:
-                        new CommandForm(display, parentView, 0, "Form", item, null);
+                        showForm(new CommandForm(0, "Form", item, null));
                         return;
                 }
             } else {
                 switch (mItem.index) {
                     case MI_RENAME:
-                        new RenameGroup(display, this, group);
+                        showForm(new RenameGroup(group));
                         return;
                     case MI_DELETE:
-                        new AlertBox(SR.get(SR.MS_DELETE_GROUP_ASK), group.getName(), display, BombusQD.sd.roster, false)       {
+                        AlertBox box = new AlertBox(SR.get(SR.MS_DELETE_GROUP_ASK), group.getName(), false)       {
                             public void yes() {
                                 BombusQD.sd.roster.deleteGroup(group);
                             }
@@ -710,10 +715,16 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                             public void no() {
                             }
                         };
+                        showForm(box);
                         return;
                 }
             }
         }
         destroyView();
+    }
+
+    private void showForm(CanvasEx list) {
+        list.setParentView(getParentView());
+        list.show();
     }
 }

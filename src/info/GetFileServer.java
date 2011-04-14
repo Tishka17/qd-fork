@@ -40,7 +40,6 @@ import javax.microedition.io.HttpConnection;
 //#else
 import menu.Command;
 //#endif
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import ui.MainBar;
@@ -79,8 +78,8 @@ public class GetFileServer extends DefForm implements Runnable {
     private boolean wait = true;
     private boolean error = false;
 
-    public GetFileServer(Display display, Displayable pView) {
-        super(display, pView, "Update");
+    public GetFileServer() {
+        super("Update");
 
         news = new Vector();
 
@@ -89,15 +88,15 @@ public class GetFileServer extends DefForm implements Runnable {
         } catch (Exception e) {
         }
 
-        MainBar mainbar = new MainBar(SR.get(SR.MS_CHECK_UPDATE));
-        setMainBarItem(mainbar);
-        mainbar.addElement(null);
-        mainbar.addRAlign();
-        mainbar.addElement(null);
+        MainBar bar = new MainBar(SR.get(SR.MS_CHECK_UPDATE));
+        setMainBarItem(bar);
+        bar.addElement(null);
+        bar.addRAlign();
+        bar.addElement(null);
+    }
 
-        attachDisplay(display);
-        this.parentView = pView;
-
+    public void show() {
+        super.show();
         new Thread(this).start();
     }
 
@@ -126,7 +125,7 @@ public class GetFileServer extends DefForm implements Runnable {
                     addControl(item);
                 } else {
                     if (name.startsWith("*")) {
-                        MultiLine line = new MultiLine(null, name, super.superWidth);
+                        MultiLine line = new MultiLine(null, name, getWidth());
                         line.setSelectable(true);
 
                         addControl(line);
@@ -159,16 +158,16 @@ public class GetFileServer extends DefForm implements Runnable {
 
     public void commandAction(Command c, Displayable d) {
         if (c == cmdICQ) {
-            new DiscoSearchForm(display, this, icq, 0);
+            new DiscoSearchForm(icq, 0).show();
         }
         if (c == cmdMrim) {
-            new DiscoSearchForm(display, this, mrim, 1);
+            new DiscoSearchForm(mrim, 1).show();
         }
         if (c == cmdIrc) {
-            new DiscoSearchForm(display, this, irc, 2);
+            new DiscoSearchForm(irc, 2).show();
         }
         if (c == cmdVk) {
-            new DiscoSearchForm(display, this, vk, 3);
+            new DiscoSearchForm(vk, 3).show();
         }
         super.commandAction(c, d);
     }
@@ -220,7 +219,7 @@ public class GetFileServer extends DefForm implements Runnable {
 
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(display, parentView, this, null, menuCommands);
+        menuItem = new GMenu(this, null, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = 123;
         redraw();
         return 123;

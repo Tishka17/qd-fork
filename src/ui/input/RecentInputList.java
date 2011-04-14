@@ -71,8 +71,8 @@ public class RecentInputList extends VirtualList
     private InputTextBox input;
     private Vector recentList;
 
-    public RecentInputList(Display display, InputTextBox input) {
-        super(display);
+    public RecentInputList(InputTextBox input) {
+        super();
 
         cmdOk = new Command(SR.get(SR.MS_OK), Command.OK,1);
         cmdOk.setImg(0x43);
@@ -104,7 +104,7 @@ public class RecentInputList extends VirtualList
             input.setString((String)recentList.elementAt(cursor));
         }
 
-        display.setCurrent(parentView);
+        destroyView();
     }
 
     public void commandAction(Command c, Displayable d){
@@ -134,7 +134,7 @@ public class RecentInputList extends VirtualList
     public int showGraphicsMenu() {
         commandState();
 
-        menuItem = new GMenu(display, parentView, this, null, menuCommands);
+        menuItem = new GMenu(this, null, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.TEXTLISTBOX;
         return GMenu.TEXTLISTBOX;
     }

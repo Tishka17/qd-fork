@@ -27,42 +27,33 @@
 package ui.controls;
 
 import client.Config;
-import client.StaticData;
 import colors.ColorTheme;
 import java.util.Vector;
-import javax.microedition.lcdui.Canvas;
 //#ifndef MENU_LISTENER
 //# import javax.microedition.lcdui.CommandListener;
 //# import javax.microedition.lcdui.Command;
 //#endif
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
-//#ifndef WOFFSCREEN
-import javax.microedition.lcdui.Image;
-//#endif
 import locale.SR;
 import font.FontCache;
+import ui.CanvasEx;
 import util.StringUtils;
 //#ifdef GRADIENT
 import ui.Gradient;
 //#endif
+
 /**
  *
  * @author ad
  */
-public abstract class AlertBox
-        extends Canvas
+
+public abstract class AlertBox extends CanvasEx
 
 //#ifndef MENU_LISTENER
 //#         implements CommandListener
 //#endif
     {
-
-    protected Display display;
-    protected Displayable next;
-
 //#ifndef MENU_LISTENER
 //#     protected Command cmdOk=new Command(SR.get(SR.MS_OK), Command.OK, 1);
 //#     protected Command cmdCancel=new Command(SR.get(SR.MS_CANCEL), Command.BACK, 2);
@@ -94,26 +85,14 @@ public abstract class AlertBox
     int pos=0;
     int steps=1;
 
-
-//#ifndef WOFFSCREEN
-    private Image offscreen = null;
-//#endif
-
-    private int height;
-    private int width;
-
-    public AlertBox(String mainbar, String text, Display display, Displayable nextDisplayable, boolean optionsMaster) {
-        this.display=display;
+    public AlertBox(String mainbar, String text, boolean optionsMaster) {
         if(optionsMaster){
             left=SR.get(SR.MS_YES);
             right=SR.get(SR.MS_NO);
         }
-        setFullScreenMode(Config.fullscreen);
 
         messageFont=FontCache.getFont(false, Config.msgFont);
         barFont=FontCache.getFont(false, Config.barFont);
-
-        next=(nextDisplayable==null)? display.getCurrent() : nextDisplayable;
 
         this.text=text;
         this.mainbar=mainbar;
@@ -124,7 +103,6 @@ public abstract class AlertBox
 //#
 //#         setCommandListener(this);
 //#endif
-        display.setCurrent(this);
     }
 
 //#ifndef MENU_LISTENER
@@ -141,11 +119,7 @@ public abstract class AlertBox
     public void destroyView()	{
         isShowing=false;
 
-        if (display==null) {
-            display.setCurrent(StaticData.getInstance().roster);
-        } else {
-            display.setCurrent(next);
-        }
+        super.destroyView();
     }
 
     private void getLines(int width) {
@@ -155,15 +129,8 @@ public abstract class AlertBox
         }
     }
 
-    protected void paint(Graphics graphics) {
+    protected void paint(Graphics g) {
         if (isShowing) {
-            Graphics g = graphics;
-//#ifndef WOFFSCREEN
-            if (offscreen != null) graphics = offscreen.getGraphics();
-//#endif
-            width=g.getClipWidth();
-            height=g.getClipHeight();
-
             int oldColor=g.getColor();
 
             g.setColor(ColorTheme.getColor(ColorTheme.LIST_BGND));
@@ -209,9 +176,6 @@ public abstract class AlertBox
                 drawProgress (g, width, height-fh);
 
             g.setColor(oldColor);
-//#ifndef WOFFSCREEN
-            if (g != graphics) g.drawImage(offscreen, 0, 0, Graphics.LEFT | Graphics.TOP);
-//#endif
         }
     }
 
@@ -247,26 +211,6 @@ public abstract class AlertBox
         if (pb==null)
             pb=new Progress(0, height, width);
         Progress.draw(g, filled, Integer.toString(steps-pos));
-    }
-
-    protected void hideNotify() {
-//#ifndef WOFFSCREEN
-	offscreen=null;
-//#endif
-    }
-
-    protected void showNotify() {
-//#ifndef WOFFSCREEN
-	if (!isDoubleBuffered()) offscreen=Image.createImage(width, height);
-//#endif
-    }
-
-    protected void sizeChanged(int w, int h) {
-        width=w;
-        height=h;
-//#ifndef WOFFSCREEN
-        if (!isDoubleBuffered()) offscreen=Image.createImage(width, height);
-//#endif
     }
 
     protected void keyPressed(int keyCode) { // overriding this method to avoid autorepeat

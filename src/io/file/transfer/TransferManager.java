@@ -74,9 +74,8 @@ public class TransferManager
     Command cmdInfo;
 //#endif
 
-    /** Creates a new instance of TransferManager */
-    public TransferManager(Display display) {
-        super(display);
+    public TransferManager() {
+        super();
 
         cmdBack=new Command(SR.get(SR.MS_BACK), Command.BACK, 99);
         cmdDel=new Command(SR.get(SR.MS_DECLINE), Command.SCREEN, 10);
@@ -122,7 +121,9 @@ public class TransferManager
     public void eventOk() {
         TransferTask t=(TransferTask) getFocusedObject();
         if (t!=null)
-            if (t.isAcceptWaiting()) new TransferAcceptFile(display, this, t);
+            if (t.isAcceptWaiting()) {
+                new TransferAcceptFile(t).show();
+            }
     }
 
     protected void keyClear() {
@@ -181,7 +182,7 @@ public class TransferManager
     public int showGraphicsMenu() {
         if (getItemCount()>0){
           commandState();
-          menuItem = new GMenu(display, parentView, this, null, menuCommands);
+          menuItem = new GMenu(this, null, menuCommands);
           GMenuConfig.getInstance().itemGrMenu = GMenu.TRANSFER_MANAGER;
           redraw();
         }

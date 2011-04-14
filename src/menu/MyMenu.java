@@ -40,18 +40,16 @@ public class MyMenu extends Menu {
     private MenuListener ml;
     private Vector commands;
 
-    public MyMenu(Display display, Displayable parentView, MenuListener menuListener, String caption, ImageList il, Vector menuCommands) {
+    public MyMenu(MenuListener menuListener, String caption, ImageList il, Vector menuCommands) {
         super(caption, il, null);
         this.ml = menuListener;
         this.commands = menuCommands;
 
-        this.parentView = parentView;
         int size = commands.size();
         for (int index = 0; index < size; index++) {
             Command c = (Command)commands.elementAt(index);
             addItem(c.getName(), index, c.getImg());
         }
-        attachDisplay(display);
     }
 
     public void eventOk() {
@@ -60,7 +58,7 @@ public class MyMenu extends Menu {
         if (me == null) {
             return;
         }
-        ml.commandAction(getCommand(me.index), parentView);
+        ml.commandAction(getCommand(me.index), getParentView());
     }
 
     public Command getCommand(int index) {
@@ -73,5 +71,4 @@ public class MyMenu extends Menu {
         }
         return null;
     }
-
 }

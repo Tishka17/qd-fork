@@ -28,11 +28,9 @@ import client.Config;
 import font.FontCache;
 import io.file.browse.Browser;
 import io.file.browse.BrowserListener;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import locale.SR;
-import midlet.BombusQD;
 import ui.IconTextElement;
 import ui.VirtualList;
 
@@ -92,7 +90,7 @@ public final class PathSelector extends IconTextElement implements BrowserListen
         g.setFont(font);
         String pathStr;
 
-        boolean isPathSpecified = !(path == null || path.equals(""));
+        boolean isPathSpecified = !(path == null || path.length() == 0);
         if (isPathSpecified) {
             pathStr = path;
         } else {

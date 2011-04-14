@@ -131,7 +131,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
     private Object item;
 
     public ActionsMenu(Object item) {
-        super(null, ActionsIcons.getInstance(), null);
+        super(null, ActionsIcons.getInstance());
 
         this.item = item;
         if (item instanceof Contact) {
@@ -378,6 +378,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
             }
         }
         midlet.BombusQD.sd.roster.theStream.send(query);
+        destroyView();
     }
 
     public void eventOk() {

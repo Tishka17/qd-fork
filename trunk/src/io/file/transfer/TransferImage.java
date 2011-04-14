@@ -68,7 +68,7 @@ public class TransferImage extends DefForm implements CameraImageListener {
         shot=new LinkString(SR.get(SR.MS_CAMERASHOT)) { public void doAction() { initCamera(); } };
         itemsList.addElement(shot);
 
-        description = new TextInput(SR.get(SR.MS_DESCRIPTION), null, null, TextField.ANY);
+        description = new TextInput(SR.get(SR.MS_DESCRIPTION), null, TextField.ANY);
         itemsList.addElement(description);
 
         moveCursorTo(1);

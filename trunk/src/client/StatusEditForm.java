@@ -10,6 +10,9 @@ import ui.controls.form.SpacerItem;
 import ui.controls.form.TextInput;
 
 public class StatusEditForm extends DefForm {
+    private static final String STATUSTEXT_RECENT_ID = "status-text";
+    private static final String AUTORESPOND_RECENT_ID = "autorespond-text";
+
     private NumberInput tfPriority;
     private TextInput tfMessage;
     private TextInput tfAutoRespondMessage;
@@ -21,17 +24,17 @@ public class StatusEditForm extends DefForm {
 
         this.status = status;
 
-        tfMessage = new TextInput(SR.get(SR.MS_MESSAGE), status.getMessage(), "ex_status_list", TextField.ANY); //, 100, TextField.ANY "ex_status_list"
+        tfMessage = new TextInput(SR.get(SR.MS_MESSAGE), status.getMessage(), STATUSTEXT_RECENT_ID, TextField.ANY);
         addControl(tfMessage);
 
-        tfPriority = new NumberInput(SR.get(SR.MS_PRIORITY), status.getPriority(), -128, 128); //, 100, TextField.ANY "ex_status_list"
+        tfPriority = new NumberInput(SR.get(SR.MS_PRIORITY), status.getPriority(), -128, 128);
         addControl(tfPriority);
         if (status.getImageIndex() < 5) {
             addControl(new SpacerItem(10));
-            tfAutoRespondMessage = new TextInput(SR.get(SR.MS_AUTORESPOND), status.getAutoRespondMessage(), "autorespond", TextField.ANY); //, 100, 0
-            addControl(tfAutoRespondMessage);
             autoRespond = new CheckBox(SR.get(SR.MS_ENABLE_AUTORESPOND), status.getAutoRespond());
             addControl(autoRespond);
+            tfAutoRespondMessage = new TextInput(SR.get(SR.MS_AUTORESPOND), status.getAutoRespondMessage(), AUTORESPOND_RECENT_ID, TextField.ANY);
+            addControl(tfAutoRespondMessage);
         }
         addControl(new SpacerItem(10));
         addControl(new SimpleString("%t - time", false));

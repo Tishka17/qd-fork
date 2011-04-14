@@ -53,14 +53,17 @@ public class Menu extends VirtualList
 //#     Command cmdBack=new Command(SR.get(SR.MS_BACK),Command.BACK,99);
 //#     Command cmdOk=new Command(SR.get(SR.MS_OK),Command.OK,1);
 //#endif
-    private ImageList il, alt;
+    private ImageList il;
 
-    public Menu(String mainbar, ImageList il,ImageList alt) {
+    public Menu(String mainbar) {
+        this(mainbar, null);
+    }
+
+    public Menu(String mainbar, ImageList il) {
         super();
         setMainBarItem(new MainBar(mainbar));
         menuitems = new Vector(0);
         this.il = il;
-        this.alt = alt;
 //#ifndef MENU_LISTENER
 //#         addCommand(cmdBack);
 //#         addCommand(cmdOk);
@@ -82,11 +85,7 @@ public class Menu extends VirtualList
     }
 
     public void addItem(String label, int index, int iconIndex) {
-        if (alt != null) {
-            addItem(new MenuItem(label, index, iconIndex, alt));
-        } else {
-            addItem(new MenuItem(label, index, iconIndex, il));
-        }
+        addItem(new MenuItem(label, index, iconIndex, il));
     }
 
     public void addItem(String label, int index) {

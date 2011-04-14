@@ -58,10 +58,13 @@ public class ChangeTransportForm extends DefForm {
             selectJid.append(jid);
         }
         addControl(selectJid);
+
+        // first control is unselectable
+        moveCursorTo(1);
     }
 
     public void cmdOk() {
-        BombusQD.sd.roster.contactChangeTransport(jid, selectJid.toString());
+        BombusQD.sd.roster.contactChangeTransport(jid, selectJid.getTextValue());
         destroyView();
     }
 }

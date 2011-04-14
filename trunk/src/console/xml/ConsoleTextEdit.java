@@ -33,10 +33,6 @@
 //# import java.io.IOException;
 //# import javax.microedition.lcdui.*;
 //# import locale.SR;
-//#ifdef CLIPBOARD
-//# import midlet.BombusQD;
-//# import util.ClipBoard;
-//#endif
 //# import ui.input.InputTextBox;
 //# 
 //# /**

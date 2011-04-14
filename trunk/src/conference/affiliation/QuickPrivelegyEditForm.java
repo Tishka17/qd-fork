@@ -31,7 +31,6 @@ import client.StaticData;
 import conference.*;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.Iq;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
@@ -49,6 +48,8 @@ import menu.Command;
  * @author Evg_S
  */
 public final class QuickPrivelegyEditForm extends DefForm {
+    private static final String REASON_RECENT_ID = "reason";
+
     public final static int KICK=1;
     public final static int VISITOR=2;
     public final static int PARTICIPANT=3;
@@ -63,36 +64,16 @@ public final class QuickPrivelegyEditForm extends DefForm {
     private TextInput reason;
     private MucContact victim;
 
-    private Command cmdNoReason;
-
     private int action;
 
     private String myNick;
 
     public QuickPrivelegyEditForm(MucContact victim, int action, String myNick) {
-        super(null);
-
-        cmdNoReason=new Command(SR.get(SR.MS_NO_REASON), Command.SCREEN, 2);
+        super("");
 
         this.victim=victim;
         this.action=action;
         this.myNick=myNick;
-
-	String okName;
-
-        switch (action) {
-            case KICK:
-		okName=SR.get(SR.MS_KICK);
-                break;
-            case OUTCAST:
-		okName=SR.get(SR.MS_BAN);
-                break;
-            default:
-                okName=SR.get(SR.MS_OK);
-                break;
-        }
-
-        getMainBarItem().setElementAt(okName, 0);
 
         StringBuffer user=new StringBuffer(victim.getNick());
         if (victim.jid!=null) {
@@ -102,13 +83,10 @@ public final class QuickPrivelegyEditForm extends DefForm {
         }
         addControl(new MultiLine(SR.get(SR.MS_USER), user.toString(), getWidth()));
 
-
-        reason=new TextInput(SR.get(SR.MS_REASON), "", "reason", TextField.ANY);
+        reason=new TextInput(SR.get(SR.MS_REASON), null, REASON_RECENT_ID, TextField.ANY);
         addControl(reason);
 
-//#ifndef MENU
-        addCommand(cmdNoReason);
-//#endif
+        moveCursorTo(1);
     }
 
     public void cmdOk() {
@@ -116,20 +94,6 @@ public final class QuickPrivelegyEditForm extends DefForm {
         destroyView();
     }
 
-//#ifndef MENU
-    public void commandAction(Command c, Displayable d) {
-        if (c==cmdNoReason) {
-            reason.setValue("");
-            cmdOk();
-            return;
-        }
-        super.commandAction(c, d);
-    }
-//#else
-//#     public String getLeftCommand() { return SR.get(SR.MS_OK); }
-//#     public String getCenterCommand() { return SR.get(SR.MS_NO_REASON); }
-//#     public void centerCommand() { reason.setValue(""); cmdOk(); }
-//#endif
     private void setMucMod(){
         JabberDataBlock iq=new Iq(victim.jid.getBareJid(), Iq.TYPE_SET, "itemmuc");
         JabberDataBlock query=iq.addChildNs("query", "http://jabber.org/protocol/muc#admin");

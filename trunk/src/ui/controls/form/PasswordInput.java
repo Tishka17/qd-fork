@@ -27,7 +27,6 @@
 
 package ui.controls.form;
 
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.TextField;
 
 /**
@@ -36,9 +35,8 @@ import javax.microedition.lcdui.TextField;
  */
 
 public class PasswordInput extends TextInput {
-
     public PasswordInput(String caption, String text) {
-        super(caption, text, null, TextField.PASSWORD);
+        super(caption, text, TextField.PASSWORD);
     }
     
     public String getText() {

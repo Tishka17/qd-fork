@@ -148,23 +148,23 @@ public final class ConferenceForm extends DefForm {
         cmdSave=new Command(SR.get(SR.MS_SAVE), Command.SCREEN, 6);
         cmdSave.setImg(0x40);
 
-        roomField=new TextInput(SR.get(SR.MS_ROOM), room, null, TextField.ANY);//, 64, TextField.ANY);
+        roomField=new TextInput(SR.get(SR.MS_ROOM), room, TextField.ANY);
         addControl(roomField);
 
-        hostField=new TextInput(SR.get(SR.MS_AT_HOST), server, "muc-host", TextField.ANY);//, 64, TextField.ANY, "muc-host", display);
+        hostField=new TextInput(SR.get(SR.MS_AT_HOST), server, "muc-host", TextField.ANY);
         addControl(hostField);
 
         if (nick==null) nick=midlet.BombusQD.sd.account.getNickName();
-        nickField=new TextInput(SR.get(SR.MS_NICKNAME), nick, "roomnick", TextField.ANY);//, 32, TextField.ANY, "roomnick", display);
+        nickField=new TextInput(SR.get(SR.MS_NICKNAME), nick, "roomnick", TextField.ANY);
         addControl(nickField);
 
         msgLimitField=new NumberInput(SR.get(SR.MS_MSG_LIMIT), midlet.BombusQD.cf.confMessageCount, 0, 100);
         addControl(msgLimitField);
 
-        nameField=new TextInput(SR.get(SR.MS_DESCRIPTION), name, null, TextField.ANY);//, 128, TextField.ANY);
+        nameField=new TextInput(SR.get(SR.MS_DESCRIPTION), name, TextField.ANY);
         addControl(nameField);
 
-        passField=new PasswordInput(SR.get(SR.MS_PASSWORD), password);//, 32, TextField.ANY | TextField.SENSITIVE );
+        passField=new PasswordInput(SR.get(SR.MS_PASSWORD), password);
         addControl(passField);
 
         autoJoin=new CheckBox(SR.get(SR.MS_AUTOLOGIN), autojoin);

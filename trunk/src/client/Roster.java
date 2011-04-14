@@ -2162,7 +2162,7 @@ public class Roster
                         if (body==null) body=name+" "+SR.get(SR.MS_HAS_SET_TOPIC_TO)+": "+subj;
                         if (!subj.equals(c.getStatus())) {
                             c.setStatus(subj); // adding secondLine to conference
-                            highlite=true;
+                            //highlite=true;
                         } else {
                             return JabberBlockListener.BLOCK_PROCESSED;
                         }
@@ -2310,16 +2310,18 @@ public class Roster
                 if (m.body.indexOf(SR.get(SR.MS_IS_INVITING_YOU))>-1) m.dateGmt=0;
                 if (groupchat) {
                     ConferenceGroup mucGrp=(ConferenceGroup)c.group;
-                    if (mucGrp.selfContact.getJid().equals(message.getFrom())) {
+                    if (mucGrp.selfContact.getJid().equals(from)) {
                         m.messageType=Msg.MESSAGE_TYPE_OUT;
                         m.unread=false;
-                        m.highlite = false;
                     } else {
 //#ifdef LIGHT_CONTROL
                         CustomLight.message();
 //#endif
-                        if (m.dateGmt<= ((ConferenceGroup)c.group).conferenceJoinTime)
-                            m.messageType=Msg.MESSAGE_TYPE_HISTORY;
+                        if (m.dateGmt<= ((ConferenceGroup)c.group).conferenceJoinTime) {
+                            if (m.messageType != Msg.MESSAGE_TYPE_SUBJ) {
+                                m.messageType=Msg.MESSAGE_TYPE_HISTORY;
+                            }
+                        }
                         // highliting messages with myNick substring
 	                String myNick=mucGrp.selfContact.getNick();
                         String myNick_=myNick+" ";

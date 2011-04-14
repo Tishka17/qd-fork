@@ -35,7 +35,6 @@ import javax.microedition.lcdui.*;
 //#else
 import menu.MenuListener;
 import menu.Command;
-import menu.MyMenu;
 //#endif
 import locale.SR;
 import ui.*;
@@ -155,9 +154,7 @@ public class SearchResult
         menuCommands.removeAllElements();
 //#endif
     }
-    
-    
-//#ifdef MENU_LISTENER
+
     public String touchLeftCommand() {
         return SR.get(SR.MS_ADD);
     }
@@ -169,8 +166,7 @@ public class SearchResult
     public void touchRigthPressed() {
         destroyView();
     }
-    
-//#ifdef GRAPHICS_MENU        
+     
     public int showGraphicsMenu() {
          commandState();
          menuItem = new GMenu(this, null, menuCommands);
@@ -178,15 +174,7 @@ public class SearchResult
          eventOk();
          return -1;
     }
-//#else
-//#     public void showMenu() {
-//#         commandState();
-//#         new MyMenu(display, parentView, this, SR.get(SR.MS_DISCO), null, menuCommands);
-//#     } 
-//#endif
 
-//#endif        
-    
     public int getItemCount(){ return items.size();}
     public VirtualElement getItemRef(int index) { return (VirtualElement) items.elementAt(index);}
 

@@ -30,14 +30,12 @@
 //# 
 //# import client.Config;
 //# import client.Msg;
-//# import client.StaticData;
 //# import message.MessageList;
 //#ifndef MENU_LISTENER
 //# import javax.microedition.lcdui.Command;
 //#else
 //# import menu.Command;
 //#endif
-//# import javax.microedition.lcdui.Display;
 //# import javax.microedition.lcdui.Displayable;
 //# import locale.SR;
 //# import ui.MainBar;
@@ -82,30 +80,28 @@
 //#ifndef GRAPHICS_MENU
 //#      addCommand(cmdBack);
 //#endif
-//#ifdef CLIPBOARD
 //#         if (getItemCount() != 0) {
-//#             if (Config.getInstance().useClipBoard) {
+//#ifdef CLIPBOARD
+//#             if (Config.useClipBoard) {
 //#                 addCommand(Commands.cmdCopy);
 //#                 if (!ClipBoard.isEmpty()) {
 //#                     addCommand(Commands.cmdCopyPlus);
 //#                 }
 //#             }
-//#         }
 //#endif
-//#         addCommand(cmdEnableDisable);
-//#         if (getItemCount() != 0) {
 //#             addCommand(cmdPurge);
 //#         }
+//#         addCommand(cmdEnableDisable);
 //#     }
 //# 
 //#     protected void beginPaint() {
 //#         StringBuffer str = new StringBuffer(" (").append(getItemCount()).append(") ");
 //# 
-//#         if (!midlet.BombusQD.cf.debug) {
+//#         if (!Config.debug) {
 //#             str.append(SR.get(SR.MS_DISABLED));
 //#         }
 //# 
-//#         getMainBarItem().setElementAt(str.toString(),1);
+//#         getMainBarItem().setElementAt(str.toString(), 1);
 //#     }
 //# 
 //# 
@@ -113,10 +109,10 @@
 //#         return midlet.BombusQD.debug.stanzas.size();
 //#     }
 //# 
-//#     public void eventOk(){
+//#     /*public void eventOk(){
 //#        MessageItem mi = (MessageItem)messages.elementAt(cursor);
 //#        mi.onSelect(this);
-//#     }
+//#     }*/
 //# 
 //#     protected Msg getMessage(int index) {
 //#         Msg msg=new Msg(Msg.MESSAGE_TYPE_OUT, "local", null, null);
@@ -127,20 +123,14 @@
 //#     }
 //# 
 //#     public void commandAction(Command c, Displayable d) {
-//#         Msg msg = getMessage(cursor);
 //#         if (c == cmdEnableDisable) {
-//#             midlet.BombusQD.cf.debug = !midlet.BombusQD.cf.debug;
+//#             Config.debug = !Config.debug;
 //#             redraw();
-//#         }
-//#         if (msg == null) {
-//#             return;
-//#         }
-//# 
-//#         if (c == cmdPurge) {
+//#         } else if (c == cmdPurge) {
 //#             clearReadedMessageList();
-//#         }
-//# 
-//#         super.commandAction(c, d);
+//#         } else {
+//#              super.commandAction(c, d);
+//#         }       
 //#     }
 //# 
 //#     private void clearReadedMessageList() {
@@ -166,10 +156,6 @@
 //#     public void userKeyPressed(int keyCode) {
 //#         if (keyCode=='0')
 //#             clearReadedMessageList();
-//#     }
-//# 
-//#     public void destroyView(){
-//# 	super.destroyView();
 //#     }
 //# }
 //#endif

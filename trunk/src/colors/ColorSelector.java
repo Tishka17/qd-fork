@@ -43,6 +43,7 @@ public class ColorSelector extends DefForm implements Runnable {
 
     int cpos;
     int alpha,red,green,blue;
+    private boolean hasAlphaChannel = true;
 
     int dy;
     int timer;
@@ -79,20 +80,19 @@ public class ColorSelector extends DefForm implements Runnable {
         py = h - h / 10;
         ph = h - h * 3 / 10;
 
-        // TODO remove magic keys
         switch (item.getIndex()) {
-            case 49:
-                alpha = midlet.BombusQD.cf.argb_bgnd;
-                break;
-            case 50:
+            case ColorTheme.GRAPHICS_MENU_BGNG_ARGB:
                 alpha = midlet.BombusQD.cf.gmenu_bgnd;
                 break;
-            case 40:
-            case 42:
+            case ColorTheme.POPUP_MESSAGE_BGND:
+            case ColorTheme.POPUP_SYSTEM_BGND:
                 alpha = midlet.BombusQD.cf.popup_bgnd;
                 break;
-            case 34:
+            case ColorTheme.CURSOR_BGND:
                 alpha = midlet.BombusQD.cf.cursor_bgnd;
+                break;
+            default:
+                hasAlphaChannel = false;
                 break;
         }
 
@@ -166,8 +166,7 @@ public class ColorSelector extends DefForm implements Runnable {
         g.fillArc(pxblue, py - ph - h * 7 / 100, w / 10 - 1, h / 10 - 1, 0, 180);
         g.fillArc(pxblue, py - h * 3 / 100, w / 10 - 1, h / 10 - 1, 180, 180);
 
-        int index = item.getIndex();
-        if (index == 49 || index == 50 || index == 40 || index == 42 || index == 34) {
+        if (hasAlphaChannel) {
             int pxalpha = (w * 6 / 7);
             int pspxalpha = (ph * alpha) / 255;
             g.setColor(0);
@@ -283,9 +282,7 @@ public class ColorSelector extends DefForm implements Runnable {
     }
 
     private void moveCursorLeft() {
-        int index = item.getIndex();
-        if (index == 49
-                || index == 50 || index == 40 || index == 42 || index == 34) {
+        if (hasAlphaChannel) {
             cpos -= 1;
             if (cpos < 0) {
                 cpos = 3;
@@ -300,9 +297,7 @@ public class ColorSelector extends DefForm implements Runnable {
     }
 
     private void moveCursorRight() {
-        int index = item.getIndex();
-        if (index == 49
-                || index == 50 || index == 40 || index == 42 || index == 34) {
+        if (hasAlphaChannel) {
             cpos += 1;
             if (cpos > 3) {
                 cpos = 0;
@@ -322,10 +317,14 @@ public class ColorSelector extends DefForm implements Runnable {
     }
 
     public void run() {
-        while (! exit) {
-            try { Thread.sleep(35); } catch (Exception e) { }
-            if (--timer > 0) continue;
-            movePoint();
+        while (!exit) {
+            try {
+                Thread.sleep(35);
+            } catch (Exception e) {
+            }
+            if (--timer > 0) {
+                continue;
+            }
             movePoint();
         }
     }
@@ -369,17 +368,14 @@ public class ColorSelector extends DefForm implements Runnable {
 
     private void applyChanges() {
         switch (item.getIndex()) {
-            case 49:
-                midlet.BombusQD.cf.argb_bgnd = alpha;
-                break;
-            case 50:
+            case ColorTheme.GRAPHICS_MENU_BGNG_ARGB:
                  midlet.BombusQD.cf.gmenu_bgnd = alpha;
                 break;
-            case 40:
-            case 42:
+            case ColorTheme.POPUP_MESSAGE_BGND:
+            case ColorTheme.POPUP_SYSTEM_BGND:
                 midlet.BombusQD.cf.popup_bgnd = alpha;
                 break;
-            case 34:
+            case ColorTheme.CURSOR_BGND:
                 midlet.BombusQD.cf.cursor_bgnd = alpha;
                 break;
         }

@@ -22,10 +22,9 @@
  */
 
 package ui.controls.form;
-import client.Config;
+
 import colors.ColorTheme;
 import java.util.Vector;
-import javax.microedition.lcdui.Display;
 
 public class ColorThemeSelector extends DropChoiceBox {
     private Vector paths;

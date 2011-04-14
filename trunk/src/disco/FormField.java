@@ -127,7 +127,7 @@ public class FormField {
                     body=body.substring(0,198);
                 }
                 int constrains=(type.equals("text-private"))? TextField.PASSWORD: TextField.ANY;
-                formItem =new TextInput(label, body, null, constrains);
+                formItem =new TextInput(label, body, constrains);
             }
         } else {
             // not x-data
@@ -144,7 +144,7 @@ public class FormField {
                 registered=true;
             }
             else{
-                formItem =new TextInput(label, body, null, TextField.ANY);
+                formItem =new TextInput(label, body, TextField.ANY);
             }
         }
         if (name!=null)

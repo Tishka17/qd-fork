@@ -170,7 +170,7 @@ public class InputTextBox extends TextBox implements CommandListener {
     
 //#ifdef CLIPBOARD
     public int getCaretPosition() {
-        int caretPos = getCaretPosition();
+        int caretPos = super.getCaretPosition();
         // +MOTOROLA STUB
         if (Config.getInstance().phoneManufacturer == Config.MOTO) {
             caretPos = -1;

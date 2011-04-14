@@ -39,7 +39,7 @@ public final class NumberInput extends TextInput {
     private int val;
 
     public NumberInput(String caption, int val, int min, int max) {
-        super(caption, String.valueOf(val), null, (min < 0) ? TextField.DECIMAL : TextField.NUMERIC);
+        super(caption, String.valueOf(val), (min < 0) ? TextField.DECIMAL : TextField.NUMERIC);
 
         this.val = val;
         this.min = min;

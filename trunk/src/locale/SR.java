@@ -210,8 +210,8 @@ public class SR {
      public final static short MS_SET_SUBJECT  = 177; //Set Subject
      public final static short MS_PORT  = 178; //Port
      public final static short MS_RESUME  = 179; //Resume Message
-     public final static short MS_ARE_YOU_SURE_WANT_TO_DISCARD  = 180; //Are You sure want to discard
-     public final static short MS_FROM_OWNER_TO  = 181; // from OWNER to
+     //public final static short MS_ARE_YOU_SURE_WANT_TO_DISCARD  = 180; //Are You sure want to discard
+     //ublic final static short MS_FROM_OWNER_TO  = 181; // from OWNER to
      public final static short MS_MODIFY_AFFILIATION  = 182; //Modify affiliation
      public final static short MS_CLEAR = 183; //Clear
      public final static short MS_SELLOGIN  = 184; //Connect
@@ -973,8 +973,8 @@ public class SR {
         "Set Subject",
         "Port",
         "Resume Message",
-        "Are You sure want to discard ",
-        " from OWNER to ",
+        null,
+        null,
         "Modify affiliation",
         "Clear",
         "Connect",

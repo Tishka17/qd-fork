@@ -30,7 +30,6 @@
 //# package console.xml;
 //# 
 //# import archive.MessageArchive;
-//# import client.Constants;
 //# import client.Config;
 //# import client.Msg;
 //# import message.MessageList;
@@ -140,7 +139,7 @@
 //#             return stanzas.msg(index);
 //#         } catch (Exception e) {
 //#         }
-//#         return new Msg(Constants.MESSAGE_TYPE_OUT, "local", null, null);
+//#         return new Msg(Msg.MESSAGE_TYPE_OUT, "local", null, null);
 //#     }
 //# 
 //#     public void keyGreen() {

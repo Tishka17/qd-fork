@@ -28,8 +28,6 @@ public class DropListBox extends DefForm {
         this.listItems = listItems;
         this.cb = cb;
 
-        setMainBarItem(new MainBar(SR.get(SR.MS_SELECT)));
-
         moveCursorTo(cb.getSelectedIndex());
     }
 

@@ -29,7 +29,6 @@
 //# package console.debug;
 //# 
 //# import client.Config;
-//# import client.Constants;
 //# import client.Msg;
 //# import client.StaticData;
 //# import message.MessageList;
@@ -120,7 +119,7 @@
 //#     }
 //# 
 //#     protected Msg getMessage(int index) {
-//#         Msg msg=new Msg(Constants.MESSAGE_TYPE_OUT, "local", null, null);
+//#         Msg msg=new Msg(Msg.MESSAGE_TYPE_OUT, "local", null, null);
 //#         try {
 //#             msg=midlet.BombusQD.debug.msg(index);
 //#         } catch (Exception e) {}

@@ -171,8 +171,6 @@ vCard	Визитка
 Set Subject	Установить тему
 Port	Порт
 Resume Message	Черновик
-Are You sure want to discard 	Вы действительно собираетесь понизить у 
- from OWNER to 	 право OWNER до 
 Modify affiliation	Изменение членства
 Clear	Очистить
 Connect	Подключиться

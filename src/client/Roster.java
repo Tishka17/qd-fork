@@ -227,7 +227,9 @@ public class Roster
 //#endif
 
     public final void showActiveContacts(Contact current){
-        new ActiveContacts(current).show();
+        ActiveContacts form = new ActiveContacts(current);
+        form.setParentView(this);
+        form.show();
     }
 
     public final void showActionsMenu(Object object) {
@@ -284,6 +286,8 @@ public class Roster
 
     public Roster() { //init
         super();
+        canBack = false;
+
         initCommands();
         createMessageEdit(false);
 
@@ -2313,6 +2317,7 @@ public class Roster
                     if (mucGrp.selfContact.getJid().equals(from)) {
                         m.messageType=Msg.MESSAGE_TYPE_OUT;
                         m.unread=false;
+                        m.highlite = false;
                     } else {
 //#ifdef LIGHT_CONTROL
                         CustomLight.message();
@@ -3697,7 +3702,6 @@ public class Roster
             } catch (Exception ex) {}
         }
 //#endif
-        destroyView();
         logoff(null);
 
         BombusQD.getInstance().notifyDestroyed();

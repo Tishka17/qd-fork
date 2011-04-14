@@ -693,7 +693,7 @@ public class SR {
      public final static short MS_EDIT_ACCOUNT_MSG  = 660; //Please,edit this account to save new password!
      public final static short MS_ACCOUNT_DELETED  = 661; //Account deleted!
      public final static short MS_INSERT_NEW_PASSWORD  = 662; //Insert New Password
-     public final static short MS_SELECT_OUT_MESSAGES  = 663; //Highlite Out Messages
+     //public final static short MS_SELECT_OUT_MESSAGES  = 663; //Highlite Out Messages
      public final static short MS_ALERT_CONTACT_OFFLINE  = 664; //Contact is now offline.Continue?
      public final static short MS_CLIPBOARD_SENDERROR  = 665; //clipboard NOT sended
      public final static short MS_COLLAPSE_PRESENCE  = 666; //Collapse presences
@@ -1456,7 +1456,7 @@ public class SR {
         "Please,edit this account to save new password!",
         "Account deleted!",
         "Insert New Password",
-        "Highlite Out Messages",
+        null,
         "Contact is now offline.Continue?",
         "clipboard NOT sended",
         "Collapse presences",

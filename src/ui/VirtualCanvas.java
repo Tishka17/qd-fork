@@ -27,7 +27,9 @@ import client.Config;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
+//#ifdef LIGHT_CONTROL
 import light.CustomLight;
+//#endif
 import midlet.BombusQD;
 
 public class VirtualCanvas extends Canvas {

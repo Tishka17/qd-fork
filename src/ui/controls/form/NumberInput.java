@@ -48,13 +48,18 @@ public final class NumberInput extends TextInput {
 
     public int getIntValue() {
         try {
-            int value = Integer.parseInt(text);
-            if (value > max) {
+            int newValue = Integer.parseInt(text);
+            if (newValue > max) {
                 return max;
-            } else if (value < min) {
+            } else if (newValue < min) {
                 return min;
             }
-        } catch (NumberFormatException e) {}
+            return newValue;
+        } catch (NumberFormatException e) {
+//#ifdef BACK_IMAGE
+            e.printStackTrace();
+//#endif
+        }
         return val;
     }
 }

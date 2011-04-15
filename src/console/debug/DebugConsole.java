@@ -27,59 +27,46 @@
 
 //#ifdef DEBUG_CONSOLE
 //# package console.debug;
-//# 
+//#
 //# import client.Config;
 //# import client.Msg;
 //# import message.MessageList;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.Command;
-//#else
 //# import menu.Command;
-//#endif
 //# import javax.microedition.lcdui.Displayable;
 //# import locale.SR;
 //# import ui.MainBar;
-//# import message.MessageItem;
 //# import midlet.Commands;
 //#ifdef CLIPBOARD
 //# import util.ClipBoard;
 //#endif
-//# 
+//#
 //# /**
 //#  *
 //#  * @author ad,aqent
 //#  */
-//# 
+//#
 //# public final class DebugConsole extends MessageList {
 //#     private Command cmdEnableDisable;
 //#     private Command cmdPurge;
-//# 
+//#
 //#     public DebugConsole() {
-//#         super ();
-//# 
+//#         super();
+//#
 //#         cmdEnableDisable = new Command(SR.get(SR.MS_ENABLE_DISABLE), Command.SCREEN, 6);
 //#         cmdEnableDisable.setImg(0x26);
-//# 
+//#
 //#         cmdPurge = new Command(SR.get(SR.MS_CLEAR_LIST), Command.SCREEN, 10);
 //#         cmdPurge.setImg(0x41);
-//# 
+//#
 //#         super.smiles = false;
-//# 
+//#
 //#         setCommandListener(this);
-//# 
-//#         moveCursorHome();
-//# 
+//#
 //#         setMainBarItem(new MainBar(SR.get(SR.MS_DEBUG_MENU)));
 //#     }
-//# 
+//#
 //#     public void commandState() {
-//#ifdef MENU_LISTENER
 //#         menuCommands.removeAllElements();
-//#endif
-//# 
-//#ifndef GRAPHICS_MENU
-//#      addCommand(cmdBack);
-//#endif
 //#         if (getItemCount() != 0) {
 //#ifdef CLIPBOARD
 //#             if (Config.useClipBoard) {
@@ -93,27 +80,22 @@
 //#         }
 //#         addCommand(cmdEnableDisable);
 //#     }
-//# 
+//#
 //#     protected void beginPaint() {
 //#         StringBuffer str = new StringBuffer(" (").append(getItemCount()).append(") ");
-//# 
+//#
 //#         if (!Config.debug) {
 //#             str.append(SR.get(SR.MS_DISABLED));
 //#         }
-//# 
+//#
 //#         getMainBarItem().setElementAt(str.toString(), 1);
 //#     }
-//# 
-//# 
+//#
+//#
 //#     public int getItemCount() {
 //#         return midlet.BombusQD.debug.stanzas.size();
 //#     }
-//# 
-//#     /*public void eventOk(){
-//#        MessageItem mi = (MessageItem)messages.elementAt(cursor);
-//#        mi.onSelect(this);
-//#     }*/
-//# 
+//#
 //#     protected Msg getMessage(int index) {
 //#         Msg msg=new Msg(Msg.MESSAGE_TYPE_OUT, "local", null, null);
 //#         try {
@@ -121,7 +103,7 @@
 //#         } catch (Exception e) {}
 //# 	return msg;
 //#     }
-//# 
+//#
 //#     public void commandAction(Command c, Displayable d) {
 //#         if (c == cmdEnableDisable) {
 //#             Config.debug = !Config.debug;
@@ -130,32 +112,29 @@
 //#             clearReadedMessageList();
 //#         } else {
 //#              super.commandAction(c, d);
-//#         }       
-//#     }
-//# 
-//#     private void clearReadedMessageList() {
-//#         try {
-//#             if (cursor + 1 == midlet.BombusQD.debug.stanzas.size()) {
-//#                 midlet.BombusQD.debug.stanzas.removeAllElements();
-//#             } else {
-//#                 for (int i = 0; i < cursor + 1; i++) {
-//#                     midlet.BombusQD.debug.stanzas.removeElementAt(0);
-//#                 }
-//#             }
-//#             messages.removeAllElements();
-//#         } catch (Exception e) {
 //#         }
-//#         moveCursorHome();
-//#         redraw();
 //#     }
-//# 
+//#
+//#     private void clearReadedMessageList() {
+//#         messages.removeAllElements();
+//#         if (cursor + 1 == midlet.BombusQD.debug.stanzas.size()) {
+//#             midlet.BombusQD.debug.stanzas.removeAllElements();
+//#         } else {
+//#             for (int i = 0; i < cursor + 1; i++) {
+//#                 midlet.BombusQD.debug.stanzas.removeElementAt(0);
+//#             }
+//#             moveCursorHome();
+//#         }
+//#     }
+//#
 //#     public void keyClear() {
 //#         clearReadedMessageList();
 //#     }
-//# 
+//#
 //#     public void userKeyPressed(int keyCode) {
-//#         if (keyCode=='0')
+//#         if (keyCode == '0') {
 //#             clearReadedMessageList();
+//#         }
 //#     }
 //# }
 //#endif

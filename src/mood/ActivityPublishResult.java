@@ -31,18 +31,17 @@ package mood;
 import com.alsutton.jabber.JabberBlockListener;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.Iq;
-import javax.microedition.lcdui.Display;
 import locale.SR;
 import ui.controls.AlertBox;
 import xmpp.XmppError;
 
-public class UserActivityResult implements JabberBlockListener {
+public class ActivityPublishResult implements JabberBlockListener {
     public void destroy() {
     }
 
     private String id;
 
-    public UserActivityResult(String id) {
+    public ActivityPublishResult(String id) {
         this.id=id;
     }
 

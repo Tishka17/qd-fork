@@ -45,11 +45,6 @@ public class Commands {
     public static Command cmdAddSearchQuery;
     public static Command cmdClrPresences;
 
-//#if BREDOGENERATOR
-//#     public static Command cmdAutoGenON; //MS_BREDO_ON),Command.SCREEN,87);
-//#     public static Command cmdAutoGenOff; //MS_BREDO_OFF),Command.SCREEN,88);
-//#endif
-
     public static Command cmdMyService;
     
 //#ifdef CLIPBOARD
@@ -158,11 +153,6 @@ public class Commands {
 //#ifdef ARCHIVE
         cmdArch = new Command(SR.get(SR.MS_ADD_ARCHIVE), Command.SCREEN, 6);
         cmdArch.setImg(0x64);
-//#endif
-
-//#if BREDOGENERATOR
-//#               cmdAutoGenON=new Command(SR.get(SR.MS_BREDO_ON),Command.SCREEN,87);
-//#               cmdAutoGenOff=new Command(SR.get(SR.MS_BREDO_OFF),Command.SCREEN,88);
 //#endif
 
 //#ifdef JUICK.COM

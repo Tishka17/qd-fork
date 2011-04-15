@@ -55,10 +55,6 @@ import ui.GMenuConfig;
 //#endif
 import colors.ColorTheme;
 //#ifdef HISTORY
-import history.HistoryConfigForm;
-//#endif
-import javax.microedition.rms.RecordStore;
-//#ifdef HISTORY
 import history.HistoryStorage;
 //#endif
 import midlet.BombusQD;
@@ -95,16 +91,10 @@ public final class ContactMessageList extends VirtualList implements MenuListene
         msgs = null;
     }
 
-
-    private RecordStore recordStore = null;
-    public RecordStore getRecordStore(){
-       return recordStore;
-    }
-
 //#ifdef HISTORY
     public void storeMessage(Msg msgObj) {
         synchronized (this) {
-           HistoryStorage.addText(contact, msgObj, this);
+           HistoryStorage.addText(contact, msgObj);
        }
     }
 //#endif
@@ -173,7 +163,7 @@ public final class ContactMessageList extends VirtualList implements MenuListene
 
 //#ifdef HISTORY
         if (contact.origin != Contact.ORIGIN_GROUPCHAT) {
-            if (midlet.BombusQD.cf.module_history) {
+            if (Config.module_history) {
                 if (Config.historyTypeIndex == Config.HISTORY_RMS) {
                     addCommand(Commands.cmdHistory);
                 }
@@ -207,7 +197,7 @@ public final class ContactMessageList extends VirtualList implements MenuListene
 //#endif
 
 //#ifdef CLIPBOARD
-            if (midlet.BombusQD.cf.useClipBoard) {
+            if (Config.useClipBoard) {
                 addCommand(Commands.cmdCopy);
                 if (!ClipBoard.isEmpty()) {
                     addCommand(Commands.cmdCopyPlus);
@@ -226,24 +216,14 @@ public final class ContactMessageList extends VirtualList implements MenuListene
                 addCommand(Commands.cmdUrl);
         }
 
-
 //#ifdef CLIPBOARD
-        if (midlet.BombusQD.cf.useClipBoard && !ClipBoard.isEmpty()) {
+        if (Config.useClipBoard && !ClipBoard.isEmpty()) {
             addInCommand(3, Commands.cmdSendBuffer);
         }
 //#endif
 
 //#ifndef GRAPHICS_MENU
 //#      addCommdand(midlet.BombusQD.commands.cmdBack);
-//#endif
-
-//#if BREDOGENERATOR
-//#         if(midlet.BombusQD.cf.bredoGen==true){
-//#            addCommand(midlet.BombusQD.commands.cmdAutoGenOff);
-//#            removeCommand(midlet.BombusQD.commands.cmdAutoGenON);
-//#         }else{
-//#            addCommand(midlet.BombusQD.commands.cmdAutoGenON);
-//#         }
 //#endif
     }
 
@@ -260,7 +240,7 @@ public final class ContactMessageList extends VirtualList implements MenuListene
         return mi;
     }
 
-    protected Msg getMessage(int index) {
+    public Msg getMessage(int index) {
         return (Msg) msgs.elementAt(index);
     }
 
@@ -277,24 +257,13 @@ public final class ContactMessageList extends VirtualList implements MenuListene
         }
     }
 
-    protected void beginPaint() {
-        markRead(cursor);
-    }
-
-    protected void markRead(int msgIndex) {
-    }
-
     public void deleteOldMessages() {
        cursor -= getChatInfo().getMessageCount() - midlet.BombusQD.cf.msglistLimit+1;
        if (cursor<0) cursor = 0;
        getChatInfo().deleteOldMessages(messages);
     }
 
-    protected final int getItemCount(){ return messages.size(); }
-
-    protected void focusedItem(int index) {
-        markRead(index);
-    }
+    protected int getItemCount(){ return messages.size(); }
 
 //#ifdef TOUCH
     protected void touchMainPanelPressed(int x, int y) {
@@ -319,12 +288,7 @@ public final class ContactMessageList extends VirtualList implements MenuListene
         }
 //#endif
         if (c == Commands.cmdxmlSkin) {
-            try {
-                if (((MessageItem) getFocusedObject()).msg.body.indexOf("xmlSkin") > -1) {
-                    ColorTheme.loadSkin(((MessageItem) getFocusedObject()).msg.body, 2, true);
-                }
-            } catch (Exception e) {
-            }
+              ColorTheme.loadSkin(((MessageItem) getFocusedObject()).msg.body, 2, true);
         }
 //#ifdef ARCHIVE
         if (c == Commands.cmdArch) {
@@ -388,7 +352,6 @@ public final class ContactMessageList extends VirtualList implements MenuListene
             Msg mess = getMessage(cursor);
             mess.selected = !mess.selected;
             mess.search_word = !mess.search_word;
-            ; //image
             mess.oldHighlite = mess.highlite;
             mess.highlite = mess.selected;
             return;
@@ -433,18 +396,6 @@ public final class ContactMessageList extends VirtualList implements MenuListene
             input.show();
             return;
         }
-//#if BREDOGENERATOR
-//#         if (c==midlet.BombusQD.commands.cmdAutoGenON) {
-//#            midlet.BombusQD.cf.bredoGen=true;
-//#            midlet.BombusQD.sd.roster.showRoster();
-//#            VirtualList.setWobble(3, null, SR.get(SR.MS_BREDO_ON));
-//#         }
-//#         if (c==midlet.BombusQD.commands.cmdAutoGenOff) {
-//#            midlet.BombusQD.cf.bredoGen=false;
-//#            midlet.BombusQD.sd.roster.showRoster();
-//#            VirtualList.setWobble(3, null, SR.get(SR.MS_BREDO_OFF));
-//#         }
-//#endif
         if (c == Commands.cmdActions) {
             BombusQD.sd.roster.showActionsMenu(contact);
         }
@@ -854,7 +805,7 @@ public final class ContactMessageList extends VirtualList implements MenuListene
         redraw();
     }
 
-    private final void smartPurge(boolean presence) {
+    private void smartPurge(boolean presence) {
         int cur=cursor+1;
         try {
             if (msgs.size()>0){
@@ -893,7 +844,7 @@ public final class ContactMessageList extends VirtualList implements MenuListene
             }
         } catch (Exception e) { }
 
-        if(msgs.size() == 0) {
+        if(msgs.isEmpty()) {
           contact.clearVCard();
         }
         contact.getChatInfo().resetLastUnreadMessage();
@@ -901,16 +852,11 @@ public final class ContactMessageList extends VirtualList implements MenuListene
 
 
     public void destroyView(){
-           contact.getChatInfo().opened = false;
-//#ifdef GRAPHICS_MENU
-           midlet.BombusQD.sd.roster.activeContact=null;
-           midlet.BombusQD.sd.roster.reEnumRoster(); //to reset unread messages icon for this conference in roster
-           midlet.BombusQD.sd.roster.show();
-//#else
-//#         sd.roster.activeContact=null;
-//#         sd.roster.reEnumRoster(); //to reset unread messages icon for this conference in roster
-//#         if (display!=null) display.setCurrent(sd.roster);
-//#endif
+        contact.getChatInfo().opened = false;
+
+        midlet.BombusQD.sd.roster.activeContact=null;
+        midlet.BombusQD.sd.roster.reEnumRoster(); //to reset unread messages icon for this conference in roster
+        midlet.BombusQD.sd.roster.show();
     }
 
 
@@ -952,7 +898,7 @@ public final class ContactMessageList extends VirtualList implements MenuListene
 
 
     public boolean isHasScheme() {
-        if (msgs.size() == 0) {
+        if (msgs.isEmpty()) {
             return false;
         }
         String body = getMessage(cursor).body;

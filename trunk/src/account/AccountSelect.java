@@ -203,8 +203,10 @@ public class AccountSelect extends VirtualList implements
             addCommand(cmdEdit);
             addCommand(cmdLogin);
             addCommand(cmdDel);
-            if (midlet.BombusQD.sd.roster != null) {
-                if (midlet.BombusQD.sd.roster.isLoggedIn()) {
+            if (midlet.BombusQD.sd.roster.isLoggedIn()) {
+                Object cursor_acc = getFocusedObject();
+                Object active_acc = accountList.elementAt(activeAccount);
+                if (active_acc.equals(cursor_acc)) {
                     addCommand(cmdRemoveAcc);
                     addCommand(cmdChangePass);
                 }
@@ -289,25 +291,13 @@ public class AccountSelect extends VirtualList implements
             switchAccount(true);
         }
         if (c == cmdEdit) {
-            System.out.println((Account)getFocusedObject() == null);
             new AccountForm((Account)getFocusedObject(), -1).show();
         }
         if (c == cmdChangePass) {
-            Object cursor_acc = getFocusedObject();
-            Object active_acc = accountList.elementAt(activeAccount);
-            if (active_acc.equals(cursor_acc)) {
-                Account acc = (Account) getFocusedObject();
-                new CommandForm(2, "Form", acc, this).show();
-            }
-
+            new ChangePasswordForm((Account)getFocusedObject()).show();
         }
         if (c == cmdRemoveAcc) {
-            Object cursor_acc = getFocusedObject();
-            Object active_acc = accountList.elementAt(activeAccount);
-            if (active_acc.equals(cursor_acc)) {
-                Account acc = (Account) getFocusedObject();
-                new CommandForm(1, "Form", acc, accountList).show();
-            }
+            new AccountRemoveForm((Account)getFocusedObject()).show();
         }
         if (c == cmdDel) {
             if (midlet.BombusQD.sd.roster != null) {

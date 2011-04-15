@@ -619,7 +619,7 @@ public class SR {
      public final static short MS_MAX_AVATAR_WIDTH = 586; //Max Avatar Width
      public final static short MS_MAX_AVATAR_HEIGHT = 587; //Max Avatar Height
      public final static short MS_CLIENT_ICONS_LEFT = 588; //ClientIcons Left
-     public final static short MS_RESTART_APP = 589; //After Restart App
+     //public final static short MS_RESTART_APP = 589; //After Restart App
      //public final static short MS_LOAD_SJIN = 590; //Load skin.png from File
      //public final static short MS_SET_DEF_SKIN = 591; //Set Default skin.png
      //public final static short MS_SKIN_SUPPORT_ERROR = 592; //Error!Only 16x16 size support!
@@ -1382,7 +1382,7 @@ public class SR {
         "Max Avatar Width",
         "Max Avatar Height",
         "ClientIcons Left",
-        "After Restart App",
+        null,
         null,
         null,
         null,

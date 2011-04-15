@@ -29,7 +29,9 @@
 package client;
 
 import account.Account;
+import account.AccountRemoveForm;
 import account.AccountSelect;
+import account.ChangePasswordForm;
 import alert.AlertCustomize;
 import alert.AlertProfile;
 import client.roster.ContactList;
@@ -141,6 +143,7 @@ import xmpp.extensions.JuickModule;
 //#endif
 import colors.ColorTheme;
 //#ifdef HISTORY
+import disco.ServerStatsForm;
 import history.HistoryViewer;
 //#endif
 import ui.controls.form.MultiLine;
@@ -222,10 +225,6 @@ public class Roster
     private static MessageEdit messageEdit;
     private static MessageEdit altmessageEdit;
 
-//#ifdef PEP
-    public static SelectPEP selectPEP = null;
-//#endif
-
     public final void showActiveContacts(Contact current){
         ActiveContacts form = new ActiveContacts(current);
         form.setParentView(this);
@@ -304,12 +303,6 @@ public class Roster
         updateMainBar();
 
         setCommandListener(this);
-
-        //message.MessageParser.restart();
-
-//#ifdef PEP
-        if(selectPEP == null) selectPEP = new SelectPEP();
-//#endif
 
 //#ifdef AUTOSTATUS
         if (midlet.BombusQD.cf.autoAwayType==Config.AWAY_IDLE || midlet.BombusQD.cf.autoAwayType==Config.AWAY_MESSAGE)
@@ -591,7 +584,7 @@ public class Roster
 //#ifndef WMUC
     public void cmdConference() {
         if (isLoggedIn()) {
-            new Bookmarks(null).show();
+            new Bookmarks().show();
         }
     }
 //#endif
@@ -1479,7 +1472,7 @@ public class Roster
 
 //#ifdef CLASSIC_CHAT
 //#            if(body!=null){
-//# 
+//#
 //#                if(midlet.BombusQD.cf.module_classicchat){
 //#                  if(!groupchat) {
 //#                  //forfix
@@ -1991,9 +1984,9 @@ public class Roster
                         JabberDataBlock reg=data.findNamespace("query","jabber:iq:register");
                         JabberDataBlock remove=reg.getChildBlock("remove");
                         if(remove!=null){
-                          new CommandForm(4,SR.get(SR.MS_ACCOUNT_DELETED),from,null).show();
+                            new AccountRemoveForm(from).show();
+                            return JabberBlockListener.BLOCK_PROCESSED;
                         }
-                       redraw();
                     }
 
                     if (id.startsWith("getnotes")) {
@@ -2016,18 +2009,22 @@ public class Roster
                                 }
                             }
                         }
+                        return JabberBlockListener.BLOCK_PROCESSED;
                     }
 
                     if(id.equals("changemypass")) {
                          JabberDataBlock reg=data.findNamespace("query","jabber:iq:register");
-                         redraw();
-                         new CommandForm(3,SR.get(SR.MS_CHANGE_PASSWORD),"", reg.getChildBlockText("password")).show();
+                         ChangePasswordForm form = new ChangePasswordForm(reg.getChildBlockText("password"));
+                         form.setParentView(this);
+                         form.show();
+                         return JabberBlockListener.BLOCK_PROCESSED;
                     }
 
 //#ifdef POPUPS
                     if(id.equals("destroyroom"))   {
                          setWobble(1,null,from + " deleted!");
                          redraw();
+                         return JabberBlockListener.BLOCK_PROCESSED;
                     }
 //#endif
 
@@ -2049,28 +2046,26 @@ public class Roster
                            query=null;
                            qry=null;
                            req=null;
+                           return JabberBlockListener.BLOCK_PROCESSED;
                     }
 
 
                     if (id.startsWith("statistic")) {
-                        JabberDataBlock get_query = data.findNamespace("query", "http://jabber.org/protocol/stats");
-                        String server_name = data.getAttribute("from");
-                        int size = get_query.getChildBlocks().size();
-                        CommandForm cmd = new CommandForm(5, "", null, null);
-
-                        JabberDataBlock value;
-                        try {
-                            for (int i = 0; i < size; i++) {
-                                value = (JabberDataBlock)get_query.getChildBlocks().elementAt(i);
-                                MultiLine line = new MultiLine(value.getAttribute("name"), value.getAttribute("value"), cmd.getWidth());
-                                line.setSelectable(true);
-                                cmd.addControl(line);
+                        JabberDataBlock query = data.findNamespace("query", "http://jabber.org/protocol/stats");
+                        if (query != null) {
+                            Vector stats = new Vector();
+                            Vector children = query.getChildBlocks();
+                            if (children != null) {
+                                for (int i = 0; i < children.size(); ++i) {
+                                    JabberDataBlock block = (JabberDataBlock)children.elementAt(i);
+                                    stats.addElement(new String[]{block.getAttribute("name"), block.getAttribute("value")});
+                                }
+                                new ServerStatsForm(from, stats).show();
+                                children = null;
                             }
-                        } catch (Exception e) {
+                            query = null;
+                            return JabberBlockListener.BLOCK_PROCESSED;
                         }
-                        cmd.addObject(server_name, 0, 0);
-                        cmd.show();
-                        get_query = null;
                     }
 
 
@@ -2314,7 +2309,7 @@ public class Roster
                 if (m.body.indexOf(SR.get(SR.MS_IS_INVITING_YOU))>-1) m.dateGmt=0;
                 if (groupchat) {
                     ConferenceGroup mucGrp=(ConferenceGroup)c.group;
-                    if (mucGrp.selfContact.getJid().equals(from)) {
+                    if (mucGrp.selfContact.getJid().equals(message.getFrom())) {
                         m.messageType=Msg.MESSAGE_TYPE_OUT;
                         m.unread=false;
                         m.highlite = false;
@@ -3510,7 +3505,7 @@ public class Roster
         }
 //#ifndef WMUC
         else if (keyCode==KEY_NUM1 && isLoggedIn()) {
-            new Bookmarks(null).show();
+            new Bookmarks().show();
         }
 //#endif
 

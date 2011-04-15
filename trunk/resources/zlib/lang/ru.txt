@@ -531,7 +531,6 @@ Background Gradient	Градиент-фон
 Max Avatar Width	Макс.ширина аватара
 Max Avatar Height	Макс.высота аватара
 ClientIcons Left	Иконки клиентов слева
-After Restart App	Нужен перезапуск
 Classic Chat	Классический чат
 Auto Scrolling	Автоскролл
 Background Phone theme	Тема телефона на фон

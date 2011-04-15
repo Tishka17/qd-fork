@@ -83,20 +83,16 @@ public final class Bookmarks extends VirtualList
     private Command cmdDel;
     private Command cmdMyService;
 
-
-    private BookmarkItem toAdd;
+    public Bookmarks() {
+        this(null);
+    }
 
     public Bookmarks(BookmarkItem toAdd) {
         super ();
-        if (getItemCount()==0 && toAdd==null) {
-            new ConferenceForm().show();
-            return;
+
+        if (toAdd!=null) {
+            addBookmark(toAdd);
         }
-
-        this.toAdd=toAdd;
-
-        if (toAdd!=null)
-            addBookmark();
 
         setMainBarItem(new MainBar(2, null, SR.get(SR.MS_BOOKMARKS)+" ("+getItemCount()+") ", false));//for title updating after "add bookmark"
 
@@ -206,12 +202,10 @@ public final class Bookmarks extends VirtualList
         return (VirtualElement) midlet.BombusQD.sd.roster.bookmarks.elementAt(index);
     }
 
-    private void addBookmark() {
-        if (toAdd != null) {
-            Vector bm=midlet.BombusQD.sd.roster.bookmarks;
-            bm.addElement(toAdd);
-            saveBookmarks();
-        }
+    private void addBookmark(BookmarkItem bmark) {
+        Vector bm=midlet.BombusQD.sd.roster.bookmarks;
+        bm.addElement(bmark);
+        saveBookmarks();
     }
 
     public void eventOk(){

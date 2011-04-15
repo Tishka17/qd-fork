@@ -47,8 +47,6 @@ public class FontConfigForm extends DefForm {
     public FontConfigForm() {
         super(SR.get(SR.MS_FONTS_OPTIONS));
 
-        addControl(new SimpleString("(!) " + SR.get(SR.MS_RESTART_APP), true));
-
         rosterFont = new DropChoiceBox(SR.get(SR.MS_ROSTER_FONT));
         rosterFont.append(SR.get(SR.MS_FONTSIZE_NORMAL));
         rosterFont.append(SR.get(SR.MS_FONTSIZE_SMALL));
@@ -84,7 +82,7 @@ public class FontConfigForm extends DefForm {
         menuFont.setSelectedIndex(Config.menuFont / 8);
         addControl(menuFont);
         
-        useItalic = new CheckBox(SR.get(SR.MS_Italic), Config.useItalic);
+        useItalic = new CheckBox('*' + SR.get(SR.MS_Italic), Config.useItalic);
         addControl(useItalic);
 
         // first control is unselectable

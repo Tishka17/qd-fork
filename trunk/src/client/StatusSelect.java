@@ -108,7 +108,7 @@ public class StatusSelect extends VirtualList implements MenuListener {
        ExtendedStatus ex = (ExtendedStatus)getFocusedObject();
 //#ifdef PEP
        if(-1 != ex.getName().indexOf("pep")) {
-          BombusQD.sd.roster.selectPEP.show(ex.usermood);
+          new SelectPEP().show(ex.usermood);
           return true;
        }
 //#endif

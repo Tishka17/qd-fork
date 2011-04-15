@@ -69,8 +69,6 @@ public class UserKeyExec {
 	return instance;
     }
 
-    private Display display;
-
     public Vector commandsList;
 
     private void initCommands() {
@@ -160,22 +158,12 @@ public class UserKeyExec {
             case 10: //key pound
                 new UserKeysList().show();
                 break;
-            case 11:
 //#ifdef POPUPS
-                sd.roster.cmdClearPopups();
-//#endif
-                break;
-                /*
-            case 12:
-                cf.lightState=!cf.lightState;
-                sd.roster.setLight(cf.lightState);
-                cf.saveToStorage();
-                break;
+            case 11:
+                VirtualList.getPopUp().clear();;
 
-            case 13:
-                sd.roster.cmdInfo();
                 break;
-                 */
+//#endif
             case 14:
                 if (cf.allowMinimize)
                     BombusQD.getInstance().hideApp(true, null);

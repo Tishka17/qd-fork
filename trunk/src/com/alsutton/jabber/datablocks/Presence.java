@@ -231,7 +231,7 @@ public class Presence extends JabberDataBlock {
             if (cc.isJabberNameSpace("http://jabber.org/protocol/caps")) {
                 String attr = cc.getAttribute("ver");
                 if(attr == null) return null;
-                return (attr.endsWith("=")? null : cc.getAttribute("ver") );
+                return (attr.endsWith("=")? null : attr);
             }
         }
         return null;

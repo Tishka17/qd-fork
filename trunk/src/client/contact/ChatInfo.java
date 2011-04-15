@@ -145,7 +145,7 @@ public final class ChatInfo {
         }
         newMsgCnt = 0;
         newHighLitedMsgCnt = 0;
-        midlet.BombusQD.sd.roster.countMsgs();
+        midlet.BombusQD.sd.roster.countNewMsgs();
     }
 
     public void readMessage(Msg msg) {

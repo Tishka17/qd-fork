@@ -32,7 +32,7 @@ import ui.controls.form.DefForm;
 import javax.microedition.lcdui.TextField;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.Iq;
-import mood.UserActivityResult;
+import mood.ActivityPublishResult;
 import ui.controls.form.SimpleString;
 
 public class ActivityText extends DefForm {
@@ -120,7 +120,7 @@ public class ActivityText extends DefForm {
             }
          }
          try {
-            midlet.BombusQD.sd.roster.theStream.addBlockListener(new UserActivityResult(sid));             
+            midlet.BombusQD.sd.roster.theStream.addBlockListener(new ActivityPublishResult(sid));
             midlet.BombusQD.sd.roster.theStream.send(setActivity);
             midlet.BombusQD.cf.saveToStorage();
             setActivity=null;

@@ -17,7 +17,6 @@ import javax.microedition.lcdui.Font;
 import ui.Time;
 import xmpp.XmppError;
 import font.*;
-import com.ssttr.crypto.SHA1;
 import java.util.Random;
 //#ifdef CLASSIC_CHAT
 //# import client.ClassicChat;
@@ -120,40 +119,6 @@ public class StringUtils {
     	}
     	return aSearch;
     }
-
-    public static String calcHash() {
-        SHA1 sha1=new SHA1();
-        sha1.init();
-        sha1.update(generate());
-        sha1.finish();
-        return sha1.getDigestBase64();
-    }
-
-
-   public static String generate() {
-    StringBuffer sb = new StringBuffer();
-      Random rand = new Random();
-      int i=0;
-      char[] chars = {
-          'q','w','e','r','t','y','u','i','o','p',
-          'a','s','d','f','g','h','j','k','l','z',
-          'x','c','v','b','n','m','Q','W','E','R',
-          'T','Y','U','I','O','P','A','S','D','F',
-          'G','H','J','K','L','Z','X','C','V','B',
-          'N','M','0','1','2','3','4','5','6','7',
-          '8','9'}; //62
-      char[] pass = {'*','*','*','*','*','*','*','*'};
-      for (int k = 0; k<pass.length; k++) {
-         i = Math.abs(rand.nextInt()) % 62;
-         pass[k]=chars[i];
-      }
-      sb.append(pass);
-   return sb.toString();
-  }
-
-
-  //static FontClass MFont = FontClass.getInstance();
-  //static Font f = Font.getFont(Font.FACE_PROPORTIONAL,Font.STYLE_PLAIN,Font.SIZE_SMALL);
 
   public static Font getFont() {
         return FontCache.getFont(false, Config.msgFont);

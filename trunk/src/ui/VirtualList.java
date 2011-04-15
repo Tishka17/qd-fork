@@ -197,7 +197,6 @@ public abstract class VirtualList extends CanvasEx {
 //#ifdef MEMORY_MONITOR
 //#     public static boolean memMonitor;
 //#endif
-    public static boolean showTimeTraffic = true;
 
     protected boolean canBack=true;
 
@@ -605,7 +604,10 @@ public abstract class VirtualList extends CanvasEx {
             }
             el = null;
         } catch (Exception e) {
-          //System.out.println("Exception Vlist 1 -> "+e.getMessage()+" -> "+e.toString());
+//#ifdef DEBUG
+//#             System.out.println("Exception Vlist 1 -> "+e.getMessage()+" -> "+e.toString());
+//#             e.printStackTrace();
+//#endif
         }
         int clrH=height-displayedBottom;
 
@@ -659,20 +661,10 @@ public abstract class VirtualList extends CanvasEx {
             if (reverse) {
                 if (mainbar!=null) {
                     drawMainPanel(g,height-mHeight);
-/*//#ifdef MENU_LISTENER
-                    if (midlet.BombusQD.cf.isTouchPhone)
-                        ar.init(width, height, mHeight);
-///#endif
- */
                 }
             } else {
                 if (infobar!=null) {
                     drawInfoPanel(g,height-iHeight);
-/*//#ifdef MENU_LISTENER
-                    if (midlet.BombusQD.cf.isTouchPhone)
-                        ar.init(width, height, iHeight);
-///#endif
- */
                 }
             }
             setAbsClip(g, width, height);
@@ -767,13 +759,13 @@ public abstract class VirtualList extends CanvasEx {
 
     private static int getARGB() {
       int ccolor = ColorTheme.getColor(ColorTheme.CURSOR_BGND);
-      int red, green, blue,alpha;
+      int red, green, blue;
       long tmp;
-      int alpha_ = midlet.BombusQD.cf.cursor_bgnd;
+      int alpha = midlet.BombusQD.cf.cursor_bgnd;
       red = ColorTheme.getRed(ccolor);
       green = ColorTheme.getGreen(ccolor);
       blue = ColorTheme.getBlue(ccolor);
-      tmp = (alpha_ << 24) | (red << 16) | (green << 8) | blue;
+      tmp = (alpha << 24) | (red << 16) | (green << 8) | blue;
       return (int)tmp;
     }
 

@@ -50,18 +50,16 @@ import javax.microedition.rms.RecordStoreException;
 public class HistoryStorage {
     public static final String STORAGE_PREFIX = "hist_";
 
-    public HistoryStorage() { }
+    private HistoryStorage() {}
 
-    private static ContactMessageList messageList = null;
-
-    public static void addText(Contact c, Msg message, ContactMessageList msgList)
-    {
-        if (midlet.BombusQD.cf.module_history==false) return;
-        messageList = msgList;
+    public static void addText(Contact c, Msg message) {
+        if (!Config.module_history) {
+            return;
+        }
 
         switch(Config.historyTypeIndex) {
             case Config.HISTORY_RMS:
-                addRMSrecord(c, message, messageList.getRecordStore() );
+                addRMSrecord(c, message);
                 break;
 //#ifdef FILE_IO
             case Config.HISTORY_FS:
@@ -87,9 +85,8 @@ public class HistoryStorage {
             case Msg.MESSAGE_TYPE_SUBJ:
                 if (m.subject != null) {
                     buf.append('*').append(m.subject).append("\r\n");
-                    break;
                 }
-            // incoming
+                break;
             default:
                 buf.append("<-");
                 break;
@@ -134,12 +131,11 @@ public class HistoryStorage {
     private static ByteArrayOutputStream baos = null;
     private static DataOutputStream das = null;
 
-    synchronized private static void addRMSrecord(Contact c, Msg message, RecordStore recordStore) {
+    synchronized private static void addRMSrecord(Contact c, Msg message) {
+        RecordStore recordStore = null;
         try {
-              if(null == recordStore) {
-                String rName = getRSName(c.bareJid);
-                recordStore = RecordStore.openRecordStore(rName, true);
-              }
+              String rName = getRSName(c.bareJid);
+              recordStore = RecordStore.openRecordStore(rName, true);
               baos = new ByteArrayOutputStream();
               das = new DataOutputStream(baos);
 
@@ -153,11 +149,15 @@ public class HistoryStorage {
             recordStore.addRecord(textData, 0, textData.length);
 
          } catch (Exception ex) {
-                 //ex.printStackTrace();
+//#ifdef DEBUG
+//#             ex.printStackTrace();
+//#endif
          } finally {
                 try {
-                    recordStore.closeRecordStore();
-                    recordStore = null;
+                    if (recordStore != null) {
+                        recordStore.closeRecordStore();
+                        recordStore = null;
+                    }
                 } catch (RecordStoreException e ) {
 
                 }

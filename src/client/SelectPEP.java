@@ -25,12 +25,9 @@
  *
  */
 
-//TODO переписать!
-
 //#ifdef PEP
 package client;
-import ui.input.InputTextBoxNotify;
-import ui.input.InputTextBox;
+
 import images.ImageList;
 import font.FontCache;
 import images.MoodIcons;
@@ -41,24 +38,14 @@ import colors.ColorTheme;
 import ui.*;
 import java.util.Vector;
 import ui.controls.Balloon;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
-import menu.MenuListener;
-import menu.Command;
-//#endif
 import javax.microedition.lcdui.TextField;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Graphics;
-//#ifdef GRAPHICS_MENU        
-import ui.GMenu;
-//#endif   
 import mood.Moods;
 import mood.MoodPublishResult;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.Iq;
 import locale.Activity;
+import ui.controls.form.DefForm;
 import ui.input.InputTextBox;
 import ui.input.InputTextBoxNotify;
 
@@ -67,9 +54,7 @@ import ui.input.InputTextBoxNotify;
  * @author evgs,aqent
  */
 
-public final class SelectPEP extends VirtualList implements  
-        MenuListener, VirtualElement, InputTextBoxNotify
-{
+public final class SelectPEP extends DefForm implements VirtualElement, InputTextBoxNotify {
 
     private final static byte CURSOR_HOFFSET=1;
     private final static byte CURSOR_VOFFSET=1;
@@ -85,12 +70,6 @@ public final class SelectPEP extends VirtualList implements
     private ImageList il;
     private int realWidth=0;
     private int xBorder = 0;
-    
-    
-    Command cmdCancel;
-    Command cmdOk;
-
-    private static int lastCursorPos = 0;
     
     final static Activity ac = new Activity();
     final static String[] activity = {
@@ -135,14 +114,7 @@ public final class SelectPEP extends VirtualList implements
     private static Vector pep;
     private boolean isMood;
     
-    public void show(boolean isMood) {
-        
-        mainbar = new MainBar(locale.SR.get(SR.MS_SELECT));
-        setMainBarItem(mainbar);
-        
-        cmdCancel=new Command(SR.get(SR.MS_CANCEL),Command.BACK,99);
-        cmdOk=new Command(SR.get(SR.MS_SELECT),Command.OK,1);
-        
+    public void show(boolean isMood) {       
         this.isMood = isMood;
         if(isMood) {
           il = MoodIcons.getInstance();
@@ -181,21 +153,10 @@ public final class SelectPEP extends VirtualList implements
         xBorder=(realWidth-(xCnt*imgWidth))/2;
         super.show();
      }
-    
-    private MainBar mainbar;
+
     public SelectPEP() {
-         mainbar = new MainBar(locale.SR.get(SR.MS_SELECT));
-         setMainBarItem(mainbar);
+        super(locale.SR.get(SR.MS_SELECT));
     }
-    
-    public void commandState() {
-//#ifdef MENU_LISTENER
-        menuCommands.removeAllElements();
-//#endif
-        addCommand(cmdOk); cmdOk.setImg(0x43);
-        setCommandListener(this);
-    }
-    
 
     public int getItemCount(){ return lines; }
     public VirtualElement getItemRef(int index){ lineIndex=index; return this;}
@@ -386,13 +347,9 @@ public final class SelectPEP extends VirtualList implements
         if (cursor!=lines-1) return;
         if (xCursor >= xLastCnt) xCursor=xLastCnt-1;
     }
-    
-    public void commandAction(Command c, Displayable d){
-        if (c==cmdCancel) {
-            destroyView();
-            return;
-        }
-        if (c==cmdOk) eventOk();
+
+    public void cmdOk() {
+        select();
     }
 
     public void moveCursorEnd() {
@@ -439,26 +396,13 @@ public final class SelectPEP extends VirtualList implements
     public boolean isSelectable() { 
         return true;
     }
+
     public boolean handleEvent(int keyCode) {
         return false;
     }
-    
-//#ifdef MENU_LISTENER
-    
-//#ifdef GRAPHICS_MENU        
-    public int showGraphicsMenu() {
-        commandState();
-        menuItem = new GMenu(this, null, menuCommands);        
-        GMenuConfig.getInstance().itemGrMenu=555;
-        return 555;
-    }
-//#else
-//#     public void showMenu(){ eventOk(); } 
-//#endif     
 
-     
-    public String touchLeftCommand(){ return SR.get(SR.MS_SELECT); }
-    public String touchRightCommand(){ return SR.get(SR.MS_BACK); }
-//#endif
+    public String touchLeftCommand() {
+        return SR.get(SR.MS_SELECT);
+    }
 }
 //#endif

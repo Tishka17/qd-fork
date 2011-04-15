@@ -35,6 +35,7 @@ import com.alsutton.jabber.datablocks.Iq;
 import com.alsutton.jabber.datablocks.Message;
 import com.alsutton.jabber.datablocks.Presence;
 import conference.ConferenceGroup;
+import conference.ConferenceRemoveForm;
 import conference.InviteForm;
 import conference.MucContact;
 import conference.QueryConfigForm;
@@ -685,21 +686,21 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                         showForm(new AffiliationList(roomjid, AffiliationItem.AFFILIATION_OWNER));
                         return;
                     case MI_LEAVE:
-                        ((ConferenceGroup) group).leaveRoom();
+                        cgroup.leaveRoom();
                         break;
                     case MI_LEAVE_ALL:
                         BombusQD.sd.roster.leaveAllMUCs();
                         break;
                     case MI_CHANGE_NICK:
                     case MI_REJOIN:
-                        ((ConferenceGroup) group).reEnterRoom();
+                        cgroup.reEnterRoom();
                         return;
                     case MI_SEND_PRESENCE: {
                         showForm(new StatusSelect(((ConferenceGroup) group).confContact));
                         return;
                     }
                     case MI_DELETE:
-                        showForm(new CommandForm(0, "Form", item, null));
+                        showForm(new ConferenceRemoveForm(roomjid));
                         return;
                 }
             } else {

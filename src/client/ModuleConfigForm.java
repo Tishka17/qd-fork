@@ -320,7 +320,7 @@ public class ModuleConfigForm extends DefForm {
 //#endif
             }
 
-            swapSendAndSuspend = new CheckBox(SR.get(SR.MS_SWAP_SEND_SUSPEND), Config.swapSendAndSuspend);
+            swapSendAndSuspend = new CheckBox('*' + SR.get(SR.MS_SWAP_SEND_SUSPEND), Config.swapSendAndSuspend);
             addControl(swapSendAndSuspend);
         } else if (type.equals(SR.get(SR.MS_netStr))) {
             if (config.userAppLevel == 1) {
@@ -408,7 +408,7 @@ public class ModuleConfigForm extends DefForm {
 
 //#ifdef BACK_IMAGE
             addControl(new SpacerItem(3));
-            backImgType = new DropChoiceBox("*"+SR.get(SR.MS_TYPE_BACKGROUND));
+            backImgType = new DropChoiceBox(SR.get(SR.MS_TYPE_BACKGROUND));
             backImgType.append(SR.get(SR.MS_BGND_NONE));
             backImgType.append(SR.get(SR.MS_BGND_IMAGE));
             backImgType.append(SR.get(SR.MS_BGND_GRADIENT));
@@ -504,7 +504,7 @@ public class ModuleConfigForm extends DefForm {
             if (langs[0].size() > 1) {
                addControl(new SpacerItem(10));
 
-               langFiles = new DropChoiceBox("*" + SR.get(SR.MS_LANGUAGE));
+               langFiles = new DropChoiceBox(SR.get(SR.MS_LANGUAGE));
                String tempLang = config.lang;
                // not detected
                if (tempLang == null) {
@@ -729,7 +729,9 @@ public class ModuleConfigForm extends DefForm {
             if (langs[0].size() > 1) {
                 String lang = (String)langs[0].elementAt(langFiles.getSelectedIndex());
                 if (!config.lang.equals(lang)) {
-                    config.lang= lang;
+                    config.lang = lang;
+                    config.saveUTF();
+
                     SR.changeLocale();
                     Commands.initCommands();
                     BombusQD.sd.roster.initCommands();

@@ -531,7 +531,6 @@ Background Gradient	Градиент-фон
 Max Avatar Width	Макс.ширина аватара
 Max Avatar Height	Макс.высота аватара
 ClientIcons Left	Иконки клиентов слева
-After Restart App	Нужен перезапуск
 Classic Chat	Классический чат
 Auto Scrolling	Автоскролл
 Background Phone theme	Тема телефона на фон
@@ -579,7 +578,6 @@ Debug Menu	Консоль отладки
 Please,edit this account to save new password!	Откройте форму редактирования аккаунта для сохранения пароля!
 Account deleted!	Аккаунт удален!
 Insert New Password	Вставить пароль из буфера
-Highlite Out Messages	Подсвечивать исходящие сообщения
 Contact is now offline.Continue?	Возможно контакт отключен.Продолжить?
 clipboard NOT sended	Ошибка отправки
 Collapse presences	Сворачивать статусные сообщения

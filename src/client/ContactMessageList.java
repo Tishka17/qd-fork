@@ -246,7 +246,7 @@ public final class ContactMessageList extends VirtualList implements MenuListene
 
 
     private void forceScrolling() { //by voffk
-        if (Config.autoScroll) {
+        if (Config.autoScroll && isShown()) {
             if (cursor >= (messages.size() - 2)) {
                 moveCursorEnd();
             }

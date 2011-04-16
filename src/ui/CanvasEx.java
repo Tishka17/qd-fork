@@ -68,6 +68,10 @@ public abstract class CanvasEx extends Canvas {
         parentView = d;
     }
 
+    public boolean isShown() {
+        return BombusQD.sd.canvas.getCanvas() == this;
+    }
+
     public void redraw() {
         BombusQD.sd.canvas.repaint();
     }

@@ -113,7 +113,6 @@ public class Configs {
         writeBoolean(data, "showTimeTraffic", config.showTimeTraffic);
         writeBoolean(data, "hideMessageIcon", config.hideMessageIcon);
         writeBoolean(data, "auto_queryPhoto", config.auto_queryPhoto);
-        writeBoolean(data, "savePos", config.savePos);
         writeBoolean(data, "iconsLeft", config.iconsLeft);
         writeBoolean(data, "usePhoneTheme", config.usePhoneTheme);
         writeBoolean(data, "gradient_cursor", config.gradient_cursor);
@@ -304,7 +303,6 @@ public class Configs {
             config.showTimeTraffic = readBoolean(data, "showTimeTraffic", config.showTimeTraffic);
             config.hideMessageIcon = readBoolean(data, "hideMessageIcon", config.hideMessageIcon);
             config.auto_queryPhoto = readBoolean(data, "auto_queryPhoto", config.auto_queryPhoto);
-            config.savePos = readBoolean(data, "savePos", config.savePos);
             config.iconsLeft = readBoolean(data, "iconsLeft", config.iconsLeft);
             config.usePhoneTheme = readBoolean(data, "usePhoneTheme", config.usePhoneTheme);
             config.gradient_cursor = readBoolean(data, "gradient_cursor", config.gradient_cursor);

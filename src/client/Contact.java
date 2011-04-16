@@ -147,12 +147,6 @@ public class Contact extends IconTextElement {
 //#ifdef FILE_TRANSFER
         fileQuery=false;
 //#endif
-        if (0 < getChatInfo().getMessageCount()) {
-            if(midlet.BombusQD.cf.savePos)
-                getML().moveCursorTo(getCursor());
-            else
-                getML().moveCursorEnd();
-        }
         chatInfo.opened = true;//chat open flag
         getML().updateMainBar(this);
         return getML();
@@ -192,7 +186,6 @@ public class Contact extends IconTextElement {
     private int fontHeight;
 
     int maxImgHeight;
-    int cursorPos;
 
     protected Contact (){
         super(RosterIcons.getInstance());
@@ -239,10 +232,6 @@ public class Contact extends IconTextElement {
     }
 //#endif
 
-    public int getCursor() {
-       return cursorPos;
-    }
-
     public int getMainColor() {
         switch (status) {
             case Presence.PRESENCE_CHAT: return ColorTheme.getColor(ColorTheme.CONTACT_CHAT);
@@ -251,10 +240,6 @@ public class Contact extends IconTextElement {
             case Presence.PRESENCE_DND: return ColorTheme.getColor(ColorTheme.CONTACT_DND);
         }
         return ColorTheme.getColor(ColorTheme.CONTACT_DEFAULT);
-    }
-
-    public void setCursor(int cursorPos) {
-       this.cursorPos = cursorPos;
     }
 
     public final int getNewMsgsCount() {

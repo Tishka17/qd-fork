@@ -242,8 +242,6 @@ public class Config {
     public static String backImgPath = "";
 //#endif
 
-    public boolean savePos=true;
-
     public int scrollWidth = 5;
     public int minItemHeight = rosterFont * 3;
     public static int contactXOffset = 10;
@@ -573,8 +571,7 @@ public class Config {
             // free
             inputStream.readBoolean();
             inputStream.readBoolean();
-
-            savePos = inputStream.readBoolean();
+            inputStream.readBoolean();
 
             // free
             inputStream.readBoolean();
@@ -838,8 +835,7 @@ public class Config {
             // free
             outputStream.writeBoolean(false);
             outputStream.writeBoolean(false);
-
-            outputStream.writeBoolean(savePos);
+            outputStream.writeBoolean(false);
 
             // free
             outputStream.writeBoolean(false);

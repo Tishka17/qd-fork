@@ -77,7 +77,6 @@ public class ModuleConfigForm extends DefForm {
     private CheckBox showCollapsedPresences;
     private CheckBox showNickNames;
     private CheckBox showTimeInMsgs;
-    private CheckBox savePos;
     private CheckBox autoScroll;
     private CheckBox capsState;
     private CheckBox useTabs;
@@ -283,9 +282,6 @@ public class ModuleConfigForm extends DefForm {
 //#             addControl(autoDetranslit);
 //#endif
             if(config.userAppLevel == 1) {
-                savePos = new CheckBox(SR.get(SR.MS_SAVE_CURSOR), config.savePos);
-                addControl(savePos);
-
                 autoScroll = new CheckBox(SR.get(SR.MS_AUTOSCROLL), Config.autoScroll);
                 addControl(autoScroll);
 
@@ -612,7 +608,6 @@ public class ModuleConfigForm extends DefForm {
             if(config.userAppLevel == 1) {
                 Config.showTimeInMsgs = showTimeInMsgs.getValue();
                 Config.showNickNames = showNickNames.getValue();
-                config.savePos = savePos.getValue();
                 Config.autoScroll = autoScroll.getValue();
             }
 

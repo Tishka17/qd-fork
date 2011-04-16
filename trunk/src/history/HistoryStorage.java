@@ -41,7 +41,6 @@ import java.io.OutputStream;
 //# import util.DeTranslit;
 //#endif
 import util.StringUtils;
-import client.ContactMessageList;
 import javax.microedition.rms.RecordStoreException;
 /**
  *

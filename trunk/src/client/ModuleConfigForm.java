@@ -553,7 +553,6 @@ public class ModuleConfigForm extends DefForm {
 //#             itemsList.addElement(new SpacerItem(10));
 //#endif
         }
-        setCommandListener(this);
     }
 
     public void cmdOk() {

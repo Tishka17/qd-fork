@@ -110,7 +110,7 @@ public class AutoTaskForm extends DefForm {
     }
     
     protected void beginPaint(){
-        if(typeIndex!=taskType.getSelectedIndex()); {
+        if(typeIndex!=taskType.getSelectedIndex()) {
             typeIndex=taskType.getSelectedIndex();       
             update();
         }

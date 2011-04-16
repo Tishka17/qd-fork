@@ -28,12 +28,16 @@
 
 package account;
 
-import com.alsutton.jabber.*;
-import com.alsutton.jabber.datablocks.*;
-import javax.microedition.lcdui.*;
+import com.alsutton.jabber.JabberBlockListener;
+import com.alsutton.jabber.JabberDataBlock;
+import com.alsutton.jabber.JabberListener;
+import com.alsutton.jabber.JabberStream;
+import com.alsutton.jabber.datablocks.Iq;
+import javax.microedition.lcdui.Command;
+import javax.microedition.lcdui.CommandListener;
+import javax.microedition.lcdui.Displayable;
 import locale.SR;
-import midlet.BombusQD;
-import ui.*;
+import ui.SplashScreen;
 import xmpp.XmppError;
 
 public class AccountRegister

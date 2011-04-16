@@ -38,7 +38,7 @@ import com.alsutton.jabber.datablocks.Iq;
 import conference.ConferenceGroup;
 import conference.MucContact;
 import java.util.Enumeration;
-import ui.Time;
+import util.Time;
 
 /**
  *

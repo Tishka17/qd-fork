@@ -39,7 +39,7 @@ import javax.microedition.lcdui.Graphics;
 import colors.ColorTheme;
 import ui.ComplexString;
 import font.FontCache;
-import ui.Time;
+import util.Time;
 import ui.VirtualElement;
 import ui.VirtualList;
 

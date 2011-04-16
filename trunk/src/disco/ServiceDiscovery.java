@@ -83,8 +83,6 @@ public class ServiceDiscovery
     private Command cmdRfsh;
     private Command cmdFeatures;
     private Command cmdSrv;
-    private Command cmdBack;
-    private Command cmdCancel;
     private Command cmdShowStatistics;
 
     private Vector items;
@@ -110,8 +108,6 @@ public class ServiceDiscovery
         cmdRfsh=new Command(SR.get(SR.MS_REFRESH), Command.SCREEN, 2);
         cmdFeatures=new Command(SR.get(SR.MS_FEATURES), Command.SCREEN, 3);
         cmdSrv=new Command(SR.get(SR.MS_ADD_SERVER), Command.SCREEN, 10);
-        cmdBack=new Command(SR.get(SR.MS_BACK), Command.BACK, 98);
-        cmdCancel=new Command(SR.get(SR.MS_CANCEL), Command.EXIT, 99);
         cmdShowStatistics=new Command(SR.get(SR.MS_STATICSTICS), Command.SCREEN, 4);
 
         setMainBarItem(new MainBar(3, null, null, false));
@@ -496,7 +492,6 @@ public class ServiceDiscovery
 
     public void commandAction(Command c, Displayable d){
 	if (c==cmdOk) eventOk();
-        if (c==cmdBack) { exitDiscovery(false); }
         if (c==cmdRfsh) { if (service!=null) requestQuery(NS_INFO, "disco"); }
         if (c == cmdSrv) {
             new ServerBox(service, serviceDisco).show();
@@ -504,7 +499,6 @@ public class ServiceDiscovery
         if (c == cmdFeatures) {
             new DiscoFeatures(service, features).show();
         }
-        if (c==cmdCancel) exitDiscovery(true);
         if (c==cmdShowStatistics) {
             Object o=getFocusedObject();
             JabberDataBlock req=new Iq(o.toString(), Iq.TYPE_GET,"getst");

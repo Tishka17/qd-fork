@@ -38,7 +38,9 @@ import conference.ConferenceGroup;
 import conference.ConferenceRemoveForm;
 import conference.InviteForm;
 import conference.MucContact;
+//#ifdef SERVICE_DISCOVERY
 import conference.QueryConfigForm;
+//#endif
 import conference.affiliation.AffiliationItem;
 import conference.affiliation.AffiliationList;
 import conference.affiliation.QuickPrivelegyEditForm;
@@ -331,7 +333,9 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                     addItem(SR.get(SR.MS_DIRECT_PRESENCE), MI_SEND_PRESENCE, ActionsIcons.ICON_SET_STATUS);
                     addItem(SR.get(SR.MS_CHANGE_NICKNAME), MI_CHANGE_NICK, ActionsIcons.ICON_CHANGE_NICK);
                     if (self.affiliationCode == MucContact.AFFILIATION_OWNER) {
+//#ifdef SERVICE_DISCOVERY
                         addItem(SR.get(SR.MS_CONFIG_ROOM), MI_CONFIG, ActionsIcons.ICON_CONFIGURE);
+//#endif
                         addItem(SR.get(SR.MS_DESTROY_ROOM), MI_DELETE, ActionsIcons.ICON_DESTROY);
                     }
                     if (self.affiliationCode >= MucContact.AFFILIATION_ADMIN) {
@@ -670,9 +674,11 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                 String roomjid = cgroup.confContact.getJid();
 
                 switch (mItem.index) {
-                    case MI_CONFIG: // room config
+//#ifdef SERVICE_DISCOVERY
+                    case MI_CONFIG:
                         new QueryConfigForm(roomjid);
                         return;
+//#endif
                     case MI_BANLIST:
                         showForm(new AffiliationList(roomjid, AffiliationItem.AFFILIATION_OUTCAST));
                         return;

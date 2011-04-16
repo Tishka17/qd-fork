@@ -34,38 +34,16 @@ import message.MessageParser;
 import images.SmilesIcons;
 import locale.SR;
 import colors.ColorTheme;
-import ui.*;
 import java.util.Vector;
 import ui.controls.Balloon;
-
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
-import menu.MenuListener;
-import menu.Command;
-//#endif
-
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.TextField;
 import javax.microedition.lcdui.TextBox;
-//#ifdef GRAPHICS_MENU        
-import ui.GMenu;
-//#endif   
+import ui.MainBar;
+import ui.VirtualElement;
+import ui.VirtualList;
 
-public class SmilePicker  
-        extends VirtualList 
-        implements 
-//#ifndef MENU_LISTENER
-//#         CommandListener,
-//#else
-        MenuListener,
-//#endif
-        VirtualElement
-{
-
+public class SmilePicker extends VirtualList implements VirtualElement {
     private final static int CURSOR_HOFFSET=1;
     private final static int CURSOR_VOFFSET=1;
    
@@ -84,10 +62,7 @@ public class SmilePicker
     
     private int realWidth=0;
     private int xBorder = 0;
-    
-    Command cmdCancel;
-    Command cmdOk;
-     
+
     private Vector smileTable;
 
     private TextField tf;
@@ -97,9 +72,6 @@ public class SmilePicker
     public SmilePicker(int caretPos, TextField tf, TextBox tb) {
          super();
          this.caretPos=caretPos;
-
-         cmdCancel=new Command(SR.get(SR.MS_CANCEL),Command.BACK,99);
-         cmdOk=new Command(SR.get(SR.MS_SELECT),Command.OK,1);
          
          if(midlet.BombusQD.cf.msgEditType>0){
            this.tf=tf;
@@ -131,16 +103,6 @@ public class SmilePicker
         xBorder=(realWidth-(xCnt*imgWidth))/2;
     }
     
-    public void commandState() {
-//#ifdef MENU_LISTENER
-        menuCommands.removeAllElements();
-//#endif
-        addCommand(cmdOk); cmdOk.setImg(0x43);
-        //addCommand(cmdCancel);
-        
-        setCommandListener(this);
-    }
-    
     int lineIndex;
     
     public int getItemCount(){ return lines; }
@@ -150,21 +112,29 @@ public class SmilePicker
     public int getVHeight() { return lineHeight; }
     public int getColor(){ return ColorTheme.getColor(ColorTheme.LIST_INK); }
     public int getColorBGnd(){ return ColorTheme.getColor(ColorTheme.LIST_BGND); }
+
     public void onSelect(VirtualList view){
+        selectSmile();
+    }
+
+    public void cmdOk() {
+        selectSmile();
+    }
+
+    private void selectSmile() {
         try {
 //#ifdef RUNNING_MESSAGE
            if(midlet.BombusQD.cf.msgEditType>0){
              tf.insert(" "+getTipString()+" ", caretPos);
            }else{
              tb.insert(" "+getTipString()+" ", caretPos);
-           };            
+           };
 //#else
 //#             t.insert(getTipString() , caretPos);
 //#endif
         } catch (Exception e) { /*e.printStackTrace();*/  }
         destroyView();
     }
-        
     
     public void drawItem(VirtualList view, Graphics g, int ofs, boolean selected){
         int max=(lineIndex==lines-1)? xLastCnt:xCnt;
@@ -228,14 +198,6 @@ public class SmilePicker
         if (xCursor >= xLastCnt)
             xCursor=xLastCnt-1;
     }
-    
-    public void commandAction(Command c, Displayable d){
-        if (c==cmdCancel) {
-            destroyView();
-            return;
-        }
-        if (c==cmdOk) { eventOk(); }
-    }
 
     public void moveCursorEnd() {
         super.moveCursorEnd();
@@ -283,23 +245,12 @@ public class SmilePicker
     public boolean isSelectable() { return true; }
     
     public boolean handleEvent(int keyCode) { return false; }
-    
-//#ifdef MENU_LISTENER
-    
-//#ifdef GRAPHICS_MENU        
+     
     public int showGraphicsMenu() {
-        commandState();
-        menuItem = new GMenu(this, null, menuCommands);        
-        GMenuConfig.getInstance().itemGrMenu=GMenu.SMILE_PEAKER;
-        return GMenu.SMILE_PEAKER;
+        return -1;
     }
-//#else
-//#     public void showMenu(){ eventOk(); } 
-//#endif     
-
      
     public String touchLeftCommand(){ return SR.get(SR.MS_SELECT); }
     public String touchRightCommand(){ return SR.get(SR.MS_BACK); }
-//#endif
 }
 //#endif

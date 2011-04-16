@@ -28,25 +28,20 @@
 package conference.affiliation;
 
 import client.StaticData;
-import conference.*;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.Iq;
-import javax.microedition.lcdui.Displayable;
+import conference.MucContact;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
 import ui.controls.form.DefForm;
 import ui.controls.form.MultiLine;
 import ui.controls.form.TextInput;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.Command;
-//#else
-import menu.Command;
-//#endif
 
 /**
  *
  * @author Evg_S
  */
+
 public final class QuickPrivelegyEditForm extends DefForm {
     private static final String REASON_RECENT_ID = "reason";
 

@@ -93,10 +93,7 @@ public class RecentInputList extends VirtualList
         menuCommands.removeAllElements();
 //#endif
         addCommand(cmdOk); 
-        addCommand(cmdClear); 
-//#ifndef GRAPHICS_MENU
-//#      addCommand(cmdCancel);
-//#endif        
+        addCommand(cmdClear);
     }
 
     public void eventOk() {

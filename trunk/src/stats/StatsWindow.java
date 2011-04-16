@@ -38,6 +38,7 @@ import menu.Command;
 //#endif
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
+import menu.MenuListener;
 import midlet.Commands;
 import ui.controls.form.DefForm;
 import ui.controls.form.MultiLine;
@@ -53,7 +54,7 @@ import util.ClipBoard;
  *
  * @author ad,aqent
  */
-public class StatsWindow extends DefForm {
+public class StatsWindow extends DefForm implements MenuListener {
     Stats st=Stats.getInstance();
 
     public Command cmdClear;
@@ -121,9 +122,7 @@ public class StatsWindow extends DefForm {
 //#endif
         } else if (command == cmdClear) {
             st.saveToStorage(true,false);
-            cmdCancel();
-        } else {
-            super.commandAction(command, displayable);
+            destroyView();
         }
     }
 
@@ -131,20 +130,13 @@ public class StatsWindow extends DefForm {
 //#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
 //#endif
-
-//#ifndef GRAPHICS_MENU
-//#     super.commandState();
-//#endif
 //#ifdef CLIPBOARD
-        if (Config.getInstance().useClipBoard) {
+        if (Config.useClipBoard) {
             addCommand(Commands.cmdCopy);
         }
 //#endif
         addCommand(cmdClear);
         addCommand(cmdSave);
-//#ifndef GRAPHICS_MENU
-//#      addCommand(cmdCancel);
-//#endif
     }
 
 //#ifdef MENU_LISTENER

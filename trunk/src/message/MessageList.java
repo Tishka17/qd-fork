@@ -38,7 +38,6 @@ import java.util.Vector;
 import menu.MenuListener;
 import menu.Command;
 //#endif
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import midlet.Commands;
 import ui.VirtualElement;
@@ -161,18 +160,9 @@ public abstract class MessageList extends VirtualList
             addCommand(Commands.cmdxmlSkin);
             addCommand(Commands.cmdUrl);
         }
-
-//#ifndef GRAPHICS_MENU
-//#      addCommand(cmdBack);
-//#endif
     }
 
     public void commandAction(Command c, Displayable d) {
-        if (c==Commands.cmdBack) {
-            midlet.BombusQD.sd.roster.activeContact=null;
-            destroyView();
-        }
-
         if (c==Commands.cmdUrl) {
             try {
                 Vector urls=((MessageItem) getFocusedObject()).getUrlList();

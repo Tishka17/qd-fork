@@ -28,13 +28,13 @@
  */
 //#ifdef PRIVACY
 package privacy;
+
 import client.Contact;
 import client.Group;
 import client.StaticData;
 import java.util.Vector;
-import javax.microedition.lcdui.*;
+import javax.microedition.lcdui.TextField;
 import locale.SR;
-import ui.controls.form.SimpleString;
 import ui.controls.form.CheckBox;
 import ui.controls.form.DefForm;
 import ui.controls.form.DropChoiceBox;

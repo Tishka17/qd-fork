@@ -33,7 +33,6 @@ import midlet.BombusQD;
 import ui.controls.form.CheckBox;
 import ui.controls.form.DefForm;
 import ui.controls.form.DropChoiceBox;
-import ui.controls.form.SimpleString;
 
 public class FontConfigForm extends DefForm {
     private DropChoiceBox rosterFont;

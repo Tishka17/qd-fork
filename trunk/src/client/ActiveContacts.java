@@ -65,7 +65,6 @@ public final class ActiveContacts extends VirtualList implements
 
     private Vector contacts = new Vector();
 
-    private Command cmdCancel;
     private Command cmdOk;
     private Command cmdCreateMultiMessage;
     private Command cmdSortType;
@@ -75,8 +74,6 @@ public final class ActiveContacts extends VirtualList implements
     private Command cmdClearAllMessages;
 
     public ActiveContacts(Contact current) {
-        cmdCancel = new Command(SR.get(SR.MS_BACK), Command.BACK, 99);
-
         cmdOk = new Command(SR.get(SR.MS_SELECT), Command.SCREEN, 1);
         cmdOk.setImg(0x43);
 
@@ -183,9 +180,6 @@ public final class ActiveContacts extends VirtualList implements
     }
 
     public void commandAction(Command c, Displayable d) {
-        if (c == cmdCancel) {
-            destroyView();
-        }
         if (c == cmdOk) {
             eventOk();
         }

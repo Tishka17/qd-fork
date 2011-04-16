@@ -20,7 +20,6 @@ import locale.SR;
 
 public class Commands {
     public static Command cmdOk;
-    public static Command cmdCancel;
 
     public static Command cmdTranslate;
     public static Command cmdSubscribe;
@@ -38,10 +37,6 @@ public class Commands {
     public static Command cmdSelect;
     public static Command cmdActions;
 
-//#ifdef FILE_IO
-    public static Command cmdSaveChat;
-//#endif
-
     public static Command cmdAddSearchQuery;
     public static Command cmdClrPresences;
 
@@ -56,7 +51,6 @@ public class Commands {
 
     public static Command cmdxmlSkin;
     public static Command cmdUrl;
-    public static Command cmdBack;
 
 //#ifdef HISTORY
     public static Command cmdHistory;
@@ -86,8 +80,6 @@ public class Commands {
         cmdResume = new Command(SR.get(SR.MS_RESUME), Command.SCREEN, 1);
         cmdResume.setImg(0x80);
 
-        cmdCancel = new Command(SR.get(SR.MS_BACK), Command.BACK, 2);
-
         cmdTranslate = new Command(SR.get(SR.MS_TRANSLATE), Command.SCREEN, 337);
         cmdTranslate.setImg(0x73);
 
@@ -109,11 +101,6 @@ public class Commands {
         cmdActions = new Command(SR.get(SR.MS_CONTACT), Command.SCREEN, 9);
         cmdActions.setImg(0x16);
 
-//#ifdef FILE_IO
-        cmdSaveChat = new Command(SR.get(SR.MS_SAVE_CHAT), Command.SCREEN, 12);
-        cmdSaveChat.setImg(0x44);
-//#endif
-
         cmdAddSearchQuery = new Command(SR.get(SR.MS_ADD_SEARCH_QUERY), Command.SCREEN, 400);
         cmdAddSearchQuery.setImg(MenuIcons.ICON_SEARCH);
 
@@ -128,8 +115,6 @@ public class Commands {
 
         cmdUrl = new Command(SR.get(SR.MS_GOTO_URL), Command.SCREEN, 80);
         cmdUrl.setImg(MenuIcons.ICON_GOTO_URL);
-
-        cmdBack = new Command(SR.get(SR.MS_BACK), Command.BACK, 99);
 
 //#ifdef CLIPBOARD
         cmdCopy = new Command(SR.get(SR.MS_COPY), Command.SCREEN, 20);

@@ -43,6 +43,7 @@ import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import ui.MainBar;
 import client.DiscoSearchForm;
+import menu.MenuListener;
 import ui.controls.form.DefForm;
 //#ifdef GRAPHICS_MENU
 import ui.GMenu;
@@ -56,7 +57,7 @@ import ui.controls.form.CollapsibleItem;
  * @author evgs
  */
 
-public class GetFileServer extends DefForm implements Runnable {
+public class GetFileServer extends DefForm implements MenuListener, Runnable {
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_VERSION_UPGRADE");
 //#endif
@@ -168,7 +169,6 @@ public class GetFileServer extends DefForm implements Runnable {
         if (c == cmdVk) {
             new DiscoSearchForm(vk, 3).show();
         }
-        super.commandAction(c, d);
     }
 
     protected void rePaint() {
@@ -201,9 +201,6 @@ public class GetFileServer extends DefForm implements Runnable {
         cmdIrc.setImg(0x04);
         addCommand(cmdVk);
         cmdVk.setImg(0x04);
-//#ifndef GRAPHICS_MENU
-//#      addCommand(cmdCancel);
-//#endif
     }
 
 //#ifdef MENU_LISTENER

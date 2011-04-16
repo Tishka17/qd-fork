@@ -133,8 +133,8 @@ public class JuickModule{
 //#ifdef DEBUG_CONSOLE
 //#             midlet.BombusQD.debug.add("IQ::"+data.toString(),10);
 //#endif
-            String id=(String) data.getAttribute("id");
-            String type = (String) data.getTypeAttribute();
+            String id= data.getAttribute("id");
+            String type = data.getTypeAttribute();
 
             if (id!=null) {
                 if (type.equals( "result" )) {

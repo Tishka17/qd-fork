@@ -29,48 +29,28 @@
 package ui.controls.form;
 
 import java.util.Vector;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
-import menu.MenuListener;
-import menu.Command;
-//#endif
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
-import midlet.Commands;
 import ui.MainBar;
 import ui.VirtualElement;
 import ui.VirtualList;
-//#ifdef GRAPHICS_MENU
 import ui.GMenu;
-//#endif
+
+
 /**
  *
  * @author ad,aqent
  */
-public class DefForm extends VirtualList
-        implements
-//#ifndef MENU_LISTENER
-//#         CommandListener
-//#else
-        MenuListener
-//#endif
-    {
-    public Vector itemsList = new Vector(0);
 
-    public Command cmdCancel;
+public class DefForm extends VirtualList {
+    public Vector itemsList = new Vector(0);
 
     public DefForm(String caption) {
         super();
-        setMainBarItem(new MainBar(caption));
-
-        cmdCancel = new Command(SR.get(SR.MS_BACK), Command.BACK, 99);      
+        setMainBarItem(new MainBar(caption)); 
     }
 
     public void show() {
         enableListWrapping(true);
-        setCommandListener(this);
         super.show();
     }
 
@@ -88,15 +68,6 @@ public class DefForm extends VirtualList
 
     public void touchRightPressed() {
         cmdCancel();
-    }
-
-    public void commandAction(Command command, Displayable displayable) {
-	if (command == cmdCancel) {
-	    cmdCancel();
-	}
-	if (command == Commands.cmdOk) {
-            cmdOk();
-        }
     }
 
     public void destroyView() {
@@ -126,9 +97,8 @@ public class DefForm extends VirtualList
         destroyView();
     }
 
-    public void cmdOk() { }
+    public void cmdOk() {}
 
-//#ifdef MENU_LISTENER
     public void userKeyPressed(int keyCode) {
         switch (keyCode) {
             case KEY_NUM4:
@@ -139,55 +109,13 @@ public class DefForm extends VirtualList
                 break;
         }
     }
-//#endif
-
-//#ifdef GRAPHICS_MENU
-
- //   public void commandState() {
-//#ifdef MENU_LISTENER
-        //menuCommands.removeAllElements();
-//#endif
-	//addCommand(cmdOk); //cmdOk.setImg(0x43);
-//#ifndef GRAPHICS_MENU
-//#      addCommand(cmdCancel);
-//#endif
-//    }
-
-//#else
-//# 
-//# 
-//#     public void commandState() {
-//#ifdef MENU_LISTENER
-//#         menuCommands.removeAllElements();
-//#endif
-//# 	addCommand(cmdOk);
-//#     addCommand(cmdCancel);
-//#    }
-//# 
-//#endif
-
-//#ifdef MENU_LISTENER
-
-//#ifdef GRAPHICS_MENU
 
     public int showGraphicsMenu() {
         //System.out.println("1");
         return GMenu.DEF_FORM;
     }
 
-//#else
-//#     public void showMenu() {
-//#         commandState();
-//#         if (menuCommands.size()==2) {
-//#             if (menuCommands.elementAt(0).equals(cmdOk) && menuCommands.elementAt(1).equals(cmdCancel)) {
-//#                 cmdOk();
-//#                 return;
-//#             }
-//#         }
-//#         new MyMenu(display, parentView, this, "", null, menuCommands);
-//#     }
-//#endif
-
-    public String touchLeftCommand(){ return SR.get(SR.MS_OK); }
-//#endif
+    public String touchLeftCommand() {
+        return SR.get(SR.MS_OK);
+    }
 }

@@ -27,11 +27,12 @@
  */
 
 package conference;
- 
-import client.*;
+
+import client.Contact;
+import client.Msg;
 import com.alsutton.jabber.datablocks.Presence;
 import ui.IconTextElement;
- 
+
  /**
   *
   * @author root(linux detected!),aqent

@@ -33,7 +33,7 @@ import com.alsutton.jabber.JabberBlockListener;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.*;
 import locale.SR;
-import ui.Time; 
+import util.Time;
 
 public class IqPing implements JabberBlockListener {
 

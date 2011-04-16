@@ -28,7 +28,8 @@
 package colors;
 
 import font.FontCache;
-import javax.microedition.lcdui.*;
+import javax.microedition.lcdui.Font;
+import javax.microedition.lcdui.Graphics;
 import ui.controls.form.DefForm;
 
 //#ifdef LIGHT_CONTROL

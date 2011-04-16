@@ -47,11 +47,9 @@ import ui.VirtualList;
  */
 
 public class StatusSelect extends VirtualList implements MenuListener {
-
     private Command cmdOk;
     private Command cmdEdit;
     private Command cmdDef;
-    private Command cmdCancel;
 
     private Vector statusList;
     private int defp;
@@ -68,8 +66,6 @@ public class StatusSelect extends VirtualList implements MenuListener {
 
        cmdDef=new Command(SR.get(SR.MS_SETDEFAULT),Command.OK,3);
        cmdDef.setImg(0x24);
-
-       cmdCancel=new Command(SR.get(SR.MS_CANCEL),Command.BACK,99);
 
         statusList=StatusList.getInstance().statusList;
         this.to=to;
@@ -126,8 +122,6 @@ public class StatusSelect extends VirtualList implements MenuListener {
             redraw();
             BombusQD.cf.saveToStorage();
         }
-
-        if (c==cmdCancel) destroyView();
     }
 
     public void eventLongOk() {

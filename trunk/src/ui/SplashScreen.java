@@ -27,6 +27,7 @@
 
 package ui;
 
+import util.Time;
 import client.Config;
 import font.FontCache;
 //#ifdef AUTOSTATUS

@@ -66,7 +66,6 @@ public class UserKeysList
     Command cmdAdd;
     Command cmdEdit;
     Command cmdDel;
-    Command cmdCancel;
 
     /** Creates a new instance of AccountPicker */
     public UserKeysList() {
@@ -76,7 +75,6 @@ public class UserKeysList
         cmdAdd=new Command(SR.get(SR.MS_ADD_CUSTOM_KEY), Command.SCREEN,3);
         cmdEdit=new Command(SR.get(SR.MS_EDIT),Command.ITEM,3);
         cmdDel=new Command(SR.get(SR.MS_DELETE),Command.ITEM,4);
-        cmdCancel=new Command(SR.get(SR.MS_BACK),Command.BACK,99);
     
         setMainBarItem(new MainBar(SR.get(SR.MS_CUSTOM_KEYS)));
         
@@ -112,9 +110,6 @@ public class UserKeysList
     }
     
     public void commandAction(Command c, Displayable d){
-        if (c==cmdCancel) {
-            destroyView();
-        }
         if (c==cmdOK) {
             rmsUpdate();
             destroyView();    

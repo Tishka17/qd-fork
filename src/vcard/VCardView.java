@@ -35,7 +35,7 @@ import io.file.FileIO;
 import io.file.browse.Browser;
 import io.file.browse.BrowserListener;
 import util.StringUtils;
-import ui.Time;
+import util.Time;
 //#endif
 //#ifdef DETRANSLIT
 //# import util.DeTranslit;
@@ -61,6 +61,7 @@ import util.ClipBoard;
 import midlet.BombusQD;
 import javax.microedition.io.ConnectionNotFoundException;
 //#ifdef GRAPHICS_MENU
+import menu.MenuListener;
 import midlet.Commands;
 import ui.GMenu;
 import ui.GMenuConfig;
@@ -71,9 +72,9 @@ import ui.MainBar;
  *
  * @author ad,aqent
  */
-public class VCardView extends DefForm
+public class VCardView extends DefForm implements MenuListener
 //#if FILE_IO
-        implements BrowserListener
+        , BrowserListener
 //#endif
 {
     private VCard vcard;
@@ -286,14 +287,6 @@ public class VCardView extends DefForm
         menuCommands.removeAllElements();
 //#endif
 
-//#ifdef GRAPHICS_MENU
-        //super.commandState();
-//#else
-//#     super.commandState();
-//#endif
-//        removeCommand(Commands.cmdOk);
-//        removeCommand(cmdCancel);
-
         if (vcard != null) {
             if (vcard.hasPhoto) {
 //#if FILE_IO
@@ -316,9 +309,6 @@ public class VCardView extends DefForm
 //#endif
         }
         addCommand(cmdRefresh);
-//#ifndef GRAPHICS_MENU
-//#      addCommand(cmdCancel);
-//#endif
     }
 
 //#ifdef MENU_LISTENER

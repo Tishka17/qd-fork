@@ -69,7 +69,6 @@ public class AlertProfile extends VirtualList implements
     
     private Command cmdOk;
     private Command cmdDef;
-    private Command cmdCancel;
 
     public AlertProfile() {
         super();
@@ -81,8 +80,6 @@ public class AlertProfile extends VirtualList implements
 
         cmdDef=new Command(SR.get(SR.MS_SETDEFAULT),Command.OK,2);
         cmdDef.setImg(0x24);
-
-        cmdCancel=new Command(SR.get(SR.MS_BACK),Command.BACK,99);
         
         setMainBarItem(new MainBar(SR.get(SR.MS_ALERT_PROFILE)));
 
@@ -100,9 +97,6 @@ public class AlertProfile extends VirtualList implements
 //#endif
         addCommand(cmdOk); 
         addCommand(cmdDef);  
-//#ifndef GRAPHICS_MENU        
-//#      addCommand(cmdCancel);
-//#endif     
     }
     
 //#ifdef MENU_LISTENER
@@ -154,7 +148,6 @@ public class AlertProfile extends VirtualList implements
             redraw();
             cf.saveToStorage();
         }
-        if (c==cmdCancel) destroyView();
     }
     
     public void eventOk(){

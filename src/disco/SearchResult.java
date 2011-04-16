@@ -125,7 +125,7 @@ public class SearchResult
                         vcard.append(name)
                              .append((char)0xa0)
                              .append(value)
-                             .append((char)'\n');
+                             .append('\n');
                     }
 		    // status returned by jit
 		    if (name.equals("status")) if (!value.equals("offline")) status=Presence.PRESENCE_ONLINE;

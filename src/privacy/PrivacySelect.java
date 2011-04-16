@@ -28,8 +28,6 @@
 //#ifdef PRIVACY
 package privacy;
 
-import ui.input.InputTextBoxNotify;
-import ui.input.InputTextBox;
 import client.StaticData;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
@@ -72,8 +70,7 @@ public class PrivacySelect
 //#endif
     
     private Vector list=new Vector(0);
-    
-    private Command cmdCancel;
+
     private Command cmdActivate;
     private Command cmdDefault;
     private Command cmdNewList;
@@ -84,8 +81,6 @@ public class PrivacySelect
 
     public PrivacySelect() {
         super();
-        
-       cmdCancel=new Command (SR.get(SR.MS_BACK), Command.BACK, 99);
 
        cmdActivate=new Command (SR.get(SR.MS_ACTIVATE), Command.SCREEN, 10);
        cmdActivate.setImg(0x16);
@@ -141,11 +136,6 @@ public class PrivacySelect
     protected VirtualElement getItemRef(int index) { return (VirtualElement) list.elementAt(index); }
     
     public void commandAction(Command c, Displayable d) {
-        if (c==cmdCancel) {
-            destroyView();
-            stream.cancelBlockListener(this);
-            return;
-        }
         if (c==cmdActivate || c==cmdDefault) {
             PrivacyList active=((PrivacyList)getFocusedObject());
             for (Enumeration e=list.elements(); e.hasMoreElements(); ) {
@@ -259,6 +249,11 @@ public class PrivacySelect
         JabberDataBlock item=PrivacyItem.itemIgnoreList().constructBlock();
         ignoreList.addChild(item);
         PrivacyList.privacyListRq(true, ignoreList, "ignlst");
+    }
+
+    public void destroyView() {
+        stream.cancelBlockListener(this);
+        super.destroyView();
     }
 }
 //#endif

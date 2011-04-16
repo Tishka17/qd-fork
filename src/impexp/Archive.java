@@ -32,7 +32,7 @@ import client.Msg;
 import archive.MessageArchive;
 import java.util.Enumeration;
 import java.util.Vector;
-import ui.Time;
+import util.Time;
 
 /**
  *

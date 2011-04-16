@@ -25,12 +25,11 @@
  *
  */
 
+//#ifdef SERVICE_DISCOVERY
 package conference; 
 
 import client.StaticData;
-//#ifdef SERVICE_DISCOVERY
 import disco.DiscoForm;
-//#endif
 import com.alsutton.jabber.JabberBlockListener;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.Iq;
@@ -62,13 +61,12 @@ public class QueryConfigForm implements JabberBlockListener{
         JabberDataBlock query=data.findNamespace("query", OWNER_XMLNS);
         if (query!=null) {
             StaticData.getInstance().roster.setQuerySign(false);
-//#ifdef SERVICE_DISCOVERY
             if (data.getTypeAttribute().equals("result")) {
                 new DiscoForm(data, StaticData.getInstance().roster.theStream, "muc_owner", "query").show();
             }
-//#endif
             return JabberBlockListener.NO_MORE_BLOCKS;
         }
         return JabberBlockListener.BLOCK_REJECTED;
     }
+//#endif
 }

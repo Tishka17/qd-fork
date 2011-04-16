@@ -26,7 +26,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
  
-package ui;
+package util;
+
 import client.Config;
 import java.util.*;
 import locale.SR;
@@ -224,7 +225,7 @@ public class Time {
             if ((d>0) || (h>0) || (m>0))  result+=", ";
             result+= s + " " + goodWordForm (s, 0);
         }
-        if (result=="" && s==0)
+        if (result.length() == 0 && s==0)
             result=s + " " + goodWordForm (s, 0);
         return result;
     }
@@ -245,10 +246,9 @@ public class Time {
             index=0;
         return suf[field][index];
     }
-    
-    private final static StringBuffer s = new StringBuffer(0);
+
     public static String getTimeWeekDay() {
-        s.setLength(0);
+        StringBuffer s = new StringBuffer(0);
         s.append(localWeekDay());
         s.append(' ').append(localTime());
         return s.toString();

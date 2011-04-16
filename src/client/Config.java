@@ -40,7 +40,7 @@ import io.file.FileIO;
 import midlet.BombusQD;
 import font.FontCache;
 import util.StringLoader;
-import ui.Time;
+import util.Time;
 import ui.VirtualList;
 import io.NvStorage;
 import java.io.DataInputStream;

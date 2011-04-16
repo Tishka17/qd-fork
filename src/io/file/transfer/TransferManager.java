@@ -41,7 +41,7 @@ import menu.Command;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
-import ui.Time;
+import util.Time;
 import ui.VirtualElement;
 import ui.VirtualList;
 //#ifdef GRAPHICS_MENU
@@ -67,7 +67,6 @@ public class TransferManager
 
     private Vector taskList=new Vector(0);
 
-    Command cmdBack;
     Command cmdDel;
     Command cmdClrF;
 //#ifdef POPUPS
@@ -77,7 +76,6 @@ public class TransferManager
     public TransferManager() {
         super();
 
-        cmdBack=new Command(SR.get(SR.MS_BACK), Command.BACK, 99);
         cmdDel=new Command(SR.get(SR.MS_DECLINE), Command.SCREEN, 10);
         cmdClrF=new Command(SR.get(SR.MS_HIDE_FINISHED), Command.SCREEN, 11);
 //#ifdef POPUPS
@@ -158,14 +156,14 @@ public class TransferManager
             midlet.BombusQD.sd.roster.setEventIcon(null);
             //}
         }
-        if (c==cmdBack) cmdBack();
 //#ifdef POPUPS
         if (c==cmdInfo) cmdInfo();
 //#endif
     }
-    private void cmdBack() {
+
+    public void destroyView() {
         TransferDispatcher.getInstance().eventNotify();
-        destroyView();
+        super.destroyView();
     }
 
 //#ifdef MENU_LISTENER

@@ -32,7 +32,7 @@ import javax.microedition.lcdui.Graphics;
 import locale.SR;
 import midlet.BombusQD;
 import ui.MainBar;
-import ui.Time;
+import util.Time;
 import ui.controls.form.DefForm;
 
 /**

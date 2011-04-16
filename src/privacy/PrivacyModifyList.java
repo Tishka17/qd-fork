@@ -65,8 +65,7 @@ public class PrivacyModifyList extends VirtualList
 //#endif
     
     private PrivacyList plist;
-    
-    private Command cmdCancel;
+
     private Command cmdAdd;
     private Command cmdDel;
     private Command cmdEdit;
@@ -78,8 +77,7 @@ public class PrivacyModifyList extends VirtualList
 
     public PrivacyModifyList(PrivacyList privacyList) {
         super();
-        
-        cmdCancel=new Command (SR.get(SR.MS_CANCEL), Command.BACK, 99);
+
         cmdAdd=new Command (SR.get(SR.MS_ADD_RULE), Command.SCREEN, 10);
         cmdDel=new Command (SR.get(SR.MS_DELETE_RULE), Command.SCREEN, 11);
         cmdEdit=new Command (SR.get(SR.MS_EDIT_RULE), Command.SCREEN, 12);
@@ -145,10 +143,6 @@ public class PrivacyModifyList extends VirtualList
     protected VirtualElement getItemRef(int index) { return (VirtualElement) plist.rules.elementAt(index); }
     
     public void commandAction(Command c, Displayable d) {
-        if (c==cmdCancel) {
-            stream.cancelBlockListener(this);
-            destroyView();
-        }
         if (c==cmdAdd) {
             new PrivacyForm(new PrivacyItem(), plist).show();
         }
@@ -217,5 +211,9 @@ public class PrivacyModifyList extends VirtualList
         return JabberBlockListener.BLOCK_REJECTED;
     }
 
+    public void destroyView() {
+        stream.cancelBlockListener(this);
+        super.destroyView();
+    }
 }
 //#endif

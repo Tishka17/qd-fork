@@ -28,7 +28,9 @@
 
 package conference.bookmark;
 import conference.ConferenceForm;
+//#ifdef SERVICE_DISCOVERY
 import conference.QueryConfigForm;
+//#endif
 import conference.affiliation.AffiliationItem;
 import conference.affiliation.AffiliationList;
 //#ifdef SERVICE_DISCOVERY
@@ -63,7 +65,6 @@ public final class Bookmarks extends VirtualList
 //#endif
     {
 
-    private Command cmdCancel;
     private Command cmdJoin;
     private Command cmdAdvJoin;
     private Command cmdDoAutoJoin;
@@ -102,8 +103,6 @@ public final class Bookmarks extends VirtualList
     }
 
     public void initCommands() {
-        cmdCancel = new Command(SR.get(SR.MS_CANCEL), Command.BACK, 99);
-
         cmdJoin = new Command(SR.get(SR.MS_SELECT), Command.OK, 1);
         cmdJoin.setImg(0x60);
 
@@ -220,9 +219,7 @@ public final class Bookmarks extends VirtualList
     }
 
     public void commandAction(Command c, Displayable d){
-        if (c == cmdCancel) {
-            destroyView();
-        } else if (c == cmdNew) {
+        if (c == cmdNew) {
             new ConferenceForm().show();
             return;
         } else if (c == cmdJoin) {
@@ -247,9 +244,9 @@ public final class Bookmarks extends VirtualList
         else if (c == cmdDisco) {
             new ServiceDiscovery(roomJid, null, false).show();
         }
-//#endif
         else if (c == cmdConfigure) {
             new QueryConfigForm(roomJid);
+//#endif
         } else if (c == cmdRoomOwners) {
             new AffiliationList(roomJid, AffiliationItem.AFFILIATION_OWNER).show();
         } else if (c == cmdRoomAdmins) {

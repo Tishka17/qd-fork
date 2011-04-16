@@ -29,9 +29,7 @@
 
 package alert;
 
-import midlet.Commands;
 import xmpp.EntityCaps;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import java.util.Vector;
@@ -59,8 +57,9 @@ import ui.GMenuConfig;
 import light.*;
 import ui.controls.form.LinkString;
 //#endif
+import menu.MenuListener;
 
-public class AlertCustomizeForm extends DefForm {
+public class AlertCustomizeForm extends DefForm implements MenuListener {
     private CheckBox statusBox;
     private CheckBox blinkBox;
 
@@ -85,9 +84,7 @@ public class AlertCustomizeForm extends DefForm {
 
     private DropChoiceBox AttentionFile;
     private CheckBox enableAttention;
-//#ifdef LIGHT_CONTROL
-    LinkString linkLight;
-//#endif
+
     AlertCustomize ac;
     Vector files[];
     Vector fileNames;
@@ -249,7 +246,6 @@ public class AlertCustomizeForm extends DefForm {
         }else if(c==cmdTestVibro){
             PlaySound(true);
         }
-        else super.commandAction(c, d);
     }
 
     private int playable() {
@@ -276,12 +272,7 @@ public class AlertCustomizeForm extends DefForm {
     }
 
     public void commandState(){
-//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
-//#endif
-//#ifndef GRAPHICS_MENU
-//#     super.commandState();
-//#endif
         if (playable() > -1) {
             addCommand(cmdTest);
         }
@@ -289,9 +280,6 @@ public class AlertCustomizeForm extends DefForm {
             addCommand(cmdTestVibro);
         }
         addCommand(cmdSave);
-//#ifndef GRAPHICS_MENU
-//#      addCommand(cmdCancel);
-//#endif
     }
 
 

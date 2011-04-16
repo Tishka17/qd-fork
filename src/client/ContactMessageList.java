@@ -221,10 +221,6 @@ public final class ContactMessageList extends VirtualList implements MenuListene
             addInCommand(3, Commands.cmdSendBuffer);
         }
 //#endif
-
-//#ifndef GRAPHICS_MENU
-//#      addCommdand(midlet.BombusQD.commands.cmdBack);
-//#endif
     }
 
     public void showNotify(){

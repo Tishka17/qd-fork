@@ -58,13 +58,13 @@ public class IqTimeReply implements JabberBlockListener{
         if (type.equals("get")) {
             JabberDataBlock query=data.findNamespace("query", "jabber:iq:time");
             if (query!=null) {
-                query.addChild("utc",ui.Time.Xep0082UtcTime());
-                query.addChild("display", ui.Time.dispLocalTime());
+                query.addChild("utc",util.Time.Xep0082UtcTime());
+                query.addChild("display", util.Time.dispLocalTime());
             } else {
                 query=data.findNamespace("time", "urn:xmpp:time");
                 if (query==null) return BLOCK_REJECTED;
-                query.addChild("utc",ui.Time.utcTime());
-                query.addChild("tzo", ui.Time.tzOffset());
+                query.addChild("utc",util.Time.utcTime());
+                query.addChild("tzo", util.Time.tzOffset());
             }
             Contact c=StaticData.getInstance().roster.getContact( data.getAttribute("from"), false);
             c.setIncoming(Roster.INC_VIEWING);

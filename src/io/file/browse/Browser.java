@@ -75,7 +75,6 @@ public class Browser
     Command cmdView;
     Command cmdRoot;
     Command cmdDelete;
-    Command cmdCancel;
     Command cmdExit;
     //Command cmdLoadPngSkin=new Command("Load Resource from File", Command.BACK, 100);
 
@@ -93,7 +92,6 @@ public class Browser
         cmdView=new Command(SR.get(SR.MS_VIEW), Command.SCREEN, 3);
         cmdRoot=new Command(SR.get(SR.MS_ROOT), Command.SCREEN, 4);
         cmdDelete=new Command(SR.get(SR.MS_DELETE), Command.SCREEN, 5);
-        cmdCancel=new Command(SR.get(SR.MS_BACK), Command.BACK, 98);
         cmdExit=new Command(SR.get(SR.MS_CANCEL), Command.EXIT, 99);
         //new Browser(null, display, this, this, true);
 
@@ -154,8 +152,6 @@ public class Browser
     }
 
     public void commandAction(Command command, Displayable displayable) {
-        if (command==cmdCancel) cmdCancel();
-
         if (command==cmdRoot) {
             path="";
             chDir(path);

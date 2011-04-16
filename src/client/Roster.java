@@ -28,6 +28,7 @@
 
 package client;
 
+import util.Time;
 import account.Account;
 import account.AccountRemoveForm;
 import account.AccountSelect;
@@ -96,7 +97,9 @@ import xmpp.extensions.IqTimeReply;
 //#if SERVICE_DISCOVERY && ADHOC
 import xmpp.extensions.IQCommands;
 //#endif
+//#ifdef SERVICE_DISCOVERY
 import conference.QueryConfigForm;
+//#endif
 //#ifdef PEP
 import xmpp.extensions.PepListener;
 //#endif
@@ -112,11 +115,7 @@ import ui.GMenu;
 import disco.ServiceDiscovery;
 //#endif
 import vcard.VCard;
-//#ifdef PRIVACY
-//#endif
 import conference.ConferenceForm;
-//#ifdef USER_KEYS
-//#endif
 //#ifdef STATS
 import stats.Stats;
 //#endif
@@ -130,14 +129,14 @@ import stats.Stats;
 //# import Menu.RosterToolsMenu;
 //#endif
 //#ifdef LIGHT_CONTROL
-import light.*;
+import light.CustomLight;
 //#endif
 //#ifdef JUICK.COM
 import xmpp.extensions.JuickModule;
 //#endif
 import colors.ColorTheme;
-//#ifdef HISTORY
 import disco.ServerStatsForm;
+//#ifdef HISTORY
 import history.HistoryViewer;
 //#endif
 
@@ -2260,7 +2259,7 @@ public final class Roster
             int priority = pr.getPriority();
 
             if (xmuc!=null) {//MUC only
-
+//#ifdef SERVICE_DISCOVERY
                     JabberDataBlock status=xmuc.getChildBlock("status");
                     if(status!=null) {
                        int index = from.indexOf('/');
@@ -2269,6 +2268,7 @@ public final class Roster
                            new QueryConfigForm(from.substring(0,index));
                        }
                     }
+//#endif
 
                     MucContact conferenceContact = null;
                     Contact room = null;

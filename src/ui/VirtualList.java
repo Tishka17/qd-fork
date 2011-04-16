@@ -28,6 +28,7 @@
  */
 
 package ui;
+import util.Time;
 import colors.ColorTheme;
 import font.FontCache;
 import javax.microedition.lcdui.*;

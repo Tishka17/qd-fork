@@ -83,7 +83,6 @@ public class DiscoSearchForm
     private Command cmdSearch;
     private Command cmdAddServer;
     private Command cmdDel;
-    private Command cmdCancel;
     
     Vector servers = new Vector(0);
     Vector list = new Vector(0);
@@ -107,8 +106,6 @@ public class DiscoSearchForm
 
         cmdDel=new Command (SR.get(SR.MS_DELETE), Command.SCREEN, 3);
         cmdDel.setImg(0x41);
-
-        cmdCancel=new Command (SR.get(SR.MS_CANCEL), Command.BACK, 99);
     
         if(list==null){
           loadRecentList();
@@ -186,8 +183,6 @@ public class DiscoSearchForm
     public void commandAction(Command c, Displayable displayable) {
         if (c == cmdSearch) {
             eventOk();
-        } else if (c==cmdCancel) {
-            exitSearchForm();
         } else if (c==cmdAddServer) {
             InputTextBox box = new InputTextBox(SR.get(SR.MS_SERVER), null, 50, TextField.ANY);
             box.setNotifyListener(this);

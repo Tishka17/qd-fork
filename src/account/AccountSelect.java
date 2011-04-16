@@ -27,7 +27,6 @@
  */
 package account;
 
-import client.*;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import ui.*;
@@ -77,7 +76,6 @@ public class AccountSelect extends VirtualList implements
     private Command cmdVk = new Command("Вконтакте", Command.SCREEN, 19);
     private Command cmdEdit;
     private Command cmdDel;
-    private Command cmdCancel;
     private Command cmdRemoveAcc;
     private Command cmdChangePass;
 
@@ -103,8 +101,6 @@ public class AccountSelect extends VirtualList implements
 
         cmdDel = new Command(SR.get(SR.MS_DELETE), Command.ITEM, 4);
         cmdDel.setImg(0x41);
-
-        cmdCancel = new Command(SR.get(SR.MS_BACK), Command.BACK, 99);
 
         cmdRemoveAcc = new Command(SR.get(SR.MS_REMOVE_ACCOUNT), Command.ITEM, 90);
         cmdRemoveAcc.setImg(0x51);
@@ -232,10 +228,6 @@ public class AccountSelect extends VirtualList implements
     }
 
     public void commandAction(Command c, Displayable d) {
-        try {
-        if (c == cmdCancel) {
-            destroyView();
-        }
 //#ifdef GRAPHICS_MENU
         if (c == cmdServ1_reg) {
             new AccountForm("jabber.ru").show();
@@ -314,9 +306,6 @@ public class AccountSelect extends VirtualList implements
                 };
                 box.show();
             }
-        }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 

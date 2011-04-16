@@ -14,11 +14,10 @@ import conference.MucContact;
 import com.alsutton.jabber.datablocks.Presence;
 import java.util.Vector;
 import javax.microedition.lcdui.Font;
-import ui.Time;
 import xmpp.XmppError;
-import font.*;
 import java.util.Random;
 //#ifdef CLASSIC_CHAT
+//# import font.FontCache;
 //# import client.ClassicChat;
 //#endif
 import client.Msg;
@@ -102,12 +101,10 @@ public class StringUtils {
          return msg;
     }
 
-
-    private static StringBuffer buffer = new StringBuffer(0);
     public static String stringReplace(String aSearch, String aFind, String aReplace) {
     	int pos = aSearch.indexOf(aFind);
     	if (pos != -1) {
-            buffer = new StringBuffer(0);
+            StringBuffer buffer = new StringBuffer(0);
             int lastPos = 0;
              while (pos != -1) {
                     buffer.append(aSearch.substring(lastPos, pos)).append(aReplace);
@@ -120,11 +117,11 @@ public class StringUtils {
     	return aSearch;
     }
 
-  public static Font getFont() {
-        return FontCache.getFont(false, Config.msgFont);
-  }
-
 //#ifdef CLASSIC_CHAT
+//#   public static Font getFont() {
+//#         return FontCache.getFont(false, Config.msgFont);
+//#   }
+//# 
 //#   public static void addClassicChatMsg(String message, int availWidth,ClassicChat scrMsg) {
 //#         Vector lines=new Vector(0);
 //#         char[] valueChars = message.concat("   ").toCharArray();
@@ -153,12 +150,10 @@ public class StringUtils {
 //#     }
 //#endif
 
-    private static StringBuffer suffix;
-    private static String ratio="";
-
     public static String getSizeString(long number) { //multiple calls
-        suffix = new StringBuffer(0);
+        StringBuffer suffix = new StringBuffer(0);
         try {
+            String ratio;
             if ( number > 1024000 ) {
                 ratio=Long.toString(number/100000);
 

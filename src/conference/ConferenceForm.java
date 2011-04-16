@@ -48,6 +48,7 @@ import ui.controls.form.TextInput;
 import menu.Command;
 //#endif
 //#ifdef GRAPHICS_MENU
+import menu.MenuListener;
 import ui.GMenu;
 import ui.GMenuConfig;
 //#endif
@@ -55,7 +56,7 @@ import ui.GMenuConfig;
  *
  * @author EvgS,aqent
  */
-public final class ConferenceForm extends DefForm {
+public final class ConferenceForm extends DefForm implements MenuListener {
 //#ifndef MENU
     Command cmdJoin;
     Command cmdAdd;
@@ -169,14 +170,9 @@ public final class ConferenceForm extends DefForm {
 
         autoJoin=new CheckBox(SR.get(SR.MS_AUTOLOGIN), autojoin);
         addControl(autoJoin);
-
-	setCommandListener(this);
-
     }
 
     public void commandAction(Command c, Displayable d){
-        super.commandAction(c, d);
-
         String nick = nickField.getValue();
         String room = roomField.getValue();
         String host = hostField.getValue();
@@ -230,9 +226,6 @@ public final class ConferenceForm extends DefForm {
         addCommand(cmdAdd);
         addCommand(cmdSave);
         addCommand(cmdJoin); 
-//#ifndef GRAPHICS_MENU
-//#      addCommand(cmdCancel);
-//#endif
     }
 
 //#ifdef MENU_LISTENER

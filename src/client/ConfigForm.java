@@ -40,7 +40,7 @@ import history.HistoryConfigForm;
  * @author aqent
  */
 
-public class ConfigForm extends DefForm implements MenuListener {
+public class ConfigForm extends DefForm {
     public ConfigForm() {
         super(SR.get(SR.MS_OPTIONS));
 

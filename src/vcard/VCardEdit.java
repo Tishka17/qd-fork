@@ -33,9 +33,10 @@ import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
+import menu.MenuListener;
 import midlet.BombusQD;
 
-import ui.Time;
+import util.Time;
 import util.StringUtils;
 
 import ui.controls.form.ImageItem;
@@ -54,7 +55,7 @@ import ui.GMenuConfig;
  * @author ad
  */
 
-public class VCardEdit extends DefForm implements Runnable
+public class VCardEdit extends DefForm implements MenuListener, Runnable
 //#if (FILE_IO)
         , BrowserListener
 //#endif
@@ -137,9 +138,6 @@ public class VCardEdit extends DefForm implements Runnable
 
 
     public void commandAction(Command c, Displayable d) {
-        if (c==cmdCancel) {
-             destroyView();
-        }
         if (c==cmdRefresh) {
             VCard.request(vcard.getJid(), vcard.getId().substring(5));
             destroyView();
@@ -165,8 +163,6 @@ public class VCardEdit extends DefForm implements Runnable
         }
         if (c==cmdPublish)
             publish();
-
-        super.commandAction(c, d);
     }
 
 

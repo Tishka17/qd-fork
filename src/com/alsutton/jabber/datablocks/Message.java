@@ -27,7 +27,7 @@
 package com.alsutton.jabber.datablocks;
 import com.alsutton.jabber.*;
 import java.util.*;
-import ui.Time;
+import util.Time;
 import xmpp.XmppError;
 
 public class Message extends JabberDataBlock {

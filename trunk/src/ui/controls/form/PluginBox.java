@@ -74,9 +74,11 @@ public final class PluginBox extends IconTextElement {
                 case USERKEYS:
                     Config.userKeys = !Config.userKeys;
                     break;
+//#ifdef AVATARS
                 case AVATARS:
                     Config.module_avatars = !Config.module_avatars;
                     break;
+//#endif
                 case HISTORY:
                     Config.module_history = !Config.module_history;
                     break;

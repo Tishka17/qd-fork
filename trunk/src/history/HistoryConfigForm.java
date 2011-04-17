@@ -65,6 +65,7 @@ public class HistoryConfigForm extends DefForm {
         Config.historyPath = historyFolder.getValue();
 //#endif
         Config.historyTypeIndex = historyType.getValue();
+        destroyView();
     }
 }
 //#endif

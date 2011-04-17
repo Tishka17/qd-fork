@@ -64,10 +64,6 @@ public final class AltMessageEdit extends BaseMessageEdit {
             input.setConstraints(TextField.INITIAL_CAPS_SENTENCE);
         }
 
-        if (cmdSend == null) {
-            initCommands();
-        }
-
         form.addCommand(cmdSend);
         form.addCommand(cmdInsMe);
 //#ifdef SMILES
@@ -132,12 +128,12 @@ public final class AltMessageEdit extends BaseMessageEdit {
         }
 //#endif
         if (null != to) {
-            if (to.origin >= 4) {
+            if (to.origin == Contact.ORIGIN_GROUPCHAT) {
                 form.addCommand(cmdInsNick);
             } else {
                 form.removeCommand(cmdInsNick);
             }
-            if (to.origin == 4) {
+            if (to.origin == Contact.ORIGIN_GROUPCHAT) {
                 form.addCommand(cmdSubj);
             } else {
                 form.removeCommand(cmdSubj);

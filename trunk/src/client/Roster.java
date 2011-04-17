@@ -526,7 +526,9 @@ public final class Roster
 //#endif
 //menu actions
 
-    public void cmdMinimize() { BombusQD.getInstance().hideApp(true, null);  }
+    public void cmdMinimize() {
+        BombusQD.hideApp();
+    }
 
     public void cmdAccount() {
         new AccountSelect(false, -1).show();
@@ -1616,7 +1618,7 @@ public final class Roster
         self.jid=this.myJid=new Jid(myJid);
     }
 
-//#if FILE_IO
+//#if FILE_IO && AVATARS
     public void cashePhoto(VCard vcard,Contact c){
        if(vcard.getPhoto()==null) return;
         StringBuffer nickDate=new StringBuffer(0);
@@ -1714,7 +1716,7 @@ public final class Roster
     }
 //#endif
 
-
+//#ifdef AVATARS
     public void setImageAvatar(Contact c,Image photoImg){
         int newW=photoImg.getWidth();
         int newH=photoImg.getHeight();
@@ -1726,6 +1728,7 @@ public final class Roster
         c.avatar_height=newH;
         c.img_vcard=resizeImage(photoImg,newW,newH);
     }
+//#endif
 
    public int blockArrived( JabberDataBlock data ) { //fix
         try {
@@ -1788,7 +1791,7 @@ public final class Roster
 					return JabberBlockListener.BLOCK_REJECTED;
 			}
 
-//#if FILE_IO
+//#if FILE_IO && AVATARS
                                 if(midlet.BombusQD.cf.autoSaveVcard) {//check img in fs?
                                     cashePhoto(vcard,c);
                                 }
@@ -1809,6 +1812,7 @@ public final class Roster
                          return JabberBlockListener.BLOCK_PROCESSED;
                     }
 
+//#ifdef AVATARS
                     if (id.startsWith("avcard_get")) {
                         Thread.sleep(100);
 			String matchedjid = id.substring(10, id.length());
@@ -1824,7 +1828,7 @@ public final class Roster
                             } else {
                                 Contact c = getContact(matchedjid, true);
                                 Image photoImg = Image.createImage(vc.getPhoto(), 0, length);
-  //#if FILE_IO
+//#if FILE_IO
                                 if(midlet.BombusQD.cf.autoSaveVcard) {
                                     cashePhoto(vc, c);
                                 }
@@ -1844,6 +1848,7 @@ public final class Roster
 
                         return JabberBlockListener.BLOCK_PROCESSED;
                     }
+//#endif
                  }
 
                 if ( type.equals( "result" ) ) {
@@ -2242,6 +2247,7 @@ public final class Roster
 //#                 //midlet.BombusQD.debug.add("::PRESENCE "+data.toString(),10);
 //#endif
 
+//#ifdef AVATARS
                 if (ti != Presence.PRESENCE_OFFLINE) {
                     if (midlet.BombusQD.cf.auto_queryPhoto) {
                         Contact c = getContact(from, true);
@@ -2252,6 +2258,7 @@ public final class Roster
                         }
                     }
                 }
+//#endif
 //#ifndef WMUC
             JabberDataBlock xmuc=pr.findNamespace("x", "http://jabber.org/protocol/muc#user");
             if (xmuc==null) xmuc=pr.findNamespace("x", "http://jabber.org/protocol/muc"); //join errors
@@ -2366,7 +2373,7 @@ public final class Roster
                         conferenceContact=null;
                         chatPres=null;
 
-//#ifdef FILE_IO
+//#if FILE_IO && AVATARS
                         if(midlet.BombusQD.cf.autoload_FSPhoto) {
                             loadAvatar(from, true);
                         }
@@ -2382,7 +2389,7 @@ public final class Roster
                     //if(null != room) room = null;
                 } else {
 //#endif
-//#ifdef FILE_IO
+//#if FILE_IO && AVATARS
                     if(midlet.BombusQD.cf.autoload_FSPhoto) {
                         loadAvatar(from, false);
                     }
@@ -2804,8 +2811,8 @@ public final class Roster
                 setWobbler(2, c, message.from+"\n"+message.body,null);
 //#endif
 
-	if (midlet.BombusQD.cf.popupFromMinimized && Config.getInstance().isMinimized==true)
-	    BombusQD.getInstance().hideApp(false,c);
+	if (midlet.BombusQD.cf.popupFromMinimized && BombusQD.isMinimized())
+	    c.getMessageList().show();
 
         if (midlet.BombusQD.cf.autoFocus && message.messageType!=Msg.MESSAGE_TYPE_PRESENCE && message.messageType!=Msg.MESSAGE_TYPE_OUT)
             focusToContact(c, false);
@@ -3341,7 +3348,7 @@ public final class Roster
 //#endif
         else if (keyCode==KEY_NUM9) {
             if (midlet.BombusQD.cf.allowMinimize)
-                BombusQD.getInstance().hideApp(true,null);
+                BombusQD.hideApp();
             else if (phoneManufacturer==Config.SIEMENS2)//SIEMENS: MYMENU call. Possible Main Menu for capable phones
                  try {
                       BombusQD.getInstance().platformRequest("native:ELSE_STR_MYMENU");

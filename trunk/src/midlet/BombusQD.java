@@ -39,9 +39,13 @@ import colors.ColorTheme;
 //#ifdef STATS
 import stats.Stats;
 //#endif
-import javax.microedition.midlet.*;
-import javax.microedition.lcdui.*;
-import locale.*;
+import javax.microedition.midlet.MIDlet;
+import javax.microedition.lcdui.Display;
+import javax.microedition.lcdui.Displayable;
+//#ifdef PEP
+import locale.Activity;
+//#endif
+import locale.SR;
 import client.Config;
 import client.StaticData;
 import client.Roster;
@@ -51,9 +55,8 @@ import ui.SplashScreen;
 //#endif
 import client.Contact;
 //#ifdef LIGHT_CONTROL
-import light.*;
+import light.CustomLight;
 //#endif
-import history.*;
 //#ifdef CLIENTS_ICONS
 import images.ClientsIconsData;
 //#endif
@@ -84,9 +87,11 @@ public class BombusQD extends MIDlet implements Runnable {
     public SplashScreen s;
     private static BombusQD instance;
 
+    private static boolean minimized = false;
+
     public void startApp() {
         if (isRunning) {
-            hideApp(false, null);
+            showApp();
         } else {
             isRunning = true;
 
@@ -203,18 +208,18 @@ public class BombusQD extends MIDlet implements Runnable {
 
     }
 
-    public void hideApp(boolean hide, Contact c) {
-        if (hide) {
-            cf.isMinimized = true;
-            display.setCurrent(null);
-        } else {
-            cf.isMinimized = false;
-            if (c != null) {
-                c.getMessageList().show();
-            } else {
-                sd.roster.show();
-            }
-        }
+    public static void hideApp() {
+        minimized = true;
+        display.setCurrent(null);
+    }
+
+    public static void showApp() {
+        minimized = false;
+        display.setCurrent(sd.canvas);
+    }
+
+    public static boolean isMinimized() {
+        return minimized;
     }
 
     public static BombusQD getInstance() {

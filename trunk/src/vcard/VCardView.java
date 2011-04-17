@@ -196,6 +196,7 @@ public class VCardView extends DefForm implements MenuListener
                         photoItem.collapsed = true;
                     }
                     insertControl(photoItem, 0);
+//#ifdef AVATARS
                     if (contact != null) {
                         if (Config.module_avatars) {
                             //int width = photoImg.getWidth();
@@ -203,6 +204,7 @@ public class VCardView extends DefForm implements MenuListener
                             midlet.BombusQD.sd.roster.setImageAvatar(contact, photoImg);
                         }
                     }
+//#endif
                     //photoImg = null;
                 }
             } catch (Exception e) {
@@ -218,7 +220,9 @@ public class VCardView extends DefForm implements MenuListener
             this.contact.clearVCard();
         } else if (c == cmdDelPhoto) {
             vcard.dropPhoto();
+//#ifdef AVATARS
             this.contact.img_vcard = null;
+//#endif
             setPhoto();
         } else if (c == cmdRefresh) {
             refreshVCard();

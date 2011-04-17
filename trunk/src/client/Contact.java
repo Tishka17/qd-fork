@@ -543,18 +543,22 @@ public class Contact extends IconTextElement {
         if (getSecondString()!=null)
         {
             itemVHeight += fontHeight<<1;
+//#ifdef AVATARS
             if(img_vcard!=null){
               if(img_vcard.getHeight()>=itemVHeight){
                 itemVHeight = avatar_height + 5;
               }
             }
+//#endif
         } else {
           itemVHeight = (maxImgHeight>=fontHeight)?maxImgHeight:fontHeight;
+//#ifdef AVATARS
           if(img_vcard!=null){
              if(img_vcard.getHeight()>=itemVHeight){
                itemVHeight = avatar_height + 5;
              }
           }
+//#endif
         }
 		if (itemVHeight < midlet.BombusQD.cf.minItemHeight)
 		itemVHeight = midlet.BombusQD.cf.minItemHeight;
@@ -562,12 +566,15 @@ public class Contact extends IconTextElement {
         return itemVHeight;
     }
 
-
+//#ifdef AVATARS
     public Image img_vcard=null;
+//#endif
     public boolean hasPhoto=false;
 
+//#ifdef AVATARS
     public int avatar_width=0;
     public int avatar_height=0;
+//#endif
 
     public final void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {
         int imageIndex = getImageIndex();
@@ -594,13 +601,16 @@ public class Contact extends IconTextElement {
 
         int imgH = (h - imgHeight) >> 1;
 
+//#ifdef AVATARS
         if(!Config.module_avatars) {
             img_vcard=null;
         }
+//#endif
         if (imageIndex>-1) {
             offset += imgHeight;
             il.drawImage(g, imageIndex, 2, imgH);
         }
+//#ifdef AVATARS
         if(img_vcard!=null){
            int yy = (h - avatar_height) >> 1 ;
            int def = g.getColor();
@@ -621,6 +631,7 @@ public class Contact extends IconTextElement {
            }
            g.setColor(def);
         }
+//#endif
 //#ifdef CLIENTS_ICONS
         if (hasClientIcon() && midlet.BombusQD.cf.showClientIcon ) {
              int clientImgSize=ClientsIcons.getInstance().getWidth();

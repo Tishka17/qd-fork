@@ -166,7 +166,7 @@ public class UserKeyExec {
 //#endif
             case 14:
                 if (cf.allowMinimize)
-                    BombusQD.getInstance().hideApp(true, null);
+                    BombusQD.hideApp();
                 break;
             case 15:
                 ColorTheme.invertSkin();

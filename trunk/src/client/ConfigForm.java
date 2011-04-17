@@ -58,7 +58,9 @@ public class ConfigForm extends DefForm {
 //#ifdef USER_KEYS
         addControl(new PluginBox(SR.get(SR.MS_hotkeysStr), Config.userKeys, PluginBox.USERKEYS));
 //#endif
+//#ifdef AVATARS
         addControl(new PluginBox(SR.get(SR.MS_AVATARS), Config.module_avatars, PluginBox.AVATARS));
+//#endif
 //#ifdef HISTORY
         addControl(new PluginBox(SR.get(SR.MS_HISTORY), Config.module_history, PluginBox.HISTORY));
 //#endif
@@ -123,10 +125,12 @@ public class ConfigForm extends DefForm {
                 return null;
             }
 //#endif
+//#ifdef AVATARS
         } else if(text.equals(SR.get(SR.MS_AVATARS))) {
             if (!Config.module_avatars) {
                 return null;
             }
+//#endif
         }
         return SR.get(SR.MS_config);
     }
@@ -164,8 +168,10 @@ public class ConfigForm extends DefForm {
         } else if (type.equals(SR.get(SR.MS_taskstr))) {
             new autotask.AutoTaskForm().show();
 //#endif
+//#ifdef AVATARS
         } else if (type.equals(SR.get(SR.MS_AVATARS))) {
             new AvatarConfigForm().show();
+//#endif
         } else {
             new ModuleConfigForm(type).show();
         }

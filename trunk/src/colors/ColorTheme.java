@@ -27,7 +27,6 @@
  */
 package colors;
 
-import client.StaticData;
 import io.NvStorage;
 //#ifdef FILE_IO
 import io.file.FileIO;
@@ -36,6 +35,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Hashtable;
+import midlet.BombusQD;
 import util.StringLoader;
 //#ifdef DETRANSLIT
 //# import util.DeTranslit;
@@ -229,9 +229,9 @@ public class ColorTheme {
         StringBuffer body = new StringBuffer(0);
         body.append("xmlSkin\t");
 //#ifdef DETRANSLIT
-//#        body.append(DeTranslit.translit(midlet.BombusQD.sd.account.getNickName()));
+//#        body.append(DeTranslit.translit(BombusQD.sd.account.getNickName()));
 //#else
-        body.append(StaticData.getInstance().account.getNickName());
+        body.append(BombusQD.sd.account.getNickName());
 //#endif
         body.append("\r\n");
         for (int i = 0; i < size(); i++) {

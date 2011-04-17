@@ -29,23 +29,21 @@ package client;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.Iq;
 import java.util.Enumeration;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
 import midlet.BombusQD;
 import ui.controls.form.DefForm;
-import ui.controls.form.SpacerItem;
 import ui.controls.form.TextInput;
 
 /**
  *
  * @author ad
  */
-public class RenameGroup extends DefForm {
 
+public class RenameGroup extends DefForm {
     private Group group;
     private TextInput groupName;
+
     public RenameGroup(Group group) {
         super(SR.get(SR.MS_RENAME));
         this.group = group;
@@ -59,9 +57,8 @@ public class RenameGroup extends DefForm {
         destroyView();
     }
 
-    // TODO extract class?
-    class IqQueryRenameGroup extends Iq {
-        public IqQueryRenameGroup(String sourceGroup, String destGroup) {
+    private class IqQueryRenameGroup extends Iq {
+        private IqQueryRenameGroup(String sourceGroup, String destGroup) {
             super(null, Iq.TYPE_SET, "addros");
 
             JabberDataBlock qB = addChildNs("query", "jabber:iq:roster");

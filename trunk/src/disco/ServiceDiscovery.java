@@ -793,7 +793,7 @@ public class ServiceDiscovery
 
 //#ifdef GRAPHICS_MENU
     public int showGraphicsMenu() {
-        menuItem = new GMenu(this, null, menuCommands);
+        menuItem = new GMenu(this, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.SERVICE_DISCOVERY;
         redraw();
         return GMenu.SERVICE_DISCOVERY;

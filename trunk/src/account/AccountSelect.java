@@ -29,9 +29,6 @@ package account;
 
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
-import ui.*;
-import java.io.*;
-import java.util.*;
 //#ifndef MENU_LISTENER
 //# import javax.microedition.lcdui.CommandListener;
 //# import javax.microedition.lcdui.Command;
@@ -41,10 +38,15 @@ import menu.Command;
 //#endif
 import ui.MainBar;
 import io.NvStorage;
+import java.io.DataOutputStream;
+import java.util.Vector;
 import ui.controls.AlertBox;
 //#ifdef GRAPHICS_MENU
 import ui.GMenu;
+import ui.GMenuConfig;
 //#endif
+import ui.VirtualElement;
+import ui.VirtualList;
 
 public class AccountSelect extends VirtualList implements
 //#ifndef MENU_LISTENER

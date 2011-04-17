@@ -65,20 +65,15 @@ public class SmilePicker extends VirtualList implements VirtualElement {
 
     private Vector smileTable;
 
-    private TextField tf;
-    private TextBox tb;
+    private Object input;
     private boolean aniSmiles = false;
 
-    public SmilePicker(int caretPos, TextField tf, TextBox tb) {
+    public SmilePicker(int caretPos, Object input) {
          super();
-         this.caretPos=caretPos;
-         
-         if(midlet.BombusQD.cf.msgEditType>0){
-           this.tf=tf;
-         }else{
-           this.tb=tb;
-         };
-         
+
+         this.caretPos = caretPos;
+         this.input = input;
+                  
          setMainBarItem(new MainBar(locale.SR.get(locale.SR.MS_SELECT)));
          aniSmiles = midlet.BombusQD.cf.animatedSmiles;
          
@@ -122,17 +117,15 @@ public class SmilePicker extends VirtualList implements VirtualElement {
     }
 
     private void selectSmile() {
-        try {
-//#ifdef RUNNING_MESSAGE
-           if(midlet.BombusQD.cf.msgEditType>0){
-             tf.insert(" "+getTipString()+" ", caretPos);
-           }else{
-             tb.insert(" "+getTipString()+" ", caretPos);
-           };
-//#else
-//#             t.insert(getTipString() , caretPos);
-//#endif
-        } catch (Exception e) { /*e.printStackTrace();*/  }
+        if (input == null) {
+            return;
+        }
+        String smile = " " + getTipString() + " ";
+        if (input instanceof TextBox) {
+            ((TextBox)input).insert(smile, caretPos);
+        } else if (input instanceof TextField) {
+            ((TextField)input).insert(smile, caretPos);
+        }
         destroyView();
     }
     

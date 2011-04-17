@@ -44,25 +44,13 @@ import ui.controls.form.DefForm;
 
 public class AppendNickForm extends DefForm {
     private int caretPos;
+    private Object input;
 
-    private TextField tf;
-    private TextBox tb;
-
-    private boolean classic_chat=false;
-
-    public AppendNickForm(Contact to, int caretPos, TextField tf,TextBox tb) {
-        this(to, caretPos, tf, tb, false);
-    }
-
-    public AppendNickForm(Contact to, int caretPos, TextField tf,TextBox tb,boolean classic_chat) {
+    public AppendNickForm(Contact to, int caretPos, Object input) {
         super(SR.get(SR.MS_SELECT_NICKNAME));
-        this.caretPos = caretPos;
 
-        if (midlet.BombusQD.cf.msgEditType > 0) {
-            this.tf = tf;
-        } else {
-            this.tb = tb;
-        }
+        this.caretPos = caretPos;
+        this.input = input;
 
         Vector nicknames = new Vector(0);
         Vector contacts = StaticData.getInstance().roster.getHContacts();
@@ -97,18 +85,10 @@ public class AppendNickForm extends DefForm {
                 b.append(": ");
             }
 
-            if (classic_chat == true) {
-                if (midlet.BombusQD.cf.msgEditType > 0) {
-                    tf.setString(b.toString());
-                } else {
-                    tb.setString(b.toString());
-                }
-            } else {
-                if (midlet.BombusQD.cf.msgEditType > 0) {
-                    tf.insert(b.toString(), caretPos);
-                } else {
-                    tb.insert(b.toString(), caretPos);
-                }
+            if (input instanceof TextBox) {
+                ((TextBox)input).insert(b.toString(), caretPos);
+            } else if (input instanceof TextField) {
+                ((TextField)input).insert(b.toString(), caretPos);
             }
         }
         destroyView();

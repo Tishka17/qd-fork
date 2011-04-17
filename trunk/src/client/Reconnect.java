@@ -27,7 +27,6 @@
 
 package client;
 
-import com.alsutton.jabber.datablocks.Presence;
 import javax.microedition.lcdui.Alert;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.Display;
@@ -35,7 +34,6 @@ import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Gauge;
 import locale.SR;
 import ui.AlertBox;
-import midlet.BombusQD;
 
 /**
  *

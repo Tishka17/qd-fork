@@ -89,7 +89,7 @@ public class ColorConfigForm extends DefForm
 //#ifdef COLOR_TUNE
         addControl(new LinkString(SR.get(SR.MS_EDIT_COLORS)) {
             public void doAction() {
-                new ColorsList().show();
+                new ColorList().show();
             }
 
         });

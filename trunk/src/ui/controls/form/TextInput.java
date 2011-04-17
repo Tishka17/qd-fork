@@ -166,13 +166,14 @@ public class TextInput extends IconTextElement implements InputTextBoxNotify {
 
         int oldColor = g.getColor();
 
-        int thisOfs = 0;
+        int xOffset = 0;
+        int baseOffset = getOffset();
 
         int y = 0;
         if (caption != null) {
-            thisOfs = (getCaptionLength() > width) ? -ofs : 2;
+            xOffset = (getCaptionLength() > width) ? -ofs + baseOffset: baseOffset;
             g.setFont(captionFont);
-            g.drawString(caption, thisOfs, y, Graphics.TOP | Graphics.LEFT);
+            g.drawString(caption, xOffset, y, Graphics.TOP | Graphics.LEFT);
             y = captionFontHeight;
         }
 
@@ -188,9 +189,9 @@ public class TextInput extends IconTextElement implements InputTextBoxNotify {
         g.setColor(oldColor);
 
         if (getTextLength() > 0) {
-            thisOfs = (getTextLength() > width) ? -ofs + 4 : 4;
+            xOffset = (getTextLength() > width) ? -ofs + baseOffset: baseOffset;
             g.setFont(font);
-            g.drawString(getText(), thisOfs, y, Graphics.TOP | Graphics.LEFT);
+            g.drawString(getText(), xOffset, y, Graphics.TOP | Graphics.LEFT);
         }
     }
 

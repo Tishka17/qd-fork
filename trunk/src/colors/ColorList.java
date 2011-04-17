@@ -37,8 +37,8 @@ import ui.controls.form.DefForm;
  * @author ad,aqent
  */
 
-public class ColorsList extends DefForm {
-    public ColorsList() {
+public class ColorList extends DefForm {
+    public ColorList() {
         super(SR.get(SR.MS_COLOR_TUNE));
 
         addColorControl(SR.get(SR.MS_BALLOON_INK), ColorTheme.BALLOON_INK);

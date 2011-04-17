@@ -113,7 +113,7 @@
 //#       }
 //#     }
 //#     if (c == cmdInsNick){
-//#          new AppendNickForm(contact, msgTF.getCaretPosition() , msgTF, null, true).show();
+//#          new AppendNickForm(contact, msgTF.getCaretPosition() , msgTF).show();
 //#          return;
 //#     }
 //#     if (c == cmdInsMe){

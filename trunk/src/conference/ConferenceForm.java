@@ -238,7 +238,7 @@ public final class ConferenceForm extends DefForm implements MenuListener {
 
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(this, null, menuCommands);
+        menuItem = new GMenu(this, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.CONFERENCE_FORM;
         redraw();
         return GMenu.CONFERENCE_FORM;

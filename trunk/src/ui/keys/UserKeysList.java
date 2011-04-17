@@ -141,7 +141,7 @@ public class UserKeysList
    
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(this, null, menuCommands);
+        menuItem = new GMenu(this, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.USERKEYSLIST;            
         return GMenu.USERKEYSLIST;
     }

@@ -48,13 +48,10 @@ public class Msg {
     public final static byte MESSAGE_TYPE_SUBJ=13;
     public final static byte MESSAGE_TYPE_AUTH=14;
     public final static byte MESSAGE_TYPE_SYSTEM=15;
-    public final static byte MESSAGE_TYPE_EVIL=16;
-    //public final static byte MESSAGE_TYPE_GAME=17;
 //#ifdef JUICK.COM
     public final static byte MESSAGE_TYPE_JUICK=18;
 //#endif    
     public boolean highlite;
-    public boolean history;
     
     public byte messageType;
     
@@ -77,8 +74,6 @@ public class Msg {
 
     public boolean selected;
 
-    public boolean oldHighlite;
-    
     public void destroy(){
        if(null != from) from = null;
        if(null != subject) subject = null;
@@ -100,8 +95,6 @@ public class Msg {
         else if (body!=null && messageType!=Msg.MESSAGE_TYPE_SUBJ)
             if (body.length()>midlet.BombusQD.cf.messageLimit) itemCollapsed=true;
     }
-    
-    public void onSelect(){}
 
     public String getTime(){
         return Time.timeLocalString(dateGmt); 
@@ -115,23 +108,32 @@ public class Msg {
     }
     
     public int getColor() {
-        if (selected || highlite) return ColorTheme.getColor(ColorTheme.MSG_HIGHLIGHT);
-        if (color>-1) return color;
+        if (selected || highlite) {
+            return ColorTheme.getColor(ColorTheme.MSG_HIGHLIGHT);
+        }
+        if (color > -1) {
+            return color;
+        }
 
-         switch (messageType) {
-             case MESSAGE_TYPE_IN: return ColorTheme.getColor(ColorTheme.MESSAGE_IN);
-             case MESSAGE_TYPE_PRESENCE: return ColorTheme.getColor(ColorTheme.MESSAGE_PRESENCE);
-             case MESSAGE_TYPE_OUT: return ColorTheme.getColor(ColorTheme.MESSAGE_OUT);
-             case MESSAGE_TYPE_SUBJ:return ColorTheme.getColor(ColorTheme.MSG_SUBJ);
-             case MESSAGE_TYPE_HEADLINE: return ColorTheme.getColor(ColorTheme.MESSAGE_IN);
-             case MESSAGE_TYPE_AUTH: return ColorTheme.getColor(ColorTheme.MESSAGE_AUTH);
-             case MESSAGE_TYPE_EVIL: return 0xFF0000;
-             case MESSAGE_TYPE_HISTORY: return ColorTheme.getColor(ColorTheme.MESSAGE_HISTORY);
- //#ifdef JUICK.COM
-            case MESSAGE_TYPE_JUICK: return ColorTheme.getColor(ColorTheme.MESSAGE_IN);
- //#endif
-         }
-         return ColorTheme.getColor(ColorTheme.LIST_INK);
+        switch (messageType) {
+            case MESSAGE_TYPE_IN:
+            case MESSAGE_TYPE_HEADLINE:
+//#ifdef JUICK.COM
+            case MESSAGE_TYPE_JUICK:
+//#endif
+                return ColorTheme.getColor(ColorTheme.MESSAGE_IN);
+            case MESSAGE_TYPE_PRESENCE:
+                return ColorTheme.getColor(ColorTheme.MESSAGE_PRESENCE);
+            case MESSAGE_TYPE_OUT:
+                return ColorTheme.getColor(ColorTheme.MESSAGE_OUT);
+            case MESSAGE_TYPE_SUBJ:
+                return ColorTheme.getColor(ColorTheme.MSG_SUBJ);
+            case MESSAGE_TYPE_AUTH:
+                return ColorTheme.getColor(ColorTheme.MESSAGE_AUTH);
+            case MESSAGE_TYPE_HISTORY:
+                return ColorTheme.getColor(ColorTheme.MESSAGE_HISTORY);
+        }
+        return ColorTheme.getColor(ColorTheme.LIST_INK);
     }
 
     //memory leak

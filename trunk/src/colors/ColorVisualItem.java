@@ -38,7 +38,9 @@ import ui.VirtualList;
  * @author ad,aqent
  */
 
-public class ColorVisualItem extends IconTextElement {
+public final class ColorVisualItem extends IconTextElement {
+    private static final int ITEM_HEIGHT = 16;
+
     private int index;
     private int color;
 
@@ -82,10 +84,10 @@ public class ColorVisualItem extends IconTextElement {
     public int getVHeight() {
         if (0 == itemHeight) {
             int fontHeight = getFont().getHeight();
-            if (fontHeight > 16) {
+            if (fontHeight > ITEM_HEIGHT) {
                 itemHeight = fontHeight;
             } else {
-                itemHeight = 16;
+                itemHeight = ITEM_HEIGHT;
             }
             if (itemHeight < BombusQD.cf.minItemHeight) {
                 itemHeight = BombusQD.cf.minItemHeight;

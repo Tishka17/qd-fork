@@ -9,7 +9,6 @@
 package account;
 
 import ui.controls.AlertBox;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import client.Config;

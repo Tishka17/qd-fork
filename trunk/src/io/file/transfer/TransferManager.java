@@ -179,7 +179,7 @@ public class TransferManager
     public int showGraphicsMenu() {
         if (getItemCount()>0){
           commandState();
-          menuItem = new GMenu(this, null, menuCommands);
+          menuItem = new GMenu(this, menuCommands);
           GMenuConfig.getInstance().itemGrMenu = GMenu.TRANSFER_MANAGER;
           redraw();
         }

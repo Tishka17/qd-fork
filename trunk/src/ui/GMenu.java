@@ -89,7 +89,7 @@ public class GMenu extends CanvasEx {
    private int size;
    private static int x1,y1,x2,y2;
 
-   public GMenu(MenuListener menuListener, ImageList il, Vector menuCommands) {
+   public GMenu(MenuListener menuListener, Vector menuCommands) {
         gm.ml=menuListener;
 
         if(null == menuCommands) return;
@@ -110,7 +110,7 @@ public class GMenu extends CanvasEx {
 
     public GMenu(MenuListener menuListener, ImageList il, Vector menuCommands,
             Vector cmdfirstList, Vector cmdsecondList, Vector cmdThirdList) {
-        this(menuListener, il, menuCommands);
+        this(menuListener, menuCommands);
 
         gm.cmdfirstList = cmdfirstList;
         gm.cmdsecondList = cmdsecondList;

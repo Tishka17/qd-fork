@@ -28,6 +28,7 @@
 
 package message;
 
+import client.Config;
 import client.Msg;
 import colors.ColorTheme;
 import java.util.Vector;
@@ -101,24 +102,6 @@ public abstract class MessageList extends VirtualList
         return mi;
     }
 
-    /*
-    public VirtualElement getItemRef(int index) {
-        if (messages.size()<getItemCount()) {
-            messages.setSize(getItemCount());
-        }
-        MessageItem mi=(MessageItem) messages.elementAt(index);
-        if (null == mi) {
-            try { throw new Exception("getItemCount()"); } catch (Exception e) { e.printStackTrace(); }
-            initItem(getMessage(index), index);
-        }
-        readMessage(mi.msg);
-        return mi;
-    }
-     */
-
-    protected void readMessage(Msg msg) {
-    }
-
     protected final void initItem(Msg msg, int index) {
         //System.out.println(msg);
         if (messages.size()<getItemCount()) {
@@ -131,23 +114,18 @@ public abstract class MessageList extends VirtualList
         messages.setElementAt(mi, index);
     }
 
-
     protected abstract Msg getMessage(int index);
-
 
     public Msg replaceNickTags(Msg msg){
          return util.StringUtils.replaceNickTags(msg);
     }
 
-
-    protected void markRead(int msgIndex) {}
-
     protected boolean smiles;
 
-    public void addCommands() {
+    public void addDefaultCommands() {
 //#ifdef CLIPBOARD
         if (getItemCount() != 0) {
-            if (midlet.BombusQD.cf.useClipBoard) {
+            if (Config.useClipBoard) {
                 addCommand(Commands.cmdCopy);
                 if (!ClipBoard.isEmpty()) {
                     addCommand(Commands.cmdCopyPlus);
@@ -156,37 +134,30 @@ public abstract class MessageList extends VirtualList
         }
 //#endif
         if (getItemCount() != 0) {
-            addCommand(Commands.cmdxmlSkin);
-            addCommand(Commands.cmdUrl);
+            if (hasScheme()) {
+                addCommand(Commands.cmdxmlSkin);
+            }
+            if (hasUrl()) {
+                addCommand(Commands.cmdUrl);
+            }          
         }
     }
 
     public void commandAction(Command c, Displayable d) {
-        if (c==Commands.cmdUrl) {
-            try {
-                Vector urls=((MessageItem) getFocusedObject()).getUrlList();
+        MessageItem item = (MessageItem)getFocusedObject();
+        if (c == Commands.cmdUrl) {
+            Vector urls = (item).getUrlList();
+            if (urls != null) {
                 new MessageUrl(urls).show();
-            } catch (Exception e) {}
+            }
+        } else if (c == Commands.cmdxmlSkin) {
+             ColorTheme.loadSkin(((MessageItem)getFocusedObject()).msg.body, 2, true);
         }
-        if (c==Commands.cmdxmlSkin) {
-           try {
-               if (((MessageItem)getFocusedObject()).msg.body.indexOf("xmlSkin")>-1)
-                   ColorTheme.loadSkin(((MessageItem)getFocusedObject()).msg.body,2,true);
-            } catch (Exception e){}
-        }
-
 //#ifdef CLIPBOARD
-        if (c == Commands.cmdCopy)
-        {
-            try {
-                ClipBoard.add(  replaceNickTags( ((MessageItem)getFocusedObject()).msg )  );
-            } catch (Exception e) {}
-        }
-
-        if (c==Commands.cmdCopyPlus) {
-            try {
-                ClipBoard.append( replaceNickTags(  ((MessageItem)getFocusedObject()).msg  ) );
-            } catch (Exception e) {}
+        else if(c == Commands.cmdCopy) {
+            ClipBoard.add(replaceNickTags(item.msg));
+        } else  if (c == Commands.cmdCopyPlus) {
+            ClipBoard.append(replaceNickTags(item.msg));
         }
 //#endif
     }
@@ -208,7 +179,7 @@ public abstract class MessageList extends VirtualList
 //#ifdef GRAPHICS_MENU
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(this,  null, menuCommands);
+        menuItem = new GMenu(this, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.MESSAGE_LIST;
         return GMenu.MESSAGE_LIST;
     }
@@ -222,8 +193,41 @@ public abstract class MessageList extends VirtualList
 //#         new MyMenu(display, parentView, this, capt, null, menuCommands);
 //#    }
 //#endif
-
 //#endif
 
-    public void commandState() { }
+    protected boolean hasScheme() {
+        if (0 == getItemCount()) {
+            return false;
+        }
+        String body = getMessage(cursor).body;
+        if (body.indexOf("xmlSkin") > -1) {
+            return true;
+        }
+        return false;
+    }
+
+    protected boolean hasUrl() {
+        if (0 == getItemCount()) {
+            return false;
+        }
+        String body = getMessage(cursor).body;
+        if (-1 != body.indexOf("http://")) {
+            return true;
+        }
+        if (-1 != body.indexOf("https://")) {
+            return true;
+        }
+        if (-1 != body.indexOf("ftp://")) {
+            return true;
+        }
+        if (-1 != body.indexOf("tel:")) {
+            return true;
+        }
+        if (-1 != body.indexOf("native:")) {
+            return true;
+        }
+        return false;
+    }
+
+    public void commandState() {}
 }

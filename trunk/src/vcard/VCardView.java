@@ -323,7 +323,7 @@ public class VCardView extends DefForm implements MenuListener
 
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(this, null, menuCommands);
+        menuItem = new GMenu(this, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.VCARD_VIEW;
         redraw();
         return GMenu.VCARD_VIEW;

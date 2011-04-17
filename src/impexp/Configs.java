@@ -66,7 +66,9 @@ public class Configs {
         writeInt(data, "baloonFont", config.baloonFont);
         writeInt(data, "reconnectCount", config.reconnectCount);
         writeInt(data, "reconnectTime", config.reconnectTime);
+//#ifdef AVATARS
         writeInt(data, "maxAvatarHeight", config.maxAvatarHeight);
+//#endif
 //#ifdef BACK_IMAGE
         writeInt(data, "backImgType", config.backImgType);
 //#endif
@@ -77,7 +79,9 @@ public class Configs {
         writeInt(data, "gmenu_bgnd", config.gmenu_bgnd);
         writeInt(data, "popup_bgnd", config.popup_bgnd);
         writeInt(data, "cursor_bgnd", config.cursor_bgnd);
+//#ifdef AVATARS
         writeInt(data, "maxAvatarWidth", config.maxAvatarWidth);
+//#endif
         writeInt(data, "msgEditType", config.msgEditType);
         writeInt(data, "graphicsMenuPosition", config.graphicsMenuPosition);
         writeInt(data, "gradientBarLight1", config.gradientBarLight1);
@@ -102,7 +106,9 @@ public class Configs {
         writeInt(data, "lightBlink", Config.lightBlink);
 //#endif
 
+//#ifdef AVATARS
         writeUTF(data, "msgAvatarPath", config.msgAvatarPath);
+//#endif
         writeUTF(data, "lang", config.lang);
 //#ifdef BACK_IMAGE
         writeUTF(data, "backImgPath", config.backImgPath);
@@ -111,13 +117,15 @@ public class Configs {
         writeBoolean(data, "oldSE", config.oldSE);
         writeBoolean(data, "showTimeTraffic", config.showTimeTraffic);
         writeBoolean(data, "hideMessageIcon", config.hideMessageIcon);
-        writeBoolean(data, "auto_queryPhoto", config.auto_queryPhoto);
         writeBoolean(data, "iconsLeft", config.iconsLeft);
         writeBoolean(data, "usePhoneTheme", config.usePhoneTheme);
         writeBoolean(data, "gradient_cursor", config.gradient_cursor);
+//#ifdef AVATARS
+        writeBoolean(data, "auto_queryPhoto", config.auto_queryPhoto);
         writeBoolean(data, "autoSaveVcard", config.autoSaveVcard);
         writeBoolean(data, "showAvatarRect", config.showAvatarRect);
         writeBoolean(data, "autoload_FSPhoto", config.autoload_FSPhoto);
+//#endif
         writeBoolean(data, "nokiaReconnectHack", config.nokiaReconnectHack);
         writeBoolean(data, "showTimeInMsgs", config.showTimeInMsgs);
         writeBoolean(data, "autoScroll", config.autoScroll);
@@ -136,7 +144,9 @@ public class Configs {
         writeBoolean(data, "module_ie", config.module_ie);
         writeBoolean(data, "module_notify", config.module_notify);
         writeBoolean(data, "module_tasks", config.module_tasks);
+//#ifdef AVATARS
         writeBoolean(data, "module_avatars", config.module_avatars);
+//#endif
         writeBoolean(data, "animatedSmiles", config.animatedSmiles);
         writeBoolean(data, "runningMessage", config.runningMessage);
         writeBoolean(data, "debug", config.debug);
@@ -256,7 +266,9 @@ public class Configs {
             config.baloonFont = readInt(data, "baloonFont", config.baloonFont);
             config.reconnectCount = readInt(data, "reconnectCount", config.reconnectCount);
             config.reconnectTime = readInt(data, "reconnectTime", config.reconnectTime);
+//#ifdef AVATARS
             config.maxAvatarHeight = readInt(data,  "maxAvatarHeight", config.maxAvatarHeight);
+//#endif
 //#ifdef BACK_IMAGE
             config.backImgType = readInt(data, "backImgType", config.backImgType);
 //#endif
@@ -267,7 +279,9 @@ public class Configs {
             config.gmenu_bgnd = readInt(data, "gmenu_bgnd", config.gmenu_bgnd);
             config.popup_bgnd = readInt(data, "popup_bgnd", config.popup_bgnd);
             config.cursor_bgnd = readInt(data, "cursor_bgnd", config.cursor_bgnd);
+//#ifdef AVATARS
             config.maxAvatarWidth = readInt(data, "maxAvatarWidth", config.maxAvatarWidth);
+//#endif
             config.msgEditType = readInt(data, "msgEditType", config.msgEditType);
             config.graphicsMenuPosition = readInt(data, "graphicsMenuPosition", config.graphicsMenuPosition);
             config.gradientBarLight1 = readInt(data, "gradientBarLight1", config.gradientBarLight1);
@@ -291,8 +305,9 @@ public class Configs {
             Config.lightError = readInt(data, "lightError", Config.lightError);
             Config.lightBlink = readInt(data, "lightBlink", Config.lightBlink);
 //#endif
-
+//#ifdef AVATARS
             config.msgAvatarPath = readUTF(data, "msgAvatarPath", config.msgAvatarPath);
+//#endif
             config.lang = readUTF(data, "lang", config.lang);
 //#ifdef BACK_IMAGE
             config.backImgPath = readUTF(data, "backImgPath", config.backImgPath);
@@ -300,13 +315,15 @@ public class Configs {
             config.oldSE = readBoolean(data, "oldSE", config.oldSE);
             config.showTimeTraffic = readBoolean(data, "showTimeTraffic", config.showTimeTraffic);
             config.hideMessageIcon = readBoolean(data, "hideMessageIcon", config.hideMessageIcon);
-            config.auto_queryPhoto = readBoolean(data, "auto_queryPhoto", config.auto_queryPhoto);
             config.iconsLeft = readBoolean(data, "iconsLeft", config.iconsLeft);
             config.usePhoneTheme = readBoolean(data, "usePhoneTheme", config.usePhoneTheme);
             config.gradient_cursor = readBoolean(data, "gradient_cursor", config.gradient_cursor);
+//#ifdef AVATARS
+            config.auto_queryPhoto = readBoolean(data, "auto_queryPhoto", config.auto_queryPhoto);
             config.autoSaveVcard = readBoolean(data, "autoSaveVcard", config.autoSaveVcard);
             config.showAvatarRect = readBoolean(data, "showAvatarRect", config.showAvatarRect);
             config.autoload_FSPhoto = readBoolean(data, "autoload_FSPhoto", config.autoload_FSPhoto);
+//#endif
             config.nokiaReconnectHack = readBoolean(data, "nokiaReconnectHack", config.nokiaReconnectHack);
             config.showTimeInMsgs = readBoolean(data, "showTimeInMsgs", config.showTimeInMsgs);
             config.autoScroll = readBoolean(data, "autoScroll", config.autoScroll);
@@ -319,7 +336,9 @@ public class Configs {
             config.module_ie = readBoolean(data, "module_ie", config.module_ie);
             config.module_notify = readBoolean(data, "module_notify", config.module_notify);
             config.module_tasks = readBoolean(data, "module_tasks", config.module_tasks);
+//#ifdef AVATARS
             config.module_avatars = readBoolean(data, "module_avatars", config.module_avatars);
+//#endif
             config.animatedSmiles = readBoolean(data, "animatedSmiles", config.animatedSmiles);
             config.runningMessage = readBoolean(data, "runningMessage", config.runningMessage);
             config.debug = readBoolean(data, "debug", config.debug);

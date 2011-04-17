@@ -246,7 +246,6 @@ public class Config {
     public int minItemHeight = rosterFont * 3;
     public static int contactXOffset = 10;
 
-    public boolean isMinimized = false;
     public boolean iconsLeft = true;
     public int width_classic = -1;
 
@@ -263,6 +262,7 @@ public class Config {
     public int popup_bgnd = 0;
     public int cursor_bgnd = 0;
 
+//#ifdef AVATARS
     public String msgAvatarPath = "";
     public boolean auto_queryPhoto = false;
     public boolean autoSaveVcard = false;
@@ -270,6 +270,7 @@ public class Config {
     public boolean autoload_FSPhoto = false;
     public int maxAvatarHeight = 35;
     public int maxAvatarWidth = 35;
+//#endif
 
     public boolean nokiaReconnectHack = false;
     public static boolean showTimeInMsgs = false;
@@ -565,7 +566,9 @@ public class Config {
             inputStream.readBoolean();
 
             hideMessageIcon = inputStream.readBoolean();
+//#ifdef AVATARS
             auto_queryPhoto = inputStream.readBoolean();
+//#endif
 
             // free
             inputStream.readBoolean();
@@ -580,10 +583,11 @@ public class Config {
             iconsLeft=inputStream.readBoolean();
             usePhoneTheme=inputStream.readBoolean();
             gradient_cursor=inputStream.readBoolean();
+//#ifdef AVATARS
             autoSaveVcard=inputStream.readBoolean();
             showAvatarRect=inputStream.readBoolean();
-
             autoload_FSPhoto=inputStream.readBoolean();
+//#endif
             nokiaReconnectHack=inputStream.readBoolean();
             showTimeInMsgs=inputStream.readBoolean();
             autoScroll = inputStream.readBoolean();
@@ -609,7 +613,9 @@ public class Config {
             module_ie=inputStream.readBoolean();
             module_notify=inputStream.readBoolean();
             module_tasks=inputStream.readBoolean();
+//#ifdef AVATARS
             module_avatars=inputStream.readBoolean();
+//#endif
 
             animatedSmiles=inputStream.readBoolean();
             runningMessage=inputStream.readBoolean();
@@ -664,7 +670,9 @@ public class Config {
             resolvedPort=inputStream.readInt();
             reconnectCount=inputStream.readInt();
             reconnectTime=inputStream.readInt();
+//#ifdef AVATARS
             maxAvatarHeight=inputStream.readInt();
+//#endif
 //#ifdef BACK_IMAGE
             backImgType=inputStream.readInt();
 //#endif
@@ -678,7 +686,9 @@ public class Config {
 
             inputStream.readInt();
 
+//#ifdef AVATARS
             maxAvatarWidth=inputStream.readInt();
+//#endif
             msgEditType=inputStream.readInt();
             graphicsMenuPosition=inputStream.readInt();
             gradientBarLight1=inputStream.readInt();
@@ -717,6 +727,7 @@ public class Config {
 	}
     }
 
+    // FIXME use preprocessor directives!
     public static boolean module_contacts = true;
     public static boolean module_messages = true;
     public static boolean module_network = true;
@@ -731,7 +742,9 @@ public class Config {
     public static boolean module_ie = false;
     public static boolean module_notify = true;
     public static boolean module_tasks = false;
+//#ifdef AVATARS
     public static boolean module_avatars = false;
+//#endif
 
     private boolean saveBoolean() {
        	DataOutputStream outputStream=NvStorage.CreateDataOutputStream();
@@ -831,7 +844,9 @@ public class Config {
             outputStream.writeBoolean(false);
 
             outputStream.writeBoolean(hideMessageIcon);
+//#ifdef AVATARS
             outputStream.writeBoolean(auto_queryPhoto);
+//#endif
 
             // free
             outputStream.writeBoolean(false);
@@ -846,10 +861,11 @@ public class Config {
             outputStream.writeBoolean(iconsLeft);
             outputStream.writeBoolean(usePhoneTheme);
             outputStream.writeBoolean(gradient_cursor);
+//#ifdef AVATARS
             outputStream.writeBoolean(autoSaveVcard);
             outputStream.writeBoolean(showAvatarRect);
-
             outputStream.writeBoolean(autoload_FSPhoto);
+//#endif
             outputStream.writeBoolean(nokiaReconnectHack);
             outputStream.writeBoolean(showTimeInMsgs);
             outputStream.writeBoolean(autoScroll);
@@ -875,7 +891,9 @@ public class Config {
             outputStream.writeBoolean(module_ie);
             outputStream.writeBoolean(module_notify);
             outputStream.writeBoolean(module_tasks);
+//#ifdef AVATARS
             outputStream.writeBoolean(module_avatars);
+//#endif
 
             outputStream.writeBoolean(animatedSmiles);
             outputStream.writeBoolean(runningMessage);
@@ -923,7 +941,9 @@ public class Config {
             outputStream.writeInt(resolvedPort);
             outputStream.writeInt(reconnectCount);
             outputStream.writeInt(reconnectTime);
+//#ifdef AVATARS
             outputStream.writeInt(maxAvatarHeight);
+//#endif
 //#ifdef BACK_IMAGE
             outputStream.writeInt(backImgType);
 //#endif
@@ -936,8 +956,9 @@ public class Config {
             outputStream.writeInt(cursor_bgnd);
 
             outputStream.writeInt(0);
-
+//#ifdef AVATARS
             outputStream.writeInt(maxAvatarWidth);
+//#endif
             outputStream.writeInt(msgEditType);
             outputStream.writeInt(graphicsMenuPosition);
             outputStream.writeInt(gradientBarLight1);
@@ -972,7 +993,9 @@ public class Config {
     public boolean saveUTF() {
         DataOutputStream outputStream = NvStorage.CreateDataOutputStream();
         try {
+//#ifdef AVATARS
             outputStream.writeUTF(msgAvatarPath);
+//#endif
             outputStream.writeUTF(defConference);
             outputStream.writeUTF(lang);
             outputStream.writeUTF(verHash);
@@ -998,7 +1021,9 @@ public class Config {
     protected void loadUTF() {
         DataInputStream inputStream = NvStorage.ReadFileRecord("confUtf", 0);
         try {
+//#ifdef AVATARS
             msgAvatarPath = inputStream.readUTF();
+//#endif
             defConference = inputStream.readUTF();
             lang = inputStream.readUTF();
             verHash = inputStream.readUTF();

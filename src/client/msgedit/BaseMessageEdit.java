@@ -34,8 +34,6 @@ import java.util.Vector;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Displayable;
-import javax.microedition.lcdui.TextBox;
-import javax.microedition.lcdui.TextField;
 import javax.microedition.lcdui.Ticker;
 import locale.SR;
 import midlet.BombusQD;
@@ -78,10 +76,6 @@ public abstract class BaseMessageEdit implements CommandListener {
     protected Contact to;
 
     public BaseMessageEdit() {
-        initCommands();
-    }
-
-    public final void initCommands() {
         if (Config.swapSendAndSuspend) {
             cmdSend = new Command(SR.get(SR.MS_SEND), Command.BACK, 1);
             cmdSuspend = new Command(SR.get(SR.MS_SUSPEND), Command.SCREEN, 90);
@@ -223,21 +217,6 @@ public abstract class BaseMessageEdit implements CommandListener {
             body = null;
         }
 
-//#ifdef ARCHIVE
-        if (c == cmdPaste) {
-            if (null != to) {
-                to.msgSuspended = body;
-            }
-            new ArchiveList(getCaretPosition(), getInput()).show();
-            return;
-        }
-//#endif
-//#ifdef CLIPBOARD
-        if (c == cmdPasteText) {
-            insert(getCaretPosition(), ClipBoard.getClipBoard());
-            return;
-        }
-//#endif
         if (c == cmdInsMe) {
             insert(0, "/me ");
             return;
@@ -249,107 +228,96 @@ public abstract class BaseMessageEdit implements CommandListener {
                 return;
             }
             insert(getCaretPosition(), to.lastSendedMessage);
-            return;
-        }
+//#ifdef ARCHIVE
+        } else if (c == cmdPaste) {
+            if (null != to) {
+                to.msgSuspended = body;
+            }
+            new ArchiveList(getCaretPosition(), getInput()).show();
+//#endif
+//#ifdef CLIPBOARD
+        } else if (c == cmdPasteText) {
+            insert(getCaretPosition(), ClipBoard.getClipBoard());
+//#endif
 //#ifdef SMILES
-        if (c == cmdSmile) {
+        } else if (c == cmdSmile) {
             new SmilePicker(getCaretPosition(), getInput()).show();
-            return;
-        }
 //#endif
 //#ifndef WMUC
-        if (c == cmdInsNick) {
+        } else if (c == cmdInsNick) {
             new AppendNickForm(to, getCaretPosition(), getInput()).show();
-            return;
-        }
 //#endif
-
-        // придумать что-то с общим кодом
-        if (c == cmdCancel) {
-            composing = false;
-            if (!multiMessage) {
-                send(null, null);
-            }
-            body = null;
-            multiMessage = false;
-            if (null != to) {
-                to.msgSuspended = body;
-            }
-            destroyView();
-            return;
-        } else if (c == cmdSuspend) {
+        } else if (c == cmdCancel || c == cmdSuspend) {
             composing = false;
             if (!multiMessage) {
                 send(null, null);
             }
             multiMessage = false;
-            if (null != to) {
+            if (null != to && c == cmdSuspend) {
                 to.msgSuspended = body;
             }
             body = null;
             destroyView();
-            return;
         } else if (c == cmdTranslate) {
             new TranslateSelect(to,body, "none", false, -1).show();
             body = null;
-            return;
-        } else if (c == cmdSend) {
-            if (body == null) {
+        } else {
+            if (c == cmdSend) {
+                if (body == null) {
+                    composing = false;
+                    if (!multiMessage) {
+                        send(null, null);
+                    }
+                    multiMessage = false;
+                    if (null != to && to.msgSuspended != null) {
+                        to.msgSuspended = null;
+                    }
+                    destroyView();
+                    return;
+                } else {
+                    if (null != to) {
+                        to.msgSuspended = null;
+                    }
+                }
+            }
+    //#ifdef DETRANSLIT
+//#             if (c == cmdSendInTranslit) {
+//#                 sendInTranslit = true;
+//#             }
+//# 
+//#             if (c == cmdSendInDeTranslit) {
+//#                 sendInDeTranslit = true;
+//#             }
+    //#endif
+            if (c == cmdSubj) {
+                if (body == null) {
+                    return;
+                }
+                subj = body;
+                body = null;
+            }
+
+            if (null == to || multiMessage) {
                 composing = false;
-                if (!multiMessage) {
-                    send(null, null);
+                if (activeContacts != null) {
+                    int size = activeContacts.size();
+                    for (int i = 0; i < size; ++i) {
+                        to = (Contact)activeContacts.elementAt(i);
+                        send();
+                    }
                 }
                 multiMessage = false;
-                if (null != to && to.msgSuspended != null) {
-                    to.msgSuspended = null;
-                }
-                destroyView();
-                return;
             } else {
-                if (null != to) {
-                    to.msgSuspended = null;
-                }
-            }
-        }
-//#ifdef DETRANSLIT
-//#         if (c == cmdSendInTranslit) {
-//#             sendInTranslit = true;
-//#         }
-//# 
-//#         if (c == cmdSendInDeTranslit) {
-//#             sendInDeTranslit = true;
-//#         }
-//#endif
-        if (c == cmdSubj) {
-            if (body == null) {
-                return;
-            }
-            subj = body;
-            body = null;
-        }
-
-//#ifdef RUNNING_MESSAGE
-        if (null == to || multiMessage) {
-            composing = false;
-            if (activeContacts != null) {
-                int size = activeContacts.size();
-                for (int i = 0; i < size; ++i) {
-                    to = (Contact)activeContacts.elementAt(i);
+                if (to.msgSuspended == null) {
+                    composing = false;
+                    //send(null,null);//check it on Sony Ericsson W595
                     send();
                 }
             }
-            multiMessage = false;
-        } else {
-            if (to.msgSuspended == null) {
-                composing = false;
-                //send(null,null);//check it on Sony Ericsson W595
-                send();
-            }
-        }
 //#if DETRANSLIT
-//#             sendInTranslit = false;
-//#             sendInDeTranslit = false;
+//#                 sendInTranslit = false;
+//#                 sendInDeTranslit = false;
 //#endif
-//#endif
+        }
     }
 }

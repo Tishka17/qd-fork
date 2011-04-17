@@ -103,7 +103,7 @@ public class HistoryStorage {
             bodyMessage = createBody(m).getBytes();
         }
 //#ifdef DETRANSLIT
-//#        filename = (Config.transliterateFilenames) ? DeTranslit.getInstance().translit(filename) : filename;
+//#        filename = (Config.transliterateFilenames) ? DeTranslit.translit(filename) : filename;
 //#endif
 
         StringBuffer buf = new StringBuffer(0);

@@ -36,21 +36,14 @@ import java.util.Vector;
 
 //#ifdef DETRANSLIT
 //# public class DeTranslit {
-//#     static Vector translit[];
-//#     static boolean filled=false;
+//#     private static Vector translit[];
 //# 
-//#     private static DeTranslit instance;
+//#     private DeTranslit() {}
 //# 
-//#     public static DeTranslit getInstance(){
-//# 	if (instance==null) {
-//# 	    instance=new DeTranslit();
-//# 	    instance.fill();
-//# 	}
-//# 	return instance;
-//#     }
-//# 
-//#     /** Creates a new instance of DeTranslit */
 //#     public static String deTranslit(String src) {
+//#         if (translit == null) {
+//#             fill();
+//#         }
 //#         if (translit[0].size()<1) return src;
 //#         if (src==null) return null;
 //#         for (int i=0; i<translit[0].size(); i++) {
@@ -60,6 +53,9 @@ import java.util.Vector;
 //#     }
 //# 
 //#     public static String translit(String src) {
+//#         if (translit == null) {
+//#             fill();
+//#         }
 //#         int size = translit[0].size();
 //#         if (size<1) return src;
 //#         if (src==null) return null;

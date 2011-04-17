@@ -165,10 +165,12 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                     addItem(SR.get(SR.MS_DELETE_VCARD), MI_DELVCARD, ActionsIcons.ICON_VCARD);
                     addItem(SR.get(SR.MS_DELETE_ALL_VCARD), MI_DELALLVCARD, ActionsIcons.ICON_VCARD);
                 }
+//#ifdef AVATARS
                 if (contact.img_vcard != null) {
                     addItem(SR.get(SR.MS_DELETE_AVATAR_VCARD), MI_DELAVATAR, ActionsIcons.ICON_VCARD);
                     addItem(SR.get(SR.MS_DELETE_ALL_AVATAR_VCARD), MI_DELALLAVATAR, ActionsIcons.ICON_VCARD);
                 }
+//#endif
             }
             if (midlet.BombusQD.cf.userAppLevel == 1) {
                 addItem(SR.get(SR.MS_FEATURES), MI_FEATURES, ActionsIcons.ICON_INFO);
@@ -456,6 +458,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                         }
                     }
                     break;
+//#ifdef AVATARS
                 case MI_DELAVATAR:
                     contact.img_vcard = null;
                     break;
@@ -468,6 +471,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                         }
                     }
                     break;
+//#endif
                 case MI_EDIT: {
                     showForm(new ContactEdit(contact));
                     return;

@@ -69,9 +69,6 @@ public final class MessageEdit extends BaseMessageEdit {
         input.addCommand(cmdSuspend);
         input.addCommand(cmdCancel);
 //#ifdef ARCHIVE
-//#ifdef PLUGINS
-//#         if (StaticData.getInstance().Archive)
-//#endif
         input.addCommand(cmdPaste);
 //#endif
         input.setCommandListener(this);
@@ -122,12 +119,12 @@ public final class MessageEdit extends BaseMessageEdit {
         }
 //#endif
         if (null != to) {
-            if (to.origin >= 4) {
+            if (to.origin == Contact.ORIGIN_GROUPCHAT) {
                 input.addCommand(cmdInsNick);
             } else {
                 input.removeCommand(cmdInsNick);
             }
-            if (to.origin == 4) {
+            if (to.origin == Contact.ORIGIN_GROUPCHAT) {
                 input.addCommand(cmdSubj);
             } else {
                 input.removeCommand(cmdSubj);

@@ -24,6 +24,7 @@
  *
  */
 
+//#ifdef AVATARS
 package client;
 
 import locale.SR;
@@ -253,3 +254,4 @@ public class AvatarConfigForm extends DefForm {
     }
 //#endif
 }
+//#endif

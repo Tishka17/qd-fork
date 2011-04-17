@@ -113,7 +113,6 @@ public class DiscoSearchForm
         }
         updateMainBar();
         commandState();
-        setCommandListener(this);
     }
    
     protected int getItemCount() {

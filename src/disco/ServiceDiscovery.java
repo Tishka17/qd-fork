@@ -123,7 +123,6 @@ public class ServiceDiscovery
 //#else
 //#         addCommand(cmdBack);
 //#endif
-        setCommandListener(this);
         addCommand(cmdSrv); cmdSrv.setImg(0x55);
         addCommand(cmdRfsh); cmdRfsh.setImg(0x10);
         addCommand(cmdFeatures); cmdFeatures.setImg(0x56);

@@ -73,8 +73,6 @@ public class SearchResult
         String service=result.getAttribute("from");
         
         setMainBarItem(new MainBar(2, null, service, false));
-        
-        setCommandListener(this);
 
         items=new Vector(0);
         

@@ -28,6 +28,9 @@
 
 package client;
 
+import client.msgedit.AltMessageEdit;
+import client.msgedit.BaseMessageEdit;
+import client.msgedit.MessageEdit;
 import util.Time;
 import account.Account;
 import account.AccountRemoveForm;
@@ -203,15 +206,13 @@ public final class Roster
 
     private int blState=Integer.MAX_VALUE;
 
-    private static MessageEdit messageEdit;
-    private static MessageEdit altmessageEdit;
+    private BaseMessageEdit msgEditor;
 
     public Roster() { //init
         super();
         canBack = false;
 
         initCommands();
-        createMessageEdit(false);
 
         sl=StatusList.getInstance();
 
@@ -224,8 +225,6 @@ public final class Roster
         mainbar.addElement(null);
         mainbar.addElement(null); //ft
         updateMainBar();
-
-        setCommandListener(this);
 
 //#ifdef AUTOSTATUS
         if (midlet.BombusQD.cf.autoAwayType==Config.AWAY_IDLE || midlet.BombusQD.cf.autoAwayType==Config.AWAY_MESSAGE)
@@ -263,14 +262,12 @@ public final class Roster
     }
 //#endif
 
-    public void createMessageEdit(boolean reCreate){
-         if(reCreate)
-             messageEdit = altmessageEdit = null;
-
-         if(null == messageEdit && null == altmessageEdit) {
-             messageEdit = new MessageEdit();
-             altmessageEdit = new MessageEdit(true);
-         }
+    public void createMessageEdit(){
+        if (Config.getInstance().msgEditType == 0) {
+            msgEditor = new MessageEdit();
+        } else {
+            msgEditor = new AltMessageEdit();
+        }
     }
 
     public void updateBarsFont() {
@@ -303,7 +300,7 @@ public final class Roster
     }
 
     public void initCommands() {
-        createMessageEdit(true);
+        createMessageEdit();
         StatusList.getInstance().reinit();
 
         cmdActions = new Command(SR.get(SR.MS_ITEM_ACTIONS), Command.SCREEN, 2);
@@ -1410,7 +1407,7 @@ public final class Roster
 
 //#ifdef CLASSIC_CHAT
 //#            if(body!=null){
-//#
+//# 
 //#                if(midlet.BombusQD.cf.module_classicchat){
 //#                  if(!groupchat) {
 //#                  //forfix
@@ -3105,69 +3102,45 @@ public final class Roster
         showActionsMenu(getFocusedObject());
     }
 
-
-    private Displayable createMsgList(){
-        Object e=getFocusedObject();
-        if (e instanceof Contact) {
-           Contact c = (Contact)e;
-           if(c.getChatInfo().getMessageCount()==0){
-               createMessageEdit(c, c.msgSuspended, true);
-               return null;
-           }
-           return ((Contact)e).getMessageList();
-        }
-        return null;
+    public void setMsgEditText(Contact contact, String text){
+         msgEditor.setString(text);
+         msgEditor.show(contact, text);
     }
 
-    public void replaceMessageEditText(Contact to, String bodyNew){
-         switch(midlet.BombusQD.cf.msgEditType){
-            case 0:
-                messageEdit.replaceText(to, bodyNew);
-                break;
-            case 1:
-                altmessageEdit.replaceText(to, bodyNew);
-                break;
-         }
+    public void showMultiMsgEditor(Vector contacts){
+         msgEditor.show(contacts);
     }
 
-    public void createMultiMessage(Vector contacts){
-         switch(midlet.BombusQD.cf.msgEditType){
-            case 0: messageEdit.setText(contacts, true); break;
-            case 1:  altmessageEdit.setText(contacts, true); break;
-         }
-    }
-
-    public void createMessageEdit(Contact c, String body,boolean emptyChat){
-         switch(midlet.BombusQD.cf.msgEditType){
-            case 0:
-                if(messageEdit.ticker!=null) messageEdit.ticker.setString("BombusQD");
-                messageEdit.setText(body, c, emptyChat);
-                break;
-            case 1:
-                if(altmessageEdit.ticker!=null) altmessageEdit.ticker.setString("BombusQD");
-                altmessageEdit.setText(body, c, emptyChat);
-                break;
-         }
+    public void showMsgEditor(Contact c, String body){
+        msgEditor.setTicker("BombusQD");
+        msgEditor.show(c, body);
     }
 
     protected void keyGreen() {
         if (!isLoggedIn()) {
             return;
         }
-        Displayable pview = createMsgList();
-        if (pview != null) {
-            Contact c = (Contact)getFocusedObject();
+        Object e = getFocusedObject();
+        if (e instanceof Contact) {
+            Contact c = (Contact)e;
 
+            if (c.getChatInfo().getMessageCount() == 0) {
+                showMsgEditor(c, c.msgSuspended);
+            } else {
 //#ifdef CLASSIC_CHAT
 //#             if (midlet.BombusQD.cf.module_classicchat) {
 //#                 new SimpleItemChat(this, c);
 //#             } else {
 //#endif
-                createMessageEdit(c, c.msgSuspended, (c.getChatInfo().getMessageCount() == 0));
+                c.getMessageList().show();
 //#ifdef CLASSIC_CHAT
 //#             }
 //#endif
-            c.msgSuspended = null;
+            }
+        } else {
+            cleanupGroup();
+            reEnumRoster();
+            redraw();//???
         }
     }
 
@@ -3209,28 +3182,7 @@ public final class Roster
 
     public void eventOk() {
         super.eventOk();
-        Object e = getFocusedObject();
-        if (e instanceof Contact) {
-            Contact c = (Contact)e;
-
-            if (c.getChatInfo().getMessageCount() == 0) {
-                createMessageEdit(c, c.msgSuspended, true);
-                return;
-            }
-//#ifdef CLASSIC_CHAT
-//#             if (midlet.BombusQD.cf.module_classicchat) {
-//#                 new SimpleItemChat(this, c);
-//#             } else {
-//#endif
-                c.getMessageList().show();
-//#ifdef CLASSIC_CHAT
-//#             }
-//#endif
-        } else {
-            cleanupGroup();
-            reEnumRoster();
-            redraw();//???
-        }
+        keyGreen();
     }
 
     public void keyPressed(int keyCode){
@@ -3841,24 +3793,13 @@ public final class Roster
 //#ifdef RUNNING_MESSAGE
     void setTicker(Contact c, String message) {
        if (midlet.BombusQD.cf.runningMessage) {
-            switch(midlet.BombusQD.cf.msgEditType){
-               case 0:
-                   if (messageEdit==null) return;
-                   if (messageEdit.to==c) {
-                        message = StringUtils.replaceNickTags(message);
-                        if(messageEdit.ticker==null) return;
-                        messageEdit.ticker.setString(message);
-                   }
-                   break;
-               case 1:
-                   if (altmessageEdit==null) return;
-                     if (altmessageEdit.to==c) {
-                        message = StringUtils.replaceNickTags(message);
-                        if(altmessageEdit.ticker==null) return;
-                        altmessageEdit.ticker.setString(message);
-                     }
-                   break;
-            }
+           if (msgEditor == null) {
+               return;
+           }
+           if (msgEditor.getContact() == c) {
+               message = StringUtils.replaceNickTags(message);
+               msgEditor.setTicker(message);
+           }
         }
     }
 //#endif

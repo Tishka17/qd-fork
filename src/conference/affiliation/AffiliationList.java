@@ -102,7 +102,6 @@ public final class AffiliationList extends VirtualList implements
         cmdNew    = new Command (SR.get(SR.MS_NEW_JID), Command.SCREEN, 2);
         cmdNew.setImg(0x02);
 
-        setCommandListener(this);
         getList();
     }
 

@@ -190,7 +190,7 @@ public class TranslateText implements Runnable{
                //System.out.println(str);
                 //fixit
                 if(str.indexOf("invalid translation language pair")>-1){
-                  midlet.BombusQD.sd.roster.replaceMessageEditText(c, SR.get(SR.MS_TRANSLATE)+": [" + from + "-" + to + "]"+
+                  midlet.BombusQD.sd.roster.setMsgEditText(c, SR.get(SR.MS_TRANSLATE)+": [" + from + "-" + to + "]"+
                          "\nERROR: invalid translation language pair");             
                 }else{
                 
@@ -240,7 +240,7 @@ public class TranslateText implements Runnable{
                              }
                     }                    
                 }else {
-                    midlet.BombusQD.sd.roster.replaceMessageEditText(c, translated_text);
+                    midlet.BombusQD.sd.roster.setMsgEditText(c, translated_text);
                     //midlet.BombusQD.sd.roster.createMessageEdit(c, translated_text, pView);
                 } 
              }

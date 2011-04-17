@@ -85,7 +85,6 @@ public abstract class MessageList extends VirtualList
 
 
         cursor=0;//activate
-        setCommandListener(this);
     }
 
     protected abstract int getItemCount();

@@ -316,7 +316,7 @@ public class ModuleConfigForm extends DefForm {
 //#endif
             }
 
-            swapSendAndSuspend = new CheckBox('*' + SR.get(SR.MS_SWAP_SEND_SUSPEND), Config.swapSendAndSuspend);
+            swapSendAndSuspend = new CheckBox(SR.get(SR.MS_SWAP_SEND_SUSPEND), Config.swapSendAndSuspend);
             addControl(swapSendAndSuspend);
         } else if (type.equals(SR.get(SR.MS_netStr))) {
             if (config.userAppLevel == 1) {
@@ -537,13 +537,13 @@ public class ModuleConfigForm extends DefForm {
 //#ifdef CLASSIC_CHAT
 //#         } else if (type.equals(SR.get(SR.MS_CLASSIC_CHAT))) {
 //#             addControl(new SimpleString(SR.get(SR.MS_CLASSIC_CHAT), true));
-//#
+//# 
 //#             usePhoneTheme = new CheckBox(SR.get(SR.MS_CLCHAT_BGNG_PHONE), config.usePhoneTheme);
 //#             addControl(usePhoneTheme);
-//#
+//# 
 //#             classicChatHeight = new NumberInput(SR.get(SR.MS_CLCHAT_HEIGHT), config.classicChatHeight, 80, 320);
 //#             addControl(classicChatHeight);
-//#
+//# 
 //#             lineCount = new NumberInput(SR.get(SR.MS_CLCHAT_MSGLIMIT), config.lineCount, 1, 1000);
 //#             itemsList.addElement(lineCount);
 //#             itemsList.addElement(new SpacerItem(10));
@@ -581,10 +581,15 @@ public class ModuleConfigForm extends DefForm {
             config.useBoldFont = useBoldFont.getValue();
             config.autoFocus = autoFocus.getValue();
         } else if (type.equals(SR.get(SR.MS_msgStr))) {
+            boolean createMsgEdit = false;
+
+            if (config.msgEditType != msgEditType.getSelectedIndex()) {
+                createMsgEdit = true;
+            }
             config.msgEditType = msgEditType.getSelectedIndex();
 //#ifdef RUNNING_MESSAGE
             if(config.runningMessage != runningMessage.getValue()) {
-                BombusQD.sd.roster.createMessageEdit(true);
+                createMsgEdit = true;
             }
             config.runningMessage = runningMessage.getValue();
 //#endif
@@ -633,7 +638,14 @@ public class ModuleConfigForm extends DefForm {
                 Config.useClipBoard = useClipBoard.getValue();
 //#endif
             }
+            if (Config.swapSendAndSuspend != swapSendAndSuspend.getValue()) {
+                createMsgEdit = true;
+            }
             Config.swapSendAndSuspend = swapSendAndSuspend.getValue();
+
+            if (createMsgEdit) {
+                BombusQD.sd.roster.createMessageEdit();
+            }
        } else if (type.equals(SR.get(SR.MS_netStr))) {
             if (config.userAppLevel == 1) {
 //#ifdef PEP

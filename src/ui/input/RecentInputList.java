@@ -84,8 +84,6 @@ public class RecentInputList extends VirtualList
         this.recentList = input.getRecentList();
 
         setMainBarItem(new MainBar(SR.get(SR.MS_SELECT)));
-
-        setCommandListener(this);
     }
 
     public void commandState() {

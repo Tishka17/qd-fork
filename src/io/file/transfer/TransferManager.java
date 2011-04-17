@@ -82,7 +82,6 @@ public class TransferManager
         cmdInfo=new Command(SR.get(SR.MS_INFO), Command.SCREEN, 12);
 //#endif
 
-        setCommandListener(this);
         setMainBarItem(new MainBar(2, null, SR.get(SR.MS_TRANSFERS), false));
 
         taskList=TransferDispatcher.getInstance().getTaskList();

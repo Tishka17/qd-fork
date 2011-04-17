@@ -82,8 +82,6 @@ public class AlertProfile extends VirtualList implements
         cmdDef.setImg(0x24);
         
         setMainBarItem(new MainBar(SR.get(SR.MS_ALERT_PROFILE)));
-
-        setCommandListener(this);
         
         int p=cf.profile;
         defp=cf.def_profile;

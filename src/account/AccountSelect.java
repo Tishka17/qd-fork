@@ -167,8 +167,6 @@ public class AccountSelect extends VirtualList implements
         if (!accountList.isEmpty()) {
             moveCursorTo(activeAccount);
         }
-
-        setCommandListener(this);
     }
 
     public void commandState() {

@@ -101,8 +101,6 @@ public class PrivacySelect
         setMainBarItem(new MainBar(2, null, SR.get(SR.MS_PRIVACY_LISTS), false));
 
         list.addElement(new PrivacyList(null));//none
-
-        setCommandListener(this);
         
         getLists();      
     }

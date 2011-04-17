@@ -27,7 +27,7 @@
 
 //#ifdef DEBUG_CONSOLE
 //# package console.debug;
-//#
+//# 
 //# import client.Config;
 //# import client.Msg;
 //# import message.MessageList;
@@ -39,32 +39,30 @@
 //#ifdef CLIPBOARD
 //# import util.ClipBoard;
 //#endif
-//#
+//# 
 //# /**
 //#  *
 //#  * @author ad,aqent
 //#  */
-//#
+//# 
 //# public final class DebugConsole extends MessageList {
 //#     private Command cmdEnableDisable;
 //#     private Command cmdPurge;
-//#
+//# 
 //#     public DebugConsole() {
 //#         super();
-//#
+//# 
 //#         cmdEnableDisable = new Command(SR.get(SR.MS_ENABLE_DISABLE), Command.SCREEN, 6);
 //#         cmdEnableDisable.setImg(0x26);
-//#
+//# 
 //#         cmdPurge = new Command(SR.get(SR.MS_CLEAR_LIST), Command.SCREEN, 10);
 //#         cmdPurge.setImg(0x41);
-//#
+//# 
 //#         super.smiles = false;
-//#
-//#         setCommandListener(this);
-//#
+//# 
 //#         setMainBarItem(new MainBar(SR.get(SR.MS_DEBUG_MENU)));
 //#     }
-//#
+//# 
 //#     public void commandState() {
 //#         menuCommands.removeAllElements();
 //#         if (getItemCount() != 0) {
@@ -80,22 +78,22 @@
 //#         }
 //#         addCommand(cmdEnableDisable);
 //#     }
-//#
+//# 
 //#     protected void beginPaint() {
 //#         StringBuffer str = new StringBuffer(" (").append(getItemCount()).append(") ");
-//#
+//# 
 //#         if (!Config.debug) {
 //#             str.append(SR.get(SR.MS_DISABLED));
 //#         }
-//#
+//# 
 //#         getMainBarItem().setElementAt(str.toString(), 1);
 //#     }
-//#
-//#
+//# 
+//# 
 //#     public int getItemCount() {
 //#         return midlet.BombusQD.debug.stanzas.size();
 //#     }
-//#
+//# 
 //#     protected Msg getMessage(int index) {
 //#         Msg msg=new Msg(Msg.MESSAGE_TYPE_OUT, "local", null, null);
 //#         try {
@@ -103,7 +101,7 @@
 //#         } catch (Exception e) {}
 //# 	return msg;
 //#     }
-//#
+//# 
 //#     public void commandAction(Command c, Displayable d) {
 //#         if (c == cmdEnableDisable) {
 //#             Config.debug = !Config.debug;
@@ -114,7 +112,7 @@
 //#              super.commandAction(c, d);
 //#         }
 //#     }
-//#
+//# 
 //#     private void clearReadedMessageList() {
 //#         messages.removeAllElements();
 //#         if (cursor + 1 == midlet.BombusQD.debug.stanzas.size()) {
@@ -126,11 +124,11 @@
 //#             moveCursorHome();
 //#         }
 //#     }
-//#
+//# 
 //#     public void keyClear() {
 //#         clearReadedMessageList();
 //#     }
-//#
+//# 
 //#     public void userKeyPressed(int keyCode) {
 //#         if (keyCode == '0') {
 //#             clearReadedMessageList();

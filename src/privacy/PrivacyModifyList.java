@@ -87,8 +87,6 @@ public class PrivacyModifyList extends VirtualList
         
         setMainBarItem(new MainBar(2, null, SR.get(SR.MS_PRIVACY_LISTS), false));
 
-        setCommandListener(this);
-
         plist=privacyList;
         getList();
     }

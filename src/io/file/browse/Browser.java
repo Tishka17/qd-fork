@@ -127,7 +127,6 @@ public class Browser
 //#ifndef GRAPHICS_MENU
 //#      addCommand(cmdCancel);
 //#endif
-        setCommandListener(this);
 
         // trim filename
         int l=path.lastIndexOf('/');

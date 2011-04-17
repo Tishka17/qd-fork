@@ -79,11 +79,6 @@ public class StatusSelect extends VirtualList implements MenuListener {
         moveCursorTo(defp);
     }
 
-    public void show() {
-        setCommandListener(this);
-        super.show();
-    }
-
     public void commandState() {
         menuCommands.removeAllElements();
         ExtendedStatus ex = (ExtendedStatus)getFocusedObject();

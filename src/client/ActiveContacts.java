@@ -184,7 +184,7 @@ public final class ActiveContacts extends VirtualList implements
             eventOk();
         }
         if (c == cmdCreateMultiMessage) {
-            BombusQD.sd.roster.createMultiMessage(contacts);
+            BombusQD.sd.roster.showMultiMsgEditor(contacts);
         }
         if (c == cmdClearAllMessages) {
             BombusQD.sd.roster.cmdCleanAllMessages();

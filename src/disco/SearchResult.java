@@ -167,7 +167,7 @@ public class SearchResult
      
     public int showGraphicsMenu() {
          commandState();
-         menuItem = new GMenu(this, null, menuCommands);
+         menuItem = new GMenu(this, menuCommands);
          GMenuConfig.getInstance().itemGrMenu = -1;        
          eventOk();
          return -1;

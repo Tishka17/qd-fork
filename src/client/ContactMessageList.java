@@ -32,7 +32,6 @@ import conference.MucContact;
 import client.contact.ChatInfo;
 //#endif
 import message.MessageItem;
-import message.MessageUrl;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
@@ -44,7 +43,6 @@ import ui.VirtualList;
 //# import javax.microedition.lcdui.Command;
 //#else
 import menu.Command;
-import menu.MenuListener;
 //#endif
 //#ifdef ARCHIVE
 import archive.MessageArchive;
@@ -53,10 +51,10 @@ import archive.MessageArchive;
 import ui.GMenu;
 import ui.GMenuConfig;
 //#endif
-import colors.ColorTheme;
 //#ifdef HISTORY
 import history.HistoryStorage;
 //#endif
+import message.MessageList;
 import midlet.BombusQD;
 import midlet.Commands;
 //#ifdef CLIPBOARD
@@ -66,13 +64,11 @@ import util.ClipBoard;
 import ui.input.InputTextBox;
 import ui.input.InputTextBoxNotify;
 
-public final class ContactMessageList extends VirtualList implements MenuListener, InputTextBoxNotify {
+public final class ContactMessageList extends MessageList implements InputTextBoxNotify {
     Contact contact;
     private boolean startSelection;
 
-    protected final Vector messages = new Vector(0);
     private Vector msgs;
-    protected boolean smiles;
 
     public void destroy() {
         super.destroy();
@@ -206,7 +202,7 @@ public final class ContactMessageList extends VirtualList implements MenuListene
             }
 //#endif
 //#ifdef MENU_LISTENER
-            if (isHasScheme()) {
+            if (hasScheme()) {
                 addInCommand(3, Commands.cmdxmlSkin);
             }
 //#endif
@@ -276,59 +272,13 @@ public final class ContactMessageList extends VirtualList implements MenuListene
 //#endif
 
     public void commandAction(Command c, Displayable d) {
-//#ifdef HISTORY
-        if (c == Commands.cmdHistory) {
-            BombusQD.sd.roster.showHistory(this, contact);
-            return;
-        }
-//#endif
-        if (c == Commands.cmdxmlSkin) {
-              ColorTheme.loadSkin(((MessageItem) getFocusedObject()).msg.body, 2, true);
-        }
-//#ifdef ARCHIVE
-        if (c == Commands.cmdArch) {
-            try {
-                MessageArchive.store(util.StringUtils.replaceNickTags(getMessage(cursor)));
-            } catch (Exception e) {/*no messages*/
-
-            }
-        }
-//#endif
-        if (c == Commands.cmdUrl) {
-            try {
-                Vector urls = ((MessageItem) getFocusedObject()).getUrlList();
-                new MessageUrl(urls).show();
-            } catch (Exception e) {/* no urls found */
-
-            }
-        }
-//#ifdef CLIPBOARD
-        if (c == Commands.cmdCopy) {
-            try {
-                ClipBoard.add(util.StringUtils.replaceNickTags(((MessageItem) getFocusedObject()).msg));
-            } catch (Exception e) {/*no messages*/
-
-            }
-        }
-
-        if (c == Commands.cmdCopyPlus) {
-            try {
-                ClipBoard.append(util.StringUtils.replaceNickTags(((MessageItem) getFocusedObject()).msg));
-            } catch (Exception e) {/*no messages*/
-
-            }
-        }
-//#endif
-
         if (c == Commands.cmdClrPresences) {
             smartPurge(true);
             return;
-        }
-        if (c == Commands.cmdPurge) {
+        } else if (c == Commands.cmdPurge) {
             if (messages.isEmpty()) {
                 return;
             }
-
             if (startSelection) {
                 for (Enumeration select = msgs.elements(); select.hasMoreElements();) {
                     Msg mess = (Msg) select.nextElement();
@@ -341,13 +291,23 @@ public final class ContactMessageList extends VirtualList implements MenuListene
                 clearReadedMessageList();
             }
             return;
-        }
-        if (c == Commands.cmdSelect) {
+//#ifdef HISTORY
+        } else if (c == Commands.cmdHistory) {
+            BombusQD.sd.roster.showHistory(this, contact);
+//#endif
+//#ifdef ARCHIVE
+        } else if (c == Commands.cmdArch) {
+            try {
+                MessageArchive.store(util.StringUtils.replaceNickTags(getMessage(cursor)));
+            } catch (Exception e) {/*no messages*/
+
+            }
+//#endif
+        } else if (c == Commands.cmdSelect) {
             startSelection = true;
             Msg mess = getMessage(cursor);
             mess.selected = !mess.selected;
             mess.search_word = !mess.search_word;
-            mess.oldHighlite = mess.highlite;
             mess.highlite = mess.selected;
             return;
         }
@@ -360,51 +320,36 @@ public final class ContactMessageList extends VirtualList implements MenuListene
         if (c == Commands.cmdMessage) {
             contact.msgSuspended = null;
             keyGreen();
-        }
 //#ifdef CLIPBOARD
-        if (c == Commands.cmdPaste) {
-
+        } else if (c == Commands.cmdPaste) {
 //#ifdef RUNNING_MESSAGE
             showMsgEdit(ClipBoard.getClipBoard());
 //#else
 //#             new MessageEdit(display, this, contact, ClipBoard.getClipBoard());
 //#endif
-        }
 //#endif
-        if (c == Commands.cmdResume) {
+        } else if (c == Commands.cmdResume) {
             keyGreen();
-        }
-        if (c == Commands.cmdQuote) {
+        } else if (c == Commands.cmdQuote) {
             quoteMessage();
-        }
-        if (c == Commands.cmdReply) {
+        } else if (c == Commands.cmdReply) {
             if (contact.getJid().indexOf("juick@juick.com") > -1) {
                 reply(false);
-                return;
             } else {
                 checkOffline();
             }
-        }
-        if (c == Commands.cmdAddSearchQuery) {
+        } else if (c == Commands.cmdAddSearchQuery) {
             InputTextBox input = new InputTextBox(SR.get(SR.MS_SEARCH), null, 30, TextField.ANY);
             input.setNotifyListener(this);
             input.show();
-            return;
-        }
-        if (c == Commands.cmdActions) {
+        } else if (c == Commands.cmdActions) {
             BombusQD.sd.roster.showActionsMenu(contact);
-        }
-
-        if (c == Commands.cmdSubscribe) {
+        } else if (c == Commands.cmdSubscribe) {
             midlet.BombusQD.sd.roster.doSubscribe(contact);
-        }
-
-        if (c == Commands.cmdUnsubscribed) {
+        } else if (c == Commands.cmdUnsubscribed) {
             midlet.BombusQD.sd.roster.sendPresence(contact.bareJid, "unsubscribed", null, false);
-        }
-
 //#ifdef CLIPBOARD
-        if (c == Commands.cmdSendBuffer) {
+        } else if (c == Commands.cmdSendBuffer) {
             String from = midlet.BombusQD.sd.account.toString();
             String body = ClipBoard.getClipBoard();
 
@@ -424,9 +369,10 @@ public final class ContactMessageList extends VirtualList implements MenuListene
                 contact.addMessage(new Msg(Msg.MESSAGE_TYPE_OUT, from, null, SR.get(SR.MS_CLIPBOARD_SENDERROR)));
             }
             redraw();
-            return;
-        }
 //#endif
+        } else {
+            super.commandAction(c, d);
+        }
     }
 
     private String searchQuery;
@@ -874,30 +820,5 @@ public final class ContactMessageList extends VirtualList implements MenuListene
 //#          super.showMenu();
 //#     }
 //#endif
-
-
-
-
-    public boolean isHasScheme() {
-        if (msgs.isEmpty()) {
-            return false;
-        }
-        String body = getMessage(cursor).body;
-        if (body.indexOf("xmlSkin")>-1) return true;
-        return false;
-    }
-
-    public boolean hasUrl() {
-        if (0 == msgs.size()) {
-            return false;
-        }
-        String body = getMessage(cursor).body;
-        if (-1 != body.indexOf("http://")) return true;
-        if (-1 != body.indexOf("https://")) return true;
-        if (-1 != body.indexOf("ftp://")) return true;
-        if (-1 != body.indexOf("tel:")) return true;
-        if (-1 != body.indexOf("native:")) return true;
-        return false;
-    }
 //#endif
 }

@@ -24,7 +24,6 @@
 //#ifdef HISTORY
 package history;
 
-import client.Config;
 import client.Contact;
 import client.Msg;
 import images.MenuIcons;
@@ -41,14 +40,12 @@ import javax.microedition.rms.RecordStoreNotOpenException;
 import locale.SR;
 import menu.Command;
 import message.MessageList;
-import midlet.Commands;
+import ui.GMenu;
+import ui.GMenuConfig;
 import ui.MainBar;
 import ui.controls.PopUp;
 import ui.input.InputTextBox;
 import ui.input.InputTextBoxNotify;
-//#ifdef CLIPBOARD
-import util.ClipBoard;
-//#endif
 
 public class HistoryViewer extends MessageList implements Runnable, InputTextBoxNotify {
     private static final String RECENT_LIST_ID = "history-srch";
@@ -148,14 +145,7 @@ public class HistoryViewer extends MessageList implements Runnable, InputTextBox
     public void commandState() {
         menuCommands.removeAllElements();
         addCommand(cmdFind);
-//#ifdef CLIPBOARD
-        if (Config.useClipBoard) {
-            addCommand(Commands.cmdCopy);
-            if (!ClipBoard.isEmpty()) {
-                addCommand(Commands.cmdCopyPlus);
-            }
-        }
-//#endif
+        addDefaultCommands();
         addCommand(cmdClear);
     }
 
@@ -200,6 +190,13 @@ public class HistoryViewer extends MessageList implements Runnable, InputTextBox
         }
         closeRecordStore();
         super.destroyView();
+    }
+
+    public int showGraphicsMenu() {
+        commandState();
+        menuItem = new GMenu(this, menuCommands);
+        GMenuConfig.getInstance().itemGrMenu = GMenu.MESSAGE_LIST;
+        return GMenu.MESSAGE_LIST;
     }
 }
 //#endif

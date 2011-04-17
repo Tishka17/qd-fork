@@ -105,7 +105,7 @@ public MessageUrl(Vector urlList) {
 
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(this, null, menuCommands);
+        menuItem = new GMenu(this, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.STATS_WINDOW;
         redraw();
         return GMenu.STATS_WINDOW;

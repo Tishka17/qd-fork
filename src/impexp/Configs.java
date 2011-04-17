@@ -77,7 +77,6 @@ public class Configs {
         writeInt(data, "gmenu_bgnd", config.gmenu_bgnd);
         writeInt(data, "popup_bgnd", config.popup_bgnd);
         writeInt(data, "cursor_bgnd", config.cursor_bgnd);
-        writeInt(data, "avatar_cashe_size", config.avatar_cashe_size);
         writeInt(data, "maxAvatarWidth", config.maxAvatarWidth);
         writeInt(data, "msgEditType", config.msgEditType);
         writeInt(data, "graphicsMenuPosition", config.graphicsMenuPosition);
@@ -268,7 +267,6 @@ public class Configs {
             config.gmenu_bgnd = readInt(data, "gmenu_bgnd", config.gmenu_bgnd);
             config.popup_bgnd = readInt(data, "popup_bgnd", config.popup_bgnd);
             config.cursor_bgnd = readInt(data, "cursor_bgnd", config.cursor_bgnd);
-            config.avatar_cashe_size = readInt(data, "avatar_cashe_size", config.avatar_cashe_size);
             config.maxAvatarWidth = readInt(data, "maxAvatarWidth", config.maxAvatarWidth);
             config.msgEditType = readInt(data, "msgEditType", config.msgEditType);
             config.graphicsMenuPosition = readInt(data, "graphicsMenuPosition", config.graphicsMenuPosition);

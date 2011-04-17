@@ -295,7 +295,7 @@ public class AlertCustomizeForm extends DefForm implements MenuListener {
     public int showGraphicsMenu() {
         commandState();
 
-        menuItem = new GMenu(this,null, menuCommands);
+        menuItem = new GMenu(this, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.ALERT_CUSTOMIZE_FORM;
         redraw();
         return GMenu.ALERT_CUSTOMIZE_FORM;

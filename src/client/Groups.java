@@ -28,19 +28,19 @@
 
 package client;
 
-import java.util.*;
-import locale.SR;
-
 import com.alsutton.jabber.JabberBlockListener;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.Iq;
-
+import java.util.Enumeration;
+import java.util.Vector;
+import locale.SR;
 import ui.VirtualList;
 
 /**
  *
  * @author Evg_S,aqent
  */
+
 public class Groups implements JabberBlockListener{
     
     Vector groups;

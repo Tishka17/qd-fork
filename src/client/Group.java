@@ -27,16 +27,18 @@
 package client;
 
 import images.RosterIcons;
-import java.util.*;
 import colors.ColorTheme;
 import com.alsutton.jabber.datablocks.Presence;
+import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
-import ui.*;
+import ui.IconTextElement;
+import ui.VirtualList;
 
 /**
  *
  * @author Evg_S
  */
+
 public class Group extends IconTextElement {
     String name;
     public byte type; // group index

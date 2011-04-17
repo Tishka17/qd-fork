@@ -264,7 +264,6 @@ public class Config {
     public int cursor_bgnd = 0;
 
     public String msgAvatarPath = "";
-    public int avatar_cashe_size = 0;
     public boolean auto_queryPhoto = false;
     public boolean autoSaveVcard = false;
     public boolean showAvatarRect = false;
@@ -676,7 +675,9 @@ public class Config {
             gmenu_bgnd=inputStream.readInt();
             popup_bgnd=inputStream.readInt();
             cursor_bgnd=inputStream.readInt();
-            avatar_cashe_size=inputStream.readInt();
+
+            inputStream.readInt();
+
             maxAvatarWidth=inputStream.readInt();
             msgEditType=inputStream.readInt();
             graphicsMenuPosition=inputStream.readInt();
@@ -933,7 +934,9 @@ public class Config {
             outputStream.writeInt(gmenu_bgnd);
             outputStream.writeInt(popup_bgnd);
             outputStream.writeInt(cursor_bgnd);
-            outputStream.writeInt(avatar_cashe_size);
+
+            outputStream.writeInt(0);
+
             outputStream.writeInt(maxAvatarWidth);
             outputStream.writeInt(msgEditType);
             outputStream.writeInt(graphicsMenuPosition);

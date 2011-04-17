@@ -215,7 +215,7 @@ public class GetFileServer extends DefForm implements MenuListener, Runnable {
 
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(this, null, menuCommands);
+        menuItem = new GMenu(this, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = 123;
         redraw();
         return 123;

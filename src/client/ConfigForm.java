@@ -30,7 +30,6 @@ package client;
 import ui.controls.form.PluginBox;
 import ui.controls.form.DefForm;
 import locale.SR;
-import menu.MenuListener;
 //#ifdef HISTORY
 import history.HistoryConfigForm;
 //#endif

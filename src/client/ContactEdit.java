@@ -29,9 +29,9 @@ package client;
 //#ifndef WMUC
 import conference.MucContact;
 //#endif
-import vcard.*;
-import javax.microedition.lcdui.*;
-import java.util.*;
+import java.util.Enumeration;
+import java.util.Vector;
+import javax.microedition.lcdui.TextField;
 import locale.SR;
 import midlet.BombusQD;
 import ui.controls.form.LinkString;
@@ -40,6 +40,7 @@ import ui.controls.form.CheckBox;
 import ui.controls.form.DefForm;
 import ui.controls.form.DropChoiceBox;
 import ui.controls.form.TextInput;
+import vcard.VCard;
 
 /**
  *

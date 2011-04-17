@@ -172,7 +172,7 @@ public class PrivacySelect
 //#ifdef GRAPHICS_MENU        
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(this, null, menuCommands);
+        menuItem = new GMenu(this, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.PRIVACY_SELECT;         
         return GMenu.PRIVACY_SELECT;
     }

@@ -287,7 +287,7 @@ public class VCardEdit extends DefForm implements MenuListener, Runnable
     }
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(this, null, menuCommands);
+        menuItem = new GMenu(this, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.VCARD_EDIT;
         redraw();
         return GMenu.VCARD_EDIT;

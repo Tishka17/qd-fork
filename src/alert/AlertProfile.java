@@ -28,11 +28,10 @@
 
 package alert;
 
-import client.*;
+import client.Config;
 import images.RosterIcons;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
-import ui.*;
 //#ifndef MENU_LISTENER
 //# import javax.microedition.lcdui.CommandListener;
 //# import javax.microedition.lcdui.Command;
@@ -43,11 +42,16 @@ import menu.Command;
 import ui.MainBar;
 //#ifdef GRAPHICS_MENU        
 import ui.GMenu;
-//#endif  
+//#endif
+import ui.IconTextElement;
+import ui.VirtualElement;
+import ui.VirtualList;
+
 /**
  *
  * @author Eugene Stahov,aqent
  */
+
 public class AlertProfile extends VirtualList implements
 //#ifndef MENU_LISTENER
 //#         CommandListener
@@ -102,7 +106,7 @@ public class AlertProfile extends VirtualList implements
 //#ifdef GRAPHICS_MENU        
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(this,null, menuCommands);        
+        menuItem = new GMenu(this, menuCommands);        
         return GMenu.ALERT_PROFILE;
     }
 //#else

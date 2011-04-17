@@ -228,11 +228,7 @@ public abstract class BaseMessageEdit implements CommandListener {
             if (null != to) {
                 to.msgSuspended = body;
             }
-            if (midlet.BombusQD.cf.msgEditType > 0) {
-                new ArchiveList(getCaretPosition(), (TextField)getInput(), null).show();
-            } else {
-                new ArchiveList(getCaretPosition(), null, (TextBox)getInput()).show();
-            }
+            new ArchiveList(getCaretPosition(), getInput()).show();
             return;
         }
 //#endif
@@ -257,21 +253,13 @@ public abstract class BaseMessageEdit implements CommandListener {
         }
 //#ifdef SMILES
         if (c == cmdSmile) {
-            if (midlet.BombusQD.cf.msgEditType > 0) {
-                new SmilePicker(getCaretPosition(), (TextField)getInput(), null).show();
-            } else {
-                new SmilePicker(getCaretPosition(), null, (TextBox)getInput()).show();
-            }
+            new SmilePicker(getCaretPosition(), getInput()).show();
             return;
         }
 //#endif
 //#ifndef WMUC
         if (c == cmdInsNick) {
-            if (midlet.BombusQD.cf.msgEditType > 0) {
-                new AppendNickForm( to, getCaretPosition(), (TextField)getInput(), null).show();
-            } else {
-                new AppendNickForm( to, getCaretPosition(), null, (TextBox)getInput()).show();
-            }
+            new AppendNickForm(to, getCaretPosition(), getInput()).show();
             return;
         }
 //#endif
@@ -327,7 +315,7 @@ public abstract class BaseMessageEdit implements CommandListener {
 //#         if (c == cmdSendInTranslit) {
 //#             sendInTranslit = true;
 //#         }
-//#
+//# 
 //#         if (c == cmdSendInDeTranslit) {
 //#             sendInDeTranslit = true;
 //#         }

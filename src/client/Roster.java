@@ -538,8 +538,11 @@ public final class Roster
     }
 
     public void cmdAlert() { new AlertProfile().show(); }
+
 //#ifdef ARCHIVE
-    public void cmdArchive() { new ArchiveList(-1, null, null).show(); }
+    public void cmdArchive() {
+        new ArchiveList().show();
+    }
 //#endif
 
     public void cmdInfo() {

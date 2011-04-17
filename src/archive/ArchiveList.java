@@ -66,23 +66,23 @@ public class ArchiveList extends MessageList {
 //#endif
     MessageArchive archive;
     private int caretPos;
-    private TextField tf;
-    private TextBox tb;
+
+    private Object input;
 
     public void eventOk() {
         MessageItem mi = (MessageItem)messages.elementAt(cursor);
         mi.onSelect(this);
     }
 
-    public ArchiveList(int caretPos, TextField tf, TextBox tb) {
+    public ArchiveList() {
+        this(-1, null);
+    }
+
+    public ArchiveList(int caretPos, Object input) {
         super();
 
         this.caretPos = caretPos;
-        if (midlet.BombusQD.cf.msgEditType > 0) {
-            this.tf = tf;
-        } else {
-            this.tb = tb;
-        }
+        this.input = input;
 
         cmdPaste = new Command(SR.get(SR.MS_PASTE_BODY), Command.SCREEN, 1);
         cmdPaste.setImg(0x60);
@@ -129,7 +129,7 @@ public class ArchiveList extends MessageList {
         if (getItemCount() > 0) {
             addCommand(cmdEdit);
 
-            if (tf != null || tb != null) {
+            if (input != null) {
                 addCommand(cmdPaste);
                 addCommand(cmdJid);
                 addCommand(cmdSubj);
@@ -144,7 +144,7 @@ public class ArchiveList extends MessageList {
 //#endif
 
 //#ifdef MENU_LISTENER
-        super.addCommands();
+        super.addDefaultCommands();
 //#endif
     }
 
@@ -212,16 +212,9 @@ public class ArchiveList extends MessageList {
     }
 
     private void pasteData(int field) {
-        if (midlet.BombusQD.cf.msgEditType > 0) {
-            if (tf == null) {
-                return;
-            }
-        } else {
-            if (tb == null) {
-                return;
-            }
+        if (input == null) {
+            return;
         }
-        ;
         Msg m = getMessage(cursor);
         if (m == null) {
             return;
@@ -237,10 +230,10 @@ public class ArchiveList extends MessageList {
             default:
                 data = util.StringUtils.quoteString(m);
         }
-        if (midlet.BombusQD.cf.msgEditType > 0) {
-            tf.insert(data, caretPos);
-        } else {
-            tb.insert(data, caretPos);
+        if (input instanceof TextBox) {
+            ((TextBox)input).insert(data, caretPos);
+        } else if (input instanceof TextField) {
+            ((TextField)input).insert(data, caretPos);
         }
         destroyView();
     }
@@ -275,7 +268,7 @@ public class ArchiveList extends MessageList {
 
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(this,  null, menuCommands);
+        menuItem = new GMenu(this, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.MESSAGE_LIST;
         return GMenu.MESSAGE_LIST;
     }

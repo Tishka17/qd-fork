@@ -78,8 +78,6 @@
 //# 
 //#         stanzas = XMLList.getInstance();
 //# 
-//#         setCommandListener(this);
-//# 
 //#         setMainBarItem(new MainBar(SR.get(SR.MS_XML_CONSOLE)));
 //#     }
 //# 

@@ -1628,10 +1628,6 @@ public abstract class VirtualList extends CanvasEx {
 //#     public void showMenu() {};
 //#endif
 
-
-    public void setCommandListener(MenuListener menuListener) {
-    }
-
     public Command getCommand(int index) {
         if (index>menuCommands.size()-1) return null;
         return (Command) menuCommands.elementAt(index);
@@ -1662,7 +1658,7 @@ public abstract class VirtualList extends CanvasEx {
 //#endif
                        Contact c = sd.roster.getContact(popup.getContact(), false);
                        if(c.getChatInfo().getMessageCount() <= 0){
-                          midlet.BombusQD.sd.roster.createMessageEdit(c, c.msgSuspended, true);
+                          midlet.BombusQD.sd.roster.showMsgEditor(c, c.msgSuspended);
                           return;
                        }
                        c.getMessageList().show();

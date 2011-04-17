@@ -73,8 +73,6 @@ public class HistoryViewer extends MessageList implements Runnable, InputTextBox
         cmdClear = new Command(SR.get(SR.MS_CLEAR), Command.SCREEN, 0);
         cmdClear.setImg(MenuIcons.ICON_CLEAR);
 
-        setCommandListener(this);
-
         setMainBarItem(new MainBar(SR.get(SR.MS_HISTORY)));
 
         loadHistory(contact);

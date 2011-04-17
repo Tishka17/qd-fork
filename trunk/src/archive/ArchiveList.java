@@ -118,8 +118,6 @@ public class ArchiveList extends MessageList {
         bar.addElement(null);
         bar.addElement(SR.get(SR.MS_FREE));
         setMainBarItem(bar);
-
-        setCommandListener(this);
     }
 
     public final void commandState() {

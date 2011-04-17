@@ -79,8 +79,6 @@ public class UserKeysList
         setMainBarItem(new MainBar(SR.get(SR.MS_CUSTOM_KEYS)));
         
         commandsList=UserKeyExec.getInstance().commandsList;
-
-        setCommandListener(this);
     }
 
     void commandState(){

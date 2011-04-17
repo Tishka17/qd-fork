@@ -98,8 +98,6 @@ public final class Bookmarks extends VirtualList
         setMainBarItem(new MainBar(2, null, SR.get(SR.MS_BOOKMARKS)+" ("+getItemCount()+") ", false));//for title updating after "add bookmark"
 
         initCommands();//fix
-
-        setCommandListener(this);
     }
 
     public void initCommands() {

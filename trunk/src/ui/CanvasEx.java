@@ -36,7 +36,7 @@ public abstract class CanvasEx extends Canvas {
 
     public CanvasEx() {
         this.width = BombusQD.sd.canvas.getWidth();
-        this.width = BombusQD.sd.canvas.getHeight();
+        this.height = BombusQD.sd.canvas.getHeight();
     }
 
     public void show() {

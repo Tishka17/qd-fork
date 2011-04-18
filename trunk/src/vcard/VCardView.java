@@ -171,9 +171,11 @@ public class VCardView extends DefForm implements MenuListener
     }
 
     private void setPhoto() {
+//#ifdef AVATARS
         if (contact != null) {
             contact.hasPhoto = vcard.hasPhoto;
         }
+//#endif
 
         try {
             removeControl(noPhoto);

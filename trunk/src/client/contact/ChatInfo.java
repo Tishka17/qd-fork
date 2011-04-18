@@ -35,6 +35,7 @@ import message.MessageItem;
  *
  * @author Vladimir Krukov
  */
+
 public final class ChatInfo {
     public final Vector msgs = new Vector(0);
 
@@ -49,6 +50,7 @@ public final class ChatInfo {
         newMsgCnt = 0;
         newHighLitedMsgCnt = 0;
     }
+
     private byte calcUnreadType() {
         int size = msgs.size();
         for (int i=0; i<size; ++i){
@@ -60,12 +62,15 @@ public final class ChatInfo {
         }
         return 10;//MESSAGE_TYPE_IN=10;
     }
+
     public int getNewMessageCount() {
         return newMsgCnt;
     }
+
     public int getNewHighliteMessageCount() {
         return newHighLitedMsgCnt;
     }
+
     public int getMessageCount() {
         return msgs.size();
     }
@@ -94,9 +99,11 @@ public final class ChatInfo {
             }
         }
     }
+
     public byte getUnreadMessageType() {
         return unreadType;
     }
+
     public boolean isActiveChat() {
         return (0 < getMessageCount()) && !isOnlyStatusMessage();
 
@@ -109,9 +116,11 @@ public final class ChatInfo {
     public boolean isOnlyStatusMessage() {
         return (1 == getMessageCount()) && ((Msg)msgs.firstElement()).isPresence();
     }
+
     public void setFirstMessage(Msg m) {
         msgs.setElementAt(m, 0);
     }
+
     public void addMessage(Msg m) {
         if (midlet.BombusQD.cf.createMessageByFive) m.itemCollapsed=false;
         msgs.addElement(m);
@@ -158,23 +167,9 @@ public final class ChatInfo {
            if ((14 == unreadType) && (14 == msg.messageType)) unreadType = calcUnreadType();
         //}
     }
+    
     public void resetLastUnreadMessage() {
         lastUnread = 0;
-    }
-    public int getLastUnreadMessageIndex() {
-        return lastUnread;
-    }
-    public final int firstUnread() {
-        int unreadIndex=0;
-        int size = msgs.size();
-        for (int i=0; i<size; ++i){
-            Msg m = (Msg)msgs.elementAt(i);
-            if (((Msg)msgs.elementAt(i)).unread) {
-                break;
-            }
-            unreadIndex++;
-        }
-        return unreadIndex;
     }
 
     public Vector getMsgs() {

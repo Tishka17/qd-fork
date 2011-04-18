@@ -195,12 +195,16 @@ public abstract class BaseMessageEdit implements CommandListener {
 
     protected final void send() {
         send(body, subj);
-        destroyView();
+        destroyView(true);
     }
 
     protected final void destroyView() {
+        destroyView(false);
+    }
+
+    protected final void destroyView(boolean forceChat) {
         if (!multiMessage && null != to) {
-            if (to.getChatInfo().getMessageCount() > 0) {
+            if (forceChat || to.getChatInfo().getMessageCount() > 0) {
                 to.getMessageList().show();
                 return;
             }

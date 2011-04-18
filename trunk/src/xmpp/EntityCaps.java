@@ -16,6 +16,7 @@ import com.alsutton.jabber.JabberBlockListener;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.Iq;
 import com.ssttr.crypto.SHA1;
+import locale.SR;
 import java.util.Vector;
 
 /**
@@ -73,13 +74,13 @@ public class EntityCaps implements JabberBlockListener{
         sha1.init();
         
         //indentity
-        sha1.update(BOMBUS_ID_CATEGORY+"/"+BOMBUS_ID_TYPE+"//");
-        sha1.update(Version.NAME);
-        sha1.update("<");
+	sha1.updateASCII(BOMBUS_ID_CATEGORY+"/"+BOMBUS_ID_TYPE+"//");
+        sha1.updateASCII(Version.NAME);
+        sha1.updateASCII("<");
         
         for (int i=0; i<features.size(); i++) {
-            sha1.update((String) features.elementAt(i));
-            sha1.update("<");
+            sha1.updateASCII((String) features.elementAt(i));
+            sha1.updateASCII("<");
         }
         
         sha1.finish();
@@ -94,7 +95,7 @@ public class EntityCaps implements JabberBlockListener{
         c.setAttribute("node", BOMBUS_NAMESPACE);//+'#'+Version.getVersionNumber());
         c.setAttribute("ver", calcVerHash());
         c.setAttribute("hash", "sha-1");
-
+	System.out.println("HASH::: "+calcVerHash());
         return c;
     }
     
@@ -113,7 +114,8 @@ public class EntityCaps implements JabberBlockListener{
             features.addElement("http://jabber.org/protocol/activity+notify");
         }
 //#endif
-        
+        features.addElement("http://jabber.org/protocol/caps");
+
         if (midlet.BombusQD.cf.eventComposing)
             features.addElement("http://jabber.org/protocol/chatstates"); //xep-0085
 //#if SERVICE_DISCOVERY && ADHOC
@@ -121,6 +123,8 @@ public class EntityCaps implements JabberBlockListener{
             features.addElement("http://jabber.org/protocol/commands"); //xep-0050
 //#endif
         features.addElement("http://jabber.org/protocol/disco#info");
+
+        features.addElement("http://jabber.org/protocol/evil");//XEP-0076: Malicious Stanzas
 //#if FILE_IO && FILE_TRANSFER
         if (midlet.BombusQD.cf.fileTransfer) {
             features.addElement("http://jabber.org/protocol/ibb");
@@ -142,27 +146,23 @@ public class EntityCaps implements JabberBlockListener{
         }
 //#endif
 //#ifdef PEP
-//#ifdef PEP
          if (midlet.BombusQD.cf.rcvtune) {
               features.addElement("http://jabber.org/protocol/tune");
               features.addElement("http://jabber.org/protocol/tune+notify");
          }
 //#endif
-//#endif
-        features.addElement("http://jabber.org/protocol/evil");//XEP-0076: Malicious Stanzas
-	if (AlertCustomize.getInstance().enableAttention)
-		features.addElement("urn:xmpp:attention:0");//XEP-0224: Attention
 
         
         features.addElement("jabber:iq:time"); //DEPRECATED
         features.addElement("jabber:iq:version");
         features.addElement("jabber:x:data");
          //"jabber:x:event", //DEPRECATED
+	if (AlertCustomize.getInstance().enableAttention)
+		features.addElement("urn:xmpp:attention:0");//XEP-0224: Attention
         features.addElement("urn:xmpp:ping");
         if (midlet.BombusQD.cf.eventDelivery) 
             features.addElement("urn:xmpp:receipts"); //xep-0184
 
-        //sort(features);
     }
 
     private static Vector features=new Vector(0);

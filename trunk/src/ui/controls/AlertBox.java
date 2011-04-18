@@ -36,10 +36,6 @@ import locale.SR;
 
 public class AlertBox extends DefForm
     {
-    private Progress pb;
-
-    int pos=0;
-    int steps=1;
     public static final int BUTTONS_OK=0x0001;
     public static final int BUTTONS_YESNO=0x0002;
     private int buttons;

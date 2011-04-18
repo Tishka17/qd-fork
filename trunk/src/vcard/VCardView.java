@@ -201,9 +201,7 @@ public class VCardView extends DefForm implements MenuListener
 //#ifdef AVATARS
                     if (contact != null) {
                         if (Config.module_avatars) {
-                            //int width = photoImg.getWidth();
-                            //int height = photoImg.getHeight();
-                            midlet.BombusQD.sd.roster.setImageAvatar(contact, photoImg);
+                            contact.setImageAvatar(photoImg);
                         }
                     }
 //#endif

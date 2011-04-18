@@ -29,21 +29,24 @@ package ui.controls;
 import ui.controls.form.DefForm;
 import ui.controls.form.SimpleString;
 import locale.SR;
+import ui.controls.form.MultiLine;
 /**
  *
  * @author tishka17
  */
 
-public class AlertBox extends DefForm
-    {
+public class AlertBox extends DefForm {
     public static final int BUTTONS_OK=0x0001;
     public static final int BUTTONS_YESNO=0x0002;
     private int buttons;
 
     public AlertBox(String mainbar, String text, final int buttons) {
 	super(mainbar);
-	this.buttons = buttons;
-	itemsList.addElement(new SimpleString(text, false));
+
+        this.buttons = buttons;
+	MultiLine line  = new MultiLine(null, text, width);
+        line.setSelectable(true);
+        addControl(line);
     }
     public String touchLeftCommand() {
 	if (buttons==BUTTONS_OK)

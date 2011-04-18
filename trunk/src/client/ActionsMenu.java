@@ -406,7 +406,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                     break;
 //#ifdef POPUPS
                 case MI_INFO:
-                    midlet.BombusQD.sd.roster.showInfo();
+                    midlet.BombusQD.sd.roster.showInfo(contact);
                     break;
 //#endif
                 case MI_FEATURES:

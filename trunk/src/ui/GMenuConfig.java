@@ -25,20 +25,11 @@
  *
  */
 package ui;
+
 import java.util.Vector;
 import menu.MenuListener;
-import client.Config;
-import javax.microedition.lcdui.Image;
 
-public class GMenuConfig {
-  /**
-     * Creates a new instance of GMenuConfig
-     */
-   public int phoneHeight=0;
-   public int phoneWidth=0;
-        
-   public String openedContact="";     
-    
+public class GMenuConfig {    
    private static GMenuConfig instance;
     
    public int itemGrMenu=-1;
@@ -57,16 +48,12 @@ public class GMenuConfig {
    public static String[] commandslist;  
    public static String[] commandslistIn; 
    public boolean inMenuSelected=false; 
-   
 
-   public int maxHeight=0;
-   public int maxWidth=0;
    public int xcoodr=0;
    public int ycoodr=0;
   
 
-    public GMenuConfig() {
-    }
+    public GMenuConfig() {}
     
     public static GMenuConfig getInstance(){
 	if (instance==null) {
@@ -74,6 +61,4 @@ public class GMenuConfig {
 	}
 	return instance;
     }    
-    
-    
 }

@@ -9,10 +9,8 @@
 package account;
 
 import ui.controls.AlertBox;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import client.Config;
-import midlet.BombusQD;
 
 /**
  *

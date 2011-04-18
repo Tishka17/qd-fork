@@ -369,12 +369,6 @@ public abstract class VirtualList extends CanvasEx {
 //#endif
 
     public VirtualList() {
-        width=getWidth();
-        height=getHeight();
-
-         gm.phoneWidth = getWidth();
-         gm.phoneHeight = getHeight();
-
 //#ifdef BACK_IMAGE
         createImage(true);
 //#endif

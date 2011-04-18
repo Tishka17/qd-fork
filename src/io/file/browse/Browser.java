@@ -188,9 +188,8 @@ public class Browser
         }
 
         if (command==cmdDelete) {
-            AlertBox box = new AlertBox( "Alert", SR.get(SR.MS_DELETE) + '?' , false) {
+            AlertBox box = new AlertBox( "Alert", SR.get(SR.MS_DELETE) + '?' , AlertBox.BUTTONS_YESNO) {
                public void yes() { fileDelete(); }
-               public void no() {}
             };
             box.show();
             return;

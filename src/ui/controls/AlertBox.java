@@ -26,222 +26,45 @@
 
 package ui.controls;
 
-import client.Config;
-import colors.ColorTheme;
-import java.util.Vector;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#endif
-import javax.microedition.lcdui.Font;
-import javax.microedition.lcdui.Graphics;
+import ui.controls.form.DefForm;
+import ui.controls.form.SimpleString;
 import locale.SR;
-import font.FontCache;
-import ui.CanvasEx;
-import util.StringUtils;
-//#ifdef GRADIENT
-import ui.Gradient;
-//#endif
-
 /**
  *
- * @author ad
+ * @author tishka17
  */
 
-public abstract class AlertBox extends CanvasEx
-
-//#ifndef MENU_LISTENER
-//#         implements CommandListener
-//#endif
+public class AlertBox extends DefForm
     {
-//#ifndef MENU_LISTENER
-//#     protected Command cmdOk=new Command(SR.get(SR.MS_OK), Command.OK, 1);
-//#     protected Command cmdCancel=new Command(SR.get(SR.MS_CANCEL), Command.BACK, 2);
-//#endif
-
-    public boolean isShowing;
-
-    Font messageFont;
-    Font barFont;
-
-    private String left=SR.get(SR.MS_OK);
-    private String right=SR.get(SR.MS_CANCEL);
-
-    boolean init;
-    private String mainbar;
-    private String text;
-
-    private Vector lines=null;
-
-    private int topColor=ColorTheme.getColor(ColorTheme.BAR_BGND);
-//#ifdef GRADIENT
-    private int bottomColor=ColorTheme.getColor(ColorTheme.BAR_BGND_BOTTOM);
-    private Gradient gr=null;
-    private Gradient gr2=null;
-//#endif
-
     private Progress pb;
 
     int pos=0;
     int steps=1;
+    public static final int BUTTONS_OK=0x0001;
+    public static final int BUTTONS_YESNO=0x0002;
+    private int buttons;
 
-    public AlertBox(String mainbar, String text, boolean optionsMaster) {
-        if(optionsMaster){
-            left=SR.get(SR.MS_YES);
-            right=SR.get(SR.MS_NO);
-        }
-
-        messageFont=FontCache.getFont(false, Config.msgFont);
-        barFont=FontCache.getFont(false, Config.barFont);
-
-        this.text=text;
-        this.mainbar=mainbar;
-        isShowing=true;
-//#ifndef MENU_LISTENER
-//#         addCommand(cmdOk);
-//#         addCommand(cmdCancel);
-//#
-//#         setCommandListener(this);
-//#endif
+    public AlertBox(String mainbar, String text, final int buttons) {
+	super(mainbar);
+	this.buttons = buttons;
+	itemsList.addElement(new SimpleString(text, false));
     }
-
-//#ifndef MENU_LISTENER
-//#     public void commandAction(Command command, Displayable displayable) {
-//#         if (command==cmdOk) {
-//#             yes();
-//#         } else {
-//#             no();
-//#         }
-//#         destroyView();
-//#     }
-//#endif
-
-    public void destroyView()	{
-        isShowing=false;
-
-        super.destroyView();
+    public String touchLeftCommand() {
+	if (buttons==BUTTONS_OK)
+	    return SR.get(SR.MS_OK);
+	else
+	    return SR.get(SR.MS_YES);
     }
-
-    private void getLines(int width) {
-        if (lines==null) {
-            lines=StringUtils.parseMessage(text, width-4, messageFont);
-            text=null;
-        }
+    public String touchRightCommand() {
+	if (buttons==BUTTONS_OK)
+	    return "";
+	else
+	    return SR.get(SR.MS_NO);
     }
-
-    protected void paint(Graphics g) {
-        if (isShowing) {
-            int oldColor=g.getColor();
-
-            g.setColor(ColorTheme.getColor(ColorTheme.LIST_BGND));
-            g.fillRect(0,0, width, height); //fill back
-
-            int fh=0;
-            if (mainbar!=null) {
-                fh=getBarFontHeight();
-//#ifdef GRADIENT
-                if (gr==null) {
-                    gr=new Gradient(0, 0, width, fh, ColorTheme.getColor(ColorTheme.BAR_BGND), bottomColor, false);
-                }
-                gr.paint(g);
-//#else
-//#             g.setColor(topColor);
-//#             g.fillRect(0, 0, width, fh);
-//#endif
-                g.setFont(barFont);
-                g.setColor(ColorTheme.getColor(ColorTheme.BAR_INK));
-                g.drawString(mainbar, width/2, 0, Graphics.TOP|Graphics.HCENTER);
-            }
-
-
-            fh=getBarFontHeight();
-//#ifdef GRADIENT
-            if (gr2==null) {
-                gr2=new Gradient(0, height-fh, width, height, topColor, bottomColor, false);
-            }
-            gr2.paint(g);
-//#else
-//#         g.setColor(topColor);
-//#         g.fillRect(0, height-fh, width, fh);
-//#endif
-            g.setFont(barFont);
-            g.setColor(ColorTheme.getColor(ColorTheme.BAR_INK));
-            g.drawString(left, 2, height-fh, Graphics.TOP|Graphics.LEFT);
-            g.drawString(right, width-2, height-fh, Graphics.TOP|Graphics.RIGHT);
-
-            getLines(width-4);
-            drawAllStrings(g, 2, fh);
-
-            if (pos>0)
-                drawProgress (g, width, height-fh);
-
-            g.setColor(oldColor);
-        }
-    }
-
-    private void drawAllStrings(Graphics g, int x, int y) {
-        if (lines==null)
-            return;
-        if (lines.size()<1)
-            return;
-
-        g.setFont(messageFont);
-        int fh=getFontHeight();
-        g.setColor(ColorTheme.getColor(ColorTheme.LIST_INK));
-        String str;
-	for (int line=0; line<lines.size(); line++){
-            str = (String)lines.elementAt(line);
-            if (str!=null && str.length()>0)
-                g.drawString(str, x, y, Graphics.TOP|Graphics.LEFT);
-            y += fh;
-	}
-    }
-
-    private int getBarFontHeight() {
-        return barFont.getHeight();
-    }
-
-    private int getFontHeight() {
-        return messageFont.getHeight();
-    }
-
-    public void drawProgress (Graphics g, int width, int height) {
-        int filled=pos*width/steps;
-
-        if (pb==null)
-            pb=new Progress(0, height, width);
-        Progress.draw(g, filled, Integer.toString(steps-pos));
-    }
-
-    protected void keyPressed(int keyCode) { // overriding this method to avoid autorepeat
-        if (keyCode==Config.SOFT_LEFT || keyCode==FIRE) {
-            destroyView();
-            yes();
-        } else if (keyCode==Config.SOFT_RIGHT || keyCode==Config.KEY_BACK) {
-            destroyView();
-            no();
-        }
-    }
-
-//#ifdef TOUCH
-    protected void pointerPressed(int x, int y) {
-
-        if (height - y < getBarFontHeight()) {
-            if (x<width/2){
-                destroyView();
-                yes();
-                return;
-            } else {
-                destroyView();
-                no();
-                return;
-            }
-        }
-    }
-//#endif
-
-    public abstract void yes();
-
-    public abstract void no();
+    
+    public void cmdOk() {destroyView(); yes(); }
+    public void yes(){};
+    public void cmdCancel() {destroyView(); no();}
+    public void no(){};
 }
 

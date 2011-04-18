@@ -140,7 +140,7 @@ public class ColorConfigForm extends DefForm
 //#endif
         addControl(new LinkString(SR.get(SR.MS_CLEAR)) {
             public void doAction() {
-                AlertBox box = new AlertBox("Query", "Load lime theme?", true) {
+                AlertBox box = new AlertBox("Query", "Load lime theme?", AlertBox.BUTTONS_YESNO) {
                     public void yes() {
                         ColorTheme.loadSkin("/themes/default.txt", 1, true);
                     }

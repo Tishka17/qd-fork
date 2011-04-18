@@ -291,10 +291,7 @@ public class ServiceDiscovery
 
             XmppError xe=XmppError.findInStanza(data);
 
-            AlertBox box = new AlertBox(data.getAttribute("from"), xe.toString(), false) {
-                public void yes() { };
-                public void no() { };
-            };
+            AlertBox box = new AlertBox(data.getAttribute("from"), xe.toString(), AlertBox.BUTTONS_OK);
             box.show();
 
             return JabberBlockListener.BLOCK_PROCESSED;
@@ -415,10 +412,7 @@ public class ServiceDiscovery
             if (text.equals(SR.get(SR.MS_DONE)) && id.endsWith("Search") ) {
                 new SearchResult(data).show();
             } else {
-                AlertBox box = new AlertBox(typeAttr, text, false) {
-                    public void yes() { }
-                    public void no() { }
-                };
+                AlertBox box = new AlertBox(typeAttr, text, AlertBox.BUTTONS_OK);
                 box.show();
             }
         }

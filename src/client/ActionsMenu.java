@@ -481,12 +481,9 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                     return;
                 }
                 case MI_DELETE: {
-                    AlertBox box = new AlertBox(SR.get(SR.MS_DELETE_ASK), contact.getName(), false) {
+                    AlertBox box = new AlertBox(SR.get(SR.MS_DELETE_ASK), contact.getName(), AlertBox.BUTTONS_YESNO) {
                         public void yes() {
                             BombusQD.sd.roster.deleteContact((Contact) item);
-                        }
-
-                        public void no() {
                         }
                     };
                     showForm(box);
@@ -719,12 +716,9 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                         showForm(new RenameGroup(group));
                         return;
                     case MI_DELETE:
-                        AlertBox box = new AlertBox(SR.get(SR.MS_DELETE_GROUP_ASK), group.getName(), false)       {
+                        AlertBox box = new AlertBox(SR.get(SR.MS_DELETE_GROUP_ASK), group.getName(), AlertBox.BUTTONS_YESNO)       {
                             public void yes() {
                                 BombusQD.sd.roster.deleteGroup(group);
-                            }
-
-                            public void no() {
                             }
                         };
                         showForm(box);

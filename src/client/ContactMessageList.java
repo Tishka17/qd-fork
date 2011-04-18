@@ -468,9 +468,8 @@ public final class ContactMessageList extends MessageList implements InputTextBo
        } catch (Exception e) { msg = null; }
 
        if(!found&&msg!=null) {
-            AlertBox box = new AlertBox(msg.from, SR.get(SR.MS_ALERT_CONTACT_OFFLINE), false) {
+            AlertBox box = new AlertBox(msg.from, SR.get(SR.MS_ALERT_CONTACT_OFFLINE), AlertBox.BUTTONS_YESNO) {
                 public void yes() { reply(true); }
-                public void no() { }
             };
             box.show();
        } else reply(true);
@@ -514,7 +513,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
 
              if(contact.msgSuspended != null && check) {
                final String msgText = messg;
-               AlertBox box = new AlertBox(msg.from, SR.get(SR.MS_MSGBUFFER_NOT_EMPTY), false) {
+               AlertBox box = new AlertBox(msg.from, SR.get(SR.MS_MSGBUFFER_NOT_EMPTY), AlertBox.BUTTONS_YESNO) {
                     public void yes() { showMsgEdit(msgText); }
                     public void no()  { keyGreen(); }
                };

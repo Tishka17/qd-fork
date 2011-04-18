@@ -34,6 +34,11 @@ public abstract class CanvasEx extends Canvas {
     protected int width;
     protected int height;
 
+    public CanvasEx() {
+        this.width = BombusQD.sd.canvas.getWidth();
+        this.width = BombusQD.sd.canvas.getHeight();
+    }
+
     public void show() {
         if (parentView == null) {
             if (BombusQD.sd.canvas.isShown()) {

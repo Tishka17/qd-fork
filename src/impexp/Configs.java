@@ -90,6 +90,7 @@ public class Configs {
         writeInt(data, "userAppLevel", config.userAppLevel);
         writeInt(data, "menuFont", config.menuFont);
         writeInt(data, "contactXOffset", config.contactXOffset);
+        writeInt(data, "minItemHeight", config.minItemHeight);
 //#ifdef LIGHT_CONTROL
         writeInt(data, "lightKeyPressTime", Config.lightKeyPressTime);
         writeInt(data, "lightMessageTime", Config.lightMessageTime);
@@ -134,7 +135,7 @@ public class Configs {
         writeBoolean(data, "userKeys", config.userKeys);
         writeBoolean(data, "module_autostatus", config.module_autostatus);
         writeBoolean(data, "module_classicchat", config.module_classicchat);
-         writeBoolean(data, "module_history", config.module_history);
+        writeBoolean(data, "module_history", config.module_history);
         writeBoolean(data, "module_ie", config.module_ie);
         writeBoolean(data, "module_tasks", config.module_tasks);
 //#ifdef AVATARS
@@ -283,6 +284,7 @@ public class Configs {
             config.userAppLevel = readInt(data, "userAppLevel", config.userAppLevel);
             config.menuFont = readInt(data, "menuFont", config.menuFont);
             config.contactXOffset = readInt(data, "contactXOffset", config.contactXOffset);
+            config.minItemHeight = readInt(data, "minItemHeight", config.minItemHeight);
 //#ifdef LIGHT_CONTROL
             Config.lightKeyPressTime =readInt(data, "lightKeyPressTime", Config.lightKeyPressTime);
             Config.lightMessageTime = readInt(data, "lightMessageTime", Config.lightMessageTime);

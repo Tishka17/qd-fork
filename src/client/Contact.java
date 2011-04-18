@@ -568,6 +568,18 @@ public class Contact extends IconTextElement {
 
     public int avatar_width=0;
     public int avatar_height=0;
+
+    public void setImageAvatar(Image photoImg){
+        int newW=photoImg.getWidth();
+        int newH=photoImg.getHeight();
+        while(newW>midlet.BombusQD.cf.maxAvatarWidth || newH>midlet.BombusQD.cf.maxAvatarHeight){
+            newW-=(newW*10)/100;
+            newH-=(newH*10)/100;
+        }
+        avatar_width = newW;
+        avatar_height = newH;
+        img_vcard = VirtualList.resizeImage(photoImg, newW, newH);
+    }
 //#endif
 
     public final void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {

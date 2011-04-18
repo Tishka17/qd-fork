@@ -30,6 +30,7 @@ package ui.controls.form;
 
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
+import midlet.BombusQD;
 import ui.GMenuConfig;
 import ui.IconTextElement;
 import ui.VirtualList;
@@ -58,7 +59,7 @@ public final class CollapsibleItem extends IconTextElement {
             this.tip = text.substring(sep);
             this.text = text.substring(0, sep);
 
-            tipLines = StringUtils.parseBoxString(this.tip, gm.phoneWidth - 30, getFont());
+            tipLines = StringUtils.parseBoxString(this.tip, BombusQD.sd.canvas.getWidth() - 30, getFont());
         } else {
             this.text = text;
             this.tip = null;

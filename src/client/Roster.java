@@ -1715,20 +1715,6 @@ public final class Roster
     }
 //#endif
 
-//#ifdef AVATARS
-    public void setImageAvatar(Contact c,Image photoImg){
-        int newW=photoImg.getWidth();
-        int newH=photoImg.getHeight();
-        while(newW>midlet.BombusQD.cf.maxAvatarWidth || newH>midlet.BombusQD.cf.maxAvatarHeight){
-            newW-=(newW*10)/100;
-            newH-=(newH*10)/100;
-        }
-        c.avatar_width=newW;
-        c.avatar_height=newH;
-        c.img_vcard=resizeImage(photoImg,newW,newH);
-    }
-//#endif
-
    public int blockArrived( JabberDataBlock data ) { //fix
         try {
             String from = data.getAttribute("from");
@@ -1833,7 +1819,7 @@ public final class Roster
                                 }
 //#endif
                                 c.hasPhoto = true;
-                                setImageAvatar(c,photoImg);
+                                c.setImageAvatar(photoImg);
                                 vc.hasPhoto = true;
                                 c.vcard = vc;
                             }
@@ -3205,7 +3191,10 @@ public final class Roster
             case KEY_POUND:
                 if (getItemCount()==0)
                     return;
-                showInfo();
+                Object focused = getFocusedObject();
+                if (focused instanceof Contact) {
+                    showInfo((Contact)focused);
+                }                
                 return;
 //#endif
             case KEY_NUM1:
@@ -3387,17 +3376,14 @@ public final class Roster
 //#endif
 
 //#ifdef POPUPS
-    public void showInfo() {
-        Object focused = getFocusedObject();
-        if (focused==null) return;
+    public void showInfo(Contact contact) {
         try {
             VirtualList.getPopUp().next();
-            if (focused instanceof Group) return; //|| focused instanceof ConferenceGroup // ???
-            setWobbler(1, (Contact)focused, null, focused);
+            setWobbler(1, contact, null, contact);
         } catch(OutOfMemoryError eom) {
-            errorLog("error Roster::5 OutOfMemoryError(" + focused + "->Class::" + focused.getClass().toString() + ")");
+            errorLog("error Roster::5 OutOfMemoryError(" + contact + "->Class::" + contact.getClass().toString() + ")");
         } catch (Exception e) {
-            errorLog("error Roster::5 Exception->" + focused);
+            errorLog("error Roster::5 Exception->" + contact);
         }
     }
 

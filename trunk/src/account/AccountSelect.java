@@ -277,7 +277,7 @@ public class AccountSelect extends VirtualList implements
 //#         }
 //#endif
         if (c == cmdConfigurationMaster) {
-            new ConfigurationMaster(this);
+            new ConfigurationMaster();
         }
         if (c == cmdLogin) {
             switchAccount(true);
@@ -296,12 +296,9 @@ public class AccountSelect extends VirtualList implements
                 if (cursor == midlet.BombusQD.cf.accountIndex && midlet.BombusQD.sd.roster.isLoggedIn()) {
                     return;
                 }
-                AlertBox box = new AlertBox(SR.get(SR.MS_DELETE), getFocusedObject().toString(),false)  {
+                AlertBox box = new AlertBox(SR.get(SR.MS_DELETE), getFocusedObject().toString(), AlertBox.BUTTONS_YESNO)  {
                     public void yes() {
                         delAccount();
-                    }
-
-                    public void no() {
                     }
                 };
                 box.show();

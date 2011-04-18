@@ -318,11 +318,10 @@ public final class Bookmarks extends VirtualList
     }
 
     protected void keyClear(){
-        AlertBox box = new AlertBox(SR.get(SR.MS_DELETE_ASK), ((BookmarkItem)getFocusedObject()).getJid(), false) {
+        AlertBox box = new AlertBox(SR.get(SR.MS_DELETE_ASK), ((BookmarkItem)getFocusedObject()).getJid(), AlertBox.BUTTONS_YESNO) {
             public void yes() {
                 deleteBookmark();
             }
-            public void no() {}
         };
         box.show();
     }

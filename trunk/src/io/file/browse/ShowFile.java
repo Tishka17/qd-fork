@@ -82,7 +82,7 @@ public class ShowFile implements CommandListener{
         }
         if (type==2) view(fileName); //images
         if (type==3) {
-            AlertBox box = new AlertBox( "Info", "Windows cp1251?" , false) {
+            AlertBox box = new AlertBox( "Info", "Windows cp1251?" , AlertBox.BUTTONS_YESNO) {
                public void yes() { useWin1251 = true; read(fileName);  }
                public void no() { useWin1251 = false; read(fileName);  }
             };

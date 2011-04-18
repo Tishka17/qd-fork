@@ -19,11 +19,9 @@ import midlet.BombusQD;
  * @author aqent
  */
 public class ConfigurationMaster {
-    private Displayable parentView;
     private byte type = 0;
 
-    public ConfigurationMaster(Displayable parentView) {
-        this.parentView = parentView;
+    public ConfigurationMaster() {
         createAnswer();
     }
 
@@ -44,7 +42,7 @@ public class ConfigurationMaster {
         SR.get(SR.MS_SUCCESS)
     };
 
-    private void doAction(byte type, boolean value) {
+    private void doAction(boolean value) {
         Config config = Config.getInstance();
         switch (type) {
 //#ifdef CLIENTS_ICONS
@@ -83,39 +81,34 @@ public class ConfigurationMaster {
                 config.module_history = value;
                 break;
         }
+	type += 1;
     }
 
     private void createAnswer() {
         int len = text.length;
         if (type >= len) {
-            destroyView();
+	    Config.getInstance().saveToStorage();
             return;
         }
         int num = type + 1;
-        boolean end = (type == len - 1);
+        boolean end = (type >= len - 1);
         String body = text[type] + (end ? '!' : '?');
         int pos = body.indexOf('%');
         if (pos > -1) {
             body = body.substring(0, pos) + '?';
         }
-        AlertBox box =  new AlertBox(end ? SR.get(SR.MS_SUCCESS) : "Step " + num + "/" + len, body, true)  {
+        AlertBox box =  new AlertBox(end ? SR.get(SR.MS_SUCCESS) : "Step " + num + "/" + len, body, (end?AlertBox.BUTTONS_OK:AlertBox.BUTTONS_YESNO))  {
             public void yes() {
-                doAction(type, true);
-                type += 1;
+                doAction(true);
                 createAnswer();
             }
 
             public void no() {
-                doAction(type, false);
-                type += 1;
+                doAction(false);
                 createAnswer();
             }
         };
         box.show();
     }
-
-    private void destroyView() {
-        Config.getInstance().saveToStorage();
-        BombusQD.setCurrentView(parentView);
-    }
 }
+

@@ -721,9 +721,8 @@ public final class Roster
 
     public void cmdCleanAllMessages(){
         if (messageCount>0) {
-            AlertBox box = new AlertBox(SR.get(SR.MS_UNREAD_MESSAGES)+": "+messageCount, SR.get(SR.MS_SURE_DELETE), false) {
+            AlertBox box = new AlertBox(SR.get(SR.MS_UNREAD_MESSAGES)+": "+messageCount, SR.get(SR.MS_SURE_DELETE), AlertBox.BUTTONS_YESNO) {
                 public void yes() { cleanAllMessages(); }
-                public void no() { }
             };
             box.show();
         } else {
@@ -3165,11 +3164,10 @@ public final class Roster
 //#             boolean isMucContact=false;
 //#endif
                 if (isContact && !isMucContact) {
-                    AlertBox box = new AlertBox(SR.get(SR.MS_DELETE_ASK), c.getNickJid(), false) {
+                    AlertBox box = new AlertBox(SR.get(SR.MS_DELETE_ASK), c.getNickJid(), AlertBox.BUTTONS_YESNO) {
                         public void yes() {
                             deleteContact((Contact)getFocusedObject());
                         }
-                        public void no() {}
                     };
                     box.show();
                 }
@@ -3530,9 +3528,8 @@ public final class Roster
 
     public void cmdQuit() {
         if (midlet.BombusQD.cf.queryExit) {
-            AlertBox box = new AlertBox(SR.get(SR.MS_QUIT_ASK), SR.get(SR.MS_SURE_QUIT), false) {
+            AlertBox box = new AlertBox(SR.get(SR.MS_QUIT_ASK), SR.get(SR.MS_SURE_QUIT), AlertBox.BUTTONS_YESNO) {
                 public void yes() {quit(); }
-                public void no() { }
             };
             box.show();
         } else {

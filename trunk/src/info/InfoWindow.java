@@ -221,13 +221,7 @@ public class InfoWindow extends DefForm {
             authMsg = "Advanced Mode now OFF!";
         }
         midlet.BombusQD.cf.saveInt();
-        AlertBox box = new AlertBox(SR.get(SR.MS_INFO), authMsg, false) {
-            public void yes() {
-            }
-
-            public void no() {
-            }
-        };
+        AlertBox box = new AlertBox(SR.get(SR.MS_INFO), authMsg, AlertBox.BUTTONS_OK);
         box.setParentView(getParentView());
         box.show();
     }

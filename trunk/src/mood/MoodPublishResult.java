@@ -50,10 +50,7 @@ public class MoodPublishResult implements JabberBlockListener {
         
         String type=data.getTypeAttribute();
         if (type.equals("result")){
-            AlertBox box = new AlertBox(SR.get(SR.MS_USERMOOD), SR.get(SR.MS_SUCCESS)  + '!', false) {
-               public void yes() { }
-               public void no() { }
-            };
+            AlertBox box = new AlertBox(SR.get(SR.MS_USERMOOD), SR.get(SR.MS_SUCCESS)  + '!', AlertBox.BUTTONS_OK);
             box.show();
             midlet.BombusQD.sd.roster.theStream.cancelBlockListener(this);
             return NO_MORE_BLOCKS;
@@ -61,10 +58,7 @@ public class MoodPublishResult implements JabberBlockListener {
         
         XmppError e=XmppError.findInStanza(data);
         
-        AlertBox box = new AlertBox(SR.get(SR.MS_ERROR_), SR.get(SR.MS_PEP_NOT_SUPPORTED)+"("+e.toString()+")", false) {
-            public void yes() { }
-            public void no() { }
-        };
+        AlertBox box = new AlertBox(SR.get(SR.MS_ERROR_), SR.get(SR.MS_PEP_NOT_SUPPORTED)+"("+e.toString()+")", AlertBox.BUTTONS_OK);
         box.show();
         
         return NO_MORE_BLOCKS;

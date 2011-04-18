@@ -126,9 +126,8 @@ public class BombusQD extends MIDlet implements Runnable {
                String ver = is.readUTF();
                if(ver.indexOf(key) == -1 ) {
                   //alerbox
-                  AlertBox box = new AlertBox( "WARNING", SR.get(SR.MS_WARNING_MESSAGE_INSTALL), true) {
+                  AlertBox box = new AlertBox( "WARNING", SR.get(SR.MS_WARNING_MESSAGE_INSTALL), AlertBox.BUTTONS_YESNO) {
                       public void yes() { notifyDestroyed(); }
-                      public void no() {}
                   };
                   box.show();
                }

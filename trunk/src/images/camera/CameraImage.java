@@ -82,13 +82,7 @@ public class CameraImage implements CommandListener {
 
             player.start();
         } catch (Exception e) {
-            AlertBox box = new AlertBox("Error", e.toString(), true) {
-                public void yes() {
-                }
-
-                public void no() {
-                }
-            };
+            AlertBox box = new AlertBox("Error", e.toString(), AlertBox.BUTTONS_OK);
             box.setParentView(parentView);
             box.show();
         }

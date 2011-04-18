@@ -30,22 +30,26 @@ package history;
 import client.Config;
 import client.Contact;
 import client.Msg;
-import java.io.*;
 import javax.microedition.rms.RecordStore;
+import javax.microedition.rms.RecordStoreException;
 //#if FILE_IO
 import io.file.FileIO;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 //#endif
 //#ifdef DETRANSLIT
 //# import util.DeTranslit;
 //#endif
 import util.StringUtils;
-import javax.microedition.rms.RecordStoreException;
+
 /**
  *
  * @author aqent
  */
+
 public class HistoryStorage {
     public static final String STORAGE_PREFIX = "hist_";
 
@@ -69,9 +73,6 @@ public class HistoryStorage {
    }
 
 //#if FILE_IO
-    private static FileIO file;
-    private static OutputStream os;
-
     private static String createBody(Msg m) {
         StringBuffer buf = new StringBuffer(0);
         switch (m.messageType) {
@@ -109,7 +110,11 @@ public class HistoryStorage {
         StringBuffer buf = new StringBuffer(0);
         buf.append(Config.historyPath).append(StringUtils.replaceBadChars(filename)).append(".txt");
 
-        file = FileIO.createConnection(buf.toString());
+        FileIO file = FileIO.createConnection(buf.toString());
+        if (file == null) {
+            return;
+        }
+        OutputStream os = null;
 
         try {
             os = file.openOutputStream(0);
@@ -117,21 +122,28 @@ public class HistoryStorage {
                 os.write(bodyMessage);
             }
         } catch (IOException e) {
+//#ifdef DEBUG
+//#              e.printStackTrace();
+//#endif
         } finally {
             try {
-                os.close();
-                file.close();
+                if (os != null) {
+                    os.close();
+                }
+                file.close();                
             } catch (IOException io) {
+//#ifdef DEBUG
+//#                 io.printStackTrace();
+//#endif
             }
         }
     }
 //#endif
 
-    private static ByteArrayOutputStream baos = null;
-    private static DataOutputStream das = null;
-
     synchronized private static void addRMSrecord(Contact c, Msg message) {
         RecordStore recordStore = null;
+        ByteArrayOutputStream baos = null;
+        DataOutputStream das = null;
         try {
               String rName = getRSName(c.bareJid);
               recordStore = RecordStore.openRecordStore(rName, true);
@@ -158,27 +170,33 @@ public class HistoryStorage {
                         recordStore = null;
                     }
                 } catch (RecordStoreException e ) {
-
+//#ifdef DEBUG
+//#                     e.printStackTrace();
+//#endif
                 }
               try{
-                 if (das != null)  { das.close(); das = null; }
-                 if (baos != null) { baos.close(); baos = null; }
-              } catch (Exception e) { }
+                  if (das != null) {
+                      das.close();
+                      das = null;
+                  }
+                  if (baos != null) {
+                      baos.close();
+                      baos = null;
+                  }
+              } catch (Exception e) {
+//#ifdef DEBUG
+//#                     e.printStackTrace();
+//#endif
+              }
         }
     }
 
-
-    public static RecordStore closeStore(RecordStore recordStore) {
-       try {
-           recordStore.closeRecordStore();
-       } catch (Exception e) {}
-       return null;
-    }
+    private static final int MAX_RECORDNAME_LEN = 32;
 
     public static String getRSName(String bareJid) {
         String str = STORAGE_PREFIX + bareJid;
-        if (str.length() > 30) {
-            str = str.substring(0, 30);
+        if (str.length() > MAX_RECORDNAME_LEN) {
+            str = str.substring(0, MAX_RECORDNAME_LEN);
         }
         return str;
     }

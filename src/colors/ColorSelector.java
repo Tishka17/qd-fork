@@ -255,7 +255,6 @@ public class ColorSelector extends DefForm implements Runnable {
                 moveCursorRight();
                 return;
             case KEY_NUM0:
-                exit = true;
                 destroyView();
                 break;
             default:
@@ -320,7 +319,7 @@ public class ColorSelector extends DefForm implements Runnable {
     public void run() {
         while (!exit) {
             try {
-                Thread.sleep(35);
+                Thread.sleep(75);
             } catch (Exception e) {
             }
             if (--timer > 0) {
@@ -388,8 +387,11 @@ public class ColorSelector extends DefForm implements Runnable {
 
         ColorTheme.setColor(item.getIndex(), finalColor);
         ColorTheme.saveToStorage();
+    }
 
+    public void destroyView() {
         exit = true;
+        super.destroyView();
     }
 }
 //#endif

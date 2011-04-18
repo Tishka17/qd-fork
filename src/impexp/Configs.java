@@ -61,6 +61,7 @@ public class Configs {
 //#endif
         writeInt(data, "panelsState", config.panelsState);
         writeInt(data, "messageLimit", config.messageLimit);
+        writeInt(data, "messageLimit", config.msglistLimit);
         writeInt(data, "autoSubscribe", config.autoSubscribe);
         writeInt(data, "barFont", config.barFont);
         writeInt(data, "baloonFont", config.baloonFont);
@@ -130,19 +131,11 @@ public class Configs {
         writeBoolean(data, "showTimeInMsgs", config.showTimeInMsgs);
         writeBoolean(data, "autoScroll", config.autoScroll);
         writeBoolean(data, "useItalic", config.useItalic);
-        writeBoolean(data, "module_contacts", config.module_contacts);
-        writeBoolean(data, "module_messages", config.module_messages);
-        writeBoolean(data, "module_network", config.module_network);
-        writeBoolean(data, "module_graphics", config.module_graphics);
-        writeBoolean(data, "module_app", config.module_app);
         writeBoolean(data, "userKeys", config.userKeys);
         writeBoolean(data, "module_autostatus", config.module_autostatus);
         writeBoolean(data, "module_classicchat", config.module_classicchat);
-        writeBoolean(data, "module_theme", config.module_theme);
-        writeBoolean(data, "module_history", config.module_history);
-        writeBoolean(data, "module_fonts", config.module_fonts);
+         writeBoolean(data, "module_history", config.module_history);
         writeBoolean(data, "module_ie", config.module_ie);
-        writeBoolean(data, "module_notify", config.module_notify);
         writeBoolean(data, "module_tasks", config.module_tasks);
 //#ifdef AVATARS
         writeBoolean(data, "module_avatars", config.module_avatars);
@@ -261,6 +254,7 @@ public class Configs {
 //#endif
             config.panelsState = readInt(data, "panelsState", config.panelsState);
             config.messageLimit = readInt(data, "messageLimit", config.messageLimit);
+            config.msglistLimit = readInt(data, "messageLimit", config.msglistLimit);
             config.autoSubscribe = readInt(data, "autoSubscribe", config.autoSubscribe);
             config.barFont = readInt(data, "barFont", config.barFont);
             config.baloonFont = readInt(data, "baloonFont", config.baloonFont);
@@ -328,13 +322,11 @@ public class Configs {
             config.showTimeInMsgs = readBoolean(data, "showTimeInMsgs", config.showTimeInMsgs);
             config.autoScroll = readBoolean(data, "autoScroll", config.autoScroll);
             config.useItalic = readBoolean(data, "useItalic", config.useItalic);
-            config.module_app = readBoolean(data, "module_app", config.module_app);
             config.userKeys = readBoolean(data, "userKeys", config.userKeys);
             config.module_autostatus = readBoolean(data, "module_autostatus", config.module_autostatus);
             config.module_classicchat = readBoolean(data, "module_classicchat", config.module_classicchat);
             config.module_history = readBoolean(data, "module_history", config.module_history);
             config.module_ie = readBoolean(data, "module_ie", config.module_ie);
-            config.module_notify = readBoolean(data, "module_notify", config.module_notify);
             config.module_tasks = readBoolean(data, "module_tasks", config.module_tasks);
 //#ifdef AVATARS
             config.module_avatars = readBoolean(data, "module_avatars", config.module_avatars);

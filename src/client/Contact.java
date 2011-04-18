@@ -343,14 +343,6 @@ public class Contact extends IconTextElement {
         } else {
             status = Presence.PRESENCE_ONLINE;
         }
-        /*
-            midlet.BombusQD.debug.add("deleteOldMessages "+this+" ..",10);
-            if (null != messageList) {
-                midlet.BombusQD.debug.add("deleteOldMessages "+this+" ...",10);
-                getML().deleteOldMessages( getChatInfo().getMessageCount() );
-
-            }
-         */
 
         if (first_replace) {
             chatInfo.setFirstMessage(m);
@@ -378,13 +370,17 @@ public class Contact extends IconTextElement {
 		    getML().resetMessages();
 		}
         }
+//#ifdef HISTORY
         if (group.type!=Groups.TYPE_TRANSP && group.type!=Groups.TYPE_SEARCH_RESULT) {
           boolean allowLog = (origin < ORIGIN_GROUPCHAT);
-          if (origin != ORIGIN_GROUPCHAT && this instanceof MucContact) allowLog=false;
-//#ifdef HISTORY
-          if(allowLog) getML().storeMessage(m);
-//#endif
+          if (origin != ORIGIN_GROUPCHAT && this instanceof MucContact) {
+              allowLog=false;
+          }
+          if(allowLog) {
+              getML().storeMessage(m);
+          }
         }
+//#endif
     }
 
     public boolean getFontIndex(){
@@ -568,10 +564,8 @@ public class Contact extends IconTextElement {
 
 //#ifdef AVATARS
     public Image img_vcard=null;
-//#endif
     public boolean hasPhoto=false;
 
-//#ifdef AVATARS
     public int avatar_width=0;
     public int avatar_height=0;
 //#endif

@@ -26,35 +26,27 @@
 //#ifdef AUTOSTATUS 
 //# package client;
 //# 
-//# public class AutoStatusTask implements Runnable {    
+//# import midlet.BombusQD;
+//# 
+//# public final class AutoStatusTask implements Runnable {
 //#     private boolean stop;
 //#     private long timeAwayEvent=0;
 //#     private long timeXaEvent=0;
 //#     private Thread thread;
 //#     
 //#     public AutoStatusTask(boolean restart) {
-//#         if(restart){
-//#            destroyTask(); 
-//#            if(thread != null) 
-//#                thread = null;
+//#         destroyTask();
+//#         if(thread != null) {
+//#            thread = null;
 //#         }
 //#         thread = new Thread(this);
-//#         thread.setPriority(thread.MIN_PRIORITY);
+//#         thread.setPriority(Thread.MIN_PRIORITY);
 //#         thread.start();
 //#     }
 //#     
 //#     public void setTimeEvent(long delay){
-//#         if (delay!=0) {
-//#             timeAwayEvent=delay+System.currentTimeMillis();
-//#             timeXaEvent=(delay*2)+timeAwayEvent;
-//#         } else {
-//#             timeAwayEvent=0;
-//#             timeXaEvent=0;
-//#         }
-//#     }
-//# 
-//#     boolean isAwayTimerSet() { 
-//#         return (timeAwayEvent!=0 && timeXaEvent!=0);
+//#         timeAwayEvent=delay+System.currentTimeMillis();
+//#         timeXaEvent=(delay*2)+timeAwayEvent;
 //#     }
 //# 
 //#     public void destroyTask(){
@@ -63,26 +55,26 @@
 //# 
 //#     public void run() {
 //#         while (!stop) {
-//#             //System.out.println("wait");
 //#             try {
 //#                 Thread.sleep(5000);
-//#             } catch (InterruptedException ex) { stop=true; }
-//#             if (timeAwayEvent==0 && timeXaEvent==0)
+//#             } catch (InterruptedException ex) { 
+//#                 stop = true;
+//#             }
+//#             if (timeAwayEvent == 0 && timeXaEvent == 0) {
 //#                 continue;
+//#             }
 //#             
 //#             long timeAwayRemained=System.currentTimeMillis()-timeAwayEvent;
 //#             long timeXaRemained=System.currentTimeMillis()-timeXaEvent;
 //# 
-//#             if (timeAwayRemained>0 && timeAwayEvent!=0) {
-//#                 timeAwayEvent=0;
-//#                 //System.out.println("  ..setAutoAway");
-//#                 midlet.BombusQD.sd.roster.setAutoAway();
+//#             if (timeAwayRemained > 0 && timeAwayEvent != 0) {
+//#                 timeAwayEvent = 0;
+//#                 BombusQD.sd.roster.setAutoAway();
 //#             }
 //# 
-//#             if (timeXaRemained>0 && timeAwayEvent==0) {
-//#                 timeXaEvent=0;
-//#                 //System.out.println("  ..setAutoXa");
-//#                 midlet.BombusQD.sd.roster.setAutoXa();
+//#             if (timeXaRemained>0 && timeAwayEvent == 0) {
+//#                 timeXaEvent = 0;
+//#                 BombusQD.sd.roster.setAutoXa();
 //#             }
 //#         }
 //#     }

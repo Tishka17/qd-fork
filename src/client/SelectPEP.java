@@ -366,15 +366,22 @@ public final class SelectPEP extends DefForm implements VirtualElement, InputTex
 //#ifdef TOUCH
     protected void pointerPressed(int x, int y) { 
         super.pointerPressed(x,y);
-        if (pointer_state != POINTER_SECOND && pointer_state != POINTER_NONE)
+        if (pointer_state != POINTER_SECOND && 
+                pointer_state != POINTER_FIRST &&
+                pointer_state != POINTER_NONE) {
             return;
+        }
         if (x>=xCnt*imgWidth) return;
         if (pointer_state == POINTER_SECOND && xCursor!= x/imgWidth)
             pointer_state = POINTER_NONE;
         xCursor=x/imgWidth;
+        System.out.println(xCursor);
         setRotator();
         if (cursor!=lines-1) return;
-        if (xCursor >= xLastCnt) xCursor=xLastCnt-1;
+        if (xCursor >= xLastCnt) {
+            System.out.println("xCursor >= xLastCnt");
+            xCursor=xLastCnt-1;
+        }
     }
 //#endif
 

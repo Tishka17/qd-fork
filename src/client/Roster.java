@@ -227,11 +227,12 @@ public final class Roster
         updateMainBar();
 
 //#ifdef AUTOSTATUS
-        if (midlet.BombusQD.cf.autoAwayType==Config.AWAY_IDLE || midlet.BombusQD.cf.autoAwayType==Config.AWAY_MESSAGE)
-            autostatus=new AutoStatusTask(false);
-
-        if (myStatus<2)
-            messageActivity();
+        if (Config.module_autostatus) {
+            if (Config.autoAwayType==Config.AWAY_IDLE || Config.autoAwayType == Config.AWAY_MESSAGE) {
+                autostatus = new AutoStatusTask(true);
+                autostatus.setTimeEvent(Config.autoAwayDelay * 60 * 1000);
+            }
+        }
 //#endif
     }
 
@@ -471,10 +472,6 @@ public final class Roster
 
 //#ifndef MENU
     public void commandAction(Command c, Displayable d){
-//#ifdef AUTOSTATUS
-        userActivity();
-//#endif
-
 //#ifdef GRAPHICS_MENU
         if (c == cmdActions) {
             showActionsMenu(getFocusedObject());
@@ -662,7 +659,7 @@ public final class Roster
     }
 
     private void updateMainBar(){
-        int profile = midlet.BombusQD.cf.profile;
+        int profile = midlet.BombusQD.cf.currentAlertProfile;
 
         if(0 != messageCount) {
             mainbar.setElementAt(new Integer(RosterIcons.ICON_MESSAGE_INDEX), 0);
@@ -1005,13 +1002,6 @@ public final class Roster
 //#ifndef WMUC
 
     public ConferenceGroup initMuc(final String from, String joinPassword){
- //#ifdef AUTOSTATUS
-         if (autoAway) {
-             ExtendedStatus es=sl.getStatus(oldStatus);
-             messageActivity();
-             es = null;
-         }
- //#endif
          // muc message
          int ri=from.indexOf('@');
          int rp=from.indexOf('/');
@@ -1141,9 +1131,6 @@ public final class Roster
 
     public void sendPresence(int newStatus, String message) {
         myStatus=newStatus;
-//#ifdef AUTOSTATUS
-        messageActivity();
-//#endif
 	if (message!=null) {
             myMessage=message;
         }
@@ -1448,7 +1435,7 @@ public final class Roster
             //e.printStackTrace()
         }
 //#ifdef AUTOSTATUS
-        messageActivity();
+        userActivity(Config.AWAY_MESSAGE);
 //#endif
     }
 
@@ -2903,7 +2890,7 @@ public final class Roster
     }
 
     public void playNotify(int event) {
-        if(midlet.BombusQD.cf.profile==AlertProfile.NONE) return;
+        if(midlet.BombusQD.cf.currentAlertProfile==AlertProfile.NONE) return;
         if (notifyReady(event)==false) return;
         AlertCustomize ac=AlertCustomize.getInstance();
 
@@ -2975,7 +2962,7 @@ public final class Roster
                 break;
         }
 
-        int profile=midlet.BombusQD.cf.profile;
+        int profile=midlet.BombusQD.cf.currentAlertProfile;
         EventNotify notify=null;
 
         switch (profile) {                                //display   fileType   soundName   volume      vibrate
@@ -3273,9 +3260,6 @@ public final class Roster
                 }
                 break;
         }
-//#ifdef AUTOSTATUS
-        userActivity();
-//#endif
      }
 
     protected void keyRepeated(int keyCode) {
@@ -3285,13 +3269,14 @@ public final class Roster
 
         if (keyCode==midlet.BombusQD.cf.keyLock) {
 //#ifdef AUTOSTATUS
-            if (midlet.BombusQD.cf.autoAwayType==Config.AWAY_LOCK) {
+            if (Config.autoAwayType == Config.AWAY_LOCK) {
                 if (!autoAway) {
-                    autoAway=true;
-                    if (!midlet.BombusQD.cf.setAutoStatusMessage) {
+                    autoAway = true;
+                    if (!Config.setAutoStatusMessage) {
                         sendPresence(Presence.PRESENCE_AWAY, "Auto Status on KeyLock since %t");
                     } else {
-                        sendPresence(Presence.PRESENCE_AWAY, null);
+                        ExtendedStatus es = StatusList.getInstance().getStatus(Presence.PRESENCE_XA);
+                        sendPresence(Presence.PRESENCE_AWAY, es.getMessage());
                     }
                 }
             }
@@ -3301,8 +3286,8 @@ public final class Roster
             return;
         } else if (keyCode==midlet.BombusQD.cf.keyVibra || keyCode==MOTOE680_FMRADIO /* TODO: redefine keyVibra*/) {
             // swap profiles
-            int profile=midlet.BombusQD.cf.profile;
-            midlet.BombusQD.cf.profile=(profile==AlertProfile.VIBRA)?midlet.BombusQD.cf.lastProfile : AlertProfile.VIBRA;
+            int profile=midlet.BombusQD.cf.currentAlertProfile;
+            midlet.BombusQD.cf.currentAlertProfile=(profile==AlertProfile.VIBRA)?midlet.BombusQD.cf.lastProfile : AlertProfile.VIBRA;
             midlet.BombusQD.cf.lastProfile=profile;
 
             updateMainBar();
@@ -3346,34 +3331,6 @@ public final class Roster
                  } catch (Exception e) { }
         }
     }
-
-//#ifdef AUTOSTATUS
-    private void userActivity() {
-        if (autostatus==null) return;
-
-        if (midlet.BombusQD.cf.autoAwayType==Config.AWAY_IDLE) {
-            if (!autoAway) {
-                autostatus.setTimeEvent(midlet.BombusQD.cf.autoAwayDelay* 60*1000);
-                return;
-            }
-        } else {
-            return;
-        }
-        autostatus.setTimeEvent(0);
-        setAutoStatus(Presence.PRESENCE_ONLINE);
-    }
-
-    public void messageActivity() {
-        if (autostatus==null) return;
-
-        if (midlet.BombusQD.cf.autoAwayType==Config.AWAY_MESSAGE) {
-             if (myStatus<2)
-                autostatus.setTimeEvent(midlet.BombusQD.cf.autoAwayDelay* 60*1000);
-             else if (!autoAway)
-                autostatus.setTimeEvent(0);
-        }
-    }
-//#endif
 
 //#ifdef POPUPS
     public void showInfo(Contact contact) {
@@ -3543,23 +3500,6 @@ public final class Roster
     protected void showNotify() {
         super.showNotify();
         countNewMsgs();
-//#ifdef AUTOSTATUS
-        if (midlet.BombusQD.cf.autoAwayType==Config.AWAY_IDLE){
-            if(null == autostatus) autostatus = new AutoStatusTask(true);
-            if (!autostatus.isAwayTimerSet())
-                if (!autoAway)
-                    autostatus.setTimeEvent(midlet.BombusQD.cf.autoAwayDelay* 60*1000);
-        }
-//#endif
-    }
-
-    protected void hideNotify() {
-        super.hideNotify();
-//#ifdef AUTOSTATUS
-        if (midlet.BombusQD.cf.autoAwayType==Config.AWAY_IDLE)
-            if (kHold==0)
-                autostatus.setTimeEvent(0);
-//#endif
     }
 
     private int searchGroup(int direction) {
@@ -3647,50 +3587,59 @@ public final class Roster
     }
 
 //#ifdef AUTOSTATUS
+    public void userActivity(int awayType) {
+        if (autostatus == null) {
+            return;
+        }
+
+        if (Config.autoAwayType == awayType) {
+            if (autoAway) {
+                restoreStatus();
+            }
+            autostatus.setTimeEvent(Config.autoAwayDelay * 60 * 1000);
+        }
+    }
+
     public void setAutoAway() {
-        if(!isLoggedIn() || !Config.module_autostatus) return;
+        if(!isLoggedIn() || !Config.module_autostatus || Config.autoAwayType == Config.AWAY_OFF) {
+            return;
+        }
         if (!autoAway) {
-            oldStatus=myStatus;
-            if (myStatus==0 || myStatus==1) {
-                autoAway=true;
-                if (!midlet.BombusQD.cf.setAutoStatusMessage) {
+            oldStatus = myStatus;
+            if (myStatus == Presence.PRESENCE_ONLINE || myStatus == Presence.PRESENCE_CHAT) {
+                autoAway = true;
+                if (!Config.setAutoStatusMessage) {
                     sendPresence(Presence.PRESENCE_AWAY, SR.get(SR.MS_AUTO_AWAY));
                 } else {
-                    sendPresence(Presence.PRESENCE_AWAY, null);
+                    ExtendedStatus es = StatusList.getInstance().getStatus(Presence.PRESENCE_AWAY);
+                    sendPresence(Presence.PRESENCE_AWAY, es.getMessage());
                 }
             }
         }
     }
 
     public void setAutoXa() {
-        if(!isLoggedIn() || !Config.module_autostatus) return;
+        if(!isLoggedIn() || !Config.module_autostatus || Config.autoAwayType == Config.AWAY_OFF) {
+            return;
+        }
         if (autoAway && !autoXa) {
-            autoXa=true;
-            if (!midlet.BombusQD.cf.setAutoStatusMessage) {
+            autoXa = true;
+            if (!Config.setAutoStatusMessage) {
                 sendPresence(Presence.PRESENCE_XA, SR.get(SR.MS_AUTO_XA));
             } else {
-                sendPresence(Presence.PRESENCE_XA, null);
+                ExtendedStatus es = StatusList.getInstance().getStatus(Presence.PRESENCE_XA);
+                sendPresence(Presence.PRESENCE_XA, es.getMessage());
             }
         }
     }
 
-    public void setAutoStatus(int status) {
-        if (!isLoggedIn())
-            return;
-        if (status==Presence.PRESENCE_ONLINE && autoAway) {
-            autoAway=false;
-            autoXa=false;
-            sendPresence(Presence.PRESENCE_ONLINE, null);
-            return;
-        }
-        if (status!=Presence.PRESENCE_ONLINE && myStatus==Presence.PRESENCE_ONLINE && !autoAway) {
-            autoAway=true;
-            if (!midlet.BombusQD.cf.setAutoStatusMessage) {
-                sendPresence(Presence.PRESENCE_AWAY, "Auto Status on KeyLock since %t");
-            } else {
-                sendPresence(Presence.PRESENCE_AWAY, null);
-            }
-        }
+    public void restoreStatus() {
+        autoAway = false;
+        autoXa = false;
+
+        ExtendedStatus es=StatusList.getInstance().getStatus(oldStatus);
+        String ms=es.getMessage();
+        midlet.BombusQD.sd.roster.sendPresence(oldStatus, ms);
     }
 //#endif
 

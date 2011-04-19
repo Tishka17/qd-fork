@@ -106,7 +106,7 @@ public class AlertCustomizeForm extends DefForm implements MenuListener {
         cmdTestVibro=new Command(SR.get(SR.MS_TEST_VIBRATION), Command.SCREEN, 3);
         cmdTestVibro.setImg(0x43);
 
-        isVibroProfile = (midlet.BombusQD.cf.profile==AlertProfile.ALL || midlet.BombusQD.cf.profile==AlertProfile.VIBRA);
+        isVibroProfile = (midlet.BombusQD.cf.currentAlertProfile==AlertProfile.ALL || midlet.BombusQD.cf.currentAlertProfile==AlertProfile.VIBRA);
 
         ac=AlertCustomize.getInstance();
 

@@ -88,12 +88,22 @@ public class Browser
         super();
 
         cmdOk=new Command(SR.get(SR.MS_BROWSE), Command.OK, 1);
+        cmdOk.setImg(0x43);
+
         cmdSelect=new Command(SR.get(SR.MS_SELECT), Command.SCREEN, 2);
+        cmdSelect.setImg(0x60);
+
         cmdView=new Command(SR.get(SR.MS_VIEW), Command.SCREEN, 3);
+        cmdView.setImg(0x77);
+
         cmdRoot=new Command(SR.get(SR.MS_ROOT), Command.SCREEN, 4);
+        cmdRoot.setImg(0x15);
+
         cmdDelete=new Command(SR.get(SR.MS_DELETE), Command.SCREEN, 5);
+        cmdDelete.setImg(0x41);
+
         cmdExit=new Command(SR.get(SR.MS_CANCEL), Command.EXIT, 99);
-        //new Browser(null, display, this, this, true);
+        cmdExit.setImg(0x33);
 
         this.browserListener=browserListener;
 	this.getDirectory=getDirectory;
@@ -109,21 +119,15 @@ public class Browser
 //#endif
 
         addCommand(cmdOk);
-        cmdOk.setImg(0x43);
-
         if (getDirectory) {
             addCommand(cmdSelect);
-            cmdSelect.setImg(0x60);
         } else {
             addCommand(cmdView);
-            cmdView.setImg(0x77);
         }
 	addCommand(cmdDelete);
-        cmdDelete.setImg(0x41);
         addCommand(cmdRoot);
-        cmdRoot.setImg(0x15);
+        
         addCommand(cmdExit);
-        cmdExit.setImg(0x33);
 //#ifndef GRAPHICS_MENU
 //#      addCommand(cmdCancel);
 //#endif

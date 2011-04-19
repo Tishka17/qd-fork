@@ -28,7 +28,7 @@ import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 //#ifdef LIGHT_CONTROL
-import light.CustomLight;
+//# import light.CustomLight;
 //#endif
 import midlet.BombusQD;
 
@@ -98,7 +98,10 @@ public class VirtualCanvas extends Canvas {
 
     protected void keyPressed(int code) {
 //#ifdef LIGHT_CONTROL
-        CustomLight.keyPressed();
+//#         CustomLight.keyPressed();
+//#endif
+//#ifdef AUTOSTATUS
+//#         BombusQD.sd.roster.userActivity(Config.AWAY_IDLE);
 //#endif
         canvas.keyPressed(code);
     }
@@ -113,7 +116,10 @@ public class VirtualCanvas extends Canvas {
 
     protected void pointerPressed(int x, int y) {
 //#ifdef LIGHT_CONTROL
-        CustomLight.keyPressed();
+//#         CustomLight.keyPressed();
+//#endif
+//#ifdef AUTOSTATUS
+//#         BombusQD.sd.roster.userActivity(Config.AWAY_IDLE);
 //#endif
         canvas.pointerPressed(x, y);
     }

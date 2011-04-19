@@ -31,8 +31,8 @@ import util.Time;
 import client.Config;
 import font.FontCache;
 //#ifdef AUTOSTATUS
-import client.ExtendedStatus;
-import client.StatusList;
+//# import client.ExtendedStatus;
+//# import client.StatusList;
 //#endif
 import images.RosterIcons;
 import java.util.Timer;
@@ -41,6 +41,7 @@ import javax.microedition.lcdui.*;
 //import javax.microedition.lcdui.game.GameCanvas;
 import colors.ColorTheme;
 import java.io.IOException;
+import midlet.BombusQD;
 import ui.controls.Progress;
 
 /**
@@ -254,14 +255,9 @@ public class SplashScreen extends CanvasEx implements CommandListener {
             tc.stop();
         }
 //#ifdef AUTOSTATUS
-        if (midlet.BombusQD.sd.roster.autoAway && midlet.BombusQD.cf.autoAwayType==Config.AWAY_LOCK) {
-            int newStatus=midlet.BombusQD.sd.roster.oldStatus;
-            ExtendedStatus es=StatusList.getInstance().getStatus(newStatus);
-            String ms=es.getMessage();
-            midlet.BombusQD.sd.roster.autoAway=false;
-            midlet.BombusQD.sd.roster.autoXa=false;
-            midlet.BombusQD.sd.roster.sendPresence(newStatus, ms);
-        }
+//#         if (midlet.BombusQD.sd.roster.autoAway && Config.autoAwayType == Config.AWAY_LOCK) {
+//#             BombusQD.sd.roster.restoreStatus();
+//#         }
 //#endif
         System.gc();
         super.destroyView();

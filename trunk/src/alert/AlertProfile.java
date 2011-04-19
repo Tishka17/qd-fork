@@ -68,7 +68,6 @@ public class AlertProfile extends VirtualList implements
     public final static int NONE=3;
     
     private Profile profile=new Profile();
-    int defp;
     Config cf;
     
     private Command cmdOk;
@@ -87,10 +86,7 @@ public class AlertProfile extends VirtualList implements
         
         setMainBarItem(new MainBar(SR.get(SR.MS_ALERT_PROFILE)));
         
-        int p=cf.profile;
-        defp=cf.def_profile;
-        
-        moveCursorTo(p);
+        moveCursorTo(cf.currentAlertProfile);
     }
 
     public void commandState() {
@@ -138,7 +134,7 @@ public class AlertProfile extends VirtualList implements
                 case SOUND: s.append(SR.get(SR.MS_SOUND)); break;
                 case NONE: s.append(SR.get(SR.MS_ALERT_PROFILE_NOSIGNALS)); break;
             }
-            if (index==defp) s.append(SR.get(SR.MS_IS_DEFAULT));
+            if (index == cf.defaultAlertProfile) s.append(SR.get(SR.MS_IS_DEFAULT));
             return s.toString();
         }
     }
@@ -146,15 +142,18 @@ public class AlertProfile extends VirtualList implements
     public void commandAction(Command c, Displayable d){
         if (c==cmdOk) eventOk(); 
         if (c==cmdDef) { 
-            cf.def_profile=defp=cursor;
-            redraw();
+            cf.defaultAlertProfile = cursor;
             cf.saveToStorage();
         }
     }
     
     public void eventOk(){
-        cf.profile=cursor;
+        cf.currentAlertProfile = cursor;
         destroyView();
+    }
+
+    public void eventLongOk() {
+        cf.defaultAlertProfile = cursor;
     }
     
     public int getItemCount(){ return ALERT_COUNT; }

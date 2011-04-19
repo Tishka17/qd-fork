@@ -117,9 +117,9 @@ public class Config {
     public final static int AWAY_MESSAGE = 2;
     public final static int AWAY_IDLE = 3;
 
-    public int autoAwayType = 0;
-    public int autoAwayDelay = 5; //5 minutes
-    public boolean setAutoStatusMessage = true;
+    public static int autoAwayType = 0;
+    public static int autoAwayDelay = 5; //5 minutes
+    public static boolean setAutoStatusMessage = true;
 //#endif
 
 //#ifndef WMUC
@@ -132,7 +132,7 @@ public class Config {
 
     // non-volatile values
     public int accountIndex=-1;
-    public int def_profile=0;
+    public int defaultAlertProfile=0;
 
     public static boolean fullscreen = true;
 
@@ -168,7 +168,7 @@ public class Config {
 
     // runtime values
     public boolean allowMinimize=false;
-    public int profile=0;
+    public int currentAlertProfile=0;
     public int lastProfile=0;
     public boolean lightState=false;
 
@@ -203,7 +203,6 @@ public class Config {
 
     public boolean useTabs = false;
     public boolean notifyBlink = true;
-    public boolean notifySound = false;
     public boolean notifyPicture = false;
     public boolean useBoldFont = false;
 
@@ -487,7 +486,9 @@ public class Config {
 
             fileTransfer = inputStream.readBoolean(); //newMenu
             lightState = inputStream.readBoolean();
-            notifySound = inputStream.readBoolean();
+            
+            // free
+            inputStream.readBoolean();
 //#ifdef AUTOSTATUS
             setAutoStatusMessage = inputStream.readBoolean();
 //#endif
@@ -578,7 +579,9 @@ public class Config {
 
             outputStream.writeBoolean(fileTransfer); //newMenu
             outputStream.writeBoolean(lightState);
-            outputStream.writeBoolean(notifySound);
+
+            // free
+            outputStream.writeBoolean(false);
 
 //#ifdef AUTOSTATUS
             outputStream.writeBoolean(setAutoStatusMessage);
@@ -834,7 +837,7 @@ public class Config {
         DataInputStream inputStream=NvStorage.ReadFileRecord(INT_STORAGE_NAME, 0);
 	try {
 	    accountIndex=inputStream.readInt();
-	    def_profile=inputStream.readInt();
+	    defaultAlertProfile=inputStream.readInt();
 	    gmtOffset=inputStream.readInt();
             rosterFont=inputStream.readInt();
             msgFont=inputStream.readInt();
@@ -919,7 +922,7 @@ public class Config {
        	DataOutputStream outputStream=NvStorage.CreateDataOutputStream();
 	try {
 	    outputStream.writeInt(accountIndex);
-	    outputStream.writeInt(def_profile);
+	    outputStream.writeInt(defaultAlertProfile);
 	    outputStream.writeInt(gmtOffset);
 
             outputStream.writeInt(rosterFont);
@@ -1090,7 +1093,7 @@ public class Config {
         loadInt();
         loadUTF();
 
-        lastProfile = profile = def_profile;
+        lastProfile = currentAlertProfile = defaultAlertProfile;
         if (lastProfile == AlertProfile.VIBRA) {
             lastProfile = 0;
         }

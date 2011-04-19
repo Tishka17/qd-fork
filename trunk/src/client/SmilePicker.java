@@ -42,8 +42,9 @@ import javax.microedition.lcdui.TextBox;
 import ui.MainBar;
 import ui.VirtualElement;
 import ui.VirtualList;
+import ui.controls.form.DefForm;
 
-public class SmilePicker extends VirtualList implements VirtualElement {
+public class SmilePicker extends DefForm implements VirtualElement {
     private final static int CURSOR_HOFFSET=1;
     private final static int CURSOR_VOFFSET=1;
    
@@ -69,12 +70,11 @@ public class SmilePicker extends VirtualList implements VirtualElement {
     private boolean aniSmiles = false;
 
     public SmilePicker(int caretPos, Object input) {
-         super();
+         super(SR.get(SR.MS_SELECT));
 
          this.caretPos = caretPos;
          this.input = input;
-                  
-         setMainBarItem(new MainBar(locale.SR.get(locale.SR.MS_SELECT)));
+
          aniSmiles = midlet.BombusQD.cf.animatedSmiles;
          
          il = aniSmiles?SmilesIcons.getInstance():SmilesIcons.getStaticInstance();
@@ -209,8 +209,11 @@ public class SmilePicker extends VirtualList implements VirtualElement {
 //#ifdef TOUCH
     protected void pointerPressed(int x, int y) { 
         super.pointerPressed(x,y);
-        if (pointer_state != POINTER_SECOND && pointer_state != POINTER_NONE)
+        if (pointer_state != POINTER_SECOND &&
+                pointer_state != POINTER_FIRST &&
+                pointer_state != POINTER_NONE) {
             return;
+        }
         if (x>=xCnt*imgWidth) return;
         if (pointer_state == POINTER_SECOND && xCursor!= x/imgWidth)
             pointer_state = POINTER_NONE;

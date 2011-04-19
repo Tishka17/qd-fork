@@ -99,9 +99,9 @@ public class ModuleConfigForm extends DefForm {
 
     // for autostatus config
 //#ifdef AUTOSTATUS
-    private CheckBox awayStatus;
-    private DropChoiceBox autoAwayType;
-    private NumberInput fieldAwayDelay;
+//#     private CheckBox awayStatus;
+//#     private DropChoiceBox autoAwayType;
+//#     private NumberInput fieldAwayDelay;
 //#endif
 
     // for classic chat config
@@ -519,20 +519,20 @@ public class ModuleConfigForm extends DefForm {
                addControl(langFiles);
             }
 //#ifdef AUTOSTATUS
-        } else if (type.equals(SR.get(SR.MS_AUTOSTATUS))) {
-            autoAwayType = new DropChoiceBox(SR.get(SR.MS_AWAY_TYPE));
-            autoAwayType.append(SR.get(SR.MS_DISABLED));
-            autoAwayType.append(SR.get(SR.MS_AWAY_LOCK));
-            autoAwayType.append(SR.get(SR.MS_MESSAGE_LOCK));
-            autoAwayType.append(SR.get(SR.MS_IDLE));
-            autoAwayType.setSelectedIndex(config.autoAwayType);
-            addControl(autoAwayType);
-
-            fieldAwayDelay = new NumberInput("*" + SR.get(SR.MS_AWAY_PERIOD), config.autoAwayDelay, 1, 60);
-            addControl(fieldAwayDelay);
-
-            awayStatus = new CheckBox(SR.get(SR.MS_AUTOSTATUS_MESSAGE), config.setAutoStatusMessage);
-            addControl(awayStatus);
+//#         } else if (type.equals(SR.get(SR.MS_AUTOSTATUS))) {
+//#             autoAwayType = new DropChoiceBox(SR.get(SR.MS_AWAY_TYPE));
+//#             autoAwayType.append(SR.get(SR.MS_DISABLED));
+//#             autoAwayType.append(SR.get(SR.MS_AWAY_LOCK));
+//#             autoAwayType.append(SR.get(SR.MS_MESSAGE_LOCK));
+//#             autoAwayType.append(SR.get(SR.MS_IDLE));
+//#             autoAwayType.setSelectedIndex(config.autoAwayType);
+//#             addControl(autoAwayType);
+//# 
+//#             fieldAwayDelay = new NumberInput(SR.get(SR.MS_AWAY_PERIOD), config.autoAwayDelay, 1, 60);
+//#             addControl(fieldAwayDelay);
+//# 
+//#             awayStatus = new CheckBox(SR.get(SR.MS_AUTOSTATUS_MESSAGE), config.setAutoStatusMessage);
+//#             addControl(awayStatus);
 //#endif
 //#ifdef CLASSIC_CHAT
 //#         } else if (type.equals(SR.get(SR.MS_CLASSIC_CHAT))) {
@@ -746,10 +746,10 @@ public class ModuleConfigForm extends DefForm {
                 }
             }
  //#ifdef AUTOSTATUS
-         } else if (type.equals(SR.get(SR.MS_AUTOSTATUS))) {
-            config.autoAwayType = autoAwayType.getSelectedIndex();
-            config.autoAwayDelay = Integer.parseInt(fieldAwayDelay.getValue());
-            config.setAutoStatusMessage = awayStatus.getValue();
+//#          } else if (type.equals(SR.get(SR.MS_AUTOSTATUS))) {
+//#             config.autoAwayType = autoAwayType.getSelectedIndex();
+//#             config.autoAwayDelay = Integer.parseInt(fieldAwayDelay.getValue());
+//#             config.setAutoStatusMessage = awayStatus.getValue();
 //#endif
 //#ifdef CLASSIC_CHAT
 //#         } else if (type.equals(SR.get(SR.MS_CLASSIC_CHAT))) {

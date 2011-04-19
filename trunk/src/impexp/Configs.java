@@ -61,7 +61,7 @@ public class Configs {
 //#endif
         writeInt(data, "panelsState", config.panelsState);
         writeInt(data, "messageLimit", config.messageLimit);
-        writeInt(data, "messageLimit", config.msglistLimit);
+        writeInt(data, "msglistLimit", config.msglistLimit);
         writeInt(data, "autoSubscribe", config.autoSubscribe);
         writeInt(data, "barFont", config.barFont);
         writeInt(data, "baloonFont", config.baloonFont);
@@ -74,8 +74,10 @@ public class Configs {
         writeInt(data, "backImgType", config.backImgType);
 //#endif
         writeInt(data, "scrollWidth", config.scrollWidth);
-        writeInt(data, "classicChatHeight", config.classicChatHeight);
-        writeInt(data, "lineCount", config.lineCount);
+//#ifdef CLASSIC_CHAT
+//#         writeInt(data, "classicChatHeight", config.classicChatHeight);
+//#         writeInt(data, "lineCount", config.lineCount);
+//#endif
         writeInt(data, "argb_bgnd", config.argb_bgnd);
         writeInt(data, "gmenu_bgnd", config.gmenu_bgnd);
         writeInt(data, "popup_bgnd", config.popup_bgnd);
@@ -91,6 +93,7 @@ public class Configs {
         writeInt(data, "menuFont", config.menuFont);
         writeInt(data, "contactXOffset", config.contactXOffset);
         writeInt(data, "minItemHeight", config.minItemHeight);
+        writeInt(data, "defaultAlertProfile", config.defaultAlertProfile);
 //#ifdef LIGHT_CONTROL
         writeInt(data, "lightKeyPressTime", Config.lightKeyPressTime);
         writeInt(data, "lightMessageTime", Config.lightMessageTime);
@@ -108,11 +111,11 @@ public class Configs {
         writeInt(data, "lightBlink", Config.lightBlink);
 //#endif
 
+        writeUTF(data, "lang", config.lang);
 //#ifdef AVATARS
         writeUTF(data, "msgAvatarPath", config.msgAvatarPath);
 //#endif
-        writeUTF(data, "lang", config.lang);
-//#ifdef BACK_IMAGE
+//#if BACK_IMAGE && FILE_IO
         writeUTF(data, "backImgPath", config.backImgPath);
 //#endif
 
@@ -168,7 +171,6 @@ public class Configs {
         writeBoolean(data, "capsState", config.capsState);
         writeBoolean(data, "fileTransfer", config.fileTransfer);
         writeBoolean(data, "lightState", config.lightState);
-        writeBoolean(data, "notifySound", config.notifySound);
 //#ifdef AUTOSTATUS
         writeBoolean(data, "setAutoStatusMessage", config.setAutoStatusMessage);
 //#endif
@@ -251,11 +253,11 @@ public class Configs {
             config.textWrap = readInt(data, "textWrap", config.textWrap);
 //#ifdef AUTOSTATUS
             config.autoAwayDelay = readInt(data, "autoAwayDelay", config.autoAwayDelay);
-            config.autoAwayDelay = readInt(data, "autoAwayType", config.autoAwayType);
+            config.autoAwayType = readInt(data, "autoAwayType", config.autoAwayType);
 //#endif
             config.panelsState = readInt(data, "panelsState", config.panelsState);
             config.messageLimit = readInt(data, "messageLimit", config.messageLimit);
-            config.msglistLimit = readInt(data, "messageLimit", config.msglistLimit);
+            config.msglistLimit = readInt(data, "msglistLimit", config.msglistLimit);
             config.autoSubscribe = readInt(data, "autoSubscribe", config.autoSubscribe);
             config.barFont = readInt(data, "barFont", config.barFont);
             config.baloonFont = readInt(data, "baloonFont", config.baloonFont);
@@ -268,8 +270,10 @@ public class Configs {
             config.backImgType = readInt(data, "backImgType", config.backImgType);
 //#endif
             config.scrollWidth = readInt(data, "scrollWidth", config.scrollWidth);
-            config.classicChatHeight = readInt(data, "classicChatHeight", config.classicChatHeight);
-            config.lineCount = readInt(data, "lineCount", config.lineCount);
+//#ifdef CLASSIC_CHAT
+//#             config.classicChatHeight = readInt(data, "classicChatHeight", config.classicChatHeight);
+//#             config.lineCount = readInt(data, "lineCount", config.lineCount);
+//#endif
             config.argb_bgnd = readInt(data, "argb_bgnd", config.argb_bgnd);
             config.gmenu_bgnd = readInt(data, "gmenu_bgnd", config.gmenu_bgnd);
             config.popup_bgnd = readInt(data, "popup_bgnd", config.popup_bgnd);
@@ -285,6 +289,7 @@ public class Configs {
             config.menuFont = readInt(data, "menuFont", config.menuFont);
             config.contactXOffset = readInt(data, "contactXOffset", config.contactXOffset);
             config.minItemHeight = readInt(data, "minItemHeight", config.minItemHeight);
+            config.defaultAlertProfile = readInt(data, "defaultAlertProfile", config.defaultAlertProfile);
 //#ifdef LIGHT_CONTROL
             Config.lightKeyPressTime =readInt(data, "lightKeyPressTime", Config.lightKeyPressTime);
             Config.lightMessageTime = readInt(data, "lightMessageTime", Config.lightMessageTime);
@@ -305,7 +310,7 @@ public class Configs {
             config.msgAvatarPath = readUTF(data, "msgAvatarPath", config.msgAvatarPath);
 //#endif
             config.lang = readUTF(data, "lang", config.lang);
-//#ifdef BACK_IMAGE
+//#if BACK_IMAGE && FILE_IO
             config.backImgPath = readUTF(data, "backImgPath", config.backImgPath);
 //#endif
             config.oldSE = readBoolean(data, "oldSE", config.oldSE);
@@ -360,7 +365,6 @@ public class Configs {
             config.capsState = readBoolean(data, "capsState", config.capsState);
             config.fileTransfer = readBoolean(data, "fileTransfer", config.fileTransfer);
             config.lightState = readBoolean(data, "lightState", config.lightState);
-            config.notifySound = readBoolean(data, "notifySound", config.notifySound);
 //#ifdef AUTOSTATUS
             config.setAutoStatusMessage = readBoolean(data, "setAutoStatusMessage", config.setAutoStatusMessage);
 //#endif

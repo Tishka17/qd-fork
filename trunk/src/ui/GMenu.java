@@ -340,7 +340,9 @@ public class GMenu extends CanvasEx {
 //#ifdef TOUCH
    private void touchSelect(int x, int y) {
        if (x<x1 || y<y1 || x> x2 || y>y2) {
-           destroyView();
+           gm.itemGrMenu=-1;
+           gm.ml=null;
+           cursorY=0;
            return;
        }
        if (eventMenu==true) {
@@ -382,7 +384,10 @@ public class GMenu extends CanvasEx {
             cursorY=0;
          }
          else if (keyCode==Config.SOFT_RIGHT || keyCode==')' || keyCode == -11 || keyCode == -8) {//SE: 11-back,-8-�������
-            destroyView();
+            gm.itemGrMenu=-1;
+            gm.ml=null;
+            gm.itemCursorIndex=0;
+            cursorY=0;
             //return;
          }
          else
@@ -401,6 +406,28 @@ public class GMenu extends CanvasEx {
                 case KEY_NUM8: if(itemsSize > 7) {gm.itemCursorIndex=7; eventOk();} break;
                 case KEY_NUM9: if(itemsSize > 8) {gm.itemCursorIndex=8; eventOk();} break;
                 case KEY_NUM0: if(itemsSize > 9) {gm.itemCursorIndex=9; eventOk();} break;
+                default:
+                  try {
+                    switch (getGameAction(keyCode)){
+                        case UP:
+                             gm.itemCursorIndex--;
+                              if(gm.itemCursorIndex<0){
+                                gm.itemCursorIndex=size;
+                              }
+                             //startTimer(false);
+                             break;
+                        case LEFT: break;
+                        case RIGHT: break;
+                        case DOWN:
+                            gm.itemCursorIndex++;
+                             if(gm.itemCursorIndex>size){
+                                gm.itemCursorIndex=0;
+                            }
+                            //startTimer(true);
+                            break;
+                        case FIRE: eventOk(); break;
+                    }
+                  } catch (Exception e) {}
               }
             } else {
               switch (keyCode)
@@ -419,7 +446,6 @@ public class GMenu extends CanvasEx {
                      }
                      //startTimer(true);
                      break;
-                case KEY_NUM6:
                 case KEY_NUM5:
                     gm.itemCursorIndexIn=0;
                     eventOk();
@@ -431,43 +457,35 @@ public class GMenu extends CanvasEx {
                 case KEY_NUM7:
                      gm.itemCursorIndex=size;
                     break;
-                  case KEY_NUM4:
-                      destroyView();
-                      break;
+                default:
+                  try {
+                    switch (getGameAction(keyCode)){
+                        case UP:
+                             gm.itemCursorIndex--;
+                              if(gm.itemCursorIndex<0){
+                                gm.itemCursorIndex=size;
+                              }
+                             //startTimer(false);
+                             break;
+                        case LEFT: break;
+                        case RIGHT: break;
+                        case DOWN:
+                            gm.itemCursorIndex++;
+                             if(gm.itemCursorIndex>size){
+                                gm.itemCursorIndex=0;
+                            }
+                            //startTimer(true);
+                            break;
+                        case FIRE:
+                            eventOk();
+                            //startTimer(true);
+                            break;
+                    }
+                  } catch (Exception e) {}
                 }
             }//midlet.BombusQD.cf.executeByNum end
          }
-         switch (getGameAction(keyCode)) {
-             case UP:
-                 gm.itemCursorIndex--;
-                 if (gm.itemCursorIndex < 0) {
-                     gm.itemCursorIndex = size;
-                 }
-                 //startTimer(false);
-                 break;
-             case LEFT:
-                 destroyView();
-                 break;
-             case DOWN:
-                 gm.itemCursorIndex++;
-                 if (gm.itemCursorIndex > size) {
-                     gm.itemCursorIndex = 0;
-                 }
-                 //startTimer(true);
-                 break;
-             case RIGHT:
-             case FIRE:
-                 eventOk();
-                 break;
-         }
-        }
-    }
-
-    public void destroyView() {
-        gm.itemGrMenu=-1;
-        gm.ml=null;
-        gm.itemCursorIndex=0;
-        cursorY=0;
+     }
     }
 
    private void closeEvent(){
@@ -487,7 +505,8 @@ public class GMenu extends CanvasEx {
             cursorY=0;
             return false;
          }
-         else {
+         else
+         {
             if(Config.executeByNum){
               switch (keyCode)
               {
@@ -501,6 +520,29 @@ public class GMenu extends CanvasEx {
                 case KEY_NUM8: if(gm.commandslistIn.length>7) {gm.itemCursorIndexIn=7; closeEvent();} return false;
                 case KEY_NUM9: if(gm.commandslistIn.length>8) {gm.itemCursorIndexIn=8; closeEvent();} return false;
                 case KEY_NUM0: if(gm.commandslistIn.length>9) {gm.itemCursorIndexIn=9; closeEvent();} return false;
+                default:
+                  try {
+                    switch (getGameAction(keyCode)){
+                        case UP:
+                             gm.itemCursorIndexIn--;
+                              if(gm.itemCursorIndexIn<0){
+                                gm.itemCursorIndexIn=size;
+                              }
+                             //startTimer(false);
+                             return true;
+                        case LEFT: gm.itemCursorIndexIn=0; cursorY=0; break;
+                        //case RIGHT: return true;
+                        case DOWN:
+                            gm.itemCursorIndexIn++;
+                             if(gm.itemCursorIndexIn>size){
+                                gm.itemCursorIndexIn=0;
+                            }
+                            //startTimer(true);
+                            return true;
+                        case FIRE: closeEvent();
+                            return false;
+                    }
+                  } catch (Exception e) {}
               }
             } else {
               switch (keyCode) {
@@ -531,32 +573,32 @@ public class GMenu extends CanvasEx {
                 case KEY_NUM7:
                      gm.itemCursorIndexIn=size;
                     return true;
+                default:
+                  try {
+                    switch (getGameAction(keyCode)){
+                        case UP:
+                             gm.itemCursorIndexIn--;
+                              if(gm.itemCursorIndexIn<0){
+                                gm.itemCursorIndexIn=size;
+                              }
+                             //startTimer(false);
+                             return true;
+                        case LEFT: gm.itemCursorIndexIn=0; cursorY=gm.itemCursorIndex*fh;
+                             break;
+                        //case RIGHT: return true;
+                        case DOWN:
+                            gm.itemCursorIndexIn++;
+                             if(gm.itemCursorIndexIn>size){
+                                gm.itemCursorIndexIn=0;
+                            }
+                            //startTimer(true);
+                            return true;
+                        case FIRE: gm.inMenuSelected=true; gm.itemGrMenu=-1;
+                            return false;
+                    }
+                  } catch (Exception e) {}
               }
-            }
-             switch (getGameAction(keyCode)) {
-                 case UP:
-                     gm.itemCursorIndexIn--;
-                     if (gm.itemCursorIndexIn < 0) {
-                         gm.itemCursorIndexIn = size;
-                     }
-                     //startTimer(false);
-                     return true;
-                 case LEFT:
-                     gm.itemCursorIndexIn = 0;
-                     cursorY = 0;
-                     break;
-                 case DOWN:
-                     gm.itemCursorIndexIn++;
-                     if (gm.itemCursorIndexIn > size) {
-                         gm.itemCursorIndexIn = 0;
-                     }
-                     //startTimer(true);
-                     return true;
-                 case RIGHT:
-                 case FIRE:
-                     closeEvent();
-                     return false;
-             }
+            }//midlet.BombusQD.cf.executeByNum
          }
        return false;
     }

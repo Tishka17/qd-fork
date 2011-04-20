@@ -132,7 +132,7 @@ public class ShowFile implements CommandListener{
        form.addCommand(back);
        form.setCommandListener(this);
         if (len > 0) {
-           String s=new String();
+           String s="";
             try {
                 int maxSize=tf.getMaxSize();
 

@@ -49,7 +49,6 @@ public final class CollapsibleItem extends IconTextElement {
 
     private Vector tipLines;
 
-    private GMenuConfig gm = GMenuConfig.getInstance();
 
     public CollapsibleItem(String text, boolean isExpanded) {
         super(null);

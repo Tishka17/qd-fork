@@ -102,7 +102,7 @@ public class TranslateSelect extends DefForm {
     
     private void runTranslate(boolean pair){
         TranslateText tr = new TranslateText();
-        tr.runTranslate(getParentView(),to,text,
+        tr.runTranslate(to,text,
             pair?cf.langpair.substring(0,2):cf.langpair.substring(5,7),
             pair?cf.langpair.substring(5,7):cf.langpair.substring(0,2),
           fromMucNick,trCMsgList,cursor);        
@@ -115,7 +115,7 @@ public class TranslateSelect extends DefForm {
             
            if(((String)langs[0].elementAt(langTo.getSelectedIndex())).indexOf("au")>-1){
            } else{
-            tr.runTranslate(getParentView(),to,text,
+            tr.runTranslate(to,text,
                     (String)langs[0].elementAt(langFrom.getSelectedIndex()),
                     (String)langs[0].elementAt(langTo.getSelectedIndex()),fromMucNick,trCMsgList,cursor);
             cf.langpair=(String)langs[0].elementAt(langFrom.getSelectedIndex())+

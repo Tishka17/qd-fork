@@ -95,7 +95,6 @@ public class EntityCaps implements JabberBlockListener{
         c.setAttribute("node", BOMBUS_NAMESPACE);//+'#'+Version.getVersionNumber());
         c.setAttribute("ver", calcVerHash());
         c.setAttribute("hash", "sha-1");
-	System.out.println("HASH::: "+calcVerHash());
         return c;
     }
     

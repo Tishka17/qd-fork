@@ -27,26 +27,46 @@
 package ui.controls;
 
 import ui.controls.form.DefForm;
-import ui.controls.form.SimpleString;
 import locale.SR;
 import ui.controls.form.MultiLine;
+import ui.controls.form.SpacerItem;
+import ui.controls.Progress;
 /**
  *
  * @author tishka17
  */
 
-public class AlertBox extends DefForm {
+public class AlertBox extends DefForm implements Runnable {
     public static final int BUTTONS_OK=0x0001;
     public static final int BUTTONS_YESNO=0x0002;
     private int buttons;
+    private int timeout = 0;
+    private int maxtimeout = 0;
+    private Progress progress = null;
 
     public AlertBox(String mainbar, String text, final int buttons) {
 	super(mainbar);
 
         this.buttons = buttons;
 	MultiLine line  = new MultiLine(null, text, width);
+        line.setSelectable(false);
+        addControl(line);
+    }
+    public AlertBox(String mainbar, String text, final int buttons, final int timeout) {
+	super(mainbar);
+	this.buttons = buttons;
+	MultiLine line  = new MultiLine(null, text, width);
         line.setSelectable(true);
         addControl(line);
+	if (timeout>0) {
+	    SpacerItem sp = new SpacerItem(5);
+	    addControl(sp);
+	    this.timeout = timeout;
+	    maxtimeout = timeout;
+	    /*progress = new Progress(10, 10, 200);
+	    addControl(progress);*/
+	    new Thread(this).start();
+	}
     }
     public String touchLeftCommand() {
 	if (buttons==BUTTONS_OK)
@@ -63,7 +83,21 @@ public class AlertBox extends DefForm {
     
     public void cmdOk() {destroyView(); yes(); }
     public void yes(){};
-    public void cmdCancel() {destroyView(); no();}
+    public void cmdCancel() {destroyView(); stop(); no();}
     public void no(){};
+    public void run() {
+        while (timeout>0) {
+            try {
+                Thread.sleep(1000);
+		//progress.setProgress((200*timeout) /maxtimeout);
+		timeout--;
+		redraw();
+            } catch (Exception e) { break; }
+        }
+        if (timeout==0) cmdOk();
+    }
+    public void stop() {
+	timeout = -1;
+    }
 }
 

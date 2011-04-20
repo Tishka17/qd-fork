@@ -211,7 +211,7 @@ public class PepListener implements JabberBlockListener{
                         if (c.getGroupType()==Groups.TYPE_SELF) {
                             if (id!=null) Moods.getInstance().myMoodId=id;
                             Moods.getInstance().myMoodName=tag;
-                            Moods.getInstance().myMoodName=moodText;
+                            Moods.getInstance().myMoodText=moodText;
                         }
                         msg = mood_.toString();
                     }

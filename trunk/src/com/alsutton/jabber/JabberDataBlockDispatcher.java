@@ -147,7 +147,6 @@ public class JabberDataBlockDispatcher
                             dataBlock.setTypeAttribute("error");
                             dataBlock.addChild(new XmppError(XmppError.FEATURE_NOT_IMPLEMENTED, null).construct());
                             stream.send(dataBlock);
-                            dataBlock = null;
                         }
                      }
                     //TODO: reject iq stansas where type =="get" | "set"

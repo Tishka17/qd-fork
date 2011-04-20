@@ -97,6 +97,7 @@ public class AniImageList extends ImageList implements Runnable {
                 aniWidth[smileNum] = icon.getWidth();
                 aniHeight[smileNum] = icon.getHeight();
             }
+	    is.close();
         }
         catch(OutOfMemoryError eom) {
 //#ifdef DEBUG

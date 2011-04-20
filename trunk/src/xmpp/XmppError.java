@@ -216,8 +216,8 @@ public class XmppError {
         if (text.length()==0) text=null;
         
         Vector errChilds=error.getChildBlocks();
-        int size = errChilds.size();
         if (errChilds!=null) {
+	  int size = errChilds.size();
           for(int i=0;i<size;i++){              
             JabberDataBlock child =(JabberDataBlock)errChilds.elementAt(i);
             String xmlns=child.getAttribute("xmlns");

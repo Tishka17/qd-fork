@@ -140,8 +140,8 @@ public class FormField {
                 formItem =new CollapsibleItem("Tittle%"+body, true);
 
             else if ( name.equals("registered") ) {
-                formItem =new CheckBox("Remove registration",registered);
-                registered=true;
+		registered=true;
+                formItem =new CheckBox("Remove registration",false);
             }
             else{
                 formItem =new TextInput(label, body, TextField.ANY);

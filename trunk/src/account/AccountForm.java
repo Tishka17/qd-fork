@@ -96,7 +96,6 @@ public class AccountForm extends DefForm {
 
     public AccountForm(Account account, int type_profile, boolean register, String serverReg) {
         super(null);
-
         this.type_profile = type_profile;
         this.register = register;
         this.serverReg = serverReg;
@@ -262,7 +261,7 @@ public class AccountForm extends DefForm {
             '8', '9'};
 
         for (int i = 0; i < PASSWORD_LEN; ++i) {
-            int index = Math.abs(rand.nextInt()) % chars.length;
+            int index = rand.nextInt(chars.length);
             sb.append(chars[index]);
         }
 

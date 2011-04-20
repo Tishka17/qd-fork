@@ -66,7 +66,7 @@ public class PrivacyItem extends IconTextElement {
     public final static String subscrs_[]={SR.get(SR.MS_SUBSCR_NONE), SR.get(SR.MS_SUBSCR_FROM), SR.get(SR.MS_SUBSCR_TO), SR.get(SR.MS_SUBSCR_BOTH)};
     
     int type;    //jid|group|subscription|ANY
-    String value=new String();
+    String value="";
     int action=0;
     int order;
     

@@ -57,7 +57,7 @@ public class RenameGroup extends DefForm {
         destroyView();
     }
 
-    private class IqQueryRenameGroup extends Iq {
+    private static class IqQueryRenameGroup extends Iq {
         private IqQueryRenameGroup(String sourceGroup, String destGroup) {
             super(null, Iq.TYPE_SET, "addros");
 

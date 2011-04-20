@@ -28,20 +28,14 @@
 package io;
 import client.Contact;
 import client.Msg;
-import client.Roster;
-import client.StaticData;
 import java.io.*; 
 import javax.microedition.io.Connector;
 import javax.microedition.io.HttpConnection;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
 
 public class TranslateText implements Runnable{
     
-   Roster r=StaticData.getInstance().roster;
-   
-    private String text = "this%20test";
     
     public static final String ARABIC = "ar";
     public static final String BULGARIAN = "bg";
@@ -82,22 +76,19 @@ public class TranslateText implements Runnable{
   
    public void Translate(){};
 
-   private String url="";  
    private String body="";
    private String from="";
    private String to="";
    
    private Contact c;
-
-   Displayable pView;   
-   Thread mostRecent=null;
-   Thread thisThread = null;   
+   
+   Thread mostRecent=null; 
    
    private boolean trCMsgList;   
    private int cursor;
    private String fromMucNick;   
            
-   public void runTranslate(Displayable pView,Contact c,
+   public void runTranslate(Contact c,
            String body,String from,String to,String fromMucNick,boolean trCMsgList,int cursor) {
       mostRecent = new Thread(this);
       mostRecent.start();
@@ -105,7 +96,6 @@ public class TranslateText implements Runnable{
       this.to=to;
       this.from=from;
       this.c=c;
-      this.pView=pView;
       this.trCMsgList=trCMsgList;
       this.cursor=cursor;
       this.fromMucNick=fromMucNick;
@@ -259,7 +249,6 @@ public class TranslateText implements Runnable{
     
     public void stopAll(){
 	mostRecent = null;
-        thisThread = null;
         System.gc();
     }    
   

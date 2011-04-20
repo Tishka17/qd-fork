@@ -79,12 +79,12 @@ public final class MessageParser {
 
     private static class Leaf {
         public int smile=NOSMILE;
-        private String smileChars;
-        private Vector child;
+        private String smileChars=null;
+        private Vector child=null;
 
         public Leaf() {
             child=new Vector(0);
-            smileChars=new String("");
+            smileChars="";
         }
 
         public Leaf findChild(char c){
@@ -157,7 +157,8 @@ public final class MessageParser {
                     case 0x0d:
                     case 0x0a:
                         if (strhaschars)
-                            endline=true; else break;
+                            endline=true;
+			break;
                     case 0x09:
                         String smile=Strconv.convCp1251ToUnicode(s.toString());
                         if (firstSmile) smileTable.addElement(smile);

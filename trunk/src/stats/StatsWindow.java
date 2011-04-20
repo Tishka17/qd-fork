@@ -82,14 +82,14 @@ public class StatsWindow extends DefForm implements MenuListener {
 	    sb.append(midlet.BombusQD.sd.roster.theStream.getStreamStatsBar());
 	sb.append('\n');
 
-        if (midlet.BombusQD.sd.roster.isLoggedIn() && midlet.BombusQD.cf.userAppLevel == 1) {
+        if (midlet.BombusQD.sd.roster!=null && midlet.BombusQD.sd.roster.isLoggedIn() && midlet.BombusQD.cf.userAppLevel == 1) {
            sb.append(SR.get(SR.MS_COMPRESSION))
 	     .append("\n")
              .append(midlet.BombusQD.sd.roster.theStream.getStreamStats())
              .append('\n');
         }
 
-        if (midlet.BombusQD.sd.roster.isLoggedIn()) {
+        if (midlet.BombusQD.sd.roster!=null && midlet.BombusQD.sd.roster.isLoggedIn()) {
             sb.append(SR.get(SR.MS_CONNECTED))
 	      .append("\n")
               .append(midlet.BombusQD.sd.roster.theStream.getConnectionData())

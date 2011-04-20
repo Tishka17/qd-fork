@@ -216,8 +216,9 @@ public class JabberStream extends XmppParser implements Runnable {
     public void close() {
         if (keepAlive!=null) keepAlive.destroyTask();
 
-        dispatcher.setJabberListener( null );
         try {
+
+	    dispatcher.setJabberListener( null );
             //TODO: see FS#528
             try {  Thread.sleep(500); } catch (Exception e) {}
              send( "</stream:stream>" );

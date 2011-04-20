@@ -312,7 +312,7 @@ public class StringUtils {
                        "I'am happy user of BombusQD.You get it here http://bombusmod-qd.wen.ru/",
                        "Are you ready for BombusQD?"
                 };
-                int i = Math.abs(rand.nextInt()) % 7;
+                int i = rand.nextInt(7);
         src=stringReplace(src,"%qd",qd_offline_status[i]);
         return src;
     }

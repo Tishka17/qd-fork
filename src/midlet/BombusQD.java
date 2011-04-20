@@ -147,10 +147,10 @@ public class BombusQD extends MIDlet implements Runnable {
         DataOutputStream os=NvStorage.CreateDataOutputStream();
         try {
             os.writeUTF(key);
+	    NvStorage.writeFileRecord(os, "appver", 0, true);
             os.close();
             os = null;
         } catch (Exception e) { }
-        NvStorage.writeFileRecord(os, "appver", 0, true);
     }
 
     public void run() {

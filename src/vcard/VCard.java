@@ -68,13 +68,13 @@ public class VCard {
 
     public VCard(JabberDataBlock data) {
         this();
+        if (data==null) return;
         jid=data.getAttribute("from");
 	id=data.getAttribute("id");
         int itemsCount=getCount();
         vCardData=new Vector(itemsCount);
         vCardData.setSize(itemsCount);
         
-        if (data==null) return; 
         if (data.getTypeAttribute().equals("error")) return;
         JabberDataBlock vcard=data.findNamespace("vCard", "vcard-temp");
         if (vcard==null) return; //"No vCard available" 

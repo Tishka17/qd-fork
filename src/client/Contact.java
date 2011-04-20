@@ -179,7 +179,6 @@ public class Contact extends IconTextElement {
         if(null != version) version = null;
         if(null != lang) lang = null;
 
-        if(null != version) version = null;
         if(null != lastSendedMessage) lastSendedMessage = null;
     }
 
@@ -189,9 +188,6 @@ public class Contact extends IconTextElement {
 
     protected Contact (){
         super(RosterIcons.getInstance());
-        if(chatInfo != null) {
-          chatInfo.initMsgs();
-        }
 //#ifdef CLASSIC_CHAT
 //#         scroller=null;
 //#endif

@@ -840,7 +840,7 @@ public final class Roster
             if (fromJid.hasResource())
                 if (!myJid.equals(fromJid, true)) return false;
          }
-        Vector cont=(null!=q)?q.getChildBlocks():null;
+        Vector cont=q.getChildBlocks();
         String group,bareJid;
 
         try {
@@ -1398,7 +1398,7 @@ public final class Roster
 
 //#ifdef CLASSIC_CHAT
 //#            if(body!=null){
-//# 
+//#
 //#                if(midlet.BombusQD.cf.module_classicchat){
 //#                  if(!groupchat) {
 //#                  //forfix
@@ -3046,20 +3046,25 @@ public final class Roster
         String topBar="("+currentReconnect+"/"+midlet.BombusQD.cf.reconnectCount+") Reconnecting";
         errorLog(topBar+"\n"+error.toString());
 
-        //reconnectWindow.getInstance().startReconnect();
-        //doReconnect();
-        new Reconnect(topBar, error.toString(), BombusQD.display);
+
+	new AlertBox(topBar, error.toString(), AlertBox.BUTTONS_YESNO, 10){
+	    public void yes(){
+		try {sendPresence(lastOnlineStatus, null);} catch (Exception e2) { }
+	    };
+	}.show();
      }
 
      public void doReconnect() {
 //#ifdef DEBUG_CONSOLE
 //#         midlet.BombusQD.debug.add("::doReconnect()" ,10);
 //#endif
-        setProgress(SR.get(SR.MS_DISCONNECTED), 0);
+
+	setProgress(SR.get(SR.MS_DISCONNECTED), 0);
         logoff(null);
         try {
              sendPresence(lastOnlineStatus, null);
         } catch (Exception e2) { }
+
      }
 
 

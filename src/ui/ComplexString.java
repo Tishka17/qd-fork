@@ -108,7 +108,6 @@ public class ComplexString implements VirtualElement {
     };
 
     Font bold;
-    char c1, c2;
 
     public void drawItem(VirtualList view, Graphics g, int offset, boolean selected) {
         boolean ralign = false;

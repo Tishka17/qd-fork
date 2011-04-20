@@ -42,10 +42,8 @@ public class ImageList {
     protected int aniHeight[];
 
     public ImageList(){ };
-    int pos;
 
     /** Creates a new instance of ImageList */
-    String resource;
     
     protected Image resImage;
     

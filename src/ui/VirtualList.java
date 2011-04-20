@@ -136,9 +136,6 @@ public abstract class VirtualList extends CanvasEx {
 //#endif
     protected int getMainBarRGB() {return ColorTheme.getColor(ColorTheme.BAR_INK);}
 
-
-    boolean isSel=false;
-
     public void destroy() {
         if (null != mainbar) mainbar.destroy();
         mainbar = null;
@@ -303,10 +300,6 @@ public abstract class VirtualList extends CanvasEx {
 
     protected ScrollBar scrollbar;
 
-    int scrWidth;
-    int scrHeight;
-    int imgWidth;
-    int imgHeight;
 
    public static Image resizeImage(Image image, int w, int h) {
         int w0 = image.getWidth();

@@ -150,7 +150,7 @@ public class PrivacyForm extends DefForm {
     
     protected void beginPaint(){
         if (choiceType!=null) {
-            if (choiceType.toString()==SR.get(SR.MS_SUBSCRIPTION)) {
+            if (choiceType.toString().equals(SR.get(SR.MS_SUBSCRIPTION))) {
                 if (subscrField==false) {
                     itemsList.insertElementAt(choiceSubscr, newSubscrPos);
                     itemsList.removeElement(textValue);

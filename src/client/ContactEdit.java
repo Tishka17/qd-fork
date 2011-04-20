@@ -179,7 +179,7 @@ public final class ContactEdit extends DefForm {
             if (index == 0) {
                 group = null;
             } else if (index == tGrpList.size() - 1) {
-                group = group = tGroup.getValue();
+                group = tGroup.getValue();
             } else {
                 group = (String)tGrpList.items.elementAt(index);
             }
@@ -203,7 +203,7 @@ public final class ContactEdit extends DefForm {
 
     protected void beginPaint() {
         if (tGrpList != null) {
-            if (tGrpList.toString() == SR.get(SR.MS_NEWGROUP)) {
+            if (tGrpList.toString().equals(SR.get(SR.MS_NEWGROUP))) {
                 if (!newGroup) {
                     insertControl(tGroup, newGroupPos);
                     newGroup = true;

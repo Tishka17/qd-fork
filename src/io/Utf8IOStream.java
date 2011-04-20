@@ -85,8 +85,6 @@ public class Utf8IOStream {
 	inpStream = connection.openInputStream();
 	outStream = connection.openOutputStream();
 
-        length=0;
-        pbyte=0;
     }
 
 //#if (ZLIB)
@@ -115,9 +113,6 @@ public class Utf8IOStream {
 //#endif
     }
 
-    byte cbuf[]=new byte[512];
-    int length;
-    int pbyte;
 
     int avail=0;
     int lenbuf=0;

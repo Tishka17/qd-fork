@@ -299,7 +299,7 @@ public class Browser
         redraw();
     }
 
-    private class FileItem extends IconTextElement {
+    private static class FileItem extends IconTextElement {
 
         public String name;
         private int iconIndex;

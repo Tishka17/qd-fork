@@ -70,9 +70,10 @@ public class PopUp {
     private RosterIcons ri;
             
     synchronized public void addPopup(int type, String contact, String message){
-        if (message!=null)
+        if (message!=null) {
             font=FontCache.getFont(false, Config.baloonFont);//den_po
             popUps.addElement(new PopUpElement(type, contact, StringUtils.parseMessage(message, width-border-padding, font)));
+	}
 //#ifdef DEBUG
 //# //	System.out.println("added message to array = "+message);
 //#endif
@@ -302,7 +303,7 @@ public class PopUp {
           drawAllStrings(graph, widthBorder+2, heightBorder+3);
     }
 
-    class PopUpElement {
+    static class PopUpElement {
         private int type;
         private String from;
         private Vector message;

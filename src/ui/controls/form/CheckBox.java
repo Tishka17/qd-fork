@@ -50,7 +50,6 @@ public final class CheckBox extends IconTextElement {
 
     private Vector tipLines;
 
-    private GMenuConfig gm = GMenuConfig.getInstance();
 
     public CheckBox(String text, boolean isChecked) {
         super(RosterIcons.getInstance());

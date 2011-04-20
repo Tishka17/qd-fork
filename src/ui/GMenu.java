@@ -32,7 +32,6 @@ import colors.ColorTheme;
 import font.FontCache;
 import images.MenuIcons;
 import locale.SR;
-import midlet.BombusQD;
 import menu.MenuListener;
 import menu.Command;
 import java.util.*;
@@ -45,10 +44,8 @@ public class GMenu extends CanvasEx {
        paintCustom(g,gm.itemGrMenu);
    }
 
-   Display display;
    Displayable parentView;
    GMenuConfig gm = GMenuConfig.getInstance();
-   BombusQD bm = BombusQD.getInstance();
 
 
    public final static byte MAIN_MENU_ROSTER=1;
@@ -149,7 +146,6 @@ public class GMenu extends CanvasEx {
       }
       gm.itemCursorIndexIn = 0;
       gm.itemCursorIndex = 0;
-      cursorY = 0;
     }
 
   public void paintCustom(Graphics g, int itemGrMenu) {
@@ -169,14 +165,12 @@ public class GMenu extends CanvasEx {
   }
 
    boolean eventMenu=false;
-   Vector inMenuItems = new Vector(0);
 //#ifdef GRADIENT
    Gradient fon;
 //#endif
 
    private void eventOk(){
     try {
-      cursorY=0;
       if (gm.itemCursorIndex>=gm.commandslist.length || gm.itemCursorIndex<0) {
           gm.itemCursorIndex = 0;
           return;
@@ -207,9 +201,7 @@ public class GMenu extends CanvasEx {
    }
 
 
-   int pointerX = 0;
    int maxwidth = 0;
-   int[] pointerY = null;
 
    void drawAllItems(Graphics g,Vector menuCommands,String[] drawCommands,int itemCursorIndex) {
         fh = imgHeight > fh ? imgHeight : fh;
@@ -342,7 +334,6 @@ public class GMenu extends CanvasEx {
        if (x<x1 || y<y1 || x> x2 || y>y2) {
            gm.itemGrMenu=-1;
            gm.ml=null;
-           cursorY=0;
            return;
        }
        if (eventMenu==true) {
@@ -369,10 +360,6 @@ public class GMenu extends CanvasEx {
    }
 //#endif
 
-   //private Timer timer;
-   int cursorY=0;
-   long s1,s2;
-   boolean isDown;
 
    public void keyPressed(int keyCode) {
      if (eventMenu==true) {
@@ -381,13 +368,11 @@ public class GMenu extends CanvasEx {
      }else{
          if (keyCode==Config.SOFT_LEFT || keyCode=='(') {
             eventOk();
-            cursorY=0;
          }
          else if (keyCode==Config.SOFT_RIGHT || keyCode==')' || keyCode == -11 || keyCode == -8) {//SE: 11-back,-8-�������
             gm.itemGrMenu=-1;
             gm.ml=null;
             gm.itemCursorIndex=0;
-            cursorY=0;
             //return;
          }
          else
@@ -496,13 +481,11 @@ public class GMenu extends CanvasEx {
          if (keyCode==Config.SOFT_LEFT || keyCode=='(') {
                      //gm.itemGrMenu=-1;
                      closeEvent();
-                     cursorY=0;
                      return false;
          }
         else if (keyCode==Config.SOFT_RIGHT || keyCode==')' || keyCode == -11 || keyCode == -8) {
             gm.itemGrMenu=-1;
             gm.ml=null;
-            cursorY=0;
             return false;
          }
          else
@@ -530,7 +513,7 @@ public class GMenu extends CanvasEx {
                               }
                              //startTimer(false);
                              return true;
-                        case LEFT: gm.itemCursorIndexIn=0; cursorY=0; break;
+                        case LEFT: gm.itemCursorIndexIn=0; break;
                         //case RIGHT: return true;
                         case DOWN:
                             gm.itemCursorIndexIn++;
@@ -546,7 +529,7 @@ public class GMenu extends CanvasEx {
               }
             } else {
               switch (keyCode) {
-                case KEY_NUM4: gm.itemCursorIndexIn=0; cursorY=gm.itemCursorIndex*fh;
+                case KEY_NUM4: gm.itemCursorIndexIn=0;
                       break;
               //case KEY_NUM6:
               //     return true;
@@ -583,7 +566,7 @@ public class GMenu extends CanvasEx {
                               }
                              //startTimer(false);
                              return true;
-                        case LEFT: gm.itemCursorIndexIn=0; cursorY=gm.itemCursorIndex*fh;
+                        case LEFT: gm.itemCursorIndexIn=0; 
                              break;
                         //case RIGHT: return true;
                         case DOWN:

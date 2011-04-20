@@ -31,7 +31,6 @@
 //# import ui.Gradient;
 //# import colors.ColorTheme;
 //# import font.*;
-//# import ui.GMenuConfig;
 //# import ui.VirtualList;
 //# 
 //# public class ClassicChat extends CustomItem implements ItemCommandListener {
@@ -53,15 +52,9 @@
 //# 
 //#     public void commandAction(Command c, Item i) { }
 //# 
-//# 
-//#     int line_count = Config.getInstance().lineCount;
-//# 
 //#     boolean up, down;
 //#     int firstScreenMsg = 0;
 //#     public int msg_count = 1;
-//# 
-//#     boolean upKeyPressed = false;
-//#     boolean downKeyPressed = false;
 //# 
 //#     Contact contact;
 //# 
@@ -69,7 +62,6 @@
 //#           return FontCache.getFont(false, Config.msgFont);
 //#     }
 //# 
-//#     private Image offscreen = null;
 //#     public int width, height;
 //# 
 //# 
@@ -80,7 +72,7 @@
 //#         width = w; height = h;
 //#         fontHeight = getFont().getHeight();
 //#         maxScreenLines = (height-(3+1))/fontHeight;
-//#         maxCount = (int)line_count;
+//#         maxCount = Config.getInstance().lineCount;
 //#         msgs = new String[maxCount];
 //#         up = false;
 //#         down = false;
@@ -105,15 +97,8 @@
 //# 
 //# 
 //#    Gradient fon;
-//#    GMenuConfig gm = GMenuConfig.getInstance();
-//# 
 //# 
 //#     protected void paint(Graphics g, int w, int h) {
-//#         Graphics saved = g;
-//#         if (offscreen != null) {
-//#             g = offscreen.getGraphics();
-//#         }
-//# 
 //#         g.setColor(0, 0, 0);
 //#         g.drawRect(0, 0, w - 1, h - 1);
 //#ifdef BACK_IMAGE
@@ -159,15 +144,9 @@
 //# 
 //#       int y = 1;
 //#       for (int i = firstScreenMsg; i < i2; i++) {
-//#         if (i == 0){
-//#           g.drawString(msgs[i], 3, y,Graphics.TOP|Graphics.LEFT);
-//#         }
-//#         else {
-//#           g.drawString(msgs[i], 3, y, Graphics.TOP|Graphics.LEFT);
-//#         }
+//#         g.drawString(msgs[i], 3, y,Graphics.TOP|Graphics.LEFT);
 //#         y += fontHeight;
 //#      }
-//#      if( g != saved ){ saved.drawImage( offscreen, 0, 0, Graphics.LEFT | Graphics.TOP ); }
 //#    }
 //# 
 //# 
@@ -222,19 +201,15 @@
 //#      }
 //#           switch (action) {
 //#               case Canvas.LEFT:
-//#                   upKeyPressed = true;
 //#                   up();
 //#                   break;
 //#               case Canvas.RIGHT:
-//#                   downKeyPressed = true;
 //#                   down();
 //#                   break;
 //#               case Canvas.UP:
-//#                   upKeyPressed = true;
 //#                   msgsUp();
 //#                   break;
 //#               case Canvas.DOWN:
-//#                   downKeyPressed = true;
 //#                   msgsDown();
 //#                   break;
 //#               case Canvas.FIRE:

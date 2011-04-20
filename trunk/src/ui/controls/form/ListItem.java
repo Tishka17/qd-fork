@@ -39,13 +39,10 @@ public class ListItem
 
     private String text;
     String name;
-    int index;
-    int icon;
     public int transport;
 
-    public ListItem(String text,int icon, String name) {
+    public ListItem(String text, String name) {
        super(RosterIcons.getInstance());
-       this.icon=icon;
        if(name.length()>2){
            this.name=name;
        }

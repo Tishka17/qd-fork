@@ -30,7 +30,6 @@
 package alert;
 
 import xmpp.EntityCaps;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import java.util.Vector;
 import ui.EventNotify;
@@ -54,7 +53,7 @@ import ui.GMenu;
 import ui.GMenuConfig;
 //#endif
 //#ifdef LIGHT_CONTROL
-import light.*;
+import light.LightConfigForm;
 import ui.controls.form.LinkString;
 //#endif
 import menu.MenuListener;
@@ -97,14 +96,9 @@ public class AlertCustomizeForm extends DefForm implements MenuListener {
     public AlertCustomizeForm() {
         super(SR.get(SR.MS_NOTICES_OPTIONS));
 
-        cmdSave=new Command(SR.get(SR.MS_SAVE), Command.OK, 1);
-        cmdSave.setImg(0x44);
-
-        cmdTest=new Command(SR.get(SR.MS_TEST_SOUND), Command.SCREEN, 2);
-        cmdTest.setImg(0x54);
-
-        cmdTestVibro=new Command(SR.get(SR.MS_TEST_VIBRATION), Command.SCREEN, 3);
-        cmdTestVibro.setImg(0x43);
+        cmdSave=new Command(SR.get(SR.MS_SAVE), 0x44);
+        cmdTest=new Command(SR.get(SR.MS_TEST_SOUND), 0x54);
+        cmdTestVibro=new Command(SR.get(SR.MS_TEST_VIBRATION), 0x43);
 
         isVibroProfile = (midlet.BombusQD.cf.currentAlertProfile==AlertProfile.ALL || midlet.BombusQD.cf.currentAlertProfile==AlertProfile.VIBRA);
 
@@ -238,7 +232,7 @@ public class AlertCustomizeForm extends DefForm implements MenuListener {
         destroyView();
     }
 
-    public void commandAction(Command c, Displayable d) {
+    public void commandAction(Command c) {
         if (c==cmdTest)
             PlaySound(false);
         else if (c==cmdSave) {

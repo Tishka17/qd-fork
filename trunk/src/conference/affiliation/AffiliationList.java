@@ -27,15 +27,15 @@
 
 package conference.affiliation;
 
-import client.*;
+import client.Config;
 //#ifndef MENU_LISTENER
 //#     import javax.microedition.lcdui.CommandListener;
 //#     import javax.microedition.lcdui.Command;
 //#else
-    import menu.MenuListener;
-    import menu.Command;
-    import ui.GMenu;
-    import ui.GMenuConfig;
+import menu.MenuListener;
+import menu.Command;
+import ui.GMenu;
+import ui.GMenuConfig;
 //#endif
 import com.alsutton.jabber.JabberBlockListener;
 import com.alsutton.jabber.JabberDataBlock;
@@ -43,8 +43,8 @@ import com.alsutton.jabber.JabberStream;
 import com.alsutton.jabber.datablocks.Iq;
 import images.RosterIcons;
 import java.util.Vector;
-import javax.microedition.lcdui.*;
 import locale.SR;
+import midlet.BombusQD;
 import midlet.Commands;
 import ui.MainBar;
 import ui.VirtualElement;
@@ -72,7 +72,7 @@ public final class AffiliationList extends VirtualList implements
     private String namespace="http://jabber.org/protocol/muc#admin";
     private String room;
 
-    private JabberStream stream=StaticData.getInstance().roster.theStream;
+    private JabberStream stream= BombusQD.sd.roster.theStream;
 
     private Command cmdModify;
     private Command cmdNew;
@@ -96,11 +96,8 @@ public final class AffiliationList extends VirtualList implements
         items=null;
         items=new Vector(0);
 
-        cmdModify = new Command (SR.get(SR.MS_MODIFY), Command.SCREEN, 1);
-        cmdModify.setImg(0x03);
-
-        cmdNew    = new Command (SR.get(SR.MS_NEW_JID), Command.SCREEN, 2);
-        cmdNew.setImg(0x02);
+        cmdModify = new Command (SR.get(SR.MS_MODIFY), 0x03);
+        cmdNew    = new Command (SR.get(SR.MS_NEW_JID), 0x02);
 
         getList();
     }
@@ -124,13 +121,13 @@ public final class AffiliationList extends VirtualList implements
  //#endif
     }
 
-    public final void getList() {
+    public void getList() {
         JabberDataBlock item=new JabberDataBlock("item", null, null);
         item.setAttribute("affiliation", affiliation);
         listRq(false, item, affiliation);
     }
 
-    public void commandAction(Command c, Displayable d){
+    public void commandAction(Command c){
         if (c == cmdNew) {
             new AffiliationEditForm(room, null, affiliation, "").show();
         }

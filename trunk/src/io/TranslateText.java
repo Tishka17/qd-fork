@@ -26,12 +26,12 @@
  */
 
 package io;
+
 import client.Contact;
 import client.Msg;
 import java.io.*; 
 import javax.microedition.io.Connector;
 import javax.microedition.io.HttpConnection;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 
 public class TranslateText implements Runnable{

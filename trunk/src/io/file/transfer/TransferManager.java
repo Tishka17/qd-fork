@@ -38,8 +38,6 @@ import java.util.Vector;
 import menu.MenuListener;
 import menu.Command;
 //#endif
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import util.Time;
 import ui.VirtualElement;
@@ -76,10 +74,10 @@ public class TransferManager
     public TransferManager() {
         super();
 
-        cmdDel=new Command(SR.get(SR.MS_DECLINE), Command.SCREEN, 10);
-        cmdClrF=new Command(SR.get(SR.MS_HIDE_FINISHED), Command.SCREEN, 11);
+        cmdDel=new Command(SR.get(SR.MS_DECLINE), 0x41);
+        cmdClrF=new Command(SR.get(SR.MS_HIDE_FINISHED), 0x41);
 //#ifdef POPUPS
-        cmdInfo=new Command(SR.get(SR.MS_INFO), Command.SCREEN, 12);
+        cmdInfo=new Command(SR.get(SR.MS_INFO), 0x04);
 //#endif
 
         setMainBarItem(new MainBar(2, null, SR.get(SR.MS_TRANSFERS), false));
@@ -103,10 +101,10 @@ public class TransferManager
 //#endif
         //addCommand(cmdBack);
         if (getItemCount()>0) {
-            addCommand(cmdDel); cmdDel.setImg(0x41);
-            addCommand(cmdClrF); cmdClrF.setImg(0x41);
+            addCommand(cmdDel);
+            addCommand(cmdClrF);
 //#ifdef POPUPS
-            addCommand(cmdInfo); cmdInfo.setImg(0x04);
+            addCommand(cmdInfo);
 //#endif
         }
     }
@@ -133,7 +131,7 @@ public class TransferManager
         }
     }
 
-    public void commandAction(Command c, Displayable d) {
+    public void commandAction(Command c) {
         if (c==cmdClrF) {
             synchronized (taskList) {
                 int i=0;

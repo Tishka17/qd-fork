@@ -25,17 +25,16 @@
  *
  */
 package io;
+
+import client.Config;
+import client.Contact;
 import java.util.Vector; 
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
-import ui.VirtualList;
 import ui.controls.form.DropChoiceBox;
 import ui.controls.form.DefForm;
 import ui.controls.form.SimpleString;
 import ui.controls.form.SpacerItem;
 import util.StringLoader;
-import client.*;
 import ui.controls.form.LinkString;
 
 public class TranslateSelect extends DefForm {
@@ -45,7 +44,6 @@ public class TranslateSelect extends DefForm {
     private LinkString fastTr_;
     
     private Vector langs[];
-    StaticData sd=StaticData.getInstance();
     Config cf;
     private Contact to;
     private String text;

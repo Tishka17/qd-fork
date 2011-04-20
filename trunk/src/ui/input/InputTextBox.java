@@ -117,7 +117,7 @@ public class InputTextBox extends TextBox implements CommandListener {
         this.notify = notify;
     }
 
-    public void setParentView(CanvasEx parentView) {
+    public void setParentView(Displayable parentView) {
         this.parentView = parentView;
     }
 

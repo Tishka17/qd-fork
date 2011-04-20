@@ -36,7 +36,6 @@ import javax.microedition.media.MediaException;
 import javax.microedition.media.Player;
 import locale.SR;
 import util.Strconv;
-import client.Config;
 import ui.VirtualList;
 import ui.controls.AlertBox;
 import midlet.BombusQD;
@@ -58,21 +57,15 @@ public class ShowFile implements CommandListener{
 
     private Player pl;
 
-    private Config cf;
-
-    boolean play=false;
     private boolean useWin1251 = false;
 
     int width;
-    int height;
+
     public ShowFile(final String fileName, int type,String trackname, int width, int height) {
         this.width=width;
-        this.height=height;
 
         back = new Command(SR.get(SR.MS_BACK), Command.BACK, 2);
         stop = new Command(SR.get(SR.MS_STOP), Command.BACK, 3);
-
-        cf=Config.getInstance();
 
         parentView = BombusQD.sd.canvas.getCanvas();
 

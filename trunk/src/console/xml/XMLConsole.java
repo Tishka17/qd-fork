@@ -38,7 +38,6 @@
 //#else
 //# import menu.Command;
 //#endif
-//# import javax.microedition.lcdui.Displayable;
 //# import locale.SR;
 //#ifdef CLIPBOARD
 //# import util.ClipBoard;
@@ -65,14 +64,9 @@
 //#     public XMLConsole() {
 //#         super();
 //# 
-//#         cmdNew = new Command(SR.get(SR.MS_NEW), Command.SCREEN, 5);
-//#         cmdNew.setImg(0x42);
-//# 
-//#         cmdEnableDisable = new Command(SR.get(SR.MS_ENABLE_DISABLE), Command.SCREEN, 6);
-//#         cmdEnableDisable.setImg(0x26);
-//# 
-//#         cmdPurge = new Command(SR.get(SR.MS_CLEAR_LIST), Command.SCREEN, 10);
-//#         cmdPurge.setImg(0x41);
+//#         cmdNew = new Command(SR.get(SR.MS_NEW), 0x42);
+//#         cmdEnableDisable = new Command(SR.get(SR.MS_ENABLE_DISABLE), 0x26);
+//#         cmdPurge = new Command(SR.get(SR.MS_CLEAR_LIST), 0x41);
 //# 
 //#         super.smiles = false;
 //# 
@@ -141,7 +135,7 @@
 //#         sendStanza(false);
 //#     }
 //# 
-//#     public void commandAction(Command c, Displayable d) {
+//#     public void commandAction(Command c) {
 //#         if (c == cmdNew) {
 //#             sendStanza(true);
 //#         } else if (c == cmdEnableDisable) {
@@ -154,7 +148,7 @@
 //#             MessageArchive.store(util.StringUtils.replaceNickTags(getMessage(cursor)));
 //#endif
 //#         } else {
-//#             super.commandAction(c, d);
+//#             super.commandAction(c);
 //#         }
 //#     }
 //# 

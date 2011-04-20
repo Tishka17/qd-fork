@@ -16,7 +16,6 @@ import com.alsutton.jabber.JabberBlockListener;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.Iq;
 import com.ssttr.crypto.SHA1;
-import locale.SR;
 import java.util.Vector;
 
 /**
@@ -122,8 +121,6 @@ public class EntityCaps implements JabberBlockListener{
             features.addElement("http://jabber.org/protocol/commands"); //xep-0050
 //#endif
         features.addElement("http://jabber.org/protocol/disco#info");
-
-        features.addElement("http://jabber.org/protocol/evil");//XEP-0076: Malicious Stanzas
 //#if FILE_IO && FILE_TRANSFER
         if (midlet.BombusQD.cf.fileTransfer) {
             features.addElement("http://jabber.org/protocol/ibb");

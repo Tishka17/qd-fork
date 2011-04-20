@@ -614,23 +614,14 @@ public class Contact extends IconTextElement {
         }
 //#ifdef AVATARS
         if(img_vcard!=null){
-           int yy = (h - avatar_height) >> 1 ;
-           int def = g.getColor();
-           if(avatar_width==avatar_height){
-             w = w-avatar_width - 4;
-             g.drawImage(img_vcard,w,yy,Graphics.TOP|Graphics.LEFT);
-             if(midlet.BombusQD.cf.showAvatarRect){
+            int yy = (h - avatar_height) >> 1 ;
+            int def = g.getColor();
+            w = w-avatar_width - 4;
+            g.drawImage(img_vcard,w,yy,Graphics.TOP|Graphics.LEFT);
+            if(midlet.BombusQD.cf.showAvatarRect){
                 g.setColor(0x000000);
                 g.drawRect(w,yy,avatar_width,avatar_height);
-             }
-           } else {
-              w = w-avatar_width - 4;
-              g.drawImage(img_vcard,w,yy,Graphics.TOP|Graphics.LEFT);
-              if(midlet.BombusQD.cf.showAvatarRect){
-                g.setColor(0x000000);
-                g.drawRect(w,yy,avatar_width,avatar_height);
-              }
-           }
+            }
            g.setColor(def);
         }
 //#endif

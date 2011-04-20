@@ -66,8 +66,6 @@ public class AutoTask extends DefForm implements Runnable {
 
     boolean isRunning;
     boolean isShowing;
-    
-    boolean vibrate;
 
     private int value;
 

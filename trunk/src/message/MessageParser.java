@@ -158,7 +158,8 @@ public final class MessageParser {
                     case 0x0a:
                         if (strhaschars)
                             endline=true;
-			break;
+                        else
+                            break;
                     case 0x09:
                         String smile=Strconv.convCp1251ToUnicode(s.toString());
                         if (firstSmile) smileTable.addElement(smile);

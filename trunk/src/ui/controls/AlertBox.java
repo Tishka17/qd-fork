@@ -29,8 +29,8 @@ package ui.controls;
 import ui.controls.form.DefForm;
 import locale.SR;
 import ui.controls.form.MultiLine;
+import ui.controls.form.ProgressItem;
 import ui.controls.form.SpacerItem;
-import ui.controls.Progress;
 /**
  *
  * @author tishka17
@@ -42,15 +42,10 @@ public class AlertBox extends DefForm implements Runnable {
     private int buttons;
     private int timeout = 0;
     private int maxtimeout = 0;
-    private Progress progress = null;
+    private ProgressItem progress = null;
 
     public AlertBox(String mainbar, String text, final int buttons) {
-	super(mainbar);
-
-        this.buttons = buttons;
-	MultiLine line  = new MultiLine(null, text, width);
-        line.setSelectable(false);
-        addControl(line);
+	this(mainbar, text, buttons, 0);
     }
     public AlertBox(String mainbar, String text, final int buttons, final int timeout) {
 	super(mainbar);
@@ -63,11 +58,18 @@ public class AlertBox extends DefForm implements Runnable {
 	    addControl(sp);
 	    this.timeout = timeout;
 	    maxtimeout = timeout;
-	    /*progress = new Progress(10, 10, 200);
-	    addControl(progress);*/
-	    new Thread(this).start();
+	    progress = new ProgressItem();
+	    addControl(progress);
 	}
     }
+
+    public void show() {
+        if (timeout > 0) {
+            new Thread(this).start();
+        }
+        super.show();
+    }
+
     public String touchLeftCommand() {
 	if (buttons==BUTTONS_OK)
 	    return SR.get(SR.MS_OK);
@@ -81,7 +83,7 @@ public class AlertBox extends DefForm implements Runnable {
 	    return SR.get(SR.MS_NO);
     }
     
-    public void cmdOk() {destroyView(); yes(); }
+    public void cmdOk() {destroyView(); stop(); yes(); }
     public void yes(){};
     public void cmdCancel() {destroyView(); stop(); no();}
     public void no(){};
@@ -89,10 +91,10 @@ public class AlertBox extends DefForm implements Runnable {
         while (timeout>0) {
             try {
                 Thread.sleep(1000);
-		//progress.setProgress((200*timeout) /maxtimeout);
-		timeout--;
-		redraw();
-            } catch (Exception e) { break; }
+            } catch (InterruptedException e) { break; }
+            --timeout;
+            progress.setProgress((100*(maxtimeout - timeout)) /maxtimeout);
+            redraw();
         }
         if (timeout==0) cmdOk();
     }

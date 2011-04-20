@@ -1280,8 +1280,6 @@ public abstract class VirtualList extends CanvasEx {
     private long lastPaint;
 
 //#ifdef TOUCH
-   int yPointerPos;
-
     protected void pointerPressed(int x, int y) {
 
         long clickTime=System.currentTimeMillis();

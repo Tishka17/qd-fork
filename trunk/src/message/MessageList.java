@@ -39,7 +39,6 @@ import java.util.Vector;
 import menu.MenuListener;
 import menu.Command;
 //#endif
-import javax.microedition.lcdui.Displayable;
 import midlet.Commands;
 import ui.VirtualElement;
 import ui.VirtualList;
@@ -143,7 +142,7 @@ public abstract class MessageList extends VirtualList
         }
     }
 
-    public void commandAction(Command c, Displayable d) {
+    public void commandAction(Command c) {
         MessageItem item = (MessageItem)getFocusedObject();
         if (c == Commands.cmdUrl) {
             Vector urls = (item).getUrlList();

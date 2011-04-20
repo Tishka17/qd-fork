@@ -40,14 +40,12 @@ import util.Time;
 //#ifdef DETRANSLIT
 //# import util.DeTranslit;
 //#endif
-import javax.microedition.lcdui.Displayable;
 //#ifndef MENU_LISTENER
 //# import javax.microedition.lcdui.CommandListener;
 //# import javax.microedition.lcdui.Command;
 //#else
 import menu.Command;
 //#endif
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Image;
 import locale.SR;
 import ui.controls.form.DefForm;
@@ -108,17 +106,12 @@ public class VCardView extends DefForm implements MenuListener
     public VCardView(Contact contact, final VCard vcard) {
         super(null);
 
-        cmdRefresh = new Command(SR.get(SR.MS_REFRESH), Command.SCREEN, 3);
-        cmdRefresh.setImg(0x10);
+        cmdRefresh = new Command(SR.get(SR.MS_REFRESH), 0x10);
 //#if FILE_IO
-        cmdSavePhoto = new Command(SR.get(SR.MS_SAVE_PHOTO), Command.SCREEN, 4);
-        cmdSavePhoto.setImg(MenuIcons.ICON_SAVE_PHOTO);
+        cmdSavePhoto = new Command(SR.get(SR.MS_SAVE_PHOTO), MenuIcons.ICON_SAVE_PHOTO);
 //#endif
-        cmdDelPhoto = new Command(SR.get(SR.MS_CLEAR_PHOTO), Command.SCREEN, 5);
-        cmdDelPhoto.setImg(0x41);
-
-        cmdDelVcard = new Command(SR.get(SR.MS_DELETE_VCARD), Command.SCREEN, 6);
-        cmdDelVcard.setImg(0x41);
+        cmdDelPhoto = new Command(SR.get(SR.MS_CLEAR_PHOTO), 0x41);
+        cmdDelVcard = new Command(SR.get(SR.MS_DELETE_VCARD), 0x41);
 
         this.contact = contact;
         this.vcard = vcard;
@@ -215,7 +208,7 @@ public class VCardView extends DefForm implements MenuListener
         }
     }
 
-    public void commandAction(Command c, Displayable d) {
+    public void commandAction(Command c) {
         if (c == cmdDelVcard) {
             this.contact.clearVCard();
         } else if (c == cmdDelPhoto) {

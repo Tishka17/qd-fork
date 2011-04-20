@@ -35,7 +35,7 @@ import images.RosterIcons;
 import java.util.Vector;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
-import font.*;
+import font.FontCache;
 import util.StringUtils;
 
 public class PopUp {
@@ -303,19 +303,18 @@ public class PopUp {
           drawAllStrings(graph, widthBorder+2, heightBorder+3);
     }
 
-    static class PopUpElement {
+    private static class PopUpElement {
         private int type;
         private String from;
         private Vector message;
 
-        public PopUpElement(int type, String from, Vector message) {
+        private PopUpElement(int type, String from, Vector message) {
             this.from=from;
             this.type=type;
             this.message=message;
         }
 
         public void destroy() {
-            this.message = new Vector(0);
             this.message=null;
             this.from=null;
         }

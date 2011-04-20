@@ -86,25 +86,16 @@ public class VCardEdit extends DefForm implements MenuListener, Runnable
     public VCardEdit(VCard vcard) {
         super(SR.get(SR.MS_VCARD) + " " + vcard.getNickName());
 
-        cmdPublish = new Command(SR.get(SR.MS_PUBLISH), Command.OK, 1);
-        cmdPublish.setImg(0x50);
-
-        cmdRefresh = new Command(SR.get(SR.MS_REFRESH), Command.SCREEN, 2);
-        cmdRefresh.setImg(0x73);
+        cmdPublish = new Command(SR.get(SR.MS_PUBLISH), 0x50);
+        cmdRefresh = new Command(SR.get(SR.MS_REFRESH), 0x73);
 
 //#if FILE_IO
-        cmdLoadPhoto=new Command(SR.get(SR.MS_LOAD_PHOTO), Command.SCREEN, 3);
-        cmdLoadPhoto.setImg(MenuIcons.ICON_LOAD_PHOTO);
-
-        cmdSavePhoto=new Command(SR.get(SR.MS_SAVE_PHOTO), Command.SCREEN, 4);
-        cmdSavePhoto.setImg(MenuIcons.ICON_SAVE_PHOTO);
+        cmdLoadPhoto=new Command(SR.get(SR.MS_LOAD_PHOTO), MenuIcons.ICON_LOAD_PHOTO);
+        cmdSavePhoto=new Command(SR.get(SR.MS_SAVE_PHOTO), MenuIcons.ICON_SAVE_PHOTO);
 //#endif
 
-        cmdDelPhoto = new Command(SR.get(SR.MS_CLEAR_PHOTO), Command.SCREEN, 5);
-        cmdDelPhoto.setImg(0x76);
-
-        cmdCamera = new Command(SR.get(SR.MS_CAMERA), Command.SCREEN, 6);
-        cmdCamera.setImg(MenuIcons.ICON_CAMERA);
+        cmdDelPhoto = new Command(SR.get(SR.MS_CLEAR_PHOTO), 0x76);
+        cmdCamera = new Command(SR.get(SR.MS_CAMERA), MenuIcons.ICON_CAMERA);
 
         this.vcard=vcard;
 
@@ -137,7 +128,7 @@ public class VCardEdit extends DefForm implements MenuListener, Runnable
     }
 
 
-    public void commandAction(Command c, Displayable d) {
+    public void commandAction(Command c) {
         if (c==cmdRefresh) {
             VCard.request(vcard.getJid(), vcard.getId().substring(5));
             destroyView();

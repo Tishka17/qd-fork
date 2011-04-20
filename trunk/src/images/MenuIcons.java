@@ -88,6 +88,7 @@ public class MenuIcons extends ImageList {
     public static final int ICON_CLEAR = 0x33;
 
     public static final byte ICON_USER_SEARCH    = 0x42;
+    public static final byte ICON_OK = 0x43;
 
     public static final byte ICON_DISCO_SERVICE = 0x65;
     public static final byte ICON_USER_ACTIVITY = 0x67;

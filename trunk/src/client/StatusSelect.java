@@ -30,7 +30,6 @@ package client;
 
 import account.AccountSelect;
 import java.util.Vector;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import menu.Command;
 import menu.MenuListener;
@@ -58,14 +57,9 @@ public class StatusSelect extends VirtualList implements MenuListener {
     public StatusSelect(Contact to) {
         super();
 
-       cmdOk=new Command(SR.get(SR.MS_SELECT),Command.OK,1);
-       cmdOk.setImg(0x43);
-
-       cmdEdit=new Command(SR.get(SR.MS_EDIT),Command.SCREEN,2);
-       cmdEdit.setImg(0x40);
-
-       cmdDef=new Command(SR.get(SR.MS_SETDEFAULT),Command.OK,3);
-       cmdDef.setImg(0x24);
+       cmdOk=new Command(SR.get(SR.MS_SELECT), 0x43);
+       cmdEdit=new Command(SR.get(SR.MS_EDIT), 0x40);
+       cmdDef=new Command(SR.get(SR.MS_SETDEFAULT), 0x24);
 
         statusList=StatusList.getInstance().statusList;
         this.to=to;
@@ -106,7 +100,7 @@ public class StatusSelect extends VirtualList implements MenuListener {
        return false;
     }
 
-    public void commandAction(Command c, Displayable d){
+    public void commandAction(Command c){
         if (c==cmdOk) eventOk();
         if (c==cmdEdit) {
             new StatusEditForm(getSel()).show();

@@ -37,7 +37,6 @@ import java.util.Vector;
 import menu.MenuListener;
 import menu.Command;
 //#endif
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import midlet.BombusQD;
 import ui.MainBar;
@@ -74,26 +73,13 @@ public final class ActiveContacts extends VirtualList implements
     private Command cmdClearAllMessages;
 
     public ActiveContacts(Contact current) {
-        cmdOk = new Command(SR.get(SR.MS_SELECT), Command.SCREEN, 1);
-        cmdOk.setImg(0x43);
-
-        cmdCreateMultiMessage = new Command(SR.get(SR.MS_MULTI_MESSAGE), Command.SCREEN, 3);
-        cmdCreateMultiMessage.setImg(0x81);
-
-        cmdSortType = new Command(SR.get(SR.MS_SORT_TYPE), Command.SCREEN, 4);
-        cmdSortType.setImg(0x64);
-
-        cmdSortDefault = new Command(SR.get(SR.MS_SORT_TYPE_DEF), Command.SCREEN, 5);
-        cmdSortDefault.setImg(0x64);
-
-        cmdSortByStatus = new Command(SR.get(SR.MS_SORT_TYPE_STATUS), Command.SCREEN, 6);
-        cmdSortByStatus.setImg(0x64);
-
-        cmdSortByMsgsCount = new Command(SR.get(SR.MS_SORT_TYPE_MSGS), Command.SCREEN, 7);
-        cmdSortByMsgsCount.setImg(0x64);
-
-        cmdClearAllMessages = new Command(SR.get(SR.MS_CLEAN_ALL_MESSAGES), Command.SCREEN, 35);
-        cmdClearAllMessages.setImg(0x41);
+        cmdOk = new Command(SR.get(SR.MS_SELECT), 0x43);
+        cmdCreateMultiMessage = new Command(SR.get(SR.MS_MULTI_MESSAGE), 0x81);
+        cmdSortType = new Command(SR.get(SR.MS_SORT_TYPE), 0x64);
+        cmdSortDefault = new Command(SR.get(SR.MS_SORT_TYPE_DEF), 0x64);
+        cmdSortByStatus = new Command(SR.get(SR.MS_SORT_TYPE_STATUS), 0x64);
+        cmdSortByMsgsCount = new Command(SR.get(SR.MS_SORT_TYPE_MSGS), 0x64);
+        cmdClearAllMessages = new Command(SR.get(SR.MS_CLEAN_ALL_MESSAGES), 0x41);
 
         Vector hContacts = BombusQD.sd.roster.getHContacts();
         int size = hContacts.size();
@@ -179,7 +165,7 @@ public final class ActiveContacts extends VirtualList implements
 //#endif
     }
 
-    public void commandAction(Command c, Displayable d) {
+    public void commandAction(Command c) {
         if (c == cmdOk) {
             eventOk();
         }

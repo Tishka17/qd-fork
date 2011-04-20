@@ -39,7 +39,6 @@ import javax.microedition.io.HttpConnection;
 //#else
 import menu.Command;
 //#endif
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import ui.MainBar;
 import client.DiscoSearchForm;
@@ -64,10 +63,10 @@ public class GetFileServer extends DefForm implements MenuListener, Runnable {
 
     private final static String update_url = "http://bombusmod-qd.wen.ru/midp/update.txt";
 
-    private Command cmdICQ = new Command("QD: ICQ Transports list", Command.SCREEN, 3);
-    private Command cmdMrim = new Command("QD: Mrim Transports list", Command.SCREEN, 4);
-    private Command cmdIrc = new Command("QD: IRC Transports list", Command.SCREEN, 5);
-    private Command cmdVk = new Command("QD: j2j Transports list", Command.SCREEN, 6);
+    private Command cmdICQ = new Command("QD: ICQ Transports list", 0x04);
+    private Command cmdMrim = new Command("QD: Mrim Transports list", 0x04);
+    private Command cmdIrc = new Command("QD: IRC Transports list", 0x04);
+    private Command cmdVk = new Command("QD: j2j Transports list", 0x04);
 
     private Vector icq = new Vector();
     private Vector mrim = new Vector();
@@ -156,7 +155,7 @@ public class GetFileServer extends DefForm implements MenuListener, Runnable {
         redraw();
     }
 
-    public void commandAction(Command c, Displayable d) {
+    public void commandAction(Command c) {
         if (c == cmdICQ) {
             new DiscoSearchForm(icq, 0).show();
         }
@@ -194,13 +193,9 @@ public class GetFileServer extends DefForm implements MenuListener, Runnable {
         cmdThirdList.removeAllElements();
 //#endif
         addCommand(cmdICQ);
-        cmdICQ.setImg(0x04);
         addCommand(cmdMrim);
-        cmdMrim.setImg(0x04);
         addCommand(cmdIrc);
-        cmdIrc.setImg(0x04);
         addCommand(cmdVk);
-        cmdVk.setImg(0x04);
     }
 
 //#ifdef MENU_LISTENER

@@ -21,7 +21,6 @@ import locale.SR;
 public class Commands {
     public static Command cmdOk;
 
-    public static Command cmdTranslate;
     public static Command cmdSubscribe;
     public static Command cmdUnsubscribed;
     public static Command cmdMessage;
@@ -68,76 +67,35 @@ public class Commands {
 //#endif
 
     public static void initCommands() {
-        cmdOk = new Command(SR.get(SR.MS_OK), Command.OK, 1);
-        cmdOk.setImg(0x60);
-
-        cmdSelect = new Command(SR.get(SR.MS_SELECT), Command.SCREEN, 8);
-        cmdSelect.setImg(0x60);
-
-        cmdMessage = new Command(SR.get(SR.MS_NEW_MESSAGE), Command.SCREEN, 3);
-        cmdMessage.setImg(0x81);
-
-        cmdResume = new Command(SR.get(SR.MS_RESUME), Command.SCREEN, 1);
-        cmdResume.setImg(0x80);
-
-        cmdTranslate = new Command(SR.get(SR.MS_TRANSLATE), Command.SCREEN, 337);
-        cmdTranslate.setImg(0x73);
-
-        cmdSubscribe = new Command(SR.get(SR.MS_SUBSCRIBE), Command.SCREEN, 1);
-        cmdSubscribe.setImg(0x43);
-
-        cmdUnsubscribed = new Command(SR.get(SR.MS_DECLINE), Command.SCREEN, 2);
-        cmdUnsubscribed.setImg(0x41);
-
-        cmdReply = new Command(SR.get(SR.MS_REPLY), Command.SCREEN, 4);
-        cmdReply.setImg(0x72);
-
-        cmdQuote = new Command(SR.get(SR.MS_QUOTE), Command.SCREEN, 5);
-        cmdQuote.setImg(0x63);
-
-        cmdPurge = new Command(SR.get(SR.MS_CLEAR_LIST), Command.SCREEN, 7);
-        cmdPurge.setImg(0x33);
-
-        cmdActions = new Command(SR.get(SR.MS_CONTACT), Command.SCREEN, 9);
-        cmdActions.setImg(0x16);
-
-        cmdAddSearchQuery = new Command(SR.get(SR.MS_ADD_SEARCH_QUERY), Command.SCREEN, 400);
-        cmdAddSearchQuery.setImg(MenuIcons.ICON_SEARCH);
-
-        cmdClrPresences = new Command(SR.get(SR.MS_DELETE_ALL_STATUSES), Command.SCREEN, 403);
-        cmdClrPresences.setImg(0x76);
-
-        cmdMyService = new Command(SR.get(SR.MS_SERVICE), Command.SCREEN, 31);
-        cmdMyService.setImg(0x27);
-
-        cmdxmlSkin = new Command(SR.get(SR.MS_USE_COLOR_SCHEME), Command.SCREEN, 40);
-        cmdxmlSkin.setImg(MenuIcons.ICON_COLOR_TUNE);
-
-        cmdUrl = new Command(SR.get(SR.MS_GOTO_URL), Command.SCREEN, 80);
-        cmdUrl.setImg(MenuIcons.ICON_GOTO_URL);
+        cmdOk = new Command(SR.get(SR.MS_OK), 0x60);
+        cmdSelect = new Command(SR.get(SR.MS_SELECT), 0x60);
+        cmdMessage = new Command(SR.get(SR.MS_NEW_MESSAGE), 0x81);
+        cmdResume = new Command(SR.get(SR.MS_RESUME), 0x80);
+        cmdSubscribe = new Command(SR.get(SR.MS_SUBSCRIBE), 0x43);
+        cmdUnsubscribed = new Command(SR.get(SR.MS_DECLINE), 0x41);
+        cmdReply = new Command(SR.get(SR.MS_REPLY), 0x72);
+        cmdQuote = new Command(SR.get(SR.MS_QUOTE), 0x63);
+        cmdPurge = new Command(SR.get(SR.MS_CLEAR_LIST), 0x33);
+        cmdActions = new Command(SR.get(SR.MS_CONTACT), 0x16);
+        cmdAddSearchQuery = new Command(SR.get(SR.MS_ADD_SEARCH_QUERY), MenuIcons.ICON_SEARCH);
+        cmdClrPresences = new Command(SR.get(SR.MS_DELETE_ALL_STATUSES), 0x76);
+        cmdMyService = new Command(SR.get(SR.MS_SERVICE), 0x27);
+        cmdxmlSkin = new Command(SR.get(SR.MS_USE_COLOR_SCHEME), MenuIcons.ICON_COLOR_TUNE);
+        cmdUrl = new Command(SR.get(SR.MS_GOTO_URL), MenuIcons.ICON_GOTO_URL);
 
 //#ifdef CLIPBOARD
-        cmdCopy = new Command(SR.get(SR.MS_COPY), Command.SCREEN, 20);
-        cmdCopy.setImg(MenuIcons.ICON_COPY);
-
-        cmdCopyPlus = new Command("+ " + SR.get(SR.MS_COPY), Command.SCREEN, 30);
-        cmdCopyPlus.setImg(MenuIcons.ICON_COPY);
-
-        cmdSendBuffer = new Command(SR.get(SR.MS_SEND_BUFFER), Command.SCREEN, 14);
-        cmdSendBuffer.setImg(0x84);
-
-        cmdPaste = new Command(SR.get(SR.MS_PASTE), Command.SCREEN, 31);
-        cmdPaste.setImg(0x84);
+        cmdCopy = new Command(SR.get(SR.MS_COPY), MenuIcons.ICON_COPY);
+        cmdCopyPlus = new Command("+ " + SR.get(SR.MS_COPY), MenuIcons.ICON_COPY);
+        cmdSendBuffer = new Command(SR.get(SR.MS_SEND_BUFFER), 0x84);
+        cmdPaste = new Command(SR.get(SR.MS_PASTE), 0x84);
 //#endif
 
 //#ifdef HISTORY
-        cmdHistory = new Command(SR.get(SR.MS_HISTORY), Command.SCREEN, 101);
-        cmdHistory.setImg(0x64);
+        cmdHistory = new Command(SR.get(SR.MS_HISTORY), 0x64);
 //#endif
 
 //#ifdef ARCHIVE
-        cmdArch = new Command(SR.get(SR.MS_ADD_ARCHIVE), Command.SCREEN, 6);
-        cmdArch.setImg(0x64);
+        cmdArch = new Command(SR.get(SR.MS_ADD_ARCHIVE), 0x64);
 //#endif
 
 //#ifdef JUICK.COM

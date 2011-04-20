@@ -32,11 +32,10 @@ import conference.MucContact;
 import client.contact.ChatInfo;
 //#endif
 import message.MessageItem;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
 import ui.MainBar;
-import java.util.*;
+import java.util.Vector;
 import ui.VirtualElement;
 import ui.VirtualList;
 //#ifndef MENU_LISTENER
@@ -271,7 +270,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
     }
 //#endif
 
-    public void commandAction(Command c, Displayable d) {
+    public void commandAction(Command c) {
         if (c == Commands.cmdClrPresences) {
             smartPurge(true);
             return;
@@ -280,10 +279,11 @@ public final class ContactMessageList extends MessageList implements InputTextBo
                 return;
             }
             if (startSelection) {
-                for (Enumeration select = msgs.elements(); select.hasMoreElements();) {
-                    Msg mess = (Msg) select.nextElement();
-                    if (mess.selected) {
-                        removeMessage(msgs.indexOf(mess));
+                int size = msgs.size();
+                for (int i = 0; i < size; ++i) {
+                    Msg msg = (Msg)msgs.elementAt(i);
+                    if (msg.selected) {
+                        removeMessage(i);
                     }
                 }
                 startSelection = false;
@@ -371,7 +371,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
             redraw();
 //#endif
         } else {
-            super.commandAction(c, d);
+            super.commandAction(c);
         }
     }
 

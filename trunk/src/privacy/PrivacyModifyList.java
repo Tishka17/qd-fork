@@ -78,12 +78,12 @@ public class PrivacyModifyList extends VirtualList
     public PrivacyModifyList(PrivacyList privacyList) {
         super();
 
-        cmdAdd=new Command (SR.get(SR.MS_ADD_RULE), Command.SCREEN, 10);
-        cmdDel=new Command (SR.get(SR.MS_DELETE_RULE), Command.SCREEN, 11);
-        cmdEdit=new Command (SR.get(SR.MS_EDIT_RULE), Command.SCREEN, 12);
-        cmdUp=new Command (SR.get(SR.MS_MOVE_UP), Command.SCREEN, 13);
-        cmdDwn=new Command (SR.get(SR.MS_MOVE_DOWN), Command.SCREEN, 14);
-        cmdSave=new Command (SR.get(SR.MS_SAVE_LIST), Command.SCREEN, 16);
+        cmdAdd=new Command (SR.get(SR.MS_ADD_RULE), 0x47);
+        cmdDel=new Command (SR.get(SR.MS_DELETE_RULE), 0x41);
+        cmdEdit=new Command (SR.get(SR.MS_EDIT_RULE), 0x40);
+        cmdUp=new Command (SR.get(SR.MS_MOVE_UP), 0x45);
+        cmdDwn=new Command (SR.get(SR.MS_MOVE_DOWN), 0x46);
+        cmdSave=new Command (SR.get(SR.MS_SAVE_LIST), 0x44);
         
         setMainBarItem(new MainBar(2, null, SR.get(SR.MS_PRIVACY_LISTS), false));
 
@@ -98,12 +98,12 @@ public class PrivacyModifyList extends VirtualList
 //#ifndef GRAPHICS_MENU        
 //#      addCommand(cmdCancel);
 //#endif     
-        addCommand(cmdEdit); cmdEdit.setImg(0x40);//EDIT
-        addCommand(cmdAdd); cmdAdd.setImg(0x47);
-        addCommand(cmdDel); cmdDel.setImg(0x41);//DELETE
-        addCommand(cmdUp); cmdUp.setImg(0x45);//UP
-        addCommand(cmdDwn); cmdDwn.setImg(0x46);//DOWN 
-        addCommand(cmdSave); cmdSave.setImg(0x44);//SAVE
+        addCommand(cmdEdit);
+        addCommand(cmdAdd);
+        addCommand(cmdDel);
+        addCommand(cmdUp);
+        addCommand(cmdDwn);
+        addCommand(cmdSave);
     }
     
 //#ifdef MENU_LISTENER
@@ -140,7 +140,7 @@ public class PrivacyModifyList extends VirtualList
     protected int getItemCount() { return plist.rules.size(); }
     protected VirtualElement getItemRef(int index) { return (VirtualElement) plist.rules.elementAt(index); }
     
-    public void commandAction(Command c, Displayable d) {
+    public void commandAction(Command c) {
         if (c==cmdAdd) {
             new PrivacyForm(new PrivacyItem(), plist).show();
         }

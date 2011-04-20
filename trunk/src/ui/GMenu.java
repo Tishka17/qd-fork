@@ -24,7 +24,9 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
+
 package ui;
+
 import images.ImageList;
 import javax.microedition.lcdui.*;
 import client.Config;
@@ -44,7 +46,6 @@ public class GMenu extends CanvasEx {
        paintCustom(g,gm.itemGrMenu);
    }
 
-   Displayable parentView;
    GMenuConfig gm = GMenuConfig.getInstance();
 
 
@@ -132,11 +133,11 @@ public class GMenu extends CanvasEx {
        gm.itemGrMenu=-1;
         if(inmenu){
           cmd = (Command)gm.menuCommandsIn.elementAt(gm.itemCursorIndexIn);
-          gm.ml.commandAction(cmd, parentView);
+          gm.ml.commandAction(cmd);
           gm.inMenuSelected=false;//���������� ����
         }else{
           cmd = (Command)gm.menuCommands.elementAt(gm.itemCursorIndex);
-          gm.ml.commandAction(cmd, parentView);
+          gm.ml.commandAction(cmd);
         }
        gm.ml=null;
       } catch (Exception e) { /* IndexOutOfBounds */
@@ -316,7 +317,7 @@ public class GMenu extends CanvasEx {
            if(gm.itemGrMenu!=GMenu.DEF_FORM){
              Command cmd = (Command)menuCommands.elementAt(index);
 	     ty=(fh - imgHeight) >> 1;
-             MenuIcons.getInstance().drawImage(g,cmd.getImg(), 3, fh * index + 1 + ty );
+             MenuIcons.getInstance().drawImage(g,cmd.getIconIndex(), 3, fh * index + 1 + ty );
              cmd=null;
            }
 	   ty=(fh-g.getFont().getHeight())>>1;

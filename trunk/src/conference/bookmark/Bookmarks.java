@@ -43,14 +43,16 @@ import disco.ServiceDiscovery;
 import menu.MenuListener;
 import menu.Command;
 //#endif
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
-import ui.*;
-import java.util.*;
+import ui.VirtualElement;
+import ui.VirtualList;
+import java.util.Enumeration;
+import java.util.Vector;
 import ui.MainBar;
 import ui.controls.AlertBox;
 //#ifdef GRAPHICS_MENU
 import ui.GMenu;
+import ui.GMenuConfig;
 //#endif
 /**
  *
@@ -101,54 +103,25 @@ public final class Bookmarks extends VirtualList
     }
 
     public void initCommands() {
-        cmdJoin = new Command(SR.get(SR.MS_SELECT), Command.OK, 1);
-        cmdJoin.setImg(0x60);
-
-        cmdAdvJoin = new Command(SR.get(SR.MS_EDIT_JOIN), Command.SCREEN, 2);
-        cmdAdvJoin.setImg(0x61);
-
-        cmdDoAutoJoin = new Command(SR.get(SR.MS_DO_AUTOJOIN), Command.SCREEN, 3);
-        cmdDoAutoJoin.setImg(0x60);
-
-        cmdNew = new Command(SR.get(SR.MS_NEW_BOOKMARK), Command.SCREEN, 4);
-        cmdNew.setImg(0x62);
-
-        cmdConfigure = new Command(SR.get(SR.MS_CONFIG_ROOM), Command.SCREEN, 5);
-        cmdConfigure.setImg(0x72);
+        cmdJoin = new Command(SR.get(SR.MS_SELECT), 0x60);
+        cmdAdvJoin = new Command(SR.get(SR.MS_EDIT_JOIN), 0x61);
+        cmdDoAutoJoin = new Command(SR.get(SR.MS_DO_AUTOJOIN), 0x60);
+        cmdNew = new Command(SR.get(SR.MS_NEW_BOOKMARK), 0x62);
+        cmdConfigure = new Command(SR.get(SR.MS_CONFIG_ROOM), 0x72);
 
 //#ifdef SERVICE_DISCOVERY
-        cmdDisco = new Command(SR.get(SR.MS_DISCO_ROOM), Command.SCREEN, 6);
-        cmdDisco.setImg(0x65);
+        cmdDisco = new Command(SR.get(SR.MS_DISCO_ROOM), 0x65);
 //#endif
-        cmdUp = new Command(SR.get(SR.MS_MOVE_UP), Command.SCREEN, 7);
-        cmdUp.setImg(0x45);
-
-        cmdDwn = new Command(SR.get(SR.MS_MOVE_DOWN), Command.SCREEN, 8);
-        cmdDwn.setImg(0x46);
-
-        cmdSort = new Command(SR.get(SR.MS_SORT), Command.SCREEN, 9);
-        cmdSort.setImg(0x64);
-
-        cmdSave = new Command(SR.get(SR.MS_SAVE_LIST), Command.SCREEN, 10);
-        cmdSave.setImg(0x44);
-
-        cmdRoomOwners = new Command(SR.get(SR.MS_OWNERS), Command.SCREEN, 11);
-        cmdRoomOwners.setImg(0x66);
-
-        cmdRoomAdmins = new Command(SR.get(SR.MS_ADMINS), Command.SCREEN, 12);
-        cmdRoomAdmins.setImg(0x67);
-
-        cmdRoomMembers = new Command(SR.get(SR.MS_MEMBERS), Command.SCREEN, 13);
-        cmdRoomMembers.setImg(0x70);
-
-        cmdRoomBanned = new Command(SR.get(SR.MS_BANNED), Command.SCREEN, 14);
-        cmdRoomBanned.setImg(0x71);
-
-        cmdDel = new Command(SR.get(SR.MS_DELETE), Command.SCREEN, 15);
-        cmdDel.setImg(0x41);
-
-        cmdMyService = new Command(SR.get(SR.MS_SERVICE), Command.SCREEN, 31);
-        cmdMyService.setImg(0x27);
+        cmdUp = new Command(SR.get(SR.MS_MOVE_UP), 0x45);
+        cmdDwn = new Command(SR.get(SR.MS_MOVE_DOWN), 0x46);
+        cmdSort = new Command(SR.get(SR.MS_SORT), 0x64);
+        cmdSave = new Command(SR.get(SR.MS_SAVE_LIST), 0x44);
+        cmdRoomOwners = new Command(SR.get(SR.MS_OWNERS), 0x66);
+        cmdRoomAdmins = new Command(SR.get(SR.MS_ADMINS), 0x67);
+        cmdRoomMembers = new Command(SR.get(SR.MS_MEMBERS), 0x70);
+        cmdRoomBanned = new Command(SR.get(SR.MS_BANNED), 0x71);
+        cmdDel = new Command(SR.get(SR.MS_DELETE), 0x41);
+        cmdMyService = new Command(SR.get(SR.MS_SERVICE), 0x27);
     }
 
     public void commandState() {
@@ -216,7 +189,7 @@ public final class Bookmarks extends VirtualList
        midlet.BombusQD.sd.roster.show(); //N78 hardfix
     }
 
-    public void commandAction(Command c, Displayable d){
+    public void commandAction(Command c){
         if (c == cmdNew) {
             new ConferenceForm().show();
             return;

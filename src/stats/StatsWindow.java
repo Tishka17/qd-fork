@@ -36,7 +36,6 @@ import client.Config;
 import client.Roster;
 import menu.Command;
 //#endif
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import menu.MenuListener;
 import midlet.Commands;
@@ -64,11 +63,8 @@ public class StatsWindow extends DefForm implements MenuListener {
         super(SR.get(SR.MS_STATS));
         StringBuffer sb = new StringBuffer(0);
 
-        cmdClear = new Command(SR.get(SR.MS_CLEAR), Command.SCREEN, 2);
-        cmdClear.setImg(0x33);
-
-        cmdSave = new Command(SR.get(SR.MS_SAVE), Command.OK, 3);
-        cmdSave.setImg(0x44);
+        cmdClear = new Command(SR.get(SR.MS_CLEAR), 0x33);
+        cmdSave = new Command(SR.get(SR.MS_SAVE), 0x44);
 
         sb.append(SR.get(SR.MS_ALL))
           .append(StringUtils.getSizeString(st.getAllTraffic()))
@@ -110,7 +106,7 @@ public class StatsWindow extends DefForm implements MenuListener {
     }
 
 
-    public void commandAction(Command command, Displayable displayable) {
+    public void commandAction(Command command) {
         if(command==cmdSave){
             Stats.getInstance().saveToStorage(false,false);
 //#ifdef CLIPBOARD

@@ -30,10 +30,9 @@ package conference;
 
 import conference.bookmark.BookmarkItem;
 import conference.bookmark.BookmarkQuery;
-import client.*;
+import client.Config;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.Presence;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
 import ui.controls.form.CheckBox;
@@ -140,14 +139,9 @@ public final class ConferenceForm extends DefForm implements MenuListener {
     }
 
     private void createForm(String name, String room, String server, String nick, final String password, boolean autojoin) {
-        cmdJoin=new Command(SR.get(SR.MS_JOIN), Command.SCREEN, 1);
-        cmdJoin.setImg(0x43);
-
-        cmdAdd=new Command(SR.get(SR.MS_ADD_BOOKMARK), Command.SCREEN, 5);
-        cmdAdd.setImg(0x42);
-
-        cmdSave=new Command(SR.get(SR.MS_SAVE), Command.SCREEN, 6);
-        cmdSave.setImg(0x40);
+        cmdJoin=new Command(SR.get(SR.MS_JOIN), 0x43);
+        cmdAdd=new Command(SR.get(SR.MS_ADD_BOOKMARK), 0x42);
+        cmdSave=new Command(SR.get(SR.MS_SAVE), 0x40);
 
         roomField=new TextInput(SR.get(SR.MS_ROOM), room, TextField.ANY);
         addControl(roomField);
@@ -172,7 +166,7 @@ public final class ConferenceForm extends DefForm implements MenuListener {
         addControl(autoJoin);
     }
 
-    public void commandAction(Command c, Displayable d){
+    public void commandAction(Command c){
         String nick = nickField.getValue();
         String room = roomField.getValue();
         String host = hostField.getValue();

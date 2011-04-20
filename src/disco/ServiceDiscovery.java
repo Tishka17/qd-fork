@@ -40,7 +40,6 @@ import java.util.*;
 import menu.MenuListener;
 import menu.Command;
 //#endif
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import colors.ColorTheme;
 import ui.*;
@@ -104,11 +103,11 @@ public class ServiceDiscovery
     public ServiceDiscovery(String service, String node, boolean search) {
         super();
 
-        cmdOk=new Command(SR.get(SR.MS_BROWSE), Command.SCREEN, 1);
-        cmdRfsh=new Command(SR.get(SR.MS_REFRESH), Command.SCREEN, 2);
-        cmdFeatures=new Command(SR.get(SR.MS_FEATURES), Command.SCREEN, 3);
-        cmdSrv=new Command(SR.get(SR.MS_ADD_SERVER), Command.SCREEN, 10);
-        cmdShowStatistics=new Command(SR.get(SR.MS_STATICSTICS), Command.SCREEN, 4);
+        cmdOk=new Command(SR.get(SR.MS_BROWSE), 0x43);
+        cmdRfsh=new Command(SR.get(SR.MS_REFRESH), 0x10);
+        cmdFeatures=new Command(SR.get(SR.MS_FEATURES), 0x56);
+        cmdSrv=new Command(SR.get(SR.MS_ADD_SERVER), 0x55);
+        cmdShowStatistics=new Command(SR.get(SR.MS_STATICSTICS), 0x57);
 
         setMainBarItem(new MainBar(3, null, null, false));
         getMainBarItem().addRAlign();
@@ -123,10 +122,10 @@ public class ServiceDiscovery
 //#else
 //#         addCommand(cmdBack);
 //#endif
-        addCommand(cmdSrv); cmdSrv.setImg(0x55);
-        addCommand(cmdRfsh); cmdRfsh.setImg(0x10);
-        addCommand(cmdFeatures); cmdFeatures.setImg(0x56);
-        addCommand(cmdShowStatistics); cmdShowStatistics.setImg(0x57);
+        addCommand(cmdSrv);
+        addCommand(cmdRfsh);
+        addCommand(cmdFeatures);
+        addCommand(cmdShowStatistics);
 
         //addCommand(cmdAdd);
 //#ifndef GRAPHICS_MENU
@@ -236,7 +235,6 @@ public class ServiceDiscovery
 	if (size>0) {
 //#ifdef MENU_LISTENER
 	    menuCommands.insertElementAt(cmdOk, 0);
-            cmdOk.setImg(0x43);
 //#else
 //#             addCommand(cmdOk);
 //#endif
@@ -483,7 +481,7 @@ public class ServiceDiscovery
             requestQuery(NS_INFO,"disco");
     }
 
-    public void commandAction(Command c, Displayable d){
+    public void commandAction(Command c){
 	if (c==cmdOk) eventOk();
         if (c==cmdRfsh) { if (service!=null) requestQuery(NS_INFO, "disco"); }
         if (c == cmdSrv) {

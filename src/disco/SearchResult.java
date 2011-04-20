@@ -26,9 +26,9 @@
  *
  */
 //#ifdef SERVICE_DISCOVERY
-package disco; 
+package disco;
+
 import java.util.*;
-import javax.microedition.lcdui.*;
 //#ifndef MENU_LISTENER
 //# import javax.microedition.lcdui.CommandListener;
 //# import javax.microedition.lcdui.Command;
@@ -69,7 +69,7 @@ public class SearchResult
     public SearchResult(JabberDataBlock result) {
         super();
         
-        cmdAdd=new Command(SR.get(SR.MS_ADD), Command.SCREEN, 1);
+        cmdAdd=new Command(SR.get(SR.MS_ADD), 0x47);
         String service=result.getAttribute("from");
         
         setMainBarItem(new MainBar(2, null, service, false));
@@ -176,7 +176,7 @@ public class SearchResult
     public int getItemCount(){ return items.size();}
     public VirtualElement getItemRef(int index) { return (VirtualElement) items.elementAt(index);}
 
-    public void commandAction(Command c, Displayable d){
+    public void commandAction(Command c){
         if (c==cmdAdd){
             showContactEditForm();
         }

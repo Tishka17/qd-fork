@@ -37,7 +37,6 @@ import message.MessageList;
 //#else
 import menu.Command;
 //#endif
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import ui.controls.AlertBox;
 import message.MessageItem;
@@ -84,30 +83,16 @@ public class ArchiveList extends MessageList {
         this.caretPos = caretPos;
         this.input = input;
 
-        cmdPaste = new Command(SR.get(SR.MS_PASTE_BODY), Command.SCREEN, 1);
-        cmdPaste.setImg(0x60);
-
-        cmdJid = new Command(SR.get(SR.MS_PASTE_JID), Command.SCREEN, 2);
-        cmdJid.setImg(0x60);
-
-        cmdSubj = new Command(SR.get(SR.MS_PASTE_SUBJECT), Command.SCREEN, 3);
-        cmdSubj.setImg(0x81);
-
-        cmdEdit = new Command(SR.get(SR.MS_EDIT), Command.SCREEN, 4);
-        cmdEdit.setImg(0x40);
-
-        cmdNew = new Command(SR.get(SR.MS_NEW), Command.SCREEN, 5);
-        cmdNew.setImg(0x47);
-
-        cmdDelete = new Command(SR.get(SR.MS_DELETE), Command.SCREEN, 9);
-        cmdDelete.setImg(0x76);
-
-        cmdDeleteAll = new Command(SR.get(SR.MS_DELETE_ALL), Command.SCREEN, 10);
-        cmdDeleteAll.setImg(0x41);
+        cmdPaste = new Command(SR.get(SR.MS_PASTE_BODY), 0x60);
+        cmdJid = new Command(SR.get(SR.MS_PASTE_JID), 0x60);
+        cmdSubj = new Command(SR.get(SR.MS_PASTE_SUBJECT), 0x81);
+        cmdEdit = new Command(SR.get(SR.MS_EDIT), 0x40);
+        cmdNew = new Command(SR.get(SR.MS_NEW), 0x47);
+        cmdDelete = new Command(SR.get(SR.MS_DELETE), 0x76);
+        cmdDeleteAll = new Command(SR.get(SR.MS_DELETE_ALL), 0x41);
 
 //#ifdef IMPORT_EXPORT
-        cmdExport = new Command(SR.get(SR.MS_IMPORT_EXPORT), Command.SCREEN, 11);
-        cmdExport.setImg(0x60);
+        cmdExport = new Command(SR.get(SR.MS_IMPORT_EXPORT), 0x60);
 //#endif
 
         archive = new MessageArchive();
@@ -161,8 +146,8 @@ public class ArchiveList extends MessageList {
         return archive.msg(index);
     }
 
-    public void commandAction(Command c, Displayable d) {
-        super.commandAction(c, d);
+    public void commandAction(Command c) {
+        super.commandAction(c);
 
         if (c == cmdNew) {
             new ArchiveEdit(-1, this).show();

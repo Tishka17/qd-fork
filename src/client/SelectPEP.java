@@ -44,6 +44,7 @@ import mood.MoodPublishResult;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.Iq;
 import locale.Activity;
+import ui.MainBar;
 import ui.VirtualElement;
 import ui.VirtualList;
 import ui.controls.form.DefForm;
@@ -152,11 +153,14 @@ public final class SelectPEP extends DefForm implements VirtualElement, InputTex
         if (xLastCnt>0) lines++; else xLastCnt=xCnt;
 
         xBorder=(realWidth-(xCnt*imgWidth))/2;
+
+        setMainBarItem(new MainBar(
+                isMood ? SR.get(SR.MS_USERMOOD) : SR.get(SR.MS_USERACTIVITY)));
         super.show();
      }
 
     public SelectPEP() {
-        super(locale.SR.get(SR.MS_SELECT));
+        super(null);
     }
 
     public int getItemCount(){ return lines; }
@@ -188,7 +192,6 @@ public final class SelectPEP extends DefForm implements VirtualElement, InputTex
     //******************************USER ACTIVITY PUBLISH******************************
     private String category = null;
     private String descr;    
-    private int type=-1;
     
     public void publishActivity(){
         descr = null;
@@ -375,11 +378,9 @@ public final class SelectPEP extends DefForm implements VirtualElement, InputTex
         if (pointer_state == POINTER_SECOND && xCursor!= x/imgWidth)
             pointer_state = POINTER_NONE;
         xCursor=x/imgWidth;
-        System.out.println(xCursor);
         setRotator();
         if (cursor!=lines-1) return;
         if (xCursor >= xLastCnt) {
-            System.out.println("xCursor >= xLastCnt");
             xCursor=xLastCnt-1;
         }
     }

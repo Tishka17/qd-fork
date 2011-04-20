@@ -30,7 +30,6 @@ package alert;
 
 import client.Config;
 import images.RosterIcons;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 //#ifndef MENU_LISTENER
 //# import javax.microedition.lcdui.CommandListener;
@@ -78,11 +77,8 @@ public class AlertProfile extends VirtualList implements
         
         cf=midlet.BombusQD.cf;
         
-        cmdOk=new Command(SR.get(SR.MS_SELECT),Command.OK,1);
-        cmdOk.setImg(0x43);
-
-        cmdDef=new Command(SR.get(SR.MS_SETDEFAULT),Command.OK,2);
-        cmdDef.setImg(0x24);
+        cmdOk=new Command(SR.get(SR.MS_SELECT), 0x43);
+        cmdDef=new Command(SR.get(SR.MS_SETDEFAULT), 0x24);
         
         setMainBarItem(new MainBar(SR.get(SR.MS_ALERT_PROFILE)));
         
@@ -122,7 +118,7 @@ public class AlertProfile extends VirtualList implements
     
     
     private class Profile extends IconTextElement {
-        public Profile(){
+        private Profile(){
             super(RosterIcons.getInstance());
         }
         public int getImageIndex(){return index+RosterIcons.ICON_PROFILE_INDEX+1;}
@@ -139,7 +135,7 @@ public class AlertProfile extends VirtualList implements
         }
     }
     
-    public void commandAction(Command c, Displayable d){
+    public void commandAction(Command c){
         if (c==cmdOk) eventOk(); 
         if (c==cmdDef) { 
             cf.defaultAlertProfile = cursor;
@@ -154,6 +150,7 @@ public class AlertProfile extends VirtualList implements
 
     public void eventLongOk() {
         cf.defaultAlertProfile = cursor;
+        cf.saveToStorage();
     }
     
     public int getItemCount(){ return ALERT_COUNT; }

@@ -31,7 +31,6 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.Vector;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import javax.microedition.rms.RecordEnumeration;
 import javax.microedition.rms.RecordStore;
@@ -64,11 +63,8 @@ public class HistoryViewer extends MessageList implements Runnable, InputTextBox
 
         elements = new Vector();
 
-        cmdFind = new Command(SR.get(SR.MS_SEARCH), Command.SCREEN, 0);
-        cmdFind.setImg(MenuIcons.ICON_SEARCH);
-
-        cmdClear = new Command(SR.get(SR.MS_CLEAR), Command.SCREEN, 0);
-        cmdClear.setImg(MenuIcons.ICON_CLEAR);
+        cmdFind = new Command(SR.get(SR.MS_SEARCH), MenuIcons.ICON_SEARCH);
+        cmdClear = new Command(SR.get(SR.MS_CLEAR), MenuIcons.ICON_CLEAR);
 
         setMainBarItem(new MainBar(SR.get(SR.MS_HISTORY)));
 
@@ -157,7 +153,7 @@ public class HistoryViewer extends MessageList implements Runnable, InputTextBox
         return (Msg)elements.elementAt(index);
     }
 
-    public void commandAction(Command c, Displayable d) {
+    public void commandAction(Command c) {
         if (c == cmdFind) {
             InputTextBox input = new InputTextBox(SR.get(SR.MS_SEARCH), null, RECENT_LIST_ID, 200, TextField.ANY);
             input.setNotifyListener(this);
@@ -169,7 +165,7 @@ public class HistoryViewer extends MessageList implements Runnable, InputTextBox
                 setWobble(PopUp.TYPE_SYSTEM, null, SR.get(SR.MS_ERROR));
             }
         } else {
-            super.commandAction(c, d);
+            super.commandAction(c);
         }
     }
 

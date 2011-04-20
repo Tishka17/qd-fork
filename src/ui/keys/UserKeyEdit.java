@@ -25,9 +25,8 @@
  */
 //#ifdef USER_KEYS
 package ui.keys;
+
 import locale.SR;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import ui.controls.form.CheckBox;
 import ui.controls.form.DefForm;
 import ui.controls.form.DropChoiceBox;
@@ -36,15 +35,13 @@ import ui.controls.form.DropChoiceBox;
  *
  * @author ad
  */
-class UserKeyEdit
-     extends DefForm {
+
+public class UserKeyEdit extends DefForm {
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_USER_KEYS");
 //#endif
 
     private final UserKeysList keysList;
-    
-    private Display display;
 
     private CheckBox active;
     private DropChoiceBox keyDesc;

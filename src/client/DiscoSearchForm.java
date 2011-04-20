@@ -34,7 +34,6 @@ import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.util.Enumeration;
 import java.util.Vector;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
 import ui.MainBar;
@@ -42,7 +41,6 @@ import ui.VirtualElement;
 import ui.VirtualList;
 import ui.controls.form.ListItem;
 import util.StringLoader;
-
 //#ifdef SERVICE_DISCOVERY
 import disco.ServiceDiscovery;
 //#endif
@@ -98,14 +96,9 @@ public class DiscoSearchForm
         this.list=list;
         this.type=type;
         
-        cmdSearch = new Command(SR.get(SR.MS_SEARCH), Command.OK, 1);
-        cmdSearch.setImg(MenuIcons.ICON_SEARCH);
-
-        cmdAddServer = new Command(SR.get(SR.MS_ADD), Command.SCREEN, 2);
-        cmdAddServer.setImg(0x42);
-
-        cmdDel=new Command (SR.get(SR.MS_DELETE), Command.SCREEN, 3);
-        cmdDel.setImg(0x41);
+        cmdSearch = new Command(SR.get(SR.MS_SEARCH), MenuIcons.ICON_SEARCH);
+        cmdAddServer = new Command(SR.get(SR.MS_ADD), MenuIcons.ICON_USER_SEARCH);
+        cmdDel = new Command (SR.get(SR.MS_DELETE), 0x41);
     
         if(list==null){
           loadRecentList();
@@ -126,10 +119,10 @@ public class DiscoSearchForm
     protected VirtualElement getItemRef(int index) {
        if(list!=null){
           switch(type){
-              case 0: return new ListItem((String)list.elementAt(index),0x00,"icq");
-              case 1: return new ListItem((String) list.elementAt(index),0x00,"mrim");
-              case 2: return new ListItem((String) list.elementAt(index),0x00,"irc");
-              case 3: return new ListItem((String) list.elementAt(index),0x00,"j2j");
+              case 0: return new ListItem((String)list.elementAt(index),"icq");
+              case 1: return new ListItem((String) list.elementAt(index),"mrim");
+              case 2: return new ListItem((String) list.elementAt(index),"irc");
+              case 3: return new ListItem((String) list.elementAt(index),"j2j");
           }           
        }else {
           return new ListItem((String) servers.elementAt(index));
@@ -179,7 +172,7 @@ public class DiscoSearchForm
     
 //#endif
     
-    public void commandAction(Command c, Displayable displayable) {
+    public void commandAction(Command c) {
         if (c == cmdSearch) {
             eventOk();
         } else if (c==cmdAddServer) {

@@ -28,8 +28,8 @@ public class XDataField {
     boolean hidden;
 
     Item formItem;
-    int formIndex=-1;
-    int mediaIndex=-1;
+    //int formIndex=-1;
+    //int mediaIndex=-1;
     String mediaUri;
     
     Item media;

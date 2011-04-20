@@ -36,13 +36,11 @@ import client.StaticData;
 import menu.MenuListener;
 import menu.Command;
 //#endif
-
 import ui.MainBar;
 import images.RosterIcons;
 import io.file.FileIO;
 import java.util.Enumeration;
 import java.util.Vector;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import ui.IconTextElement;
 import ui.VirtualElement;
@@ -87,23 +85,12 @@ public class Browser
     public Browser(String path, BrowserListener browserListener, boolean getDirectory) {
         super();
 
-        cmdOk=new Command(SR.get(SR.MS_BROWSE), Command.OK, 1);
-        cmdOk.setImg(0x43);
-
-        cmdSelect=new Command(SR.get(SR.MS_SELECT), Command.SCREEN, 2);
-        cmdSelect.setImg(0x60);
-
-        cmdView=new Command(SR.get(SR.MS_VIEW), Command.SCREEN, 3);
-        cmdView.setImg(0x77);
-
-        cmdRoot=new Command(SR.get(SR.MS_ROOT), Command.SCREEN, 4);
-        cmdRoot.setImg(0x15);
-
-        cmdDelete=new Command(SR.get(SR.MS_DELETE), Command.SCREEN, 5);
-        cmdDelete.setImg(0x41);
-
-        cmdExit=new Command(SR.get(SR.MS_CANCEL), Command.EXIT, 99);
-        cmdExit.setImg(0x33);
+        cmdOk=new Command(SR.get(SR.MS_BROWSE), 0x43);
+        cmdSelect=new Command(SR.get(SR.MS_SELECT), 0x60);
+        cmdView=new Command(SR.get(SR.MS_VIEW), 0x77);
+        cmdRoot=new Command(SR.get(SR.MS_ROOT), 0x15);
+        cmdDelete=new Command(SR.get(SR.MS_DELETE), 0x41);
+        cmdExit=new Command(SR.get(SR.MS_CANCEL), 0x33);
 
         this.browserListener=browserListener;
 	this.getDirectory=getDirectory;
@@ -154,7 +141,7 @@ public class Browser
         redraw();
     }
 
-    public void commandAction(Command command, Displayable displayable) {
+    public void commandAction(Command command) {
         if (command==cmdRoot) {
             path="";
             chDir(path);

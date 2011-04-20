@@ -230,7 +230,7 @@ public final class Roster
         if (Config.module_autostatus) {
             if (Config.autoAwayType==Config.AWAY_IDLE || Config.autoAwayType == Config.AWAY_MESSAGE) {
                 autostatus = new AutoStatusTask(true);
-                autostatus.setTimeEvent(Config.autoAwayDelay * 60 * 1000);
+                autostatus.setTimeEvent(Config.autoAwayDelay * 60 * 1000L);
             }
         }
 //#endif
@@ -304,47 +304,29 @@ public final class Roster
         createMessageEdit();
         StatusList.getInstance().reinit();
 
-        cmdActions = new Command(SR.get(SR.MS_ITEM_ACTIONS), Command.SCREEN, 2);
-        cmdActions.setImg(MenuIcons.ICON_ITEM_ACTIONS);
-
-        cmdStatus = new Command(SR.get(SR.MS_STATUS), Command.SCREEN, 4);
-        cmdStatus.setImg(MenuIcons.ICON_STATUS);
+        cmdActions = new Command(SR.get(SR.MS_ITEM_ACTIONS), MenuIcons.ICON_ITEM_ACTIONS);
+        cmdStatus = new Command(SR.get(SR.MS_STATUS), MenuIcons.ICON_STATUS);
 
 //#ifdef GRAPHICS_MENU
-        cmdOptions = new Command(SR.get(SR.MS_OPTIONS), Command.SCREEN, 16);
-        cmdOptions.setImg(0x03);
-
-        cmdMyService = new Command(SR.get(SR.MS_SERVICE), Command.SCREEN, 22);
-        cmdMyService.setImg(0x90);
-
-        cmdAlert = new Command(SR.get(SR.MS_ALERT_PROFILE_CMD), Command.SCREEN, 32);
-        cmdAlert.setImg(MenuIcons.ICON_NOTIFY);
+        cmdOptions = new Command(SR.get(SR.MS_OPTIONS), 0x03);
+        cmdMyService = new Command(SR.get(SR.MS_SERVICE), 0x90);
+        cmdAlert = new Command(SR.get(SR.MS_ALERT_PROFILE_CMD), MenuIcons.ICON_NOTIFY);
 //#ifdef ARCHIVE
-        cmdArchive = new Command(SR.get(SR.MS_ARCHIVE), Command.SCREEN, 33);
-        cmdArchive.setImg(MenuIcons.ICON_ARCHIVE);
+        cmdArchive = new Command(SR.get(SR.MS_ARCHIVE), MenuIcons.ICON_ARCHIVE);
 //#endif
 //#endif
 //#ifdef XML_CONSOLE
-//#         cmdXMLConsole = new Command(SR.get(SR.MS_XML_CONSOLE), Command.SCREEN, 37);
-//#         cmdXMLConsole.setImg(MenuIcons.ICON_CONCOLE);
+//#         cmdXMLConsole = new Command(SR.get(SR.MS_XML_CONSOLE), MenuIcons.ICON_CONCOLE);
 //#endif
 
 //#ifdef DEBUG_CONSOLE
-//#         cmdDebugConsole = new Command(SR.get(SR.MS_DEBUG_MENU), Command.SCREEN, 39);
-//#         cmdDebugConsole.setImg(MenuIcons.ICON_CONCOLE);
+//#         cmdDebugConsole = new Command(SR.get(SR.MS_DEBUG_MENU), MenuIcons.ICON_CONCOLE);
 //#endif
 
-        cmdAccount = new Command(SR.get(SR.MS_ACCOUNT_), Command.SCREEN, 15);
-        cmdAccount.setImg(MenuIcons.ICON_VCARD);
-
-        cmdInfo = new Command(SR.get(SR.MS_ABOUT), Command.SCREEN, 80);
-        cmdInfo.setImg(MenuIcons.ICON_CHECK_UPD);
-
-        cmdMinimize = new Command(SR.get(SR.MS_APP_MINIMIZE), Command.SCREEN, 90);
-        cmdMinimize.setImg(MenuIcons.ICON_FILEMAN);
-
-        cmdQuit = new Command(SR.get(SR.MS_APP_QUIT), Command.SCREEN, 99);
-        cmdQuit.setImg(MenuIcons.ICON_BUILD_NEW);
+        cmdAccount = new Command(SR.get(SR.MS_ACCOUNT_), MenuIcons.ICON_VCARD);
+        cmdInfo = new Command(SR.get(SR.MS_ABOUT), MenuIcons.ICON_CHECK_UPD);
+        cmdMinimize = new Command(SR.get(SR.MS_APP_MINIMIZE), MenuIcons.ICON_FILEMAN);
+        cmdQuit = new Command(SR.get(SR.MS_APP_QUIT), MenuIcons.ICON_BUILD_NEW);
     }
 
     private static Command cmdActions;
@@ -471,7 +453,7 @@ public final class Roster
 
 
 //#ifndef MENU
-    public void commandAction(Command c, Displayable d){
+    public void commandAction(Command c){
 //#ifdef GRAPHICS_MENU
         if (c == cmdActions) {
             showActionsMenu(getFocusedObject());
@@ -1398,7 +1380,7 @@ public final class Roster
 
 //#ifdef CLASSIC_CHAT
 //#            if(body!=null){
-//#
+//# 
 //#                if(midlet.BombusQD.cf.module_classicchat){
 //#                  if(!groupchat) {
 //#                  //forfix
@@ -3219,7 +3201,7 @@ public final class Roster
                 }
                 if (midlet.BombusQD.cf.autoAwayType==Config.AWAY_LOCK)
                     if (!autoAway)
-                        autostatus.setTimeEvent(midlet.BombusQD.cf.autoAwayDelay* 60*1000);
+                        autostatus.setTimeEvent(Config.autoAwayDelay * 60 * 1000L);
                 break;
 //#endif
 
@@ -3601,7 +3583,7 @@ public final class Roster
             if (autoAway) {
                 restoreStatus();
             }
-            autostatus.setTimeEvent(Config.autoAwayDelay * 60 * 1000);
+            autostatus.setTimeEvent(Config.autoAwayDelay * 60 * 1000L);
         }
     }
 

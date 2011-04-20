@@ -30,15 +30,10 @@ package ui;
 import util.Time;
 import client.Config;
 import font.FontCache;
-//#ifdef AUTOSTATUS
-//# import client.ExtendedStatus;
-//# import client.StatusList;
-//#endif
 import images.RosterIcons;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.microedition.lcdui.*;
-//import javax.microedition.lcdui.game.GameCanvas;
 import colors.ColorTheme;
 import java.io.IOException;
 import midlet.BombusQD;
@@ -119,8 +114,8 @@ public class SplashScreen extends CanvasEx implements CommandListener {
     }
     */
 
-    long s1;
-    long s2;
+    /*long s1;
+    long s2;*/
 
     public void paint(Graphics g) {
         /*
@@ -255,9 +250,9 @@ public class SplashScreen extends CanvasEx implements CommandListener {
             tc.stop();
         }
 //#ifdef AUTOSTATUS
-//#         if (midlet.BombusQD.sd.roster.autoAway && Config.autoAwayType == Config.AWAY_LOCK) {
-//#             BombusQD.sd.roster.restoreStatus();
-//#         }
+        if (midlet.BombusQD.sd.roster.autoAway && Config.autoAwayType == Config.AWAY_LOCK) {
+            BombusQD.sd.roster.restoreStatus();
+        }
 //#endif
         System.gc();
         super.destroyView();

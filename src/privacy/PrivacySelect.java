@@ -29,7 +29,6 @@
 package privacy;
 
 import client.StaticData;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import images.RosterIcons;
 //#ifndef MENU_LISTENER
@@ -82,21 +81,12 @@ public class PrivacySelect
     public PrivacySelect() {
         super();
 
-       cmdActivate=new Command (SR.get(SR.MS_ACTIVATE), Command.SCREEN, 10);
-       cmdActivate.setImg(0x16);
-
-       cmdDefault=new Command (SR.get(SR.MS_SETDEFAULT), Command.SCREEN, 11);
-       cmdDefault.setImg(0x24);
-
-       cmdNewList=new Command (SR.get(SR.MS_NEW_LIST), Command.SCREEN, 12);
-       cmdNewList.setImg(0x47);
-
-       cmdDelete=new Command (SR.get(SR.MS_DELETE_LIST), Command.SCREEN, 13);
-       cmdDelete.setImg(0x41);
-
-       cmdIL=new Command (SR.get(SR.MS_MK_ILIST), Command.SCREEN, 16);
-       cmdIL.setImg(0x47);
-    
+       cmdActivate=new Command (SR.get(SR.MS_ACTIVATE), 0x16);
+       cmdDefault=new Command (SR.get(SR.MS_SETDEFAULT), 0x24);
+       cmdNewList=new Command (SR.get(SR.MS_NEW_LIST), 0x47);
+       cmdDelete=new Command (SR.get(SR.MS_DELETE_LIST), 0x41);
+       cmdIL=new Command (SR.get(SR.MS_MK_ILIST), 0x47);
+  
 
         setMainBarItem(new MainBar(2, null, SR.get(SR.MS_PRIVACY_LISTS), false));
 
@@ -133,7 +123,7 @@ public class PrivacySelect
     protected int getItemCount() { return list.size(); }
     protected VirtualElement getItemRef(int index) { return (VirtualElement) list.elementAt(index); }
     
-    public void commandAction(Command c, Displayable d) {
+    public void commandAction(Command c) {
         if (c==cmdActivate || c==cmdDefault) {
             PrivacyList active=((PrivacyList)getFocusedObject());
             for (Enumeration e=list.elements(); e.hasMoreElements(); ) {

@@ -74,11 +74,8 @@ public class RecentInputList extends VirtualList
     public RecentInputList(InputTextBox input) {
         super();
 
-        cmdOk = new Command(SR.get(SR.MS_OK), Command.OK,1);
-        cmdOk.setImg(0x43);
-
-        cmdClear = new Command(SR.get(SR.MS_CLEAR), Command.SCREEN, 2);
-        cmdClear.setImg(0x33);
+        cmdOk = new Command(SR.get(SR.MS_OK), 0x43);
+        cmdClear = new Command(SR.get(SR.MS_CLEAR), 0x33);
 
         this.input = input;
         this.recentList = input.getRecentList();
@@ -102,7 +99,7 @@ public class RecentInputList extends VirtualList
         destroyView();
     }
 
-    public void commandAction(Command c, Displayable d){
+    public void commandAction(Command c){
         if (c==cmdClear) {
             input.clearRecentList();
         } else if (c == cmdOk) {

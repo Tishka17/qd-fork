@@ -25,18 +25,14 @@
  */
 //#ifdef SERVICE_DISCOVERY
 package disco;
-import javax.microedition.lcdui.*;
-import com.alsutton.jabber.*;
-import java.util.*;
+
+import com.alsutton.jabber.JabberDataBlock;
+import java.util.Vector;
+import javax.microedition.lcdui.TextField;
 import ui.controls.form.CheckBox;
-import ui.controls.form.DefForm;
+import ui.controls.form.CollapsibleItem;
 import ui.controls.form.DropChoiceBox;
 import ui.controls.form.TextInput;
-import ui.controls.form.CollapsibleItem;
-//#ifdef GRAPHICS_MENU
-import ui.GMenu;
-import ui.GMenuConfig;
-//#endif
 
 public class FormField {
 
@@ -48,7 +44,6 @@ public class FormField {
     //TODO: boolean required;
     public boolean instructions;
     private Vector optionsList;
-    private boolean numericBoolean;
     private boolean registered;
 
     public FormField(JabberDataBlock field) {
@@ -221,14 +216,3 @@ public class FormField {
     }
 }
 //#endif
-
-
-
-
-
-
-
-
-
-
-

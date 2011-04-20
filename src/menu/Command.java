@@ -27,39 +27,22 @@
 
 package menu;
 
-import ui.IconTextElement;
-
 /**
  *
  * @author ad
  */
-public class Command extends IconTextElement {
-    String name="";
 
-    int pos;
-    int map;
-    int img;
+public class Command {
+    private String name;
+    private int icon;
 
-    public static int OK        = 1;
-    public static int SCREEN    = 2;
-    public static int BACK      = 3;
-    public static int EXIT      = 4;
-    public static int CANCEL    = 5;
-    public static int ITEM      = 6;
-
-    public Command(String name, int map, int pos) {
-        super(null);
-        this.name=name;
-        this.map=map;
-        this.pos=pos;
-    }
-
-    public void setImg(int img) {
-        this.img=img;
+    public Command(String name, int icon) {
+        this.name = name;
+        this.icon = icon;
     }
     
-    public int getImg() {
-        return img;
+    public int getIconIndex() {
+        return icon;
     }   
 
     public String getName() {

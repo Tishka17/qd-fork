@@ -27,7 +27,6 @@
  */
 package account;
 
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 //#ifndef MENU_LISTENER
 //# import javax.microedition.lcdui.CommandListener;
@@ -62,20 +61,20 @@ public class AccountSelect extends VirtualList implements
     private Command cmdLogin;
     private Command cmdConfigurationMaster;
     private Command cmdRegister;
-    private Command cmdServ1_reg = new Command("Jabber.ru", Command.SCREEN, 18);
-    private Command cmdServ2_reg = new Command("Silper.cz", Command.SCREEN, 19);
-    private Command cmdServ3_reg = new Command("Jabbus.org", Command.SCREEN, 20);
-    private Command cmdServ4_reg = new Command("Mytlt.ru", Command.SCREEN, 21);
-    private Command cmdServ5_reg = new Command("Jabbim.com", Command.SCREEN, 22);
-    private Command cmdServ6_reg = new Command("Other", Command.SCREEN, 23);
+    private Command cmdServ1_reg = new Command("Jabber.ru", 0x86);
+    private Command cmdServ2_reg = new Command("Silper.cz", 0x86);
+    private Command cmdServ3_reg = new Command("Jabbus.org", 0x86);
+    private Command cmdServ4_reg = new Command("Mytlt.ru", 0x86);
+    private Command cmdServ5_reg = new Command("Jabbim.com", 0x86);
+    private Command cmdServ6_reg = new Command("Other", 0x86);
     private Command cmdAdd;
-    private Command cmdJabber = new Command("Jabber", Command.SCREEN, 13);
-    private Command cmdYaru = new Command("Yandex.ru", Command.SCREEN, 14);
-    private Command cmdGTalk_SSL = new Command("Gtalk SSL", Command.SCREEN, 15);
-    private Command cmdGTalk_HTTPS = new Command("Gtalk HTTPS", Command.SCREEN, 16);
-    private Command cmdLj = new Command("LiveJournal", Command.SCREEN, 17);
-    private Command cmdQip = new Command("QIP", Command.SCREEN, 18);
-    private Command cmdVk = new Command("Вконтакте", Command.SCREEN, 19);
+    private Command cmdJabber = new Command("Jabber", 0x90);
+    private Command cmdYaru = new Command("Yandex.ru", 0x91);
+    private Command cmdGTalk_SSL = new Command("Gtalk SSL", 0x92);
+    private Command cmdGTalk_HTTPS = new Command("Gtalk HTTPS", 0x92);
+    private Command cmdLj = new Command("LiveJournal", 0x93);
+    private Command cmdQip = new Command("QIP", 0x94);
+    private Command cmdVk = new Command("Вконтакте", 0x95);
     private Command cmdEdit;
     private Command cmdDel;
     private Command cmdRemoveAcc;
@@ -86,42 +85,14 @@ public class AccountSelect extends VirtualList implements
     public AccountSelect(boolean enableQuit, int status) {
         super();
 
-        cmdConfigurationMaster = new Command(SR.get(SR.MS_CONFIGURATION_MASTER), Command.OK, 1);
-        cmdConfigurationMaster.setImg(0x42);
-
-        cmdLogin = new Command(SR.get(SR.MS_SELLOGIN), Command.OK, 1);
-        cmdLogin.setImg(0x50);
-
-        cmdRegister = new Command(SR.get(SR.MS_REGISTERING), Command.ITEM, 11);
-        cmdRegister.setImg(0x42);
-
-        cmdAdd = new Command(SR.get(SR.MS_NEW_ACCOUNT), Command.SCREEN, 12);
-        cmdAdd.setImg(0x42);
-
-        cmdEdit = new Command(SR.get(SR.MS_EDIT), Command.ITEM, 3);
-        cmdEdit.setImg(0x40);
-
-        cmdDel = new Command(SR.get(SR.MS_DELETE), Command.ITEM, 4);
-        cmdDel.setImg(0x41);
-
-        cmdRemoveAcc = new Command(SR.get(SR.MS_REMOVE_ACCOUNT), Command.ITEM, 90);
-        cmdRemoveAcc.setImg(0x51);
-
-        cmdChangePass = new Command(SR.get(SR.MS_CHANGE_PASSWORD), Command.ITEM, 91);
-        cmdChangePass.setImg(0x52);
-
-        cmdServ1_reg.setImg(0x86);
-        cmdServ4_reg.setImg(0x86);
-        cmdServ5_reg.setImg(0x86);
-        cmdServ6_reg.setImg(0x86);
-
-        cmdJabber.setImg(0x90);
-        cmdYaru.setImg(0x91);
-        cmdGTalk_SSL.setImg(0x92);
-        cmdGTalk_HTTPS.setImg(0x92);
-        cmdLj.setImg(0x93);
-        cmdQip.setImg(0x94);
-        cmdVk.setImg(0x95);
+        cmdConfigurationMaster = new Command(SR.get(SR.MS_CONFIGURATION_MASTER), 0x42);
+        cmdLogin = new Command(SR.get(SR.MS_SELLOGIN), 0x50);
+        cmdRegister = new Command(SR.get(SR.MS_REGISTERING), 0x42);
+        cmdAdd = new Command(SR.get(SR.MS_NEW_ACCOUNT), 0x42);
+        cmdEdit = new Command(SR.get(SR.MS_EDIT), 0x40);
+        cmdDel = new Command(SR.get(SR.MS_DELETE), 0x41);
+        cmdRemoveAcc = new Command(SR.get(SR.MS_REMOVE_ACCOUNT), 0x51);
+        cmdChangePass = new Command(SR.get(SR.MS_CHANGE_PASSWORD), 0x52);
 
         this.status = status;
         String str = "";
@@ -227,7 +198,7 @@ public class AccountSelect extends VirtualList implements
         return accountList.size();
     }
 
-    public void commandAction(Command c, Displayable d) {
+    public void commandAction(Command c) {
 //#ifdef GRAPHICS_MENU
         if (c == cmdServ1_reg) {
             new AccountForm("jabber.ru").show();

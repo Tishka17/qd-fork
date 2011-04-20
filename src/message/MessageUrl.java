@@ -29,7 +29,6 @@ package message;
 
 import java.util.Vector;
 import javax.microedition.io.ConnectionNotFoundException;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
 import menu.Command;
@@ -62,8 +61,7 @@ public MessageUrl(Vector urlList) {
 	    addItem((String)urlList.elementAt(i), i);
 	}
 
-        cmdEdit = new Command(SR.get(SR.MS_EDIT), Command.ITEM, 0);
-        cmdEdit.setImg(0x40);
+        cmdEdit = new Command(SR.get(SR.MS_EDIT), 0x40);
     }
 
     private void commandState() {
@@ -80,7 +78,7 @@ public MessageUrl(Vector urlList) {
 //#endif
     }
 
-    public void commandAction(Command c, Displayable d) {
+    public void commandAction(Command c) {
         String url = (String)urlList.elementAt(cursor);
 
         if (c == cmdEdit) {

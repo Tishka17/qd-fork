@@ -33,7 +33,6 @@ import locale.SR;
 import ui.MainBar;
 import ui.VirtualElement;
 import ui.VirtualList;
-
 //#ifndef MENU_LISTENER
 //# import javax.microedition.lcdui.CommandListener;
 //# import javax.microedition.lcdui.Command;
@@ -41,7 +40,6 @@ import ui.VirtualList;
 import menu.MenuListener;
 import menu.Command;
 //#endif
-import javax.microedition.lcdui.Displayable;
 //#ifdef GRAPHICS_MENU        
 import ui.GMenu;
 import ui.GMenuConfig;
@@ -62,7 +60,7 @@ public class UserKeysList
 
     Vector commandsList;
     
-    Command cmdOK;
+    Command cmdSave;
     Command cmdAdd;
     Command cmdEdit;
     Command cmdDel;
@@ -71,10 +69,10 @@ public class UserKeysList
     public UserKeysList() {
         super();
         
-        cmdOK=new Command(SR.get(SR.MS_OK), Command.OK,1);
-        cmdAdd=new Command(SR.get(SR.MS_ADD_CUSTOM_KEY), Command.SCREEN,3);
-        cmdEdit=new Command(SR.get(SR.MS_EDIT),Command.ITEM,3);
-        cmdDel=new Command(SR.get(SR.MS_DELETE),Command.ITEM,4);
+        cmdSave=new Command(SR.get(SR.MS_SAVE), 0x44);
+        cmdAdd=new Command(SR.get(SR.MS_ADD_CUSTOM_KEY), 0x47);
+        cmdEdit=new Command(SR.get(SR.MS_EDIT),0x40);
+        cmdDel=new Command(SR.get(SR.MS_DELETE),0x41);
     
         setMainBarItem(new MainBar(SR.get(SR.MS_CUSTOM_KEYS)));
         
@@ -85,15 +83,12 @@ public class UserKeysList
 //#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
 //#endif
-        addCommand(cmdAdd); cmdAdd.setImg(0x47);//ADD
-        if (commandsList.isEmpty()) {
-            removeCommand(cmdEdit); cmdEdit.setImg(0x40);
-            removeCommand(cmdDel); cmdDel.setImg(0x41);
-        } else {
-            addCommand(cmdEdit); cmdEdit.setImg(0x40);
-            addCommand(cmdDel); cmdDel.setImg(0x41);
+        addCommand(cmdSave);
+        addCommand(cmdAdd);
+        if (getItemCount() > 0) {
+            addCommand(cmdEdit); 
+            addCommand(cmdDel); 
         }
-        addCommand(cmdOK); cmdOK.setImg(0x43);
 //#ifndef GRAPHICS_MENU        
 //#      addCommand(cmdCancel);
 //#endif     
@@ -107,8 +102,8 @@ public class UserKeysList
         return commandsList.size();
     }
     
-    public void commandAction(Command c, Displayable d){
-        if (c==cmdOK) {
+    public void commandAction(Command c){
+        if (c==cmdSave) {
             rmsUpdate();
             destroyView();    
         }

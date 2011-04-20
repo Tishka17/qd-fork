@@ -32,7 +32,6 @@
 //# import client.Msg;
 //# import message.MessageList;
 //# import menu.Command;
-//# import javax.microedition.lcdui.Displayable;
 //# import locale.SR;
 //# import ui.MainBar;
 //# import midlet.Commands;
@@ -52,11 +51,8 @@
 //#     public DebugConsole() {
 //#         super();
 //# 
-//#         cmdEnableDisable = new Command(SR.get(SR.MS_ENABLE_DISABLE), Command.SCREEN, 6);
-//#         cmdEnableDisable.setImg(0x26);
-//# 
-//#         cmdPurge = new Command(SR.get(SR.MS_CLEAR_LIST), Command.SCREEN, 10);
-//#         cmdPurge.setImg(0x41);
+//#         cmdEnableDisable = new Command(SR.get(SR.MS_ENABLE_DISABLE), 0x26);
+//#         cmdPurge = new Command(SR.get(SR.MS_CLEAR_LIST), 0x41);
 //# 
 //#         super.smiles = false;
 //# 
@@ -102,14 +98,14 @@
 //# 	return msg;
 //#     }
 //# 
-//#     public void commandAction(Command c, Displayable d) {
+//#     public void commandAction(Command c) {
 //#         if (c == cmdEnableDisable) {
 //#             Config.debug = !Config.debug;
 //#             redraw();
 //#         } else if (c == cmdPurge) {
 //#             clearReadedMessageList();
 //#         } else {
-//#              super.commandAction(c, d);
+//#              super.commandAction(c);
 //#         }
 //#     }
 //# 

@@ -1042,6 +1042,7 @@ public final class Roster
                 J = null;
                 return null;
             }
+	    
             c = new Contact(null, jid, Presence.PRESENCE_OFFLINE, "none" ); /*"not-in-list"*/
             c.origin=Contact.ORIGIN_PRESENCE;
             c.setGroup(contactList.groups.getGroup(Groups.TYPE_NOT_IN_LIST));
@@ -1052,8 +1053,9 @@ public final class Roster
                 c.setStatus(Presence.PRESENCE_OFFLINE);
 
                 if(c.group.type == Groups.TYPE_SELF) {
-                    c = new Contact(null, jid, Presence.PRESENCE_OFFLINE, "none" );
+                    c = new Contact(null, jid, Presence.PRESENCE_OFFLINE, null );
                     c.setGroup(contactList.groups.getGroup(Groups.TYPE_SELF));
+		    c.origin = Contact.ORIGIN_CLONE;
                     addContact(c,true);
                 } else {
                  c.jid = J;
@@ -3028,11 +3030,8 @@ public final class Roster
         String topBar="("+currentReconnect+"/"+midlet.BombusQD.cf.reconnectCount+") Reconnecting";
         errorLog(topBar+"\n"+error.toString());
 
-
 	new AlertBox(topBar, error.toString(), AlertBox.BUTTONS_YESNO, 10){
-	    public void yes(){
-		try {sendPresence(lastOnlineStatus, null);} catch (Exception e2) { }
-	    };
+	    public void yes(){doReconnect();};
 	}.show();
      }
 

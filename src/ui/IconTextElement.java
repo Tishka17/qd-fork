@@ -26,16 +26,16 @@
  */
 
 package ui;
+
 import client.Config;
-import images.ImageList;
-import javax.microedition.lcdui.*;
 import colors.ColorTheme;
-import font.*;
+import font.FontCache;
+import images.ImageList;
+import javax.microedition.lcdui.Font;
+import javax.microedition.lcdui.Graphics;
 
 abstract public class IconTextElement implements VirtualElement {
     protected int itemHeight;
-    protected int imageYOfs;
-    protected int fontYOfs;
 
     protected ImageList il;
     protected int imgHeight = 0;
@@ -111,10 +111,6 @@ abstract public class IconTextElement implements VirtualElement {
 
     public void onSelect(VirtualList view) {
 
-    }
-
-    public int getItemHeight(){
-        return itemHeight;
     }
 
     public int getColorBGnd() {

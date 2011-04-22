@@ -183,10 +183,6 @@ public class JabberDataBlockDispatcher
         }
   }
 
-  public void rosterNotify(){
-    listener.rosterItemNotify();
-  }
-
   /**
    * Method to stop the dispatcher
    */

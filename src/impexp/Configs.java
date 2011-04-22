@@ -26,7 +26,9 @@ package impexp;
 
 import alert.AlertCustomize;
 import client.Config;
+//#ifdef LIGHT_CONTROL
 import light.CustomLight;
+//#endif
 import midlet.BombusQD;
 import ui.VirtualList;
 import xmpp.EntityCaps;

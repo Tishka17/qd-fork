@@ -32,7 +32,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.Vector;
 import javax.microedition.lcdui.TextField;
-import javax.microedition.rms.RecordEnumeration;
+import javax.microedition.rms.InvalidRecordIDException;
 import javax.microedition.rms.RecordStore;
 import javax.microedition.rms.RecordStoreException;
 import javax.microedition.rms.RecordStoreNotOpenException;
@@ -59,7 +59,13 @@ public class HistoryViewer extends MessageList implements Runnable, InputTextBox
     private Command cmdClear;
 
     public HistoryViewer(Contact contact) {
+        this(HistoryStorage.getRSName(contact.bareJid));
+    }
+
+    public HistoryViewer(String storeName) {
         super();
+
+        this.storeName = storeName;
 
         elements = new Vector();
 
@@ -67,13 +73,14 @@ public class HistoryViewer extends MessageList implements Runnable, InputTextBox
         cmdClear = new Command(SR.get(SR.MS_CLEAR), MenuIcons.ICON_CLEAR);
 
         setMainBarItem(new MainBar(SR.get(SR.MS_HISTORY)));
-
-        loadHistory(contact);
     }
 
-    private void loadHistory(Contact contact) {
-        this.storeName = HistoryStorage.getRSName(contact.bareJid);
+    public void show() {
+        super.show();
+        loadHistory();
+    }
 
+    private void loadHistory() {
         try {
             this.store = RecordStore.openRecordStore(storeName, true);
 
@@ -86,7 +93,7 @@ public class HistoryViewer extends MessageList implements Runnable, InputTextBox
 
     public void run() {
         try {
-            for (RecordEnumeration e = store.enumerateRecords(null, null, false); e.hasNextElement();) {
+            /*for (RecordEnumeration e = store.enumerateRecords(null, null, false); e.hasNextElement();) {
                 try {
                     byte buf[] = e.nextRecord();
                     ByteArrayInputStream bais = new ByteArrayInputStream(buf);
@@ -103,6 +110,33 @@ public class HistoryViewer extends MessageList implements Runnable, InputTextBox
                 } catch (RecordStoreException rse) {
                 } catch (IOException ioe) {
                 }
+            }*/
+            int size = store.getNumRecords();
+            for (int i = 1; i <= size; ++i) {
+                try {
+                    byte buf[];
+
+                    try {
+                        buf = store.getRecord(i);
+                    } catch (InvalidRecordIDException e) {
+//#ifdef DEBUG
+//#                         System.out.println(i + " record doesn't exist, skipping...");
+//#endif
+                        continue;
+                    }
+
+                    ByteArrayInputStream bais = new ByteArrayInputStream(buf);
+                    DataInputStream dis = new DataInputStream(bais);
+                    byte msgtype = dis.readByte();
+                    String from = dis.readUTF();
+                    String date = dis.readUTF();
+                    String text = dis.readUTF();
+
+                    Msg msg = new Msg(msgtype, from, null, text);
+                    msg.setDayTime(date);
+                    elements.addElement(msg);
+                } catch (RecordStoreException ex) {
+                } catch (IOException ioe) {}
             }
             closeRecordStore();
         } catch (RecordStoreNotOpenException e) {}

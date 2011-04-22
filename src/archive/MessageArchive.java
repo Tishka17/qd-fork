@@ -37,13 +37,13 @@ import javax.microedition.rms.RecordEnumeration;
 import javax.microedition.rms.RecordStore;
 
 public class MessageArchive {
-    
+
     RecordStore rs;
     Vector indexes;
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_ARCHIVE");
 //#endif
-    
+
     private final static String ARCHIVE="archive";
 
     /** Creates a new instance of MessageArchive */
@@ -53,7 +53,7 @@ public class MessageArchive {
 	    int size=rs.getNumRecords();
 	    indexes=new Vector(size);
 	    RecordEnumeration re=rs.enumerateRecords(null, null, false);
-	    
+
 	    while (re.hasNextElement() ){
 		indexes.addElement(new Integer(re.nextRecordId()));
 	    }
@@ -63,7 +63,7 @@ public class MessageArchive {
     public int size(){
 	return indexes.size();
     }
-    
+
     private int getRecordId(int index) {
 	return ((Integer)indexes.elementAt(index)).intValue();
     }
@@ -74,7 +74,7 @@ public class MessageArchive {
 	    );
 	    DataInputStream dis=new DataInputStream(bais);
 	    Msg msg=new Msg(dis);
-            msg.itemCollapsed=true; 
+            msg.itemCollapsed=true;
 	    dis.close();
             bais.close();
             bais = null;
@@ -83,14 +83,14 @@ public class MessageArchive {
 	} catch (Exception e) {}
 	return null;
     }
-    
+
     public void delete(int index) {
 	try {
 	    rs.deleteRecord(getRecordId(index));
 	    indexes.removeElementAt(index);
 	} catch (Exception e) {}
     }
-    
+
     public void deleteAll() {
 	try {
             int i=-1;
@@ -98,14 +98,12 @@ public class MessageArchive {
             while (true) {
                 i=i+1;
                 rs.deleteRecord(getRecordId(i));
-                
+
                 if (num==i) break;
             }
 	} catch (Exception e) {}
-	try {
-            indexes.removeAllElements();
-            RecordStore.deleteRecordStore(ARCHIVE);
-	} catch (Exception e) {}
+
+        indexes.removeAllElements();
     }
 
     public int freeSpace(){
@@ -114,10 +112,10 @@ public class MessageArchive {
 	} catch (Exception e) { }
 	return 0;
     }
-    
+
     public void close(){
 	try {
-	    rs.closeRecordStore(); 
+	    rs.closeRecordStore();
 	} catch (Exception e) { }
 	rs=null;
     }
@@ -129,11 +127,11 @@ public class MessageArchive {
 	    msg.serialize( dout );
 	      dout.close();
               dout = null;
-              
+
 	    byte b[]=bout.toByteArray();
               bout.close();
               bout = null;
-	    
+
 	    RecordStore rs=RecordStore.openRecordStore(ARCHIVE, true);
 	    rs.addRecord(b, 0, b.length);
             rs.closeRecordStore();

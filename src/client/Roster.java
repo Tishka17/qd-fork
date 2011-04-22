@@ -1042,7 +1042,7 @@ public final class Roster
                 J = null;
                 return null;
             }
-	    
+
             c = new Contact(null, jid, Presence.PRESENCE_OFFLINE, "none" ); /*"not-in-list"*/
             c.origin=Contact.ORIGIN_PRESENCE;
             c.setGroup(contactList.groups.getGroup(Groups.TYPE_NOT_IN_LIST));
@@ -3025,14 +3025,16 @@ public final class Roster
             error.append(e.getMessage());
 
         if (e instanceof SecurityException) { errorLog(error.toString()); return; }
-        if (currentReconnect>=midlet.BombusQD.cf.reconnectCount) { errorLog(error.toString()); return; }
+        if (currentReconnect>=Config.reconnectCount) { errorLog(error.toString()); return; }
         currentReconnect++;
-        String topBar="("+currentReconnect+"/"+midlet.BombusQD.cf.reconnectCount+") Reconnecting";
+        String topBar="("+currentReconnect + "/" + Config.reconnectCount+") Reconnecting";
         errorLog(topBar+"\n"+error.toString());
 
-	new AlertBox(topBar, error.toString(), AlertBox.BUTTONS_YESNO, 10){
+	AlertBox box = new AlertBox(topBar, error.toString(), AlertBox.BUTTONS_YESNO, Config.reconnectTime){
 	    public void yes(){doReconnect();};
-	}.show();
+	};
+        box.setParentView(BombusQD.sd.roster);
+        box.show();
      }
 
      public void doReconnect() {
@@ -3167,7 +3169,7 @@ public final class Roster
                 Object focused = getFocusedObject();
                 if (focused instanceof Contact) {
                     showInfo((Contact)focused);
-                }                
+                }
                 return;
 //#endif
             case KEY_NUM1:

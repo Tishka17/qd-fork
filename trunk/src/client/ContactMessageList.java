@@ -551,15 +551,13 @@ public final class ContactMessageList extends MessageList implements InputTextBo
       super.keyPressed(keyCode);
    }
 
-
-    public void eventOk(){
-          if(midlet.BombusQD.cf.createMessageByFive) answer();
-          else {
-              ((MessageItem)getFocusedObject()).onSelect(this);
-              moveCursorTo(cursor);
-          }
+    public void eventOk() {
+        if (midlet.BombusQD.cf.createMessageByFive) {
+            answer();
+        } else {
+            super.eventOk();
+        }
     }
-
 
     private void answer() {
 //#ifndef WMUC
@@ -691,7 +689,8 @@ public final class ContactMessageList extends MessageList implements InputTextBo
         try {
             String msg=new StringBuffer(0)
                 .append((char)0xab) //
-                .append( util.StringUtils.quoteString( util.StringUtils.replaceNickTags(getMessage(cursor)) ) )
+                .append(util.StringUtils.quoteString(
+                    util.StringUtils.replaceNickTags(getMessage(cursor))))
                 .append((char)0xbb)
                 .append("\n")
                 .toString();

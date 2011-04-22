@@ -53,6 +53,10 @@ import ui.GMenuConfig;
  * @author EvgS,aqent
  */
 public class ArchiveList extends MessageList {
+    private static final int BODY = 0;
+    private static final int SUBJECT = 1;
+    private static final int JID = 2;
+
     Command cmdPaste;
     Command cmdJid;
     Command cmdSubj;
@@ -67,11 +71,6 @@ public class ArchiveList extends MessageList {
     private int caretPos;
 
     private Object input;
-
-    public void eventOk() {
-        MessageItem mi = (MessageItem)messages.elementAt(cursor);
-        mi.onSelect(this);
-    }
 
     public ArchiveList() {
         this(-1, null);
@@ -157,18 +156,16 @@ public class ArchiveList extends MessageList {
             deleteAllMessages();
             redraw();
         } else if (c == cmdPaste) {
-            pasteData(0);
+            pasteData(BODY);
         } else if (c == cmdSubj) {
-            pasteData(1);
+            pasteData(SUBJECT);
         } else if (c == cmdJid) {
-            pasteData(2);
+            pasteData(SUBJECT);
         } else if (c == cmdEdit) {
             new ArchiveEdit(cursor, this).show();
-//#ifdef IMPORT_EXPORT
-//#ifdef FILE_IO
+//#if FILE_IO && IMPORT_EXPORT
         } else if (c == cmdExport) {
             new ImportExportForm().show();
-//#endif
 //#endif
         }
     }
@@ -203,14 +200,15 @@ public class ArchiveList extends MessageList {
         }
         String data;
         switch (field) {
-            case 1:
+            case SUBJECT:
                 data = m.subject;
                 break;
-            case 2:
+            case JID:
                 data = m.from;
                 break;
             default:
-                data = util.StringUtils.quoteString(m);
+                data = m.body;
+                break;
         }
         if (input instanceof TextBox) {
             ((TextBox)input).insert(data, caretPos);
@@ -221,7 +219,7 @@ public class ArchiveList extends MessageList {
     }
 
     public void keyGreen() {
-        pasteData(0);
+        pasteData(BODY);
     }
 
     public void keyClear() {

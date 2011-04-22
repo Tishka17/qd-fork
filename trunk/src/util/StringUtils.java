@@ -40,7 +40,7 @@ public class StringUtils {
         if (subject!=null)
             if (subject.length()>0)
                 out.append(subject).append('\n');
-        out.append(msg.body);
+        out.append(msg.toString());
         int i=0;
         int len = out.length();
         while (i<len) {
@@ -69,35 +69,13 @@ public class StringUtils {
               sb.append(body.charAt(i));
             }
             body = sb.toString();
-            sb = new StringBuffer(0);
           } else parse = false;
          }
-         len = body.length();
-         sb = null;
          return body.substring(0,len-1);
     }
 
     public static Msg replaceNickTags(Msg msg){
-         StringBuffer sb = new StringBuffer(0);
-         String body = msg.body+" ";
-         boolean parse = true;
-         int f1,f2,len=0;
-         while(parse){
-          len = body.length();
-          f1 = body.indexOf("<nick>");
-          f2 = body.indexOf("</nick>");
-          if(f1>-1 || f2>-1){
-            for(int i=0;i<len;i++){
-              if(i==f1) i+=6;
-              if(i==f2) i+=7;
-              sb.append(body.charAt(i));
-            }
-            body = sb.toString(); sb = new StringBuffer(0);
-          } else parse = false;
-         }
-         sb = null;
-         len = body.length();
-         msg.body = body.substring(0,len-1);
+         msg.body = replaceNickTags(msg.body);
          return msg;
     }
 
@@ -121,14 +99,14 @@ public class StringUtils {
 //#   public static Font getFont() {
 //#         return FontCache.getFont(false, Config.msgFont);
 //#   }
-//# 
+//#
 //#   public static void addClassicChatMsg(String message, int availWidth,ClassicChat scrMsg) {
 //#         Vector lines=new Vector(0);
 //#         char[] valueChars = message.concat("   ").toCharArray();
 //#         int startPos = 0;
 //#         availWidth-=24;
 //#         int currentLineWidth = 0;
-//# 
+//#
 //#         for (int i = 0; i < valueChars.length; i++) {
 //#             char c = valueChars[i];
 //#             currentLineWidth += //MFont.isCheck()?MFont.getCharWidth(c):

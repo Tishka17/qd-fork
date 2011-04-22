@@ -85,8 +85,6 @@ public class HistoryViewer extends MessageList implements Runnable, InputTextBox
     }
 
     public void run() {
-        int storeSize = 0;
-
         try {
             for (RecordEnumeration e = store.enumerateRecords(null, null, false); e.hasNextElement();) {
                 try {
@@ -102,15 +100,13 @@ public class HistoryViewer extends MessageList implements Runnable, InputTextBox
                     Msg msg = new Msg(msgtype, from, null, text);
                     msg.setDayTime(date);
                     elements.insertElementAt(msg, 0);
-
-                    ++storeSize;
                 } catch (RecordStoreException rse) {
                 } catch (IOException ioe) {
                 }
             }
             closeRecordStore();
         } catch (RecordStoreNotOpenException e) {}
-        setMainBarItem(new MainBar(SR.get(SR.MS_HISTORY) + " [" + storeSize + "]"));
+        setMainBarItem(new MainBar(SR.get(SR.MS_HISTORY) + " [" + elements.size() + "]"));
         redraw();
     }
 

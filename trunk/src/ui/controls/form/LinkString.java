@@ -57,7 +57,6 @@ public abstract class LinkString extends IconTextElement {
     }
 
     public void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {
-        final int stringWidth = getFont().stringWidth(toString());
         final int fontHeight = getFont().getHeight();
 
         final int yOffset = (itemHeight - fontHeight) / 2;
@@ -66,7 +65,7 @@ public abstract class LinkString extends IconTextElement {
         g.setColor(getColor());
 
         final int lineOffset = yOffset + fontHeight - 1;
-        g.drawLine(4, lineOffset, stringWidth + 3, lineOffset);
+        g.drawLine(getOffset(), lineOffset, getVWidth(), lineOffset);
 
         g.drawString(text, getOffset() - ofs, yOffset, Graphics.TOP | Graphics.LEFT);
     }

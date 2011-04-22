@@ -156,10 +156,6 @@ public class TextInput extends IconTextElement implements InputTextBoxNotify {
         return -1;
     }
 
-    public String getText() {
-        return getValue();
-    }
-
     public void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {
         int width = g.getClipWidth();
         int height = fontHeight;
@@ -191,7 +187,7 @@ public class TextInput extends IconTextElement implements InputTextBoxNotify {
         if (getTextLength() > 0) {
             xOffset = (getTextLength() > width) ? -ofs + baseOffset: baseOffset;
             g.setFont(font);
-            g.drawString(getText(), xOffset, y, Graphics.TOP | Graphics.LEFT);
+            g.drawString(getValue(), xOffset, y, Graphics.TOP | Graphics.LEFT);
         }
     }
 

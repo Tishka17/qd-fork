@@ -61,6 +61,8 @@ public class InfoWindow extends DefForm {
         item.setSelectable(true);
         addControl(item);
 
+        addControl(new SpacerItem(6));
+
         addControl(new LinkString("QD ".concat(SR.get(SR.MS_QD_NEWS))) {
             public void doAction() {
                 GetFileServer form = new GetFileServer();
@@ -87,42 +89,10 @@ public class InfoWindow extends DefForm {
         });
 //#endif
 
-        /*
-        addControl(new LinkString("Create NullPointer") {
-        public void doAction() {
-        //try{
-        String text = null;
-        int pos = text.indexOf("text");
-        //} catch (Exception e) { e.printStackTrace(); }
-        }}
-        );
-        addControl(new LinkString("Create ArrayIndexOutOfBounds") {
-        public void doAction() {
-        //try{
-        int[] arr = new int[2];
-        for(int i = 0; i <= 3; ++i) arr[i] = i;
-        //} catch (Exception e) { e.printStackTrace(); }
-        }}
-        );
-        addControl(new LinkString("Create OutOfMemory") {
-        public void doAction() {
-        //try{
-        Vector array = new Vector();
-        for (int i = 0; i < 30; ++i) {
-        for (int k = 0; k < 20; ++k) {
-        for (int m = 0; m < 10; ++m) {
-        Object add = array.toString();
-        array.addElement(add);
-        }
-        }
-        }
-        //} catch (Exception e) { e.printStackTrace(); }
-        }}
-        );
-         */
+        addControl(new SpacerItem(6));
 
 //#ifdef TOUCH
-        if (midlet.BombusQD.cf.isTouchPhone) {
+        if (Config.isTouchPhone) {
             item = new MultiLine("Easter Egg", "Press link under this text", getWidth());
             item.setSelectable(true);
             addControl(item);
@@ -134,14 +104,15 @@ public class InfoWindow extends DefForm {
                 }
 
             });
-            addControl(new SpacerItem(5));
-        } else 
+        } else
 //#endif
         {
             item = new MultiLine("Easter Egg:", "Press 5-1-2 keys to lock/unlock new options", getWidth());
             item.setSelectable(true);
             addControl(item);
         }
+
+        addControl(new SpacerItem(6));
 
         item = new MultiLine("Copyright (c) 2005-2011",
                 "Eugene Stahov (evgs,Bombus);\nDaniel Apatin (ad,BombusMod);\nAlexej Kotov(aqent,BombusQD);\n"
@@ -189,7 +160,7 @@ public class InfoWindow extends DefForm {
             }
         });
 
-        addControl(new SpacerItem(10));
+        addControl(new SpacerItem(6));
 
         System.gc();
         long freemem = Runtime.getRuntime().freeMemory() >> 10;

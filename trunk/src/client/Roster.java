@@ -544,18 +544,6 @@ public final class Roster
             midlet.BombusQD.getInstance().s.setProgress(percent);
     }
 
-    private int rscaler;
-    private int rpercent;
-
-    public void rosterItemNotify(){
-        rscaler++;
-        if (rscaler<4) return;
-        rscaler=0;
-        if (rpercent<100) rpercent++;
-        if (midlet.BombusQD.getInstance().s!=null)
-            midlet.BombusQD.getInstance().s.setProgress(rpercent);
-    }
-
     // establishing connection process
     public void run(){
         setQuerySign(true);
@@ -1560,8 +1548,6 @@ public final class Roster
             sendPresence(myStatus, null);
             return;
         }
-        //
-        rpercent=50;
 
         if (midlet.BombusQD.sd.account.isMucOnly()) {
             setProgress(SR.get(SR.MS_CONNECTED),100);

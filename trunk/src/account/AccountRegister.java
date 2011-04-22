@@ -62,7 +62,7 @@ public class AccountRegister
         splash.setProgress(SR.get(SR.MS_STARTUP), 5);
         splash.addCommand(cmdCancel);
         splash.setCommandListener(this);
-        
+
         System.out.println(splash.getParentView());
 
         splash.show();
@@ -84,9 +84,6 @@ public class AccountRegister
             splash.setFailed();
         }
 
-    }
-
-    public void rosterItemNotify() {
     }
 
     public void connectionTerminated(Exception e) {

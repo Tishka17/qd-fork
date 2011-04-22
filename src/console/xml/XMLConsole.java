@@ -114,11 +114,6 @@
 //#         getMainBarItem().setElementAt(str.toString(), 1);
 //#     }
 //# 
-//#     public void eventOk() {
-//#         MessageItem mi = (MessageItem)messages.elementAt(cursor);
-//#         mi.onSelect(this);
-//#     }
-//# 
 //#     public int getItemCount() {
 //#         return stanzas.size();
 //#     }

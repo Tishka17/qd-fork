@@ -46,7 +46,7 @@ public class ArchiveEdit extends InputTextBox {
     private MessageArchive archive;
     private ArchiveList al;
 
-    private int pos;    
+    private int pos;
 
     public ArchiveEdit(int pos, ArchiveList al) {
         super((pos > -1) ? SR.get(SR.MS_EDIT) : SR.get(SR.MS_NEW), null, 4096, TextField.ANY);
@@ -58,7 +58,7 @@ public class ArchiveEdit extends InputTextBox {
 
         if (pos > -1) {
             this.msg = archive.msg(pos);
-            setString(util.StringUtils.quoteString(msg));
+            setString(msg.body);
         }
     }
 

@@ -131,9 +131,9 @@ public abstract class MessageList extends VirtualList
         }
 //#ifdef CLIPBOARD
         else if(c == Commands.cmdCopy) {
-            ClipBoard.add(StringUtils.replaceNickTags(item.msg));
+            ClipBoard.setClipBoard(StringUtils.replaceNickTags(item.msg).toString());
         } else  if (c == Commands.cmdCopyPlus) {
-            ClipBoard.append(StringUtils.replaceNickTags(item.msg));
+            ClipBoard.addToClipBoard(StringUtils.replaceNickTags(item.msg).toString());
         }
 //#endif
     }

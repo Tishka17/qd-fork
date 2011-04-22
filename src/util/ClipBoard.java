@@ -24,50 +24,34 @@
  *
  */
 //#ifdef CLIPBOARD
-//# package util;
-//# 
-//# import client.Msg;
-//# 
-//# public final class ClipBoard {
-//#     private static String clipBoard = "";
-//# 
-//#     private ClipBoard() {
-//#         // empty;
-//#     }
-//# 
-//#     public static String getClipBoard() {
-//#         return clipBoard;
-//#     }
-//# 
-//#     public static void setClipBoard(String str) {
-//#         clipBoard = (str.length() > 4096) ? str.substring(0, 4095) : str;
-//#     }
-//# 
-//#     public static void addToClipBoard(String str) {
-//#         String tmp = clipBoard;
-//# 
-//#         clipBoard = tmp + "\n\n" + str;
-//#     }
-//# 
-//#     public static boolean isEmpty() {
-//#         boolean empty = true;
-//#         if (clipBoard != null && clipBoard.length() > 0) {
-//#             return false;
-//#         }
-//#         return empty;
-//#     }
-//# 
-//#     public static void add(Msg msg) {
-//#         clipBoard = StringUtils.quoteString(msg);
-//#     }
-//# 
-//#     public static void append(Msg msg) {
-//#         StringBuffer buf = new StringBuffer(clipBoard);
-//# 
-//#         buf.append("\n\n");
-//#         buf.append(StringUtils.quoteString(msg));
-//# 
-//#         clipBoard = buf.toString();
-//#     }
-//# }
+package util;
+
+import client.Msg;
+
+public final class ClipBoard {
+    private static String clipBoard = "";
+
+    private ClipBoard() {}
+
+    public static String getClipBoard() {
+        return clipBoard;
+    }
+
+    public static void setClipBoard(String str) {
+        clipBoard = (str.length() > 4096) ? str.substring(0, 4095) : str;
+    }
+
+    public static void addToClipBoard(String str) {
+        String tmp = clipBoard;
+
+        clipBoard = tmp + "\n\n" + str;
+    }
+
+    public static boolean isEmpty() {
+        if (clipBoard != null && clipBoard.length() > 0) {
+            return false;
+        }
+        return true;
+    }
+}
 //#endif

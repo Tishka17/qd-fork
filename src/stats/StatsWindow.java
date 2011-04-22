@@ -49,23 +49,23 @@ import ui.GMenuConfig;
 //#ifdef CLIPBOARD
 import util.ClipBoard;
 //#endif
+
 /**
  *
  * @author ad,aqent
  */
+
 public class StatsWindow extends DefForm implements MenuListener {
     Stats st=Stats.getInstance();
 
     public Command cmdClear;
-    public Command cmdSave;
 
     public StatsWindow() {
         super(SR.get(SR.MS_STATS));
-        StringBuffer sb = new StringBuffer(0);
 
         cmdClear = new Command(SR.get(SR.MS_CLEAR), 0x33);
-        cmdSave = new Command(SR.get(SR.MS_SAVE), 0x44);
 
+        StringBuffer sb = new StringBuffer(0);
         sb.append(SR.get(SR.MS_ALL))
           .append(StringUtils.getSizeString(st.getAllTraffic()))
           .append('\n');
@@ -100,25 +100,23 @@ public class StatsWindow extends DefForm implements MenuListener {
         sb.append(SR.get(SR.MS_APPRUN_COUNT))
           .append(st.appRunCount);
 
-        MultiLine item = new MultiLine( null, sb.toString(), getWidth());
+        MultiLine item = new MultiLine(null, sb.toString(), getWidth());
         item.setSelectable(true);
         addControl(item);
     }
 
 
     public void commandAction(Command command) {
-        if(command==cmdSave){
-            Stats.getInstance().saveToStorage(false,false);
+        if (command == cmdClear) {
+            st.saveToStorage(true,false);
+            destroyView();
 //#ifdef CLIPBOARD
-	} else if (command == Commands.cmdCopy) {
+        } else if (command == Commands.cmdCopy) {
             // we have only one control
             String text = getControl(0).toString();
             ClipBoard.setClipBoard(text);
             destroyView();
 //#endif
-        } else if (command == cmdClear) {
-            st.saveToStorage(true,false);
-            destroyView();
         }
     }
 
@@ -132,7 +130,6 @@ public class StatsWindow extends DefForm implements MenuListener {
         }
 //#endif
         addCommand(cmdClear);
-        addCommand(cmdSave);
     }
 
 //#ifdef MENU_LISTENER
@@ -161,9 +158,6 @@ public class StatsWindow extends DefForm implements MenuListener {
 //#         new MyMenu(display, parentView, this, SR.get(SR.MS_STATS), null, menuCommands);
 //#    }
 //#endif
-
 //#endif
-
-
 }
 //#endif

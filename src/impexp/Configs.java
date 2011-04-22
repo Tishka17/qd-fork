@@ -26,6 +26,7 @@ package impexp;
 
 import alert.AlertCustomize;
 import client.Config;
+import light.CustomLight;
 import midlet.BombusQD;
 import ui.VirtualList;
 import xmpp.EntityCaps;
@@ -209,12 +210,13 @@ public class Configs {
         writeBoolean(data, "shadowBar", config.shadowBar);
         writeBoolean(data, "simpleContacts", config.simpleContacts);
         writeBoolean(data, "swapSendAndSuspend", config.swapSendAndSuspend);
+//#ifdef LIGHT_CONTROL
+        writeBoolean(data, "lightControl", config.lightControl);
+//#endif
+
 //#ifdef HISTORY
         writeInt(data, "historyTypeIndex", Config.historyTypeIndex);
         writeUTF(data, "historyPath", Config.historyPath);
-//#ifdef DETRANSLIT
-//#         writeBoolean(data, "historyPath", Config.transliterateFilenames);
-//#endif
 //#endif
 
         AlertCustomize ac = AlertCustomize.getInstance();
@@ -403,6 +405,9 @@ public class Configs {
             config.shadowBar = readBoolean(data, "shadowBar", config.shadowBar);
             config.simpleContacts = readBoolean(data, "simpleContacts", config.simpleContacts);
             config.swapSendAndSuspend = readBoolean(data, "swapSendAndSuspend", config.swapSendAndSuspend);
+//#ifdef LIGHT_CONTROL
+            config.lightControl = readBoolean(data, "lightControl", config.lightControl);
+//#endif
 
             AlertCustomize ac = AlertCustomize.getInstance();
             ac.soundsMsgIndex = readInt(data, "soundsMsgIndex", ac.soundsMsgIndex);
@@ -425,15 +430,16 @@ public class Configs {
 //#ifdef HISTORY
             Config.historyTypeIndex = readInt(data, "historyTypeIndex", Config.historyTypeIndex);
             Config.historyPath = readUTF(data, "historyPath", Config.historyPath);
-//#ifdef DETRANSLIT
-//#             Config.transliterateFilenames = readBoolean(data, "historyPath", Config.transliterateFilenames);
-//#endif
 //#endif
             EntityCaps.initCaps();
             BombusQD.sd.roster.updateBarsFont();
             VirtualList.changeOrient(Config.panelsState);
 //#ifdef BACK_IMAGE
             VirtualList.createImage(false);
+//#endif
+
+//#ifdef LIGHT_CONTROL
+            CustomLight.switchOn(Config.lightControl);
 //#endif
 
             ac.saveToStorage();

@@ -25,8 +25,6 @@
 package light;
 
 import client.Config;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import ui.controls.form.SimpleString;
 import ui.controls.form.CheckBox;
@@ -127,7 +125,7 @@ public class LightConfigForm extends DefForm {
 
     public void cmdOk() {
         Config.lightControl = config_enabled.getValue();
-        
+
         // light.light_idle=light.light_idle*5;//округление
         // r94m - переменный шаг подсветки by Mars
         Config.lightIdle = lightIdle.getValue();

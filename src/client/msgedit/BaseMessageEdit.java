@@ -29,7 +29,9 @@ import client.Contact;
 import client.Msg;
 import client.SmilePicker;
 import conference.AppendNickForm;
-import io.TranslateSelect;
+//#ifdef TRANSLATE
+//# import io.TranslateSelect;
+//#endif
 import java.util.Vector;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
@@ -262,9 +264,11 @@ public abstract class BaseMessageEdit implements CommandListener {
             }
             body = null;
             destroyView();
-        } else if (c == cmdTranslate) {
-            new TranslateSelect(to,body, "none", false, -1).show();
-            body = null;
+//#ifdef TRANSLATE
+//#         } else if (c == cmdTranslate) {
+//#             new TranslateSelect(to, body).show();
+//#             body = null;
+//#endif
         } else {
             if (c == cmdSend) {
                 if (body == null) {
@@ -288,7 +292,7 @@ public abstract class BaseMessageEdit implements CommandListener {
 //#             if (c == cmdSendInTranslit) {
 //#                 sendInTranslit = true;
 //#             }
-//# 
+//#
 //#             if (c == cmdSendInDeTranslit) {
 //#                 sendInDeTranslit = true;
 //#             }

@@ -24,102 +24,107 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-package io;
 
-import client.Config;
-import client.Contact;
-import java.util.Vector; 
-import locale.SR;
-import ui.controls.form.DropChoiceBox;
-import ui.controls.form.DefForm;
-import ui.controls.form.SimpleString;
-import ui.controls.form.SpacerItem;
-import util.StringLoader;
-import ui.controls.form.LinkString;
-
-public class TranslateSelect extends DefForm {
-    private DropChoiceBox langFrom; 
-    private DropChoiceBox langTo; 
-    private LinkString fastTr;
-    private LinkString fastTr_;
-    
-    private Vector langs[];
-    Config cf;
-    private Contact to;
-    private String text;
-    private String fromMucNick;
-    private boolean trCMsgList;
-    private int cursor;    
-    
-    public TranslateSelect(Contact to,String text,String fromMucNick,
-            boolean trCMsgList,int cursor) {
-        super(SR.get(SR.MS_TRANSLATE));
-        this.to=to;
-        this.text=text;
-        this.trCMsgList=trCMsgList;
-        this.cursor=cursor;
-        this.fromMucNick=fromMucNick;
-        cf=Config.getInstance();
-        
-	langs=new StringLoader().stringLoader("/lang/translate.txt",3);
-        itemsList.addElement(new SimpleString(text.length()>50?text.substring(0,38)+"..":text, true));
-        
-        if(cf.langpair.length()>0){
-          fastTr=new LinkString(cf.langpair)
-                { public void doAction() { runTranslate(true); }}; //en==>ru def
-          fastTr_=new LinkString(cf.langpair.substring(5,7)+"==>"+cf.langpair.substring(0,2))
-                { public void doAction() { runTranslate(false); }};//ru==>en
-          itemsList.addElement(fastTr);
-          if(cf.langpair.startsWith("au")==false){
-            itemsList.addElement(fastTr_);
-          }
-        }
-
-        if (langs[0].size()>1) {
-            itemsList.addElement(new SpacerItem(12));
-            langFrom=new DropChoiceBox("from");
-            for (int i=0; i<langs[0].size(); i++) {
-                String label=(String) langs[1].elementAt(i);
-                String langCode=(String) langs[0].elementAt(i);
-                langFrom.append(label);
-                  langFrom.setSelectedIndex(0);
-            }
-            itemsList.addElement(langFrom);
-            
-            itemsList.addElement(new SpacerItem(5));
-            langTo=new DropChoiceBox("to");
-            for (int i=0; i<langs[0].size(); i++) {
-                String label=(String) langs[1].elementAt(i);
-                String langCode=(String) langs[0].elementAt(i);
-                langTo.append(label);
-                langTo.setSelectedIndex(3);
-            }
-            itemsList.addElement(langTo);            
-        }
-    }
-    
-    private void runTranslate(boolean pair){
-        TranslateText tr = new TranslateText();
-        tr.runTranslate(to,text,
-            pair?cf.langpair.substring(0,2):cf.langpair.substring(5,7),
-            pair?cf.langpair.substring(5,7):cf.langpair.substring(0,2),
-          fromMucNick,trCMsgList,cursor);        
-    }
-    
-    public void cmdOk() {
-        if (langs[0].size()>1) {
-            cf.lang=(String)langs[0].elementAt(langFrom.getSelectedIndex());
-            TranslateText tr = new TranslateText();
-            
-           if(((String)langs[0].elementAt(langTo.getSelectedIndex())).indexOf("au")>-1){
-           } else{
-            tr.runTranslate(to,text,
-                    (String)langs[0].elementAt(langFrom.getSelectedIndex()),
-                    (String)langs[0].elementAt(langTo.getSelectedIndex()),fromMucNick,trCMsgList,cursor);
-            cf.langpair=(String)langs[0].elementAt(langFrom.getSelectedIndex())+
-                    "==>"+(String)langs[0].elementAt(langTo.getSelectedIndex());
-            }
-        }
-    }
-}
-
+//#ifdef TRANSLATE
+//# package io;
+//# 
+//# import client.Config;
+//# import client.Contact;
+//# import java.util.Vector;
+//# import javax.microedition.lcdui.TextField;
+//# import locale.SR;
+//# import ui.controls.form.DropChoiceBox;
+//# import ui.controls.form.DefForm;
+//# import ui.controls.form.SpacerItem;
+//# import util.StringLoader;
+//# import ui.controls.form.LinkString;
+//# import ui.controls.form.TextInput;
+//# 
+//# public class TranslateSelect extends DefForm {
+//#     private static final int MAX_TEXT_LENGTH = 50;
+//# 
+//#     private TextInput input;
+//#     private DropChoiceBox langFrom;
+//#     private DropChoiceBox langTo;
+//# 
+//#     private Vector langs[];
+//#     private Config cf;
+//#     private Contact to;
+//#     private String text;
+//# 
+//#     public TranslateSelect(Contact to,String text) {
+//#         super(SR.get(SR.MS_TRANSLATE));
+//#         this.to = to;
+//#         cf = Config.getInstance();
+//# 
+//# 	langs=new StringLoader().stringLoader("/lang/translate.txt",3);
+//#         if (text != null) {
+//#             if (text.length() > MAX_TEXT_LENGTH) {
+//#                 this.text = text.substring(0, MAX_TEXT_LENGTH);
+//#             }
+//#         }
+//#         input = new TextInput("Text for translation", this.text, TextField.ANY);
+//#         addControl(input);
+//# 
+//#         addControl(new SpacerItem(6));
+//# 
+//#         if (cf.langpair.length() > 0) {
+//#             addControl(new LinkString(cf.langpair) {
+//#                 public void doAction() {
+//#                     runTranslate(true);
+//#                 }
+//#             });
+//#             if (!cf.langpair.startsWith("au")) {
+//#                 addControl(new LinkString(cf.langpair.substring(5, 7) + "==>" + cf.langpair.substring(0, 2)) {
+//#                     public void doAction() {
+//#                         runTranslate(false);
+//#                     }
+//#                 });
+//#             }
+//#         }
+//# 
+//#         if (langs[0].size() > 1) {
+//#             addControl(new SpacerItem(6));
+//#             langFrom = new DropChoiceBox("from");
+//#             for (int i = 0; i < langs[0].size(); i++) {
+//#                 String label = (String)langs[1].elementAt(i);
+//#                 langFrom.append(label);
+//#             }
+//#             langFrom.setSelectedIndex(0);
+//#             addControl(langFrom);
+//# 
+//#             addControl(new SpacerItem(5));
+//#             langTo = new DropChoiceBox("to");
+//#             for (int i = 0; i < langs[0].size(); i++) {
+//#                 String label = (String)langs[1].elementAt(i);
+//#                 langTo.append(label);
+//#             }
+//#             langTo.setSelectedIndex(3);
+//#             addControl(langTo);
+//#         }
+//#     }
+//# 
+//#     private void runTranslate(boolean pair){
+//#         TranslateText tr = new TranslateText();
+//#         tr.runTranslate(to, input.getValue(),
+//#             pair?cf.langpair.substring(0,2):cf.langpair.substring(5,7),
+//#             pair?cf.langpair.substring(5,7):cf.langpair.substring(0,2));
+//#     }
+//# 
+//#     public void cmdOk() {
+//#         if (langs[0].size()>1) {
+//#             cf.lang=(String)langs[0].elementAt(langFrom.getSelectedIndex());
+//#             TranslateText tr = new TranslateText();
+//# 
+//#            if(((String)langs[0].elementAt(langTo.getSelectedIndex())).indexOf("au")>-1){
+//#            } else{
+//#             tr.runTranslate(to, input.getValue(),
+//#                     (String)langs[0].elementAt(langFrom.getSelectedIndex()),
+//#                     (String)langs[0].elementAt(langTo.getSelectedIndex()));
+//#             cf.langpair=(String)langs[0].elementAt(langFrom.getSelectedIndex())+
+//#                     "==>"+(String)langs[0].elementAt(langTo.getSelectedIndex());
+//#             }
+//#         }
+//#     }
+//# }
+//#endif

@@ -114,7 +114,12 @@ public class ColorSelector extends DefForm implements Runnable {
         g.setFont(font);
         g.setColor(ColorTheme.getColor(ColorTheme.LIST_INK));
 
-        String s = ColorTheme.ColorToString(red, green, blue);
+        String s;
+        if (hasAlphaChannel) {
+            s = ColorTheme.colorToString(red, green, blue, alpha);
+        } else {
+            s = ColorTheme.colorToString(red, green, blue);
+        }
         g.drawString(s, 5, boxY - fontH, Graphics.TOP | Graphics.LEFT);
 
         g.setStrokeStyle(Graphics.SOLID);
@@ -380,11 +385,9 @@ public class ColorSelector extends DefForm implements Runnable {
                 break;
         }
 
-        String val = ColorTheme.ColorToString(red, green, blue);
-        int finalColor = ColorTheme.getColorInt(val);
+        int finalColor = (red << 16) | (green << 8) | blue;
 
         item.setColor(finalColor);
-
         ColorTheme.setColor(item.getIndex(), finalColor);
         ColorTheme.saveToStorage();
     }

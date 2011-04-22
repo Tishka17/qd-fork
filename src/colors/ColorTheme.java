@@ -139,10 +139,6 @@ public class ColorTheme {
         return defColors.length;
     }
 
-    public static int[] getColors() {
-        return colorsArray;
-    }
-
     private final static String[] items = {
         "BALLOON_INK", "BALLOON_BGND",
         "LIST_BGND", "LIST_BGND_EVEN", "LIST_INK",
@@ -290,19 +286,6 @@ public class ColorTheme {
         return getColorInt(value);
     }
 
-    public static int getColorInt(int color, int pos) {
-        String ncolor = getColorString(color);
-        switch (pos) {
-            case 0:
-                return Integer.parseInt(ncolor.substring(2, 4), 16);
-            case 1:
-                return Integer.parseInt(ncolor.substring(4, 6), 16);
-            case 2:
-                return Integer.parseInt(ncolor.substring(6, 8), 16);
-        }
-        return -1;
-    }
-
     public static int getColorInt(String color) {
         return Integer.parseInt(color.substring(2), 16);
     }
@@ -346,13 +329,13 @@ public class ColorTheme {
         return (int)tmp;
     }
 
-    public static String ColorToString(int cAlpha, int cRed, int cGreen, int cBlue) {
+    public static String colorToString(int cRed, int cGreen, int cBlue, int cAlpha) {
         StringBuffer color = new StringBuffer("0x");
-        color.append(expandHex(cAlpha)).append(expandHex(cRed)).append(expandHex(cGreen)).append(expandHex(cBlue));
+        color.append(expandHex(cRed)).append(expandHex(cGreen)).append(expandHex(cBlue)).append(expandHex(cAlpha));
         return color.toString();
     }
 
-    public static String ColorToString(int cRed, int cGreen, int cBlue) {
+    public static String colorToString(int cRed, int cGreen, int cBlue) {
         StringBuffer color = new StringBuffer("0x");
         color.append(expandHex(cRed)).append(expandHex(cGreen)).append(expandHex(cBlue));
         return color.toString();

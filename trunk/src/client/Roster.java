@@ -1382,7 +1382,7 @@ public final class Roster
 
 //#ifdef CLASSIC_CHAT
 //#            if(body!=null){
-//# 
+//#
 //#                if(midlet.BombusQD.cf.module_classicchat){
 //#                  if(!groupchat) {
 //#                  //forfix
@@ -3114,37 +3114,35 @@ public final class Roster
         }
     }
 
-    protected void keyClear(){
+    protected void keyClear() {
         if (isLoggedIn()) {
-            Contact c=(Contact) getFocusedObject();
+            VirtualElement item = (VirtualElement)getFocusedObject();
             try {
-                boolean isContact=( getFocusedObject() instanceof Contact );
+                if (item instanceof Contact) {
+                    final Contact c = (Contact)item;
 //#ifndef WMUC
-                boolean isMucContact=( getFocusedObject() instanceof MucContact );
-//#else
-//#             boolean isMucContact=false;
+                    boolean isMucContact = (item instanceof MucContact);
+                    if (!isMucContact) {
 //#endif
-                if (isContact && !isMucContact) {
-                    AlertBox box = new AlertBox(SR.get(SR.MS_DELETE_ASK), c.getNickJid(), AlertBox.BUTTONS_YESNO) {
-                        public void yes() {
-                            deleteContact((Contact)getFocusedObject());
+                        AlertBox box = new AlertBox(SR.get(SR.MS_DELETE_ASK), c.getNickJid(), AlertBox.BUTTONS_YESNO) {
+                            public void yes() {
+                                deleteContact(c);
+                            }
+                        };
+                        box.show();
+//#ifndef WMUC
+                    } else if (c.origin!=Contact.ORIGIN_GROUPCHAT) {
+                        ConferenceGroup mucGrp=(ConferenceGroup)c.group;
+                        if (mucGrp.selfContact.roleCode==MucContact.ROLE_MODERATOR) {
+                            String myNick=mucGrp.selfContact.getName();
+                            MucContact mc=(MucContact)item;
+                            new QuickPrivelegyEditForm(mc, QuickPrivelegyEditForm.KICK,myNick).show();
                         }
-                    };
-                    box.show();
-                }
-//#ifndef WMUC
-                else if (isContact && isMucContact && c.origin!=Contact.ORIGIN_GROUPCHAT) {
-                    ConferenceGroup mucGrp=(ConferenceGroup)c.group;
-                    if (mucGrp.selfContact.roleCode==MucContact.ROLE_MODERATOR) {
-                        String myNick=mucGrp.selfContact.getName();
-                        MucContact mc=(MucContact) c;
-                        new QuickPrivelegyEditForm(mc, QuickPrivelegyEditForm.KICK,myNick).show();
                     }
-                }
 //#endif
-            }
-            catch(OutOfMemoryError eom) {
-                 errorLog("error Roster::4");
+                }
+            } catch(OutOfMemoryError eom) {
+                errorLog("error Roster::4");
             } catch (Exception e) {}
         }
     }

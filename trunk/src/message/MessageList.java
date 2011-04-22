@@ -42,7 +42,6 @@ import menu.Command;
 import midlet.Commands;
 import ui.VirtualElement;
 import ui.VirtualList;
-//import ui.reconnectWindow;
 //#ifdef GRAPHICS_MENU
 import ui.GMenu;
 import ui.GMenuConfig;
@@ -50,6 +49,7 @@ import ui.GMenuConfig;
 import util.ClipBoard;
 //#endif
 //#endif
+import util.StringUtils;
 
 public abstract class MessageList extends VirtualList
     implements
@@ -59,16 +59,9 @@ public abstract class MessageList extends VirtualList
         MenuListener
 //#endif
     {
+    protected boolean smiles;
 
     protected final Vector messages = new Vector(0);
-
-    /** Creates a new instance of MessageList */
-
-    public void destroy() {
-        super.destroy();
-        //System.out.println("    :::MessageList msgList->removeAllMessages");
-        messages.removeAllElements();
-    }
 
     public MessageList() {
         super();
@@ -82,12 +75,12 @@ public abstract class MessageList extends VirtualList
 //#         smiles=false;
 //#endif
         enableListWrapping(false);
-
-
-        cursor=0;//activate
     }
 
-    protected abstract int getItemCount();
+    public void destroy() {
+        super.destroy();
+        messages.removeAllElements();
+    }
 
     public VirtualElement getItemRef(int index) {
         if (messages.size()<getItemCount()) messages.setSize(getItemCount());
@@ -101,27 +94,11 @@ public abstract class MessageList extends VirtualList
         return mi;
     }
 
-    protected final void initItem(Msg msg, int index) {
-        //System.out.println(msg);
-        if (messages.size()<getItemCount()) {
-            messages.setSize(getItemCount());//?
-        }
-        MessageItem mi = new MessageItem(msg, smiles);
-        mi.setEven( (index & 1) == 0);
-        mi.parse(this);
-        //mi.getColor();
-        messages.setElementAt(mi, index);
-    }
-
+    protected abstract void commandState();
+    protected abstract int getItemCount();
     protected abstract Msg getMessage(int index);
 
-    public Msg replaceNickTags(Msg msg){
-         return util.StringUtils.replaceNickTags(msg);
-    }
-
-    protected boolean smiles;
-
-    public void addDefaultCommands() {
+    protected void addDefaultCommands() {
 //#ifdef CLIPBOARD
         if (getItemCount() != 0) {
             if (Config.useClipBoard) {
@@ -138,7 +115,7 @@ public abstract class MessageList extends VirtualList
             }
             if (hasUrl()) {
                 addCommand(Commands.cmdUrl);
-            }          
+            }
         }
     }
 
@@ -154,9 +131,9 @@ public abstract class MessageList extends VirtualList
         }
 //#ifdef CLIPBOARD
         else if(c == Commands.cmdCopy) {
-            ClipBoard.add(replaceNickTags(item.msg));
+            ClipBoard.add(StringUtils.replaceNickTags(item.msg));
         } else  if (c == Commands.cmdCopyPlus) {
-            ClipBoard.append(replaceNickTags(item.msg));
+            ClipBoard.append(StringUtils.replaceNickTags(item.msg));
         }
 //#endif
     }
@@ -227,6 +204,4 @@ public abstract class MessageList extends VirtualList
         }
         return false;
     }
-
-    public void commandState() {}
 }

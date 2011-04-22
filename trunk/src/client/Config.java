@@ -219,8 +219,8 @@ public class Config {
     public boolean showClientIcon=true;
 //#endif
 
-    public int reconnectCount = 30;
-    public int reconnectTime = 10;
+    public static int reconnectCount = 30;
+    public static int reconnectTime = 10;
 
     public static boolean executeByNum = false;
     public static boolean showNickNames = true;
@@ -324,7 +324,7 @@ public class Config {
     public static int lightIdle = 0;
     public static int lightKeyPress = 50;
     public static int lightMessage = 100;
-    public static int lightPresence = 10;    
+    public static int lightPresence = 10;
     public static int lightConnect = 100;
     public static int lightError = 50;
     public static int lightBlink = 100;
@@ -486,7 +486,7 @@ public class Config {
 
             fileTransfer = inputStream.readBoolean(); //newMenu
             lightState = inputStream.readBoolean();
-            
+
             // free
             inputStream.readBoolean();
 //#ifdef AUTOSTATUS

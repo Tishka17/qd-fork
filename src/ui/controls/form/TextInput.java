@@ -123,7 +123,7 @@ public class TextInput extends IconTextElement implements InputTextBoxNotify {
     }
 
     public String toString() {
-        return (0 == getTextLength()) ? caption : getValue();
+        return getValue();
     } //Tishka17
 
     public void onSelect(VirtualList view) {
@@ -187,7 +187,7 @@ public class TextInput extends IconTextElement implements InputTextBoxNotify {
         if (getTextLength() > 0) {
             xOffset = (getTextLength() > width) ? -ofs + baseOffset: baseOffset;
             g.setFont(font);
-            g.drawString(getValue(), xOffset, y, Graphics.TOP | Graphics.LEFT);
+            g.drawString(toString(), xOffset, y, Graphics.TOP | Graphics.LEFT);
         }
     }
 

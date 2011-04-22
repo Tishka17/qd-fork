@@ -1,6 +1,6 @@
 /*
  * PasswordInput.java
- * 
+ *
  * Created on 20.05.2008, 11:53
  *
  * Copyright (c) 2006-2008, Daniel Apatin (ad), http://apatin.net.ru
@@ -38,11 +38,8 @@ public class PasswordInput extends TextInput {
     public PasswordInput(String caption, String text) {
         super(caption, text, TextField.PASSWORD);
     }
-    
-    public String getText() {
-        if (getValue() == null) {
-            return "";
-        }
+
+    public String toString() {
         StringBuffer str = new StringBuffer();
         for (int i = 0; i < getValue().length(); ++i) {
             str.append("*");

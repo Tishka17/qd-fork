@@ -25,7 +25,7 @@
  * along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
- 
+
 /**
  *
  * @author Eugene Stahov,aqent
@@ -44,9 +44,9 @@ public class ImageList {
     public ImageList(){ };
 
     /** Creates a new instance of ImageList */
-    
+
     protected Image resImage;
-    
+
     public ImageList(String resource, int rows, int columns) {
         try {
             resImage = Image.createImage(resource);
@@ -62,15 +62,10 @@ public class ImageList {
 //#ifdef DEBUG
 //#             System.out.print("Can't load ImgList ");
 //#             System.out.println(resource);
-//#endif 
+//#endif
             //if(midlet.BombusQD.cf.debug) midlet.BombusQD.debug.add("error Can't load ImgList "+resource,10);
             //SE crashes on start with OutOfMem here
         }
-    }
-
-    public void drawInCenter(Graphics g, int index, int x, int y) {
-        
-        drawImage(g, index, x - width / 2, y - height / 2);
     }
 
     public void drawImage(Graphics g, int index, int x, int y) {
@@ -78,7 +73,7 @@ public class ImageList {
         int wo=g.getClipWidth();
         int xo=g.getClipX();
         int yo=g.getClipY();
-        
+
         int iy=y-height*(int)(index>>4);
         int ix=x-width*(index&0x0f);
         g.clipRect(x,y, width,height);
@@ -87,21 +82,21 @@ public class ImageList {
         } catch (Exception e) {}
         g.setClip(xo,yo, wo, ho);
     }
-    
+
     public int getHeight() {return height;}
-    
+
     public int getHeight(int smileIndex) {
         if(!midlet.BombusQD.cf.animatedSmiles) return height;
         if(aniHeight!=null && smileIndex<aniHeight.length) return aniHeight[smileIndex];
-        return height; 
+        return height;
     }
-    
+
     public int getWidth() {return width;}
-    
+
     public int getWidth(int smileIndex) {
         if(!midlet.BombusQD.cf.animatedSmiles) return width;
         if(smileIndex<aniWidth.length) return aniWidth[smileIndex];
-        return width; 
+        return width;
     }
 
 }

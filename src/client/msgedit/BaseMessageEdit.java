@@ -30,7 +30,7 @@ import client.Msg;
 import client.SmilePicker;
 import conference.AppendNickForm;
 //#ifdef TRANSLATE
-//# import io.TranslateSelect;
+import io.TranslateSelect;
 //#endif
 import java.util.Vector;
 import javax.microedition.lcdui.Command;
@@ -73,7 +73,10 @@ public abstract class BaseMessageEdit implements CommandListener {
     protected Command cmdSubj;
     protected Command cmdSuspend;
     protected Command cmdTranslate;
+
+//#ifdef RUNNING_MESSAGE
     protected Ticker ticker = null;
+//#endif
 
     protected Contact to;
 
@@ -120,11 +123,13 @@ public abstract class BaseMessageEdit implements CommandListener {
 
     public abstract void setString(String bodyNew);
 
+//#ifdef RUNNING_MESSAGE
     public final void setTicker(String caption) {
-        if (ticker != null) {
+        if (midlet.BombusQD.cf.runningMessage) {
             ticker.setString(caption);
         }
     }
+//#endif
 
     public final void show(Vector contacts) {
         this.multiMessage = true;
@@ -265,9 +270,9 @@ public abstract class BaseMessageEdit implements CommandListener {
             body = null;
             destroyView();
 //#ifdef TRANSLATE
-//#         } else if (c == cmdTranslate) {
-//#             new TranslateSelect(to, body).show();
-//#             body = null;
+        } else if (c == cmdTranslate) {
+            new TranslateSelect(to, body).show();
+            body = null;
 //#endif
         } else {
             if (c == cmdSend) {

@@ -56,10 +56,12 @@ public final class AltMessageEdit extends BaseMessageEdit {
         }
         form.append(input);
 
+//#ifdef RUNNING_MESSAGE
         if (midlet.BombusQD.cf.runningMessage) {
-            ticker = new Ticker("BombusQD");
+            ticker = new Ticker("BombusQQ");
             form.setTicker(ticker);
         }
+//#endif
 
         if (midlet.BombusQD.cf.capsState) {
             input.setConstraints(TextField.INITIAL_CAPS_SENTENCE);

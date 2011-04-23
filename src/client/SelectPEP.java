@@ -440,22 +440,6 @@ public final class SelectPEP extends DefForm implements VirtualElement, InputTex
     }
 //#endif
 
-    public void userKeyPressed(int keyCode) {
-        switch (keyCode) {
-            case KEY_NUM3 :
-                super.pageLeft(); keyDwn(); break;
-            case KEY_NUM9:
-                super.pageRight(); break;
-            case KEY_NUM4:
-                pageLeft();
-                break;
-            case KEY_NUM6:
-                pageRight();
-                break;
-        }
-        super.userKeyPressed(keyCode);
-    }
-
     public boolean isSelectable() {
         return true;
     }

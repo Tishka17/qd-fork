@@ -39,7 +39,6 @@ import ui.controls.Balloon;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.TextField;
 import javax.microedition.lcdui.TextBox;
-import ui.MainBar;
 import ui.VirtualElement;
 import ui.VirtualList;
 import ui.controls.form.DefForm;
@@ -47,7 +46,7 @@ import ui.controls.form.DefForm;
 public class SmilePicker extends DefForm implements VirtualElement {
     private final static int CURSOR_HOFFSET=1;
     private final static int CURSOR_VOFFSET=1;
-   
+
     private int imgCnt;
     private int xCnt;
     private int xLastCnt;
@@ -56,11 +55,11 @@ public class SmilePicker extends DefForm implements VirtualElement {
 
     private int lineHeight;
     private int imgWidth;
-    
+
     private ImageList il;
 
     private int caretPos;
-    
+
     private int realWidth=0;
     private int xBorder = 0;
 
@@ -76,30 +75,30 @@ public class SmilePicker extends DefForm implements VirtualElement {
          this.input = input;
 
          aniSmiles = midlet.BombusQD.cf.animatedSmiles;
-         
+
          il = aniSmiles?SmilesIcons.getInstance():SmilesIcons.getStaticInstance();
-//#ifdef SMILES 
+//#ifdef SMILES
         smileTable=MessageParser.getInstance().getSmileTable();
 //#endif
-        
+
         imgCnt=smileTable.size();
-        
+
         realWidth=getWidth()-scrollbar.getScrollWidth();
-        
+
         imgWidth=il.getWidth()+(CURSOR_HOFFSET<<1);
         lineHeight = il.getHeight()+(CURSOR_VOFFSET<<1);
 
         xCnt= realWidth / imgWidth;
-        
+
         lines=imgCnt/xCnt;
         xLastCnt=imgCnt-lines*xCnt;
         if (xLastCnt>0) lines++; else xLastCnt=xCnt;
 
         xBorder=(realWidth-(xCnt*imgWidth))/2;
     }
-    
+
     int lineIndex;
-    
+
     public int getItemCount(){ return lines; }
     public VirtualElement getItemRef(int index){ lineIndex=index; return this;}
 
@@ -128,7 +127,7 @@ public class SmilePicker extends DefForm implements VirtualElement {
         }
         destroyView();
     }
-    
+
     public void drawItem(VirtualList view, Graphics g, int ofs, boolean selected){
         int max=(lineIndex==lines-1)? xLastCnt:xCnt;
         for (int i=0;i<max;i++) {
@@ -151,7 +150,7 @@ public class SmilePicker extends DefForm implements VirtualElement {
          g.fillRect(0,y0,width, height);
          super.drawCursor(g, x+x0,y0,imgWidth, lineHeight);
          getMainBarItem().setElementAt(getTipString(), 0);
-     } 
+     }
 
     protected void drawBalloon(final Graphics g, int balloon, final String text) {
         if (cursor==0) balloon+=lineHeight+Balloon.getHeight();
@@ -159,10 +158,10 @@ public class SmilePicker extends DefForm implements VirtualElement {
         g.translate(x, balloon);
         Balloon.draw(g, text);
     }
-    
-    public void pageLeft(){ 
-        if (xCursor>0) 
-            xCursor--; 
+
+    public void pageLeft(){
+        if (xCursor>0)
+            xCursor--;
         else {
             if (cursor==0) {
                 keyDwn();
@@ -174,7 +173,7 @@ public class SmilePicker extends DefForm implements VirtualElement {
             setRotator();
         }
     }
-    public void pageRight(){ 
+    public void pageRight(){
         if ( xCursor < ( (cursor<lines-1)?(xCnt-1):(xLastCnt-1) ) ) {
             xCursor++;
             setRotator();
@@ -207,7 +206,7 @@ public class SmilePicker extends DefForm implements VirtualElement {
     }
 
 //#ifdef TOUCH
-    protected void pointerPressed(int x, int y) { 
+    protected void pointerPressed(int x, int y) {
         super.pointerPressed(x,y);
         if (pointer_state != POINTER_SECOND &&
                 pointer_state != POINTER_FIRST &&
@@ -223,29 +222,15 @@ public class SmilePicker extends DefForm implements VirtualElement {
         if (xCursor >= xLastCnt) xCursor=xLastCnt-1;
     }
 //#endif
-    
-    public void userKeyPressed(int keyCode) {
-        switch (keyCode) {
-            case KEY_NUM3 :
-                super.pageLeft(); keyDwn(); break;
-            case KEY_NUM9:
-                super.pageRight(); break;
-            case KEY_NUM4:
-                pageLeft(); break;
-            case KEY_NUM6:
-                pageRight(); break;
-        }
-        super.userKeyPressed(keyCode);
-    }
 
     public boolean isSelectable() { return true; }
-    
+
     public boolean handleEvent(int keyCode) { return false; }
-     
+
     public int showGraphicsMenu() {
         return -1;
     }
-     
+
     public String touchLeftCommand(){ return SR.get(SR.MS_SELECT); }
     public String touchRightCommand(){ return SR.get(SR.MS_BACK); }
 }

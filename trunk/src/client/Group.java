@@ -78,14 +78,6 @@ public class Group extends IconTextElement {
         }
     }
 
-    public void updateContact(Contact c, boolean nowOnline, boolean prevOnline) {
-        if (nowOnline && !prevOnline) {
-            onlines++;
-        } else if (!nowOnline && prevOnline) {
-            onlines--;
-        }
-    }
-
     public Vector getContacts() {
         return contacts;
     }
@@ -101,7 +93,7 @@ public class Group extends IconTextElement {
     public final void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {
         g.setFont(getFont());
 
-        int xOffset = getOffset();  
+        int xOffset = getOffset();
         if (null != il) {
             if (getImageIndex() != -1) {
                 il.drawImage(g, getImageIndex(), xOffset , (itemHeight - imgHeight) / 2);

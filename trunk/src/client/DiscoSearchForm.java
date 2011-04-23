@@ -55,7 +55,7 @@ import menu.Command;
 //#ifdef GRAPHICS_MENU
 import midlet.BombusQD;
 //#endif
-//#ifdef GRAPHICS_MENU        
+//#ifdef GRAPHICS_MENU
 import ui.GMenu;
 import ui.GMenuConfig;
 //#endif
@@ -68,7 +68,7 @@ import ui.input.InputTextBoxNotify;
  */
 
 public class DiscoSearchForm
-        extends VirtualList 
+        extends VirtualList
         implements
 //#ifndef MENU_LISTENER
 //#         CommandListener
@@ -76,30 +76,30 @@ public class DiscoSearchForm
         MenuListener
 //#endif
         , InputTextBoxNotify
-    { 
-    
+    {
+
     private Command cmdSearch;
     private Command cmdAddServer;
     private Command cmdDel;
-    
+
     Vector servers = new Vector(0);
     Vector list = new Vector(0);
     int type = 0;
-    
+
     /**
      * Creates a new instance of DiscoSearchForm
      */
-    
+
     public DiscoSearchForm(Vector list, int type) {
         super();
 
         this.list=list;
         this.type=type;
-        
+
         cmdSearch = new Command(SR.get(SR.MS_SEARCH), MenuIcons.ICON_SEARCH);
         cmdAddServer = new Command(SR.get(SR.MS_ADD), MenuIcons.ICON_USER_SEARCH);
         cmdDel = new Command (SR.get(SR.MS_DELETE), 0x41);
-    
+
         if(list==null){
           loadRecentList();
           if (getItemCount()<1) loadDefaults();
@@ -107,10 +107,10 @@ public class DiscoSearchForm
         updateMainBar();
         commandState();
     }
-   
+
     protected int getItemCount() {
        if(list!=null){
-          return list.size();       
+          return list.size();
        }else {
           return (servers==null)?0:servers.size();
       }
@@ -123,7 +123,7 @@ public class DiscoSearchForm
               case 1: return new ListItem((String) list.elementAt(index),"mrim");
               case 2: return new ListItem((String) list.elementAt(index),"irc");
               case 3: return new ListItem((String) list.elementAt(index),"j2j");
-          }           
+          }
        }else {
           return new ListItem((String) servers.elementAt(index));
        }
@@ -141,7 +141,7 @@ public class DiscoSearchForm
         setMainBarItem(new MainBar(2, null, ((list!=null)?str:SR.get(SR.MS_USERS_SEARCH))
                 +" ("+getItemCount()+") ", false));
     }
-    
+
     public void commandState() {
 //#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
@@ -151,27 +151,14 @@ public class DiscoSearchForm
 //#endif
         if(list==null){
           addCommand(cmdSearch);
-          addCommand(cmdAddServer); 
-          addCommand(cmdDel); 
+          addCommand(cmdAddServer);
+          addCommand(cmdDel);
         }
-//#ifndef GRAPHICS_MENU        
+//#ifndef GRAPHICS_MENU
 //#      addCommand(cmdCancel);
-//#endif     
+//#endif
     }
 
-
-//#ifdef MENU_LISTENER
-    public String touchLeftCommand(){ return SR.get(SR.MS_MENU); }
-    
-//#ifdef GRAPHICS_MENU        
-   public void cmdOk(){ showGraphicsMenu(); }
-//#else
-//#    public void cmdOk(){ showMenu(); }  
-//#endif    
-
-    
-//#endif
-    
     public void commandAction(Command c) {
         if (c == cmdSearch) {
             eventOk();
@@ -183,15 +170,10 @@ public class DiscoSearchForm
             delServer();
         }
     }
-    
-    private void exitSearchForm(){
-        BombusQD.sd.roster.show();
-    }
-    
-    
+
     public void okNotify(String server) {
         addServer(server);
-    }    
+    }
     private void loadDefaults() {
 	Vector defs[]=new StringLoader().stringLoader("/def_search.txt", 1);
         for (int i=0; i<defs[0].size(); i++) {
@@ -204,7 +186,7 @@ public class DiscoSearchForm
         servers=new Vector(0);
         try {
             DataInputStream is=NvStorage.ReadFileRecord("search_servers", 0);
-            try { 
+            try {
                 while (true) servers.addElement(is.readUTF());
             } catch (EOFException e) { is.close(); is=null; }
         } catch (Exception e) { }
@@ -234,20 +216,20 @@ public class DiscoSearchForm
 
     public void eventOk(){
 //#ifdef SERVICE_DISCOVERY
-        if (getItemCount()==0) 
+        if (getItemCount()==0)
             return;
         ListItem join=(ListItem)getFocusedObject();
         new ServiceDiscovery(join.toString(), null, (list!=null)?false:true).show();
 //#endif
     }
-    
+
 
 //#ifdef MENU_LISTENER
-    
-//#ifdef GRAPHICS_MENU        
+
+//#ifdef GRAPHICS_MENU
     public int showGraphicsMenu() {
         commandState();
-        menuItem = new GMenu(this, menuCommands);        
+        menuItem = new GMenu(this, menuCommands);
         GMenuConfig.getInstance().itemGrMenu=GMenu.SEARCH_FORM;
         return GMenu.SEARCH_FORM;
     }
@@ -255,8 +237,8 @@ public class DiscoSearchForm
 //#     public void showMenu() {
 //#         commandState();
 //#         new MyMenu(display, parentView, this, SR.get(SR.MS_BOOKMARKS, null, menuCommands));
-//#     }   
-//#endif      
+//#     }
+//#endif
 
 //#endif
 }

@@ -24,7 +24,7 @@ import locale.SR;
  */
 
 public final class ContactList {
-    
+
     /** Creates a new instance of ContactList */
     public ContactList() {
     }
@@ -73,12 +73,12 @@ public final class ContactList {
         contacts.removeElement(c);
         if (null != c.group) c.group.removeContact(c);
     }
-    
+
     public void addContact(Contact c, boolean self) {
         if(c.group == null) return;
         if (self) contacts.insertElementAt(c,0);
     }
-    
+
     public void addContact(Contact c) {
         if (!contacts.contains(c)) contacts.addElement(c);
     }
@@ -87,7 +87,7 @@ public final class ContactList {
     public Contact getSelfContact() {
         return selfContact;
     }
-    
+
     public Contact getSelfContact(Jid selfJid) {
         Contact selfContact = findContact(contacts, selfJid, false);
         if (null == selfContact) {
@@ -114,7 +114,7 @@ public final class ContactList {
         }
         return null;
     }
-    
+
     public Contact getFirstContactWithNewMessage(Contact contact) {
         if (contacts.isEmpty()) {
             return null;
@@ -136,22 +136,18 @@ public final class ContactList {
         }
         return contact;
     }
-    
-    
+
+
     public void addGroup(Group group) {
         groups.addGroup(group);
     }
-    
+
     public void removeGroup(Group group) {
         groups.removeGroup(group);
     }
-    
+
     public Group getGroup(String name) {
         return groups.getGroup(name);
-    }
-    
-    public Group getGroup(int type) {
-        return groups.getGroup(type);
     }
 
     public ConferenceGroup getConferenceGroup(String name) {

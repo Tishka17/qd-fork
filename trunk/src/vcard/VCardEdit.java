@@ -90,8 +90,8 @@ public class VCardEdit extends DefForm implements MenuListener, Runnable
         cmdRefresh = new Command(SR.get(SR.MS_REFRESH), 0x73);
 
 //#if FILE_IO
-        cmdLoadPhoto=new Command(SR.get(SR.MS_LOAD_PHOTO), MenuIcons.ICON_LOAD_PHOTO);
-        cmdSavePhoto=new Command(SR.get(SR.MS_SAVE_PHOTO), MenuIcons.ICON_SAVE_PHOTO);
+        cmdLoadPhoto=new Command(SR.get(SR.MS_LOAD_PHOTO), MenuIcons.ICON_LOAD);
+        cmdSavePhoto=new Command(SR.get(SR.MS_SAVE_PHOTO), MenuIcons.ICON_SAVE);
 //#endif
 
         cmdDelPhoto = new Command(SR.get(SR.MS_CLEAR_PHOTO), 0x76);
@@ -251,7 +251,7 @@ public class VCardEdit extends DefForm implements MenuListener, Runnable
 //#     super.commandState();
 //#endif
 
-        addCommand(cmdPublish); 
+        addCommand(cmdPublish);
         addCommand(cmdRefresh);
 //#if FILE_IO
         addCommand(cmdLoadPhoto);
@@ -260,7 +260,7 @@ public class VCardEdit extends DefForm implements MenuListener, Runnable
         String cameraAvailable = System.getProperty("supports.video.capture");
         if (cameraAvailable != null) {
             if (cameraAvailable.startsWith("true")) {
-                addCommand(cmdCamera); 
+                addCommand(cmdCamera);
             }
         }
         addCommand(cmdDelPhoto);

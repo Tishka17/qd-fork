@@ -25,6 +25,7 @@ package client.msgedit;
 
 import client.Config;
 import client.Contact;
+import conference.MucContact;
 import javax.microedition.lcdui.TextBox;
 import javax.microedition.lcdui.TextField;
 import javax.microedition.lcdui.Ticker;
@@ -119,7 +120,7 @@ public final class MessageEdit extends BaseMessageEdit {
         }
 //#endif
         if (null != to) {
-            if (to.origin == Contact.ORIGIN_GROUPCHAT) {
+            if (to instanceof MucContact) {
                 input.addCommand(cmdInsNick);
             } else {
                 input.removeCommand(cmdInsNick);

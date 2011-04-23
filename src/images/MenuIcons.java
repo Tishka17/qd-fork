@@ -89,23 +89,24 @@ public class MenuIcons extends ImageList {
 
     public static final byte ICON_USER_SEARCH    = 0x42;
     public static final byte ICON_OK = 0x43;
+    public static final short ICON_ADD = 0x47;
+
+    public static final byte ICON_REMOVE_ICON = 0x51;
+    public static final byte ICON_ADD_SERVER = 0x55;
 
     public static final byte ICON_DISCO_SERVICE = 0x65;
     public static final byte ICON_USER_ACTIVITY = 0x67;
+
+    public static final short ICON_LOAD = 0x74;
+    public static final short ICON_SAVE = 0x74;
+    public static final short ICON_CAMERA = 0x75;
+
+    public static final int ICON_SEARCH = 0x83;
+    public static final int ICON_GOTO_URL = 0x86;
 
     public static final short ICON_OTHER_ACCOUNT = 0x90;
     public static final short ICON_YANDEX_ACCOUNT = 0x91;
     public static final short ICON_GTALK_ACCOUNT = 0x92;
     public static final short ICON_LJ_ACCOUNT = 0x93;
     public static final short ICON_QIP_ACCOUNT = 0x94;
-
-    public static final byte ICON_REMOVE_ICON = 0x51;
-    public static final byte ICON_ADD_SERVER = 0x55;
-
-    public static final short ICON_LOAD_PHOTO = 0x74;
-    public static final short ICON_SAVE_PHOTO = 0x74;
-    public static final short ICON_CAMERA = 0x75;
-
-    public static final int ICON_SEARCH = 0x83;
-    public static final int ICON_GOTO_URL = 0x86;
 }

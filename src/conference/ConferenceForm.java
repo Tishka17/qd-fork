@@ -33,6 +33,7 @@ import conference.bookmark.BookmarkQuery;
 import client.Config;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.Presence;
+import images.MenuIcons;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
 import ui.controls.form.CheckBox;
@@ -134,14 +135,14 @@ public final class ConferenceForm extends DefForm implements MenuListener {
 
     public ConferenceForm(String name, String room, String server, String nick, String password, boolean autojoin) {
         super(SR.get(SR.MS_JOIN_CONFERENCE));
-        
+
         createForm(name, room, server, nick, password, autojoin);
     }
 
     private void createForm(String name, String room, String server, String nick, final String password, boolean autojoin) {
-        cmdJoin=new Command(SR.get(SR.MS_JOIN), 0x43);
-        cmdAdd=new Command(SR.get(SR.MS_ADD_BOOKMARK), 0x42);
-        cmdSave=new Command(SR.get(SR.MS_SAVE), 0x40);
+        cmdJoin=new Command(SR.get(SR.MS_JOIN), MenuIcons.ICON_OK);
+        cmdAdd=new Command(SR.get(SR.MS_ADD_BOOKMARK), MenuIcons.ICON_ADD);
+        cmdSave=new Command(SR.get(SR.MS_SAVE), MenuIcons.ICON_SAVE);
 
         roomField=new TextInput(SR.get(SR.MS_ROOM), room, TextField.ANY);
         addControl(roomField);
@@ -174,7 +175,7 @@ public final class ConferenceForm extends DefForm implements MenuListener {
         if (nick.length()==0 || room.length()==0 || host.length()==0) {
             return;
         }
-        
+
         String name = nameField.getValue();
         String pass = passField.getValue();
 
@@ -217,9 +218,11 @@ public final class ConferenceForm extends DefForm implements MenuListener {
 //#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
 //#endif
+        addCommand(cmdJoin);
         addCommand(cmdAdd);
-        addCommand(cmdSave);
-        addCommand(cmdJoin); 
+        if (editConf != null) {
+            addCommand(cmdSave);
+        }
     }
 
 //#ifdef MENU_LISTENER

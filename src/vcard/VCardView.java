@@ -108,7 +108,7 @@ public class VCardView extends DefForm implements MenuListener
 
         cmdRefresh = new Command(SR.get(SR.MS_REFRESH), 0x10);
 //#if FILE_IO
-        cmdSavePhoto = new Command(SR.get(SR.MS_SAVE_PHOTO), MenuIcons.ICON_SAVE_PHOTO);
+        cmdSavePhoto = new Command(SR.get(SR.MS_SAVE_PHOTO), MenuIcons.ICON_SAVE);
 //#endif
         cmdDelPhoto = new Command(SR.get(SR.MS_CLEAR_PHOTO), 0x41);
         cmdDelVcard = new Command(SR.get(SR.MS_DELETE_VCARD), 0x41);

@@ -9,7 +9,7 @@
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * You can also redistribute and/or modify this program under the
  * terms of the Psi License, specified in the accompanied COPYING
  * file, as published by the Psi Project; either dated January 1st,
@@ -35,13 +35,13 @@ import java.io.DataOutputStream;
 
 public class Strconv {
     private Strconv() {}
-    
+
     public static byte[] stringToByteArray(String val) {
             try {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 DataOutputStream dos = new DataOutputStream(baos);
                 dos.writeUTF(val);
-                  byte[] raw = baos.toByteArray(); 
+                  byte[] raw = baos.toByteArray();
                   byte[] result = new byte[raw.length - 2];
                 System.arraycopy(raw, 2, result, 0, raw.length - 2);
                 raw = null;
@@ -78,7 +78,7 @@ public class Strconv {
         }
         return b.toString();
     }
-    
+
     public static String convUnicodeToCp1251(final String s){
         if (s==null) {
             return null;
@@ -103,13 +103,13 @@ public class Strconv {
 
     public static String toBase64(byte source[], int len) {
         String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-        
+
         if (len<0) len=source.length;
         char[] out = new char[((len+2)/3)<<2];
         for (int i=0, index=0; i<len; i+=3, index +=4) {
             boolean trip=false;
             boolean quad=false;
-            
+
             int val = (0xFF & source[i])<<8;
             if ((i+1) < len) {
                 val |= (0xFF & source[i+1]);
@@ -134,7 +134,7 @@ public class Strconv {
     public static String toBase64(String source) {
         return toBase64(source.getBytes(), source.length());
     }
-    
+
     public static StringBuffer toUTFSb(StringBuffer str) {
         int srcLen = str.length();
         StringBuffer outbuf=new StringBuffer( srcLen );
@@ -144,7 +144,7 @@ public class Strconv {
 
             if ((c >= 1) && (c <= 0x7f)) {
                  outbuf.append( (char) c);
-                
+
             }
              if (((c >= 0x80) && (c <= 0x7ff)) || (c==0)) {
                 outbuf.append((char)(0xc0 | (0x1f & (c >> 6))));
@@ -158,15 +158,11 @@ public class Strconv {
          }
          return outbuf;
      }
-    
+
     public static byte[] fromBase64(String s) {
-        return baosFromBase64(s).toByteArray();                
+        return baosFromBase64(s).toByteArray();
     }
 
-    public static String sFromBase64(String s) {
-        return baosFromBase64(s).toString();
-    }
-    
     private static ByteArrayOutputStream baosFromBase64(String s) {
         int padding=0;
         int ibuf=1;
@@ -194,11 +190,11 @@ public class Strconv {
         try { baos.close(); } catch (Exception e) {};
         return baos;
     }
-    
+
     public static String unicodeToUTF(String src) {
         return toUTFSb(new StringBuffer(src)).toString();
     }
-    
+
     public static String toLowerCase(String src){
         StringBuffer dst = new StringBuffer(src);
         for (int i=0; i < dst.length(); ++i) {
@@ -210,7 +206,7 @@ public class Strconv {
             // cyrillic chars
             if (c>0x40f && c<0x430) {
                 c+=0x430-0x410;
-            }     
+            }
             // TODO: other schemes by request
             dst.setCharAt(i, c);
         }

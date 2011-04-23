@@ -87,10 +87,6 @@ public class ScrollBar {
         this.size = size;
     }
 
-    public int getPostion() {
-        return position;
-    }
-
     public void setPostion(int postion) {
         this.position = postion;
     }

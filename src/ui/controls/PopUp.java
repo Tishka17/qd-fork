@@ -44,16 +44,16 @@ public class PopUp {
 
     private final static int COLOR_ALERT_INK = 0xffffff;
     private final static int COLOR_ALERT_BGND = 0xff0000;
-    
+
     private int popUpHeight, popUpWidth, widthBorder, heightBorder;
     private int border=8;
     private int padding=4;
-    
+
     private Font font;
-    
+
     private int width;
     private int height;
-    
+
     private Vector popUps;
 
     private final static int  SCROLLABLE_NONE=-1;
@@ -64,11 +64,11 @@ public class PopUp {
     private int maxWdth;
 
     private int startLine=0;
-    
+
     public int scrollable=SCROLLABLE_NONE;
-    
+
     private RosterIcons ri;
-            
+
     synchronized public void addPopup(int type, String contact, String message){
         if (message!=null) {
             font=FontCache.getFont(false, Config.baloonFont);//den_po
@@ -84,7 +84,7 @@ public class PopUp {
          font=FontCache.getFont(false, Config.baloonFont);
          ri=RosterIcons.getInstance();
     }
-    
+
     public void init(Graphics g, int width, int height) {
         this.height=height;
         this.width=width;
@@ -95,12 +95,12 @@ public class PopUp {
             return ((PopUpElement)popUps.elementAt(0)).getContact();
         return null;
     }
-    
+
     public int size() {
         if(null == popUps) return -1;
         return popUps.size();
     }
-    
+
     public void next() {
         if(size()>0) {
             popUps.removeElementAt(0);
@@ -108,7 +108,7 @@ public class PopUp {
             startLine=0;
         }
     }
-    
+
     private void scrollDown() {
         if (scrollable==SCROLLABLE_DOWN || scrollable==SCROLLABLE_BOTH) {
             Vector lines=((PopUpElement)popUps.elementAt(0)).getMessage();
@@ -116,7 +116,7 @@ public class PopUp {
             startLine++;
         }
     }
-    
+
     private void scrollUp() {
         if (scrollable==SCROLLABLE_UP || scrollable==SCROLLABLE_BOTH) {
             Vector lines=((PopUpElement)popUps.elementAt(0)).getMessage();
@@ -124,7 +124,7 @@ public class PopUp {
             startLine--;
         }
     }
-    
+
     public boolean handleEvent(int keyCode) {
         if (scrollable>-1) {
             switch (keyCode) {
@@ -141,66 +141,56 @@ public class PopUp {
         next();
         if (keyCode==5)
             return true;
-        
+
         return false;
     }
-    
+
     public void clear() {
-        if(size()>0)
-            popUps.removeAllElements();
-            //if(MFont.isCheck()){
-            //   MFont.Destroy();
-            //}
+        /*if(size()>0)
+            popUps.removeAllElements();*/
+        // experimental
+        popUps = null;
+        popUps = new Vector(0);
     }
 
-    //FontClass MFont = FontClass.getInstance();    
-    
     private void drawAllStrings(Graphics g, int x, int y) {
         Vector lines=((PopUpElement)popUps.elementAt(0)).getMessage();
         if (lines.size()<1) return;
-        
+
         int fh=getFontHeight();
 
         int pos=0;
-      
-        //if(MFont.isCheck()) MFont.setColor(255,getColorInk());
-        
+
         int size=lines.size();
         String line;
-        for(int i=0;i<size;i++){ 
+        for(int i=0;i<size;i++){
             if (pos>=startLine) {
-                //if(MFont.isCheck()){
-                //  MFont.drawString(g,(String)lines.elementAt(i),x, y);
-                //}else{
                 line = (String)lines.elementAt(i);
                 if (line!=null && line.length()>0)  g.drawString(line, x, y, Graphics.TOP|Graphics.LEFT);
-                //}
                 y += fh;
             }
             pos++;
         }
     }
-    
+
     private int getFontHeight() {
-        return //MFont.isCheck() ? MFont.getFontHeight():
-                font.getHeight();
+        return font.getHeight();
     }
 
     private int getHeight() {
         Vector message=((PopUpElement)popUps.elementAt(0)).getMessage();
         return getFontHeight()*(message.size()-startLine);
     }
-    
+
     private int getStrWidth(String string) {
-        return //MFont.isCheck() ? MFont.stringWidth(string):
-                font.stringWidth(string);
+        return font.stringWidth(string);
     }
-    
+
     private int getMaxWidth() {
         Vector lines=((PopUpElement)popUps.elementAt(0)).getMessage();
 
         int length=0;
-        
+
         if (lines.size()<1) return length;
 
 	for (int line=0; line<lines.size(); ) {
@@ -210,7 +200,7 @@ public class PopUp {
 	}
         return length;
     }
-    
+
     private int getColorInk() {
         int type=((PopUpElement)popUps.elementAt(0)).getType();
         switch (type) {
@@ -221,7 +211,7 @@ public class PopUp {
         }
         return COLOR_ALERT_INK;
     }
-    
+
     private int getColorBgnd() {
         int type=((PopUpElement)popUps.elementAt(0)).getType();
         switch (type) {
@@ -235,24 +225,24 @@ public class PopUp {
 
     private int getARGB() {
       int ccolor = getColorBgnd();
-      int red, green, blue,alpha;
-      long tmp; 
+      int red, green, blue;
+      long tmp;
       int alpha_ = midlet.BombusQD.cf.popup_bgnd;
       red = ColorTheme.getRed(ccolor);
       green = ColorTheme.getGreen(ccolor);
       blue = ColorTheme.getBlue(ccolor);
       tmp = (alpha_ << 24) | (red << 16) | (green << 8) | blue;
       return (int)tmp;
-    }     
+    }
 
     public void paintCustom(Graphics graph) {
 	if(size()<1)
 	    return;
 
         scrollable=(startLine>0)?SCROLLABLE_UP:SCROLLABLE_NONE;
-        
+
         maxWdth=getMaxWidth();
-        
+
         popUpWidth=(maxWdth>(width-border))?width-border:maxWdth+padding;
         widthBorder=(maxWdth>popUpWidth)?border/2:(width-popUpWidth)/2;
 
@@ -260,7 +250,7 @@ public class PopUp {
 
         if (stringsHeight>height) {
             scrollable=(startLine>0)?SCROLLABLE_BOTH:SCROLLABLE_DOWN;
-            
+
             heightBorder=0;
             popUpHeight=height;
         } else {
@@ -270,7 +260,7 @@ public class PopUp {
 
          if(midlet.BombusQD.cf.popup_bgnd!=0){
           int alpha_=getARGB();
-          int[] pixelArray = new int[width * height];  
+          int[] pixelArray = new int[width * height];
           int lengntp = pixelArray.length;
           for(int i = 0; i < lengntp; i++){
              pixelArray[i] = alpha_;
@@ -281,12 +271,12 @@ public class PopUp {
            graph.drawRect(widthBorder,heightBorder,popUpWidth,popUpHeight);
          }else{
           graph.setColor(getColorBgnd());
-          graph.fillRect(widthBorder+1,heightBorder+1,popUpWidth-1,popUpHeight-1);             //fill             
+          graph.fillRect(widthBorder+1,heightBorder+1,popUpWidth-1,popUpHeight-1);             //fill
          }
           graph.setColor(getColorInk());
           graph.drawRect(widthBorder,heightBorder,popUpWidth,popUpHeight);                 //border
           graph.setFont(font);
-          
+
         switch (scrollable) {
             case SCROLLABLE_UP:
                 ri.drawImage(graph, 0x27, widthBorder+maxWdth-ri.getWidth(), heightBorder+popUpHeight-ri.getHeight());
@@ -298,7 +288,7 @@ public class PopUp {
                 ri.drawImage(graph, 0x26, widthBorder+maxWdth-ri.getWidth(), heightBorder+popUpHeight-ri.getHeight());
                 break;
         }
-       
+
 
           drawAllStrings(graph, widthBorder+2, heightBorder+3);
     }
@@ -312,11 +302,6 @@ public class PopUp {
             this.from=from;
             this.type=type;
             this.message=message;
-        }
-
-        public void destroy() {
-            this.message=null;
-            this.from=null;
         }
 
         public int getType() { return type; }

@@ -42,7 +42,7 @@ import com.alsutton.jabber.*;
 import com.alsutton.jabber.datablocks.*;
 import client.*;
 import ui.MainBar;
-//#ifdef GRAPHICS_MENU        
+//#ifdef GRAPHICS_MENU
 import ui.GMenu;
 import ui.GMenuConfig;
 //#endif
@@ -52,54 +52,54 @@ import ui.GMenuConfig;
  */
 public class SearchResult
         extends VirtualList
-        implements 
+        implements
 //#ifndef MENU_LISTENER
 //#         CommandListener,
 //#else
         MenuListener
-//#endif  
+//#endif
 {
-    
+
     StaticData sd=StaticData.getInstance();
     private Command cmdAdd;
-    
+
     private Vector items;
     boolean xData;
 
     public SearchResult(JabberDataBlock result) {
         super();
-        
+
         cmdAdd=new Command(SR.get(SR.MS_ADD), 0x47);
         String service=result.getAttribute("from");
-        
+
         setMainBarItem(new MainBar(2, null, service, false));
 
         items=new Vector(0);
-        
+
         JabberDataBlock query=result.getChildBlock("query");
         if (query==null) return;
-        
+
         addCommand(cmdAdd);
 
         JabberDataBlock x=query.getChildBlock("x");
         if (x!=null) { query=x; xData=true; }
-        
+
         sd.roster.cleanupSearch();
-        
+
         StringBuffer vcard;
         Contact serv;
         Msg m;
         Vector queryElements = query.getChildBlocks();
         Vector childBlocks = new Vector(0);
-        
+
         int size = queryElements.size();
         for(int i = 0; i<size; ++i){
             JabberDataBlock child = (JabberDataBlock) queryElements.elementAt(i);
-	    
+
             if (child.getTagName().equals("item")) {
                 vcard = new StringBuffer(0);
                 String jid="";
-		
+
 	        byte status=Presence.PRESENCE_OFFLINE;
                 if (!xData) { jid=child.getAttribute("jid"); }
 
@@ -134,19 +134,19 @@ public class SearchResult
                 m.unread=false;
                 m.itemCollapsed = false;
                 serv.addMessage(m);
-                
+
                 items.addElement(serv);
                 sd.roster.addContact(serv);
             }
         }
         vcard = new StringBuffer(0);
         vcard = null;
-        
+
         queryElements = new Vector(0);
         childBlocks = new Vector(0);
         sd.roster.reEnumRoster();
      }
-    
+
     public void commandState(){
 //#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
@@ -161,14 +161,10 @@ public class SearchResult
         showContactEditForm();
     }
 
-    public void touchRigthPressed() {
-        destroyView();
-    }
-     
     public int showGraphicsMenu() {
          commandState();
          menuItem = new GMenu(this, menuCommands);
-         GMenuConfig.getInstance().itemGrMenu = -1;        
+         GMenuConfig.getInstance().itemGrMenu = -1;
          eventOk();
          return -1;
     }
@@ -187,7 +183,7 @@ public class SearchResult
         form.setParentView(sd.roster);
         form.show();
     }
-    
+
     public void eventOk(){
         try {
             Contact c=(Contact)getFocusedObject();

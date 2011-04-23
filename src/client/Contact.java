@@ -96,8 +96,6 @@ public class Contact extends IconTextElement {
     public boolean acceptComposing;
     public boolean showComposing=false;
 
-    public short deliveryType;
-
     public byte incomingState=0;//INC_NONE=0
 
     protected byte key0;
@@ -488,8 +486,6 @@ public class Contact extends IconTextElement {
         }
         return null;
     }
-
-    public boolean inGroup(Group ingroup) {  return group==ingroup;  }
 
     public int transport;
     public int status;

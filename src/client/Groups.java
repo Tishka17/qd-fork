@@ -42,25 +42,25 @@ import ui.VirtualList;
  */
 
 public class Groups implements JabberBlockListener{
-    
+
     Vector groups;
-    
+
     public final static byte TYPE_SELF=0;
     public final static byte TYPE_NO_GROUP=1;
     public final static byte TYPE_COMMON=2;
     public final static byte TYPE_VISIBLE=3;
     public final static byte TYPE_VIP=4;
     public final static byte TYPE_IGNORE=5;
-    public final static byte TYPE_MUC=6;    
+    public final static byte TYPE_MUC=6;
     public final static byte TYPE_SEARCH_RESULT=7;
     public final static byte TYPE_NOT_IN_LIST=8;
     public final static byte TYPE_TRANSP=9;
     public final static byte TYPE_CONFERENCE=10;
 
     public final static String COMMON_GROUP=SR.get(SR.MS_GENERAL);
-    
+
     private final static String GROUPSTATE_NS="http://bombusmod-qd.wen.ru/groups";
-    
+
     private Group[] spetialGroup = new Group[11];
     public Groups(){
         groups=new Vector(0);
@@ -83,26 +83,21 @@ public class Groups implements JabberBlockListener{
         return spetialGroup[type];
     }
 
-    public Enumeration elements(){
-        return groups.elements();
-    }
-    
     public Group getGroup(String name) {
         int size = groups.size();
         for (int i = 0; i < size; ++i) {
-        //for (Enumeration e=groups.elements();e.hasMoreElements();){
             Group grp=(Group)groups.elementAt(i);
             if (name.equals(grp.name)) return grp;
         }
         return null;
     }
-    
+
     public Group addGroup(String name, byte type) {
         Group ng=new Group(name, type);
         spetialGroup[type] = ng;
         return addGroup(ng);
     }
-    
+
     public Group addGroup(Group ng) {
         groups.addElement(ng);
         VirtualList.sort(groups);
@@ -119,7 +114,7 @@ public class Groups implements JabberBlockListener{
         }
         return s;
     }
-    
+
     public int getCount() {return groups.size();}
 
     public int getRosterContacts() { return rosterContacts; }
@@ -133,17 +128,17 @@ public class Groups implements JabberBlockListener{
         if (data instanceof Iq) {
             if (data.getTypeAttribute().equals("result")) {
                 JabberDataBlock query=data.findNamespace("query", "jabber:iq:private");
-                if (query==null) 
+                if (query==null)
                     return BLOCK_REJECTED;
                 JabberDataBlock gs=query.findNamespace("gs", GROUPSTATE_NS);
-                if (gs==null || gs.getChildBlocks()==null) 
+                if (gs==null || gs.getChildBlocks()==null)
                     return BLOCK_REJECTED;
                 for (Enumeration e=gs.getChildBlocks().elements(); e.hasMoreElements();) {
                     JabberDataBlock item=(JabberDataBlock)e.nextElement();
                     String groupName=item.getText();
                     boolean collapsed=item.getAttribute("state").equals("collapsed");
                     Group grp=getGroup(groupName);
-                    if (grp==null) 
+                    if (grp==null)
                         continue;
                     grp.collapsed=collapsed;
                 }
@@ -155,13 +150,13 @@ public class Groups implements JabberBlockListener{
     }
 
     public void queryGroupState(boolean get) {
-        if (!midlet.BombusQD.sd.roster.isLoggedIn()) 
+        if (!midlet.BombusQD.sd.roster.isLoggedIn())
             return;
-        
+
         JabberDataBlock iq=new Iq(null, (get)? Iq.TYPE_GET : Iq.TYPE_SET, (get)? "queryGS" : "setGS");
         JabberDataBlock query=iq.addChildNs("query", "jabber:iq:private");
         JabberDataBlock gs=query.addChildNs("gs", GROUPSTATE_NS);
-        
+
         if (get) {
             midlet.BombusQD.sd.roster.theStream.addBlockListener(this);
         } else {
@@ -174,7 +169,7 @@ public class Groups implements JabberBlockListener{
         }
         midlet.BombusQD.sd.roster.theStream.send(iq);
     }
-    
+
     private int rosterContacts;
     private int rosterOnline;
 
@@ -187,7 +182,7 @@ public class Groups implements JabberBlockListener{
            selfContactGroup.visible = selfContactGroup.hasNewMsgs();
         }
         //if (!selfContactGroup.visible) selfContactGroup.visible |= selfContactGroup.hasNewMsgs(); //?? Stupid code
-        
+
         // hiddens
         getGroup(TYPE_IGNORE).visible = midlet.BombusQD.cf.ignore;
         //getGroup(TYPE_CONFERENCE).visible = true;
@@ -196,7 +191,7 @@ public class Groups implements JabberBlockListener{
         // transports
         Group transpGroup = getGroup(TYPE_TRANSP);
         transpGroup.visible = (midlet.BombusQD.cf.showTransports || transpGroup.hasNewMsgs());
-        
+
         rosterContacts = 0;
         rosterOnline = 0;
         for (int i = 0; i < getCount(); i++) {
@@ -211,12 +206,12 @@ public class Groups implements JabberBlockListener{
     public void addToVector(Vector d, Group gr) {
         if (!gr.visible) return;
         if (0 == gr.getNContacts()) return;
-        
+
         int groupType = gr.type;
         if( groupType == TYPE_NO_GROUP || groupType == TYPE_COMMON) {
             if(0 == gr.onlines && !midlet.BombusQD.cf.showOfflineContacts) return;
         }
-        
+
         d.addElement(gr);
         Vector contacts = gr.visibleContacts;
          if (!gr.collapsed) {
@@ -226,8 +221,8 @@ public class Groups implements JabberBlockListener{
         gr.updateDynamicInfo();
         //if (gr.type>Groups.TYPE_MUC) return; //don't count this contacts
     }
-    
-    
+
+
     public final Vector getVisibleTree(Vector vContacts) {//reEnum
         //Vector vContacts = new Vector(0);
         for (int i = 0; i < getCount(); i++) {

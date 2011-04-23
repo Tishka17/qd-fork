@@ -2460,16 +2460,6 @@ public final class Roster
     }
 
 //#ifndef WMUC
-     public int getConferenceColor(int status) {
-         switch (status) {
-             case Presence.PRESENCE_CHAT: return ColorTheme.getColor(ColorTheme.CONTACT_CHAT);
-             case Presence.PRESENCE_AWAY: return ColorTheme.getColor(ColorTheme.CONTACT_AWAY);
-             case Presence.PRESENCE_XA: return ColorTheme.getColor(ColorTheme.CONTACT_XA);
-             case Presence.PRESENCE_DND: return ColorTheme.getColor(ColorTheme.CONTACT_DND);
-         }
-         return ColorTheme.getColor(ColorTheme.CONTACT_DEFAULT);
-     }
-
      private static String getAffiliationLocale(int aff) {
          switch (aff) {
              case MucContact.AFFILIATION_NONE: return SR.get(SR.MS_AFFILIATION_NONE);

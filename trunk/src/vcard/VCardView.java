@@ -64,6 +64,7 @@ import midlet.Commands;
 import ui.GMenu;
 import ui.GMenuConfig;
 import ui.MainBar;
+import ui.VirtualElement;
 //#endif
 
 /**
@@ -225,21 +226,27 @@ public class VCardView extends DefForm implements MenuListener
 //#endif
 //#ifdef CLIPBOARD
         } else if (c == Commands.cmdCopy) {
-            String lineValue = ((MultiLine)getFocusedObject()).getValue();
+            /*String lineValue = ((MultiLine)getFocusedObject()).getValue();
 
             if (lineValue != null) {
                 ClipBoard.setClipBoard(lineValue);
+            }*/
+            String str = ((VirtualElement)getFocusedObject()).toString();
+            if (str != null) {
+                ClipBoard.setClipBoard(str);
             }
         } else if (c == Commands.cmdCopyPlus) {
-            String lineValue = ((MultiLine)getFocusedObject()).getValue();
+            /*String lineValue = ((MultiLine)getFocusedObject()).getValue();
 
             if (lineValue != null) {
                 ClipBoard.addToClipBoard(lineValue);
+            }*/
+            String str = ((VirtualElement)getFocusedObject()).toString();
+            if (str != null) {
+                ClipBoard.addToClipBoard(str);
             }
 //#endif
         }
-
-        //super.commandAction(c, d);
     }
 
     private void refreshVCard() {

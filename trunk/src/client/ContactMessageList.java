@@ -322,11 +322,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
             keyGreen();
 //#ifdef CLIPBOARD
         } else if (c == Commands.cmdPaste) {
-//#ifdef RUNNING_MESSAGE
             showMsgEdit(ClipBoard.getClipBoard());
-//#else
-//#             new MessageEdit(display, this, contact, ClipBoard.getClipBoard());
-//#endif
 //#endif
         } else if (c == Commands.cmdResume) {
             keyGreen();
@@ -478,12 +474,9 @@ public final class ContactMessageList extends MessageList implements InputTextBo
 
 
     public void keyGreen(){
-        if (!midlet.BombusQD.sd.roster.isLoggedIn()) return;
-//#ifdef RUNNING_MESSAGE
-        showMsgEdit(contact.msgSuspended);
-//#else
-//#     new MessageEdit(display, this, contact, contact.msgSuspended);
-//#endif
+        if (midlet.BombusQD.sd.roster.isLoggedIn()) {
+            showMsgEdit(contact.msgSuspended);
+        }
     }
 
     private void showMsgEdit(String msgText){
@@ -502,7 +495,6 @@ public final class ContactMessageList extends MessageList implements InputTextBo
                 msg.messageType == Msg.MESSAGE_TYPE_SUBJ)
                 keyGreen();
             else {
-//#ifdef RUNNING_MESSAGE
                String messg = msg.from+": ";
 //#ifdef JUICK.COM
                if(msg.messageType==Msg.MESSAGE_TYPE_JUICK){
@@ -522,11 +514,6 @@ public final class ContactMessageList extends MessageList implements InputTextBo
              }
 
              showMsgEdit(messg);
-
-
-//#else
-//#             new MessageEdit(display, this, contact, msg.from+": ");
-//#endif
           }
         } catch (Exception e) {/*no messages*/}
     }
@@ -694,11 +681,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
                 .append((char)0xbb)
                 .append("\n")
                 .toString();
-//#ifdef RUNNING_MESSAGE
                 showMsgEdit(msg);
-//#else
-//#             new MessageEdit(display, this, contact, msg);
-//#endif
             msg=null;
         } catch (Exception e) {/*no messages*/}
     }

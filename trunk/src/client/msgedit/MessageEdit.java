@@ -38,23 +38,24 @@ public final class MessageEdit extends BaseMessageEdit {
     public MessageEdit() {
         super();
 
-        if (midlet.BombusQD.cf.runningMessage) {
-            input = new TextBox("", body, MAX_EDITOR_SIZE, TextField.ANY);
-            ticker = new Ticker("BombusQD");
-            input.setTicker(ticker);
-        } else {
-            int maxSize = MAX_EDITOR_SIZE;
-            input = new TextBox("", null, maxSize, TextField.ANY);
-            try {
-                maxSize = input.setMaxSize(MAX_EDITOR_SIZE);
-                if (body != null) {
-                    if (body.length() > maxSize) {
-                        body = body.substring(0, maxSize - 1);
-                    }
-                    input.setString(body);
+        int maxSize = MAX_EDITOR_SIZE;
+        input = new TextBox("", null, MAX_EDITOR_SIZE, TextField.ANY);
+        try {
+            maxSize = input.setMaxSize(MAX_EDITOR_SIZE);
+            if (body != null) {
+                if (body.length() > maxSize) {
+                    body = body.substring(0, maxSize - 1);
                 }
-            } catch (Exception e) {}
+                input.setString(body);
+            }
+        } catch (Exception e) {}
+
+//#ifdef RUNNING_MESSAGE
+        if (midlet.BombusQD.cf.runningMessage) {
+            ticker = new Ticker("BombusQQ");
+            input.setTicker(ticker);
         }
+//#endif
 
         input.addCommand(cmdSend);
         input.addCommand(cmdInsMe);

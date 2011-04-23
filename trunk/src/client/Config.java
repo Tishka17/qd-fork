@@ -282,6 +282,8 @@ public class Config {
     public static boolean animatedSmiles = true;
 
     public int msgEditType = 0;
+
+    // TODO use preprocessor directive
     public boolean runningMessage = false;
 
     public static boolean debug = false;

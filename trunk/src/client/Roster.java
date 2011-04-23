@@ -3050,15 +3050,20 @@ public final class Roster
 
     public void setMsgEditText(Contact contact, String text){
          msgEditor.setString(text);
-         msgEditor.show(contact, text);
+         showMsgEditor(contact, text);
     }
 
-    public void showMultiMsgEditor(Vector contacts){
-         msgEditor.show(contacts);
+    public void showMultiMsgEditor(Vector contacts) {
+//#ifdef RUNNING_MESSAGE
+        msgEditor.setTicker("");
+//#endif
+        msgEditor.show(contacts);
     }
 
-    public void showMsgEditor(Contact c, String body){
-        msgEditor.setTicker("BombusQD");
+    public void showMsgEditor(Contact c, String body) {
+//#ifdef RUNNING_MESSAGE
+        msgEditor.setTicker(c.getNickJid());
+//#endif
         msgEditor.show(c, body);
     }
 

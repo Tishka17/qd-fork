@@ -27,19 +27,16 @@
 //#ifdef CLASSIC_CHAT
 //# package client;
 //# 
-//# import javax.microedition.lcdui.*;
-//#ifdef CONSOLE
-//#endif
-//# import util.StringUtils;
 //# import conference.AppendNickForm;
+//# import javax.microedition.lcdui.Command;
+//# import javax.microedition.lcdui.CommandListener;
+//# import javax.microedition.lcdui.Displayable;
+//# import javax.microedition.lcdui.Form;
+//# import javax.microedition.lcdui.TextField;
 //# import midlet.BombusQD;
-//#ifndef GRAPHICS_MENU
-//# import Menu.RosterToolsMenu;
-//#endif
+//# import util.StringUtils;
 //# 
 //# public class SimpleItemChat implements CommandListener {
-//#   Displayable parentView;
-//# 
 //#   private Form form;
 //#   //private Command exit;
 //#   public TextField txtField;
@@ -52,29 +49,31 @@
 //# 
 //#   public TextField msgTF;
 //# 
-//#ifdef CLASSIC_CHAT
 //#   public ClassicChat scroller;
-//#endif
 //# 
-//#   public SimpleItemChat(Displayable pView,Contact contact) {
+//#   public SimpleItemChat(Contact contact) {
 //#     this.contact=contact;
 //# 
 //#     StaticData.getInstance().roster.activeContact=contact;
 //#     contact.setIncoming(0);
 //# 
-//#     cmdSend=new Command(locale.SR.get(locale.SR.MS_SEND), Command.SCREEN, 1);
+//#     if (Config.swapSendAndSuspend) {
+//#         cmdSend = new Command(locale.SR.get(locale.SR.MS_SEND), Command.BACK, 1);
+//#         cmdCancel = new Command(locale.SR.get(locale.SR.MS_BACK), Command.SCREEN, 2);
+//#     } else {
+//#         cmdSend = new Command(locale.SR.get(locale.SR.MS_SEND), Command.SCREEN, 1);
+//#         cmdCancel = new Command(locale.SR.get(locale.SR.MS_BACK), Command.BACK, 2);
+//#     }
+//# 
 //#     cmdInsNick=new Command(locale.SR.get(locale.SR.MS_NICKNAMES),Command.SCREEN,6);
-//#     cmdInsMe=new Command(locale.SR.get(locale.SR.MS_SLASHME), Command.SCREEN, 5); ; // /me
-//#     cmdCancel=new Command(locale.SR.get(locale.SR.MS_BACK), Command.BACK, 2);
+//#     cmdInsMe=new Command(locale.SR.get(locale.SR.MS_SLASHME), Command.SCREEN, 5);
 //# 
 //#     form = new Form(contact.getJid());
 //#     int width = form.getWidth();
 //#     int height = form.getHeight();
 //# 
 //#     msgTF = new TextField(null, null, 1024, 0);
-//#ifdef CLASSIC_CHAT
 //#     scroller = new ClassicChat(null, width, Config.getInstance().classicChatHeight , contact);
-//#endif
 //# 
 //#     Config.getInstance().width_classic=width;
 //# 
@@ -86,9 +85,7 @@
 //#     form.addCommand(cmdInsMe);
 //#     form.setCommandListener(this);
 //# 
-//#ifdef CLASSIC_CHAT
 //#     contact.scroller=scroller;
-//#endif
 //# 
 //#     int size = contact.getChatInfo().msgs.size();
 //#       for (int i = 0; i<size; i++) {
@@ -100,28 +97,24 @@
 //#       }
 //#     contact.getChatInfo().reEnumCounts();
 //# 
-//#     this.parentView = pView;
 //#     BombusQD.setCurrentView(form);
 //#   }
 //# 
-//#   public void commandAction(Command c, Displayable s) {
-//#     if (c == cmdSend){
-//#         String msg = msgTF.getString().trim();
-//#       if ((msg != null) && (!msg.equals("")) && msg.length()>=1){
-//#         StaticData.getInstance().roster.sendMessage(contact, null, msg , null, null);
-//#         msgTF.delete(0,msgTF.size());
-//#       }
+//#     public void commandAction(Command c, Displayable s) {
+//#         if (c == cmdSend) {
+//#             String msg = msgTF.getString().trim();
+//#             if ((msg != null) && (msg.length() != 0)) {
+//#                 StaticData.getInstance().roster.sendMessage(contact, null, msg, null, null);
+//#                 msgTF.delete(0, msgTF.size());
+//#             }
+//#         } else if (c == cmdInsNick) {
+//#             new AppendNickForm(contact, msgTF.getCaretPosition(), msgTF).show();
+//#             return;
+//#         } else if (c == cmdInsMe) {
+//#             msgTF.setString("/me ");
+//#         } else if (c == cmdCancel) {
+//#             BombusQD.sd.roster.show();
+//#         }
 //#     }
-//#     if (c == cmdInsNick){
-//#          new AppendNickForm(contact, msgTF.getCaretPosition() , msgTF).show();
-//#          return;
-//#     }
-//#     if (c == cmdInsMe){
-//#         msgTF.setString("/me ");
-//#     }
-//#     if (c == cmdCancel){
-//#         BombusQD.setCurrentView(parentView);
-//#     }
-//#   }
 //# }
 //#endif

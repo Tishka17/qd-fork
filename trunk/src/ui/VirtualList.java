@@ -1638,7 +1638,7 @@ public abstract class VirtualList extends CanvasEx {
             if (getPopUp().getContact()!=null) {
 //#ifdef CLASSIC_CHAT
 //#                    if(midlet.BombusQD.cf.module_classicchat){
-//#                       new SimpleItemChat(sd.roster,sd.roster.getContact(popup.getContact(), false));
+//#                       new SimpleItemChat(sd.roster.getContact(popup.getContact(), false));
 //#                    } else {
 //#endif
                        Contact c = sd.roster.getContact(popup.getContact(), false);

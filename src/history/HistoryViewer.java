@@ -129,7 +129,7 @@ public class HistoryViewer extends MessageList implements Runnable, InputTextBox
                     DataInputStream dis = new DataInputStream(bais);
                     byte msgtype = dis.readByte();
                     String from = dis.readUTF();
-                    String date = dis.readUTF();
+                    long date = dis.readLong();
                     String text = dis.readUTF();
 
                     Msg msg = new Msg(msgtype, from, null, text);

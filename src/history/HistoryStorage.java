@@ -130,7 +130,7 @@ public class HistoryStorage {
                 if (os != null) {
                     os.close();
                 }
-                file.close();                
+                file.close();
             } catch (IOException io) {
 //#ifdef DEBUG
 //#                 io.printStackTrace();
@@ -152,7 +152,7 @@ public class HistoryStorage {
 
               das.writeByte(message.messageType);
               das.writeUTF(message.from);
-              das.writeUTF(message.getDayTime());
+              das.writeLong(message.dateGmt);
               das.writeUTF(message.body);
 
             byte[] textData = baos.toByteArray();

@@ -72,8 +72,9 @@ public final class AltMessageEdit extends BaseMessageEdit {
 //#ifdef SMILES
         form.addCommand(cmdSmile);
 //#endif
+//#ifdef TRANSLATE
         form.addCommand(cmdTranslate);
-
+//#endif
 //#ifdef DETRANSLIT
 //#         form.addCommand(cmdSendInTranslit);
 //#         form.addCommand(cmdSendInDeTranslit);

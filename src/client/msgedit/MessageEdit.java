@@ -62,8 +62,9 @@ public final class MessageEdit extends BaseMessageEdit {
 //#ifdef SMILES
         input.addCommand(cmdSmile);
 //#endif
+//#ifdef TRANSLATE
         input.addCommand(cmdTranslate);
-
+//#endif
 //#ifdef DETRANSLIT
 //#         input.addCommand(cmdSendInTranslit);
 //#         input.addCommand(cmdSendInDeTranslit);

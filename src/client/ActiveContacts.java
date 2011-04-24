@@ -156,7 +156,7 @@ public final class ActiveContacts extends VirtualList implements
         Contact contact = (Contact) getFocusedObject();
 //#ifdef CLASSIC_CHAT
 //#         if (Config.module_classicchat) {
-//#             new SimpleItemChat(BombusQD.sd.roster, contact);
+//#             new SimpleItemChat(contact);
 //#         } else {
 //#endif
             contact.getMessageList().show();

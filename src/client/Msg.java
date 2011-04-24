@@ -143,14 +143,16 @@ public class Msg {
     //memory leak
     public String toString() {
         StringBuffer buf = new StringBuffer();
-        if (Config.showTimeInMsgs) {
-            buf.append("[");
-            if ((Time.utcTimeMillis() - dateGmt) > 86400000) {
-                buf.append(getDayTime());
-            } else {
-                buf.append(getTime());
+        if (MucChat || isPresence() || !(Config.showNickNames && subject != null)) {
+            if (Config.showTimeInMsgs) {
+                buf.append("[");
+                if ((Time.utcTimeMillis() - dateGmt) > 86400000) {
+                    buf.append(getDayTime());
+                } else {
+                    buf.append(getTime());
+                }
+                buf.append("] ");
             }
-            buf.append("] ");
         }
         buf.append(body);
         return buf.toString();

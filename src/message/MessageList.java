@@ -127,13 +127,13 @@ public abstract class MessageList extends VirtualList
                 new MessageUrl(urls).show();
             }
         } else if (c == Commands.cmdxmlSkin) {
-             ColorTheme.loadSkin(((MessageItem)getFocusedObject()).msg.body, 2, true);
+             ColorTheme.loadSkin(item.msg.body, 2, true);
         }
 //#ifdef CLIPBOARD
         else if(c == Commands.cmdCopy) {
-            ClipBoard.setClipBoard(StringUtils.replaceNickTags(item.msg).toString());
+            ClipBoard.setClipBoard(StringUtils.replaceNickTags(item.msg.toString()));
         } else  if (c == Commands.cmdCopyPlus) {
-            ClipBoard.addToClipBoard(StringUtils.replaceNickTags(item.msg).toString());
+            ClipBoard.addToClipBoard(StringUtils.replaceNickTags(item.msg.toString()));
         }
 //#endif
     }

@@ -53,25 +53,13 @@ public class StringUtils {
     private final static String[] badChars= { "?", "\\", "/", "*", ".", "\"", ":", "%", "@", "|", "<", ">", "COM", "LPT", "NULL", "PRINT"};
 
     public static String replaceNickTags(String body){
-         StringBuffer sb = new StringBuffer(0);
-         if (null==body) return null;
-         body = body+" ";
-         boolean parse = true;
-         int f1,f2,len=0;
-         while(parse){
-          len = body.length();
-          f1 = body.indexOf("<nick>");
-          f2 = body.indexOf("</nick>");
-          if(f1>-1 || f2>-1){
-            for(int i=0;i<len;i++){
-              if(i==f1) i+=6;
-              if(i==f2) i+=7;
-              sb.append(body.charAt(i));
-            }
-            body = sb.toString();
-          } else parse = false;
+         if (null==body) {
+             return null;
          }
-         return body.substring(0,len-1);
+
+         body = stringReplace(body, "<nick>", "");
+         body = stringReplace(body, "</nick>", "");
+         return body;
     }
 
     public static Msg replaceNickTags(Msg msg){

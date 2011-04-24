@@ -329,11 +329,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
         } else if (c == Commands.cmdQuote) {
             quoteMessage();
         } else if (c == Commands.cmdReply) {
-            if (contact.getJid().indexOf("juick@juick.com") > -1) {
-                reply(false);
-            } else {
-                checkOffline();
-            }
+            answer();
         } else if (c == Commands.cmdAddSearchQuery) {
             InputTextBox input = new InputTextBox(SR.get(SR.MS_SEARCH), null, 30, TextField.ANY);
             input.setNotifyListener(this);
@@ -489,22 +485,27 @@ public final class ContactMessageList extends MessageList implements InputTextBo
 
         try {
             Msg msg = getMessage(cursor);
-            if(msg != null) msg=util.StringUtils.replaceNickTags(msg);
-            if (msg==null ||
-                msg.messageType == Msg.MESSAGE_TYPE_OUT ||
-                msg.messageType == Msg.MESSAGE_TYPE_SUBJ)
+            if (msg == null ||
+                    msg.messageType == Msg.MESSAGE_TYPE_OUT ||
+                    msg.messageType == Msg.MESSAGE_TYPE_SUBJ)
                 keyGreen();
             else {
-               String messg = msg.from+": ";
+                String text;
 //#ifdef JUICK.COM
                if(msg.messageType==Msg.MESSAGE_TYPE_JUICK){
-                    messg=util.StringUtils.replaceNickTags(msg.id);
-               }
+                    text=util.StringUtils.replaceNickTags(msg.id);
+               } else {
 //#endif
-             if(messg==null) messg = "";
+                   msg = util.StringUtils.replaceNickTags(msg);
+                   text = msg.from+": ";
+               }
+
+             if(text==null) {
+                 text = "";
+             }
 
              if(contact.msgSuspended != null && check) {
-               final String msgText = messg;
+               final String msgText = text;
                AlertBox box = new AlertBox(msg.from, SR.get(SR.MS_MSGBUFFER_NOT_EMPTY), AlertBox.BUTTONS_YESNO) {
                     public void yes() { showMsgEdit(msgText); }
                     public void no()  { keyGreen(); }
@@ -513,7 +514,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
                return;
              }
 
-             showMsgEdit(messg);
+             showMsgEdit(text);
           }
         } catch (Exception e) {/*no messages*/}
     }

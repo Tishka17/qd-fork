@@ -72,7 +72,9 @@ public abstract class BaseMessageEdit implements CommandListener {
     protected Command cmdSmile;
     protected Command cmdSubj;
     protected Command cmdSuspend;
+//#ifdef TRANSLATE
     protected Command cmdTranslate;
+//#endif
 
 //#ifdef RUNNING_MESSAGE
     protected Ticker ticker = null;
@@ -100,7 +102,9 @@ public abstract class BaseMessageEdit implements CommandListener {
         cmdLastMessage = new Command(SR.get(SR.MS_PREVIOUS), Command.SCREEN, 9);
         cmdSubj = new Command(SR.get(SR.MS_SET_SUBJECT), Command.SCREEN, 10);
         cmdCancel = new Command(SR.get(SR.MS_CANCEL), Command.SCREEN, 99);
+//#ifdef TRANSLATE
         cmdTranslate = new Command(SR.get(SR.MS_TRANSLATE), Command.SCREEN, 337);
+//#endif
 //#ifdef ARCHIVE
         cmdPaste = new Command(SR.get(SR.MS_ARCHIVE), Command.SCREEN, 6);
 //#endif

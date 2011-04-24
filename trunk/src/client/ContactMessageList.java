@@ -487,9 +487,9 @@ public final class ContactMessageList extends MessageList implements InputTextBo
             Msg msg = getMessage(cursor);
             if (msg == null ||
                     msg.messageType == Msg.MESSAGE_TYPE_OUT ||
-                    msg.messageType == Msg.MESSAGE_TYPE_SUBJ)
+                    msg.messageType == Msg.MESSAGE_TYPE_SUBJ) {
                 keyGreen();
-            else {
+            } else {
                 String text;
 //#ifdef JUICK.COM
                if(msg.messageType==Msg.MESSAGE_TYPE_JUICK){
@@ -498,7 +498,9 @@ public final class ContactMessageList extends MessageList implements InputTextBo
 //#endif
                    msg = util.StringUtils.replaceNickTags(msg);
                    text = msg.from+": ";
-               }
+//#ifdef JUICK.COM
+              }
+//#endif
 
              if(text==null) {
                  text = "";

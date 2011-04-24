@@ -34,7 +34,7 @@ import util.Time;
 
 /**
  *
- * @author Eugene Stahov 
+ * @author Eugene Stahov
  */
 public class Msg {
     // without signaling
@@ -50,26 +50,26 @@ public class Msg {
     public final static byte MESSAGE_TYPE_SYSTEM=15;
 //#ifdef JUICK.COM
     public final static byte MESSAGE_TYPE_JUICK=18;
-//#endif    
+//#endif
     public boolean highlite;
-    
+
     public byte messageType;
-    
+
     public boolean MucChat;
-    
+
     public String from;
     public String subject;
     public String body;
     public long dateGmt;
     public boolean delivered;
     public String id;
-    public boolean search_word;        
-    
+    public boolean search_word;
+
     public boolean unread = false;
 
     public boolean itemCollapsed;
     //public int itemHeight=-1;
-    
+
     public int color = -1;
 
     public boolean selected;
@@ -80,7 +80,7 @@ public class Msg {
        if(null != body) body = null;
        if(null != id) id = null;
     }
-    
+
     /** Creates a new instance of msg */
     public Msg(byte messageType, String from, String subj, String body) {
         this.messageType=messageType;
@@ -97,16 +97,20 @@ public class Msg {
     }
 
     public String getTime(){
-        return Time.timeLocalString(dateGmt); 
+        return Time.timeLocalString(dateGmt);
     }
     public String getDayTime(){
-        return Time.dayLocalString(dateGmt)+Time.timeLocalString(dateGmt); 
+        return Time.dayLocalString(dateGmt)+Time.timeLocalString(dateGmt);
     }
 
     public void setDayTime(String date){ //ArchiveTemplates
         this.dateGmt=Time.dateStringToLong(date);
     }
-    
+
+    public void setDayTime(long dateGmt) {
+        this.dateGmt = dateGmt;
+    }
+
     public int getColor() {
         if (selected || highlite) {
             return ColorTheme.getColor(ColorTheme.MSG_HIGHLIGHT);
@@ -140,29 +144,27 @@ public class Msg {
     public String toString() {
         StringBuffer buf = new StringBuffer();
         if (Config.showTimeInMsgs) {
-            if (MucChat || isPresence() || !Config.showNickNames) {
-                buf.append("[");
-                if ((Time.utcTimeMillis() - dateGmt) > 86400000) {
-                    buf.append(getDayTime());
-                } else {
-                    buf.append(getTime());
-                }
-                buf.append("] ");
+            buf.append("[");
+            if ((Time.utcTimeMillis() - dateGmt) > 86400000) {
+                buf.append(getDayTime());
+            } else {
+                buf.append(getTime());
             }
+            buf.append("] ");
         }
         buf.append(body);
         return buf.toString();
     }
 
     public boolean isPresence() { return messageType==Msg.MESSAGE_TYPE_PRESENCE; }
-    
+
     public void serialize(DataOutputStream os) throws IOException {
 	os.writeUTF(from);
 	os.writeUTF(body);
 	os.writeLong(dateGmt);
 	if (subject!=null) os.writeUTF(subject);
     }
-    
+
     public Msg (DataInputStream is) throws IOException {
 	from=is.readUTF();
 	body=is.readUTF();

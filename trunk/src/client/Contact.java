@@ -304,35 +304,25 @@ public class Contact extends IconTextElement {
                 StringBuffer temp;
 
                 if (m.body.startsWith("/me ")) {
-                    temp = new StringBuffer(0);
+                    temp = new StringBuffer("*");
 //#if NICK_COLORS
                     temp.append("<nick>");
 //#endif
                     temp.append((m.messageType==Msg.MESSAGE_TYPE_OUT)?midlet.BombusQD.sd.account.getNickName():getName());
-                    if (Config.showNickNames) {
-                        temp.append(" (");
-                        temp.append(m.getTime());
-                        temp.append(')');
-                    }
 //#if NICK_COLORS
                     temp.append("</nick>");
 //#endif
-                    temp.insert(0,'*');
 
                     temp.append(m.body.substring(3));
-                    m.body=temp.toString().trim();
-                    temp = new StringBuffer(0);
+                    m.body = temp.toString().trim();
                 } else if (Config.showNickNames) {
                     temp = new StringBuffer(0);
                     temp.append((m.messageType==Msg.MESSAGE_TYPE_OUT)?midlet.BombusQD.sd.account.getNickName():getName());
-                        temp.append(" (");
-                        temp.append(m.getTime());
-                        temp.append(')');
-                    if (m.subject!=null) temp.append(m.subject);
-                    m.subject=temp.toString();
-                    temp = new StringBuffer(0);
+                    if (m.subject != null) {
+                        temp.append("\n").append(m.subject);
+                    }
+                    m.subject = temp.toString();
                 }
-                temp = null;
             }
         } else {
             status = Presence.PRESENCE_ONLINE;

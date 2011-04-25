@@ -659,3 +659,5 @@ Background image path	Путь к изображению
 Background from FS	Фон из ФС
 [path is not specified]	[путь не указан]
 Contact's offset	Отступ контактов от края
+Saving...	Сохраняю...
+Delete history?	Удалить историю?

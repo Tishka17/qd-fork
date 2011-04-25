@@ -41,6 +41,7 @@ public class HistoryExportTask implements Runnable {
     public HistoryExportTask(Vector msgs, String path) {
         this.msgs = msgs;
         this.path = path;
+        System.out.println(path);
     }
 
     public void start() {
@@ -51,35 +52,40 @@ public class HistoryExportTask implements Runnable {
         SplashScreen screen = new SplashScreen();
         screen.show();
 
-        FileIO file = FileIO.createConnection(path);
-        if (file != null) {
-            OutputStream stream = null;
-            try {
-                stream = file.openOutputStream();
-
-                int size = msgs.size();
-                for (int i = 0; i < size; ++i) {
-                    stream.write(HistoryStorage.msg2byte((Msg)msgs.elementAt(i)));
-                    stream.flush();
-
-                    screen.setProgress(SR.get(SR.MS_SAVING), (100 * (i + 1)) / size);
-                }
-            } catch (IOException io1) {
-                screen.setFailed();
-                try {
-                    Thread.sleep(DELAY_ON_ERROR);
-                } catch (InterruptedException ie) {}
-            } finally {
-                try {
-                    stream.close();
-                    file.close();
-                } catch (IOException io2) {}
+        FileIO file = null;
+        OutputStream stream = null;
+        try {
+            file = FileIO.createConnection(path);
+            if (file == null) {
+                throw new IOException();
             }
-        } else {
+
+            stream = file.openOutputStream();
+            if (stream == null) {
+                throw new IOException();
+            }
+
+            int size = msgs.size();
+            for (int i = 0; i < size; ++i) {
+                stream.write(HistoryStorage.msg2byte((Msg)msgs.elementAt(i)));
+                stream.flush();
+
+                screen.setProgress(SR.get(SR.MS_SAVING), (100 * (i + 1)) / size);
+            }
+        } catch (IOException io1) {
             screen.setFailed();
             try {
                 Thread.sleep(DELAY_ON_ERROR);
-            } catch (InterruptedException e) {}
+            } catch (InterruptedException ie) {}
+        } finally {
+            try {
+                if (stream != null) {
+                    stream.close();
+                }
+                if (file != null) {
+                    file.close();
+                }
+            } catch (IOException io2) {}
         }
         screen.destroyView();
     }

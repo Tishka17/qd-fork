@@ -210,9 +210,8 @@ public final class Bookmarks extends VirtualList
             deleteBookmark();
             setMainBarItem(new MainBar(2, null, SR.get(SR.MS_BOOKMARKS) + " (" + getItemCount() + ") ", false));
             return;
-        }
 //#ifdef SERVICE_DISCOVERY
-        else if (c == cmdDisco) {
+        } else if (c == cmdDisco) {
             new ServiceDiscovery(roomJid, null, false).show();
         }
         else if (c == cmdConfigure) {

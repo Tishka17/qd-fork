@@ -26,7 +26,7 @@
  */
 
 //#ifdef SERVICE_DISCOVERY
-package conference; 
+package conference;
 
 import client.StaticData;
 import disco.DiscoForm;
@@ -46,7 +46,7 @@ public class QueryConfigForm implements JabberBlockListener{
     public QueryConfigForm(String roomJid) {
         JabberDataBlock getform=new Iq(roomJid, Iq.TYPE_GET, "confform");
         getform.addChildNs("query", OWNER_XMLNS);
-        
+
         JabberStream stream=StaticData.getInstance().roster.theStream;
         stream.addBlockListener(this);
         stream.send(getform);
@@ -56,7 +56,7 @@ public class QueryConfigForm implements JabberBlockListener{
     public void destroy() {
 
     }
-    
+
     public int blockArrived(JabberDataBlock data) {
         JabberDataBlock query=data.findNamespace("query", OWNER_XMLNS);
         if (query!=null) {
@@ -68,5 +68,5 @@ public class QueryConfigForm implements JabberBlockListener{
         }
         return JabberBlockListener.BLOCK_REJECTED;
     }
-//#endif
 }
+//#endif

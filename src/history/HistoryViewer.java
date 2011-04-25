@@ -46,11 +46,15 @@ import message.MessageList;
 import ui.GMenu;
 import ui.GMenuConfig;
 import ui.MainBar;
+//#ifdef POPUPS
 import ui.controls.PopUp;
+//#endif
 import ui.input.InputTextBox;
 import ui.input.InputTextBoxNotify;
+//#ifdef FILE_IO
 import util.StringUtils;
 import util.Time;
+//#endif
 
 public class HistoryViewer extends MessageList
         implements Runnable, InputTextBoxNotify
@@ -195,7 +199,9 @@ public class HistoryViewer extends MessageList
             if (deleteHistory()) {
                 destroyView();
             } else {
+//#ifdef POPUPS
                 setWobble(PopUp.TYPE_SYSTEM, null, SR.get(SR.MS_ERROR));
+//#endif
             }
 //#ifdef FILE_IO
         } else if (c == cmdExport) {
@@ -212,7 +218,9 @@ public class HistoryViewer extends MessageList
             if (index >= 0) {
                 moveCursorTo(index);
             } else {
+//#ifdef POPUPS
                 setWobble(PopUp.TYPE_SYSTEM, null, SR.get(SR.MS_NOT_FOUND));
+//#endif
             }
         }
     }

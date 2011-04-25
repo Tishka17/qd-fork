@@ -23,7 +23,9 @@
 
 package client.msgedit;
 
+//#ifdef ARCHIVE
 import archive.ArchiveList;
+//#endif
 import client.Config;
 import client.Contact;
 import client.Msg;
@@ -39,7 +41,9 @@ import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Ticker;
 import locale.SR;
 import midlet.BombusQD;
+//#ifdef CLIPBOARD
 import util.ClipBoard;
+//#endif
 //#ifdef DETRANSLIT
 //# import util.DeTranslit;
 //#endif
@@ -66,8 +70,12 @@ public abstract class BaseMessageEdit implements CommandListener {
     protected Command cmdInsMe;
     protected Command cmdInsNick;
     protected Command cmdLastMessage;
+//#ifdef ARCHIVE
     protected Command cmdPaste;
+//#endif
+//#ifdef CLIPBOARD
     protected Command cmdPasteText;
+//#endif
     protected Command cmdSend;
     protected Command cmdSmile;
     protected Command cmdSubj;

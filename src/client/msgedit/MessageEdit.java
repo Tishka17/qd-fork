@@ -30,7 +30,9 @@ import javax.microedition.lcdui.TextBox;
 import javax.microedition.lcdui.TextField;
 import javax.microedition.lcdui.Ticker;
 import midlet.BombusQD;
+//#ifdef CLIPBOARD
 import util.ClipBoard;
+//#endif
 
 public final class MessageEdit extends BaseMessageEdit {
     private TextBox input;

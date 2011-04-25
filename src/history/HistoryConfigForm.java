@@ -32,7 +32,9 @@ import client.Config;
 import locale.SR;
 import ui.controls.form.DefForm;
 import ui.controls.form.DropChoiceBox;
+//#ifdef FILE_IO
 import ui.controls.form.PathSelector;
+//#endif
 
 /**
  *
@@ -41,7 +43,9 @@ import ui.controls.form.PathSelector;
 
 public class HistoryConfigForm extends DefForm {
     private DropChoiceBox historyType;
+//#ifdef FILE_IO
     private PathSelector historyFolder;
+//#endif
 
     public HistoryConfigForm() {
         super(SR.get(SR.MS_HISTORY_OPTIONS));

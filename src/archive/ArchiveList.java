@@ -25,6 +25,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
+
+//#ifdef ARCHIVE
 package archive;
 
 import client.Msg;
@@ -39,7 +41,6 @@ import menu.Command;
 //#endif
 import locale.SR;
 import ui.controls.AlertBox;
-import message.MessageItem;
 //#ifdef IMPORT_EXPORT
 //#ifdef FILE_IO
 import impexp.ImportExportForm;
@@ -250,3 +251,4 @@ public class ArchiveList extends MessageList {
         return GMenu.MESSAGE_LIST;
     }
 }
+//#endif

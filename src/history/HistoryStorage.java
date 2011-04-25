@@ -32,18 +32,18 @@ import client.Contact;
 import client.Msg;
 import javax.microedition.rms.RecordStore;
 import javax.microedition.rms.RecordStoreException;
-//#if FILE_IO
-import io.file.FileIO;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
+//#if FILE_IO
+import io.file.FileIO;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import util.StringUtils;
 //#endif
 //#ifdef DETRANSLIT
 //# import util.DeTranslit;
 //#endif
-import util.StringUtils;
 
 /**
  *

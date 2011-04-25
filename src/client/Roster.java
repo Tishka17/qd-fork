@@ -3242,7 +3242,7 @@ public final class Roster
                 }
             }
 //#endif
-            midlet.BombusQD.getInstance().s = new SplashScreen(getMainBarItem(), midlet.BombusQD.cf.keyLock);
+            midlet.BombusQD.getInstance().s = new SplashScreen(getMainBarItem());
             midlet.BombusQD.getInstance().s.show();
             return;
         } else if (keyCode==midlet.BombusQD.cf.keyVibra || keyCode==MOTOE680_FMRADIO /* TODO: redefine keyVibra*/) {

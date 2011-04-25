@@ -24,14 +24,15 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-//#ifdef PEP 
-package menu;
+//#ifdef PEP
+package client;
 
 import ui.controls.form.TextInput;
 import ui.controls.form.DefForm;
 import javax.microedition.lcdui.TextField;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.Iq;
+import midlet.BombusQD;
 import mood.ActivityPublishResult;
 import ui.controls.form.SimpleString;
 
@@ -41,64 +42,46 @@ public class ActivityText extends DefForm {
     private TextInput text;
     private String cat="";
     private String descr="";
-    
+
     public ActivityText(String category,String descr, String title) {
         super(title);
-        
+
         this.cat=category;
         this.descr=descr;
-        
+
         if(cat==null && descr==null){
-          itemsList.addElement(new SimpleString(locale.Activity.no_activity + "?", true)); 
-          midlet.BombusQD.cf.actCat=null;
-          midlet.BombusQD.cf.actText=null;
-          midlet.BombusQD.cf.actDescr=null;
+          addControl(new SimpleString(locale.Activity.no_activity + "?", true));
+          BombusQD.cf.actCat=null;
+          BombusQD.cf.actText=null;
+          BombusQD.cf.actDescr=null;
         }
-        
+
         if(cat!=null && descr!=null){
           text=new TextInput(locale.SR.get(locale.SR.MS_MESSAGE), "", ACTIVITY_RECENT_ID, TextField.ANY);
-          itemsList.addElement(text);            
+          itemsList.addElement(text);
         }
-        
+
         if(cat!=null && descr==null){
-           itemsList.addElement(new SimpleString(locale.SR.get(locale.SR.MS_PUBLISH)+"?", true)); 
-           midlet.BombusQD.cf.actDescr=null;
+           addControl(new SimpleString(locale.SR.get(locale.SR.MS_PUBLISH)+"?", true));
+           BombusQD.cf.actDescr=null;
         }
     }
-    
+
     public void cmdOk() {
         String msgtext="";
         if(cat!=null && descr!=null){
-          msgtext = text.getValue();            
+          msgtext = text.getValue();
            if(msgtext.length()<1){
               msgtext = null;
            }
         }else{
-           msgtext = null; 
+           msgtext = null;
         }
         publishActivity(cat,descr,msgtext);
-        destroyView();
+        BombusQD.sd.roster.show();
     }
-    
-    public void publishActivity(final String category, final String descr,String text) {
-/*
-<iq type='set' 
-    from='juliet@capulet.lit/ca486eba-0f9a-11dc-8835-000bcd821bfb'
-    id='publish1'>
-  <pubsub xmlns='http://jabber.org/protocol/pubsub'>
-    <publish node='http://jabber.org/protocol/activity'>
-      <item>
-        <activity xmlns='http://jabber.org/protocol/activity'>
-          <relaxing>
-            <partying/>
-          </relaxing>
-          <text>My nurse&apos;s birthday!</text>
-        </activity>
-      </item>
-    </publish>
-  </pubsub>
-</iq>
- */             
+
+    private void publishActivity(final String category, final String descr,String text) {
         String sid="publish-action";
         JabberDataBlock setActivity=new Iq(null, Iq.TYPE_SET, sid);
         JabberDataBlock action=setActivity.addChildNs("pubsub", "http://jabber.org/protocol/pubsub").addChild("publish", null);
@@ -107,22 +90,22 @@ public class ActivityText extends DefForm {
 
             JabberDataBlock act=item.addChildNs("activity", "http://jabber.org/protocol/activity");
          if(cat!=null){
-            midlet.BombusQD.cf.actCat=category;    
+            BombusQD.cf.actCat=category;
             JabberDataBlock one = act.addChild(category, null);//relaxing
-            
+
             if(descr!=null){
-                midlet.BombusQD.cf.actDescr=descr;
+                BombusQD.cf.actDescr=descr;
                 one.addChild(descr,null);
-            } //partying
+            }
             if(text!=null){
-                midlet.BombusQD.cf.actText=text;
+                BombusQD.cf.actText=text;
                 act.addChild("text",text);
             }
          }
          try {
-            midlet.BombusQD.sd.roster.theStream.addBlockListener(new ActivityPublishResult(sid));
-            midlet.BombusQD.sd.roster.theStream.send(setActivity);
-            midlet.BombusQD.cf.saveToStorage();
+            BombusQD.sd.roster.theStream.addBlockListener(new ActivityPublishResult(sid));
+            BombusQD.sd.roster.theStream.send(setActivity);
+            BombusQD.cf.saveToStorage();
             setActivity=null;
             action=null;
          } catch (Exception e) {
@@ -130,7 +113,6 @@ public class ActivityText extends DefForm {
 //#             e.printStackTrace();
 //#endif
          }
-
-   }     
+    }
 }
 //#endif

@@ -39,7 +39,7 @@ import ui.controls.form.PathSelector;
  * @author aqent
  */
 
-public class HistoryConfigForm extends DefForm {   
+public class HistoryConfigForm extends DefForm {
     private DropChoiceBox historyType;
     private PathSelector historyFolder;
 

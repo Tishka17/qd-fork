@@ -32,7 +32,6 @@ import images.ImageList;
 import font.FontCache;
 import images.MoodIcons;
 import images.ActivityIcons;
-import menu.ActivityText;
 import locale.SR;
 import colors.ColorTheme;
 import java.util.Vector;
@@ -44,6 +43,7 @@ import mood.MoodPublishResult;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.Iq;
 import locale.Activity;
+import midlet.BombusQD;
 import ui.VirtualElement;
 import ui.VirtualList;
 import ui.controls.form.DefForm;
@@ -301,14 +301,13 @@ public final class SelectPEP extends DefForm implements VirtualElement, InputTex
         int index = pep.indexOf(getTipString());
         String moodName = Moods.getInstance().getMoodName(index);
         publishMood(moodText, moodName);
-        destroyView();
-        midlet.BombusQD.sd.roster.show();
+        BombusQD.sd.roster.show();
     }
 
 
     public void publishMood(final String moodText, final String moodName) {
-        midlet.BombusQD.cf.moodName=moodName;
-        midlet.BombusQD.cf.moodText=moodText;
+        BombusQD.cf.moodName=moodName;
+        BombusQD.cf.moodText=moodText;
 
         String sid = "publish-mood";
         JabberDataBlock setMood = new Iq(null, Iq.TYPE_SET, sid);
@@ -326,8 +325,8 @@ public final class SelectPEP extends DefForm implements VirtualElement, InputTex
             action.setAttribute("notify","1");
         }
         try {
-            midlet.BombusQD.sd.roster.theStream.addBlockListener(new MoodPublishResult(sid));
-            midlet.BombusQD.sd.roster.theStream.send(setMood);
+            BombusQD.sd.roster.theStream.addBlockListener(new MoodPublishResult(sid));
+            BombusQD.sd.roster.theStream.send(setMood);
             setMood=null;
             action=null;
             item=null;
@@ -336,7 +335,7 @@ public final class SelectPEP extends DefForm implements VirtualElement, InputTex
 //#             e.printStackTrace();
 //#endif
         }
-       midlet.BombusQD.cf.saveToStorage();//?
+       BombusQD.cf.saveToStorage();//?
    }
     //******************************USER MOOD PUBLISH******************************
 
@@ -368,7 +367,6 @@ public final class SelectPEP extends DefForm implements VirtualElement, InputTex
         int widthItem = FontCache.getFont(false, Config.baloonFont).stringWidth(text);
         int width = g.getClipWidth() - 10;
         if( widthItem + x > width) { //fix autoCorrect
-           int dif = x - width;
            x = width - widthItem;
         }
         g.translate(x, balloon);

@@ -131,12 +131,27 @@ public abstract class MessageList extends VirtualList
         }
 //#ifdef CLIPBOARD
         else if(c == Commands.cmdCopy) {
-            ClipBoard.setClipBoard(StringUtils.replaceNickTags(item.msg.toString()));
+            ClipBoard.setClipBoard(msg2str(item.msg));
         } else  if (c == Commands.cmdCopyPlus) {
-            ClipBoard.addToClipBoard(StringUtils.replaceNickTags(item.msg.toString()));
+            ClipBoard.addToClipBoard(msg2str(item.msg));
         }
 //#endif
     }
+
+//#ifdef CLIPBOARD
+    private String msg2str(Msg msg) {
+        StringBuffer buf = new StringBuffer();
+
+        if (msg.subject != null) {
+            buf.append(StringUtils.replaceNickTags(msg.subject));
+            buf.append("\n");
+        }
+        buf.append(StringUtils.replaceNickTags(msg.toString()));
+        buf.append("\n");
+
+        return buf.toString();
+    }
+//#endif
 
     protected void keyPressed(int keyCode) { // overriding this method to avoid autorepeat
 //#ifdef SMILES

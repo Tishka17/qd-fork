@@ -51,9 +51,6 @@ public class SplashScreen extends CanvasEx implements CommandListener {
 
     private ComplexString status;
 
-    private char exitKey;
-    private int kHold;
-
     private TimerTaskClock tc;
 
     private static SplashScreen instance;
@@ -87,12 +84,10 @@ public class SplashScreen extends CanvasEx implements CommandListener {
         }
     }
 
-   public SplashScreen(ComplexString status, char exitKey) {
+   public SplashScreen(ComplexString status) {
         super();
 
-        this.status=status;
-        this.exitKey=exitKey;
-        kHold=exitKey;
+        this.status = status;
 
         status.setElementAt(new Integer(RosterIcons.ICON_KEYBLOCK_INDEX),6);
         redraw();
@@ -164,8 +159,7 @@ public class SplashScreen extends CanvasEx implements CommandListener {
     }
 
     public void setProgress(String caption, int progress){
-        capt=caption;
-        //System.out.println(capt);
+        capt = caption;
 	setProgress(progress);
     }
 
@@ -206,42 +200,10 @@ public class SplashScreen extends CanvasEx implements CommandListener {
         }
     }
 
-//#ifdef TOUCH
-    protected void pointerPressed(int x, int y) {
-	if (pos>=20) close();
-    }
-//#endif
-
-    public void keyPressed(int keyCode) {
-        /*
-        boolean keyCheck = false;
-        switch (keyCode) {
-            case KEY_NUM0: keyCheck = true; speed = 0; break;
-            case KEY_NUM1: keyCheck = true; speed = 1; break;
-            case KEY_NUM2: keyCheck = true; speed = 2; break;
-            case KEY_NUM3: keyCheck = true; speed = 3; break;
-            case KEY_NUM4: keyCheck = true; speed = 4; break;
-            case KEY_NUM5: keyCheck = true; speed = 5; break;
-            case KEY_NUM6: keyCheck = true; speed = 6; break;
-            case KEY_NUM7: keyCheck = true; speed = 7; break;
-            case KEY_NUM8: keyCheck = true; speed = 8; break;
-            case KEY_NUM9: keyCheck = true; speed = 9; break;
-        }
-
-        if(keyCheck){
-            snow.changeSnowProcess(speed);
-        }
-         */
-        keypressed=keyCode;
-        if (pos>=20)
-            close();
-        kHold=0;
-    }
-
     protected void keyRepeated(int keyCode) {
-        if (kHold==0)
-            if (keyCode==exitKey)
-                destroyView();
+        if (keyCode == BombusQD.cf.keyLock) {
+            destroyView();
+        }
     }
 
     public void destroyView() {
@@ -250,7 +212,7 @@ public class SplashScreen extends CanvasEx implements CommandListener {
             tc.stop();
         }
 //#ifdef AUTOSTATUS
-        if (midlet.BombusQD.sd.roster.autoAway && Config.autoAwayType == Config.AWAY_LOCK) {
+        if (BombusQD.sd.roster.autoAway && Config.autoAwayType == Config.AWAY_LOCK) {
             BombusQD.sd.roster.restoreStatus();
         }
 //#endif
@@ -259,7 +221,7 @@ public class SplashScreen extends CanvasEx implements CommandListener {
     }
 
     public void getKeys() {
-        int pm=midlet.BombusQD.cf.phoneManufacturer;
+        int pm=BombusQD.cf.phoneManufacturer;
         if (pm==Config.SIEMENS || pm==Config.SIEMENS2) {
              Config.SOFT_LEFT=-1;
              Config.SOFT_RIGHT=-4;

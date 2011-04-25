@@ -39,7 +39,7 @@ import client.Config;
 import client.StaticData;
 import client.Contact;
 //#ifdef FILE_IO
-import io.file.FileIO;
+//# import io.file.FileIO;
 //#endif
 import locale.SR;
 //#ifdef POPUPS

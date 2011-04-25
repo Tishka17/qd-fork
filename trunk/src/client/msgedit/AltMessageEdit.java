@@ -30,7 +30,9 @@ import javax.microedition.lcdui.Form;
 import javax.microedition.lcdui.TextField;
 import javax.microedition.lcdui.Ticker;
 import midlet.BombusQD;
+//#ifdef CLIPBOARD
 import util.ClipBoard;
+//#endif
 
 public final class AltMessageEdit extends BaseMessageEdit {
     private Form form;

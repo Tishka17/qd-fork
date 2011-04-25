@@ -14,13 +14,15 @@ import ui.controls.form.DefForm;
 import ui.controls.form.MultiLine;
 import ui.controls.form.SimpleString;
 import ui.controls.form.TextInput;
+//#ifdef CLIPBOARD
 import util.ClipBoard;
+//#endif
 
 public class ChangePasswordForm extends DefForm {
     private Account account;
 
     private TextInput textbox;
-    
+
     private boolean locally;
     private String password;
 

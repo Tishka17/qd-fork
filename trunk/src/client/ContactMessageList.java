@@ -56,8 +56,8 @@ import history.HistoryStorage;
 import message.MessageList;
 import midlet.BombusQD;
 import midlet.Commands;
-//#ifdef CLIPBOARD
 import ui.controls.AlertBox;
+//#ifdef CLIPBOARD
 import util.ClipBoard;
 //#endif
 import ui.input.InputTextBox;

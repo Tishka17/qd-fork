@@ -47,6 +47,7 @@ import ui.GMenu;
 import ui.GMenuConfig;
 import ui.MainBar;
 //#ifdef POPUPS
+import ui.controls.AlertBox;
 import ui.controls.PopUp;
 //#endif
 import ui.input.InputTextBox;
@@ -196,13 +197,19 @@ public class HistoryViewer extends MessageList
             input.setNotifyListener(this);
             input.show();
         } else if (c == cmdClear) {
-            if (deleteHistory()) {
-                destroyView();
-            } else {
+            final HistoryViewer view = this;
+            AlertBox box = new AlertBox("", SR.get(SR.MS_DELETE_HISTORY), AlertBox.BUTTONS_YESNO) {
+                public void yes() {
+                    if (deleteHistory()) {
+                        view.destroyView();
+                    } else {
 //#ifdef POPUPS
-                setWobble(PopUp.TYPE_SYSTEM, null, SR.get(SR.MS_ERROR));
+                        setWobble(PopUp.TYPE_SYSTEM, null, SR.get(SR.MS_ERROR));
 //#endif
-            }
+                    }
+                }
+            };
+            box.show();
 //#ifdef FILE_IO
         } else if (c == cmdExport) {
             new Browser(null, this, true).show();
@@ -232,8 +239,6 @@ public class HistoryViewer extends MessageList
         buf.append(StringUtils.replaceBadChars(storeName));
         buf.append("_");
         buf.append(Time.localDate());
-        buf.append("_");
-        buf.append(Time.localTime());
         buf.append(".txt");
 
         HistoryExportTask task = new HistoryExportTask(elements, buf.toString());

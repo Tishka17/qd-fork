@@ -68,7 +68,7 @@ public class SR {
      public final static short MS_MESSAGES  = 35; //Messages
      public final static short MS_REFRESH  = 36; //Refresh
      public final static short MS_RESOLVE_NICKNAMES  = 37; //Resolve Nicknames
-     //public final static short MS_PRIVACY_ACTION  = 38; //Action
+     public final static short MS_DELETE_HISTORY  = 38; //Delete history?
      public final static short MS_ACTION = 39; //Action
      public final static short MS_BAN  = 40; //Ban
      public final static short MS_LEAVE_ROOM  = 41; //Leave Room
@@ -831,7 +831,7 @@ public class SR {
         "Messages",
         "Refresh",
         "Resolve Nicknames",
-        null,
+        "Delete history?",
         "Action",
         "Ban",
         "Leave Room",

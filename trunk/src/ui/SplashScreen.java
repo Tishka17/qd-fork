@@ -27,56 +27,44 @@
 
 package ui;
 
-import util.Time;
 import client.Config;
+import colors.ColorTheme;
 import font.FontCache;
 import images.RosterIcons;
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
-import javax.microedition.lcdui.*;
-import colors.ColorTheme;
-import java.io.IOException;
+import javax.microedition.lcdui.Font;
+import javax.microedition.lcdui.Graphics;
+import javax.microedition.lcdui.Image;
 import midlet.BombusQD;
 import ui.controls.Progress;
+import util.Time;
 
 /**
  *
  * @author Eugene Stahov
  */
-public class SplashScreen extends CanvasEx implements CommandListener {
+public class SplashScreen extends CanvasEx {
     private String capt;
     private int pos=-1;
 
-    private static Image img;
+    private Image img;
 
     private ComplexString status;
 
     private TimerTaskClock tc;
 
-    private static SplashScreen instance;
-
-    public int keypressed=0;
-
     private Font clockFont=FontCache.getFont(true,FontCache.LARGE);
 
     private Progress pb;
+    private int kHold;
 
-    public static SplashScreen getInstance(){
-        if (instance==null) {
-            instance=new SplashScreen();
-        }
-        return instance;
-    }
-
-    /** Creates a new instance of SplashScreen */
     public SplashScreen() {
         super();
 
         try {
-            if (img==null) {
-                img=Image.createImage("/images/splash.png");
-                //this.img=img;
-            }
+            img=Image.createImage("/images/splash.png");
         } catch (IOException e) {
 //#ifdef DEBUG
 //#            System.out.println("splash NOT created ");
@@ -85,12 +73,12 @@ public class SplashScreen extends CanvasEx implements CommandListener {
     }
 
    public SplashScreen(ComplexString status) {
-        super();
+        this();
 
         this.status = status;
+        this.kHold = Config.keyLock;
 
         status.setElementAt(new Integer(RosterIcons.ICON_KEYBLOCK_INDEX),6);
-        redraw();
 
         tc=new TimerTaskClock();
 
@@ -167,41 +155,12 @@ public class SplashScreen extends CanvasEx implements CommandListener {
         return pos;
     }
 
-    // close splash
-    private Command cmdExit=new Command("Hide", Command.BACK, 99);
-
-    public void commandAction(Command c, Displayable d) {
-        if (c==cmdExit)
-            close();
-    }
-
-    public void close(){
-        if (getParentView() == null) {
-            setParentView(midlet.BombusQD.sd.roster);
-        }
-        super.destroyView();
-
-        instance = null;
-        System.gc();
-    }
-
-    private class TimerTaskClock extends TimerTask {
-        private Timer t;
-        public TimerTaskClock(){
-            t=new Timer();
-            t.schedule(this, 10, 20000);
-        }
-        public void run() {
-            redraw();
-        }
-        public void stop(){
-            cancel();
-            t.cancel();
-        }
+    protected void keyPressed(int code) {
+        kHold = 0;
     }
 
     protected void keyRepeated(int keyCode) {
-        if (keyCode == BombusQD.cf.keyLock) {
+        if (kHold == 0 && keyCode == Config.keyLock) {
             destroyView();
         }
     }
@@ -216,7 +175,8 @@ public class SplashScreen extends CanvasEx implements CommandListener {
             BombusQD.sd.roster.restoreStatus();
         }
 //#endif
-        System.gc();
+        img = null;
+        //System.gc();
         super.destroyView();
     }
 
@@ -274,6 +234,21 @@ public class SplashScreen extends CanvasEx implements CommandListener {
                    }
                 } catch(Exception e){ }
             }
+        }
+    }
+
+    private class TimerTaskClock extends TimerTask {
+        private Timer t;
+        private TimerTaskClock(){
+            t=new Timer();
+            t.schedule(this, 10, 20000);
+        }
+        public void run() {
+            redraw();
+        }
+        public void stop(){
+            cancel();
+            t.cancel();
         }
     }
 }

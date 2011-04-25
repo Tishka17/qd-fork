@@ -33,38 +33,26 @@ import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.JabberListener;
 import com.alsutton.jabber.JabberStream;
 import com.alsutton.jabber.datablocks.Iq;
-import javax.microedition.lcdui.Command;
-import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import ui.SplashScreen;
 import xmpp.XmppError;
 
-public class AccountRegister
-        implements
-        JabberListener,
-        CommandListener,
-        Runnable {
+public class AccountRegister implements JabberListener, Runnable {
+    private static final long DELAY = 1000L;
+
     private Displayable accountselect;
     private Account raccount;
     private JabberStream theStream;
     private SplashScreen splash;
-    private Command cmdCancel;
 
     public AccountRegister(Account account, Displayable accountselect) {
         this.accountselect = accountselect;
         this.accountselect = accountselect;
         raccount = account;
 
-        cmdCancel = new Command(SR.get(SR.MS_BACK), Command.BACK, 2);
-
-        splash = midlet.BombusQD.getInstance().s;
+        splash = new SplashScreen();
         splash.setProgress(SR.get(SR.MS_STARTUP), 5);
-        splash.addCommand(cmdCancel);
-        splash.setCommandListener(this);
-
-        System.out.println(splash.getParentView());
-
         splash.show();
 
         new Thread(this).start();
@@ -73,7 +61,7 @@ public class AccountRegister
     public void run() {
         try {
             splash.setProgress(SR.get(SR.MS_CONNECT_TO_) + raccount.getServer(), 30);
-            Thread.sleep(500);
+            Thread.sleep(500L);
             theStream = raccount.openJabberStream();
             theStream.setJabberListener(this);
             theStream.initiateStream();
@@ -82,8 +70,11 @@ public class AccountRegister
 //#             e.printStackTrace();
 //#endif
             splash.setFailed();
+            try {
+                Thread.sleep(DELAY);
+            } catch (InterruptedException ie) {}
+            splash.destroyView();
         }
-
     }
 
     public void connectionTerminated(Exception e) {
@@ -108,31 +99,22 @@ public class AccountRegister
 
     public int blockArrived(JabberDataBlock data) {
         if (data instanceof Iq) {
-            int pgs = 100;
             String type = data.getTypeAttribute();
-            String mainbar = SR.get(SR.MS_DONE);
+            String mainbar;
             if (type.equals("result")) {
-                //if (parentView instanceof AccountForm) {((AccountForm)parentView).destroyView();}
+                mainbar = SR.get(SR.MS_DONE);
                 splash.setParentView(accountselect);
             } else {
                 mainbar = SR.get(SR.MS_ERROR_) + XmppError.findInStanza(data).toString();
             }
-            splash.removeCommand(cmdCancel);
-            splash.setProgress(mainbar, pgs);
-
             theStream.close();
+
+            splash.setProgress(mainbar, 100);
+            try {
+                Thread.sleep(DELAY);
+            } catch (InterruptedException ie) {}
+            splash.destroyView();
         }
         return JabberBlockListener.BLOCK_PROCESSED;
-    }
-
-
-    public void commandAction(Command c, Displayable d) {
-        splash.setCommandListener(null);
-        splash.removeCommand(cmdCancel);
-        try {
-            theStream.close();
-        } catch (Exception e) {
-        }
-        splash.close();
     }
 }

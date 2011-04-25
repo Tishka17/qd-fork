@@ -25,7 +25,7 @@
  * along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
- 
+
 package util;
 
 import client.Config;
@@ -37,17 +37,17 @@ import locale.SR;
  * @author Eugene Stahov,aqent
  */
 public class Time {
-    
+
     private static Calendar c=Calendar.getInstance( TimeZone.getTimeZone("GMT") );
-    private static long utcToLocalOffsetMillis=0; 
+    private static long utcToLocalOffsetMillis=0;
     private static long fixupLocalOffsetMills=0;
     private static int tzo=0;
-    
+
     public static int GMTOffset=0;
- 
+
     /** Creates a new instance of Time */
     private Time() { }
-    
+
     public static void setOffset(int tzOffset){
         utcToLocalOffsetMillis=((long)tzOffset)*60*60*1000;
         tzo=tzOffset;
@@ -56,22 +56,22 @@ public class Time {
     public static String lz2(int i){
         if (i<10) return "0"+i; else return String.valueOf(i);
     }
-    
+
     public static String timeLocalString(long date){
         Calendar c=calDate(date);
         return lz2(c.get(Calendar.HOUR_OF_DAY))+':'+lz2(c.get(Calendar.MINUTE));
      }
-    
+
     public static String dateTimeLocalString(long date){
         Calendar c=calDate(date);
         return lz2(c.get(Calendar.HOUR_OF_DAY))+':'+lz2(c.get(Calendar.MINUTE))+':'+lz2(c.get(Calendar.SECOND));
      }
-    
+
     private static Calendar calDate(long date){
         c.setTime(new Date(date+utcToLocalOffsetMillis));//memory leak
         return c;
     }
-    
+
     public static String weekDayLocalString(long date){
         int weekDay=calDate(date).get(Calendar.DAY_OF_WEEK);
         String locWeekDay="";
@@ -82,25 +82,24 @@ public class Time {
             case 4: locWeekDay=SR.get(SR.MS_WED); break;
             case 5: locWeekDay=SR.get(SR.MS_THU); break;
             case 6: locWeekDay=SR.get(SR.MS_FRI); break;
-            case 7: locWeekDay=SR.get(SR.MS_SAT); break;            
+            case 7: locWeekDay=SR.get(SR.MS_SAT); break;
         }
         return locWeekDay;
      }
-    
+
     public static String dayLocalString(long date){
         Calendar c=calDate(date);
         return lz2(c.get(Calendar.DAY_OF_MONTH))+'.'+
                lz2(c.get(Calendar.MONTH)+1)+'.'+
-               lz2(c.get(Calendar.YEAR) % 100)+" ";
+               lz2(c.get(Calendar.YEAR) % 100);
      }
 
     public static long utcTimeMillis(){
         return System.currentTimeMillis()+fixupLocalOffsetMills;
     }
-    
+
     public static String Xep0082UtcTime(){
-        long date=utcTimeMillis();
-         c.setTime(new Date(date));
+         c.setTime(new Date(utcTimeMillis()));
          return String.valueOf(c.get(Calendar.YEAR))+
                  lz2(c.get(Calendar.MONTH)+1)+
                  lz2(c.get(Calendar.DAY_OF_MONTH))+
@@ -111,12 +110,12 @@ public class Time {
         long date=utcTimeMillis();
         c.setTime(new Date(date));
         return String.valueOf(c.get(Calendar.YEAR)) +
-                '-' + lz2(c.get(Calendar.MONTH)+1) + 
+                '-' + lz2(c.get(Calendar.MONTH)+1) +
                 '-' + lz2(c.get(Calendar.DAY_OF_MONTH)) +
                 'T' + lz2(c.get(Calendar.HOUR_OF_DAY))+':'+lz2(c.get(Calendar.MINUTE))+':'+lz2(c.get(Calendar.SECOND)) +
                 'Z';
     }
-     
+
     public static String tzOffset(){
         StringBuffer tz=new StringBuffer();
         int tzi=tzo;
@@ -125,44 +124,44 @@ public class Time {
         tz.append(sign).append(lz2(tzi)).append(":00");
         return tz.toString();
     }
-    
+
      public static String dispLocalTime(){
         long utcDate=utcTimeMillis();
          //Calendar c=calDate(date);
-        return dayLocalString(utcDate)+timeLocalString(utcDate);
+        return dayLocalString(utcDate) + " " +timeLocalString(utcDate);
      }
-     
+
      public static String localWeekDay(){
-        long utcDate=utcTimeMillis();
-        return weekDayLocalString(utcDate);
+        return weekDayLocalString(utcTimeMillis());
      }
-     
+
+     public static String localDate() {
+         return dayLocalString(utcTimeMillis());
+     }
+
      public static String localTime(){
-        long utcDate=utcTimeMillis();
-        return timeLocalString(utcDate);
+        return timeLocalString(utcTimeMillis());
      }
-     
+
      public static int getHour(){
-        Calendar c=calDate(utcTimeMillis());
-        return c.get(Calendar.HOUR_OF_DAY);
+        return calDate(utcTimeMillis()).get(Calendar.HOUR_OF_DAY);
      }
-     
+
      public static int getMin(){
-        Calendar c=calDate(utcTimeMillis());
-        return c.get(Calendar.MINUTE);
+        return calDate(utcTimeMillis()).get(Calendar.MINUTE);
      }
-     
-    
+
+
     private final static int[] calFields=
-    {Calendar.YEAR,         Calendar.MONTH,     Calendar.DATE, 
+    {Calendar.YEAR,         Calendar.MONTH,     Calendar.DATE,
      Calendar.HOUR_OF_DAY,  Calendar.MINUTE,    Calendar.SECOND};
-     
+
     private final static int[] ofsFieldsA=
     { 0, 4, 6, 9, 12, 15 } ; //XEP-0091 - DEPRECATED
-    
+
     private final static int[] ofsFieldsB=
     { 0, 5, 8, 11, 14, 17 } ;//XEP-0203
-    
+
     public static long dateIso8601(String sdate){
         int[] ofs=ofsFieldsA;
         if (sdate.endsWith("Z")) ofs=ofsFieldsB;
@@ -177,9 +176,9 @@ public class Time {
                 c.set(calFields[i], field);
             }
         } catch (Exception e) {    }
-        return c.getTime().getTime(); 
+        return c.getTime().getTime();
     }
-    
+
     public static long dateStringToLong(String sdate){
         int field=0;
         try {
@@ -190,9 +189,9 @@ public class Time {
             field=Integer.parseInt(sdate.substring(12, 14)); c.set(calFields[4], field); //min
             c.set(calFields[5], 0); //sec
         } catch (Exception e) {}
-        return c.getTime().getTime(); 
+        return c.getTime().getTime();
     }
-    
+
     public static String secDiffToDate(int seconds){
         String result ="";
         int d = 0,h = 0,m = 0,s = 0;
@@ -209,7 +208,7 @@ public class Time {
             seconds=seconds-(m*60);
         }
         s=seconds;
-        
+
         if (d>0) {
             result+= d + " " + goodWordForm (d,3);
         }
@@ -229,7 +228,7 @@ public class Time {
             result=s + " " + goodWordForm (s, 0);
         return result;
     }
-    
+
     public static String goodWordForm (int d, int field) {
         String [][] suf =  {
             {SR.get(SR.MS_SEC1), SR.get(SR.MS_SEC2), SR.get(SR.MS_SEC3)},
@@ -240,9 +239,9 @@ public class Time {
         int index;
         if ((d%100>10) && (d%100<20) || (d%10==0) || (d%10>4))
             index=2;
-        else if ((d%10>1) && (d%10<5)) 
+        else if ((d%10>1) && (d%10<5))
             index=1;
-        else 
+        else
             index=0;
         return suf[field][index];
     }

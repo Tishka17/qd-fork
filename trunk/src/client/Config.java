@@ -246,7 +246,7 @@ public class Config {
 //#endif
 
     public int scrollWidth = 5;
-    public int minItemHeight = rosterFont * 3;
+    public static int minItemHeight = rosterFont * 3;
     public static int contactXOffset = 10;
 
     public boolean iconsLeft = true;

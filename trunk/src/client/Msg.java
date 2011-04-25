@@ -100,7 +100,7 @@ public class Msg {
         return Time.timeLocalString(dateGmt);
     }
     public String getDayTime(){
-        return Time.dayLocalString(dateGmt)+Time.timeLocalString(dateGmt);
+        return Time.dayLocalString(dateGmt) + " " + Time.timeLocalString(dateGmt);
     }
 
     public void setDayTime(String date){ //ArchiveTemplates

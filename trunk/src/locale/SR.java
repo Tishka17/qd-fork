@@ -39,7 +39,7 @@ public class SR {
      public final static short MS_INVISIBLE  = 6; //invisible
      public final static short MS_DND  = 7; //dnd
      public final static short MS_OFFLINE  = 8; //offline
-     //public final static short MS_JID  = 9; //Jid
+     public final static short MS_SAVING  = 9; //Saving...
      public final static short MS_PRIVACY_LISTS  = 10; //Privacy Lists
      public final static short MS_MESSAGE_FONT  = 11; //Message font
      public final static short MS_ROSTER_FONT  = 12; //Roster font
@@ -802,7 +802,7 @@ public class SR {
         "invisible",
         "dnd",
         "offline",
-        null,
+        "Saving...",
         "Privacy Lists",
         "Message font",
         "Roster font",

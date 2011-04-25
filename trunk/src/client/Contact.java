@@ -309,11 +309,6 @@ public class Contact extends IconTextElement {
                     temp.append("<nick>");
 //#endif
                     temp.append((m.messageType==Msg.MESSAGE_TYPE_OUT)?midlet.BombusQD.sd.account.getNickName():getName());
-                    if (Config.showNickNames) {
-                        temp.append(" (");
-                        temp.append(m.getTime());
-                        temp.append(')');
-                    }
 //#if NICK_COLORS
                     temp.append("</nick>");
 //#endif

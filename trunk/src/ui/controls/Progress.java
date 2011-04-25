@@ -1,7 +1,7 @@
 /*
  * Progress.java
  *
- * Created on 15.05.2008, 19:47 
+ * Created on 15.05.2008, 19:47
  *
  * Copyright (c) 2006-2008, Daniel Apatin (ad), http://apatin.net.ru
  * Copyright (c) 2009, Alexej Kotov (aqent), http://bombusmod-qd.wen.ru
@@ -42,27 +42,25 @@ import ui.Gradient;
  * @author ad,aqent
  */
 public class Progress {
+    private int width;
+    private int height;
 
-    private static int width;
-    private static int height;
+    private int y;
+    private int x;
 
-    private static int y;
-    private static int x;
+    private Font font;
 
-    private static Font font;
-    
 //#ifdef GRADIENT
-    private static Gradient gr=null;
-    private static int bottomColor;
+    private Gradient gr = null;
+    private int bottomColor;
 //#endif
-    private static int topColor;
+    private int topColor;
 
-    /** Creates a new instance of progress */
     public Progress(int x, int y, int width) {
         this.x=x;
         this.width=width;
         this.font=FontCache.getFont(false, Config.barFont);
-        this.height=font.getHeight()*2;
+        this.height = Math.max(font.getHeight() + 2, Config.minItemHeight);
         this.y=y-height;
         this.topColor=ColorTheme.getColor(ColorTheme.PGS_COMPLETE_TOP);
 //#ifdef GRADIENT
@@ -71,8 +69,8 @@ public class Progress {
             this.gr=new Gradient(x, y-height, x+width, y, topColor, bottomColor, false);
 //#endif
     }
-    
-    public static void draw(Graphics g, int filled, String text) {
+
+    public void draw(Graphics g, int filled, String text) {
         g.setColor(ColorTheme.getColor(ColorTheme.PGS_REMAINED));
         g.fillRect(x, y, width, height);
 //#ifdef GRADIENT
@@ -85,16 +83,11 @@ public class Progress {
 //#ifdef GRADIENT
         }
 //#endif
-       
+
         g.setColor(ColorTheme.getColor(ColorTheme.PGS_INK));
         g.setFont(font);
-        g.drawString(text, x+(width/2), y + font.getHeight()/2, Graphics.TOP|Graphics.HCENTER);
+        g.drawString(text, x+(width/2), y + (height - font.getHeight()) / 2, Graphics.TOP|Graphics.HCENTER);
         g.drawRect(x, y, width-1, height-1);
-        //g.drawLine(x,y,width,y);
         g.drawLine(x+filled,y+1,x+filled,y+height-1);
-    }
-    
-    public static int getHeight() {
-        return height;
     }
 }

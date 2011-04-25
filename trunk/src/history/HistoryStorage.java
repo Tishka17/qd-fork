@@ -73,7 +73,7 @@ public class HistoryStorage {
    }
 
 //#if FILE_IO
-    private static String createBody(Msg m) {
+    public static byte[] msg2byte(Msg m) {
         StringBuffer buf = new StringBuffer(0);
         switch (m.messageType) {
             case Msg.MESSAGE_TYPE_OUT:
@@ -92,17 +92,18 @@ public class HistoryStorage {
                 break;
         }
         buf.append(" [").append(m.getDayTime()).append("] ");
-        buf.append(m.body).append("\r\n");
-        return buf.toString();
+        buf.append(StringUtils.replaceNickTags(m.body)).append("\r\n");
+
+        byte[] arr;
+        try {
+            arr = buf.toString().getBytes("utf-8");
+        } catch (UnsupportedEncodingException e) {
+            arr = buf.toString().getBytes();
+        }
+        return arr;
     }
 
     private static void addFSMessage(Msg m, String filename) {
-        byte[] bodyMessage;
-        try {
-            bodyMessage = createBody(m).getBytes("utf-8");
-        } catch (UnsupportedEncodingException e) {
-            bodyMessage = createBody(m).getBytes();
-        }
 //#ifdef DETRANSLIT
 //#        filename = (Config.transliterateFilenames) ? DeTranslit.translit(filename) : filename;
 //#endif
@@ -118,8 +119,10 @@ public class HistoryStorage {
 
         try {
             os = file.openOutputStream(0);
-            if (bodyMessage.length > 0) {
-                os.write(bodyMessage);
+
+            byte arr[] = msg2byte(m);
+            if (arr.length > 0) {
+                os.write(arr);
             }
         } catch (IOException e) {
 //#ifdef DEBUG

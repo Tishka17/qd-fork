@@ -27,6 +27,10 @@ package history;
 import client.Contact;
 import client.Msg;
 import images.MenuIcons;
+//#ifdef FILE_IO
+import io.file.browse.Browser;
+import io.file.browse.BrowserListener;
+//#endif
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -45,8 +49,16 @@ import ui.MainBar;
 import ui.controls.PopUp;
 import ui.input.InputTextBox;
 import ui.input.InputTextBoxNotify;
+import util.StringUtils;
+import util.Time;
 
-public class HistoryViewer extends MessageList implements Runnable, InputTextBoxNotify {
+public class HistoryViewer extends MessageList
+        implements Runnable, InputTextBoxNotify
+//#ifdef FILE_IO
+        , BrowserListener
+//#endif
+{
+
     private static final String RECENT_LIST_ID = "history-srch";
 
     private Vector elements;
@@ -57,6 +69,9 @@ public class HistoryViewer extends MessageList implements Runnable, InputTextBox
 
     private Command cmdFind;
     private Command cmdClear;
+//#ifdef FILE_IO
+    private Command cmdExport;
+//#endif
 
     public HistoryViewer(Contact contact) {
         this(HistoryStorage.getRSName(contact.bareJid));
@@ -71,6 +86,9 @@ public class HistoryViewer extends MessageList implements Runnable, InputTextBox
 
         cmdFind = new Command(SR.get(SR.MS_SEARCH), MenuIcons.ICON_SEARCH);
         cmdClear = new Command(SR.get(SR.MS_CLEAR), MenuIcons.ICON_CLEAR);
+//#ifdef FILE_IO
+        cmdExport = new Command(SR.get(SR.MS_SAVE_TO_FILE), MenuIcons.ICON_SAVE);
+//#endif
 
         setMainBarItem(new MainBar(SR.get(SR.MS_HISTORY)));
     }
@@ -93,24 +111,6 @@ public class HistoryViewer extends MessageList implements Runnable, InputTextBox
 
     public void run() {
         try {
-            /*for (RecordEnumeration e = store.enumerateRecords(null, null, false); e.hasNextElement();) {
-                try {
-                    byte buf[] = e.nextRecord();
-                    ByteArrayInputStream bais = new ByteArrayInputStream(buf);
-                    DataInputStream dis = new DataInputStream(bais);
-
-                    byte msgtype = dis.readByte();
-                    String from = dis.readUTF();
-                    String date = dis.readUTF();
-                    String text = dis.readUTF();
-
-                    Msg msg = new Msg(msgtype, from, null, text);
-                    msg.setDayTime(date);
-                    elements.insertElementAt(msg, 0);
-                } catch (RecordStoreException rse) {
-                } catch (IOException ioe) {
-                }
-            }*/
             int size = store.getNumRecords();
             for (int i = 1; i <= size; ++i) {
                 try {
@@ -172,6 +172,9 @@ public class HistoryViewer extends MessageList implements Runnable, InputTextBox
         menuCommands.removeAllElements();
         addCommand(cmdFind);
         addDefaultCommands();
+//#ifdef FILE_IO
+        addCommand(cmdExport);
+//#endif
         addCommand(cmdClear);
     }
 
@@ -194,6 +197,10 @@ public class HistoryViewer extends MessageList implements Runnable, InputTextBox
             } else {
                 setWobble(PopUp.TYPE_SYSTEM, null, SR.get(SR.MS_ERROR));
             }
+//#ifdef FILE_IO
+        } else if (c == cmdExport) {
+            new Browser(null, this, true).show();
+//#endif
         } else {
             super.commandAction(c);
         }
@@ -209,6 +216,22 @@ public class HistoryViewer extends MessageList implements Runnable, InputTextBox
             }
         }
     }
+
+//#ifdef FILE_IO
+    public void BrowserFilePathNotify(String path) {
+        StringBuffer buf = new StringBuffer(path);
+
+        buf.append(StringUtils.replaceBadChars(storeName));
+        buf.append("_");
+        buf.append(Time.localDate());
+        buf.append("_");
+        buf.append(Time.localTime());
+        buf.append(".txt");
+
+        HistoryExportTask task = new HistoryExportTask(elements, buf.toString());
+        task.start();
+    }
+//#endif
 
     public void destroyView() {
         if (thread.isAlive()) {

@@ -531,24 +531,15 @@ public final class Roster
     }
 
     public void setProgress(String pgs,int percent){
-        if (midlet.BombusQD.getInstance().s!=null){
-             midlet.BombusQD.getInstance().s.setProgress(pgs, percent);
-        }
 	if (mainbar!=null)
              mainbar.setElementAt(pgs, 3);
         redraw();
-    }
-
-    public void setProgress(int percent){
-        if (midlet.BombusQD.getInstance().s!=null)
-            midlet.BombusQD.getInstance().s.setProgress(percent);
     }
 
     // establishing connection process
     public void run(){
         setQuerySign(true);
 	if (!doReconnect) {
-            setProgress(25);
             resetRoster();
         }
         try {
@@ -1551,7 +1542,6 @@ public final class Roster
             } catch (Exception e) { }
             setQuerySign(false);
             doReconnect=false;
-            if (midlet.BombusQD.getInstance().s!=null) midlet.BombusQD.getInstance().s.close(); // display.setCurrent(this);
 
             //query bookmarks
             theStream.addBlockListener(new BookmarkQuery(BookmarkQuery.LOAD));
@@ -1892,9 +1882,6 @@ public final class Roster
                         reEnumRoster();
                         querysign=doReconnect=false;
 
-                        if (midlet.BombusQD.getInstance().s!=null){
-                            midlet.BombusQD.getInstance().s.close();
-                        }
 //#ifndef WMUC
                         //query bookmarks
                         if (bookmarks==null) {
@@ -3242,8 +3229,7 @@ public final class Roster
                 }
             }
 //#endif
-            midlet.BombusQD.getInstance().s = new SplashScreen(getMainBarItem());
-            midlet.BombusQD.getInstance().s.show();
+            new SplashScreen(getMainBarItem()).show();
             return;
         } else if (keyCode==midlet.BombusQD.cf.keyVibra || keyCode==MOTOE680_FMRADIO /* TODO: redefine keyVibra*/) {
             // swap profiles

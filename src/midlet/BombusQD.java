@@ -84,7 +84,6 @@ public class BombusQD extends MIDlet implements Runnable {
 //#     public final static DebugList debug = DebugList.get();
 //#endif
 
-    public SplashScreen s;
     private static BombusQD instance;
 
     private static boolean minimized = false;
@@ -106,10 +105,11 @@ public class BombusQD extends MIDlet implements Runnable {
 
             sd.canvas = new VirtualCanvas();
 
-            s = SplashScreen.getInstance();
-            s.show();
+            SplashScreen screen = new SplashScreen();
+            screen.show();
+            screen.getKeys();
 
-            s.setProgress("Loading", 3);
+            screen.setProgress("Loading", 3);
 
             new Thread(this).start();
         }
@@ -164,8 +164,6 @@ public class BombusQD extends MIDlet implements Runnable {
         if (sd.roster == null) {
             sd.roster = new Roster();
         }
-
-        s.getKeys();
 
         boolean selAccount=((cf.accountIndex<0));
         if (!selAccount && cf.autoLogin) {

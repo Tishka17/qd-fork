@@ -108,8 +108,8 @@ public class Config {
     public boolean ghostMotor = false;
     public boolean muc119=true;	// before muc 1.19 use muc#owner instead of muc#admin
 
-    public char keyLock='*';
-    public char keyVibra='#';
+    public static char keyLock='*';
+    public static char keyVibra='#';
 
 //#ifdef AUTOSTATUS
     public final static int AWAY_OFF = 0;

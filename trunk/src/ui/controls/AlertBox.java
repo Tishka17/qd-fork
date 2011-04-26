@@ -50,9 +50,7 @@ public class AlertBox extends DefForm implements Runnable {
     public AlertBox(String mainbar, String text, final int buttons, final int timeout) {
 	super(mainbar);
 	this.buttons = buttons;
-	MultiLine line  = new MultiLine(null, text, width);
-        line.setSelectable(true);
-        addControl(line);
+        addControl(new MultiLine(null, text));
 	if (timeout>0) {
 	    SpacerItem sp = new SpacerItem(5);
 	    addControl(sp);
@@ -82,7 +80,7 @@ public class AlertBox extends DefForm implements Runnable {
 	else
 	    return SR.get(SR.MS_NO);
     }
-    
+
     public void cmdOk() {destroyView(); stop(); yes(); }
     public void yes(){};
     public void cmdCancel() {destroyView(); stop(); no();}

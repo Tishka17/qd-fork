@@ -16,9 +16,7 @@ public class ServerStatsForm extends DefForm {
         for (int i = 0; i < stats.size(); ++i) {
             String[] data = (String[])stats.elementAt(i);
 
-            MultiLine line = new MultiLine(data[0], data[1], width);
-            line.setSelectable(true);
-            addControl(line);
+            addControl(new MultiLine(data[0], data[1]));
         }
     }
 

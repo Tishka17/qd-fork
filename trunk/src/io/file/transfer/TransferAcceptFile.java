@@ -80,8 +80,8 @@ public class TransferAcceptFile extends DefForm {
         selectFile=new PathSelector(SR.get(SR.MS_PATH), null, PathSelector.TYPE_DIR);
         addControl(selectFile);
 
-        addControl(new MultiLine(SR.get(SR.MS_SENDER), t.jid, getWidth()));
-        addControl(new MultiLine(SR.get(SR.MS_DESCRIPTION), t.description, getWidth()));
+        addControl(new MultiLine(SR.get(SR.MS_SENDER), t.jid, false));
+        addControl(new MultiLine(SR.get(SR.MS_DESCRIPTION), t.description, false));
     }
 
     public void cmdOk() {

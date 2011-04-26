@@ -136,9 +136,7 @@ public class VCardView extends DefForm implements MenuListener
 
                 if (data != null && name != null) {
                     if (!VCard.vCardFields.elementAt(index).equals("URL")) {
-                        MultiLine item = new MultiLine(name, data, getWidth());
-                        item.setSelectable(true);
-                        addControl(item);
+                        addControl(new MultiLine(name, data));
                     } else {
                         url = data;
                         LinkString nData = new LinkString(url) {

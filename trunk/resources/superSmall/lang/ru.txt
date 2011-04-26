@@ -560,16 +560,16 @@ Cursor	Курсор
 Bold	Жирный шрифт
 Italic	Наклонный шрифт
 Contacts	Контакты
-Chat	Окно чата и сообщений
+Chat	Окно чата
 Network	Настройки сети
-Interface	Внешний вид
+Appearance	Внешний вид
 Application	Приложение
 Hotkeys	Горячие клавиши
 Autostatus	Автостатус
 Color Themes	Цветовые схемы
 History	История сообщений
 Fonts	Шрифты
-Notifications&Light Control	Звуки,уведомления и подсветка
+Notifications&Light Control	Уведомления и подсветка
 Tasks	Планировщик
 Config	Настроить
 Use animated smiles	Анимированные смайлы
@@ -659,3 +659,20 @@ Background image path	Путь к изображению
 Background from FS	Фон из ФС
 [path is not specified]	[путь не указан]
 Contact's offset	Отступ контактов от края
+Saving...	Сохраняю...
+Delete history?	Удалить историю?
+As is	Как есть
+Simple	Простой
+Medium	Средний
+Detailed	Подробный
+Next	Далее
+Show only contact's name and status	Показывать только имя контакта и его статус
+Show client icons and extended statuses	Показывать иконки контактов и доп. статусы
+Show avatars, client icons, status message, extended statuses, contact's resource	Показывать аватары, иконки клиентов, статусную строку, доп. статусы, ресурсы контактов
+Show only messages	Показывать только сообщения
+Show time, presences (collapsed by default)	Показывать время, статусы (по умолчанию свёрнуты)
+Show time, message icons, usernicks, presences (expanded by default)	Показывать время, иконки сообщений, ники, статусы (развёрнуты по умолчанию)
+Hide panels, popups and baloons; simple cursor	Скрыть панели, всплывающие окна и подсказки; простой курсор
+Show panels and popups; gradient cursor	Показывать панели и всплывающие окна; градиентный курсор
+Show panels, popups and baloons; show time and traffic on panel; gradient cursor	Показывать панели, всплывающие окна и подсказки; время и трафик на панелях; градиентный курсор
+Keep current settings	Не изменять настройки

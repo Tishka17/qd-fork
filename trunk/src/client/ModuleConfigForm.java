@@ -176,7 +176,7 @@ public class ModuleConfigForm extends DefForm {
 
         Config config = Config.getInstance();
 
-        if(type.equals(SR.get(SR.MS_contactStr))) {
+        if(type.equals(SR.get(SR.MS_CONTACTS))) {
             subscr = new DropChoiceBox(SR.get(SR.MS_AUTH_NEW));
             subscr.append(SR.get(SR.MS_SUBSCR_AUTO));
             subscr.append(SR.get(SR.MS_SUBSCR_ASK));
@@ -232,7 +232,7 @@ public class ModuleConfigForm extends DefForm {
 
             autoFocus = new CheckBox(SR.get(SR.MS_AUTOFOCUS), config.autoFocus);
             addControl(autoFocus);
-        } else if (type.equals(SR.get(SR.MS_msgStr))) {
+        } else if (type.equals(SR.get(SR.MS_CHATS))) {
             msgEditType = new DropChoiceBox(SR.get(SR.MS_MSG_EDIT_TYPE));
             msgEditType.append(SR.get(SR.MS_MES_EDIT_OLD));
             msgEditType.append(SR.get(SR.MS_MES_EDIT_ALT));
@@ -369,7 +369,7 @@ public class ModuleConfigForm extends DefForm {
             addControl(adhoc);
 //#endif
             }
-        } else if (type.equals(SR.get(SR.MS_grStr))) {
+        } else if (type.equals(SR.get(SR.MS_APPEARANCE))) {
             //try{
             panels = new DropChoiceBox(SR.get(SR.MS_PANELS));
             panels.append(SR.get(SR.MS_NO_BAR)+" : "+SR.get(SR.MS_NO_BAR));
@@ -537,13 +537,13 @@ public class ModuleConfigForm extends DefForm {
 //#ifdef CLASSIC_CHAT
 //#         } else if (type.equals(SR.get(SR.MS_CLASSIC_CHAT))) {
 //#             addControl(new SimpleString(SR.get(SR.MS_CLASSIC_CHAT), true));
-//# 
+//#
 //#             usePhoneTheme = new CheckBox(SR.get(SR.MS_CLCHAT_BGNG_PHONE), config.usePhoneTheme);
 //#             addControl(usePhoneTheme);
-//# 
+//#
 //#             classicChatHeight = new NumberInput(SR.get(SR.MS_CLCHAT_HEIGHT), config.classicChatHeight, 80, 320);
 //#             addControl(classicChatHeight);
-//# 
+//#
 //#             lineCount = new NumberInput(SR.get(SR.MS_CLCHAT_MSGLIMIT), config.lineCount, 1, 1000);
 //#             itemsList.addElement(lineCount);
 //#             itemsList.addElement(new SpacerItem(10));
@@ -553,7 +553,7 @@ public class ModuleConfigForm extends DefForm {
 
     public void cmdOk() {
         Config config = Config.getInstance();
-        if (type.equals(SR.get(SR.MS_contactStr))) {
+        if (type.equals(SR.get(SR.MS_CONTACTS))) {
             config.autoSubscribe = subscr.getSelectedIndex();
             config.notInListDropLevel = nil.getSelectedIndex();
 
@@ -580,7 +580,7 @@ public class ModuleConfigForm extends DefForm {
             config.rosterStatus = rosterStatus.getValue();
             config.useBoldFont = useBoldFont.getValue();
             config.autoFocus = autoFocus.getValue();
-        } else if (type.equals(SR.get(SR.MS_msgStr))) {
+        } else if (type.equals(SR.get(SR.MS_CHATS))) {
             boolean createMsgEdit = false;
 
             if (config.msgEditType != msgEditType.getSelectedIndex()) {
@@ -672,7 +672,7 @@ public class ModuleConfigForm extends DefForm {
 //#endif
             }
             EntityCaps.initCaps();
-         } else if(type.equals(SR.get(SR.MS_grStr))) {
+         } else if(type.equals(SR.get(SR.MS_APPEARANCE))) {
             Config.panelsState = panels.getSelectedIndex();
             VirtualList.updatePanelsState();
 

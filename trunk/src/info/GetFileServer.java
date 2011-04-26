@@ -116,33 +116,24 @@ public class GetFileServer extends DefForm implements MenuListener, Runnable {
                 }
                 String name = (String)versions[0].elementAt(i);
                 if (i == 0) {
-                    MultiLine item = null;
 		    int x=name.indexOf("%");
 		    if (x>-1)
-			item = new MultiLine(name.substring(1,x), Version.getVersionNumber(), getWidth());
-		    else 
-			item = new MultiLine(name.substring(1), Version.getVersionNumber(), getWidth());
-		    item.setSelectable(true);
-                    addControl(item);
+			addControl(new MultiLine(name.substring(1,x), Version.getVersionNumber()));
+		    else
+			addControl(new MultiLine(name.substring(1), Version.getVersionNumber()));
                 } else if (i == 1) {
-                    MultiLine item = null;
 		    int x=name.indexOf("%");
 		    if (x>-1)
-			item = new MultiLine(name.substring(1,x), name.substring(x+1), getWidth());
-		    else 
-			item = new MultiLine(null, name.substring(1), getWidth());
-		    item.setSelectable(true);
-                    addControl(item);
+			addControl(new MultiLine(name.substring(1,x), name.substring(x+1)));
+		    else
+			addControl(new MultiLine(null, name.substring(1)));
                 } else {
                     if (name.startsWith("*")) {
-			MultiLine line = null;
 			int x=name.indexOf("%");
 			if (x>-1)
-			    line = new MultiLine(name.substring(1,x), name.substring(x+1), getWidth());
-			else 
-			    line = new MultiLine(null, name.substring(1), getWidth());
-                        line.setSelectable(true);
-			addControl(line);
+			    addControl(new MultiLine(name.substring(1,x), name.substring(x+1)));
+			else
+			    addControl(new MultiLine(null, name.substring(1)));
                     } else if (name.startsWith("#")) {
                         icq.addElement(name.substring(1));
                     } else if (name.startsWith("@")) {
@@ -235,7 +226,7 @@ public class GetFileServer extends DefForm implements MenuListener, Runnable {
 //#     public void touchLeftPressed(){
 //#         showMenu();
 //#     }
-//# 
+//#
 //#     public void showMenu() {
 //#         commandState();
 //#         new MyMenu(display, parentView, this, SR.get(SR.MS_HISTORY_OPTIONS), null, menuCommands);

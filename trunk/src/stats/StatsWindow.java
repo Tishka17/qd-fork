@@ -100,9 +100,7 @@ public class StatsWindow extends DefForm implements MenuListener {
         sb.append(SR.get(SR.MS_APPRUN_COUNT))
           .append(st.appRunCount);
 
-        MultiLine item = new MultiLine(null, sb.toString(), getWidth());
-        item.setSelectable(true);
-        addControl(item);
+        addControl(new MultiLine(null, sb.toString()));
     }
 
 

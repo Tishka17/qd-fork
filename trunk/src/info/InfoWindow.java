@@ -52,15 +52,9 @@ public class InfoWindow extends DefForm {
     public InfoWindow() {
         super(SR.get(SR.MS_ABOUT));
 
-        MultiLine item;
-
-        item = new MultiLine(Version.NAME, Version.getVersionNumber()
+        addControl(new MultiLine(Version.NAME, Version.getVersionNumber()
                 + "\n" + Config.platformName
-                + "\nMobile Jabber client", getWidth());
-
-        item.setSelectable(true);
-        addControl(item);
-
+                + "\nMobile Jabber client"));
         addControl(new SpacerItem(6));
 
         addControl(new LinkString("QD ".concat(SR.get(SR.MS_QD_NEWS))) {
@@ -72,7 +66,7 @@ public class InfoWindow extends DefForm {
         });
 
         if (midlet.BombusQD.sd.roster.isLoggedIn()) {
-            addControl( new LinkString(SR.get(SR.MS_SUPPORT)) {
+            addControl(new LinkString(SR.get(SR.MS_SUPPORT)) {
                 public void doAction() {
                     new ConferenceForm("BombusQD@", "qd@conference.jabber.ru", null, false).show();
                 }
@@ -93,10 +87,8 @@ public class InfoWindow extends DefForm {
 
 //#ifdef TOUCH
         if (Config.isTouchPhone) {
-            item = new MultiLine("Easter Egg", "Press link under this text", getWidth());
-            item.setSelectable(true);
-            addControl(item);
-
+            addControl(
+                    new MultiLine("Easter Egg", "Press link under this text"));
             addControl(new LinkString("Yes,give me egg") {
 
                 public void doAction() {
@@ -107,21 +99,18 @@ public class InfoWindow extends DefForm {
         } else
 //#endif
         {
-            item = new MultiLine("Easter Egg:", "Press 5-1-2 keys to lock/unlock new options", getWidth());
-            item.setSelectable(true);
-            addControl(item);
+            addControl(new MultiLine(
+                    "Easter Egg:", "Press 5-1-2 keys to lock/unlock new options"));
         }
 
         addControl(new SpacerItem(6));
 
-        item = new MultiLine("Copyright (c) 2005-2011",
+        addControl(new MultiLine("Copyright (c) 2005-2011",
                 "Eugene Stahov (evgs,Bombus);\nDaniel Apatin (ad,BombusMod);\nAlexej Kotov(aqent,BombusQD);\n"
                 + "Andrey Tikhonov(Tishka17,BombusQD)\n"
-                + "Distributed under GPL v2 License", getWidth());
-        item.setSelectable(true);
-        addControl(item);
+                + "Distributed under GPL v2 License"));
 
-        item = new MultiLine("Thanks to:", "Testing: zaetz,balor,demon(Dmitry Krylov),magnit,Sniffy,NNn,DsXack and many others\n"
+        addControl(new MultiLine("Thanks to:", "Testing: zaetz,balor,demon(Dmitry Krylov),magnit,Sniffy,NNn,DsXack and many others\n"
                 + "Patches: Vladimir Krukov (aspro),vinz@\n"
                 + "Graphics: Xa,Makasim\n"
                 + "Actions icons: Rederick Asher\n"
@@ -129,9 +118,7 @@ public class InfoWindow extends DefForm {
                 + "Jimm Dev's for back.png ;)\n"
                 + "Windows Fonts: magdelphi(mobilab.ru)"
                 + "\nMathFP library"
-                + "\nSmiles Author: Copyright (c) Aiwan. Kolobok smiles", getWidth());
-        item.setSelectable(true);
-        addControl(item);
+                + "\nSmiles Author: Copyright (c) Aiwan. Kolobok smiles"));
 
         addControl(new LinkString("http://www.kolobok.us") {
             public void doAction() {
@@ -171,9 +158,7 @@ public class InfoWindow extends DefForm {
         memInfo.append(SR.get(SR.MS_FREE)).append(freemem).append("\n");
         memInfo.append(SR.get(SR.MS_TOTAL)).append(totalmem);
 
-        item = new MultiLine(SR.get(SR.MS_MEMORY), memInfo.toString(), getWidth());
-        item.setSelectable(true);
-        addControl(item);
+        addControl(new MultiLine(SR.get(SR.MS_MEMORY), memInfo.toString()));
 
         enableListWrapping(false);
     }

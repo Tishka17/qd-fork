@@ -113,7 +113,7 @@ public class Browser
         }
 	addCommand(cmdDelete);
         addCommand(cmdRoot);
-        
+
         addCommand(cmdExit);
 //#ifndef GRAPHICS_MENU
 //#      addCommand(cmdCancel);
@@ -170,9 +170,13 @@ public class Browser
             String f=((FileItem)getFocusedObject()).name;
             if (f.endsWith("/")) {
                 if (f.startsWith("../")) f="";
-                if (browserListener==null) return;
-                browserListener.BrowserFilePathNotify(path+f);
+                if (browserListener==null) {
+                    return;
+                }
                 destroyView();
+
+                browserListener.BrowserFilePathNotify(path+f);
+                browserListener = null;
                 return;
             }
             //todo: choose directory here, drop ../
@@ -194,7 +198,6 @@ public class Browser
 
     public void destroyView(){
         StaticData.getInstance().previousPath=path;
-        browserListener = null;
         super.destroyView();
     }
 
@@ -253,7 +256,7 @@ public class Browser
             fio.close();
             dir.removeElement(getFocusedObject());
             redraw();
-        } catch (Exception e) { 
+        } catch (Exception e) {
 //#ifdef DEBUG
 //#             e.printStackTrace();
 //#endif
@@ -274,8 +277,10 @@ public class Browser
                 showFile();
                 return;
             }
-            browserListener.BrowserFilePathNotify(path+f);
             destroyView();
+
+            browserListener.BrowserFilePathNotify(path+f);
+            browserListener = null;
             return;
         }
         if (!chDir(f)) {

@@ -245,7 +245,7 @@ public class Config {
     public static String backImgPath = "";
 //#endif
 
-    public int scrollWidth = 5;
+    public static int scrollWidth = 5;
     public static int minItemHeight = rosterFont * 3;
     public static int contactXOffset = 10;
 

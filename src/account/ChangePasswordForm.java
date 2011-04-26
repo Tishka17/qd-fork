@@ -40,11 +40,7 @@ public class ChangePasswordForm extends DefForm {
         if (locally) {
             this.password = password;
 
-            MultiLine line;
-            line = new MultiLine(SR.get(SR.MS_NEW_PASSWORD), password + "\n" + SR.get(SR.MS_EDIT_ACCOUNT_MSG), getWidth());
-            line.setSelectable(true);
-            addControl(line);
-
+            addControl(new MultiLine(SR.get(SR.MS_NEW_PASSWORD), password + "\n" + SR.get(SR.MS_EDIT_ACCOUNT_MSG)));
             addControl(new SimpleString(SR.get(SR.MS_COPY) + "?", false));
         } else {
             this.account = account;

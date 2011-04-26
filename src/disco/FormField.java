@@ -59,7 +59,7 @@ public class FormField {
             body=field.getChildBlockText("value");
 	    hidden= type.equals("hidden");
             if (type.equals("fixed")) {
-                formItem = new MultiLine((label==null?"Label":label), body, -1);
+                formItem = new MultiLine((label==null?"Label":label), body);
             }
             else if (type.equals("boolean")) {
                 boolean set=false;
@@ -128,11 +128,11 @@ public class FormField {
             // not x-data
             if ( instructions=name.equals("instructions") )
 
-                formItem =new MultiLine("Instructions", body, -1);
+                formItem =new MultiLine("Instructions", body);
 
             else if ( name.equals("title") )//jud.jabber.ru
 
-                formItem =new MultiLine("Tittle", body, -1);
+                formItem =new MultiLine("Tittle", body);
 
             else if ( name.equals("registered") ) {
 		registered=true;

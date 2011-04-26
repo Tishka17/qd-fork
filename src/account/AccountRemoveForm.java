@@ -28,13 +28,11 @@ public class AccountRemoveForm extends DefForm {
         super("");
 
         if (confirm) {
-            MultiLine line = new MultiLine(null, "Account has been deleted from server successfully", getWidth());
-            line.setSelectable(true);
-            addControl(line);
+            addControl(new MultiLine(null, "Account has been deleted from server successfully"));
         } else {
             this.account = account;
 
-            addControl(new MultiLine(account.getJid(), SR.get(SR.MS_REMOVE_ACCOUNT) + "?", getWidth()));
+            addControl(new MultiLine(account.getJid(), SR.get(SR.MS_REMOVE_ACCOUNT) + "?"));
         }
     }
 

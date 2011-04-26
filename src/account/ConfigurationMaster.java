@@ -27,165 +27,202 @@ import client.Config;
 import java.util.Vector;
 import locale.SR;
 import ui.MainBar;
-import ui.VirtualElement;
 import ui.VirtualList;
 import ui.controls.form.DefForm;
-import ui.controls.form.DropChoiceBox;
 import ui.controls.form.MultiLine;
 
 public final class ConfigurationMaster extends DefForm {
     private static final int PAGES_COUNT = 3;
 
+    private static final int CONTACTS_PAGE = 1;
+    private static final int CHAT_PAGE = 2;
+    private static final int UI_PAGE = 3;
+
+    private static final int DEFAULT = 0;
     private static final int SIMPLE = 1;
     private static final int MEDIUM = 2;
     private static final int DETAILED = 3;
 
+    private int cursorPos[];
 
     private int currentPage = 1;
 
+    // for restoring
+    private boolean simpleContacts;
+    private boolean rosterStatus;
+//#ifdef CLIENTS_ICONS
+    private boolean showClientIcon;
+//#endif
+//#ifdef AVATARS
+    private boolean auto_queryPhoto;
+//#endif
+    private boolean showResources;
+
+    private boolean showNickNames;
+    private boolean storeConfPresence;
+    private boolean hideMessageIcon;
+    private boolean showTimeInMsgs;
+    private boolean showCollapsedPresences;
+
+    private int panelsState;
+    private boolean showTimeTraffic;
+    private boolean popUps;
+    private boolean showBalloons;
+    private boolean gradient_cursor;
+
     public ConfigurationMaster() {
         super("");
+        cursorPos = new int[PAGES_COUNT];
 
+        backupCurrentSettings();
         updateForm();
     }
 
     private void updateForm() {
-        StringBuffer buf = new StringBuffer(SR.get(SR.MS_CONFIGURATION_MASTER));
-        buf.append(" (");
-        buf.append(currentPage);
-        buf.append("/");
-        buf.append(PAGES_COUNT);
-        buf.append(")");
-
-        /* Вид контактов (шаг 1/3) */
-        setMainBarItem(new MainBar(buf.toString()));
+        StringBuffer cap = new StringBuffer();
 
         itemsList = null;
         itemsList = new Vector();
 
-        MultiLine line;
+        addControl(new MultiLine(
+                SR.get(SR.MS_AS_IS),
+                SR.get(SR.MS_KEEP_CURRENT_SETTINGS)));
         switch (currentPage) {
-            case 1:
-                line = new MultiLine(
-                        "Simple contacts",
-                        "Don't show avatars, client icons, status string, extended statuses, contact resources",
-                        width);
-                line.setSelectable(true);
-                addControl(line);
-
-                line = new MultiLine(
-                        "Medium contacts",
-                        "Show only client icons, extended statuses",
-                        width);
-                line.setSelectable(true);
-                addControl(line);
-
-                line = new MultiLine(
-                        "Detailed contacts",
-                        "Show avatars, client icons, status string, extended statuses, contact resources",
-                        width);
-                line.setSelectable(true);
-                addControl(line);
+            case CONTACTS_PAGE:
+                cap.append(SR.get(SR.MS_CONTACTS));
+                addControl(new MultiLine(
+                        SR.get(SR.MS_SIMPLE),
+                        SR.get(SR.MS_SIMPLE_CONTACT_VIEW)));
+                addControl(new MultiLine(
+                        SR.get(SR.MS_MEDIUM),
+                        SR.get(SR.MS_MEDIUM_CONTACT_VIEW)));
+                addControl(new MultiLine(
+                        SR.get(SR.MS_DETAILED),
+                        SR.get(SR.MS_DETAILED_CONTACT_VIEW)));
                 break;
-            case 2:
-                line = new MultiLine(
-                        "Simple chat",
-                        "Don't show ",
-                        width);
-                line.setSelectable(true);
-                addControl(line);
-
-                line = new MultiLine(
-                        "Medium chat",
-                        "Show only ",
-                        width);
-                line.setSelectable(true);
-                addControl(line);
-
-                line = new MultiLine(
-                        "Detailed chat",
-                        "Show ",
-                        width);
-                line.setSelectable(true);
-                addControl(line);
+            case CHAT_PAGE:
+                cap.append(SR.get(SR.MS_CHATS));
+                addControl(new MultiLine(
+                        SR.get(SR.MS_SIMPLE),
+                        SR.get(SR.MS_SIMPLE_CHAT_VIEW)));
+                addControl(new MultiLine(
+                        SR.get(SR.MS_MEDIUM),
+                        SR.get(SR.MS_MEDIUM_CHAT_VIEW)));
+                addControl(new MultiLine(
+                        SR.get(SR.MS_DETAILED),
+                        SR.get(SR.MS_DETAILED_CHAT_VIEW)));
                 break;
-            case 3:
-                line = new MultiLine(
-                        "Simple UI",
-                        "Don't show ",
-                        width);
-                line.setSelectable(true);
-                addControl(line);
-
-                line = new MultiLine(
-                        "Medium UI",
-                        "Show only ",
-                        width);
-                line.setSelectable(true);
-                addControl(line);
-
-                line = new MultiLine(
-                        "Detailed UI",
-                        "Show ",
-                        width);
-                line.setSelectable(true);
-                addControl(line);
+            case UI_PAGE:
+                cap.append(SR.get(SR.MS_APPEARANCE));
+                addControl(new MultiLine(
+                        SR.get(SR.MS_SIMPLE),
+                        SR.get(SR.MS_SIMPLE_APPEARANCE)));
+                addControl(new MultiLine(
+                        SR.get(SR.MS_MEDIUM),
+                        SR.get(SR.MS_MEDIUM_APPEARANCE)));
+                addControl(new MultiLine(
+                        SR.get(SR.MS_DETAILED),
+                        SR.get(SR.MS_DETAILED_APPEARANCE)));
                 break;
         }
+        cap.append(" (");
+        cap.append(currentPage);
+        cap.append("/");
+        cap.append(PAGES_COUNT);
+        cap.append(")");
+
+        setMainBarItem(new MainBar(cap.toString()));
+
+        moveCursorTo(cursorPos[currentPage - 1]);
         redraw();
     }
 
     private void applySettings() {
         switch (currentPage) {
-            case 1:
+            case CONTACTS_PAGE:
                 switch (cursor) {
+                    case DEFAULT:
+                        Config.simpleContacts = simpleContacts;
+                        Config.rosterStatus = rosterStatus;
+//#ifdef CLIENTS_ICONS
+                        Config.showClientIcon = showClientIcon;
+//#endif
+//#ifdef AVATARS
+                        Config.auto_queryPhoto = auto_queryPhoto;
+//#endif
+                        Config.showResources = showResources;
+                        break;
                     case SIMPLE:
                         Config.simpleContacts = true;
+//#ifdef AVATARS
                         Config.auto_queryPhoto = false;
+//#endif
                         Config.showResources = false;
                         break;
                     case MEDIUM:
                         Config.simpleContacts = false;
                         Config.rosterStatus = false;
+//#ifdef CLIENTS_ICONS
                         Config.showClientIcon = true;
+//#endif
+//#ifdef AVATARS
                         Config.auto_queryPhoto = false;
+//#endif
                         Config.showResources = false;
                         break;
                     case DETAILED:
                         Config.simpleContacts = false;
                         Config.rosterStatus = true;
+//#ifdef CLIENTS_ICONS
                         Config.showClientIcon = true;
+//#endif
+//#ifdef AVATARS
                         Config.auto_queryPhoto = true;
+//#endif
                         Config.showResources = true;
                         break;
                 }
                 break;
-            case 2:
+            case CHAT_PAGE:
                 switch (cursor) {
+                    case DEFAULT:
+                        Config.showNickNames = showNickNames;
+                        Config.storeConfPresence = storeConfPresence;
+                        Config.hideMessageIcon = hideMessageIcon;
+                        Config.showTimeInMsgs = showTimeInMsgs;
+                        Config.showCollapsedPresences = showCollapsedPresences;
+                        break;
                     case SIMPLE:
                         Config.showNickNames = false;
                         Config.storeConfPresence = false;
-                        Config.hideMessageIcon = false;
+                        Config.hideMessageIcon = true;
                         Config.showTimeInMsgs = false;
                         Config.showCollapsedPresences = true;
                         break;
                     case MEDIUM:
                         Config.showNickNames = false;
                         Config.storeConfPresence = true;
-                        Config.hideMessageIcon = true;
+                        Config.hideMessageIcon = false;
                         Config.showTimeInMsgs = true;
                         Config.showCollapsedPresences = true;
                         break;
                     case DETAILED:
                         Config.showNickNames = true;
                         Config.storeConfPresence = true;
-                        Config.hideMessageIcon = true;
+                        Config.hideMessageIcon = false;
                         Config.showTimeInMsgs = true;
                         Config.showCollapsedPresences = true;
                 }
                 break;
-            case 3:
+            case UI_PAGE:
                 switch (cursor) {
+                    case DEFAULT:
+                        Config.panelsState = panelsState;
+                        Config.showTimeTraffic = showTimeTraffic;
+                        Config.popUps = popUps;
+                        Config.showBalloons = showBalloons;
+                        Config.gradient_cursor = gradient_cursor;
+                        break;
                     case SIMPLE:
                         Config.panelsState = 0;
                         Config.showTimeTraffic = false;
@@ -214,9 +251,33 @@ public final class ConfigurationMaster extends DefForm {
         Config.getInstance().saveToStorage();
     }
 
+    private void backupCurrentSettings() {
+        simpleContacts = Config.simpleContacts;
+        rosterStatus = Config.rosterStatus;
+//#ifdef CLIENTS_ICONS
+        showClientIcon = Config.showClientIcon;
+//#endif
+//#ifdef AVATARS
+        auto_queryPhoto = Config.auto_queryPhoto;
+//#endif
+        showResources = Config.showResources;
+
+        showNickNames = Config.showNickNames;
+        storeConfPresence = Config.storeConfPresence;
+        hideMessageIcon = Config.hideMessageIcon;
+        showTimeInMsgs = Config.showTimeInMsgs;
+        showCollapsedPresences = Config.showCollapsedPresences;
+
+        panelsState = Config.panelsState;
+        showTimeTraffic = Config.showTimeTraffic;
+        popUps = Config.popUps;
+        showBalloons = Config.showBalloons;
+        gradient_cursor = Config.gradient_cursor;
+    }
+
     public String touchLeftCommand() {
-        return (currentPage == PAGES_COUNT) ?
-                "Done" : "Next";
+        return SR.get((currentPage == PAGES_COUNT) ?
+                SR.MS_SAVE : SR.MS_NEXT);
     }
 
     public void cmdOk() {
@@ -225,6 +286,8 @@ public final class ConfigurationMaster extends DefForm {
         if (currentPage == PAGES_COUNT) {
             destroyView();
         } else {
+            cursorPos[currentPage - 1] = cursor;
+
             ++currentPage;
             updateForm();
         }
@@ -234,18 +297,14 @@ public final class ConfigurationMaster extends DefForm {
         if (currentPage == 1) {
             destroyView();
         } else {
+            cursorPos[currentPage - 1] = cursor;
+
             --currentPage;
             updateForm();
         }
     }
 
-    private void fillChoiceBox(DropChoiceBox box) {
-        box.append("Current settings");
-        box.append("Simple");
-        box.append("Medium");
-        box.append("Detailed");
-    }
     public void eventOk(){
-	touchLeftPressed();
+	cmdOk();
     }
 }

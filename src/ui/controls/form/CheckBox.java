@@ -28,11 +28,11 @@
 
 package ui.controls.form;
 
+import client.Config;
 import images.RosterIcons;
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
 import midlet.BombusQD;
-import ui.GMenuConfig;
 import ui.IconTextElement;
 import ui.VirtualList;
 import util.StringUtils;
@@ -54,12 +54,15 @@ public final class CheckBox extends IconTextElement {
     public CheckBox(String text, boolean isChecked) {
         super(RosterIcons.getInstance());
 
-        int sep = text.indexOf("%");
+        int sep = text.indexOf('%');
         if (sep > -1) {
-            this.tip = text.substring(sep);
+            this.tip = text.substring(sep + 1);
             this.text = text.substring(0, sep);
 
-            tipLines = StringUtils.parseBoxString(this.tip, BombusQD.sd.canvas.getWidth() - 30, getFont());
+            tipLines = StringUtils.parseMessage(
+                    this.tip,
+                    BombusQD.sd.canvas.getWidth() - Config.scrollWidth - getOffset() - 2 - imgWidth,
+                    getFont());
         } else {
             this.text = text;
             this.tip = null;
@@ -76,7 +79,7 @@ public final class CheckBox extends IconTextElement {
     }
 
     public int getImageIndex() {
-        return isChecked ? 
+        return isChecked ?
             RosterIcons.ICON_CHOICEBOX_CHECKED :
             RosterIcons.ICON_CHOICEBOX_UNCHECKED;
     }
@@ -86,11 +89,9 @@ public final class CheckBox extends IconTextElement {
 
         int xOffset = getOffset();
         if (null != il) {
-            if (getImageIndex() != -1) {
-                il.drawImage(g, getImageIndex(), xOffset, (itemHeight - imgHeight) / 2);
-                xOffset += imgHeight;
-            }
-        }
+            il.drawImage(g, getImageIndex(), xOffset, (itemHeight - imgHeight) / 2);
+            xOffset += imgHeight;
+         }
 
         if ((tip != null && !isChecked) || (tip == null)) {
             g.clipRect(xOffset, 0, g.getClipWidth(), itemHeight);
@@ -107,7 +108,7 @@ public final class CheckBox extends IconTextElement {
 
             g.clipRect(xOffset, 0, g.getClipWidth(), getVHeight());
 
-            int height = fontHeight * (size - 1);
+            int height = fontHeight * (size);
             int width = g.getClipWidth() - getOffset();
 
             g.drawString(text, xOffset - ofs, 0, Graphics.TOP | Graphics.LEFT);
@@ -117,9 +118,9 @@ public final class CheckBox extends IconTextElement {
             g.setColor(0x000000);
             g.drawRoundRect(xOffset, fontHeight + 2, width, height, 9, 9);
 
-            int y = 0;
-            for (int i = 0; i < size; i++) {
-                g.drawString((String)tipLines.elementAt(i), xOffset + 3, y + 2, Graphics.TOP | Graphics.LEFT);
+            int y = fontHeight;
+            for (int i = 0; i < size; ++i) {
+                g.drawString((String)tipLines.elementAt(i), xOffset + 2, y + 2, Graphics.TOP | Graphics.LEFT);
                 y += fontHeight;
             }
         }
@@ -128,15 +129,15 @@ public final class CheckBox extends IconTextElement {
     public int getVHeight() {
         int fontHeight = getFont().getHeight();
         if (isChecked && tip != null) {
-            itemHeight = fontHeight * (tipLines.size()) + 5;
+            itemHeight = fontHeight + fontHeight * (tipLines.size()) + 5;
         } else {
             itemHeight = fontHeight;
         }
         if (itemHeight < imgHeight) {
             itemHeight = imgHeight;
         }
-        if (itemHeight < midlet.BombusQD.cf.minItemHeight) {
-            itemHeight = midlet.BombusQD.cf.minItemHeight;
+        if (itemHeight < Config.minItemHeight) {
+            itemHeight = Config.minItemHeight;
         }
         return itemHeight;
     }

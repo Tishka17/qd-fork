@@ -31,6 +31,7 @@ import font.FontCache;
 import java.util.Vector;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
+import midlet.BombusQD;
 import ui.IconTextElement;
 import util.StringUtils;
 import ui.VirtualList;
@@ -40,11 +41,11 @@ import ui.VirtualList;
  * @author ad
  */
 
-public class MultiLine extends IconTextElement {
+public final class MultiLine extends IconTextElement {
     private Vector lines = null;
     private String text;
     private String caption;
-    public boolean selectable;
+    public boolean selectable = true;
     private Font font;
     private int fontHeight;
     private Font captionFont;
@@ -53,16 +54,21 @@ public class MultiLine extends IconTextElement {
 
     private int width;
 
-    public MultiLine(String caption, String text, int availWidth) {
+    public MultiLine(String caption, String text) {
+        this(caption, text, true);
+    }
+
+    public MultiLine(String caption, String text, boolean selectable) {
         super(null);
         this.text = text;
         this.caption = caption;
+        this.selectable = selectable;
 
         font = FontCache.getFont(false, Config.msgFont);
         fontHeight = font.getHeight();
         itemHeight = fontHeight;
 
-        width = availWidth;
+        width = BombusQD.sd.canvas.getWidth() - getOffset() - Config.scrollWidth;
 
         if (caption != null) {
             captionFont = FontCache.getFont(true, Config.msgFont);
@@ -89,7 +95,7 @@ public class MultiLine extends IconTextElement {
 
     public int getVHeight() {
         if (lines == null && width > 0) {
-            lines = StringUtils.parseMessage(text, width - 10, font);
+            lines = StringUtils.parseMessage(text, width, font);
             itemHeight = (fontHeight * lines.size());
             if (caption != null) {
                 itemHeight += captionFontHeight;
@@ -104,10 +110,11 @@ public class MultiLine extends IconTextElement {
             return;
         }
 
+        int xOffset = getOffset();
         int y = 0;
         if (caption != null) {
             g.setFont(captionFont);
-            g.drawString(caption, 2, y, Graphics.TOP | Graphics.LEFT);
+            g.drawString(caption, xOffset, y, Graphics.TOP | Graphics.LEFT);
             y = captionFontHeight;
         }
 
@@ -116,17 +123,17 @@ public class MultiLine extends IconTextElement {
         for (int line = 0; line < lines.size(); line++) {
             str = (String)lines.elementAt(line);
             if (str != null && str.length() > 0) {
-                g.drawString(str, 2, y, Graphics.TOP | Graphics.LEFT);
+                g.drawString(str, xOffset, y, Graphics.TOP | Graphics.LEFT);
             }
             y += fontHeight;
         }
     }
 
-    public boolean isSelectable() {
-        return selectable;
+    public int getOffset() {
+        return 2;
     }
 
-    public void setSelectable(boolean selectable) {
-        this.selectable = selectable;
+    public boolean isSelectable() {
+        return selectable;
     }
 }

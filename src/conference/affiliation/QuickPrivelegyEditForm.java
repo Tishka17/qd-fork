@@ -76,7 +76,7 @@ public final class QuickPrivelegyEditForm extends DefForm {
             .append(victim.realJid)
             .append(")");
         }
-        addControl(new MultiLine(SR.get(SR.MS_USER), user.toString(), getWidth()));
+        addControl(new MultiLine(SR.get(SR.MS_USER), user.toString(), false));
 
         reason=new TextInput(SR.get(SR.MS_REASON), null, REASON_RECENT_ID, TextField.ANY);
         addControl(reason);

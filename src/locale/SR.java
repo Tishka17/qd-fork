@@ -575,9 +575,11 @@ public class SR {
      public final static short MS_CHANGE_PASSWORD  = 542; //Change password
      public final static short MS_REMOVE_ACCOUNT  = 543; //Remove from server
      public final static short MS_NEW_PASSWORD  = 544; //New password
-     //public final static short MS_SEND_EVIL_MSG  = 545; //Send Evil Message
-     //public final static short MS_ADD_SEL_TO_ARCHIVE  = 546; //save selection to archive
-     //public final static short MS_COPY_CLIPBOARD  = 547; //To Clipboard
+
+     public final static short MS_SIMPLE_CONTACT_VIEW = 545; //Show only contact's name and status
+     public final static short MS_MEDIUM_CONTACT_VIEW = 546; //Show client icons and extended statuses
+     public final static short MS_DETAILED_CONTACT_VIEW = 547; //Show avatars, client icons, status message, extended statuses, contact's resource
+
      //public final static short MS_COLLAPS_ALL  = 548; //Collapse All
      public final static short MS_ADD_SEARCH_QUERY  = 549; //Add Search Query
      public final static short MS_FIND_TEXT  = 550; //Find Text
@@ -585,20 +587,24 @@ public class SR {
      //public final static short MS_MOOD_IN_MSG  = 552; //Send Mood in Msg
      //public final static short MS_ANIMATION  = 553; //Turn OFF Animation
      public final static short MS_ICON_COLP  = 554; //Turn OFF Message Icon
-     //public final static short MS_PEP_OFF  = 555; //PEP is now OFF
-     //public final static short MS_DYNAMIC_EVENTS  = 556; //Dynamic PEP
-     //public final static short MS_DRAW_CONTACT_VCARD  = 557; //Draw vcard image on contact
+
+     public final static short MS_SIMPLE_CHAT_VIEW = 555; //Show only messages
+     public final static short MS_MEDIUM_CHAT_VIEW  = 556; //Show time, presences (collapsed by default)
+     public final static short MS_DETAILED_CHAT_VIEW  = 557; //Show time, message icons, usernicks, presences (expanded by default)
+
      public final static short MS_AUTOLOAD_VCARD  = 558; //Autoloading vcard from server
      public final static short MS_AUTOLOAD_VCARD_FROMFS  = 559; //Autoloading vcard from FS Phone
      //public final static short MS_ACTIVITY  = 560; //MyActivity
      //public final static short MS_UPDATE_PEP  = 561; //Update Moods+Actions+Music
      //public final static short MS_STOP_MUSIC  = 562; //Stop Music
      public final static short MS_NOT_FOUND  = 563; //Not found!
-     //public final static short MS_UP_MOODS  = 564; //Send my Moods+Actions(PEP) to all contacts(YES-recommended)?
-     //public final static short MS_DRAWED_FONT  = 565; //Drawed font
-     //public final static short MS_REQUIRED_FIELDS  = 566; //Required field
-     public final static short MS_GENERATE  = 567; //Generate
-     //public final static short MS_CONTACT_HELPER_  = 568; //Contact Helper
+     public final static short MS_GENERATE  = 564; //Generate
+
+     public final static short MS_SIMPLE_APPEARANCE = 565; //Hide panels, popups and baloons; simple cursor
+     public final static short MS_MEDIUM_APPEARANCE = 566; //Show panels and popups; gradient cursor
+     public final static short MS_DETAILED_APPEARANCE = 567; //Show panels, popups and baloons; show time and traffic on panel; gradient cursor
+     public final static short MS_KEEP_CURRENT_SETTINGS = 568; //Keep current settings
+
      //public final static short MS_FILL_VCARD_FIELDS  = 569; //Fill Required field(Full name,nickname and birthday)
      //public final static short MS_TRANSLATE_  = 570; //Translate
      public final static short MS_DELETE_ALL_STATUSES  = 571; //Delete all statuses
@@ -666,10 +672,10 @@ public class SR {
      //public final static short DONT_LOAD_MUCCONTACTS  = 633; //Don't load conference contacts
      //public final static short MS_MODULES_CONFIG  = 634; //Modules config
      //public final static short MS_ADVANCED_OPT  = 635; //Advanced Options
-     public final static short MS_contactStr  = 636; //Contacts
-     public final static short MS_msgStr  = 637; //Chat
+     public final static short MS_CONTACTS  = 636; //Contacts
+     public final static short MS_CHATS  = 637; //Chat
      public final static short MS_netStr  = 638; //Network
-     public final static short MS_grStr  = 639; //Graphics
+     public final static short MS_APPEARANCE  = 639; //Appearance
      public final static short MS_CATEGORY  = 640; //Category
      public final static short MS_TYPE  = 641; //Type
      public final static short MS_hotkeysStr  = 642; //Hotkeys
@@ -740,7 +746,7 @@ public class SR {
      public final static short MS_SORT_TYPE_DEF  = 707; //OFF (default)
      public final static short MS_SORT_TYPE_STATUS  = 708; //By status
      public final static short MS_SORT_TYPE_MSGS  = 709; //By Msgs count
-     //public final static short MS_AUTOCONNECT_TRANSPORTS  = 710; // free
+     public final static short MS_NEXT  = 710; // Next
      public final static short MS_HISTORY_TYPE  = 711; //Type History
      public final static short MS_HISTORY_RMS  = 712; //History in RMS
      public final static short MS_HISTORY_FS  = 713; //History in FS
@@ -762,10 +768,10 @@ public class SR {
      public final static short MS_GRMENU_LEFT =  728;
      public final static short MS_PEP =  729;
 
-     //public final static short MS_USER_APP_LEVEL =  730;
-     //public final static short MS_USER_APP_LEVEL_0 =  731;
-     //public final static short MS_USER_APP_LEVEL_1 =  732;
-     //public final static short MS_USER_APP_LEVEL_2 =  733;
+     public final static short MS_AS_IS =  730;
+     public final static short MS_SIMPLE =  731;
+     public final static short MS_MEDIUM =  732;
+     public final static short MS_DETAILED =  733;
      public final static short MS_WAS_ADDED =  734;
      public final static short MS_CONFIGURATION_MASTER =  735;
      public final static short MS_WARNING_MESSAGE_INSTALL =  736;
@@ -1338,9 +1344,9 @@ public class SR {
         "Change password",
         "Remove from server",
         "New password",
-        null,
-        null,
-        null,
+        "Show only contact's name and status",
+        "Show client icons and extended statuses",
+        "Show avatars, client icons, status message, extended statuses, contact's resource",
         null,
         "Add Search Query",
         "Find Text",
@@ -1348,20 +1354,20 @@ public class SR {
         null,
         null,
         "Turn OFF Message Icon",
-        null,
-        null,
-        null,
+        "Show only messages",
+        "Show time, presences (collapsed by default)",
+        "Show time, message icons, usernicks, presences (expanded by default)",
         "Autoloading vcard from server",
         "Autoloading vcard from FS Phone",
         null,
         null,
         null,
         "Not found!",
-        null,
-        null,
-        null,
         "Generate",
-        null,
+        "Hide panels, popups and baloons; simple cursor",
+        "Show panels and popups; gradient cursor",
+        "Show panels, popups and baloons; show time and traffic on panel; gradient cursor",
+        "Keep current settings",
         null,
         null,
         "Delete all statuses",
@@ -1432,7 +1438,7 @@ public class SR {
         "Contacts",
         "Chat",
         "Network",
-        "Interface",
+        "Appearance",
         "Category",
         "Type",
         "Hotkeys",
@@ -1503,7 +1509,7 @@ public class SR {
         "OFF (default)",
         "By status",
         "By Msgs count",
-        "Auto-Load Transports after connect",
+        "Next",
         "Type History",
         "History in RMS",
         "History in FS",
@@ -1525,10 +1531,10 @@ public class SR {
         "[Left:     ]",
         "Pubsub events",
 
-        null,
-        null,
-        null,
-        null,
+        "As is",
+        "Simple",
+        "Medium",
+        "Detailed",
         "Was added:",
         "Configuration Master",
         "Please reinstall the program to avoid possible future problems",

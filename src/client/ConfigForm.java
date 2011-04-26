@@ -43,12 +43,12 @@ public class ConfigForm extends DefForm {
     public ConfigForm() {
         super(SR.get(SR.MS_OPTIONS));
 
-        addControl(new PluginBox(SR.get(SR.MS_contactStr)));
-        addControl(new PluginBox(SR.get(SR.MS_msgStr)));
+        addControl(new PluginBox(SR.get(SR.MS_CONTACTS)));
+        addControl(new PluginBox(SR.get(SR.MS_CHATS)));
         addControl(new PluginBox(SR.get(SR.MS_notifyStr)));
         addControl(new PluginBox(SR.get(SR.MS_netStr)));
         addControl(new PluginBox(SR.get(SR.MS_APPLICATION)));
-        addControl(new PluginBox(SR.get(SR.MS_grStr)));
+        addControl(new PluginBox(SR.get(SR.MS_APPEARANCE)));
         addControl(new PluginBox(SR.get(SR.MS_COLOR_TUNE)));
         addControl(new PluginBox(SR.get(SR.MS_fontsStr)));
 

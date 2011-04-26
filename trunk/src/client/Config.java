@@ -125,7 +125,7 @@ public class Config {
 //#ifndef WMUC
     public static String defConference = BombusQD.getStrProperty("Def-Room", "qd@conference.jabber.ru");
 
-    public boolean storeConfPresence=false;
+    public static boolean storeConfPresence=false;
     public boolean autoJoinConferences=false;
     public int confMessageCount=20;
 //#endif
@@ -176,11 +176,11 @@ public class Config {
     public static int panelsState = 2;
 
 //#ifdef POPUPS
-    public boolean popUps = false;
+    public static boolean popUps = false;
 //#endif
 
-    public boolean rosterStatus = false;
-    public boolean showResources = true;
+    public static boolean rosterStatus = false;
+    public static boolean showResources = true;
     public boolean enableVersionOs = true;
     public boolean collapsedGroups = true;
     public boolean eventDelivery = true;
@@ -197,7 +197,7 @@ public class Config {
 
     public boolean queryExit = false;
     public int notInListDropLevel = Roster.ALLOW_ALL;
-    public boolean showBalloons = false;
+    public static boolean showBalloons = false;
 
     public int msglistLimit = 50;
 
@@ -216,7 +216,7 @@ public class Config {
 
     public boolean IQNotify = false;
 //#ifdef CLIENTS_ICONS
-    public boolean showClientIcon=true;
+    public static boolean showClientIcon=true;
 //#endif
 
     public static int reconnectCount = 30;
@@ -256,7 +256,8 @@ public class Config {
     public int classicChatHeight = 140;
     public int lineCount = 300;
     public boolean usePhoneTheme = false;
-    public boolean gradient_cursor = false;
+
+    public static boolean gradient_cursor = false;
 
     public String langpair="ru==>en";
 
@@ -267,10 +268,10 @@ public class Config {
 
 //#ifdef AVATARS
     public String msgAvatarPath = "";
-    public boolean auto_queryPhoto = false;
-    public boolean autoSaveVcard = false;
-    public boolean showAvatarRect = false;
-    public boolean autoload_FSPhoto = false;
+    public static boolean auto_queryPhoto = false;
+    public static boolean autoSaveVcard = false;
+    public static boolean showAvatarRect = false;
+    public static boolean autoload_FSPhoto = false;
     public int maxAvatarHeight = 35;
     public int maxAvatarWidth = 35;
 //#endif
@@ -289,7 +290,7 @@ public class Config {
     public static boolean debug = false;
 
     public static boolean hasAniSmiles = true;
-    public boolean showCollapsedPresences = false;
+    public static boolean showCollapsedPresences = false;
     public boolean networkAnnotation = true;
     public boolean graphicsMenu = true;
     public int graphicsMenuPosition = 0;
@@ -300,7 +301,7 @@ public class Config {
     public int gradientBarLight1=120;
     public int gradientBarLight2=5;
 
-    public boolean simpleContacts = false;
+    public static boolean simpleContacts = false;
     public int userAppLevel = BombusQD.getIntProperty("Diff-Level", 0);
 
     public static boolean swapSendAndSuspend = false;

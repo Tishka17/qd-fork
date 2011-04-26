@@ -30,8 +30,8 @@ import com.alsutton.jabber.JabberDataBlock;
 import java.util.Vector;
 import javax.microedition.lcdui.TextField;
 import ui.controls.form.CheckBox;
-import ui.controls.form.CollapsibleItem;
 import ui.controls.form.DropChoiceBox;
+import ui.controls.form.MultiLine;
 import ui.controls.form.TextInput;
 
 public class FormField {
@@ -59,7 +59,7 @@ public class FormField {
             body=field.getChildBlockText("value");
 	    hidden= type.equals("hidden");
             if (type.equals("fixed")) {
-                formItem = new CollapsibleItem( (label==null?"Label":label) + "%"+body, true);
+                formItem = new MultiLine((label==null?"Label":label), body, -1);
             }
             else if (type.equals("boolean")) {
                 boolean set=false;
@@ -128,11 +128,11 @@ public class FormField {
             // not x-data
             if ( instructions=name.equals("instructions") )
 
-                formItem =new CollapsibleItem("Instructions%"+ body, true);
+                formItem =new MultiLine("Instructions", body, -1);
 
             else if ( name.equals("title") )//jud.jabber.ru
 
-                formItem =new CollapsibleItem("Tittle%"+body, true);
+                formItem =new MultiLine("Tittle", body, -1);
 
             else if ( name.equals("registered") ) {
 		registered=true;
@@ -149,19 +149,14 @@ public class FormField {
 
     public JabberDataBlock constructBlock(){
         JabberDataBlock j=null;
-        boolean textInput=false;
         boolean dropChoice=false;
         boolean booleanBox=false;
         DropChoiceBox dp = null;
         TextInput ti = null;
         CheckBox chbox = null;
-        CollapsibleItem ss = null;
 
-        try{
-          String value=((CollapsibleItem)formItem).toString();
-          ss = (CollapsibleItem)formItem;
+        if (formItem instanceof MultiLine)
           return j;
-        } catch (Exception e) {  }
 
         try{
           String value=((TextInput)formItem).toString();

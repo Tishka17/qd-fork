@@ -29,7 +29,6 @@ import locale.SR;
 import ui.MainBar;
 import ui.VirtualElement;
 import ui.VirtualList;
-import ui.controls.form.CheckBox;
 import ui.controls.form.DefForm;
 import ui.controls.form.DropChoiceBox;
 import ui.controls.form.MultiLine;
@@ -41,9 +40,6 @@ public final class ConfigurationMaster extends DefForm {
     private static final int MEDIUM = 2;
     private static final int DETAILED = 3;
 
-    private DropChoiceBox contactsSettings;
-    private DropChoiceBox chatSettings;
-    private DropChoiceBox uiSettings;
 
     private int currentPage = 1;
 
@@ -67,20 +63,9 @@ public final class ConfigurationMaster extends DefForm {
         itemsList = null;
         itemsList = new Vector();
 
+        MultiLine line;
         switch (currentPage) {
             case 1:
-                /*if (contactsSettings == null) {
-                    contactsSettings = new DropChoiceBox("Contacts settings");
-                    fillChoiceBox(contactsSettings);
-                }
-                addControl(contactsSettings);
-                simpleContacts = new CheckBox("Simple contacts", true);
-                addControl(simpleContacts);
-
-                mediumContacts = new CheckBox("Medium contacts", false);
-                addControl(mediumContacts);*/
-                MultiLine line;
-
                 line = new MultiLine(
                         "Simple contacts",
                         "Don't show avatars, client icons, status string, extended statuses, contact resources",
@@ -96,25 +81,55 @@ public final class ConfigurationMaster extends DefForm {
                 addControl(line);
 
                 line = new MultiLine(
-                        "Medium contacts",
+                        "Detailed contacts",
                         "Show avatars, client icons, status string, extended statuses, contact resources",
                         width);
                 line.setSelectable(true);
                 addControl(line);
                 break;
             case 2:
-                if (chatSettings == null) {
-                    chatSettings = new DropChoiceBox("Chat settings");
-                    fillChoiceBox(chatSettings);
-                }
-                addControl(chatSettings);
+                line = new MultiLine(
+                        "Simple chat",
+                        "Don't show ",
+                        width);
+                line.setSelectable(true);
+                addControl(line);
+
+                line = new MultiLine(
+                        "Medium chat",
+                        "Show only ",
+                        width);
+                line.setSelectable(true);
+                addControl(line);
+
+                line = new MultiLine(
+                        "Detailed chat",
+                        "Show ",
+                        width);
+                line.setSelectable(true);
+                addControl(line);
                 break;
             case 3:
-                if (uiSettings == null) {
-                    uiSettings = new DropChoiceBox("UI settings");
-                    fillChoiceBox(uiSettings);
-                }
-                addControl(uiSettings);
+                line = new MultiLine(
+                        "Simple UI",
+                        "Don't show ",
+                        width);
+                line.setSelectable(true);
+                addControl(line);
+
+                line = new MultiLine(
+                        "Medium UI",
+                        "Show only ",
+                        width);
+                line.setSelectable(true);
+                addControl(line);
+
+                line = new MultiLine(
+                        "Detailed UI",
+                        "Show ",
+                        width);
+                line.setSelectable(true);
+                addControl(line);
                 break;
         }
         redraw();
@@ -123,7 +138,7 @@ public final class ConfigurationMaster extends DefForm {
     private void applySettings() {
         switch (currentPage) {
             case 1:
-                switch (contactsSettings.getValue()) {
+                switch (cursor) {
                     case SIMPLE:
                         Config.simpleContacts = true;
                         Config.auto_queryPhoto = false;
@@ -146,7 +161,7 @@ public final class ConfigurationMaster extends DefForm {
                 }
                 break;
             case 2:
-                switch (contactsSettings.getValue()) {
+                switch (cursor) {
                     case SIMPLE:
                         Config.showNickNames = false;
                         Config.storeConfPresence = false;
@@ -170,7 +185,7 @@ public final class ConfigurationMaster extends DefForm {
                 }
                 break;
             case 3:
-                switch (uiSettings.getValue()) {
+                switch (cursor) {
                     case SIMPLE:
                         Config.panelsState = 0;
                         Config.showTimeTraffic = false;
@@ -194,6 +209,7 @@ public final class ConfigurationMaster extends DefForm {
                         break;
                 }
                 VirtualList.updatePanelsState();
+		break;
         }
         Config.getInstance().saveToStorage();
     }
@@ -229,23 +245,7 @@ public final class ConfigurationMaster extends DefForm {
         box.append("Medium");
         box.append("Detailed");
     }
-
-    private String constructTip() {
-        StringBuffer buf = new StringBuffer();
-
-        switch (currentPage) {
-            case 1:
-                buf.append("Simple").append(": ");
-                buf.append("don't show avatars, client icons, status string, extended statuses, contact resources");
-                buf.append("\n\n");
-                buf.append("Medium").append(": ");
-                buf.append("show only client icons, extended statuses");
-                buf.append("\n\n");
-                buf.append("Detailed").append(": ");
-                buf.append("show avatars, client icons, status string, extended statuses, contact resources");
-                break;
-        }
-
-        return buf.toString();
+    public void eventOk(){
+	touchLeftPressed();
     }
 }

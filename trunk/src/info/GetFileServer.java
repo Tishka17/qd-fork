@@ -48,7 +48,6 @@ import ui.controls.form.DefForm;
 import ui.GMenu;
 import ui.GMenuConfig;
 import ui.controls.form.MultiLine;
-import ui.controls.form.CollapsibleItem;
 //#endif
 
 /**
@@ -117,25 +116,41 @@ public class GetFileServer extends DefForm implements MenuListener, Runnable {
                 }
                 String name = (String)versions[0].elementAt(i);
                 if (i == 0) {
-                    CollapsibleItem item = new CollapsibleItem(name + Version.getVersionNumber(), true);
+                    MultiLine item = null;
+		    int x=name.indexOf("%");
+		    if (x>-1)
+			item = new MultiLine(name.substring(1,x), Version.getVersionNumber(), getWidth());
+		    else 
+			item = new MultiLine(name.substring(1), Version.getVersionNumber(), getWidth());
+		    item.setSelectable(true);
                     addControl(item);
-                } else if (i < 2) {
-                    CollapsibleItem item = new CollapsibleItem(name, true);
+                } else if (i == 1) {
+                    MultiLine item = null;
+		    int x=name.indexOf("%");
+		    if (x>-1)
+			item = new MultiLine(name.substring(1,x), name.substring(x+1), getWidth());
+		    else 
+			item = new MultiLine(null, name.substring(1), getWidth());
+		    item.setSelectable(true);
                     addControl(item);
                 } else {
                     if (name.startsWith("*")) {
-                        MultiLine line = new MultiLine(null, name, getWidth());
+			MultiLine line = null;
+			int x=name.indexOf("%");
+			if (x>-1)
+			    line = new MultiLine(name.substring(1,x), name.substring(x+1), getWidth());
+			else 
+			    line = new MultiLine(null, name.substring(1), getWidth());
                         line.setSelectable(true);
-
-                        addControl(line);
+			addControl(line);
                     } else if (name.startsWith("#")) {
-                        icq.addElement(name.substring(1, name.length()));
+                        icq.addElement(name.substring(1));
                     } else if (name.startsWith("@")) {
-                        mrim.addElement(name.substring(1, name.length()));
+                        mrim.addElement(name.substring(1));
                     } else if (name.startsWith("%")) {
-                        irc.addElement(name.substring(1, name.length()));
+                        irc.addElement(name.substring(1));
                     } else if (name.startsWith("$")) {
-                        vk.addElement(name.substring(1, name.length()));
+                        vk.addElement(name.substring(1));
                     }
                 }
             }

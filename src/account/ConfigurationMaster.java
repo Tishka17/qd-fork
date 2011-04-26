@@ -47,34 +47,10 @@ public final class ConfigurationMaster extends DefForm {
 
     private int currentPage = 1;
 
-    // for restoring
-    private boolean simpleContacts;
-    private boolean rosterStatus;
-//#ifdef CLIENTS_ICONS
-    private boolean showClientIcon;
-//#endif
-//#ifdef AVATARS
-    private boolean auto_queryPhoto;
-//#endif
-    private boolean showResources;
-
-    private boolean showNickNames;
-    private boolean storeConfPresence;
-    private boolean hideMessageIcon;
-    private boolean showTimeInMsgs;
-    private boolean showCollapsedPresences;
-
-    private int panelsState;
-    private boolean showTimeTraffic;
-    private boolean popUps;
-    private boolean showBalloons;
-    private boolean gradient_cursor;
-
     public ConfigurationMaster() {
         super("");
         cursorPos = new int[PAGES_COUNT];
 
-        backupCurrentSettings();
         updateForm();
     }
 
@@ -138,141 +114,92 @@ public final class ConfigurationMaster extends DefForm {
     }
 
     private void applySettings() {
-        switch (currentPage) {
-            case CONTACTS_PAGE:
-                switch (cursor) {
-                    case DEFAULT:
-                        Config.simpleContacts = simpleContacts;
-                        Config.rosterStatus = rosterStatus;
-//#ifdef CLIENTS_ICONS
-                        Config.showClientIcon = showClientIcon;
-//#endif
+        switch (getSelectedIndex(CONTACTS_PAGE)) {
+            case SIMPLE:
+                Config.simpleContacts = true;
 //#ifdef AVATARS
-                        Config.auto_queryPhoto = auto_queryPhoto;
+                Config.auto_queryPhoto = false;
 //#endif
-                        Config.showResources = showResources;
-                        break;
-                    case SIMPLE:
-                        Config.simpleContacts = true;
-//#ifdef AVATARS
-                        Config.auto_queryPhoto = false;
-//#endif
-                        Config.showResources = false;
-                        break;
-                    case MEDIUM:
-                        Config.simpleContacts = false;
-                        Config.rosterStatus = false;
-//#ifdef CLIENTS_ICONS
-                        Config.showClientIcon = true;
-//#endif
-//#ifdef AVATARS
-                        Config.auto_queryPhoto = false;
-//#endif
-                        Config.showResources = false;
-                        break;
-                    case DETAILED:
-                        Config.simpleContacts = false;
-                        Config.rosterStatus = true;
-//#ifdef CLIENTS_ICONS
-                        Config.showClientIcon = true;
-//#endif
-//#ifdef AVATARS
-                        Config.auto_queryPhoto = true;
-//#endif
-                        Config.showResources = true;
-                        break;
-                }
+                Config.showResources = false;
                 break;
-            case CHAT_PAGE:
-                switch (cursor) {
-                    case DEFAULT:
-                        Config.showNickNames = showNickNames;
-                        Config.storeConfPresence = storeConfPresence;
-                        Config.hideMessageIcon = hideMessageIcon;
-                        Config.showTimeInMsgs = showTimeInMsgs;
-                        Config.showCollapsedPresences = showCollapsedPresences;
-                        break;
-                    case SIMPLE:
-                        Config.showNickNames = false;
-                        Config.storeConfPresence = false;
-                        Config.hideMessageIcon = true;
-                        Config.showTimeInMsgs = false;
-                        Config.showCollapsedPresences = true;
-                        break;
-                    case MEDIUM:
-                        Config.showNickNames = false;
-                        Config.storeConfPresence = true;
-                        Config.hideMessageIcon = false;
-                        Config.showTimeInMsgs = true;
-                        Config.showCollapsedPresences = true;
-                        break;
-                    case DETAILED:
-                        Config.showNickNames = true;
-                        Config.storeConfPresence = true;
-                        Config.hideMessageIcon = false;
-                        Config.showTimeInMsgs = true;
-                        Config.showCollapsedPresences = true;
-                }
+            case MEDIUM:
+                Config.simpleContacts = false;
+                Config.rosterStatus = false;
+//#ifdef CLIENTS_ICONS
+                Config.showClientIcon = true;
+//#endif
+//#ifdef AVATARS
+                Config.auto_queryPhoto = false;
+//#endif
+                Config.showResources = false;
                 break;
-            case UI_PAGE:
-                switch (cursor) {
-                    case DEFAULT:
-                        Config.panelsState = panelsState;
-                        Config.showTimeTraffic = showTimeTraffic;
-                        Config.popUps = popUps;
-                        Config.showBalloons = showBalloons;
-                        Config.gradient_cursor = gradient_cursor;
-                        break;
-                    case SIMPLE:
-                        Config.panelsState = 0;
-                        Config.showTimeTraffic = false;
-                        Config.popUps = false;
-                        Config.showBalloons = false;
-                        Config.gradient_cursor = false;
-                        break;
-                    case MEDIUM:
-                        Config.panelsState = 2;
-                        Config.showTimeTraffic = false;
-                        Config.popUps = true;
-                        Config.showBalloons = false;
-                        Config.gradient_cursor = true;
-                        break;
-                    case DETAILED:
-                        Config.panelsState = 2;
-                        Config.showTimeTraffic = true;
-                        Config.popUps = true;
-                        Config.showBalloons = true;
-                        Config.gradient_cursor = true;
-                        break;
-                }
-                VirtualList.updatePanelsState();
-		break;
+            case DETAILED:
+                Config.simpleContacts = false;
+                Config.rosterStatus = true;
+//#ifdef CLIENTS_ICONS
+                Config.showClientIcon = true;
+//#endif
+//#ifdef AVATARS
+                Config.auto_queryPhoto = true;
+//#endif
+                Config.showResources = true;
+                break;
         }
+        switch (getSelectedIndex(CHAT_PAGE)) {
+            case SIMPLE:
+                Config.showNickNames = false;
+                Config.storeConfPresence = false;
+                Config.hideMessageIcon = true;
+                Config.showTimeInMsgs = false;
+                Config.showCollapsedPresences = true;
+                break;
+            case MEDIUM:
+                Config.showNickNames = false;
+                Config.storeConfPresence = true;
+                Config.hideMessageIcon = false;
+                Config.showTimeInMsgs = true;
+                Config.showCollapsedPresences = true;
+                break;
+            case DETAILED:
+                Config.showNickNames = true;
+                Config.storeConfPresence = true;
+                Config.hideMessageIcon = false;
+                Config.showTimeInMsgs = true;
+                Config.showCollapsedPresences = true;
+        }
+        switch (getSelectedIndex(UI_PAGE)) {
+            case SIMPLE:
+                Config.panelsState = 0;
+                Config.showTimeTraffic = false;
+                Config.popUps = false;
+                Config.showBalloons = false;
+                Config.gradient_cursor = false;
+                break;
+            case MEDIUM:
+                Config.panelsState = 2;
+                Config.showTimeTraffic = false;
+                Config.popUps = true;
+                Config.showBalloons = false;
+                Config.gradient_cursor = true;
+                break;
+            case DETAILED:
+                Config.panelsState = 2;
+                Config.showTimeTraffic = true;
+                Config.popUps = true;
+                Config.showBalloons = true;
+                Config.gradient_cursor = true;
+                break;
+        }
+        VirtualList.updatePanelsState();
         Config.getInstance().saveToStorage();
     }
 
-    private void backupCurrentSettings() {
-        simpleContacts = Config.simpleContacts;
-        rosterStatus = Config.rosterStatus;
-//#ifdef CLIENTS_ICONS
-        showClientIcon = Config.showClientIcon;
-//#endif
-//#ifdef AVATARS
-        auto_queryPhoto = Config.auto_queryPhoto;
-//#endif
-        showResources = Config.showResources;
+    private int getSelectedIndex(int page) {
+        return cursorPos[page - 1];
+    }
 
-        showNickNames = Config.showNickNames;
-        storeConfPresence = Config.storeConfPresence;
-        hideMessageIcon = Config.hideMessageIcon;
-        showTimeInMsgs = Config.showTimeInMsgs;
-        showCollapsedPresences = Config.showCollapsedPresences;
-
-        panelsState = Config.panelsState;
-        showTimeTraffic = Config.showTimeTraffic;
-        popUps = Config.popUps;
-        showBalloons = Config.showBalloons;
-        gradient_cursor = Config.gradient_cursor;
+    private void setSelectedIndex(int page, int index) {
+        cursorPos[page - 1] = index;
     }
 
     public String touchLeftCommand() {
@@ -281,13 +208,12 @@ public final class ConfigurationMaster extends DefForm {
     }
 
     public void cmdOk() {
-        applySettings();
+        setSelectedIndex(currentPage, cursor);
 
         if (currentPage == PAGES_COUNT) {
+            applySettings();
             destroyView();
         } else {
-            cursorPos[currentPage - 1] = cursor;
-
             ++currentPage;
             updateForm();
         }
@@ -297,7 +223,7 @@ public final class ConfigurationMaster extends DefForm {
         if (currentPage == 1) {
             destroyView();
         } else {
-            cursorPos[currentPage - 1] = cursor;
+            setSelectedIndex(currentPage, cursor);
 
             --currentPage;
             updateForm();

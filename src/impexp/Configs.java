@@ -435,7 +435,7 @@ public class Configs {
 //#endif
             EntityCaps.initCaps();
             BombusQD.sd.roster.updateBarsFont();
-            VirtualList.changeOrient(Config.panelsState);
+            VirtualList.updatePanelsState();
 //#ifdef BACK_IMAGE
             VirtualList.createImage(false);
 //#endif

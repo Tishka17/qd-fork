@@ -248,7 +248,7 @@ public class AccountSelect extends VirtualList implements
 //#         }
 //#endif
         if (c == cmdConfigurationMaster) {
-            new ConfigurationMaster();
+            new ConfigurationMaster().show();
         }
         if (c == cmdLogin) {
             switchAccount(true);

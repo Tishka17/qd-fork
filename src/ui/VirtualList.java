@@ -39,7 +39,7 @@ import client.Config;
 import client.StaticData;
 import client.Contact;
 //#ifdef FILE_IO
-//# import io.file.FileIO;
+import io.file.FileIO;
 //#endif
 import locale.SR;
 //#ifdef POPUPS
@@ -103,8 +103,8 @@ public abstract class VirtualList extends CanvasEx {
     public static int phoneManufacturer;
     public boolean isServiceDiscoWindow;
 
-    public static void changeOrient(int newOrient) {
-        switch (newOrient) {
+    public static void updatePanelsState() {
+        switch (Config.panelsState) {
             case 0: paintTop=false; paintBottom=false; reverse=false; break;
             case 1: paintTop=true;  paintBottom=false; reverse=false; break;
             case 2: paintTop=true;  paintBottom=true;  reverse=false; break;
@@ -371,7 +371,7 @@ public abstract class VirtualList extends CanvasEx {
             setTitle("BombusQD");
         }
 
-        changeOrient(Config.panelsState);
+        updatePanelsState();
 
         itemBorder=null;
         itemBorder=new int[32];

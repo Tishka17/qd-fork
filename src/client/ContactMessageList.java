@@ -119,8 +119,6 @@ public final class ContactMessageList extends MessageList implements InputTextBo
         contact.fileQuery=false;
 //#endif
         enableListWrapping(false);
-
-      resetMessages();
     }
 
     private ChatInfo getChatInfo() {
@@ -689,7 +687,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
         } catch (Exception e) {/*no messages*/}
     }
 
-    public void resetMessages() {
+    /*public void resetMessages() {
         //System.out.println("resetMessages");
         messages.removeAllElements();
         Msg msg;
@@ -703,10 +701,12 @@ public final class ContactMessageList extends MessageList implements InputTextBo
             messages.addElement(mi);
         }
         mi = null;
-    }
+    }*/
 
     public void addMessage(Msg msg) {
-        if(contact.getChatInfo().opened) contact.getChatInfo().reEnumCounts();
+        if(contact.getChatInfo().opened) {
+            contact.getChatInfo().reEnumCounts();
+        }
         MessageItem mi = new MessageItem(msg, smiles);
         mi.setEven((messages.size() & 1) == 0);
         mi.parse(this);

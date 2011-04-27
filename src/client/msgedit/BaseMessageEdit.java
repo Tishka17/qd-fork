@@ -213,8 +213,8 @@ public abstract class BaseMessageEdit implements CommandListener {
     }
 
     protected final void send() {
-        send(body, subj);
         destroyView(true);
+        send(body, subj);
     }
 
     protected final void destroyView() {
@@ -309,7 +309,7 @@ public abstract class BaseMessageEdit implements CommandListener {
 //#             if (c == cmdSendInTranslit) {
 //#                 sendInTranslit = true;
 //#             }
-//#
+//# 
 //#             if (c == cmdSendInDeTranslit) {
 //#                 sendInDeTranslit = true;
 //#             }

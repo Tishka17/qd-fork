@@ -331,20 +331,20 @@ public class Contact extends IconTextElement {
             status = Presence.PRESENCE_ONLINE;
         }
 
-        if (first_replace) {
+        /*if (first_replace) {
             chatInfo.setFirstMessage(m);
             if (null != messageList) {
                 getML().resetMessages();
                 getML().redraw();
             }
             return;
-        }
+        }*/
 
         chatInfo.addMessage(m);
 
 
         if(chatInfo.opened || m.messageType == Msg.MESSAGE_TYPE_OUT) chatInfo.reEnumCounts();
-        if (first_msgreplace){
+        /*if (first_msgreplace){
             chatInfo.setFirstMessage(m);
             if (null != messageList) {
                 getML().resetMessages();
@@ -356,7 +356,8 @@ public class Contact extends IconTextElement {
 		} else if (!chatInfo.isOnlyStatusMessage()) {
 		    getML().resetMessages();
 		}
-        }
+        }*/
+        getML().addMessage(m);
 //#ifdef HISTORY
         if (group.type!=Groups.TYPE_TRANSP && group.type!=Groups.TYPE_SEARCH_RESULT) {
           boolean allowLog = (origin < ORIGIN_GROUPCHAT);

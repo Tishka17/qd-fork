@@ -123,11 +123,12 @@ public class DiscoSearchForm
               case 1: return new ListItem((String) list.elementAt(index),"mrim");
               case 2: return new ListItem((String) list.elementAt(index),"irc");
               case 3: return new ListItem((String) list.elementAt(index),"j2j");
+              case 4: return new ListItem((String) list.elementAt(index),"vk");
+              default: return new ListItem((String)list.elementAt(index));
           }
        }else {
           return new ListItem((String) servers.elementAt(index));
        }
-      return null;
     }
 
     private void updateMainBar() {

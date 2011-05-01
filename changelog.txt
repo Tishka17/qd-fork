@@ -1,0 +1,60 @@
+﻿// тем, кто редактирует чейнжлог: не начинайте строки с #, @, &, %, $
+0.8.9 (r215)
+
+Ссылка - http://itishka.org/qd/last_gc.php
+
+Изменения (r1:215):
++ Редактирование высот элементов
++ Корректное определение устройств под Android
++ Новая "История сообщений"
++ Опция "Поменять местами Отправить и Отложить"
++ Добавлены: параметр "Diff-Level" в MANIFEST.MF и параметры для Nokia в MANIFEST.MF
++ Вспл. подсказки в меню выбора цвета для редактирования
++ Экспорт/импорт настроек программы
++ Возможность ставить картинку из ФС на фон 
+* Улучшено управление подсветкой
+* Фокус на контакт по нажатию нижнего бара и время перед реконнектом из настроек
+* Прокрутка ссылок и длинных заголовков у полей ввода текста
+* Обновлена локализация для Lite build
+* Исправлены статистика и степень сжатия
+* Исправлен просмотр вкарда в окне добавления контакта
+* Различные попытки уменьшить размер потребляемой памяти
+// icq
+#icq.games.onego.ru
+#icq.jabber.kiev.ua
+#icq.jabber.rfei.ru
+#icq.freeside.ru
+#icq.proc.ru
+#icq.sudouser.ru
+#icq.proc.ru
+#icq.jabber.hot-chilli.net
+#icq.kukarachas.com
+#icq.jabera.net
+#icq.jabberon.ru
+#icq.glubina.org
+#icq.itishka.org
+// mrim
+@mrim.udaff.com
+@mrim.jabber.ru
+@mrim.jabberon.ru
+@mrim.glubina.org
+// irc
+&irc.jabnet.org 
+&irc.darkmachine.org 
+&irc.jabber.kiev.ua 
+&irc.xmpp.org.ru 
+&irc.sudouser.ru
+&irc.glubina.org
+// j2j
+$j2j.jabber.hot-chilli.net
+$j2j.sudouser.ru
+$j2j.jabera.net
+// vk
+%pyvk-t.eqx.su
+%vkontakte.hartois.info
+%vk-t.x-demon.org
+%vkontakte.finenet.ru
+%vkontakte.zlug.ru
+%vkontakte.vjabbere.ru
+%vk.sski.ru
+%vkontakte.zoo.dontexist.net

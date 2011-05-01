@@ -41,11 +41,14 @@ import menu.Command;
 import locale.SR;
 import ui.MainBar;
 import client.DiscoSearchForm;
+import javax.microedition.io.ConnectionNotFoundException;
 import menu.MenuListener;
+import midlet.BombusQD;
 import ui.controls.form.DefForm;
 //#ifdef GRAPHICS_MENU
 import ui.GMenu;
 import ui.GMenuConfig;
+import ui.controls.form.LinkString;
 import ui.controls.form.MultiLine;
 import ui.controls.form.SpacerItem;
 //#endif
@@ -113,7 +116,17 @@ public class GetFileServer extends DefForm implements MenuListener, Runnable {
             for (int i = 1; i < size; i++) {
                 String name = (String)versions[0].elementAt(i);
                 if (name != null) {
-                    if (name.startsWith(ICQ_PREFIX)) {
+                    if (name.startsWith("http://")) {
+                        addControl(new LinkString(name) {
+                            public void doAction() {
+                                try {
+                                    BombusQD.getInstance().platformRequest(text);
+                                } catch (ConnectionNotFoundException ex) {
+                                    //ex.printStackTrace();
+                                }
+                            }
+                        });
+                    } else if (name.startsWith(ICQ_PREFIX)) {
                         icq.addElement(name.substring(1));
                     } else if (name.startsWith(MRIM_PREFIX)) {
                         mrim.addElement(name.substring(1));

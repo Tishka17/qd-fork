@@ -27,7 +27,6 @@
  */
 package info;
 
-import client.Msg;
 import images.RosterIcons;
 import java.io.InputStream;
 import java.util.Vector;
@@ -48,6 +47,7 @@ import ui.controls.form.DefForm;
 import ui.GMenu;
 import ui.GMenuConfig;
 import ui.controls.form.MultiLine;
+import ui.controls.form.SpacerItem;
 //#endif
 
 /**
@@ -56,35 +56,30 @@ import ui.controls.form.MultiLine;
  */
 
 public class GetFileServer extends DefForm implements MenuListener, Runnable {
-//#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_VERSION_UPGRADE");
-//#endif
+    private final static String NEWS_URL = "http://qd-fork.googlecode.com/svn/trunk/changelog.txt";
+    
+    private static final String ICQ_PREFIX = "#";
+    private static final String MRIM_PREFIX = "@";
+    private static final String IRC_PREFIX = "&";
+    private static final String J2J_PREFIX = "$";
+    private static final String VK_PREFIX = "%";
 
-    private final static String update_url = "http://bombusmod-qd.wen.ru/midp/update.txt";
-
-    private Command cmdICQ = new Command("QD: ICQ Transports list", 0x04);
-    private Command cmdMrim = new Command("QD: Mrim Transports list", 0x04);
-    private Command cmdIrc = new Command("QD: IRC Transports list", 0x04);
-    private Command cmdVk = new Command("QD: j2j Transports list", 0x04);
+    private Command cmdICQ = new Command("ICQ Transports", 0x04);
+    private Command cmdMrim = new Command("Mrim Transports", 0x04);
+    private Command cmdIrc = new Command("IRC Transports", 0x04);
+    private Command cmdVk = new Command("VK Transports", 0x04);
+    private Command cmdJ2J = new Command("J2J Transports", 0x04);
 
     private Vector icq = new Vector();
     private Vector mrim = new Vector();
     private Vector irc = new Vector();
     private Vector vk = new Vector();
-    private Vector news;
-
+    private Vector j2j = new Vector();
     private boolean wait = true;
     private boolean error = false;
 
     public GetFileServer() {
         super("Update");
-
-        news = new Vector();
-
-        try {
-            focusedItem(0);
-        } catch (Exception e) {
-        }
 
         MainBar bar = new MainBar(SR.get(SR.MS_CHECK_UPDATE));
         setMainBarItem(bar);
@@ -100,50 +95,40 @@ public class GetFileServer extends DefForm implements MenuListener, Runnable {
 
     public void run() {
         wait = true;
-        rePaint();
+        updateCaption();
 
         HttpConnection c;
         InputStream is;
 
         try {
-            c = (HttpConnection)Connector.open(update_url);
+            c = (HttpConnection)Connector.open(NEWS_URL);
             is = c.openInputStream();
             Vector versions[] = new util.StringLoader().stringLoader(is, 1);
+            
+            addControl(new MultiLine("Current version", Version.getVersionString(false)));
+            addControl(new MultiLine("Last version", (String)versions[0].elementAt(0)));
+
             int size = versions[0].size();
-            for (int i = 0; i < size; i++) {
-                if (versions[0].elementAt(i) == null) {
-                    continue;
-                }
+            System.out.println(size);
+            for (int i = 1; i < size; i++) {
                 String name = (String)versions[0].elementAt(i);
-                if (i == 0) {
-		    int x=name.indexOf("%");
-		    if (x>-1)
-			addControl(new MultiLine(name.substring(1,x), Version.getVersionNumber()));
-		    else
-			addControl(new MultiLine(name.substring(1), Version.getVersionNumber()));
-                } else if (i == 1) {
-		    int x=name.indexOf("%");
-		    if (x>-1)
-			addControl(new MultiLine(name.substring(1,x), name.substring(x+1)));
-		    else
-			addControl(new MultiLine(null, name.substring(1)));
-                } else {
-                    if (name.startsWith("*")) {
-			int x=name.indexOf("%");
-			if (x>-1)
-			    addControl(new MultiLine(name.substring(1,x), name.substring(x+1)));
-			else
-			    addControl(new MultiLine(null, name.substring(1)));
-                    } else if (name.startsWith("#")) {
+                if (name != null) {
+                    if (name.startsWith(ICQ_PREFIX)) {
                         icq.addElement(name.substring(1));
-                    } else if (name.startsWith("@")) {
+                    } else if (name.startsWith(MRIM_PREFIX)) {
                         mrim.addElement(name.substring(1));
-                    } else if (name.startsWith("%")) {
+                    } else if (name.startsWith(IRC_PREFIX)) {
                         irc.addElement(name.substring(1));
-                    } else if (name.startsWith("$")) {
+                    } else if (name.startsWith(VK_PREFIX)) {
                         vk.addElement(name.substring(1));
+                    } else if (name.startsWith(J2J_PREFIX)) {
+                        j2j.addElement(name.substring(1));
+                    } else {
+                        addControl(new MultiLine(null, name));
                     }
-                }
+                } else {
+                    addControl(new SpacerItem(5));
+                } 
             }
             if (is != null) {
                 is.close();
@@ -154,29 +139,28 @@ public class GetFileServer extends DefForm implements MenuListener, Runnable {
             }
             c = null;
         } catch (Exception e) {
-            news.addElement(new Msg(Msg.MESSAGE_TYPE_IN, null, null, SR.get(SR.MS_ERROR)));
+            addControl(new MultiLine("Error", "Can't get news!"));
         }
         wait = false;
-        rePaint();
+        updateCaption();
         redraw();
     }
 
     public void commandAction(Command c) {
         if (c == cmdICQ) {
             new DiscoSearchForm(icq, 0).show();
-        }
-        if (c == cmdMrim) {
+        } else if (c == cmdMrim) {
             new DiscoSearchForm(mrim, 1).show();
-        }
-        if (c == cmdIrc) {
+        } else if (c == cmdIrc) {
             new DiscoSearchForm(irc, 2).show();
-        }
-        if (c == cmdVk) {
-            new DiscoSearchForm(vk, 3).show();
+        } else if (c == cmdVk) {
+            new DiscoSearchForm(vk, 4).show();
+        } else if (c == cmdJ2J) {
+            new DiscoSearchForm(j2j, 3).show();
         }
     }
 
-    protected void rePaint() {
+    protected void updateCaption() {
         StringBuffer str = new StringBuffer();
         Object pic = null;
         if (wait) {
@@ -202,6 +186,7 @@ public class GetFileServer extends DefForm implements MenuListener, Runnable {
         addCommand(cmdMrim);
         addCommand(cmdIrc);
         addCommand(cmdVk);
+        addCommand(cmdJ2J);
     }
 
 //#ifdef MENU_LISTENER

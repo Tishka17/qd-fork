@@ -43,9 +43,8 @@ public class ListItem
 
     public ListItem(String text, String name) {
        super(RosterIcons.getInstance());
-       if(name.length()>2){
-           this.name=name;
-       }
+       
+       this.name=name;
        this.text=text;
     }
     public int getVWidth(){

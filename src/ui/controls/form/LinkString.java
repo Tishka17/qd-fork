@@ -41,7 +41,7 @@ import ui.VirtualList;
  */
 
 public abstract class LinkString extends IconTextElement {
-    private String text;
+    protected String text;
 
     public LinkString(String text) {
         super(null);

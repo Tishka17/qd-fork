@@ -137,7 +137,6 @@ import light.CustomLight;
 //#ifdef JUICK.COM
 import xmpp.extensions.JuickModule;
 //#endif
-import colors.ColorTheme;
 import disco.ServerStatsForm;
 //#ifdef HISTORY
 import history.HistoryViewer;
@@ -1330,12 +1329,7 @@ public final class Roster
 
 //#ifdef AUTOSTATUS
             if (autoAway) {
-                    ExtendedStatus es=sl.getStatus(oldStatus);
-                    String ms=es.getMessage();
-                    sendPresence(oldStatus, ms);
-                    autoAway=false;
-                    autoXa=false;
-                    myStatus=oldStatus;
+                restoreStatus();
             }
 //#endif
             Message message = new Message(
@@ -3535,7 +3529,7 @@ public final class Roster
 
 //#ifdef AUTOSTATUS
     public void userActivity(int awayType) {
-        if (autostatus == null) {
+        if (autostatus == null || !Config.module_autostatus) {
             return;
         }
 
@@ -3584,9 +3578,8 @@ public final class Roster
         autoAway = false;
         autoXa = false;
 
-        ExtendedStatus es=StatusList.getInstance().getStatus(oldStatus);
-        String ms=es.getMessage();
-        midlet.BombusQD.sd.roster.sendPresence(oldStatus, ms);
+        ExtendedStatus status = StatusList.getInstance().getStatus(oldStatus);
+        sendPresence(oldStatus, status.getMessage());
     }
 //#endif
 

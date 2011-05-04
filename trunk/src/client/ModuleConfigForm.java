@@ -370,8 +370,9 @@ public class ModuleConfigForm extends DefForm {
             addControl(adhoc);
 //#endif
             }
+            // first control is not selectable
+            moveCursorTo(1);
         } else if (type == PluginBox.APPEARANCE) {
-            //try{
             panels = new DropChoiceBox(SR.get(SR.MS_PANELS));
             panels.append(SR.get(SR.MS_NO_BAR)+" : "+SR.get(SR.MS_NO_BAR));
             panels.append(SR.get(SR.MS_MAIN_BAR)+" : "+SR.get(SR.MS_NO_BAR));
@@ -519,6 +520,8 @@ public class ModuleConfigForm extends DefForm {
                }
                addControl(langFiles);
             }
+            // first control is not selectable
+            moveCursorTo(1);
 //#ifdef AUTOSTATUS
         } else if (type == PluginBox.AUTOSTATUS) {
             autoAwayType = new DropChoiceBox(SR.get(SR.MS_AWAY_TYPE));
@@ -537,17 +540,14 @@ public class ModuleConfigForm extends DefForm {
 //#endif
 //#ifdef CLASSIC_CHAT
 //#         } else if (type == PluginBox.CLASSIC_CHAT) {
-//#             addControl(new SimpleString(SR.get(SR.MS_CLASSIC_CHAT), true));
-//#
 //#             usePhoneTheme = new CheckBox(SR.get(SR.MS_CLCHAT_BGNG_PHONE), config.usePhoneTheme);
 //#             addControl(usePhoneTheme);
-//#
+//# 
 //#             classicChatHeight = new NumberInput(SR.get(SR.MS_CLCHAT_HEIGHT), config.classicChatHeight, 80, 320);
 //#             addControl(classicChatHeight);
-//#
+//# 
 //#             lineCount = new NumberInput(SR.get(SR.MS_CLCHAT_MSGLIMIT), config.lineCount, 1, 1000);
-//#             itemsList.addElement(lineCount);
-//#             itemsList.addElement(new SpacerItem(10));
+//#             addControl(lineCount);
 //#endif
         }
     }
@@ -628,7 +628,6 @@ public class ModuleConfigForm extends DefForm {
             MessageParser parser = MessageParser.getInstance();
             boolean aniSmiles = parser.animated;
             if(aniSmiles != Config.animatedSmiles) {
-                // for SE
                 parser.restart();
             }
 //#endif

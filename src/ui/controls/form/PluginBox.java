@@ -55,10 +55,6 @@ public final class PluginBox extends IconTextElement {
     private String text;
     private int type;
 
-    public PluginBox(String text) {
-        this(text, STANDART);
-    }
-
     public PluginBox(String text, int type) {
         super(RosterIcons.getInstance());
 

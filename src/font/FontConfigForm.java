@@ -83,9 +83,6 @@ public class FontConfigForm extends DefForm {
         
         useItalic = new CheckBox('*' + SR.get(SR.MS_Italic), Config.useItalic);
         addControl(useItalic);
-
-        // first control is unselectable
-        moveCursorTo(1);
     }
     
     public void cmdOk() {

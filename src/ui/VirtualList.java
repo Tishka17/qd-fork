@@ -1281,6 +1281,10 @@ public abstract class VirtualList extends CanvasEx {
 
 //#ifdef TOUCH
     protected void pointerPressed(int x, int y) {
+        if (sendEvent(x, y)) {
+            redraw();
+            return;
+        }
 
         long clickTime=System.currentTimeMillis();
         lastClickTime=clickTime;
@@ -1297,7 +1301,7 @@ public abstract class VirtualList extends CanvasEx {
         }
 
 //#ifdef POPUPS
-        getPopUp().next();
+        //getPopUp().next();
 //#endif
 
         boolean on_panel = false;
@@ -1531,6 +1535,18 @@ public abstract class VirtualList extends CanvasEx {
                 return ((VirtualElement)getFocusedObject()).handleEvent(key);
         }
 
+        return false;
+    }
+    
+    private boolean sendEvent(int x, int y) {
+        if (getPopUp().size() > 0) {
+            return popup.handleEvent(x, y);
+        } else {
+            VirtualElement element = (VirtualElement)getFocusedObject();
+            if (element != null) {
+                return element.handleEvent(x, y);
+            }
+        }
         return false;
     }
 

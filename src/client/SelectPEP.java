@@ -449,5 +449,9 @@ public final class SelectPEP extends DefForm implements VirtualElement, InputTex
     public String touchLeftCommand() {
         return SR.get(SR.MS_SELECT);
     }
+    
+    public boolean handleEvent(int x, int y) {
+        return false;
+    }
 }
 //#endif

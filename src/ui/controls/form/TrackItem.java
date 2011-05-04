@@ -28,10 +28,12 @@
 
 package ui.controls.form;
 
+import client.Config;
 import colors.ColorTheme;
 import font.FontCache;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
+import midlet.BombusQD;
 import ui.IconTextElement;
 import ui.VirtualList;
 
@@ -104,6 +106,13 @@ public class TrackItem extends IconTextElement {
                 return true;
         }
         return false;
+    }
+    
+    public boolean handleEvent(int x, int y) {
+        final int screenWidth = BombusQD.sd.canvas.getWidth() - Config.scrollWidth - getOffset();
+        
+        value = (steps - 1) * x / screenWidth;
+        return true;
     }
 
     public final Font getFont() {

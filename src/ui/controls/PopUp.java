@@ -144,6 +144,20 @@ public class PopUp {
 
         return false;
     }
+    
+    public boolean handleEvent(int x, int y) {
+        //int startX = widthBorder;
+        //int endX = widthBorder + popUpWidth;
+        
+        //int startY = heightBorder;
+        //int endY = heightBorder + popUpHeight;
+        
+        //if (x >= startX && x <= endX && y >= startY && y <= endY) {
+            next();
+        //}
+        // we always process event if we are on screen
+        return true;
+    }
 
     public void clear() {
         /*if(size()>0)

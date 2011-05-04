@@ -40,6 +40,7 @@ import ui.controls.form.NumberInput;
 //#ifdef FILE_IO
 import ui.controls.form.PathSelector;
 //#endif
+import ui.controls.form.PluginBox;
 import ui.controls.form.SimpleString;
 import ui.controls.form.SpacerItem;
 import ui.controls.form.TrackItem;
@@ -47,7 +48,7 @@ import util.StringLoader;
 import xmpp.EntityCaps;
 
 public class ModuleConfigForm extends DefForm {
-    private String type;
+    private int type;
 
     // for contacts options
     private CheckBox simpleContacts;
@@ -169,14 +170,14 @@ public class ModuleConfigForm extends DefForm {
     private NumberInput reconnectCount;
     private NumberInput reconnectTime;
 
-    public ModuleConfigForm(String type) {
-        super(type);
+    public ModuleConfigForm(String caption, int type) {
+        super(caption);
 
         this.type = type;
 
         Config config = Config.getInstance();
 
-        if(type.equals(SR.get(SR.MS_CONTACTS))) {
+        if(type == PluginBox.CONTACTS) {
             subscr = new DropChoiceBox(SR.get(SR.MS_AUTH_NEW));
             subscr.append(SR.get(SR.MS_SUBSCR_AUTO));
             subscr.append(SR.get(SR.MS_SUBSCR_ASK));
@@ -232,7 +233,7 @@ public class ModuleConfigForm extends DefForm {
 
             autoFocus = new CheckBox(SR.get(SR.MS_AUTOFOCUS), config.autoFocus);
             addControl(autoFocus);
-        } else if (type.equals(SR.get(SR.MS_CHATS))) {
+        } else if (type == PluginBox.CHATS) {
             msgEditType = new DropChoiceBox(SR.get(SR.MS_MSG_EDIT_TYPE));
             msgEditType.append(SR.get(SR.MS_MES_EDIT_OLD));
             msgEditType.append(SR.get(SR.MS_MES_EDIT_ALT));
@@ -318,7 +319,7 @@ public class ModuleConfigForm extends DefForm {
 
             swapSendAndSuspend = new CheckBox(SR.get(SR.MS_SWAP_SEND_SUSPEND), Config.swapSendAndSuspend);
             addControl(swapSendAndSuspend);
-        } else if (type.equals(SR.get(SR.MS_netStr))) {
+        } else if (type == PluginBox.NETWORK) {
             if (config.userAppLevel == 1) {
 //#ifdef PEP
                 addControl(new SimpleString(SR.get(SR.MS_PEP), true));
@@ -369,7 +370,7 @@ public class ModuleConfigForm extends DefForm {
             addControl(adhoc);
 //#endif
             }
-        } else if (type.equals(SR.get(SR.MS_APPEARANCE))) {
+        } else if (type == PluginBox.APPEARANCE) {
             //try{
             panels = new DropChoiceBox(SR.get(SR.MS_PANELS));
             panels.append(SR.get(SR.MS_NO_BAR)+" : "+SR.get(SR.MS_NO_BAR));
@@ -452,7 +453,7 @@ public class ModuleConfigForm extends DefForm {
 
             gradient_cursor = new CheckBox(SR.get(SR.MS_GRADIENT_CURSOR), config.gradient_cursor);
             addControl(gradient_cursor);
-        } else if (type.equals(SR.get(SR.MS_APPLICATION))) {
+        } else if (type == PluginBox.APPLICATION) {
             addControl(new SimpleString(SR.get(SR.MS_STARTUP_ACTIONS), true));
 
             autoLogin = new CheckBox(SR.get(SR.MS_AUTOLOGIN), config.autoLogin);
@@ -519,7 +520,7 @@ public class ModuleConfigForm extends DefForm {
                addControl(langFiles);
             }
 //#ifdef AUTOSTATUS
-        } else if (type.equals(SR.get(SR.MS_AUTOSTATUS))) {
+        } else if (type == PluginBox.AUTOSTATUS) {
             autoAwayType = new DropChoiceBox(SR.get(SR.MS_AWAY_TYPE));
             autoAwayType.append(SR.get(SR.MS_DISABLED));
             autoAwayType.append(SR.get(SR.MS_AWAY_LOCK));
@@ -535,7 +536,7 @@ public class ModuleConfigForm extends DefForm {
             addControl(awayStatus);
 //#endif
 //#ifdef CLASSIC_CHAT
-//#         } else if (type.equals(SR.get(SR.MS_CLASSIC_CHAT))) {
+//#         } else if (type == PluginBox.CLASSIC_CHAT) {
 //#             addControl(new SimpleString(SR.get(SR.MS_CLASSIC_CHAT), true));
 //#
 //#             usePhoneTheme = new CheckBox(SR.get(SR.MS_CLCHAT_BGNG_PHONE), config.usePhoneTheme);
@@ -553,7 +554,7 @@ public class ModuleConfigForm extends DefForm {
 
     public void cmdOk() {
         Config config = Config.getInstance();
-        if (type.equals(SR.get(SR.MS_CONTACTS))) {
+        if (type == PluginBox.CONTACTS) {
             config.autoSubscribe = subscr.getSelectedIndex();
             config.notInListDropLevel = nil.getSelectedIndex();
 
@@ -580,7 +581,7 @@ public class ModuleConfigForm extends DefForm {
             config.rosterStatus = rosterStatus.getValue();
             config.useBoldFont = useBoldFont.getValue();
             config.autoFocus = autoFocus.getValue();
-        } else if (type.equals(SR.get(SR.MS_CHATS))) {
+        } else if (type == PluginBox.CHATS) {
             boolean createMsgEdit = false;
 
             if (config.msgEditType != msgEditType.getSelectedIndex()) {
@@ -646,7 +647,7 @@ public class ModuleConfigForm extends DefForm {
             if (createMsgEdit) {
                 BombusQD.sd.roster.createMessageEdit();
             }
-       } else if (type.equals(SR.get(SR.MS_netStr))) {
+       } else if (type == PluginBox.NETWORK) {
             if (config.userAppLevel == 1) {
 //#ifdef PEP
                 config.sndrcvmood = sndrcvmood.getValue();
@@ -672,7 +673,7 @@ public class ModuleConfigForm extends DefForm {
 //#endif
             }
             EntityCaps.initCaps();
-         } else if(type.equals(SR.get(SR.MS_APPEARANCE))) {
+         } else if(type == PluginBox.APPEARANCE) {
             Config.panelsState = panels.getSelectedIndex();
             VirtualList.updatePanelsState();
 
@@ -708,7 +709,7 @@ public class ModuleConfigForm extends DefForm {
 //#ifdef BACK_IMAGE
             VirtualList.createImage(false);
 //#endif
-        } else if (type.equals(SR.get(SR.MS_APPLICATION))) {
+        } else if (type == PluginBox.APPLICATION) {
             config.autoLogin = autoLogin.getValue();
             config.autoJoinConferences = autoJoinConferences.getValue();
             Config.cleanConfContacts = cleanConfContacts.getValue();
@@ -746,13 +747,13 @@ public class ModuleConfigForm extends DefForm {
                 }
             }
  //#ifdef AUTOSTATUS
-         } else if (type.equals(SR.get(SR.MS_AUTOSTATUS))) {
+         } else if (type == PluginBox.AUTOSTATUS) {
             config.autoAwayType = autoAwayType.getSelectedIndex();
             config.autoAwayDelay = Integer.parseInt(fieldAwayDelay.getValue());
             config.setAutoStatusMessage = awayStatus.getValue();
 //#endif
 //#ifdef CLASSIC_CHAT
-//#         } else if (type.equals(SR.get(SR.MS_CLASSIC_CHAT))) {
+//#         } else if (type == PluginBox.CLASSIC_CHAT) {
 //#             config.usePhoneTheme = usePhoneTheme.getValue();
 //#             config.classicChatHeight = classicChatHeight.getIntValue();
 //#             config.lineCount = lineCount.getIntValue();

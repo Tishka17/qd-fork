@@ -27,9 +27,21 @@
 
 package client;
 
+import alert.AlertCustomizeForm;
+//#ifdef AUTOTASK
+import autotask.AutoTaskForm;
+//#endif
+import colors.ColorConfigForm;
+import font.FontConfigForm;
+//#if FILE_IO && IMPORT_EXPORT 
+import impexp.ImportExportForm;
+//#endif
 import ui.controls.form.PluginBox;
 import ui.controls.form.DefForm;
 import locale.SR;
+//#ifdef USER_KEYS
+import ui.keys.UserKeysList;
+//#endif
 //#ifdef HISTORY
 import history.HistoryConfigForm;
 //#endif
@@ -43,44 +55,44 @@ public class ConfigForm extends DefForm {
     public ConfigForm() {
         super(SR.get(SR.MS_OPTIONS));
 
-        addControl(new PluginBox(SR.get(SR.MS_CONTACTS)));
-        addControl(new PluginBox(SR.get(SR.MS_CHATS)));
-        addControl(new PluginBox(SR.get(SR.MS_notifyStr)));
-        addControl(new PluginBox(SR.get(SR.MS_netStr)));
-        addControl(new PluginBox(SR.get(SR.MS_APPLICATION)));
-        addControl(new PluginBox(SR.get(SR.MS_APPEARANCE)));
-        addControl(new PluginBox(SR.get(SR.MS_COLOR_TUNE)));
-        addControl(new PluginBox(SR.get(SR.MS_fontsStr)));
-
+        addPluginBox(SR.get(SR.MS_CONTACTS), PluginBox.CONTACTS);
+        addPluginBox(SR.get(SR.MS_CHATS), PluginBox.CHATS);
+        addPluginBox(SR.get(SR.MS_notifyStr), PluginBox.NOTIFY);
+        addPluginBox(SR.get(SR.MS_netStr), PluginBox.NETWORK);
+        addPluginBox(SR.get(SR.MS_APPLICATION), PluginBox.APPLICATION);
+        addPluginBox(SR.get(SR.MS_APPEARANCE), PluginBox.APPEARANCE);
+        addPluginBox(SR.get(SR.MS_COLOR_TUNE), PluginBox.COLOR_TUNE);
+        addPluginBox(SR.get(SR.MS_fontsStr), PluginBox.FONTS);
+//#if IMPORT_EXPORT && FILE_IO
+        addPluginBox(SR.get(SR.MS_IMPORT_EXPORT), PluginBox.IMPORT_EXPORT);
+//#endif
 //#ifdef AUTOSTATUS
-        addControl(new PluginBox(SR.get(SR.MS_AUTOSTATUS), Config.module_autostatus, PluginBox.AUTOSTATUS));
+        addPluginBox(SR.get(SR.MS_AUTOSTATUS), PluginBox.AUTOSTATUS);
 //#endif
 //#ifdef USER_KEYS
-        addControl(new PluginBox(SR.get(SR.MS_hotkeysStr), Config.userKeys, PluginBox.USERKEYS));
+        addPluginBox(SR.get(SR.MS_hotkeysStr), PluginBox.USERKEYS);
 //#endif
 //#ifdef AVATARS
-        addControl(new PluginBox(SR.get(SR.MS_AVATARS), Config.module_avatars, PluginBox.AVATARS));
+        addPluginBox(SR.get(SR.MS_AVATARS), PluginBox.AVATARS);
 //#endif
 //#ifdef HISTORY
-        addControl(new PluginBox(SR.get(SR.MS_HISTORY), Config.module_history, PluginBox.HISTORY));
-//#endif
-
-//#ifdef IMPORT_EXPORT
-//#ifdef FILE_IO
-        addControl(new PluginBox(SR.get(SR.MS_IMPORT_EXPORT), Config.module_ie, PluginBox.IMPORT_EXPORT));
-//#endif
+        addPluginBox(SR.get(SR.MS_HISTORY), PluginBox.HISTORY);
 //#endif
         if(Config.getInstance().userAppLevel == 1) {
 //#ifdef AUTOTASK
-            addControl(new PluginBox(SR.get(SR.MS_taskstr), Config.module_tasks, PluginBox.TASKS));
+            addPluginBox(SR.get(SR.MS_taskstr), PluginBox.TASKS);
 //#endif
 //#ifdef CLASSIC_CHAT
-//#             addControl(new PluginBox(SR.get(SR.MS_CLASSIC_CHAT), Config.module_classicchat, PluginBox.CLASSIC_CHAT));
+//#             addPluginBox(SR.get(SR.MS_CLASSIC_CHAT), PluginBox.CLASSIC_CHAT);
 //#endif
 //#ifdef DEBUG_CONSOLE
-//#             addControl(new PluginBox(SR.get(SR.MS_DEBUG_MENU), Config.debug, PluginBox.DEBUG));
+//#             addPluginBox(SR.get(SR.MS_DEBUG_MENU), PluginBox.DEBUG);
 //#endif
         }
+    }
+    
+    private void addPluginBox(String label, int type) {
+        addControl(new PluginBox(label, type));
     }
 
     public String touchRightCommand() {
@@ -88,49 +100,9 @@ public class ConfigForm extends DefForm {
     }
 
     public String touchLeftCommand() {
-        String text = getFocusedObject().toString();
-        if (text.equals(SR.get(SR.MS_hotkeysStr))) {
-            if (!Config.userKeys) {
-                return null;
-            }
-//#ifdef AUTOSTATUS
-        } else if (text.equals(SR.get(SR.MS_astatusStr))) {
-            if (!Config.module_autostatus) {
-                return null;
-            }
-//#endif
-//#ifdef CLASSIC_CHAT
-//#         } else if (text.equals(SR.get(SR.MS_CLASSIC_CHAT))) {
-//#             if (!Config.module_classicchat) {
-//#                 return null;
-//#             }
-//#endif
-//#ifdef HISTORY
-        } else if (text.equals(SR.get(SR.MS_HISTORY))) {
-            if (!Config.module_history) {
-                return null;
-            }
-//#endif
-//#ifdef IMPORT_EXPORT
-//#ifdef FILE_IO
-        } else if(text.equals(SR.get(SR.MS_IMPORT_EXPORT))) {
-            if (!Config.module_ie) {
-                return null;
-            }
-//#endif
-//#endif
-//#ifdef AUTOTASK
-        } else if(text.equals(SR.get(SR.MS_taskstr))) {
-            if (!Config.module_tasks) {
-                return null;
-            }
-//#endif
-//#ifdef AVATARS
-        } else if(text.equals(SR.get(SR.MS_AVATARS))) {
-            if (!Config.module_avatars) {
-                return null;
-            }
-//#endif
+        PluginBox box = (PluginBox)getFocusedObject();
+        if (!box.isEnabled()) {
+            return null;
         }
         return SR.get(SR.MS_config);
     }
@@ -140,40 +112,52 @@ public class ConfigForm extends DefForm {
     }
 
     public void cmdOk() {
-        if(touchLeftCommand() == null) {
-              return;
-        }
-        String type = getFocusedObject().toString();
-        if (type.equals(SR.get(SR.MS_COLOR_TUNE))) {
-            new colors.ColorConfigForm().show();
+        PluginBox box = (PluginBox)getFocusedObject();
+        if (!box.isEnabled()) {
+            return;
+        }        
+        switch (box.getType()) {
+            case PluginBox.COLOR_TUNE:
+                new ColorConfigForm().show();
+                return;
 //#ifdef USER_KEYS
-        } else if (type.equals(SR.get(SR.MS_hotkeysStr))) {
-            new ui.keys.UserKeysList().show();
+            case PluginBox.USERKEYS:
+                new UserKeysList().show();
+                return;
 //#endif
 //#ifdef HISTORY
-        } else if (type.equals(SR.get(SR.MS_HISTORY))) {
-            new HistoryConfigForm().show();
-//#endif
-        } else if (type.equals(SR.get(SR.MS_fontsStr))) {
-            new font.FontConfigForm().show();
-//#ifdef IMPORT_EXPORT
-//#ifdef FILE_IO
-        } else if(type.equals(SR.get(SR.MS_IMPORT_EXPORT))) {
-            new impexp.ImportExportForm().show();
-//#endif
-//#endif
-        } else if (type.equals(SR.get(SR.MS_notifyStr))) {
-            new alert.AlertCustomizeForm().show();
-//#ifdef AUTOTASK
-        } else if (type.equals(SR.get(SR.MS_taskstr))) {
-            new autotask.AutoTaskForm().show();
+            case PluginBox.HISTORY:
+                new HistoryConfigForm().show();
+                return;
 //#endif
 //#ifdef AVATARS
-        } else if (type.equals(SR.get(SR.MS_AVATARS))) {
-            new AvatarConfigForm().show();
+            case PluginBox.AVATARS:
+                new AvatarConfigForm().show();
+                return;
 //#endif
-        } else {
-            new ModuleConfigForm(type).show();
+//#if IMPORT_EXPORT && FILE_IO
+            case PluginBox.IMPORT_EXPORT:
+                new ImportExportForm().show();
+                return;
+//#endif
+//#ifdef AUTOTASK
+            case PluginBox.TASKS:
+                new AutoTaskForm().show();
+                return;
+//#endif
+//#ifdef DEBUG_CONSOLE
+//#             case PluginBox.DEBUG:
+//#                 return;
+//#endif
+            case PluginBox.FONTS:
+                new FontConfigForm().show();
+                return;
+            case PluginBox.NOTIFY:
+                new AlertCustomizeForm().show();
+                return;
+            default:
+                new ModuleConfigForm(box.toString(), box.getType()).show();
+                return;
         }
     }
 

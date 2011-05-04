@@ -43,21 +43,65 @@ public final class PluginBox extends IconTextElement {
     public static final int TASKS = 6;
     public static final int CLASSIC_CHAT = 7;
     public static final int DEBUG = 8;
+    public static final int COLOR_TUNE = 9; 
+    public static final int FONTS = 10;
+    public static final int NOTIFY = 11;
+    public static final int CONTACTS = 12;
+    public static final int CHATS = 13;
+    public static final int NETWORK = 14;
+    public static final int APPEARANCE = 15;
+    public static final int APPLICATION = 16;
 
-    private boolean isChecked;
     private String text;
     private int type;
 
     public PluginBox(String text) {
-        this(text, true, STANDART);
+        this(text, STANDART);
     }
 
-    public PluginBox(String text, boolean isChecked, int type) {
+    public PluginBox(String text, int type) {
         super(RosterIcons.getInstance());
 
         this.text = text;
-        this.isChecked = isChecked;
         this.type = type;
+    }
+    
+    public int getType() {
+        return type;
+    }
+    
+    public boolean isEnabled() {
+        switch (type) {
+//#ifdef AUTOSTATUS
+            case AUTOSTATUS:
+                return Config.module_autostatus;
+//#endif
+//#ifdef USER_KEYS
+            case USERKEYS:
+                return Config.userKeys;
+//#endif
+//#ifdef AVATARS
+            case AVATARS:
+                return Config.module_avatars;
+//#endif
+//#ifdef HISTORY
+            case HISTORY:
+                return Config.module_history;
+//#endif
+//#ifdef AUTOTASK 
+            case TASKS:
+                return Config.module_tasks;
+//#endif
+//#ifdef CLASSIC_CHAT
+//#             case CLASSIC_CHAT:
+//#                 return Config.module_classicchat;
+//#endif
+//#ifdef DEBUG_CONSOLE
+//#             case DEBUG:
+//#                 return Config.debug;
+//#endif
+        }
+        return true;
     }
 
     public String toString() {
@@ -66,7 +110,6 @@ public final class PluginBox extends IconTextElement {
 
     public void onSelect(VirtualList view) {
         if (type != STANDART) {
-            isChecked = !isChecked;
             switch (type) {
                 case AUTOSTATUS:
                     Config.module_autostatus = !Config.module_autostatus;
@@ -98,11 +141,9 @@ public final class PluginBox extends IconTextElement {
         }
     }
 
-    public int getImageIndex() {
-        if (!isChecked && type > 0) {
-            return RosterIcons.ICON_PLUGINBOX_UNCHECKED;
-        }
-        return RosterIcons.ICON_PLUGINBOX_CHECKED;
+    public int getImageIndex() {        
+        return isEnabled() ? 
+                RosterIcons.ICON_PLUGINBOX_CHECKED : RosterIcons.ICON_PLUGINBOX_UNCHECKED;
     }
 
     public boolean isSelectable() {

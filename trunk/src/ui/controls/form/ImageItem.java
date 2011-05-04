@@ -99,7 +99,7 @@ public class ImageItem
     
     public boolean handleEvent(int keyCode) {
          switch (keyCode) {
-            case 0:
+            case VirtualList.KEY_NUM0:
                 try {
                     if (img.getWidth()>screenWidth) {
                         int newHeight=(img.getHeight() * (screenWidth * 100 / img.getWidth()))/100;

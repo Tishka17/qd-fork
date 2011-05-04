@@ -56,6 +56,10 @@ abstract public class IconTextElement implements VirtualElement {
     public boolean handleEvent(int keyCode) {
         return false;
     }
+    
+    public boolean handleEvent(int x, int y) {
+        return false;
+    } 
 
     public int getImageIndex() {
         return -1;

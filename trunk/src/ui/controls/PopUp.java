@@ -36,6 +36,7 @@ import java.util.Vector;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import font.FontCache;
+import ui.VirtualCanvas;
 import util.StringUtils;
 
 public class PopUp {
@@ -128,21 +129,22 @@ public class PopUp {
     public boolean handleEvent(int keyCode) {
         if (scrollable>-1) {
             switch (keyCode) {
-                case 2:
-                case 4:
+                case VirtualCanvas.UP:
+                case VirtualCanvas.KEY_NUM2:
                     scrollUp();
                     return true;
-                case 6:
-                case 8:
+                case VirtualCanvas.DOWN:
+                case VirtualCanvas.KEY_NUM8:
                     scrollDown();
                     return true;
             }
         }
-        next();
-        if (keyCode==5)
-            return true;
-
-        return false;
+        //if (keyCode == VirtualCanvas.FIRE ||
+        //        keyCode ==  VirtualCanvas.KEY_NUM5) {
+            next();
+        //}
+        // we always process event if we are on screen
+        return true;
     }
     
     public boolean handleEvent(int x, int y) {

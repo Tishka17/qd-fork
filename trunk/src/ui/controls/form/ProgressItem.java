@@ -114,6 +114,10 @@ public final class ProgressItem implements VirtualElement {
     public boolean handleEvent(int keyCode) {
         return false;
     }
+    
+    public boolean handleEvent(int x, int y) {
+        return false;
+    }
 
     public String getTipString() {
         return null;

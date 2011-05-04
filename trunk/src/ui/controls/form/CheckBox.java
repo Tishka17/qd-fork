@@ -34,6 +34,7 @@ import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
 import midlet.BombusQD;
 import ui.IconTextElement;
+import ui.VirtualCanvas;
 import ui.VirtualList;
 import util.StringUtils;
 
@@ -152,8 +153,8 @@ public final class CheckBox extends IconTextElement {
 
     public boolean handleEvent(int keyCode) {
         switch (keyCode) {
-            case 12:
-            case 5:
+            case VirtualCanvas.FIRE:
+            case VirtualCanvas.KEY_NUM5:
                 isChecked = !isChecked;
                 return true;
         }

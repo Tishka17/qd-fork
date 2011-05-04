@@ -28,11 +28,14 @@
 
 package ui.controls.form;
 
+import client.Config;
 import colors.ColorTheme;
 import font.FontCache;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
+import midlet.BombusQD;
 import ui.IconTextElement;
+import ui.VirtualCanvas;
 import ui.VirtualList;
 
 /**
@@ -96,14 +99,22 @@ public class TrackItem extends IconTextElement {
 
     public boolean handleEvent(int keyCode) {
         switch (keyCode) {
-            case 4:
+            case VirtualCanvas.LEFT:
+            case VirtualCanvas.KEY_NUM4:
                 value = (value > 0) ? value - 1 : steps - 1;
                 return true;
-            case 6:
+            case VirtualCanvas.RIGHT:
+            case VirtualCanvas.KEY_NUM6:
                 value = (value + 1) % steps;
                 return true;
         }
         return false;
+    }
+    
+    public boolean handleEvent(int x, int y) {
+        final int screenW = BombusQD.sd.canvas.getWidth() - Config.scrollWidth - getOffset();        
+        value = (steps - 1) * x / screenW;
+        return true;
     }
 
     public final Font getFont() {

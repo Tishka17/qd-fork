@@ -34,6 +34,7 @@ import java.util.Vector;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import ui.IconTextElement;
+import ui.VirtualCanvas;
 import ui.VirtualList;
 
 /**
@@ -161,15 +162,18 @@ public  class DropChoiceBox extends IconTextElement {
         }
 
         switch (keyCode) {
-            case 5:
+            case VirtualCanvas.FIRE:
+            case VirtualCanvas.KEY_NUM5:
                 onSelect(null);
                 return true;
-            case 4:
+            case VirtualCanvas.LEFT:
+            case VirtualCanvas.KEY_NUM4:
                 if (--index < 0) {
                     index = 0;
                 }
                 return true;
-            case 6:
+            case VirtualCanvas.RIGHT:
+            case VirtualCanvas.KEY_NUM6:
                 if (++index > items.size() - 1) {
                     index = items.size() - 1;
                 }

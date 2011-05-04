@@ -1281,7 +1281,7 @@ public abstract class VirtualList extends CanvasEx {
 
 //#ifdef TOUCH
     protected void pointerPressed(int x, int y) {
-        if (sendEvent(x, y)) {
+        if (getPopUp().size() > 0 && popup.handleEvent(x, y)) {
             redraw();
             return;
         }
@@ -1348,10 +1348,16 @@ public abstract class VirtualList extends CanvasEx {
         }
         //System.out.println(i);
         int newcursor = getElementIndexAt(win_top)+i-1;
-        if (cursor>=0 && cursor != newcursor) {
-            if (!on_panel) moveCursorTo(newcursor);
-            setRotator();
-        }  else if (cursor>=0) pointer_state = POINTER_SECOND;
+        if (cursor >= 0) {
+            if (cursor != newcursor) {
+                if (!on_panel) {
+                    moveCursorTo(newcursor);
+                }
+                setRotator();
+            }  else {
+                pointer_state = POINTER_SECOND;
+            }
+        }
 
         //lastClickItem=cursor;
 
@@ -1469,7 +1475,12 @@ public abstract class VirtualList extends CanvasEx {
                 y=0;
                 eventLongOk();
             } else {
-                if (pointer_state == POINTER_SECOND) eventOk();
+                if (pointer_state == POINTER_SECOND) {
+                    VirtualElement element = (VirtualElement)getFocusedObject();
+                    if (element == null || !element.handleEvent(x, y)) {
+                        eventOk();
+                    }
+                }
             }
         }
 	redraw();
@@ -1498,43 +1509,43 @@ public abstract class VirtualList extends CanvasEx {
 //#endif
 
     private boolean sendEvent(int keyCode) {
-        int key=-1;
-        switch (keyCode) {
-            case KEY_NUM0: key=0; break;
-            case KEY_NUM1: key=1; break;
-            case KEY_NUM2: key=2; break;
-            case KEY_NUM3: key=3; break;
-            case KEY_NUM4: key=4; break;
-            case KEY_NUM5: key=5; break;
-            case KEY_NUM6: key=6; break;
-            case KEY_NUM7: key=7; break;
-            case KEY_NUM8: key=8; break;
-            case KEY_NUM9: key=9; break;
-            case KEY_STAR: key=10; break;
-            case KEY_POUND: key=11; break;
-            default:
-                try {
-                    switch (getGameAction(keyCode)){
-                        case UP: key=2; break;
-                        case LEFT: key=4; break;
-                        case RIGHT: key=6; break;
-                        case DOWN: key=8; break;
-                        case FIRE: key=12; break;
-                    }
-                } catch (Exception e) {}
-                if (keyCode==Config.KEY_BACK) key=13;
+        int code;
+        try {
+            switch (getGameAction(keyCode)) {
+                case FIRE:
+                    code = FIRE;
+                    break;
+                case UP:
+                    code = UP;
+                    break;
+                case DOWN:
+                    code = DOWN;
+                    break;
+                case LEFT:
+                    code = LEFT;
+                    break;
+                case RIGHT:
+                    code = RIGHT;
+                    break;
+                default:
+                    code = keyCode;
+                    break;
+            }
+        } catch (IllegalArgumentException e) {
+            code = keyCode;
         }
 
-        if (key>-1) {
 //#ifdef POPUPS
-            if (getPopUp().size()>0) {
-                return popup.handleEvent(key);
-            } else
+        if (getPopUp().size()>0) {
+            return popup.handleEvent(code);
+        } else 
 //#endif
-            if (getFocusedObject()!=null)
-                return ((VirtualElement)getFocusedObject()).handleEvent(key);
+        {
+            VirtualElement element = (VirtualElement)getFocusedObject();
+            if (element != null) {
+                return element.handleEvent(code);
+            }
         }
-
         return false;
     }
     
@@ -1638,6 +1649,10 @@ public abstract class VirtualList extends CanvasEx {
     }
 
     private void key(int keyCode) {
+        if (sendEvent(keyCode)) {
+            redraw();
+            return;
+        }
 //#ifdef GRAPHICS_MENU
      if(gm.itemGrMenu>0 && midlet.BombusQD.cf.graphicsMenu ) { //�������� ����
          if(null != menuItem) menuItem.keyPressed(keyCode);
@@ -1701,10 +1716,6 @@ public abstract class VirtualList extends CanvasEx {
 //#             }
 //#          }
 //#endif
-        if (sendEvent(keyCode)) {
-            redraw();
-            return;
-        }
 //#ifdef USER_KEYS
         if (Config.userKeys) {
             switch (additionKeyState) {

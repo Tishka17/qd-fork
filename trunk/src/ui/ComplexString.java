@@ -396,8 +396,4 @@ public class ComplexString implements VirtualElement {
     public boolean handleEvent(int keyCode) {
         return false;
     }
-    
-    public boolean handleEvent(int x, int y) {
-        return false;
-    }
 }

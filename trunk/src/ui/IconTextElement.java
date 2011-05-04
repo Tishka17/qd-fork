@@ -128,8 +128,4 @@ abstract public class IconTextElement implements VirtualElement {
     public int compare(IconTextElement right) {
         return 0;
     }
-    
-    public boolean handleEvent(int x, int y) {
-        return false;
-    }
 }

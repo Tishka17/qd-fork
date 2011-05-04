@@ -1541,11 +1541,6 @@ public abstract class VirtualList extends CanvasEx {
     private boolean sendEvent(int x, int y) {
         if (getPopUp().size() > 0) {
             return popup.handleEvent(x, y);
-        } else {
-            VirtualElement element = (VirtualElement)getFocusedObject();
-            if (element != null) {
-                return element.handleEvent(x, y);
-            }
         }
         return false;
     }

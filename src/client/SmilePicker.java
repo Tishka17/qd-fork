@@ -226,10 +226,6 @@ public class SmilePicker extends DefForm implements VirtualElement {
     public boolean isSelectable() { return true; }
 
     public boolean handleEvent(int keyCode) { return false; }
-    
-    public boolean handleEvent(int x, int y) {
-        return false;
-    }
 
     public int showGraphicsMenu() {
         return -1;

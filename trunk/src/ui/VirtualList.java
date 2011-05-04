@@ -1281,11 +1281,6 @@ public abstract class VirtualList extends CanvasEx {
 
 //#ifdef TOUCH
     protected void pointerPressed(int x, int y) {
-        if (getPopUp().size() > 0 && popup.handleEvent(x, y)) {
-            redraw();
-            return;
-        }
-
         long clickTime=System.currentTimeMillis();
         lastClickTime=clickTime;
         lastClickX=x;
@@ -1298,11 +1293,12 @@ public abstract class VirtualList extends CanvasEx {
                 redraw();
             }
             return;
+        } else if (getPopUp().size() > 0)  {
+            if (popup.handleEvent(x, y)) {
+                redraw();
+                return;
+            }
         }
-
-//#ifdef POPUPS
-        //getPopUp().next();
-//#endif
 
         boolean on_panel = false;
         if (reverse) {
@@ -1649,16 +1645,15 @@ public abstract class VirtualList extends CanvasEx {
     }
 
     private void key(int keyCode) {
-        if (sendEvent(keyCode)) {
-            redraw();
-            return;
-        }
 //#ifdef GRAPHICS_MENU
      if(gm.itemGrMenu>0 && midlet.BombusQD.cf.graphicsMenu ) { //�������� ����
          if(null != menuItem) menuItem.keyPressed(keyCode);
          redraw();
-     }
-     else{
+     } else {
+        if (sendEvent(keyCode)) {
+            redraw();
+            return;
+        }
 //#ifdef POPUPS
         if (keyCode==greenKeyCode) {
             if (getPopUp().getContact()!=null) {

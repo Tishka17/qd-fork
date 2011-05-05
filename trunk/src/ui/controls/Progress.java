@@ -66,7 +66,8 @@ public class Progress {
 //#ifdef GRADIENT
         this.bottomColor=ColorTheme.getColor(ColorTheme.PGS_COMPLETE_BOTTOM);
         if (topColor!=bottomColor)
-            this.gr=new Gradient(x, y-height, x+width, y, topColor, bottomColor, false);
+            this.gr=new Gradient();
+            this.gr.update(x, y-height, x+width, y, topColor, bottomColor, Gradient.HORIZONTAL);
 //#endif
     }
 

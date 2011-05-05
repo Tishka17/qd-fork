@@ -291,8 +291,9 @@ public class GMenu extends CanvasEx {
 //#ifdef GRADIENT
         if(midlet.BombusQD.cf.gradient_cursor){ //Tishka17
             int yc = 1 + (itemCursorIndex*fh);
-            fon=new Gradient(0, yc, w+2, yc+fh, ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_1),
-                  ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_2), false);
+            fon=new Gradient();
+            fon.update(0, yc, w+2, yc+fh, ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_1),
+                  ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_2), Gradient.HORIZONTAL);
             fon.paintHRoundRect(g, 4);
              g.setColor(ColorTheme.getColor(ColorTheme.CURSOR_OUTLINE));
              g.drawRoundRect(0, (itemCursorIndex*fh), w , fh+1, 8, 8);

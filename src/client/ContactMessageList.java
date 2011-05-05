@@ -704,9 +704,9 @@ public final class ContactMessageList extends MessageList implements InputTextBo
     }*/
 
     public void addMessage(Msg msg) {
-        if(contact.getChatInfo().opened) {
-            contact.getChatInfo().reEnumCounts();
-        }
+        //if(contact.getChatInfo().opened) {
+        //    contact.getChatInfo().reEnumCounts();
+        //}
         MessageItem mi = new MessageItem(msg, smiles);
         mi.setEven((messages.size() & 1) == 0);
         mi.parse(this);

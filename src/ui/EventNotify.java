@@ -87,7 +87,11 @@ public class EventNotify
                 try {
                     VolumeControl vol=(VolumeControl) player.getControl("VolumeControl");
                     vol.setLevel(sndVolume);
-                } catch (Exception e) { /* e.printStackTrace(); */}
+                } catch (Exception e) {
+//#ifdef DEBUG
+//#                     e.printStackTrace();
+//#endif
+                }
 
                 player.start();
             } catch (Exception e) { }

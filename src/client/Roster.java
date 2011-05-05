@@ -1326,12 +1326,6 @@ public final class Roster
                 }
              }
 //#endif
-
-//#ifdef AUTOSTATUS
-            if (autoAway) {
-                restoreStatus();
-            }
-//#endif
             Message message = new Message(
                     to.getJid(),
                     body,

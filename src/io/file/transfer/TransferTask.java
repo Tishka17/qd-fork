@@ -214,7 +214,9 @@ public class TransferTask
             filePos+=b.length;
             state=PROGRESS;
         } catch (IOException ex) {
-            ex.printStackTrace();
+//#ifdef DEBUG
+//#             ex.printStackTrace();
+//#endif
             state=ERROR;
             errMsg="Write error";
             showEvent=true;
@@ -231,7 +233,9 @@ public class TransferTask
 
             return len;
         } catch (IOException ex) {
-            ex.printStackTrace();
+//#ifdef DEBUG
+//#             ex.printStackTrace();
+//#endif
             state=ERROR;
             errMsg="Read error";
             showEvent=true;
@@ -252,7 +256,9 @@ public class TransferTask
             file.close();
             if (state!=ERROR) state=COMPLETE;
         } catch (Exception ex) {
-            ex.printStackTrace();
+//#ifdef DEBUG
+//#             ex.printStackTrace();
+//#endif
             errMsg="File close error";
             state=ERROR;
         }

@@ -42,7 +42,7 @@ import locale.SR;
 import ui.*;
 import java.util.*;
 import com.alsutton.jabber.*;
-//#ifdef GRAPHICS_MENU        
+//#ifdef GRAPHICS_MENU
 import ui.GMenu;
 //#endif
 
@@ -51,7 +51,7 @@ import ui.GMenu;
  * @author EvgS,aqent
  */
 
-public class PrivacyModifyList extends VirtualList 
+public class PrivacyModifyList extends VirtualList
         implements
 //#ifndef MENU_LISTENER
 //#         CommandListener,
@@ -63,7 +63,7 @@ public class PrivacyModifyList extends VirtualList
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_PRIVACY");
 //#endif
-    
+
     private PrivacyList plist;
 
     private Command cmdAdd;
@@ -72,7 +72,7 @@ public class PrivacyModifyList extends VirtualList
     private Command cmdUp;
     private Command cmdDwn;
     private Command cmdSave;
-    
+
     JabberStream stream=StaticData.getInstance().roster.theStream;
 
     public PrivacyModifyList(PrivacyList privacyList) {
@@ -84,7 +84,7 @@ public class PrivacyModifyList extends VirtualList
         cmdUp=new Command (SR.get(SR.MS_MOVE_UP), 0x45);
         cmdDwn=new Command (SR.get(SR.MS_MOVE_DOWN), 0x46);
         cmdSave=new Command (SR.get(SR.MS_SAVE_LIST), 0x44);
-        
+
         setMainBarItem(new MainBar(2, null, SR.get(SR.MS_PRIVACY_LISTS), false));
 
         plist=privacyList;
@@ -95,9 +95,9 @@ public class PrivacyModifyList extends VirtualList
 //#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
 //#endif
-//#ifndef GRAPHICS_MENU        
+//#ifndef GRAPHICS_MENU
 //#      addCommand(cmdCancel);
-//#endif     
+//#endif
         addCommand(cmdEdit);
         addCommand(cmdAdd);
         addCommand(cmdDel);
@@ -105,25 +105,25 @@ public class PrivacyModifyList extends VirtualList
         addCommand(cmdDwn);
         addCommand(cmdSave);
     }
-    
+
 //#ifdef MENU_LISTENER
-    
-//#ifdef GRAPHICS_MENU        
+
+//#ifdef GRAPHICS_MENU
     public int showGraphicsMenu() {
         commandState();
         menuItem = new GMenu(this, menuCommands);
-        GMenuConfig.getInstance().itemGrMenu = GMenu.PRIVACY_MODIFY_LIST;        
+        GMenuConfig.getInstance().itemGrMenu = GMenu.PRIVACY_MODIFY_LIST;
         return GMenu.PRIVACY_MODIFY_LIST;
     }
 //#else
 //#     public void showMenu() {
 //#         commandState();
 //#         new MyMenu(display, parentView, this, SR.get(SR.MS_STATUS), null, menuCommands);
-//#     }  
-//#endif   
+//#     }
+//#endif
 
 //#endif
-    
+
     private void processIcon(boolean processing){
         getMainBarItem().setElementAt((processing)?(Object)new Integer(RosterIcons.ICON_PROGRESS_INDEX):(Object)null, 0);
         redraw();
@@ -136,10 +136,10 @@ public class PrivacyModifyList extends VirtualList
         list.setAttribute("name", plist.name);
         PrivacyList.privacyListRq(false, list, "getlistitems");
     }
-    
+
     protected int getItemCount() { return plist.rules.size(); }
     protected VirtualElement getItemRef(int index) { return (VirtualElement) plist.rules.elementAt(index); }
-    
+
     public void commandAction(Command c) {
         if (c==cmdAdd) {
             new PrivacyForm(new PrivacyItem(), plist).show();
@@ -153,30 +153,29 @@ public class PrivacyModifyList extends VirtualList
         }
         if (c==cmdSave) {
             plist.generateList();
-            stream.cancelBlockListener(this);
             PrivacyList.privacyListRq(false, null, "setplists");
 
             destroyView();
         }
-        
+
         if (c==cmdUp) { move(-1); keyUp(); }
         if (c==cmdDwn) { move(+1); keyDwn(); }
         redraw();
     }
-    
+
     public void move(int offset){
         try {
             int index=cursor;
             PrivacyItem p1=(PrivacyItem)plist.rules.elementAt(index);
             PrivacyItem p2=(PrivacyItem)plist.rules.elementAt(index+offset);
-            
+
             plist.rules.setElementAt(p1, index+offset);
             plist.rules.setElementAt(p2, index);
-            
+
             int tmpOrder=p1.order;
             p1.order=p2.order;
             p2.order=tmpOrder;
-            
+
         } catch (Exception e) {/* IndexOutOfBounds */}
     }
 
@@ -186,7 +185,7 @@ public class PrivacyModifyList extends VirtualList
             new PrivacyForm(pitem, null).show();
         }
     }
-    
+
     public int blockArrived(JabberDataBlock data){
         if (data.getTypeAttribute().equals("result")){
             if (data.getAttribute("id").equals("getlistitems")) {
@@ -196,12 +195,12 @@ public class PrivacyModifyList extends VirtualList
                     plist.rules=null;
                     plist.rules=new Vector(0);
                     int size = data.getChildBlocks().size();
-                    for(int i=0;i<size;i++){  
+                    for(int i=0;i<size;i++){
                         JabberDataBlock item = (JabberDataBlock)data.getChildBlocks().elementAt(i);
                         plist.addRule(new PrivacyItem(item));
                     }
                 } catch (Exception e) {}
-                
+
                 processIcon(false);
                 return JabberBlockListener.NO_MORE_BLOCKS;
             } //id, result

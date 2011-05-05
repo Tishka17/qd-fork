@@ -26,6 +26,7 @@ package ui.controls.form;
 
 import colors.ColorTheme;
 import javax.microedition.lcdui.Graphics;
+import ui.VirtualCanvas;
 import ui.VirtualList;
 
 public final class LightControlItem extends TrackItem {
@@ -64,10 +65,12 @@ public final class LightControlItem extends TrackItem {
 
     public boolean handleEvent(int keyCode) {
         switch (keyCode) {
-            case 4:
+            case VirtualCanvas.LEFT:
+            case VirtualCanvas.KEY_NUM4:
                 setIndex((index > 0) ? index - 1 : steps - 1);
                 return true;
-            case 6:
+            case VirtualCanvas.RIGHT:
+            case VirtualCanvas.KEY_NUM6:
                 setIndex((index + 1) % steps);
                 return true;
         }

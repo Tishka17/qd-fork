@@ -242,7 +242,9 @@ public class Browser
 
         } catch (Exception ex) {
             dir.addElement( new FileItem("../(Restricted Access)"));
-            ex.printStackTrace();
+//#ifdef DEBUG
+//#             ex.printStackTrace();
+//#endif
         }
     }
 

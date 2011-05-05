@@ -45,11 +45,9 @@ public abstract class CanvasEx extends Canvas {
                 parentView = BombusQD.sd.canvas.getCanvas();
             } else {
                 parentView = BombusQD.getCurrentView();
-            }            
-        }        
+            }
+        }
         BombusQD.sd.canvas.show(this);
-
-        //System.out.println("show " + this + " [" + parentView + "]");
     }
 
     public void destroyView() {
@@ -59,9 +57,6 @@ public abstract class CanvasEx extends Canvas {
             } else {
                 BombusQD.setCurrentView(parentView);
             }
-            parentView = null;
-
-            //System.out.println("destroy " + this);
         }
     }
 
@@ -83,15 +78,15 @@ public abstract class CanvasEx extends Canvas {
 
     protected abstract void paint(Graphics g);
 
-    protected void keyPressed(int code) {};
-    protected void keyRepeated(int code) {};
-    protected void keyReleased(int code) {};
+    protected void keyPressed(int code) {}
+    protected void keyRepeated(int code) {}
+    protected void keyReleased(int code) {}
 
-    protected void pointerPressed(int x, int y) {};
-    protected void pointerDragged(int x, int y) {};
-    protected void pointerReleased(int x, int y) {};
+    protected void pointerPressed(int x, int y) {}
+    protected void pointerDragged(int x, int y) {}
+    protected void pointerReleased(int x, int y) {}
 
-    protected void showNotify() {};
+    protected void showNotify() {}
 
-    protected void sizeChanged(int w, int h) {};
+    protected void sizeChanged(int w, int h) {}
 }

@@ -227,7 +227,11 @@ public class XMLParser {
                         if (baos.size()<MAX_BIN_DATASIZE) eventListener.binValueEncountered( baos.toByteArray() );
                         else eventListener.binValueEncountered( new byte[1] );
                         baos = null;
-                    } catch (Exception ex) { ex.printStackTrace(); }
+                    } catch (Exception ex) { 
+//#ifdef DEBUG
+//#                         ex.printStackTrace();
+//#endif
+                    }
 
                     sbuf = new StringBuffer(0);
                     tagName = new StringBuffer(0);
@@ -252,6 +256,9 @@ public class XMLParser {
          }
         }
       } catch (Exception xml) {
+//#ifdef DEBUG
+//#           xml.printStackTrace();
+//#endif
 //#ifdef DEBUG_CONSOLE
 //#           midlet.BombusQD.debug.add("XMLParser.XMLException ", 10);
 //#endif

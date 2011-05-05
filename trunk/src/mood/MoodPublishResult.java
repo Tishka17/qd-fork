@@ -30,10 +30,10 @@ package mood;
 import com.alsutton.jabber.JabberBlockListener;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.Iq;
-import javax.microedition.lcdui.Display;
 import locale.SR;
+import midlet.BombusQD;
 import ui.controls.AlertBox;
-import xmpp.XmppError; 
+import xmpp.XmppError;
 
 public class MoodPublishResult implements JabberBlockListener {
     public void destroy() {
@@ -45,24 +45,25 @@ public class MoodPublishResult implements JabberBlockListener {
     }
 
     public int blockArrived(JabberDataBlock data) {
-        if (!(data instanceof Iq)) return BLOCK_REJECTED;
-        if (!data.getAttribute("id").equals(id)) return BLOCK_REJECTED;
-        
-        String type=data.getTypeAttribute();
-        if (type.equals("result")){
-            AlertBox box = new AlertBox(SR.get(SR.MS_USERMOOD), SR.get(SR.MS_SUCCESS)  + '!', AlertBox.BUTTONS_OK);
-            box.show();
-            midlet.BombusQD.sd.roster.theStream.cancelBlockListener(this);
-            return NO_MORE_BLOCKS;
+        if (data instanceof Iq) {
+            if (data.getAttribute("id").equals(id)) {
+                String type = data.getTypeAttribute();
+
+                AlertBox box;
+                if (type.equals("result")) {
+                    box = new AlertBox(SR.get(SR.MS_USERMOOD), SR.get(SR.MS_SUCCESS)  + '!', AlertBox.BUTTONS_OK);
+                } else {
+                    XmppError e=XmppError.findInStanza(data);
+                    box = new AlertBox(SR.get(SR.MS_ERROR_), SR.get(SR.MS_PEP_NOT_SUPPORTED)+"("+e.toString()+")", AlertBox.BUTTONS_OK);
+                }
+                box.setParentView(BombusQD.sd.roster);
+                box.show();
+
+                return NO_MORE_BLOCKS;
+            }
         }
-        
-        XmppError e=XmppError.findInStanza(data);
-        
-        AlertBox box = new AlertBox(SR.get(SR.MS_ERROR_), SR.get(SR.MS_PEP_NOT_SUPPORTED)+"("+e.toString()+")", AlertBox.BUTTONS_OK);
-        box.show();
-        
-        return NO_MORE_BLOCKS;
+        return BLOCK_REJECTED;
     }
-    
+
 }
 //#endif

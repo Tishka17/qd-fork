@@ -290,17 +290,17 @@ public class Contact extends IconTextElement {
     }
 
     public void addMessage(Msg m) {
-        boolean first_replace=false;
-        boolean first_msgreplace=false;
+        //boolean first_replace=false;
+        //boolean first_msgreplace=false;
         if(chatInfo == null) getChatInfo();
         int msgCount = getChatInfo().getMessageCount();
         if (msgCount >= midlet.BombusQD.cf.msglistLimit) {
             getML().deleteOldMessages();
         }
         if (origin != ORIGIN_GROUPCHAT) {
-            if (m.isPresence()) first_replace = chatInfo.isOnlyStatusMessage();
-            else {
-                first_msgreplace = chatInfo.isFirstMessage();
+            //if (m.isPresence()) first_replace = chatInfo.isOnlyStatusMessage();
+            //else {
+                //first_msgreplace = chatInfo.isFirstMessage();
                 StringBuffer temp;
 
                 if (m.body.startsWith("/me ")) {
@@ -326,7 +326,7 @@ public class Contact extends IconTextElement {
                     }
                     m.subject = temp.toString();
                 }
-            }
+            //}
         } else {
             status = Presence.PRESENCE_ONLINE;
         }
@@ -341,9 +341,10 @@ public class Contact extends IconTextElement {
         }*/
 
         chatInfo.addMessage(m);
-
-
-        if(chatInfo.opened || m.messageType == Msg.MESSAGE_TYPE_OUT) chatInfo.reEnumCounts();
+        if(chatInfo.opened || m.messageType == Msg.MESSAGE_TYPE_OUT) {
+            chatInfo.reEnumCounts();
+        }
+        
         /*if (first_msgreplace){
             chatInfo.setFirstMessage(m);
             if (null != messageList) {

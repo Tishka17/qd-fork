@@ -28,12 +28,10 @@
 package xml;
 
 public class XMLException extends Exception {
-
-    /** Creates a new instance of XMLException */
     public XMLException(String text) {
-        //super(text);
-        //#ifdef DEBUG_CONSOLE
+        super(text);
+//#ifdef DEBUG_CONSOLE
 //#         midlet.BombusQD.debug.add("::XMLException->" + text, 10);
-        //#endif
+//#endif
     }
 }

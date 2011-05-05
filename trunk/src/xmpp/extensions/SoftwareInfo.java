@@ -10,7 +10,7 @@
  * of the License, or (at your option) any later version.
  *
  * You can also redistribute and/or modify this program under the
- * terms of the Psi License, specified in the accompanied COPYING 
+ * terms of the Psi License, specified in the accompanied COPYING
  * file, as published by the Psi Project; either dated January 1st,
  * 2005, or (at your option) any later version.
  *
@@ -27,20 +27,23 @@
 
 package xmpp.extensions;
 
-import com.alsutton.jabber.*;
-import com.alsutton.jabber.datablocks.*;
-import java.util.*;
-import client.*;
+import client.Msg;
+import client.StaticData;
+import com.alsutton.jabber.JabberBlockListener;
+import com.alsutton.jabber.JabberDataBlock;
+import com.alsutton.jabber.datablocks.Iq;
+import java.util.Enumeration;
+import java.util.Vector;
 import locale.SR;
 
 public class SoftwareInfo implements JabberBlockListener {
-    
+
     public SoftwareInfo(){ };
     public void destroy() {
     }
     public int blockArrived(JabberDataBlock data) {
         if (!(data instanceof Iq)) return BLOCK_REJECTED;
-        String id=/*(String)*/ data.getAttribute("id"); 
+        String id=/*(String)*/ data.getAttribute("id");
         if(id!=null)
         {
          if (data.getAttribute("type").equals("result")) {
@@ -61,35 +64,20 @@ public class SoftwareInfo implements JabberBlockListener {
                         String var=i.getAttribute("var");
                         softinfo.append(k).append(") ").append(var).append("\n");
                      }
-                  }   
+                  }
                 }
                 Msg m=new Msg(Msg.MESSAGE_TYPE_IN, "softinfo", SR.get(SR.MS_FEATURES), softinfo.toString());
                 //m.highlite=true;
                 m.itemCollapsed=true;
-                StaticData.getInstance().roster.setQuerySign(false);                
+                StaticData.getInstance().roster.setQuerySign(false);
                 StaticData.getInstance().roster.messageStore(StaticData.getInstance().roster.getContact(data.getAttribute("from"),false),m);
-                StaticData.getInstance().roster.redraw();
-              return JabberBlockListener.BLOCK_PROCESSED;                
-            }
-            if(id.equals("agents1")){
-                Msg m=new Msg(Msg.MESSAGE_TYPE_IN, "agents1", "jabber:iq:agents", data.toString());
-                //m.highlite=true;
-                m.itemCollapsed=true;
-                StaticData.getInstance().roster.setQuerySign(false);                
-                StaticData.getInstance().roster.messageStore(StaticData.getInstance().roster.getContact(data.getAttribute("from"),false),m);
-                StaticData.getInstance().roster.redraw();
+                return NO_MORE_BLOCKS;
             }
          }
        }
        return BLOCK_REJECTED;
     }
 
-    public static JabberDataBlock agentsSend(String to) {
-        JabberDataBlock result=new Iq(to, Iq.TYPE_GET, "agents1");
-        result.addChildNs("query", "jabber:iq:agents");
-        return result;
-    }
-    
     public static JabberDataBlock querySend(String to) {
         JabberDataBlock result=new Iq(to, Iq.TYPE_GET, "discof");
         result.addChildNs("query", "http://jabber.org/protocol/disco#info");

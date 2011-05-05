@@ -1091,7 +1091,7 @@ public abstract class VirtualList extends CanvasEx {
                 int r,g,b,dist,diff,new_r,new_g,new_b,color = 0;
 
                 lastInfoHeightChange=height;
-		lastHeightChange = width;
+		lastInfoWidthChange = width;
                 infoBarBackground = new int[height*width];
 		int r1 = ((color1 & 0xFF0000) >> 16);
 		int g1 = ((color1 & 0x00FF00) >> 8);
@@ -1134,7 +1134,7 @@ public abstract class VirtualList extends CanvasEx {
 
     private static int[] menuBarBackground;
     private static int lastHeightChange = -1;
-    //private static int lastWidthChange = -1;
+    private static int lastWidthChange = -1;
     private static int barLatestColor1 = -1;
     private static int barLatestColor2 = -1;
 
@@ -1154,11 +1154,11 @@ public abstract class VirtualList extends CanvasEx {
     }
     private static int[] getBarBgnd(int width, int height, int color1, int color2)
     {
-		if (lastHeightChange == height && lastHeightChange == width &&
+		if (lastHeightChange == height && lastWidthChange == width &&
                         color1 == barLatestColor1 && color2 == barLatestColor2 && menuBarBackground != null) return menuBarBackground;
 
                 lastHeightChange=height;
-                //lastWidthChange=width;
+                lastWidthChange=width;
 		menuBarBackground = new int[height*width];
 		int r1 = ((color1 & 0xFF0000) >> 16);
 		int g1 = ((color1 & 0x00FF00) >> 8);

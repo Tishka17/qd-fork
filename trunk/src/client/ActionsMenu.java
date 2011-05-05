@@ -81,8 +81,10 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
     private static final int MI_VCARD = 3;
     private static final int MI_DELVCARD = 4;
     private static final int MI_DELALLVCARD = 5;
-    private static final int MI_DELAVATAR = 6;
-    private static final int MI_DELALLAVATAR = 7;
+    //#ifdef AVATARS
+//#     private static final int MI_DELAVATAR = 6;
+//#     private static final int MI_DELALLAVATAR = 7;
+    //#endif
     private static final int MI_FEATURES = 8;
     private static final int MI_INFO = 9;
     private static final int MI_ANNOTATION = 10;
@@ -166,10 +168,10 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                     addItem(SR.get(SR.MS_DELETE_ALL_VCARD), MI_DELALLVCARD, ActionsIcons.ICON_VCARD);
                 }
 //#ifdef AVATARS
-                if (contact.img_vcard != null) {
-                    addItem(SR.get(SR.MS_DELETE_AVATAR_VCARD), MI_DELAVATAR, ActionsIcons.ICON_VCARD);
-                    addItem(SR.get(SR.MS_DELETE_ALL_AVATAR_VCARD), MI_DELALLAVATAR, ActionsIcons.ICON_VCARD);
-                }
+//#                 if (contact.img_vcard != null) {
+//#                     addItem(SR.get(SR.MS_DELETE_AVATAR_VCARD), MI_DELAVATAR, ActionsIcons.ICON_VCARD);
+//#                     addItem(SR.get(SR.MS_DELETE_ALL_AVATAR_VCARD), MI_DELALLAVATAR, ActionsIcons.ICON_VCARD);
+//#                 }
 //#endif
             }
             if (midlet.BombusQD.cf.userAppLevel == 1) {
@@ -459,18 +461,18 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                     }
                     break;
 //#ifdef AVATARS
-                case MI_DELAVATAR:
-                    contact.img_vcard = null;
-                    break;
-                case MI_DELALLAVATAR:
-                    size = BombusQD.sd.roster.contactList.contacts.size();
-                    for (int i = 0; i < size; ++i) {
-                        Contact c = (Contact) BombusQD.sd.roster.contactList.contacts.elementAt(i);
-                        if (c.img_vcard != null) {
-                            c.img_vcard = null;
-                        }
-                    }
-                    break;
+//#                 case MI_DELAVATAR:
+//#                     contact.img_vcard = null;
+//#                     break;
+//#                 case MI_DELALLAVATAR:
+//#                     size = BombusQD.sd.roster.contactList.contacts.size();
+//#                     for (int i = 0; i < size; ++i) {
+//#                         Contact c = (Contact) BombusQD.sd.roster.contactList.contacts.elementAt(i);
+//#                         if (c.img_vcard != null) {
+//#                             c.img_vcard = null;
+//#                         }
+//#                     }
+//#                     break;
 //#endif
                 case MI_EDIT: {
                     showForm(new ContactEdit(contact));

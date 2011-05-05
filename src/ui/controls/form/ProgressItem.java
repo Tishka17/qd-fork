@@ -26,7 +26,9 @@ package ui.controls.form;
 import client.Config;
 import colors.ColorTheme;
 import javax.microedition.lcdui.Graphics;
+//#ifdef GRADIENT
 import ui.Gradient;
+//#endif
 import ui.VirtualElement;
 import ui.VirtualList;
 
@@ -68,12 +70,11 @@ public final class ProgressItem implements VirtualElement {
         if (filledWidth > 0) {
 //#ifdef GRADIENT
             if (topColor != bottomColor) {
-                gr = new Gradient(
-                       X_OFFSET,
-                        Y_OFFSET,
+                gr = new Gradient();
+                gr.update(X_OFFSET,Y_OFFSET,
                         X_OFFSET + filledWidth,
                         Y_OFFSET + height,
-                        topColor, bottomColor, false);
+                        topColor, bottomColor, Gradient.HORIZONTAL);
                 gr.paint(g);
             } else {
 //#endif

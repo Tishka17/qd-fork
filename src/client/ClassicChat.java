@@ -28,7 +28,9 @@
 //# package client;
 //# 
 //# import javax.microedition.lcdui.*;
+//#ifdef GRADIENT
 //# import ui.Gradient;
+//#endif
 //# import colors.ColorTheme;
 //# import font.*;
 //# import ui.VirtualList;
@@ -95,9 +97,9 @@
 //#            }
 //#       }
 //# 
-//# 
+//#ifdef GRADIENT
 //#    Gradient fon;
-//# 
+//#endif
 //#     protected void paint(Graphics g, int w, int h) {
 //#         g.setColor(0, 0, 0);
 //#         g.drawRect(0, 0, w - 1, h - 1);
@@ -112,11 +114,15 @@
 //#                 }
 //#             }
 //#         } else if (Config.backImgType == 2) {
+//#ifdef GRADIENT
 //#             if (!Config.getInstance().usePhoneTheme) {
-//#                 fon = new Gradient(1, 1, w - 1, h - 1,
-//#                         ColorTheme.getColor(ColorTheme.GRADIENT_BGND_LEFT), ColorTheme.getColor(ColorTheme.GRADIENT_BGND_RIGHT), true);
+//#                 fon = new Gradient();
+//#                 fon.update(1, 1, w - 1, h - 1,
+//#                         ColorTheme.getColor(ColorTheme.GRADIENT_BGND_LEFT), ColorTheme.getColor(ColorTheme.GRADIENT_BGND_RIGHT), Gradient.VERTICAL);
 //#                 fon.paint(g);
-//#             } else {
+//#             } else 
+//#endif
+//#             {
 //#                 g.setClip(0, 0, w, h);
 //#             }
 //#         } else if ((Config.backImgType == 3 || Config.backImgType == 4) && imgBgnd != null) {

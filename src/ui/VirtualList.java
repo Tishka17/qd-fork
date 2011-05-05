@@ -94,6 +94,7 @@ public abstract class VirtualList extends CanvasEx {
 
 //#ifdef GRADIENT
    Gradient fon;
+   Gradient bg = new Gradient();
 //#endif
 
     private static boolean reverse=false;
@@ -487,9 +488,9 @@ public abstract class VirtualList extends CanvasEx {
         }
 //#ifdef GRADIENT
         else if (Config.backImgType == 2) {
-            fon = new Gradient(0, 0, width, height, ColorTheme.getColor(ColorTheme.GRADIENT_BGND_LEFT),
-                    ColorTheme.getColor(ColorTheme.GRADIENT_BGND_RIGHT), true);
-            fon.paint(g);
+            bg.update(0, 0, width, height, ColorTheme.getColor(ColorTheme.GRADIENT_BGND_LEFT),
+                    ColorTheme.getColor(ColorTheme.GRADIENT_BGND_RIGHT), Gradient.MIXED_DOWN);
+            bg.paint(g);
         }
 //#endif
         else if (Config.backImgType == 3 || Config.backImgType == 4) {
@@ -783,8 +784,9 @@ public abstract class VirtualList extends CanvasEx {
      {
 //#ifdef GRADIENT
         if(midlet.BombusQD.cf.gradient_cursor){
-             fon=new Gradient(x0, y0, width+x0, height+y0, ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_1),
-                  ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_2), false);
+             fon=new Gradient();
+             fon.update(x0, y0, width+x0, height+y0, ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_1),
+                  ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_2), Gradient.HORIZONTAL);
              fon.paintHRoundRect(g, 4);
              g.setColor(ColorTheme.getColor(ColorTheme.CURSOR_OUTLINE));
              g.drawRoundRect(x0, y0, width-1, height-1, 8, 8);
@@ -946,12 +948,10 @@ public abstract class VirtualList extends CanvasEx {
 //#ifdef GRADIENT
          if (getMainBarBGnd()!=getMainBarBGndBottom()) {
             int c = midlet.BombusQD.cf.gradientBarLigth?1:-1;
-            int[] backPic = getBarBgnd(width, h,
+            MainBarBG.update(0, y, width, y+h,
                     transformColorLight(getMainBarBGnd(), c*midlet.BombusQD.cf.gradientBarLight1),
-                    transformColorLight(getMainBarBGndBottom(), c*midlet.BombusQD.cf.gradientBarLight2));
-            g.drawRGB(backPic, 0, width, 0, y, width, h, false);//Tishka17
-            backPic = null;
-            backPic = new int[0];
+                    transformColorLight(getMainBarBGndBottom(), c*midlet.BombusQD.cf.gradientBarLight2), Gradient.MIXED_DOWN);
+            MainBarBG.paint(g);
          } else {
              g.setColor(getMainBarBGnd());
              g.fillRect(0, y, width, h);
@@ -1021,12 +1021,11 @@ public abstract class VirtualList extends CanvasEx {
 //#ifdef GRADIENT
         if (getMainBarBGnd()!=getMainBarBGndBottom()) {//32,102
             int c = midlet.BombusQD.cf.gradientBarLigth?1:-1;
-            int[] backPic = getInfoBarBgnd(width, h,
+            InfoBarBG.update(0, y, width, y+h,
                     transformColorLight(getMainBarBGnd(), c*midlet.BombusQD.cf.gradientBarLight1),
-                    transformColorLight(getMainBarBGndBottom(), c*midlet.BombusQD.cf.gradientBarLight2));
-            g.drawRGB(backPic, 0, width, 0, y , width, h, false);//Tishka17
-            backPic = null;
-            backPic = new int[0];
+                    transformColorLight(getMainBarBGndBottom(), c*midlet.BombusQD.cf.gradientBarLight2),
+                    Gradient.MIXED_UP);
+            InfoBarBG.paint(g);
         } else {
             g.setColor(getMainBarBGnd());
             g.fillRect(0, y, width, h);
@@ -1073,71 +1072,10 @@ public abstract class VirtualList extends CanvasEx {
 		return r | (g << 8) | (b << 16);
    }
 
-
-    private static int[] infoBarBackground;
-    private static int lastInfoHeightChange = -1;
-    private static int lastInfoWidthChange = -1;
-    private static int infoBarLatestColor1 = -1;
-    private static int infoBarLatestColor2 = -1;
-
-    private static int[] getInfoBarBgnd(int width, int height, int color1, int color2)
-    {
-		if (lastInfoHeightChange==height && lastInfoWidthChange==width &&
-                        color1 == infoBarLatestColor1 && color2 == infoBarLatestColor2 && infoBarBackground != null) return infoBarBackground;
-
-		int width2 = width/2;
-		int width3 = width/3;
-		int idx = 0;
-                int r,g,b,dist,diff,new_r,new_g,new_b,color = 0;
-
-                lastInfoHeightChange=height;
-		lastInfoWidthChange = width;
-                infoBarBackground = new int[height*width];
-		int r1 = ((color1 & 0xFF0000) >> 16);
-		int g1 = ((color1 & 0x00FF00) >> 8);
-		int b1 = (color1 & 0x0000FF);
-		int r2 = ((color2 & 0xFF0000) >> 16);
-		int g2 = ((color2 & 0x00FF00) >> 8);
-		int b2 = (color2 & 0x0000FF);
-
-		for (int y = height; y > 0; y--)
-		  {
-			r = y * (r2 - r1) / (height-1) + r1;
-			g = y * (g2 - g1) / (height-1) + g1;
-			b = y * (b2 - b1) / (height-1) + b1;
-			for (int x = width; x > 0; x--)
-			{
-				dist = x-width2;
-				if (dist < 0) dist = -dist;
-				dist = width3-dist;
-				if (dist < 0) dist = 0;
-				diff = 96*dist/width3;
-
-				new_r = r+diff;
-				new_g = g+diff;
-				new_b = b+diff;
-				if (new_r < 0) new_r = 0;
-				if (new_r > 255) new_r = 255;
-				if (new_g < 0) new_g = 0;
-				if (new_g > 255) new_g = 255;
-				if (new_b < 0) new_b = 0;
-				if (new_b > 255) new_b = 255;
-				color = (new_r << 16) | (new_g << 8) | (new_b);
-				infoBarBackground[idx++] = color;
-			  }
-		    }
-	   infoBarLatestColor1 = color1;
-           infoBarLatestColor2 = color2;
-       return infoBarBackground;
-    }
-
-
-    private static int[] menuBarBackground;
-    private static int lastHeightChange = -1;
-    private static int lastWidthChange = -1;
-    private static int barLatestColor1 = -1;
-    private static int barLatestColor2 = -1;
-
+//#ifdef GRADIENT
+    private static Gradient InfoBarBG=new Gradient();
+    private static Gradient MainBarBG=new Gradient();
+//#endif
     private void drawShadow(final Graphics g, int ox, int oy, int width, int height, int op1, int op2) {
         int []menuBarShadow = new int[width];
         int alpha, color;
@@ -1152,56 +1090,6 @@ public abstract class VirtualList extends CanvasEx {
         }
 
     }
-    private static int[] getBarBgnd(int width, int height, int color1, int color2)
-    {
-		if (lastHeightChange == height && lastWidthChange == width &&
-                        color1 == barLatestColor1 && color2 == barLatestColor2 && menuBarBackground != null) return menuBarBackground;
-
-                lastHeightChange=height;
-                lastWidthChange=width;
-		menuBarBackground = new int[height*width];
-		int r1 = ((color1 & 0xFF0000) >> 16);
-		int g1 = ((color1 & 0x00FF00) >> 8);
-		int b1 = (color1 & 0x0000FF);
-		int r2 = ((color2 & 0xFF0000) >> 16);
-		int g2 = ((color2 & 0x00FF00) >> 8);
-		int b2 = (color2 & 0x0000FF);
-		int width2 = width/2;
-		int width3 = width/3;
-		int idx = 0;
-                int r,g,b,dist,diff,new_r,new_g,new_b,color = 0;
-		  for (int y = 0; y < height; y++)
-		  {
-			r = y * (r2 - r1) / (height-1) + r1;
-			g = y * (g2 - g1) / (height-1) + g1;
-			b = y * (b2 - b1) / (height-1) + b1;
-			for (int x = 0; x < width; x++)
-			{
-				dist = x-width2;
-				if (dist < 0) dist = -dist;
-				dist = width3-dist;
-				if (dist < 0) dist = 0;
-				diff = 96*dist/width3;
-
-				new_r = r+diff;
-				new_g = g+diff;
-				new_b = b+diff;
-				if (new_r < 0) new_r = 0;
-				if (new_r > 255) new_r = 255;
-				if (new_g < 0) new_g = 0;
-				if (new_g > 255) new_g = 255;
-				if (new_b < 0) new_b = 0;
-				if (new_b > 255) new_b = 255;
-				color = (new_r << 16) | (new_g << 8) | (new_b);
-				menuBarBackground[idx++] = color;
-			  }
-		    }
-	   barLatestColor1 = color1;
-           barLatestColor2 = color2;
-       return menuBarBackground;
-    }
-
-
     public void moveCursorHome(){
         stickyWindow=true;
         if (cursor>0) cursor=getNextSelectableRef(-1);

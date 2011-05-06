@@ -28,7 +28,7 @@ import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 //#ifdef LIGHT_CONTROL
-//# import light.CustomLight;
+import light.CustomLight;
 //#endif
 import midlet.BombusQD;
 
@@ -36,6 +36,7 @@ public class VirtualCanvas extends Canvas {
     private CanvasEx canvas;
 
     private Image offscreen;
+    public static boolean isPainting;
 
     public VirtualCanvas() {
         super();
@@ -83,10 +84,10 @@ public class VirtualCanvas extends Canvas {
     }
 
     protected void paint(Graphics g) {
+        isPainting = true;
         // from bm2
         canvas.width = getWidth();
         canvas.height = getHeight();
-
         if(!isDoubleBuffered()) {
             Graphics graphics = offscreen.getGraphics();
             canvas.paint(graphics);
@@ -94,14 +95,15 @@ public class VirtualCanvas extends Canvas {
         } else {
             canvas.paint(g);
         }
+        isPainting = false;
     }
 
     protected void keyPressed(int code) {
 //#ifdef LIGHT_CONTROL
-//#         CustomLight.keyPressed();
+        CustomLight.keyPressed();
 //#endif
 //#ifdef AUTOSTATUS
-//#         BombusQD.sd.roster.userActivity(Config.AWAY_IDLE);
+        BombusQD.sd.roster.userActivity(Config.AWAY_IDLE);
 //#endif
         canvas.keyPressed(code);
     }
@@ -116,10 +118,10 @@ public class VirtualCanvas extends Canvas {
 
     protected void pointerPressed(int x, int y) {
 //#ifdef LIGHT_CONTROL
-//#         CustomLight.keyPressed();
+        CustomLight.keyPressed();
 //#endif
 //#ifdef AUTOSTATUS
-//#         BombusQD.sd.roster.userActivity(Config.AWAY_IDLE);
+        BombusQD.sd.roster.userActivity(Config.AWAY_IDLE);
 //#endif
         canvas.pointerPressed(x, y);
     }

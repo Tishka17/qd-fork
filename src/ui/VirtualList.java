@@ -434,7 +434,6 @@ public abstract class VirtualList extends CanvasEx {
 
         mHeight=0;
         iHeight=0;
-        lastPaint = System.currentTimeMillis();
         /*
         if((time_wait-time_start)>=1000) {
             time_start = System.currentTimeMillis();
@@ -1165,12 +1164,10 @@ public abstract class VirtualList extends CanvasEx {
     }
 
     int old_win_top;
-    private long lastPaint;
 
 //#ifdef TOUCH
     protected void pointerPressed(int x, int y) {
-        long clickTime=System.currentTimeMillis();
-        lastClickTime=clickTime;
+        lastClickTime=System.currentTimeMillis();
         lastClickX=x;
         lastClickY=y;
         pointer_state = POINTER_FIRST;
@@ -1251,42 +1248,41 @@ public abstract class VirtualList extends CanvasEx {
    }
 
 
-   protected void pointerDragged(int x, int y) {
-      int old_state = pointer_state;
-       long clickTime=System.currentTimeMillis();
-       if(gm.itemGrMenu>0){
+    private int old_drag_x=-1;
+    private int old_drag_y=-1;
+    protected void pointerDragged(int x, int y) {
+        if (3 > Math.abs(old_drag_x - x)  && 3 > Math.abs(old_drag_y - y)) {
+            return;
+        }
+        old_drag_x = x;
+        old_drag_y = y;
+        if(gm.itemGrMenu>0){
             if(null != menuItem) {
                 menuItem.pointerPressed(x, y);
-                if (clickTime-lastPaint>80) {
-                    redraw();
-                }
+                redraw();
             }
             return;
-      }
+        }
 
-      if (pointer_state == POINTER_PANEL)
+        if (pointer_state == POINTER_PANEL)
             return;
-      if (pointer_state == POINTER_SCROLLBAR) {
+        if (pointer_state == POINTER_SCROLLBAR) {
             scrollbar.pointerDragged(x, y, this);
-            if (clickTime-lastPaint>80) {
-                    redraw();
-            }
+            redraw();
             stickyWindow=false;
             return;
-      }
+        }
 
-      win_top = old_win_top - y + lastClickY;
-      if (x - lastClickX > 9 || lastClickX-x >9
+        win_top = old_win_top - y + lastClickY;
+        if (x - lastClickX > 9 || lastClickX-x >9
               || y - lastClickY > 9 || lastClickY-y>9)
           pointer_state = POINTER_DRAG;
 
-      if (win_top+winHeight>listHeight) win_top=listHeight-winHeight;
-      if (win_top<0) win_top=0;
-      stickyWindow=false;
-      if (clickTime-lastPaint>70 || old_state!=pointer_state) {
-                    redraw();
-      }
-      return;
+        if (win_top+winHeight>listHeight) win_top=listHeight-winHeight;
+        if (win_top<0) win_top=0;
+        stickyWindow=false;
+        redraw();
+        return;
     }
 
     protected void touchMainPanelPressed(int x, int y) {

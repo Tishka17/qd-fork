@@ -73,7 +73,8 @@ public abstract class CanvasEx extends Canvas {
     }
 
     public void redraw() {
-        BombusQD.sd.canvas.repaint();
+        if (!VirtualCanvas.isPainting || BombusQD.sd.canvas.getCanvas()!=this)
+            BombusQD.sd.canvas.repaint();
     }
 
     protected abstract void paint(Graphics g);

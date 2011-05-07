@@ -1,0 +1,647 @@
+﻿// Copyright (c) 2005-2008, Eugene Stahov (evgs), http://bombus-im.org
+// All rights reserved.
+
+// ask server to send us localized messages
+xmlLang	uk
+online	в мережі
+chat	хочу поговорити
+away	відійшов
+xa	недосяжний
+invisible	невидимка
+dnd	не турбувати
+offline	не в мережі
+Jid	Jid
+Privacy Lists	Серверні списки
+Message font	Шрифт повідомлення
+Roster font	Шрифт ростера
+Paste Body	Встав. тіло повідомлення
+Configure Room	Конфігуратор кімнати
+Paste Subject	Встав. тему повідомлення
+Service Discovery	Огляд сервісів
+User JID	JID користувача
+New list	Новий список
+Select (no login)	Вибрати(без з'єднання)
+Privacy rule	Правило приватності
+use SSL	Використовувати SSL%Використання шифрування при підключенні до сервера
+Modify	Змінити
+Update	Оновити
+Account name	Ім'я облікового запису
+GMT offset	Часовий пояс (GMT+)
+Time settings (hours)	Налаштування часу
+Connected	З'єднання встановлено
+Connect to 	З'єднання з 
+Alert Profile	Сигнали
+Move Up	Змістити вгору
+Owners	Власники
+Ok	ОК
+Minimize	Згорнути
+Room	Кімната
+Messages	Повідомлення
+Refresh	Оновити
+Resolve Nicknames	Перетворити в нік
+Action	Дія
+Ban	Бан (ban)
+Leave Room	Вийти із конференції
+Password	Пароль
+Actions	Дії
+Activate	Активувати
+Affiliation	Членство
+Accounts	Облікові записи
+Delete list	Видалити список
+Account >	Облікові записи>
+Select	Вибрати
+Subject	Тема
+Quit	Вихід
+Edit list	Редагувати список
+Registering	Реєстрація
+Done	Виконано
+Error: 	Помилка: 
+Browse	Огляд
+Save list	Зберегти список
+Keep-Alive period	Період Keep-Alive
+<New Group>	<Нова група>
+Send	Надіслати
+Priority	Пріоритет
+Failed	Помилка З'єднання
+Set Priority	Встановити пріоритет
+Delete rule	Видалити правило
+Ignore-List	Список ігрорування
+Roster request	Отримання ростера
+Type	Тип
+Name	Ім'я
+User Profile	Логін
+fullscreen	Повноекранний режим
+Add bookmark	Додати закладку
+conferences only	тільки конференції
+Client Version	Версія клієнта
+Discard Search	Скинути результати
+Search Results	Результати пошуку
+Members	Члени
+Add Contact	Додати контакт
+Subscription	Підписка
+Status	Статус
+Join	Приєднатися
+Startup actions	Дії при запуску
+Server	Сервер
+Admins	Адміністратор
+Make Ignore-List	Створити список ігнорування
+General Group	Головна
+Options	Налаштування
+Delete	Видалити
+Delete contact?	Видалити контакт?
+Authorize	Авторизувати
+Nicknames	Ніки
+to Archive	В архів
+Back	Назад
+heap monitor	Монітор пам'яті(heap)
+change softkeys	Поміняти місцями софт-клавіші
+Message	Повідомлення
+<Other>	<Інший>
+Active Contacts	Активні контакти
+Select nickname	Вибрати нік
+Group	Група
+Join conference	При'єднатися до конференції
+No	Ні
+Re-Enter Room	Перезайти в кімнату
+New Message	Нове повідомлення
+Add	Додати
+Logon	Під'єднати
+Stanzas	Stanzas
+at Host	Сервер
+join conferences	Автоматично заходити в відмічені конференції%Підключення до конференцій вибраних в закладках при з'єднанні з сервером
+Status	Статус
+Smiles	Вкл/викл смайлики
+Contact >	Контакт >
+offline contacts	Показувати відключених
+Transport	Транспорт
+composing events	Оповіщення про набір тексту
+Add Smile	Вставити смайлик
+Nickname	Нік
+Revoke Voice	Забрати право голосу
+Not-in-list	Не в списку
+Commands	Команди
+- (Sign)	- (знак)
+Set default	Встановити за замовчуванням
+Outcasts (Ban)	ізгої (Ban)
+Set affiliation to	Змінити членство на
+Register Account	Зареєструвати%створення акаунту на вибраному сервері
+autologin	Автоз'єднання
+Logoff	Відключити
+Publish	Опублікувати
+Remove subscription	Видалити підписку
+Set	Встановити
+Application	Програма
+Bookmarks	Закладки
+Test sound	Тест звуку
+Startup	Запуск
+Edit rule	Редагувати правило
+Cancel	відміна
+Close	Закрити
+Archive	Архів
+Conference	Конференції
+Sound	Звук
+Login failed	Помилка авторизації
+Browse	Огляд
+New Jid	Новий Jid
+plain-text password	пароль відкр. текстом
+Paste Nickname	Вставити нік
+Kick	Вигнати (kick)
+Remove readed	Видалити повідомлення
+Grant Voice	Дати право голосу
+Move Down	Змістити вниз
+Quote	Цитувати
+Roster elements	Елементи ростера
+popup from background	Спливати із фону
+smiles	Ввімкнути смайли
+About	Про програму
+Resource	Ресурс
+Disconnected	З'єднання розірвано
+Edit	Редагувати
+Host name/IP	Ім'я хоста/IP (необов'язково)
+Add rule	Додати правило
+for all status types	для всіх статусів
+Paste Jid	Вставити Jid
+Goto URL	Перейти до URL
+Clock offset	Зміщення годинника
+Yes	Так
+Suspend	Відкласти
+Alert Profile >	Сигнали >
+My vCard	Моя Візитка
+transports	Транспорти
+Add Profile	Додати профіль>
+self-contact	Свої контакти
+vCard	Візитка
+Set Subject	Встановити тему
+Port	Порт
+Resume Message	Чорновик
+Modify affiliation	Зміна членства
+Clear	Очистити
+Connect	Підключитися
+Unaffiliate	Відняти членство
+Grant Moderator	Дати право модератора
+Revoke Moderator	Забрати право модератора
+Grant Admin	Дати право адміністратора
+Grant Ownership	Дати право власника
+Visitors are not allowed to send messages to all occupants	Гості не можуть надсилати повідомлення в загальний чат
+ is inviting You to 	 запрошує Вас в 
+Ask subscription	Запитати підписку
+Grant subscription	Дозволити підписку
+Invite to conference	Запросити до конференії
+Reason	Причина
+You have been invited to 	Ви були запрошені до
+Participants	Учасники
+Abc	Абв
+room presences	Статуси в конференції%Статуси підключившихся/відключившихся в чаті,не впливає на трафік
+ is now known as 	 міняє нік на
+ was banned 	 заборонили заходити конференіїю
+ was kicked 	 вигнали
+ has been kicked because room became members-only	 вигнали через те що конференція закрилась
+ has left the channel	 вийшов
+ has joined the channel as 	 зайшов як 
+ and 	 і 
+ is now 	 тепер 
+error	помилка
+Sound volume	Гучність звуку
+Language	Мова
+History folder	Папка історії
+Copy	Копіювати
+Paste	Вставити
+has set topic to	змінив тему на
+Seen	Востаннє бачили
+Idle	Бездіяльність
+Address	Адреса
+View	Перегляд
+Stop	Зупинити
+File transfers	Передача файлів
+Path	Путь
+Accept file	Прийняти файл
+File	Файл
+Save To	Зберегти в
+Sender	Відправник
+Rejected	Скасовано
+Send file	Надіслати файл
+Can't open file	Неможливо відкрити файл
+New	Новий
+Save photo	Зберегти фото
+balloon ink	Шрифт баллона
+balloon background	Фон баллона
+messagelist & roster background	колір фона, загальний
+messagelist & roster even lines	колір фона, чергування
+messagelist & roster & common font	Загальний шрифт
+message subject	Тема повідомлення
+message highlight	Підсвічене повідомлення
+service discovery commands	Команди диско
+panels background	Колір панелей
+header font	Шрифт панелей
+contact default	Шрифт контакта
+contact chat	Контакт "Хочу поговорити"
+contact away	Контакт "Відійшов"
+contact extended away	Контакта "Недосяжний"
+contact do not disturb	Контакт "Не турбувати"
+group color	Шрифт груп
+keylock font	Шрифт при блокуванні клавіатури
+keylock background	Фон при блокуванні клавіатури
+message incoming	Вхідне повідомлення
+message outgoing	Вихідне повідомлення
+message presence	Статусне повідомлення
+message auth	Повідомлення авторизації
+message history	Шрифт історії повідомлень
+progress bar remained	Залишилось прогресу
+progress bar complete	Виконано прогресу
+progress bar font	Шрифт прогресу
+Heap mon total	Всього хіпу
+Heap mon free	Вільно хіпу
+Cursor background	Фон курсору
+Cursor ink & outline	Колір шрифту курсору і обідка
+Scroll border	Колір обідка скроллу
+Scroll bar	Колір бігунка скроллу
+Scroll back	Колір скроллу
+other message incoming	Виділене вхідне повідомлення(+колір ніків)
+other message outgoing	Виділене вихідне повідомлення
+other message presence	Виділене статусне повідомлення
+Popup font	Шрифт спливаючого віконця
+Popup background	Фон спливаючого віконця
+Popup system font	Шрифт системного віконця
+Popup system background	Фон системного віконця
+Contact status font	Шрифт статусу контакту
+Control color	Колір контролів
+Gradient_Background_left color	Градієнт фону(Ліва половина)
+Gradient_Background_right color	Градієнт фону(Права половина)
+Themes	Теми
+Theme	Завантажити тему
+Sounds options	Звуки
+Time	Час
+participant	учасник
+moderator	модератор
+visitor	гість
+none	ніхто
+member	постійний учасник
+admin	адміністратор
+owner	власник
+second's	секунд
+seconds	секунди
+second	секунда
+minute's	хвилин
+minutes	хвилини
+minute	хвилина
+hour's	годин
+hours	години
+hour	година
+day's	днів
+days	дня
+day	день
+Minutes before away	Таймер автостатусу (хвилини)
+Automatic Away	Автостатус
+disabled	вимкнений
+keyblock	При блокуванні клавіш
+by message	При відсутності вихідних повідомлень
+AutoStatus	Автостатус
+AutoStatus time (min)	автостатус через (хвилин)
+Auto xa since %t	Автостатус "Недосяжний" спрацював о %t
+Auto away since %t	Автостатус "Відійшов" спрацював о %t
+autofocus	Автофокус на контакті з новим повідомленням
+Grant Membership	Дати членство
+Google token request	Google token request
+Features	Можливості
+No client version available	Версія клієнта недоступна
+Message limit	Кількість повідомлень
+Opening stream	З'єднання
+Using compression	Ввімкнення компресії
+Authenticating	Авторизація
+Resource binding	Призначення ресурса
+Initiating session	Створення сесії
+Text wrapping	Перенос тексту
+by chars	по буквах
+by words	по словах
+Info	Інфо
+Reply	Відповісти
+Send status	Встановити статус
+Are you sure want to BAN this person?	Заборонити заходити до конференції?
+No reason	Без причини
+Recent	Історія вводу
+Shot	Знімок
+Select file	Вибрати файл
+Load Photo	Завантажити фото
+Clear Photo	Очистити фото
+Camera	Камера
+Hide finished	Сховати завершені
+Transfer tasks	Менеджер передачі файлів
+Are you sure want to delete this message?	Ви впевнені, що хочете видалити це повідомлення?
+New conference	Нова конференція
+Root	Корінь диску
+Decline	Відхилити
+Authorize new contacts	Автоматична авторизація
+[auto-subscribe]	[автопідписка]
+Keep-Alive	Тип Keep-Alive
+ has been unaffiliated and kicked from members-only room	 вигнали, тому що кімната закрита для гостей
+Rename	Перейменувати
+Move	Перемістити
+Save	Зберегти
+Translit	Трансліт
+ReTranslit	ДеТрансліт
+Auto translit2Cyr	Автовідправка трансліту Кирилицею
+Check Updates	Перевірка поновлення
+Show Resources	Показувати ресурси контактів
+Collapsed groups	Згортати групи при запуску
+Send Buffer	Надіслати текст із буферу
+Change nickname	Змінити нік
+Message collapse limit	Згортати повідомлення, якщо більше(символів)
+Clear all chats	Очистити всі чати
+Join marked (auto)	Автоматично з'єднуватися
+Statistics	Моя Статистика
+Started: 	Запуск: 
+Traffic stats: 	Статистика: 
+All: 	Всего: 
+Current: 	Поточний: 
+Edit/join	Змінити/Ввійти
+Use this Color scheme	Використати схему
+Delete All	Очистити архів
+History options	Історія
+Filenames transliterate	Имена файлів транслітом
+Save chat	Зберегти повідомлення
+show statuses	Ввімкнути додаткову строку у контакта
+shared platform info	Показувати інформацію про платформу телефон
+delivery events	Звіт про доставку повідомлення
+drop all	відхиляти все
+receive messages	отримувати повідомлення
+messages & presences	повідомлення і статуси
+normal	середній
+small	малий
+large	великий
+All signals	Всі сигнали
+Vibra	Вібро
+No signals	Без сигналів
+ (default)	 (за замовчуванням)
+Quit?	вийти?
+Are you sure want to Quit?	Ви дійсно бажаєте вийти?
+exit confirmation	Підтвердження виходу
+show last appeared contacts	Показувати недавно підключившихся
+custom keys	Гарячі клавіші
+Add custom key	Додати сполучення
+keys action	дія
+enabled	ввімкнено
+key	кнопка
+Reconnect	Перез'єднання
+Sort list	Сортувати список
+Turn on light	підтримувати підсвітку
+show time and traffic	Показувати час і 
+трафік%Відображення часу і трафіку на інформаційній панелі
+Clear popups	Очистити попапи
+Chat history length	Довжина списку історії
+This user wants to subscribe to your presence	Запит підписки на присутність
+You are now authorized	Ви отримали підписку
+Your authorization has been removed!	Ваша підписка була видалена!
+To: 	Кому: 
+size:	Розмір:
+Sun	Нд
+Mon	Пн
+Tue	Вт
+Wed	Ср
+Thu	Чт
+Fri	Пт
+Sat	Сб
+Automatic subscription	автопідписка
+Ask me	запитувати
+Drop subscription	відхиляти
+Deny subscription	забороняти
+Search	Пошук
+Register	Реєстрація
+Check Google mail	Перевірити GMail
+Blink	Миготінням
+Notices options	Сповіщення
+Message sound	Звук повідомлень
+Online sound	Звук для підключившихся
+Offline sound	Звук для відключившихся
+"Message for me" sound	Звук при зверненні
+Composing sound	Звук при наборі
+Conference sound	Звук для конференції
+StartUP sound	Звук при запуску
+Outgoing sound	Звук при відправці
+Vip sound	Звук для VIP
+Copy JID	Копіювати JID
+Ping request	Пінг
+Online time	Час в мережі
+Break connection	Перез'єднання
+autoScroll	Автопрокрутка списку повідомлень
+emulate tabs	(4/6) швидке перемикання між вікнами повідомлень
+show balloons	Показувати підказки(баллуни)
+popUps	Спливаючі вікна
+AutoStatus Message	своє повідомлення автостатусу
+Memory:	Пам'ять:
+Free:	Вільна: 
+Total:	Всього: 
+Session(s): 	Сесій: 
+Description	Опис
+User	Користувач
+Import/Export	Імпорт/Експорт данних
+bold font for contacts	Жирний шрифт для контактів ростера
+running message	біжуча строка в заголовку
+Message Edit Type	Тип вікна набору повідомлення
+Standart	Стандартне
+Alternative	Альтернативне
+Composing message to you	Пише повідомлення
+compression	стиснення трафіку
+New room created	Створена нова конференція, не забудьте налаштувати її в конфігураторі!
+Simulated break	Ручне перез'єднання
+Auto tasks	Планувальник
+Auto task type	Тип спрацювання
+by timer 	По таймеру
+by time 	По годиннику
+Auto task action type	Дія
+Quit BombusQD	Вихід з BombusQD
+Quit conferences	Вихід з конференцій
+Disconnection	Вимкнення
+disabled	Вимкнено
+Delay (min.)	Виконати через (хв.)
+Start time	Виконати о
+Hour	Годин
+Min	Хвилин
+Browse rooms	Огляд кімнат
+Autorespond	Автовідповідач
+Invert colors	Інверсія кольору
+XML console	XML консоль
+Clipboard	Буфер обміну
+User moods	Мій Настрій
+User activity	Моє Заняття
+Personal events not supported	PEP не підтримується
+User tune	Музика
+Bar font	Шрифт панелів
+Popup & ballon font	Шрифт попапів і баллунів
+Fonts options	Шрифти
+Load history	Завантажувати історію
+Connect to	Під'єднатися до
+Send my color scheme	Надіслати мій скін
+Unread messages	Непрочитані повідомлення
+vibrate only highlited	Вібрувати тільки при зверненні до мене
+Extended settings	Розширені налаштування
+Save to file	Зберегти в файл
+Load from file	Завантажити з файла
+Show IQ requests	Відображати запити IQ
+Show clients icons	Показувати іконки клієнтів
+Action	Дія
+Value	Значення
+Quantity of attempts	Кількість спроб
+Delay before reconnect(sec.)	Затримка між спробами(сек.)
+Menu	Меню
+Previous	Попереднє
+Previous: 	Попереднє: 
+[End of vCard]	Конец вКард
+[No vCard available]	вКард не доступна
+[No photo available]	Фото недоступно
+[Unsupported format]	Формат не підтримується
+[large photo was dropped]	[велике фото]
+Delete group?	Видалити групу?
+Panels	Панелі
+[ ]	[немає]
+[main bar]	[основна]
+[info bar]	[інфо]
+Flash backlight	Мигати підсвіткою
+execute menu by numkey	Виконання команд меню цифровими кнопками
+show nicknames	Показувати нік відправника%Відображення ніка в чаті поверх повідомлень
+Send photo	Надіслати фото
+enable autorespond	ввімкнути автовідповідач
+File manager	Менеджер файлів
+remote control	Віддалене керування
+//2008-10-21 aqent
+Translate	Перекладач
+Destroy room	Видалити конференцію
+Stats users for	Статистика юзерів
+Change password	Змінити пароль
+Remove from server	Видалити з сервера
+New password	Новий пароль
+Add Search Query	Запит пошуку
+Find Text	Знайти!
+End search!	Пошук закінчений!
+Turn OFF Message Icon	Прибрати іконки повідомлення
+Autoloading vcard from server	Автозавантаження аватар з сервера
+Autoloading vcard from FS Phone	Автозавантаження аватар з фс%Меню в розробці
+Not found!	Текст не знайдений!
+Generate	Сгенерувати
+Translate	Перекладач
+Delete all statuses	Видалити всі старуси
+Background Jimm image	Фоновая картинка Jimm
+Background image	Фонова картинка
+Scroll Width	Ширина скроллу(4 за замовчуванням)
+Type of Background	Виберіть тип фону
+Background Default	Фон за замовчуванням
+Background Gradient	Градієнт-фон
+Background image	Фон-зображення
+Max Avatar Width	Макс.ширина аватара
+Max Avatar Height	Макс.висота аватара
+ClientIcons Left	Іконки клієнтів зліва
+Classic Chat	Класичний чат
+Auto Scrolling	Автоскролл
+Background Phone theme	Тема телефону на фон
+Chat Height(max-320)	Висота  чату
+Scroll speed(msec,10sec-max)	Швидкість прокрутки(мсек)
+Show messages limit(1000-max)	Ліміт строк чату
+Users search	Пошук користувачів
+Support	Online Тех.підтримка
+Gradient cursor	Градієнт курсору
+Transparency bgnd(argb)	Прозорість фону(ARGB)
+Graphics menu bgnd(argb)	Графічне меню: фон(ARGB)
+Graphics menu font	Графічне меню: шрифт
+Draw Rect Avatar	Рамка аватара
+AutoSave In FS	Автозбереження аватара
+Avatar Folder	Вказати папку
+Avatars	Аватари
+News	Новини
+Edit colors	Ручне налаштування
+Transparent	Регулювання прозорості
+Background of midlet	Загальний фон
+Graphics Menu	Графічне меню
+Cursor	Курсор
+Italic	Нахилений шрифт
+Contacts	Контакти
+Chat	Вікно чату і повідомлень
+Network	Налаштування мережі
+Graphics	Графіка
+Application	Программа
+Hotkeys	Гарячі клавіші
+Autostatus	Автостатус
+Color Themes	Кольорові схеми
+History	Історія повідомлень
+Fonts	Шрифти
+Import/Export	Імпорт/експорт даних
+Notifications&Light Control	Звуки, оповіщення і підсвітка
+Tasks	Планувальник
+Avatars	Аватари
+Config	Налаштувати
+Use animated smiles	Анімовані смайли
+Nokia Reconnect Hack	Nokia Reconnect Hack%Вирішує проблему зависання після перез'єднання і прискорює роботу программи на деяких телефонах Nokia
+Debug Menu	Консоль відладки
+Please,edit this account to save new password!	Відкрийте форму редагування аккаунту для збереження пароля!
+Account deleted!	Аккаунт видалений!
+Insert New Password	Вставити пароль із буферу
+Contact is now offline.Continue?	Контакт відключений.Продовжити?
+clipboard NOT sended	Помилка відправки
+Collapse presences	Згортати статусні повідомлення
+ANY	Все
+allow	Дозволити
+deny	Блокувати
+presence-in	Вхідні статуси
+presence-out	Вихідні статуси
+iq	Запити версії/часу
+if	якщо
+none	Немає підписки
+from	Очікування підписки(from)
+to	Очікування підписки(to)
+both	Взаємна підписка
+all stanzas	Всі запити
+Exit from ALL Rooms	Вийти із всіх конференцій
+Create Annotation	Додати нотатку
+Remove Annotation	Видалити нотатку
+Contact Annotations	Нотатки для контактів
+Note	Нотатка
+Change transport	Змінити транспорт
+Test Vibration	Вібро тест
+Vibration Len	Тривалість вібрації
+Vibration Repeats	кількість повторів
+Vibration Repeats Interval	Інтервал між повторами
+Light control	Керування підсвіткою
+Enable light control	Ввімкнути керування підсвіткою
+Idle screen brightness	Яскравіть в спокої
+Keypress screen brightness	Яскравість після натиснення
+Keypress idle timeout	Таймаут після натиснення(сек.)
+Message screen brightness	Яскравість при отриманні повідомлення
+Message idle timeout	Таймаут після отримання повідомленняя(сек.)
+Use 5 key to create Message	Клавіша 5 для створення повідомлення
+Use Light to draw panels	Світлий градієнт панелей
+MainBar Gradient Light #	Градієнт панелей #
+Graphisc Menu Screen Position	Позиція графічного меню
+[center]	[По центру]
+[Left:     ]	[Зліва:     ]
+[    :Right]	[    :Зправа]
+Message Buffer is not empty.Clear it?	Чорновик не пустий, стерти?
+Create Multi Message	Мульти-повідомлення
+Sort Type	Сортування
+OFF (default)	За замовчуванням
+By status	По статусу
+By Msgs count	По кількості повідомлень
+Type History	Тип зберігання повідомлень
+History in RMS	Історія в пам'яті телефону 
+History in FS	Історія в файловій системі
+History on server	Історія на сервері
+vCard: delete current	Візитка: очистити поточну
+vCard: delete ALL	Візитка: очистити ВСІ
+User Avatar: delete current	Аватар: очистити поточний
+User Avatar: delete from ALL vcards	Аватар: очистити ВСІ
+Success	Успішно
+Simple Contacts	Прості контакти%Включає відображення кліентів тільки в вигляді іконки статусу та імені
+Started	Початківець
+Was added:	Додано:
+Configuration Master	Майстер швидкого налаштування
+Please reinstall the program to avoid possible future problems	Будь-ласка, для запобігання можливих проблем в роботі, перевстановіть програму видаливши попередню версію
+IM Networks	IM Мережі
+Add server	Додати сервер
+My servers	Мої сервери
+Menu font	Шрифт меню
+Show History	Історія повідомлень
+Pubsub events	Розширені статуси
+AppRun count: 	К-сть запусків: 
+Attention!	Увага!
+Wake Up!!!	Прокинься!!!
+Enable attention requests	Ввімкнути запити для привертання уваги
+Request attention	Привернути увагу
+Attention sound	Звук будильника
+Shadow bar	Тінь від панелей

@@ -1,0 +1,79 @@
+﻿doing_chores	Займаюсь господарством
+buying_groceries	Купляю продукти
+cleaning	Прибираю
+cooking	Готую
+doing_maintenance	Ремонт
+doing_the_dishes	Мию посуд
+doing_the_laundry	Перу
+gardening	Працюю в саду
+running_an_errand	Пішов по дорученню
+walking_the_dog	Гуляю з собакою
+drinking	П'ю
+having_a_beer	П'ю пиво
+having_coffee	П'ю каву
+having_tea	П'ю чай
+eating	Їм
+having_a_snack	
+having_breakfast	Снідаю
+having_dinner	Обідаю
+having_lunch	Ланч
+exercising	Вправи
+cycling	На велосипеді
+dancing	Танці
+hiking	В поході
+jogging	Пробіжка
+playing_sports	Спортивні ігри
+running	Біжу
+skiing	Катаюсь На лижах
+swimming	Плаваю
+working_out	Тренування
+grooming	Догляд за собою
+at_the_spa	В спа салоні
+brushing_teeth	Чищу зуби
+getting_a_haircut	Роблю зачіску
+shaving	Бриюсь
+taking_a_bath	Приймаю ванну
+taking_a_shower	Приймаю душ
+having_appointment	Зустріч
+inactive	Неактивний
+day_off	Вихідний
+hanging_out	Гуляю
+hiding	Ховаюсь
+on_vacation	У відпустці
+praying	Молюсь
+scheduled_holiday	Запланована відпустка
+sleeping	Сплю
+thinking	Думаю
+relaxing	Відпочиваю
+fishing	Риболовля
+gaming	Ігри
+going_out	Вийшов
+partying	На вечірці
+reading	Читаю
+rehearsing	Репетиція
+shopping	В магазині
+smoking	Курю
+socializing	Спілкуюсь
+sunbathing	Загораю
+watching_tv	Дивлюсь ТВ
+watching_a_movie	Дивлюсь кіно
+talking	Розмовляю
+in_real_life	В реальному житті
+on_the_phone	Говорю по телефону
+on_video_phone	Говорю по відеотелефону
+traveling	Мандрую
+commuting	Їду з роботи/на роботу
+cycling	На велосипеді
+driving	Водіння
+in_a_car	В машині
+on_a_bus	В автобусі
+on_a_plane	В літаку
+on_a_train	В поезде
+on_a_trip	В поездке
+walking	Прогулянка
+working	Працюю
+coding	Пишу програму
+in_a_meeting	На нараді
+studying	Учусь
+writing	Пишу
+no activity	<немає заняття>

@@ -48,21 +48,14 @@ public class ServerBox  extends DefForm {
 
         this.sd = sd;
 
-        serverName = new TextInput(SR.get(SR.MS_ADRESS), service, SERVERADD_RECENT_ID, TextField.ANY);
+        serverName = new TextInput(SR.get(SR.MS_SERVER), service, SERVERADD_RECENT_ID, TextField.ANY);
         addControl(serverName);
-        
-        moveCursorTo(getNextSelectableRef(-1));
     }
 
     public void cmdOk() {
         String server = serverName.getValue();
-        if (server.length() == 0) {
-            server = null;
-        }
-        if (server != null) {
-            destroyView();
-            sd.browse(server, null);
-            return;
+        if (server.length() > 0) {
+            sd.addServer(server);
         }
         destroyView();
     }

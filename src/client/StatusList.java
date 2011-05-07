@@ -29,6 +29,8 @@ package client;
 
 //import com.alsutton.jabber.datablocks.Presence;
 import com.alsutton.jabber.datablocks.Presence;
+import images.ActivityIcons;
+import images.MoodIcons;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.util.Enumeration;
@@ -76,10 +78,17 @@ public class StatusList {
             //e.printStackTrace(); 
         }
 //#ifdef PEP
-        Object add;
-        add = new SimpleString(SR.get(SR.MS_PEP),true); statusList.addElement(add);
-        add = new ExtendedStatus(0x13, "pep", SR.get(SR.MS_USERMOOD), true); statusList.addElement(add);
-        add = new ExtendedStatus(0x24, "pep", SR.get(SR.MS_USERACTIVITY), false); statusList.addElement(add);
+        boolean hasMoodIcons = MoodIcons.getInstance().isLoaded();
+        boolean hasActIcons = ActivityIcons.getInstance().isLoaded();
+        if (hasActIcons || hasMoodIcons) {
+            statusList.addElement(new SimpleString(SR.get(SR.MS_PEP),true));
+            if (hasMoodIcons) {
+                statusList.addElement(new ExtendedStatus(0x13, "pep", SR.get(SR.MS_USERMOOD), true));
+            }
+            if (hasActIcons) {
+                statusList.addElement(new ExtendedStatus(0x24, "pep", SR.get(SR.MS_USERACTIVITY), false));
+            }
+        }
 //#endif
     }
     

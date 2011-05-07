@@ -62,7 +62,7 @@ public class ConfigForm extends DefForm {
         addPluginBox(SR.get(SR.MS_APPLICATION), PluginBox.APPLICATION);
         addPluginBox(SR.get(SR.MS_APPEARANCE), PluginBox.APPEARANCE);
         addPluginBox(SR.get(SR.MS_COLOR_TUNE), PluginBox.COLOR_TUNE);
-        addPluginBox(SR.get(SR.MS_fontsStr), PluginBox.FONTS);
+        addPluginBox(SR.get(SR.MS_FONTS), PluginBox.FONTS);
 //#if IMPORT_EXPORT && FILE_IO
         addPluginBox(SR.get(SR.MS_IMPORT_EXPORT), PluginBox.IMPORT_EXPORT);
 //#endif

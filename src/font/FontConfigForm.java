@@ -44,7 +44,7 @@ public class FontConfigForm extends DefForm {
     private CheckBox useItalic;
 
     public FontConfigForm() {
-        super(SR.get(SR.MS_FONTS_OPTIONS));
+        super(SR.get(SR.MS_FONTS));
 
         rosterFont = new DropChoiceBox(SR.get(SR.MS_ROSTER_FONT));
         rosterFont.append(SR.get(SR.MS_FONTSIZE_NORMAL));

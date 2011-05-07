@@ -27,17 +27,18 @@
 
 package client; 
 
-//import com.alsutton.jabber.datablocks.Presence;
 import com.alsutton.jabber.datablocks.Presence;
+//#ifdef PEP
 import images.ActivityIcons;
 import images.MoodIcons;
+import ui.controls.form.SimpleString;
+//#endif
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.util.Enumeration;
 import java.util.Vector;
 import locale.SR;
 import io.NvStorage;
-import ui.controls.form.SimpleString;
 
 /**
  *

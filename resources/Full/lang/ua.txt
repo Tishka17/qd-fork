@@ -19,7 +19,6 @@ Paste Subject	Встав. тему повідомлення
 Service Discovery	Огляд сервісів
 User JID	JID користувача
 New list	Новий список
-Select (no login)	Вибрати(без з'єднання)
 Privacy rule	Правило приватності
 use SSL	Використовувати SSL%Використання шифрування при підключенні до сервера
 Modify	Змінити
@@ -104,7 +103,6 @@ Re-Enter Room	Перезайти в кімнату
 New Message	Нове повідомлення
 Add	Додати
 Logon	Під'єднати
-Stanzas	Stanzas
 at Host	Сервер
 join conferences	Автоматично заходити в відмічені конференції%Підключення до конференцій вибраних в закладках при з'єднанні з сервером
 Status	Статус
@@ -118,11 +116,9 @@ Nickname	Нік
 Revoke Voice	Забрати право голосу
 Not-in-list	Не в списку
 Commands	Команди
-- (Sign)	- (знак)
 Set default	Встановити за замовчуванням
 Outcasts (Ban)	ізгої (Ban)
 Set affiliation to	Змінити членство на
-Register Account	Зареєструвати%створення акаунту на вибраному сервері
 autologin	Автоз'єднання
 Logoff	Відключити
 Publish	Опублікувати
@@ -158,7 +154,6 @@ Add rule	Додати правило
 for all status types	для всіх статусів
 Paste Jid	Вставити Jid
 Goto URL	Перейти до URL
-Clock offset	Зміщення годинника
 Yes	Так
 Suspend	Відкласти
 Alert Profile >	Сигнали >
@@ -347,7 +342,6 @@ Current: 	Поточний:
 Edit/join	Змінити/Ввійти
 Use this Color scheme	Використати схему
 Delete All	Очистити архів
-History options	Історія
 show statuses	Ввімкнути додаткову строку у контакта
 shared platform info	Показувати інформацію про платформу телефон
 delivery events	Звіт про доставку повідомлення
@@ -455,7 +449,6 @@ Personal events not supported	PEP не підтримується
 User tune	Музика
 Bar font	Шрифт панелів
 Popup & ballon font	Шрифт попапів і баллунів
-Fonts options	Шрифти
 Connect to	Під'єднатися до
 Send my color scheme	Надіслати мій скін
 Unread messages	Непрочитані повідомлення
@@ -606,7 +599,6 @@ By Msgs count	По кількості повідомлень
 Type History	Тип зберігання повідомлень
 History in RMS	Історія в пам'яті телефону 
 History in FS	Історія в файловій системі
-History on server	Історія на сервері
 vCard: delete current	Візитка: очистити поточну
 vCard: delete ALL	Візитка: очистити ВСІ
 User Avatar: delete current	Аватар: очистити поточний

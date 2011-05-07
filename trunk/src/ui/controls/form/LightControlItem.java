@@ -24,8 +24,10 @@
 //#ifdef LIGHT_CONTROL
 package ui.controls.form;
 
+import client.Config;
 import colors.ColorTheme;
 import javax.microedition.lcdui.Graphics;
+import midlet.BombusQD;
 import ui.VirtualCanvas;
 import ui.VirtualList;
 
@@ -75,6 +77,12 @@ public final class LightControlItem extends TrackItem {
                 return true;
         }
         return false;
+    }
+    
+    public boolean handleEvent(int x, int y) {
+        final int screenW = BombusQD.sd.canvas.getWidth() - Config.scrollWidth - getOffset();        
+        setIndex((steps - 1) * x / screenW);
+        return true;
     }
 
     private void calculateIndex() {

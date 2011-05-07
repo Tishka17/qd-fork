@@ -24,6 +24,7 @@
  * along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
+
 package ui.controls.form;
 
 import javax.microedition.lcdui.TextField;
@@ -45,21 +46,26 @@ public final class NumberInput extends TextInput {
         this.min = min;
         this.max = max;
     }
-
-    public int getIntValue() {
+    
+    public void okNotify(String text) {
         try {
             int newValue = Integer.parseInt(text);
             if (newValue > max) {
-                return max;
+                val = max;
             } else if (newValue < min) {
-                return min;
+                val = min;
+            } else {
+                val = newValue;
             }
-            return newValue;
         } catch (NumberFormatException e) {
-//#ifdef BACK_IMAGE
-            e.printStackTrace();
+//#ifdef DEBUG
+//#             e.printStackTrace();
 //#endif
         }
+        super.okNotify(Integer.toString(val));
+    }
+
+    public int getIntValue() {
         return val;
     }
 }

@@ -32,16 +32,16 @@ import javax.microedition.lcdui.TextField;
 import ui.controls.form.CheckBox;
 import ui.controls.form.DropChoiceBox;
 import ui.controls.form.MultiLine;
+import ui.controls.form.PasswordInput;
 import ui.controls.form.TextInput;
 
 public class FormField {
-
-    public String label;
-    public String type;
-    public String name;
+    private String label;
+    private String type;
+    private String name;
     public Object formItem;
     boolean hidden;
-    //TODO: boolean required;
+
     public boolean instructions;
     private Vector optionsList;
     private boolean registered;
@@ -121,8 +121,11 @@ public class FormField {
                 if (body.length()>=200) {
                     body=body.substring(0,198);
                 }
-                int constrains=(type.equals("text-private"))? TextField.PASSWORD: TextField.ANY;
-                formItem =new TextInput(label, body, constrains);
+                if (type.equals("text-private")) {
+                    formItem = new PasswordInput(label, body);
+                } else {
+                    formItem = new TextInput(label, body, TextField.ANY);
+                }
             }
         } else {
             // not x-data
@@ -148,48 +151,27 @@ public class FormField {
 
 
     public JabberDataBlock constructBlock(){
-        JabberDataBlock j=null;
-        boolean dropChoice=false;
-        boolean booleanBox=false;
-        DropChoiceBox dp = null;
-        TextInput ti = null;
-        CheckBox chbox = null;
-
-        if (formItem instanceof MultiLine)
-          return j;
-
-        try{
-          String value=((TextInput)formItem).toString();
-          ti = (TextInput)formItem;
-          String valuestr=ti.getValue();
+        if (formItem instanceof MultiLine) {
+            return null;
+        }
+        
+        JabberDataBlock j = null;
+        if (formItem instanceof TextInput) {
             if (type==null) {
-                j=new JabberDataBlock(null, name, value);
+                j=new JabberDataBlock(null, name, ((TextInput)formItem).toString());
             } else {
                 // x:data
                 j=new JabberDataBlock("field", null, null);
                 j.setAttribute("var", name);
                 j.setAttribute("type", type);
-                j.addChild("value", valuestr);
+                j.addChild("value", ((TextInput)formItem).getValue());
             }
-           //System.out.println("          TextInput ["+value+"] "+j.toString());
-        } catch (Exception e) { }
+        }
 
-        try{
-          String value=((DropChoiceBox)formItem).toString();
-          dp = (DropChoiceBox)formItem;
-          dropChoice=true;
-        } catch (Exception e) { }
-
-         try{
-          boolean value=((CheckBox)formItem).getValue();
-          chbox = (CheckBox)formItem;
-          booleanBox=true;
-        } catch (Exception e) { }
-
-
-        if (dropChoice || booleanBox) {
+        if (formItem instanceof DropChoiceBox || 
+                formItem instanceof CheckBox) {
             if (registered) {
-                boolean unregister = chbox.getValue();
+                boolean unregister = ((CheckBox)formItem).getValue();
                 if (unregister) return new JabberDataBlock("remove", null, null);
                 return null;
             }
@@ -198,12 +180,11 @@ public class FormField {
                 j.setAttribute("var", name);
                 j.setAttribute("type", type);
                 if (optionsList==null) {
-                    j.addChild("value", chbox.getValue()==true?"1":"0");
-                } else
-                if (type.equals("list-multi")) {
-                     j.addChild("value", (String)optionsList.elementAt(dp.getSelectedIndex()));
+                    j.addChild("value", ((CheckBox)formItem).getValue()==true?"1":"0");
+                } else if (type.equals("list-multi")) {
+                     j.addChild("value", (String)optionsList.elementAt(((DropChoiceBox)formItem).getSelectedIndex()));
                 } else  {
-                    int index=dp.getSelectedIndex();
+                    int index=((DropChoiceBox)formItem).getSelectedIndex();
                     if (index>=0)  j.addChild("value", (String)optionsList.elementAt(index));
                 }
         }

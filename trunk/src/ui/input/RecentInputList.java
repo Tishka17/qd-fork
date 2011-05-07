@@ -92,10 +92,7 @@ public class RecentInputList extends VirtualList
     }
 
     public void eventOk() {
-        if (recentList.size() > 0) {
-            input.setString((String)recentList.elementAt(cursor));
-        }
-
+        input.setString((String)recentList.elementAt(cursor));
         destroyView();
     }
 

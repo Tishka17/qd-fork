@@ -53,7 +53,7 @@ public class SR {
      public final static short MS_SSL  = 21; //use SSL
      public final static short MS_MODIFY  = 22; //Modify
      public final static short MS_UPDATE  = 23; //Update
-     public final static short MS_ACCOUNT_NAME  = 24; //Account name
+     // 24
      public final static short MS_GMT_OFFSET  = 25; //GMT offset
      public final static short MS_TIME_SETTINGS  = 26; //Time settings (hours)
      public final static short MS_CONNECTED  = 27; //Connected
@@ -170,7 +170,7 @@ public class SR {
      public final static short MS_STARTUP  = 138; //Startup
      public final static short MS_EDIT_RULE  = 139; //Edit rule
      public final static short MS_CANCEL  = 140; //Cancel
-     public final static short MS_CLOSE  = 141; //Close
+     // 141
      public final static short MS_ARCHIVE  = 142; //Archive
      public final static short MS_CONFERENCE  = 143; //Conference
      public final static short MS_SOUND  = 144; //Sound
@@ -185,7 +185,7 @@ public class SR {
      public final static short MS_GRANT_VOICE  = 153; //Grant Voice
      public final static short MS_MOVE_DOWN  = 154; //Move Down
      public final static short MS_QUOTE  = 155; //Quote
-     public final static short MS_ROSTER_ELEMENTS  = 156; //Roster elements
+     // 156
      public final static short MS_ENABLE_POPUP  = 157; //popup from background
      public final static short MS_SMILES  = 158; //smiles
      public final static short MS_ABOUT  = 159; //About
@@ -219,13 +219,13 @@ public class SR {
      public final static short MS_REVOKE_MODERATOR  = 187; //Revoke Moderator
      public final static short MS_GRANT_ADMIN  = 188; //Grant Admin
      public final static short MS_GRANT_OWNERSHIP  = 189; //Grant Ownership
-     public final static short MS_VIZITORS_FORBIDDEN = 190; //Visitors are not allowed to send messages to all occupants
+     // 190
      public final static short MS_IS_INVITING_YOU = 191; // is inviting You to
      public final static short MS_ASK_SUBSCRIPTION = 192; //Ask subscription
      public final static short MS_GRANT_SUBSCRIPTION = 193; //Grant subscription
      public final static short MS_INVITE = 194; //Invite to conference
      public final static short MS_REASON = 195; //Reason
-     public final static short MS_YOU_HAVE_BEEN_INVITED = 196; //You have been invited to
+     // 196
      public final static short MS_DISCO_ROOM = 197; //Participants
      public final static short MS_CAPS_STATE = 198; //Abc
      public final static short MS_STORE_PRESENCE  = 199; //room presences
@@ -258,7 +258,7 @@ public class SR {
      // 226
      // 227
      // 228
-     public final static short MS_ADRESS = 229; //Address
+     // 229
      // 230
      // 231
      public final static short MS_VIEW = 232; //View
@@ -267,7 +267,7 @@ public class SR {
      public final static short MS_PATH = 235; //Path
      public final static short MS_ACCEPT_FILE = 236; //Accept file
      public final static short MS_FILE = 237; //File
-     public final static short MS_SAVE_TO = 238; //Save To
+     // 238
      public final static short MS_SENDER = 239; //Sender
      public final static short MS_REJECTED = 240; //Rejected
      public final static short MS_SEND_FILE = 241; //Send file
@@ -320,7 +320,7 @@ public class SR {
      public final static short MS_GRADIENT_BGND_LEFT = 288; //Gradient_Background_left color
      public final static short MS_GRADIENT_BGND_RIGHT = 289; //Gradient_Background_right color
      public final static short MS_COLOR_TUNE = 290; //Themes
-     public final static short MS_SOUNDS_OPTIONS = 291; //Sounds options
+     // 291
      public final static short MS_TIME = 292; //Time
      public final static short MS_ROLE_PARTICIPANT = 293; //participant
      public final static short MS_ROLE_MODERATOR = 294; //moderator
@@ -414,8 +414,8 @@ public class SR {
      public final static short MS_USE_COLOR_SCHEME  = 382; //Use this Color scheme
      public final static short MS_DELETE_ALL  = 383; //Delete All
      public final static short MS_HISTORY_OPTIONS  = 384; //History options
-     public final static short MS_1251_TRANSLITERATE_FILENAMES  = 385; //Filenames transliterate
-     public final static short MS_SAVE_CHAT  = 386; //Save chat
+     // 385
+     // 386; //Save chat
      public final static short MS_SHOW_STATUSES  = 387; //show statuses
      public final static short MS_SHOW_HARDWARE  = 388; //shared platform info
      public final static short MS_DELIVERY  = 389; //delivery events
@@ -440,7 +440,7 @@ public class SR {
      public final static short MS_KEY  = 408; //key
      public final static short MS_RECONNECT  = 409; //Reconnect
      public final static short MS_SORT  = 410; //Sort list
-     public final static short MS_FLASHLIGHT  = 411; //Turn on light
+     // 411
      public final static short MS_SHOW_TIME_TRAFFIC = 412; //show time and traffic
      public final static short MS_CLEAR_POPUPS  = 413; //Clear popups
      public final static short MS_MESSAGE_COUNT_LIMIT  = 414; //Chat history length
@@ -531,12 +531,12 @@ public class SR {
      public final static short MS_BAR_FONT = 499; //Bar font
      public final static short MS_POPUP_FONT = 500; //Popup & ballon font
      public final static short MS_FONTS_OPTIONS = 501; //Fonts options
-     public final static short MS_LOAD_HISTORY = 502; //Load history
+     // 502
      public final static short MS_CONNECT_TO = 503; //Connect to
      public final static short MS_SEND_COLOR_SCHEME = 504; //Send my color scheme
      public final static short MS_UNREAD_MESSAGES = 505; //Unread messages
      public final static short MS_VIBRATE_ONLY_HIGHLITED = 506; //vibrate only highlited
-     public final static short MS_EXTENDED_SETTINGS = 507; //Extended settings
+     // 507
      public final static short MS_SAVE_TO_FILE = 508; //Save to file
      public final static short MS_LOAD_FROM_FILE = 509; //Load from file
      public final static short MS_SHOW_IQ_REQUESTS = 510; //Show IQ requests
@@ -574,11 +574,9 @@ public class SR {
      public final static short MS_CHANGE_PASSWORD  = 542; //Change password
      public final static short MS_REMOVE_ACCOUNT  = 543; //Remove from server
      public final static short MS_NEW_PASSWORD  = 544; //New password
-
      public final static short MS_SIMPLE_CONTACT_VIEW = 545; //Show only contact's name and status
      public final static short MS_MEDIUM_CONTACT_VIEW = 546; //Show client icons and extended statuses
      public final static short MS_DETAILED_CONTACT_VIEW = 547; //Show avatars, client icons, status message, extended statuses, contact's resource
-
      // 548
      public final static short MS_ADD_SEARCH_QUERY  = 549; //Add Search Query
      public final static short MS_FIND_TEXT  = 550; //Find Text
@@ -586,11 +584,9 @@ public class SR {
      // 552
      // 553
      public final static short MS_ICON_COLP  = 554; //Turn OFF Message Icon
-
      public final static short MS_SIMPLE_CHAT_VIEW = 555; //Show only messages
      public final static short MS_MEDIUM_CHAT_VIEW  = 556; //Show time, presences (collapsed by default)
      public final static short MS_DETAILED_CHAT_VIEW  = 557; //Show time, message icons, usernicks, presences (expanded by default)
-
      public final static short MS_AUTOLOAD_VCARD  = 558; //Autoloading vcard from server
      public final static short MS_AUTOLOAD_VCARD_FROMFS  = 559; //Autoloading vcard from FS Phone
      // 560
@@ -598,12 +594,10 @@ public class SR {
      // 562
      public final static short MS_NOT_FOUND  = 563; //Not found!
      public final static short MS_GENERATE  = 564; //Generate
-
      public final static short MS_SIMPLE_APPEARANCE = 565; //Hide panels, popups and baloons; simple cursor
      public final static short MS_MEDIUM_APPEARANCE = 566; //Show panels and popups; gradient cursor
      public final static short MS_DETAILED_APPEARANCE = 567; //Show panels, popups and baloons; show time and traffic on panel; gradient cursor
      public final static short MS_KEEP_CURRENT_SETTINGS = 568; //Keep current settings
-
      // 569
      // 570
      public final static short MS_DELETE_ALL_STATUSES  = 571; //Delete all statuses
@@ -630,7 +624,7 @@ public class SR {
      // 592
      public final static short MS_CLASSIC_CHAT  = 593; //Classic Chat
      // 594
-     public final static short MS_CLCHAT_AUTO_SCR  = 595; //Auto Scrolling
+     // 595
      public final static short MS_CLCHAT_BGNG_PHONE  = 596; //Background Phone theme
      // 597
      public final static short MS_CLCHAT_HEIGHT  = 598; //Chat Height(max-320)
@@ -822,7 +816,7 @@ public class SR {
         "use SSL",
         "Modify",
         "Update",
-        "Account name",
+        null,
         "GMT offset",
         "Time settings (hours)",
         "Connected",
@@ -939,7 +933,7 @@ public class SR {
         "Startup",
         "Edit rule",
         "Cancel",
-        "Close",
+        null,
         "Archive",
         "Conference",
         "Sound",
@@ -954,7 +948,7 @@ public class SR {
         "Grant Voice",
         "Move Down",
         "Quote",
-        "Roster elements",
+        null,
         "popup from background",
         "smiles",
         "About",
@@ -988,13 +982,13 @@ public class SR {
         "Revoke Moderator",
         "Grant Admin",
         "Grant Ownership",
-        "Visitors are not allowed to send messages to all occupants",
+        null,
         " is inviting You to ",
         "Ask subscription",
         "Grant subscription",
         "Invite to conference",
         "Reason",
-        "You have been invited to ",
+        null,
         "Participants",
         "Abc",
         "room presences",
@@ -1027,7 +1021,7 @@ public class SR {
         null,
         null,
         null,
-        "Address",
+        null,
         null,
         null,
         "View",
@@ -1036,7 +1030,7 @@ public class SR {
         "Path",
         "Accept file",
         "File",
-        "Save To",
+        null,
         "Sender",
         "Rejected",
         "Send file",
@@ -1089,7 +1083,7 @@ public class SR {
         "Gradient_Background_left color",
         "Gradient_Background_right color",
         "Themes",
-        "Sounds options",
+        null,
         "Time",
         "participant",
         "moderator",
@@ -1183,8 +1177,8 @@ public class SR {
         "Use this Color scheme",
         "Delete All",
         "History options",
-        "Filenames transliterate",
-        "Save chat",
+        null,
+        null,
         "show statuses",
         "shared platform info",
         "delivery events",
@@ -1209,7 +1203,7 @@ public class SR {
         "key",
         "Reconnect",
         "Sort list",
-        "Turn on light",
+        null,
         "show time and traffic",
         "Clear popups",
         "Chat history length",
@@ -1300,12 +1294,12 @@ public class SR {
         "Bar font",
         "Popup & ballon font",
         "Fonts options",
-        "Load history",
+        null,
         "Connect to",
         "Send my color scheme",
         "Unread messages",
         "vibrate only highlited",
-        "Extended settings",
+        null,
         "Save to file",
         "Load from file",
         "Show IQ requests",
@@ -1393,7 +1387,7 @@ public class SR {
         null,
         "Classic Chat",
         null,
-        "Auto Scrolling",
+        null,
         "Background Phone theme",
         null,
         "Chat Height(max-320)",

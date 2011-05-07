@@ -1,6 +1,0 @@
-/themes/default.txt	default
-/themes/z-ice.txt	z-ice
-/themes/red_17.txt	red_17
-/themes/green.txt	green
-/themes/light.txt	light
-/themes/sky.txt	sky

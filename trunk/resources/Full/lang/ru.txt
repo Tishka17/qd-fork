@@ -24,7 +24,6 @@ Privacy rule	Правило приватности
 use SSL	Использовать SSL%Использование шифрования при подключении к серверу
 Modify	Изменить
 Update	Обновить
-Account name	Имя учетной записи
 GMT offset	Часовой пояс (GMT+)
 Time settings (hours)	Настройки времени
 Connected	Соединение установлено
@@ -133,7 +132,6 @@ Test sound	Тест звука
 Startup	Запуск
 Edit rule	Редактировать правило
 Cancel	Отмена
-Close	Закрыть
 Archive	Архив
 Conference	Конференции
 Sound	Звук
@@ -147,7 +145,6 @@ Remove readed	Удалить сообщения
 Grant Voice	Дать право голоса
 Move Down	Сместить вниз
 Quote	Цитировать
-Roster elements	Элементы ростера
 popup from background	Всплывать из фона
 smiles	Включить смайлы
 About	О программе
@@ -179,13 +176,11 @@ Grant Moderator	Дать право модератора
 Revoke Moderator	Отнять право модератора
 Grant Admin	Дать право администратора
 Grant Ownership	Дать право владельца
-Visitors are not allowed to send messages to all occupants	Гости не могут посылать сообщения в общий чат
  is inviting You to 	 приглашает Вас в 
 Ask subscription	Запросить подписку
 Grant subscription	Разрешить подписку
 Invite to conference	Пригласить в комнату
 Reason	Причина
-You have been invited to 	Вы были приглашены в 
 Participants	Участники
 Abc	Абв
 room presences	Статусы в конференции%Статусы подключившихся/отключившихся в чате,не влияет на трафик
@@ -207,14 +202,12 @@ Paste	Вставить
 has set topic to	изменил топик на
 Seen	Видели
 Idle	Бездействие
-Address	Адрес
 View	Просмотр
 Stop	Остановить
 File transfers	Передача файлов
 Path	Путь
 Accept file	Принять файл
 File	Файл
-Save To	Сохранить в
 Sender	Отправитель
 Rejected	Отменено
 Send file	Послать файл
@@ -266,7 +259,6 @@ Control color	Цвет контролов
 Gradient_Background_left color	Градиент фона(Левая половина)
 Gradient_Background_right color	Градиент фона(Правая половина)
 Themes	Темы
-Sounds options	Звуки
 Time	Время
 participant	участник
 moderator	модератор
@@ -354,8 +346,6 @@ Edit/join	Изменить/Войти
 Use this Color scheme	Использовать схему
 Delete All	Очистить архив
 History options	История
-Filenames transliterate	Имена файлов транслитом
-Save chat	Сохранить сообщения
 show statuses	Доп.строка у контакта
 shared platform info	Показывать информацию о платформе телефона
 delivery events	Уведомление о доставке сообщения
@@ -380,7 +370,6 @@ enabled	Включено
 key	Кнопка
 Reconnect	Переподключение
 Sort list	Сортировать список
-Turn on light	поддерживать подсветку
 show time and traffic	Показывать время и трафик%Отображение времени и трафика на информационной панели
 Clear popups	Очистить попапы
 Chat history length	Макс.кол-во сообщений в чате
@@ -463,12 +452,10 @@ User tune	Музыка
 Bar font	Шрифт панелей
 Popup & ballon font	Шрифт попапов и баллунов
 Fonts options	Шрифты
-Load history	Подгружать историю
 Connect to	Подключиться к
 Send my color scheme	Отправить мой скин
 Unread messages	Непрочитанные сообщения
 vibrate only highlited	вибрировать только при обращении ко мне
-Extended settings	Расширенные настройки
 Save to file	Сохранить в файл
 Load from file	Загрузить из файла
 Show IQ requests	Отображать IQ-запросы
@@ -524,7 +511,6 @@ Max Avatar Width	Макс.ширина аватара
 Max Avatar Height	Макс.высота аватара
 ClientIcons Left	Иконки клиентов слева
 Classic Chat	Классический чат
-Auto Scrolling	Автоскролл
 Background Phone theme	Тема телефона на фон
 Chat Height(max-320)	Высота чата
 Scroll speed(msec,10sec-max)	Скорость прокрутки(мсек)

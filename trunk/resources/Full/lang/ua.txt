@@ -10,7 +10,6 @@ xa	недосяжний
 invisible	невидимка
 dnd	не турбувати
 offline	не в мережі
-Jid	Jid
 Privacy Lists	Серверні списки
 Message font	Шрифт повідомлення
 Roster font	Шрифт ростера
@@ -25,7 +24,6 @@ Privacy rule	Правило приватності
 use SSL	Використовувати SSL%Використання шифрування при підключенні до сервера
 Modify	Змінити
 Update	Оновити
-Account name	Ім'я облікового запису
 GMT offset	Часовий пояс (GMT+)
 Time settings (hours)	Налаштування часу
 Connected	З'єднання встановлено
@@ -136,7 +134,6 @@ Test sound	Тест звуку
 Startup	Запуск
 Edit rule	Редагувати правило
 Cancel	відміна
-Close	Закрити
 Archive	Архів
 Conference	Конференції
 Sound	Звук
@@ -150,7 +147,6 @@ Remove readed	Видалити повідомлення
 Grant Voice	Дати право голосу
 Move Down	Змістити вниз
 Quote	Цитувати
-Roster elements	Елементи ростера
 popup from background	Спливати із фону
 smiles	Ввімкнути смайли
 About	Про програму
@@ -182,13 +178,11 @@ Grant Moderator	Дати право модератора
 Revoke Moderator	Забрати право модератора
 Grant Admin	Дати право адміністратора
 Grant Ownership	Дати право власника
-Visitors are not allowed to send messages to all occupants	Гості не можуть надсилати повідомлення в загальний чат
  is inviting You to 	 запрошує Вас в 
 Ask subscription	Запитати підписку
 Grant subscription	Дозволити підписку
 Invite to conference	Запросити до конференії
 Reason	Причина
-You have been invited to 	Ви були запрошені до
 Participants	Учасники
 Abc	Абв
 room presences	Статуси в конференції%Статуси підключившихся/відключившихся в чаті,не впливає на трафік
@@ -209,14 +203,12 @@ Paste	Вставити
 has set topic to	змінив тему на
 Seen	Востаннє бачили
 Idle	Бездіяльність
-Address	Адреса
 View	Перегляд
 Stop	Зупинити
 File transfers	Передача файлів
 Path	Путь
 Accept file	Прийняти файл
 File	Файл
-Save To	Зберегти в
 Sender	Відправник
 Rejected	Скасовано
 Send file	Надіслати файл
@@ -269,7 +261,6 @@ Gradient_Background_left color	Градієнт фону(Ліва половин
 Gradient_Background_right color	Градієнт фону(Права половина)
 Themes	Теми
 Theme	Завантажити тему
-Sounds options	Звуки
 Time	Час
 participant	учасник
 moderator	модератор
@@ -357,8 +348,6 @@ Edit/join	Змінити/Ввійти
 Use this Color scheme	Використати схему
 Delete All	Очистити архів
 History options	Історія
-Filenames transliterate	Имена файлів транслітом
-Save chat	Зберегти повідомлення
 show statuses	Ввімкнути додаткову строку у контакта
 shared platform info	Показувати інформацію про платформу телефон
 delivery events	Звіт про доставку повідомлення
@@ -383,7 +372,6 @@ enabled	ввімкнено
 key	кнопка
 Reconnect	Перез'єднання
 Sort list	Сортувати список
-Turn on light	підтримувати підсвітку
 show time and traffic	Показувати час і 
 трафік%Відображення часу і трафіку на інформаційній панелі
 Clear popups	Очистити попапи
@@ -468,12 +456,10 @@ User tune	Музика
 Bar font	Шрифт панелів
 Popup & ballon font	Шрифт попапів і баллунів
 Fonts options	Шрифти
-Load history	Завантажувати історію
 Connect to	Під'єднатися до
 Send my color scheme	Надіслати мій скін
 Unread messages	Непрочитані повідомлення
 vibrate only highlited	Вібрувати тільки при зверненні до мене
-Extended settings	Розширені налаштування
 Save to file	Зберегти в файл
 Load from file	Завантажити з файла
 Show IQ requests	Відображати запити IQ
@@ -530,7 +516,6 @@ Max Avatar Width	Макс.ширина аватара
 Max Avatar Height	Макс.висота аватара
 ClientIcons Left	Іконки клієнтів зліва
 Classic Chat	Класичний чат
-Auto Scrolling	Автоскролл
 Background Phone theme	Тема телефону на фон
 Chat Height(max-320)	Висота  чату
 Scroll speed(msec,10sec-max)	Швидкість прокрутки(мсек)

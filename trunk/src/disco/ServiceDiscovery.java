@@ -27,12 +27,17 @@
  */
 //#ifdef SERVICE_DISCOVERY
 package disco;
+
+import client.Config;
+import client.Contact;
+import client.ContactEdit;
+import client.DiscoSearchForm;
+import client.StaticData;
 //#ifndef WMUC
 import conference.ConferenceForm;
 //#endif
 import images.RosterIcons;
 import images.MenuIcons;
-import java.util.*;
 //#ifndef MENU_LISTENER
 //# import javax.microedition.lcdui.CommandListener;
 //# import javax.microedition.lcdui.Command;
@@ -42,18 +47,31 @@ import menu.Command;
 //#endif
 import locale.SR;
 import colors.ColorTheme;
-import ui.*;
-import com.alsutton.jabber.*;
-import com.alsutton.jabber.datablocks.*;
-import client.*;
+import com.alsutton.jabber.JabberBlockListener;
+import com.alsutton.jabber.JabberDataBlock;
+import com.alsutton.jabber.JabberStream;
+import com.alsutton.jabber.datablocks.Iq;
 import conference.bookmark.Bookmarks;
 import io.NvStorage;
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.EOFException;
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.Vector;
+import javax.microedition.rms.RecordStore;
+import javax.microedition.rms.RecordStoreException;
 import midlet.BombusQD;
+import ui.GMenu;
+import ui.GMenuConfig;
+import ui.IconTextElement;
+import ui.MainBar;
+import ui.VirtualElement;
+import ui.VirtualList;
 import ui.controls.AlertBox;
+import vcard.VCard;
+import vcard.VCardEdit;
 import xmpp.XmppError;
-import vcard.*;
 
 /**
  *
@@ -70,6 +88,8 @@ public class ServiceDiscovery
 //#endif
         JabberBlockListener
 {
+    private static final String FAV_SERVERS_DB = "favourite-servers"; 
+    
      public final static String NS_ITEMS="http://jabber.org/protocol/disco#items";
      public final static String NS_INFO="http://jabber.org/protocol/disco#info";
      public final static String NS_REGS="jabber:iq:register";
@@ -88,8 +108,9 @@ public class ServiceDiscovery
     private Vector stackItems=new Vector(0);
 
     private Vector features;
-
     private Vector cmds;
+    
+    private Vector favServers;
 
     private String service;
     private String node;
@@ -134,6 +155,7 @@ public class ServiceDiscovery
 
         items=new Vector(0);
         features=new Vector(0);
+        favServers = new Vector(0);
 
         this.node=node;
 
@@ -175,19 +197,24 @@ public class ServiceDiscovery
             String myServer=midlet.BombusQD.sd.account.getServer();
             int insertPos = 3;
             try {
-                DataInputStream is=NvStorage.ReadFileRecord("disco", 0);
+                DataInputStream is = NvStorage.ReadFileRecord(FAV_SERVERS_DB, 0);
                 try {
                     while (true) {
-                        String recent=is.readUTF();
-                        if (myServer.equals(recent)) continue; //only one instance for our service
-                        add = new DiscoContact(null, recent, 0, 16); items.insertElementAt(add,insertPos);
+                        String server = is.readUTF();
+                        if (myServer.equals(server)) {
+                            continue;
+                        }
+                        items.insertElementAt(new DiscoContact(null, server, 0, 16), insertPos);
+                        favServers.addElement(server);
                         insertPos++;
                     }
                 } catch (EOFException e) {
                     is.close();
                     is = null;
                 }
-            } catch (Exception e) {}
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             if(insertPos > 2) {//3 for hide(!)
                add = new DiscoContact(null, myServer, 0, 16);  items.insertElementAt(add,insertPos);
@@ -202,6 +229,7 @@ public class ServiceDiscovery
             moveCursorHome();
             redraw();
         }
+        
         serviceDisco = this;
         isServiceDiscoWindow = true;
     }
@@ -485,7 +513,7 @@ public class ServiceDiscovery
 	if (c==cmdOk) eventOk();
         if (c==cmdRfsh) { if (service!=null) requestQuery(NS_INFO, "disco"); }
         if (c == cmdSrv) {
-            new ServerBox(service, serviceDisco).show();
+            showForm(new ServerBox(service, serviceDisco));
         }
         if (c == cmdFeatures) {
             new DiscoFeatures(service, features).show();
@@ -691,22 +719,12 @@ public class ServiceDiscovery
                         showIMmenu();
                         break;
                     case MenuIcons.ICON_ADD_SERVER: //add server
-                        new ServerBox(service, serviceDisco).show();
+                        showForm(new ServerBox(service, serviceDisco));
                         break;
                     case MenuIcons.ICON_REMOVE_ICON: //remove server
                         try {
-                            javax.microedition.rms.RecordStore recordStore = javax.microedition.rms.RecordStore.openRecordStore("disco", false);
-                            int size = recordStore.getNumRecords();
-                            if (size > 0) {
-                              for (int i = 1; i <= size; ++i) recordStore.deleteRecord(i);
-                            }
-                            recordStore.closeRecordStore();
-                            recordStore = null;
-                        } catch (Exception e) {
-//#ifdef DEBUG
-//#                           System.out.println("disco rms exception");
-//#endif
-                        }
+                            RecordStore.deleteRecordStore(FAV_SERVERS_DB);
+                        } catch (RecordStoreException e) {}
                         midlet.BombusQD.sd.roster.show();
                         break;
                 }
@@ -744,6 +762,23 @@ public class ServiceDiscovery
     private void showForm(VirtualList list) {
         list.setParentView(getParentView());
         list.show();
+    }
+    
+    public void addServer(String server) {
+        if (favServers.indexOf(server) == -1) {
+            favServers.addElement(server);
+            
+            DataOutputStream ostream = NvStorage.CreateDataOutputStream();
+            int size = favServers.size();
+            for (int i = 0; i < size; ++i) {
+                try {
+                    ostream.writeUTF((String)favServers.elementAt(i));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            NvStorage.writeFileRecord(ostream, FAV_SERVERS_DB, 0, true);
+        }
     }
 
     public void showIMmenu() {

@@ -98,5 +98,8 @@ public class ImageList {
         if(smileIndex<aniWidth.length) return aniWidth[smileIndex];
         return width;
     }
-
+    
+    public boolean isLoaded() {
+        return resImage != null;
+    }
 }

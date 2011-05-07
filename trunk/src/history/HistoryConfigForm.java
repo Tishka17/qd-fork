@@ -48,7 +48,7 @@ public class HistoryConfigForm extends DefForm {
 //#endif
 
     public HistoryConfigForm() {
-        super(SR.get(SR.MS_HISTORY_OPTIONS));
+        super(SR.get(SR.MS_HISTORY));
 
         historyType = new DropChoiceBox(SR.get(SR.MS_HISTORY_TYPE));
         historyType.append(SR.get(SR.MS_HISTORY_RMS));

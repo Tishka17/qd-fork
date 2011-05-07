@@ -24,7 +24,6 @@
 package ui.controls.form;
 
 import java.util.Vector;
-import ui.VirtualElement;
 
 /**
  *
@@ -32,31 +31,31 @@ import ui.VirtualElement;
  */
 
 public class DropListBox extends DefForm {
-    private Vector listItems;
     private DropChoiceBox cb;
 
     public DropListBox(Vector listItems, DropChoiceBox cb) {
         super(cb.getCaption());
 
-        this.listItems = listItems;
         this.cb = cb;
+        
+        SimpleString string;
+        int size = listItems.size();
+        for (int i = 0; i < size; ++i) {
+            string = new SimpleString((String)listItems.elementAt(i));
+            string.setSelectable(true);
+            addControl(string);
+        }
 
         moveCursorTo(cb.getSelectedIndex());
     }
 
-    public void eventOk() {
-        if (listItems.size() > 0) {
-            cb.setSelectedIndex(cursor);
-        }
-
+    public void cmdOk() {
+        cb.setSelectedIndex(cursor);
         destroyView();
     }
 
-    public VirtualElement getItemRef(int index) {
-        return new ListItem((String)listItems.elementAt(index));
-    }
-
-    public int getItemCount() {
-        return listItems.size();
+    public void eventOk() {
+        cb.setSelectedIndex(cursor);
+        destroyView();
     }
 }

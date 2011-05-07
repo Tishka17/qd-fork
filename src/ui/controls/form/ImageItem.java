@@ -41,8 +41,6 @@ public class ImageItem
     
     public Image img;
     public boolean collapsed;
-    
-    public boolean selectable=true;
 
     private String altText;
 
@@ -95,7 +93,7 @@ public class ImageItem
         super.drawItem(view, g, ofs, sel);
     }
 
-    public boolean isSelectable() { return selectable; }
+    public boolean isSelectable() { return true; }
     
     public boolean handleEvent(int keyCode) {
          switch (keyCode) {

@@ -267,7 +267,7 @@ public class VCardView extends DefForm implements MenuListener
         nickDate.append("photo_");
 //#ifdef DETRANSLIT
 //#         String userName=(vcard.getNickName()!=null)?vcard.getNickName():vcard.getJid();
-//#         if (Config.getInstance().transliterateFilenames) {
+//#         if (Config.getInstance().autoDeTranslit) {
 //#             nickDate.append(DeTranslit.translit(userName));
 //#         } else {
 //#             nickDate.append(userName);

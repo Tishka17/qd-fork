@@ -126,7 +126,9 @@ public class Configs {
         writeBoolean(data, "showTimeTraffic", config.showTimeTraffic);
         writeBoolean(data, "hideMessageIcon", config.hideMessageIcon);
         writeBoolean(data, "iconsLeft", config.iconsLeft);
-        writeBoolean(data, "usePhoneTheme", config.usePhoneTheme);
+ //#ifdef CLASSIC_CHAT
+//#         writeBoolean(data, "usePhoneTheme", config.usePhoneTheme);
+//#endif
         writeBoolean(data, "gradient_cursor", config.gradient_cursor);
 //#ifdef AVATARS
         writeBoolean(data, "auto_queryPhoto", config.auto_queryPhoto);
@@ -138,18 +140,30 @@ public class Configs {
         writeBoolean(data, "showTimeInMsgs", config.showTimeInMsgs);
         writeBoolean(data, "autoScroll", config.autoScroll);
         writeBoolean(data, "useItalic", config.useItalic);
+//#ifdef USER_KEYS
         writeBoolean(data, "userKeys", config.userKeys);
+//#endif
+//#ifdef AUTOSTATUS
         writeBoolean(data, "module_autostatus", config.module_autostatus);
-        writeBoolean(data, "module_classicchat", config.module_classicchat);
+//#endif
+//#ifdef CLASSIC_CHAT
+//#         writeBoolean(data, "module_classicchat", config.module_classicchat);
+//#endif
+//#ifdef HISTORY
         writeBoolean(data, "module_history", config.module_history);
+//#endif
         writeBoolean(data, "module_ie", config.module_ie);
+//#ifdef AUTOTASK
         writeBoolean(data, "module_tasks", config.module_tasks);
+//#endif
 //#ifdef AVATARS
         writeBoolean(data, "module_avatars", config.module_avatars);
 //#endif
         writeBoolean(data, "animatedSmiles", config.animatedSmiles);
         writeBoolean(data, "runningMessage", config.runningMessage);
-        writeBoolean(data, "debug", config.debug);
+//#ifdef DEBUG_CONSOLE
+//#         writeBoolean(data, "debug", config.debug);
+//#endif
         writeBoolean(data, "showCollapsedPresences", config.showCollapsedPresences);
         writeBoolean(data, "networkAnnotation", config.networkAnnotation);
         writeBoolean(data, "showOfflineContacts", config.showOfflineContacts);
@@ -184,7 +198,6 @@ public class Configs {
         writeBoolean(data, "showResources", config.showResources);
         writeBoolean(data, "enableVersionOs", config.enableVersionOs);
         writeBoolean(data, "eventDelivery", config.eventDelivery);
-        writeBoolean(data, "transliterateFilenames", config.transliterateFilenames);
         writeBoolean(data, "rosterStatus", config.rosterStatus);
         writeBoolean(data, "queryExit", config.queryExit);
         writeBoolean(data, "notifyPicture", config.notifyPicture);
@@ -200,7 +213,9 @@ public class Configs {
 //#ifdef CLIPBOARD
         writeBoolean(data, "useClipBoard", config.useClipBoard);
 //#endif
-        writeBoolean(data, "autoDeTranslit", config.autoDeTranslit);
+//#ifdef DETRANSLIT 
+//#         writeBoolean(data, "autoDeTranslit", config.autoDeTranslit);
+//#endif
 //#ifdef CLIENTS_ICONS
         writeBoolean(data, "showClientIcon", config.showClientIcon);
 //#endif
@@ -321,7 +336,9 @@ public class Configs {
             config.showTimeTraffic = readBoolean(data, "showTimeTraffic", config.showTimeTraffic);
             config.hideMessageIcon = readBoolean(data, "hideMessageIcon", config.hideMessageIcon);
             config.iconsLeft = readBoolean(data, "iconsLeft", config.iconsLeft);
-            config.usePhoneTheme = readBoolean(data, "usePhoneTheme", config.usePhoneTheme);
+ //#ifdef CLASSIC_CHAT
+//#             config.usePhoneTheme = readBoolean(data, "usePhoneTheme", config.usePhoneTheme);
+//#endif
             config.gradient_cursor = readBoolean(data, "gradient_cursor", config.gradient_cursor);
 //#ifdef AVATARS
             config.auto_queryPhoto = readBoolean(data, "auto_queryPhoto", config.auto_queryPhoto);
@@ -333,18 +350,30 @@ public class Configs {
             config.showTimeInMsgs = readBoolean(data, "showTimeInMsgs", config.showTimeInMsgs);
             config.autoScroll = readBoolean(data, "autoScroll", config.autoScroll);
             config.useItalic = readBoolean(data, "useItalic", config.useItalic);
+//#ifdef USER_KEYS
             config.userKeys = readBoolean(data, "userKeys", config.userKeys);
+//#endif
+//#ifdef AUTOSTATUS
             config.module_autostatus = readBoolean(data, "module_autostatus", config.module_autostatus);
-            config.module_classicchat = readBoolean(data, "module_classicchat", config.module_classicchat);
+//#endif
+//#ifdef CLASSIC_CHAT
+//#             config.module_classicchat = readBoolean(data, "module_classicchat", config.module_classicchat);
+//#endif
+//#ifdef HISTORY
             config.module_history = readBoolean(data, "module_history", config.module_history);
+//#endif
             config.module_ie = readBoolean(data, "module_ie", config.module_ie);
+//#ifdef AUTOTASK
             config.module_tasks = readBoolean(data, "module_tasks", config.module_tasks);
+//#endif
 //#ifdef AVATARS
             config.module_avatars = readBoolean(data, "module_avatars", config.module_avatars);
 //#endif
             config.animatedSmiles = readBoolean(data, "animatedSmiles", config.animatedSmiles);
             config.runningMessage = readBoolean(data, "runningMessage", config.runningMessage);
-            config.debug = readBoolean(data, "debug", config.debug);
+//#ifdef DEBUG_CONSOLE
+//#             config.debug = readBoolean(data, "debug", config.debug);
+ //#endif
             config.showCollapsedPresences = readBoolean(data, "showCollapsedPresences", config.showCollapsedPresences);
             config.networkAnnotation = readBoolean(data, "networkAnnotation", config.networkAnnotation);
             config.showOfflineContacts = readBoolean(data, "showOfflineContacts", config.showOfflineContacts);
@@ -379,7 +408,6 @@ public class Configs {
             config.showResources = readBoolean(data, "showResources", config.showResources);
             config.enableVersionOs = readBoolean(data, "enableVersionOs", config.enableVersionOs);
             config.eventDelivery = readBoolean(data, "eventDelivery", config.eventDelivery);
-            config.transliterateFilenames = readBoolean(data, "transliterateFilenames", config.transliterateFilenames);
             config.rosterStatus = readBoolean(data, "rosterStatus", config.rosterStatus);
             config.queryExit = readBoolean(data, "queryExit", config.queryExit);
             config.notifyPicture = readBoolean(data, "notifyPicture", config.notifyPicture);
@@ -395,7 +423,9 @@ public class Configs {
             config.rcvtune = readBoolean(data, "rcvtune", config.rcvtune);
             config.rcvactivity = readBoolean(data, "rcvactivity", config.rcvactivity);
 //#endif
-            config.autoDeTranslit = readBoolean(data, "autoDeTranslit", config.autoDeTranslit);
+//#ifdef DETRANSLIT
+//#             config.autoDeTranslit = readBoolean(data, "autoDeTranslit", config.autoDeTranslit);
+//#endif
 //#ifdef CLIENTS_ICONS
             config.showClientIcon = readBoolean(data, "showClientIcon", config.showClientIcon);
 //#endif

@@ -179,7 +179,6 @@ public final class Roster
 
     public Vector bookmarks;
 
-    private StatusList sl;
     public int myStatus=midlet.BombusQD.cf.loginstatus;
     private static String myMessage;
     public static int oldStatus=0;
@@ -212,8 +211,6 @@ public final class Roster
         canBack = false;
 
         initCommands();
-
-        sl=StatusList.getInstance();
 
         setLight(midlet.BombusQD.cf.lightState);
 
@@ -1124,7 +1121,7 @@ public final class Roster
             if (myStatus==Presence.PRESENCE_OFFLINE  && !midlet.BombusQD.cf.collapsedGroups)
                 contactList.groups.queryGroupState(false);
             // send presence
-            ExtendedStatus es = sl.getStatus(myStatus);
+            ExtendedStatus es = StatusList.getInstance().getStatus(myStatus);
             if (message==null){
                 myMessage=StringUtils.toExtendedString(es.getMessage());
             }
@@ -1176,7 +1173,7 @@ public final class Roster
             sendPresence(status, null);
             return;
         }
-        ExtendedStatus es= sl.getStatus(status);
+        ExtendedStatus es= StatusList.getInstance().getStatus(status);
         myMessage=es.getMessage();
         myMessage=StringUtils.toExtendedString(myMessage);
         Presence presence = new Presence(status, es.getPriority(), myMessage, midlet.BombusQD.sd.account.getNick());
@@ -1254,7 +1251,7 @@ public final class Roster
         if (child!=null) {
             presence.addChild(child);
 
-            ExtendedStatus es= sl.getStatus(myStatus);
+            ExtendedStatus es= StatusList.getInstance().getStatus(myStatus);
             switch (myStatus){
                 case Presence.PRESENCE_CHAT: presence.addChild("show", Presence.PRS_CHAT);break;
                 case Presence.PRESENCE_AWAY: presence.addChild("show", Presence.PRS_AWAY);break;
@@ -1266,7 +1263,7 @@ public final class Roster
             if (es.getMessage()!=null)
                 presence.addChild("status", StringUtils.toExtendedString(es.getMessage()));
         } else if (conference) {
-            ExtendedStatus es= sl.getStatus(Presence.PRESENCE_OFFLINE);
+            ExtendedStatus es= StatusList.getInstance().getStatus(Presence.PRESENCE_OFFLINE);
             if (es.getMessage()!=null)
                 presence.addChild("status", StringUtils.toExtendedString(es.getMessage()));
                 es=null;
@@ -1354,12 +1351,12 @@ public final class Roster
 //#                         //forfix
 //#                         Msg mmm = new Msg(Msg.MESSAGE_TYPE_OUT, "Me", null, body);
 //#                         to.addMessage(mmm);
-//#                         StringUtils.addClassicChatMsg(mmm.toString(), midlet.BombusQD.cf.width_classic, to.scroller);
+//#                         StringUtils.addClassicChatMsg(mmm.toString(), SimpleItemChat.getWidth(), to.scroller);
 //#                     } else {
 //#                         if (body.startsWith("/me")) {
-//#                             StringUtils.addClassicChatMsg("***Me " + body.substring(3, body.length()), midlet.BombusQD.cf.width_classic, to.scroller);
+//#                             StringUtils.addClassicChatMsg("***Me " + body.substring(3, body.length()), SimpleItemChat.getWidth(), to.scroller);
 //#                         } else {
-//#                             StringUtils.addClassicChatMsg("Me: " + body, midlet.BombusQD.cf.width_classic, to.scroller);
+//#                             StringUtils.addClassicChatMsg("Me: " + body, SimpleItemChat.getWidth(), to.scroller);
 //#                         }
 //#                     }
 //#                 }
@@ -2006,12 +2003,15 @@ public final class Roster
                     if (start_me>=0 && groupchat) {
                         StringBuffer b=new StringBuffer(0);
 //#if NICK_COLORS
-                        if(!Config.module_classicchat) {
+//#ifdef CLASSIC_CHAT 
+//#                         if(Config.module_classicchat) {
+//#                             b.append(name.trim());
+//#                         } else 
+//#endif
+                        {
                             b.append("<nick>");
                             b.append(name);
                             b.append("</nick>");
-                        }else{
-                            b.append(name.trim());
                         }
 //#endif
                         if (start_me==0){
@@ -2768,7 +2768,7 @@ public final class Roster
             autorespond=false;
 
         if (!c.autoresponded && autorespond) {
-            ExtendedStatus es=sl.getStatus(myStatus);
+            ExtendedStatus es = StatusList.getInstance().getStatus(myStatus);
             if (es.getAutoRespond()) {
                 Message autoMessage = new Message(
                         c.getJid(),
@@ -2787,8 +2787,8 @@ public final class Roster
             }
         }
 //#ifdef CLASSIC_CHAT
-//#         if(midlet.BombusQD.cf.module_classicchat) {
-//#             StringUtils.addClassicChatMsg(message.toString(),midlet.BombusQD.cf.width_classic,c.scroller);
+//#         if(Config.module_classicchat) {
+//#             StringUtils.addClassicChatMsg(message.toString(), SimpleItemChat.getWidth() ,c.scroller);
 //#         }
 //#endif
     }
@@ -2999,7 +2999,7 @@ public final class Roster
      public void logoff(String mess){
         if (isLoggedIn()) {
             try {
-                if (mess==null) mess=sl.getStatus(Presence.PRESENCE_OFFLINE).getMessage();
+                if (mess==null) mess = StatusList.getInstance().getStatus(Presence.PRESENCE_OFFLINE).getMessage();
                 sendPresence(Presence.PRESENCE_OFFLINE, mess);
             } catch (Exception e) { }
         }

@@ -35,15 +35,16 @@ import ui.controls.form.SimpleString;
 //#endif
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.util.Enumeration;
 import java.util.Vector;
 import locale.SR;
 import io.NvStorage;
+import java.io.IOException;
 
 /**
  *
  * @author EvgS
  */
+
 public class StatusList {
     public static final int STATUS_COUNT = 7;
 
@@ -93,15 +94,19 @@ public class StatusList {
 //#endif
     }
     
-    private void createFromStream(int presenceIndex, String presenceName, DataInputStream dataInputStream) {
-	ExtendedStatus status=new ExtendedStatus(presenceIndex, presenceName, SR.getPresence(presenceName));
-        try {
-            int priority=dataInputStream.readInt();
-	    status.setPriority((priority>128)?128:priority);
-            status.setMessage(dataInputStream.readUTF());
-            status.setAutoRespond(dataInputStream.readBoolean());
-            status.setAutoRespondMessage(dataInputStream.readUTF());
-        } catch (Exception e) { /*on stream errors*/ }
+    private void createFromStream(int index, String name, DataInputStream stream) {
+	ExtendedStatus status=new ExtendedStatus(index, name, SR.getPresence(name));
+        if (stream != null) {
+            try {
+                int priority=stream.readInt();
+                status.setPriority((priority>128)?128:priority);
+                status.setMessage(stream.readUTF());
+                status.setAutoRespond(stream.readBoolean());
+                status.setAutoRespondMessage(stream.readUTF());
+            } catch (IOException e) { 
+                //e.printStackTrace();
+            }
+        }
 	statusList.addElement(status);
     }
     
@@ -122,12 +127,15 @@ public class StatusList {
         }
     }
     
-    public ExtendedStatus getStatus(final int status) {
-	ExtendedStatus es=null;
-	for (Enumeration e=statusList.elements(); e.hasMoreElements(); ){
-	    es=(ExtendedStatus)e.nextElement();
-	    if (status==es.getImageIndex()) break;
-	}
-	return es;
+    public ExtendedStatus getStatus(final int index) {
+        int size = statusList.size();
+        ExtendedStatus status;
+        for (int i = 0; i < size; ++i) {
+            status = (ExtendedStatus)statusList.elementAt(i);
+            if (index == status.getImageIndex()) {
+                return status;
+            }
+        }                
+        return null;
     }
 }

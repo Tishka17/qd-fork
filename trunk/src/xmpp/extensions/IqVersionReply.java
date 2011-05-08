@@ -83,7 +83,6 @@ public class IqVersionReply implements JabberBlockListener {
                 Msg m=new Msg(Msg.MESSAGE_TYPE_SYSTEM, "ver", " "+locale.SR.get(locale.SR.MS_CLIENT_INFO), body);
                 roster.messageStore(roster.getContact( data.getAttribute("from"), false), m);
                 roster.querysign=false;
-                Config.getInstance().flagQuerySign=false;
                 roster.redraw();
                 return BLOCK_PROCESSED;
             }

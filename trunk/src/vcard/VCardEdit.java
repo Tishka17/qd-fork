@@ -190,7 +190,7 @@ public class VCardEdit extends DefForm implements MenuListener, Runnable
         nickDate.append("photo_");
 //#ifdef DETRANSLIT
 //#         String userName=(vcard.getNickName()!=null)?vcard.getNickName():vcard.getJid();
-//#         if (Config.getInstance().transliterateFilenames) {
+//#         if (Config.getInstance().autoDeTranslit) {
 //#             nickDate.append(DeTranslit.translit(userName));
 //#         } else {
 //#             nickDate.append(userName);

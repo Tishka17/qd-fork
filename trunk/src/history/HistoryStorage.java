@@ -105,7 +105,7 @@ public class HistoryStorage {
 
     private static void addFSMessage(Msg m, String filename) {
 //#ifdef DETRANSLIT
-//#        filename = (Config.transliterateFilenames) ? DeTranslit.translit(filename) : filename;
+//#        filename = (Config.getInstance().autoDeTranslit) ? DeTranslit.translit(filename) : filename;
 //#endif
 
         StringBuffer buf = new StringBuffer(0);

@@ -48,7 +48,8 @@ public class StatusEditForm extends DefForm {
         }
         status.setMessage(tfMessage.getValue());
         status.setPriority(tfPriority.getIntValue());
-        StatusSelect.save();
+        
+        StatusList.getInstance().saveStatusToStorage();
 
         destroyView();
     }

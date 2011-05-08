@@ -150,10 +150,6 @@ public class StatusSelect extends VirtualList implements MenuListener {
         return StatusList.STATUS_COUNT;
     }
 
-    public static void save(){
-        StatusList.getInstance().saveStatusToStorage();
-    }
-
     public int showGraphicsMenu() {
         commandState();
         menuItem = new GMenu(this, menuCommands);

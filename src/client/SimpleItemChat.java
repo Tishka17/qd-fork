@@ -23,7 +23,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-
 //#ifdef CLASSIC_CHAT
 //# package client;
 //# 
@@ -37,68 +36,64 @@
 //# import util.StringUtils;
 //# 
 //# public class SimpleItemChat implements CommandListener {
-//#   private Form form;
-//#   //private Command exit;
-//#   public TextField txtField;
+//#     private Form form;
 //# 
-//#   private Command cmdSend;
-//#   private Command cmdInsNick;
-//#   private Command cmdInsMe; // /me
-//#   private Command cmdCancel;
-//#   Contact contact;
+//#     public TextField txtField;
+//#     private Command cmdSend;
+//#     private Command cmdInsNick;
+//#     private Command cmdInsMe;
+//#     private Command cmdCancel;
+//#     Contact contact;
+//#     
+//#     public TextField msgTF;
+//#     public ClassicChat scroller;
+//#     private static int width;
 //# 
-//#   public TextField msgTF;
+//#     public SimpleItemChat(Contact contact) {
+//#         this.contact = contact;
 //# 
-//#   public ClassicChat scroller;
+//#         StaticData.getInstance().roster.activeContact = contact;
+//#         contact.setIncoming(0);
 //# 
-//#   public SimpleItemChat(Contact contact) {
-//#     this.contact=contact;
+//#         if (Config.swapSendAndSuspend) {
+//#             cmdSend = new Command(locale.SR.get(locale.SR.MS_SEND), Command.BACK, 1);
+//#             cmdCancel = new Command(locale.SR.get(locale.SR.MS_BACK), Command.SCREEN, 2);
+//#         } else {
+//#             cmdSend = new Command(locale.SR.get(locale.SR.MS_SEND), Command.SCREEN, 1);
+//#             cmdCancel = new Command(locale.SR.get(locale.SR.MS_BACK), Command.BACK, 2);
+//#         }
 //# 
-//#     StaticData.getInstance().roster.activeContact=contact;
-//#     contact.setIncoming(0);
+//#         cmdInsNick = new Command(locale.SR.get(locale.SR.MS_NICKNAMES), Command.SCREEN, 6);
+//#         cmdInsMe = new Command(locale.SR.get(locale.SR.MS_SLASHME), Command.SCREEN, 5);
 //# 
-//#     if (Config.swapSendAndSuspend) {
-//#         cmdSend = new Command(locale.SR.get(locale.SR.MS_SEND), Command.BACK, 1);
-//#         cmdCancel = new Command(locale.SR.get(locale.SR.MS_BACK), Command.SCREEN, 2);
-//#     } else {
-//#         cmdSend = new Command(locale.SR.get(locale.SR.MS_SEND), Command.SCREEN, 1);
-//#         cmdCancel = new Command(locale.SR.get(locale.SR.MS_BACK), Command.BACK, 2);
-//#     }
+//#         form = new Form(contact.getJid());
+//#         width = form.getWidth();
 //# 
-//#     cmdInsNick=new Command(locale.SR.get(locale.SR.MS_NICKNAMES),Command.SCREEN,6);
-//#     cmdInsMe=new Command(locale.SR.get(locale.SR.MS_SLASHME), Command.SCREEN, 5);
+//#         msgTF = new TextField(null, null, 1024, 0);
+//#         scroller = new ClassicChat(null, width, Config.getInstance().classicChatHeight, contact);
 //# 
-//#     form = new Form(contact.getJid());
-//#     int width = form.getWidth();
-//#     int height = form.getHeight();
+//#         form.append(scroller);
+//#         form.append(msgTF);
+//#         form.addCommand(cmdCancel);
+//#         form.addCommand(cmdSend);
+//#         form.addCommand(cmdInsNick);
+//#         form.addCommand(cmdInsMe);
+//#         form.setCommandListener(this);
 //# 
-//#     msgTF = new TextField(null, null, 1024, 0);
-//#     scroller = new ClassicChat(null, width, Config.getInstance().classicChatHeight , contact);
+//#         contact.scroller = scroller;
 //# 
-//#     Config.getInstance().width_classic=width;
-//# 
-//#     form.append(scroller);
-//#     form.append(msgTF);
-//#     form.addCommand(cmdCancel);
-//#     form.addCommand(cmdSend);
-//#     form.addCommand(cmdInsNick);
-//#     form.addCommand(cmdInsMe);
-//#     form.setCommandListener(this);
-//# 
-//#     contact.scroller=scroller;
-//# 
-//#     int size = contact.getChatInfo().msgs.size();
-//#       for (int i = 0; i<size; i++) {
-//#          String msg = contact.getChatInfo().msgs.elementAt(i).toString();
-//#             if (((Msg)contact.getChatInfo().msgs.elementAt(i)).unread==true){
-//#               ((Msg)contact.getChatInfo().msgs.elementAt(i)).unread=false;
+//#         int size = contact.getChatInfo().msgs.size();
+//#         for (int i = 0; i < size; i++) {
+//#             String msg = contact.getChatInfo().msgs.elementAt(i).toString();
+//#             if (((Msg) contact.getChatInfo().msgs.elementAt(i)).unread == true) {
+//#                 ((Msg) contact.getChatInfo().msgs.elementAt(i)).unread = false;
 //#             }
-//#          StringUtils.addClassicChatMsg(msg,width,scroller);
-//#       }
-//#     contact.getChatInfo().reEnumCounts();
+//#             StringUtils.addClassicChatMsg(msg, width, scroller);
+//#         }
+//#         contact.getChatInfo().reEnumCounts();
 //# 
-//#     BombusQD.setCurrentView(form);
-//#   }
+//#         BombusQD.setCurrentView(form);
+//#     }
 //# 
 //#     public void commandAction(Command c, Displayable s) {
 //#         if (c == cmdSend) {
@@ -115,6 +110,10 @@
 //#         } else if (c == cmdCancel) {
 //#             BombusQD.sd.roster.show();
 //#         }
+//#     }
+//#     
+//#     public static int getWidth() {
+//#         return width;
 //#     }
 //# }
 //#endif

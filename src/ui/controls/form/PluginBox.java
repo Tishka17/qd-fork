@@ -107,32 +107,46 @@ public final class PluginBox extends IconTextElement {
     public void onSelect(VirtualList view) {
         if (type != STANDART) {
             switch (type) {
+//#ifdef AUTOSTATUS
                 case AUTOSTATUS:
                     Config.module_autostatus = !Config.module_autostatus;
                     break;
+//#endif
+//#ifdef USER_KEYS
                 case USERKEYS:
                     Config.userKeys = !Config.userKeys;
                     break;
+//#endif
 //#ifdef AVATARS
                 case AVATARS:
                     Config.module_avatars = !Config.module_avatars;
                     break;
 //#endif
+//#ifdef HISTORY
                 case HISTORY:
                     Config.module_history = !Config.module_history;
                     break;
+//#endif
+//#ifdef IMPORT_EXPORT
                 case IMPORT_EXPORT:
                     Config.module_ie = !Config.module_ie;
                     break;
+//#endif
+//#ifdef AUTOTASK
                 case TASKS:
                     Config.module_tasks = !Config.module_tasks;
                     break;
-                case CLASSIC_CHAT:
-                    Config.module_classicchat = !Config.module_classicchat;
-                    break;
-                case DEBUG:
-                    Config.debug = !Config.debug;
-                    break;
+//#endif
+//#ifdef CLASSIC_CHAT
+//#                 case CLASSIC_CHAT:
+//#                     Config.module_classicchat = !Config.module_classicchat;
+//#                     break;
+//#endif
+//#ifdef DEBUG_CONSOLE
+//#                 case DEBUG:
+//#                     Config.debug = !Config.debug;
+//#                     break;
+//#endif
             }
         }
     }

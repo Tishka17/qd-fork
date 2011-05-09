@@ -137,14 +137,6 @@ public abstract class VirtualList extends CanvasEx {
 //#endif
     protected int getMainBarRGB() {return ColorTheme.getColor(ColorTheme.BAR_INK);}
 
-    public void destroy() {
-        if (null != mainbar) mainbar.destroy();
-        mainbar = null;
-        if (null != infobar) infobar.destroy();
-        infobar = null;
-    }
-
-
     public void eventOk(){
      try {
       ((VirtualElement)getFocusedObject()).onSelect(this);

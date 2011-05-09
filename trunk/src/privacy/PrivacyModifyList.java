@@ -185,6 +185,8 @@ public class PrivacyModifyList extends VirtualList
             new PrivacyForm(pitem, null).show();
         }
     }
+    
+    public void destroy() {}
 
     public int blockArrived(JabberDataBlock data){
         if (data.getTypeAttribute().equals("result")){

@@ -38,13 +38,8 @@ import conference.ConferenceForm;
 //#endif
 import images.RosterIcons;
 import images.MenuIcons;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
 import menu.MenuListener;
 import menu.Command;
-//#endif
 import locale.SR;
 import colors.ColorTheme;
 import com.alsutton.jabber.JabberBlockListener;
@@ -78,15 +73,7 @@ import xmpp.XmppError;
  * @author Evg_S,aqent,tishka17
  */
 
-public class ServiceDiscovery
-        extends VirtualList
-        implements
-//#ifndef MENU_LISTENER
-//#         CommandListener,
-//#else
-        MenuListener,
-//#endif
-        JabberBlockListener
+public class ServiceDiscovery extends VirtualList implements MenuListener, JabberBlockListener
 {
     private static final String FAV_SERVERS_DB = "favourite-servers"; 
     
@@ -119,8 +106,6 @@ public class ServiceDiscovery
 
     private JabberStream stream;
 
-    private ServiceDiscovery serviceDisco;
-
     public ServiceDiscovery(String service, String node, boolean search) {
         super();
 
@@ -138,20 +123,12 @@ public class ServiceDiscovery
         stream.cancelBlockListenerByClass(this.getClass());
         stream.addBlockListener(this);
 
-//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
-//#else
-//#         addCommand(cmdBack);
-//#endif
+
         addCommand(cmdSrv);
         addCommand(cmdRfsh);
         addCommand(cmdFeatures);
         addCommand(cmdShowStatistics);
-
-        //addCommand(cmdAdd);
-//#ifndef GRAPHICS_MENU
-//#      addCommand(cmdCancel);
-//#endif
 
         items=new Vector(0);
         features=new Vector(0);
@@ -167,70 +144,61 @@ public class ServiceDiscovery
             requestQuery(NS_INFO, "disco");
         } else {
             this.service=null;
+            
+            String myServer = BombusQD.sd.account.getServer();
 
-            Object add;
-
-            add = new DiscoCommand(MenuIcons.ICON_VCARD , SR.get(SR.MS_VCARD), true, 5);  items.addElement(add);//0
-            add = new DiscoCommand(MenuIcons.ICON_CONFERENCE , SR.get(SR.MS_CONFERENCE) , true, 5);  items.addElement(add);//1
-            add = new DiscoCommand(MenuIcons.ICON_DISCO_SERVICE , SR.get(SR.MS_IM_NETWORKS) , true, 5);  items.addElement(add);//2
-            add = new DiscoCommand(MenuIcons.ICON_ADD_CONTACT , SR.get(SR.MS_ADD_CONTACT) , true, 5);  items.addElement(add);//3
-            add = new DiscoCommand(MenuIcons.ICON_USER_SEARCH , SR.get(SR.MS_USERS_SEARCH) , true, 5);  items.addElement(add);//4
-//#ifdef PRIVACY
-            add = new DiscoCommand(MenuIcons.ICON_PRIVACY , SR.get(SR.MS_PRIVACY_LISTS), true, 5);  items.addElement(add);
-//#endif
-//#ifdef FILE_IO
-//#ifdef FILE_TRANSFER
-            if (midlet.BombusQD.cf.fileTransfer) {
-                  if(io.file.transfer.TransferDispatcher.getInstance().getTaskList().size()>0) {
-                      add = new DiscoCommand(MenuIcons.ICON_FT , SR.get(SR.MS_FILE_TRANSFERS), true, 5);
-                      items.addElement(add);
-                  }
-            }
-//#endif
-//#endif
-            if (midlet.BombusQD.sd.account.isGmail()) {
-                add = new DiscoCommand(MenuIcons.ICON_GMAIL , SR.get(SR.MS_CHECK_GOOGLE_MAIL), true, 5);  items.addElement(add);
-            }
-            add = new DiscoCommand(MenuIcons.ICON_RECONNECT , SR.get(SR.MS_BREAK_CONECTION) , true, 5);  items.addElement(add);
-
-
-            String myServer=midlet.BombusQD.sd.account.getServer();
-            int insertPos = 3;
+            items.addElement(new DiscoCommand(MenuIcons.ICON_VCARD, SR.get(SR.MS_VCARD), 4));
+            items.addElement(new DiscoCommand(MenuIcons.ICON_CONFERENCE, SR.get(SR.MS_CONFERENCE), 4));
+            items.addElement(new DiscoCommand(MenuIcons.ICON_DISCO_SERVICE, SR.get(SR.MS_IM_NETWORKS), 4));
+            
+            items.addElement(new DiscoCommand(0x00, SR.get(SR.MS_MY_SERVERS)));
+            items.addElement(new DiscoCommand(MenuIcons.ICON_ADD_SERVER, SR.get(SR.MS_ADD_SERVER), 16));
+            items.addElement(new DiscoCommand(MenuIcons.ICON_REMOVE_ICON, SR.get(SR.MS_CLEAR), 16));
             try {
                 DataInputStream is = NvStorage.ReadFileRecord(FAV_SERVERS_DB, 0);
+                if (is == null) {
+                    throw new IOException();
+                }
+                
                 try {
                     while (true) {
                         String server = is.readUTF();
                         if (myServer.equals(server)) {
                             continue;
                         }
-                        items.insertElementAt(new DiscoContact(null, server, 0, 16), insertPos);
+                        items.addElement(new DiscoContact(null, server, 0, 16));
                         favServers.addElement(server);
-                        insertPos++;
                     }
                 } catch (EOFException e) {
                     is.close();
                     is = null;
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            } catch (IOException e) {}
+            items.addElement(new DiscoContact(null, myServer, 0, 16));
 
-            if(insertPos > 2) {//3 for hide(!)
-               add = new DiscoContact(null, myServer, 0, 16);  items.insertElementAt(add,insertPos);
-               add = new DiscoCommand(0x00, SR.get(SR.MS_MY_SERVERS)); items.insertElementAt(add,3);
-               add = new DiscoCommand(MenuIcons.ICON_ADD_SERVER, SR.get(SR.MS_ADD_SERVER), true, 16); items.insertElementAt(add,4);
-               add = new DiscoCommand(MenuIcons.ICON_REMOVE_ICON, SR.get(SR.MS_CLEAR), true, 16); items.insertElementAt(add,5);
+            items.addElement(new DiscoCommand(MenuIcons.ICON_ADD_CONTACT, SR.get(SR.MS_ADD_CONTACT), 4));
+            items.addElement(new DiscoCommand(MenuIcons.ICON_USER_SEARCH, SR.get(SR.MS_USERS_SEARCH), 4));
+//#ifdef PRIVACY
+            items.addElement(new DiscoCommand(MenuIcons.ICON_PRIVACY, SR.get(SR.MS_PRIVACY_LISTS), 4));
+//#endif
+//#if FILE_IO && FILE_TRANSFER
+            if (midlet.BombusQD.cf.fileTransfer) {
+                  if(io.file.transfer.TransferDispatcher.getInstance().getTaskList().size()>0) {
+                      items.addElement(new DiscoCommand(MenuIcons.ICON_FT, SR.get(SR.MS_FILE_TRANSFERS), 4));
+                  }
             }
+//#endif
+            if (midlet.BombusQD.sd.account.isGmail()) {
+                items.addElement(new DiscoCommand(MenuIcons.ICON_GMAIL, SR.get(SR.MS_CHECK_GOOGLE_MAIL), 5));
+            }
+            items.addElement(new DiscoCommand(MenuIcons.ICON_RECONNECT, SR.get(SR.MS_BREAK_CONECTION), 5));
 
-            //sort(items);
             discoIcon=0;
             mainbarUpdate();
             moveCursorHome();
             redraw();
         }
-        
-        serviceDisco = this;
+
         isServiceDiscoWindow = true;
     }
 
@@ -261,11 +229,7 @@ public class ServiceDiscovery
 	removeCommand(cmdOk);
 
 	if (size>0) {
-//#ifdef MENU_LISTENER
 	    menuCommands.insertElementAt(cmdOk, 0);
-//#else
-//#             addCommand(cmdOk);
-//#endif
 	    count=" ("+size+") ";
 	}
         getMainBarItem().setElementAt(count,1);
@@ -299,6 +263,8 @@ public class ServiceDiscovery
         //System.out.println(req.toString());
         stream.send(req);
     }
+    
+    public void destroy() {}
 
     public int blockArrived(JabberDataBlock data) {
         if (!(data instanceof Iq)) return JabberBlockListener.BLOCK_REJECTED;
@@ -449,25 +415,105 @@ public class ServiceDiscovery
 
     public void eventOk(){
         super.eventOk();
-        Object o= getFocusedObject();
-        if (o!=null) {
+        Object o = getFocusedObject();
+        if (o != null) {
           if (o instanceof DiscoContact) {
-              if (((DiscoContact)o).imNetwork > 0) return;
+              if (((DiscoContact)o).imNetwork > 0) {
+                  return;
+              }
           }
           if (o instanceof DiscoCommand) {
-              return;
-          }
-          if (o instanceof IconTextElement) {
-            String element = ((IconTextElement)o).getTipString();
-            if(null == element) element=service;
-            if (o instanceof Node) {
-            //if(null == element) {
-                browse( element, ((Node) o).getNode() );
-               return;
+                switch (((IconTextElement) o).getImageIndex()) {
+                    case MenuIcons.ICON_VCARD:
+                        Contact self = midlet.BombusQD.sd.roster.selfContact();
+                        if (self.vcard != null) {
+                            new VCardEdit(self.vcard).show();
+                            return;
+                        }
+                        VCard.request(self.bareJid, self.getJid());
+                        break;
+                    case MenuIcons.ICON_CONFERENCE: {
+                        new Bookmarks(null).show();
+                        break;
+                    }
+                    case MenuIcons.ICON_ADD_CONTACT: {
+                        new ContactEdit(null).show();
+                        break;
+                    }
+                    case MenuIcons.ICON_USER_SEARCH: {
+                        new DiscoSearchForm(null, -1).show();
+                        break;
+                    }
+//#ifdef PRIVACY
+                    case MenuIcons.ICON_PRIVACY: {
+                        new privacy.PrivacySelect().show();
+                        break;
+                    }
+//#endif
+//#if FILE_IO && FILE_TRANSFER
+                    case MenuIcons.ICON_FT:
+                        new io.file.transfer.TransferManager().show();
+                        break;
+//#endif
+                    case MenuIcons.ICON_GMAIL:
+                        midlet.BombusQD.sd.roster.theStream.send(xmpp.extensions.IqGmail.query());
+                        break;
+                    case MenuIcons.ICON_RECONNECT:
+                        midlet.BombusQD.sd.roster.show();
+                        midlet.BombusQD.sd.roster.errorLog(SR.get(SR.MS_SIMULATED_BREAK));
+                        midlet.BombusQD.sd.roster.doReconnect();
+                        return;
+                    case MenuIcons.ICON_DISCO_SERVICE:
+                        showIMmenu();
+                        break;
+                    case MenuIcons.ICON_ADD_SERVER:
+                        new ServerBox(service, this).show();
+                        break;
+                    case MenuIcons.ICON_REMOVE_ICON:
+                        try {
+                            RecordStore.deleteRecordStore(FAV_SERVERS_DB);
+                        } catch (RecordStoreException e) {
+                        }
+                        midlet.BombusQD.sd.roster.show();
+                        break;
+//#ifndef WMUC
+                    case RosterIcons.ICON_GCJOIN_INDEX: {
+                        int rp = service.indexOf('@');
+                        String room = null;
+                        if (rp > 0) {
+                            room = service.substring(0, rp);
+                        }
+                        new ConferenceForm(room, service, null, false).show();
+                        break;
+                    }
+//#endif
+                }
+                switch (((IconTextElement) o).getImageIndex()) {
+                    case RosterIcons.ICON_SEARCH_INDEX:
+                        requestQuery(NS_SRCH, "discosrch");
+                        break;
+                    case RosterIcons.ICON_REGISTER_INDEX:
+                        requestQuery(NS_REGS, "discoreg");
+                        break;
+                    case RosterIcons.ICON_ROOMLIST:
+                        requestQuery(NS_ITEMS, "disco2");
+                        break;
+                    case RosterIcons.ICON_AD_HOC:
+                        requestCommand(NS_COMMANDS, "discocmd");
+                        break;
+                }
+            } else if (o instanceof IconTextElement) {
+                String element = ((IconTextElement) o).getTipString();
+                if (null == element) {
+                    element = service;
+                }
+                if (o instanceof Node) {
+                    browse(element, ((Node) o).getNode());
+                    return;
+                }
+                browse(element, null);
+                element = null;
             }
-            browse( element, null );
-            element = null;
-          }
         }
     }
 
@@ -513,7 +559,7 @@ public class ServiceDiscovery
 	if (c==cmdOk) eventOk();
         if (c==cmdRfsh) { if (service!=null) requestQuery(NS_INFO, "disco"); }
         if (c == cmdSrv) {
-            showForm(new ServerBox(service, serviceDisco));
+            new ServerBox(service, this).show();
         }
         if (c == cmdFeatures) {
             new DiscoFeatures(service, features).show();
@@ -565,7 +611,6 @@ public class ServiceDiscovery
            exitDiscovery(false);
     }
 
-
     private static String bareJid = "";
     private String getTransport(){
         try {
@@ -583,15 +628,118 @@ public class ServiceDiscovery
         bareJid = jid.substring(0,resourcePos).toLowerCase(); //Strconv.toLowerCase( s.substring(0,resourcePos) );???
         return RosterIcons.getInstance().getTransportIndex(getTransport());
     }
+    
+    public void addServer(String server) {
+        if (favServers.indexOf(server) == -1) {
+            favServers.addElement(server);
+            
+            DataOutputStream ostream = NvStorage.CreateDataOutputStream();
+            int size = favServers.size();
+            for (int i = 0; i < size; ++i) {
+                try {
+                    ostream.writeUTF((String)favServers.elementAt(i));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            NvStorage.writeFileRecord(ostream, FAV_SERVERS_DB, 0, true);
+        }
+    }
 
-    class DiscoContact extends IconTextElement {
+    public void showIMmenu() {
+        Object add = items.elementAt(3);
+        if(add instanceof DiscoContact) {
+            if( ((DiscoContact)add).getTipString().startsWith("ICQ") ) { //hardcode
+                byte del = 0;
+                while(del!=5) {
+                   items.removeElementAt(3);
+                   del++;
+                }
+                return;
+            }
+        }
+        add = new DiscoContact(null, "ICQ.", 0, 25, 1);        items.insertElementAt(add, 3);
+        add = new DiscoContact(null, "MRIM.", 0, 25, 2);       items.insertElementAt(add, 4);
+        add = new DiscoContact(null, "VKontakte.", 0, 25, 3);  items.insertElementAt(add, 5);
+        add = new DiscoContact(null, "AIM.", 0, 25, 4);        items.insertElementAt(add, 6);
+        add = new DiscoContact(null, "J2J.", 0, 25, 5);        items.insertElementAt(add, 7);
+    }
+
+    public int showGraphicsMenu() {
+        menuItem = new GMenu(this, menuCommands);
+        GMenuConfig.getInstance().itemGrMenu = GMenu.SERVICE_DISCOVERY;
+        redraw();
+        return GMenu.SERVICE_DISCOVERY;
+    }
+
+    public String touchLeftCommand() {
+        return (Config.getInstance().oldSE) ? SR.get(SR.MS_BACK) : SR.get(SR.MS_MENU);
+    }
+
+    public String touchRightCommand() {
+        return (Config.getInstance().oldSE) ? SR.get(SR.MS_MENU) : SR.get(SR.MS_BACK);
+    }
+
+    private class State {
+        public String service;
+        public String node;
+        public Vector items;
+        public Vector features;
+        public int cursor;
+    }
+    
+    private class DiscoCommand extends IconTextElement {
+        private String name;
+        private int icon;
+        private int offs = 4;
+        private boolean selectable = true;
+
+        private DiscoCommand(int icon, String name, int offs) {
+            super(MenuIcons.getInstance());
+            this.icon=icon;
+            this.name=name;
+            this.offs=offs;
+        }
+
+        private DiscoCommand(int icon, String name) {
+            super(RosterIcons.getInstance());
+            this.icon=icon;
+            this.name=name;
+        }
+
+        public int getOffset() {
+            return offs;
+        }
+
+        public int getColor() {
+            return ColorTheme.getColor(ColorTheme.DISCO_CMD);
+        }
+
+        public int getImageIndex() {
+            return icon;
+        }
+
+        public String toString() {
+            return name;
+        }
+
+        public boolean isSelectable() {
+            return selectable;
+        }
+        
+        public void setSelectable(boolean selectable) {
+            this.selectable = selectable;
+        }
+    }
+    
+    private class DiscoContact extends IconTextElement {
       private String nickname;
       private String discoJid;
       private int offs = 4;
       private int status;
       private int imNetwork = 0;
 
-      public DiscoContact(String nick, String sJid, int status, int offs, int imNetwork) {
+      private DiscoContact(String nick, String sJid, int status, int offs, int imNetwork) {
         super(RosterIcons.getInstance());
         this.nickname = (nick==null) ? null : nick.trim();
         this.discoJid = sJid.substring( 0, sJid.indexOf(".") );
@@ -641,207 +789,5 @@ public class ServiceDiscovery
       public String toString() { return (nickname==null)?discoJid:nickname; }
       public String getTipString() { return discoJid; }
     }
-
-
-    private class DiscoCommand extends IconTextElement {
-        String name;
-        int index;
-        int icon;
-        boolean userCommands;
-        boolean lock;
-        int offs = 4;
-
-        public DiscoCommand(int icon, String name, boolean value, int offs) {
-            super(MenuIcons.getInstance());
-            this.icon=icon;
-            this.name=name;
-            this.userCommands=value;
-            this.offs=offs;
-        }
-
-        public DiscoCommand(int icon, String name) {
-            super(RosterIcons.getInstance());
-            this.lock = name.startsWith("My ");
-            this.icon=icon;
-            this.name=name;
-        }
-
-        public int getOffset() { return offs; }
-        public int getColor(){ return ColorTheme.getColor(ColorTheme.DISCO_CMD); }
-        public int getImageIndex() { return icon; }
-        public String toString(){ return name; }
-        public void onSelect(VirtualList view) {
-            if(lock) return;
-            if(userCommands) {
-                switch (icon) {
-                    case MenuIcons.ICON_VCARD:
-                        Contact self=midlet.BombusQD.sd.roster.selfContact();
-                        if (self.vcard!=null) {
-                            showForm(new VCardEdit(self.vcard));
-                          return;
-                        }
-                        VCard.request(self.bareJid, self.getJid());
-                        break;
-                    case MenuIcons.ICON_CONFERENCE: {
-                        showForm(new Bookmarks(null));
-                        break;
-                    }
-                    case MenuIcons.ICON_ADD_CONTACT: {
-                        showForm(new ContactEdit(null));
-                        break;
-                    }
-                    case MenuIcons.ICON_USER_SEARCH: {
-                        showForm(new DiscoSearchForm(null , -1));
-                        break;
-                    }
-//#ifdef PRIVACY
-                    case MenuIcons.ICON_PRIVACY: {
-                        showForm(new privacy.PrivacySelect());
-                        break;
-                    }
-//#endif
-//#ifdef FILE_IO
-//#ifdef FILE_TRANSFER
-                    case MenuIcons.ICON_FT:
-                        showForm(new io.file.transfer.TransferManager());
-                        break;
-//#endif
-//#endif
-                    case MenuIcons.ICON_GMAIL:
-                        midlet.BombusQD.sd.roster.theStream.send(xmpp.extensions.IqGmail.query());
-                        break;
-                    case MenuIcons.ICON_RECONNECT:
-                        midlet.BombusQD.sd.roster.show();
-                        midlet.BombusQD.sd.roster.errorLog(SR.get(SR.MS_SIMULATED_BREAK));
-                        midlet.BombusQD.sd.roster.doReconnect();
-                        return;
-                    case MenuIcons.ICON_DISCO_SERVICE:
-                        showIMmenu();
-                        break;
-                    case MenuIcons.ICON_ADD_SERVER: //add server
-                        showForm(new ServerBox(service, serviceDisco));
-                        break;
-                    case MenuIcons.ICON_REMOVE_ICON: //remove server
-                        try {
-                            RecordStore.deleteRecordStore(FAV_SERVERS_DB);
-                        } catch (RecordStoreException e) {}
-                        midlet.BombusQD.sd.roster.show();
-                        break;
-                }
-                return;
-            }
-            switch (icon) {
-//#ifndef WMUC
-                case RosterIcons.ICON_GCJOIN_INDEX: {
-                    int rp=service.indexOf('@');
-                    String room=null;
-                    if (rp>0) {
-                        room=service.substring(0,rp);
-                    }
-                    new ConferenceForm(room, service, null, false).show();
-                    break;
-                }
-//#endif
-                case RosterIcons.ICON_SEARCH_INDEX:
-                    requestQuery(NS_SRCH, "discosrch");
-                    break;
-                case RosterIcons.ICON_REGISTER_INDEX:
-                    requestQuery(NS_REGS, "discoreg");
-                    break;
-                case RosterIcons.ICON_ROOMLIST:
-                    requestQuery(NS_ITEMS, "disco2");
-                    break;
-                case RosterIcons.ICON_AD_HOC:
-                    requestCommand(NS_COMMANDS, "discocmd");
-                    break;
-                default:
-            }
-        }
-    }
-
-    private void showForm(VirtualList list) {
-        list.setParentView(getParentView());
-        list.show();
-    }
-    
-    public void addServer(String server) {
-        if (favServers.indexOf(server) == -1) {
-            favServers.addElement(server);
-            
-            DataOutputStream ostream = NvStorage.CreateDataOutputStream();
-            int size = favServers.size();
-            for (int i = 0; i < size; ++i) {
-                try {
-                    ostream.writeUTF((String)favServers.elementAt(i));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            NvStorage.writeFileRecord(ostream, FAV_SERVERS_DB, 0, true);
-        }
-    }
-
-    public void showIMmenu() {
-        Object add = items.elementAt(3);
-        if(add instanceof DiscoContact) {
-            if( ((DiscoContact)add).getTipString().startsWith("ICQ") ) { //hardcode
-                byte del = 0;
-                while(del!=5) {
-                   items.removeElementAt(3);
-                   del++;
-                }
-                return;
-            }
-        }
-        add = new DiscoContact(null, "ICQ.", 0, 25, 1);        items.insertElementAt(add, 3);
-        add = new DiscoContact(null, "MRIM.", 0, 25, 2);       items.insertElementAt(add, 4);
-        add = new DiscoContact(null, "VKontakte.", 0, 25, 3);  items.insertElementAt(add, 5);
-        add = new DiscoContact(null, "AIM.", 0, 25, 4);        items.insertElementAt(add, 6);
-        add = new DiscoContact(null, "J2J.", 0, 25, 5);        items.insertElementAt(add, 7);
-    }
-
-
-//#ifdef MENU_LISTENER
-/*
-//#ifdef GRAPHICS_MENU
-    public void touchRightPressed(){ if (Config.getInstance().oldSE) showGraphicsMenu(); else destroyView(); }
-    public void touchLeftPressed(){ if (Config.getInstance().oldSE) destroyView(); else showGraphicsMenu(); }
-//#else
-//#     public void touchRightPressed(){ if (cf.oldSE) showMenu(); else destroyView(); }
-//#     public void touchLeftPressed(){ if (cf.oldSE) keyGreen(); else showMenu(); }
-//#endif
- */
-
-//#endif
-
-
-//#ifdef MENU_LISTENER
-
-
-//#ifdef GRAPHICS_MENU
-    public int showGraphicsMenu() {
-        menuItem = new GMenu(this, menuCommands);
-        GMenuConfig.getInstance().itemGrMenu = GMenu.SERVICE_DISCOVERY;
-        redraw();
-        return GMenu.SERVICE_DISCOVERY;
-    }
-//#else
-//#     public void showMenu() {
-//#         new MyMenu(display, parentView, this, SR.get(SR.MS_DISCO), null, menuCommands);
-//#     }
-//#endif
-
-    public String touchLeftCommand(){ return (Config.getInstance().oldSE)?SR.get(SR.MS_BACK):SR.get(SR.MS_MENU); }
-    public String touchRightCommand(){ return (Config.getInstance().oldSE)?SR.get(SR.MS_MENU):SR.get(SR.MS_BACK); }
-
-//#endif
-
-}
-class State{
-    public String service;
-    public String node;
-    public Vector items;
-    public Vector features;
-    public int cursor;
 }
 //#endif

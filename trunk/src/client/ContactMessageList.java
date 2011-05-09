@@ -70,7 +70,6 @@ public final class ContactMessageList extends MessageList implements InputTextBo
     private Vector msgs;
 
     public void destroy() {
-        super.destroy();
         int size = messages.size();
         //System.out.println("    :::ContactMessageList destroy->"+contact+"->chat with "+size+" messages");
         for(int i = 0; i<size; ++i){

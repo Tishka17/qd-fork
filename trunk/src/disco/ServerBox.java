@@ -53,11 +53,13 @@ public class ServerBox  extends DefForm {
     }
 
     public void cmdOk() {
+        destroyView();
+        
         String server = serverName.getValue();
         if (server.length() > 0) {
             sd.addServer(server);
+            sd.browse(server, null);
         }
-        destroyView();
     }
 }
 //#endif

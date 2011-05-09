@@ -207,6 +207,8 @@ public final class AffiliationList extends VirtualList implements
         }
         return JabberBlockListener.BLOCK_REJECTED;
     }
+    
+    public void destroy() {}
 
     public void listRq(boolean set, JabberDataBlock child, String id) {
         JabberDataBlock request=new Iq(room, (set)? Iq.TYPE_SET: Iq.TYPE_GET, id);

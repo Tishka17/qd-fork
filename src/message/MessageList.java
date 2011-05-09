@@ -78,7 +78,6 @@ public abstract class MessageList extends VirtualList
     }
 
     public void destroy() {
-        super.destroy();
         messages.removeAllElements();
     }
 

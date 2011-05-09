@@ -183,6 +183,8 @@ public class PrivacySelect
         }
     }
     
+    public void destroy() {}
+    
     public int blockArrived(JabberDataBlock data){
         try {
             if (data.getTypeAttribute().equals("result"))

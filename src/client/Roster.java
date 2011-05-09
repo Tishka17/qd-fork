@@ -2160,7 +2160,7 @@ public final class Roster
 
 //#ifdef AVATARS
                 if (ti != Presence.PRESENCE_OFFLINE) {
-                    if (midlet.BombusQD.cf.auto_queryPhoto) {
+                    if (Config.module_avatars && Config.auto_queryPhoto) {
                         Contact c = getContact(from, true);
                         if (c.hasPhoto == false && c.img_vcard == null) {
                             JabberDataBlock req = new Iq(c.bareJid, Iq.TYPE_GET, "avcard_get" + c.getJid());
@@ -2285,7 +2285,7 @@ public final class Roster
                         chatPres=null;
 
 //#if FILE_IO && AVATARS
-                        if(midlet.BombusQD.cf.autoload_FSPhoto) {
+                        if(Config.module_avatars && Config.autoload_FSPhoto) {
                             loadAvatar(from, true);
                         }
 //#endif
@@ -2301,7 +2301,7 @@ public final class Roster
                 } else {
 //#endif
 //#if FILE_IO && AVATARS
-                    if(midlet.BombusQD.cf.autoload_FSPhoto) {
+                    if(Config.module_avatars && Config.autoload_FSPhoto) {
                         loadAvatar(from, false);
                     }
 //#endif

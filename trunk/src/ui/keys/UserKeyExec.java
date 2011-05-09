@@ -39,7 +39,9 @@ import privacy.PrivacySelect;
 //#ifdef SERVICE_DISCOVERY
 import disco.ServiceDiscovery;
 //#endif
+//#if FILE_IO && FILE_TRANSFER
 import io.file.transfer.TransferManager;
+//#endif
 //#ifdef STATS
 import stats.StatsWindow;
 //#endif

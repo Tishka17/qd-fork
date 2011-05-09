@@ -93,8 +93,8 @@ public abstract class VirtualList extends CanvasEx {
 //#endif
 
 //#ifdef GRADIENT
-   Gradient fon;
-   Gradient bg = new Gradient();
+   private static Gradient cursorGradient = new Gradient();
+   private static Gradient listGradient = new Gradient();
 //#endif
 
     private static boolean reverse=false;
@@ -479,9 +479,9 @@ public abstract class VirtualList extends CanvasEx {
         }
 //#ifdef GRADIENT
         else if (Config.backImgType == 2) {
-            bg.update(0, 0, width, height, ColorTheme.getColor(ColorTheme.GRADIENT_BGND_LEFT),
+            listGradient.update(0, 0, width, height, ColorTheme.getColor(ColorTheme.GRADIENT_BGND_LEFT),
                     ColorTheme.getColor(ColorTheme.GRADIENT_BGND_RIGHT), Gradient.MIXED_DOWN);
-            bg.paint(g);
+            listGradient.paint(g);
         }
 //#endif
         else if (Config.backImgType == 3 || Config.backImgType == 4) {
@@ -775,10 +775,9 @@ public abstract class VirtualList extends CanvasEx {
      {
 //#ifdef GRADIENT
         if(midlet.BombusQD.cf.gradient_cursor){
-             fon=new Gradient();
-             fon.update(x0, y0, width+x0, height+y0, ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_1),
+             cursorGradient.update(x0, y0, width+x0, height+y0, ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_1),
                   ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_2), Gradient.HORIZONTAL);
-             fon.paintHRoundRect(g, 4);
+             cursorGradient.paintHRoundRect(g, 4);
              g.setColor(ColorTheme.getColor(ColorTheme.CURSOR_OUTLINE));
              g.drawRoundRect(x0, y0, width-1, height-1, 8, 8);
              //fon.paint(g);

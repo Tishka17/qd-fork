@@ -618,7 +618,7 @@ public class SR {
      public final static short MS_MAX_AVATAR_WIDTH = 586; //Max Avatar Width
      public final static short MS_MAX_AVATAR_HEIGHT = 587; //Max Avatar Height
      public final static short MS_CLIENT_ICONS_LEFT = 588; //ClientIcons Left
-     public final static short MS_IM_NETWORKS = 589;
+     public final static short MS_hotkeysStr = 589; //Hotkeys
      public final static short MS_ADD_SERVER = 590;
      public final static short MS_MY_SERVERS = 591;
      public final static short MS_MENU_FONT = 592;
@@ -671,8 +671,6 @@ public class SR {
      public final static short MS_APPEARANCE  = 639; //Appearance
      public final static short MS_CATEGORY  = 640; //Category
      public final static short MS_TYPE  = 641; //Type
-     public final static short MS_hotkeysStr  = 642; //Hotkeys
-     public final static short MS_astatusStr  = 643; //Autostatus
 
      private static String[] localeItemsDefault = new String[0];
     private static String[] localeItems = {
@@ -1265,7 +1263,7 @@ public class SR {
         "Max Avatar Width",
         "Max Avatar Height",
         "ClientIcons Left",
-        "IM Networks",
+        "Hotkeys",
         "Add server",
         "My servers",
         "Menu font",
@@ -1317,9 +1315,7 @@ public class SR {
         "Network",
         "Appearance",
         "Category",
-        "Type",
-        "Hotkeys",
-        "Autostatus"        
+        "Type"
    };
 
     private SR() { }

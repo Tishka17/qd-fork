@@ -122,13 +122,6 @@ public class ServiceDiscovery extends VirtualList implements MenuListener, Jabbe
         stream.cancelBlockListenerByClass(this.getClass());
         stream.addBlockListener(this);
 
-        menuCommands.removeAllElements();
-
-        addCommand(cmdSrv);
-        addCommand(cmdRfsh);
-        addCommand(cmdFeatures);
-        addCommand(cmdShowStatistics);
-
         items=new Vector(0);
         features=new Vector(0);
         favServers = new Vector(0);
@@ -148,7 +141,6 @@ public class ServiceDiscovery extends VirtualList implements MenuListener, Jabbe
 
             items.addElement(new DiscoCommand(MenuIcons.ICON_VCARD, SR.get(SR.MS_VCARD), 4));
             items.addElement(new DiscoCommand(MenuIcons.ICON_CONFERENCE, SR.get(SR.MS_CONFERENCE), 4));
-            items.addElement(new DiscoCommand(MenuIcons.ICON_DISCO_SERVICE, SR.get(SR.MS_IM_NETWORKS), 4));
             
             items.addElement(new DiscoCommand(0x00, SR.get(SR.MS_MY_SERVERS)));
             items.addElement(new DiscoCommand(MenuIcons.ICON_ADD_SERVER, SR.get(SR.MS_ADD_SERVER), 16));
@@ -225,10 +217,7 @@ public class ServiceDiscovery extends VirtualList implements MenuListener, Jabbe
 	try { size=items.size(); } catch (Exception e) {}
 	String count=null;
 
-	removeCommand(cmdOk);
-
-	if (size>0) {
-	    menuCommands.insertElementAt(cmdOk, 0);
+        if (size>0) {
 	    count=" ("+size+") ";
 	}
         getMainBarItem().setElementAt(count,1);
@@ -416,11 +405,6 @@ public class ServiceDiscovery extends VirtualList implements MenuListener, Jabbe
         super.eventOk();
         Object o = getFocusedObject();
         if (o != null) {
-          if (o instanceof DiscoContact) {
-              if (((DiscoContact)o).imNetwork > 0) {
-                  return;
-              }
-          }
           if (o instanceof DiscoCommand) {
                 switch (((IconTextElement) o).getImageIndex()) {
                     case MenuIcons.ICON_VCARD:
@@ -462,9 +446,6 @@ public class ServiceDiscovery extends VirtualList implements MenuListener, Jabbe
                         midlet.BombusQD.sd.roster.errorLog(SR.get(SR.MS_SIMULATED_BREAK));
                         midlet.BombusQD.sd.roster.doReconnect();
                         return;
-                    case MenuIcons.ICON_DISCO_SERVICE:
-                        showIMmenu();
-                        break;
                     case MenuIcons.ICON_ADD_SERVER:
                         new ServerBox(service, this).show();
                         break;
@@ -551,24 +532,41 @@ public class ServiceDiscovery extends VirtualList implements MenuListener, Jabbe
             this.node=node;
             requestQuery(NS_INFO,"disco");
     }
+    
+    private void commandState() {
+        menuCommands.removeAllElements();
+
+        if (getItemCount() > 0) {
+            addCommand(cmdOk);
+        }
+        addCommand(cmdRfsh);
+        if (service != null) {
+            addCommand(cmdSrv);   
+        }
+        if (!features.isEmpty()) {
+            addCommand(cmdFeatures);
+        }
+        Object o = getFocusedObject();
+        if (o instanceof DiscoContact) {
+            addCommand(cmdShowStatistics);
+        }        
+    }
 
     public void commandAction(Command c){
-	if (c==cmdOk) eventOk();
-        if (c==cmdRfsh) { if (service!=null) requestQuery(NS_INFO, "disco"); }
-        if (c == cmdSrv) {
+	if (c==cmdOk) {
+            eventOk();
+        } else if (c==cmdRfsh) { 
+            if (service!=null) {
+                requestQuery(NS_INFO, "disco");
+            } 
+        } else if (c == cmdSrv) {
             new ServerBox(service, this).show();
-        }
-        if (c == cmdFeatures) {
+        } else if (c == cmdFeatures) {
             new DiscoFeatures(service, features).show();
-        }
-        if (c==cmdShowStatistics) {
-            Object o=getFocusedObject();
-            JabberDataBlock req=new Iq(o.toString(), Iq.TYPE_GET,"getst");
-            //JabberDataBlock query =
-            req.addChildNs("query","http://jabber.org/protocol/stats");
+        } else if (c==cmdShowStatistics) {
+            JabberDataBlock req = new Iq(getFocusedObject().toString(), Iq.TYPE_GET, "getst");
+            req.addChildNs("query", "http://jabber.org/protocol/stats");
             StaticData.getInstance().roster.theStream.send(req);
-            req=null;
-            //query=null;
         }
     }
     private void exitDiscovery(boolean cancel){
@@ -643,26 +641,9 @@ public class ServiceDiscovery extends VirtualList implements MenuListener, Jabbe
         }
     }
 
-    public void showIMmenu() {
-        Object add = items.elementAt(3);
-        if(add instanceof DiscoContact) {
-            if( ((DiscoContact)add).getTipString().startsWith("ICQ") ) { //hardcode
-                byte del = 0;
-                while(del!=5) {
-                   items.removeElementAt(3);
-                   del++;
-                }
-                return;
-            }
-        }
-        add = new DiscoContact(null, "ICQ.", 0, 25, 1);        items.insertElementAt(add, 3);
-        add = new DiscoContact(null, "MRIM.", 0, 25, 2);       items.insertElementAt(add, 4);
-        add = new DiscoContact(null, "VKontakte.", 0, 25, 3);  items.insertElementAt(add, 5);
-        add = new DiscoContact(null, "AIM.", 0, 25, 4);        items.insertElementAt(add, 6);
-        add = new DiscoContact(null, "J2J.", 0, 25, 5);        items.insertElementAt(add, 7);
-    }
-
     public int showGraphicsMenu() {
+        commandState();
+        
         menuItem = new GMenu(this, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.SERVICE_DISCOVERY;
         redraw();
@@ -730,61 +711,44 @@ public class ServiceDiscovery extends VirtualList implements MenuListener, Jabbe
     }
     
     private class DiscoContact extends IconTextElement {
-      private String nickname;
-      private String discoJid;
-      private int offs = 4;
-      private int status;
-      private int imNetwork = 0;
+        private String nickname;
+        private String discoJid;
+        private int offs = 4;
+        private int status;
 
-      private DiscoContact(String nick, String sJid, int status, int offs, int imNetwork) {
-        super(RosterIcons.getInstance());
-        this.nickname = (nick==null) ? null : nick.trim();
-        this.discoJid = sJid.substring( 0, sJid.indexOf(".") );
-        this.offs = offs;
-        this.imNetwork = imNetwork;
-        this.status = getTransportStatus(sJid);
-      }
-
-      public DiscoContact(String nick, String sJid, int status, int offs) {
-        super(RosterIcons.getInstance());
-        this.nickname = (nick==null) ? null : nick.trim();
-        this.discoJid = sJid;
-        this.offs = offs;
-        if(null != sJid) this.status = getTransportStatus(sJid);
-        if(-1 == status) this.status = -1;
-      }
-
-      public void onSelect(VirtualList view) { //todo: %)
-//#ifdef POPUPS
-         if(imNetwork>0) {
-            switch(imNetwork) {
-                case 1://ICQ
-                    setWobble(0, "none", "ICQ");
-                    break;
-                case 2://MRIM
-                    setWobble(0, "none", "MRIM");
-                    break;
-                case 3://VKontakte
-                    setWobble(0, "none", "VKontakte");
-                    break;
-                case 4://AIM
-                    setWobble(0, "none", "AIM");
-                    break;
-                case 5://J2J
-                    setWobble(0, "none", "J2J");
-                    break;
+        public DiscoContact(String nick, String sJid, int status, int offs) {
+            super(RosterIcons.getInstance());
+            this.nickname = (nick == null) ? null : nick.trim();
+            this.discoJid = sJid;
+            this.offs = offs;
+            if (null != sJid) {
+                this.status = getTransportStatus(sJid);
             }
-            return;
-         }
-//#endif
-         super.onSelect(view);
-      }
+            if (-1 == status) {
+                this.status = -1;
+            }
+        }
 
-      public int getOffset() { return offs; }
-      public boolean getFontIndex() { return true; } //change font
-      public int getImageIndex() { return status; };
-      public String toString() { return (nickname==null)?discoJid:nickname; }
-      public String getTipString() { return discoJid; }
+        public int getOffset() {
+            return offs;
+        }
+
+        public boolean getFontIndex() {
+            return true;
+        } //change font
+
+        public int getImageIndex() {
+            return status;
+        }
+
+        ;
+      public String toString() {
+            return (nickname == null) ? discoJid : nickname;
+        }
+
+        public String getTipString() {
+            return discoJid;
+        }
     }
 }
 //#endif

@@ -53,7 +53,6 @@ import ui.SplashScreen;
 //#ifdef DEBUG_CONSOLE
 //# import console.debug.DebugList;
 //#endif
-import client.Contact;
 //#ifdef LIGHT_CONTROL
 import light.CustomLight;
 //#endif
@@ -115,43 +114,7 @@ public class BombusQD extends MIDlet implements Runnable {
         }
     }
 
-    public void pauseApp() {
-    }
-
-    private void rmsVersion(boolean save, Displayable parentView) {
-        String key = "key15628618";
-        if(save == false) {
-            try {
-               DataInputStream is=NvStorage.ReadFileRecord("appver", 0);
-               String ver = is.readUTF();
-               if(ver.indexOf(key) == -1 ) {
-                  //alerbox
-                  AlertBox box = new AlertBox( "WARNING", SR.get(SR.MS_WARNING_MESSAGE_INSTALL), AlertBox.BUTTONS_YESNO) {
-                      public void yes() { notifyDestroyed(); }
-                  };
-                  box.show();
-               }
-               is.close();
-               is=null;
-            } catch (Exception e) {
-               /*
-                  AlertBox alert = new AlertBox( "Info", "..." , display, parentView, true) {
-                      public void yes() { }
-                      public void no() { }
-                   };
-               */
-               rmsVersion(true, null);
-            }
-            return;
-        }
-        DataOutputStream os=NvStorage.CreateDataOutputStream();
-        try {
-            os.writeUTF(key);
-	    NvStorage.writeFileRecord(os, "appver", 0, true);
-            os.close();
-            os = null;
-        } catch (Exception e) { }
-    }
+    public void pauseApp() {}
 
     public void run() {
         SR.changeLocale();
@@ -174,8 +137,6 @@ public class BombusQD extends MIDlet implements Runnable {
             select.setParentView(sd.roster);
 	    select.show();
 	}
-
-        rmsVersion(false, sd.roster);
 
 //#ifdef DEBUG_CONSOLE
 //#         if(cf.debug){

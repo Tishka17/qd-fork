@@ -27,15 +27,7 @@
 //#ifdef SERVICE_DISCOVERY 
 package disco;
 
-import java.util.Enumeration;
 import java.util.Vector;
-import javax.microedition.lcdui.Command;
-import javax.microedition.lcdui.CommandListener;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
-import javax.microedition.lcdui.List;
-import locale.SR;
-import midlet.BombusQD;
 import ui.controls.form.DefForm;
 import ui.controls.form.SimpleString;
 
@@ -45,11 +37,11 @@ import ui.controls.form.SimpleString;
  */
 
 public class DiscoFeatures extends DefForm {
-
     public DiscoFeatures(String entity, Vector features) {
         super(entity);
 
-        for (int i = 0; i < features.size(); ++i) {
+        int size = features.size();
+        for (int i = 0; i < size; ++i) {
             SimpleString item = new SimpleString((String)features.elementAt(i));
             item.setSelectable(true);
 

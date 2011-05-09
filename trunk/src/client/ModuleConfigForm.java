@@ -720,6 +720,7 @@ public class ModuleConfigForm extends DefForm {
             }
 
             Config.fullscreen = fullscr.getValue();
+            BombusQD.sd.canvas.setFullScreenMode(Config.fullscreen);
 
             if (phoneManufacturer == Config.SONYE) {
                 config.oldSE = oldSE.getValue();

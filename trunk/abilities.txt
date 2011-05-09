@@ -1,0 +1,41 @@
+ADHOC - Поддержка Ad-Hoc команд
+ARCHIVE - Архив
+AUTOSTATUS - Автостатус
+AUTOTASK - Планировщик
+AVATARS - Отображение автаров в ростере
+BACK_IMAGE - Фоновый рисунок
+CAPTCHA - Показ капчи в клиенте
+CHANGE_TRANSPORT - Возможность смены транспорта
+CLASSIC_CHAT - Классический чат
+CLIENTS_ICONS - Иконки клиентов
+CLIPBOARD - Программный буфер обмена
+COLOR_TUNE - Настройка цветовой схемы
+DEBUG - Отладочный вывод
+DEBUG_CONSOLE - Консоль отладки
+DETRANSLIT - Детранслитерация
+FILE_IO - Работа с ФС телефона (необходима для других абилити)
+FILE_TRANSFER - Передача файлов
+GRADIENT - Градиентные заголовок и софтбар
+HISTORY - История сообщений (сохранение и просмотр)
+IMPORT_EXPORT - Импорт-экспорт (аккаунты, архив, настройки)
+JUICK.COM - Работа с Juick
+LIGHT_CONTROL - Управление подсветкой
+MEMORY_MONITOR - Монитор памяти
+NICK_COLORS - Выделение ников цветом
+PEP - Информация о настроении контакта
+PEP_ACTIVITY - Информация о действии контакта
+PEP_TUNE - Информация о музыке, играющей у контакта
+POPUPS - Всплывающие окна
+PRIVACY - Списки приватности
+RUNNING_MESSAGE - Бегущая строка в окне набора сообщения
+SASL_XGOOGLETOKEN - XGOOGLETOKEN-механизм авторизации
+SERVICE_DISCOVERY - Обзор сервисов
+SMILES - Поддержка смайлов
+STATS - Статистика
+TLS - Поддержка TLS
+TOUCH - Работа с сенсорными экранами
+TRANSLATE - Переводчик
+USE_ROTATOR - Прокрутка длинных строк
+USER_KEYS - Горячие клавиши
+XML_CONSOLE - XML-консоль
+ZLIB - zlib-сжатие траффика

@@ -73,8 +73,7 @@ import xmpp.XmppError;
  * @author Evg_S,aqent,tishka17
  */
 
-public class ServiceDiscovery extends VirtualList implements MenuListener, JabberBlockListener
-{
+public class ServiceDiscovery extends VirtualList implements MenuListener, JabberBlockListener {
     private static final String FAV_SERVERS_DB = "favourite-servers"; 
     
      public final static String NS_ITEMS="http://jabber.org/protocol/disco#items";
@@ -191,7 +190,7 @@ public class ServiceDiscovery extends VirtualList implements MenuListener, Jabbe
             if (midlet.BombusQD.sd.account.isGmail()) {
                 items.addElement(new DiscoCommand(MenuIcons.ICON_GMAIL, SR.get(SR.MS_CHECK_GOOGLE_MAIL), 5));
             }
-            items.addElement(new DiscoCommand(MenuIcons.ICON_RECONNECT, SR.get(SR.MS_BREAK_CONECTION), 5));
+            items.addElement(new DiscoCommand(0x50, SR.get(SR.MS_BREAK_CONECTION), 5));
 
             discoIcon=0;
             mainbarUpdate();
@@ -458,7 +457,7 @@ public class ServiceDiscovery extends VirtualList implements MenuListener, Jabbe
                     case MenuIcons.ICON_GMAIL:
                         midlet.BombusQD.sd.roster.theStream.send(xmpp.extensions.IqGmail.query());
                         break;
-                    case MenuIcons.ICON_RECONNECT:
+                    case 0x50:
                         midlet.BombusQD.sd.roster.show();
                         midlet.BombusQD.sd.roster.errorLog(SR.get(SR.MS_SIMULATED_BREAK));
                         midlet.BombusQD.sd.roster.doReconnect();
@@ -487,8 +486,6 @@ public class ServiceDiscovery extends VirtualList implements MenuListener, Jabbe
                         break;
                     }
 //#endif
-                }
-                switch (((IconTextElement) o).getImageIndex()) {
                     case RosterIcons.ICON_SEARCH_INDEX:
                         requestQuery(NS_SRCH, "discosrch");
                         break;

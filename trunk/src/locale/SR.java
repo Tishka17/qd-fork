@@ -170,7 +170,7 @@ public class SR {
      public final static short MS_STARTUP  = 138; //Startup
      public final static short MS_EDIT_RULE  = 139; //Edit rule
      public final static short MS_CANCEL  = 140; //Cancel
-     public final static short MS_WARNING_MESSAGE_INSTALL = 141;
+     public final static short MS_COLOR_SCHEMES = 141; //Color Themes
      public final static short MS_ARCHIVE  = 142; //Archive
      public final static short MS_CONFERENCE  = 143; //Conference
      public final static short MS_SOUND  = 144; //Sound
@@ -673,7 +673,6 @@ public class SR {
      public final static short MS_TYPE  = 641; //Type
      public final static short MS_hotkeysStr  = 642; //Hotkeys
      public final static short MS_astatusStr  = 643; //Autostatus
-     public final static short MS_COLOR_SCHEMES  = 644; //Color Themes
 
      private static String[] localeItemsDefault = new String[0];
     private static String[] localeItems = {
@@ -818,7 +817,7 @@ public class SR {
         "Startup",
         "Edit rule",
         "Cancel",
-        "Please reinstall the program to avoid possible future problems",
+        "Color Themes",
         "Archive",
         "Conference",
         "Sound",
@@ -1320,8 +1319,7 @@ public class SR {
         "Category",
         "Type",
         "Hotkeys",
-        "Autostatus",
-        "Color Themes"
+        "Autostatus"        
    };
 
     private SR() { }

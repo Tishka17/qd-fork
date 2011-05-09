@@ -601,7 +601,6 @@ Success	Успешно
 Simple Contacts	Простые контакты%Включает отображение контактов только в виде иконки статуса и имени
 Was added:	Добавлено:
 Configuration Master	Мастер быстрой настройки
-Please reinstall the program to avoid possible future problems	Пожалуйста,во избежание возможных проблем в работе,переустановите приложение удалив предыдущую версию.
 IM Networks	IM Сети
 Add server	Добавить сервер
 My servers	Мои серверы

@@ -1526,6 +1526,21 @@ public abstract class VirtualList extends CanvasEx {
          if(null != menuItem) menuItem.keyPressed(keyCode);
          redraw();
      } else {
+//#ifdef USER_KEYS
+        if (Config.userKeys) {
+            switch (additionKeyState) {
+                case USER_OTHER_KEY_PRESSED:
+                case USER_KEY_EXECUTED:
+                    additionKeyState=(keyCode==KEY_STAR)?USER_STAR_KEY_PRESSED:USER_OTHER_KEY_PRESSED;
+                    break;
+                case USER_STAR_KEY_PRESSED:
+                    additionKeyState=(keyCode!=KEY_STAR)?USER_KEY_EXECUTED:USER_STAR_KEY_PRESSED;
+                    additionKeyPressed(keyCode);
+                    break;
+            }
+        }
+//#endif
+         
         if (sendEvent(keyCode)) {
             redraw();
             return;
@@ -1586,20 +1601,6 @@ public abstract class VirtualList extends CanvasEx {
 //#                 return;
 //#             }
 //#          }
-//#endif
-//#ifdef USER_KEYS
-        if (Config.userKeys) {
-            switch (additionKeyState) {
-                case USER_OTHER_KEY_PRESSED:
-                case USER_KEY_EXECUTED:
-                    additionKeyState=(keyCode==KEY_STAR)?USER_STAR_KEY_PRESSED:USER_OTHER_KEY_PRESSED;
-                    break;
-                case USER_STAR_KEY_PRESSED:
-                    additionKeyState=(keyCode!=KEY_STAR)?USER_KEY_EXECUTED:USER_STAR_KEY_PRESSED;
-                    additionKeyPressed(keyCode);
-                    break;
-            }
-        }
 //#endif
 
     switch (keyCode) {

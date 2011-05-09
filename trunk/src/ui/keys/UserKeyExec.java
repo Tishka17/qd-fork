@@ -27,10 +27,8 @@
 package ui.keys;
 
 import client.Config;
+import client.ConfigForm;
 import client.StaticData;
-//#ifdef STATS
-import stats.Stats;
-//#endif
 import colors.ColorTheme;
 //#ifdef XML_CONSOLE
 //# import console.xml.XMLConsole;
@@ -41,21 +39,17 @@ import privacy.PrivacySelect;
 //#ifdef SERVICE_DISCOVERY
 import disco.ServiceDiscovery;
 //#endif
+import io.file.transfer.TransferManager;
 //#ifdef STATS
 import stats.StatsWindow;
 //#endif
 import java.util.Enumeration;
 import java.util.Vector;
-import javax.microedition.lcdui.Display;
 import locale.SR;
 import midlet.BombusQD;
 import ui.VirtualList;
 
 public class UserKeyExec {
-//#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_USER_KEYS");
-//#endif
-
     private static Config cf;
     StaticData sd=StaticData.getInstance();
 
@@ -107,55 +101,48 @@ public class UserKeyExec {
         boolean connected= ( sd.roster.isLoggedIn() );
 
         switch (commandId) {
+            case 1:
+                new ConfigForm().show();
+                break;
             case 2:
                 sd.roster.cmdCleanAllMessages();
                 break;
             case 3:
                 sd.roster.connectionTerminated(new Exception(SR.get(SR.MS_SIMULATED_BREAK)));
                 break;
-//#ifdef POPUPS
 //#ifdef STATS
             case 4:
-//#ifdef PLUGINS
-//#                 if (sd.Stats)
-//#endif
-                    new StatsWindow().show();
+                new StatsWindow().show();
                 break;
-//#endif
 //#endif
             case 5:
                 sd.roster.cmdStatus();
                 break;
+//#if FILE_IO && FILE_TRANSFER
             case 6:
-//#ifdef FILE_IO
-//#if FILE_TRANSFER
-                new io.file.transfer.TransferManager().show();
-//#endif
-//#endif
+                new TransferManager().show();
                 break;
-            case 7:
+//#endif
 //#ifdef ARCHIVE
-//#ifdef PLUGINS
-//#                 if (sd.Archive)
-//#endif
-                    sd.roster.cmdArchive();
-//#endif
+            case 7:
+                sd.roster.cmdArchive();
                 break;
-            case 8:
+//#endif
 //#ifdef SERVICE_DISCOVERY
+            case 8:
                 if (connected) {
                     new ServiceDiscovery(null, null, false).show();
                 }
-//#endif
                 break;
-            case 9:
+//#endif
 //#ifdef PRIVACY
+            case 9:
                 if (connected) {
                     new PrivacySelect().show();
                 }
-//#endif
                 break;
-            case 10: //key pound
+//#endif
+            case 10:
                 new UserKeysList().show();
                 break;
 //#ifdef POPUPS
@@ -164,30 +151,22 @@ public class UserKeyExec {
 
                 break;
 //#endif
-            case 14:
-                if (cf.allowMinimize)
+            case 12:
+                if (cf.allowMinimize) {
                     BombusQD.hideApp();
+                }
                 break;
-            case 15:
+            case 13:
                 ColorTheme.invertSkin();
                 break;
-                /*
-            case 16:
-//#ifdef CONSOLE
-//#ifdef PLUGINS
-//#                 try {
-//#                     Class.forName("Console.XMLList");
+//#ifdef XML_CONSOLE
+//#             case 14:
+//#                 new XMLConsole().show();
+//#                 break;
 //#endif
-//#                     new XMLList(display, display.getCurrent());
-//#ifdef PLUGINS
-//#                 } catch (ClassNotFoundException ignore3) { }
-//#endif
-//#endif
-                break;
-                 */
-            case 17:
+            case 15:
                 Config.fullscreen = !Config.fullscreen;
-                sd.roster.setFullScreenMode(Config.fullscreen);
+                sd.canvas.setFullScreenMode(Config.fullscreen);
                 cf.saveToStorage();
                 break;
         }

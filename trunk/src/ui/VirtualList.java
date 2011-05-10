@@ -289,10 +289,7 @@ public abstract class VirtualList extends CanvasEx {
         return null;
     }
 
-    //protected Display display;
-
     protected ScrollBar scrollbar;
-
 
    public static Image resizeImage(Image image, int w, int h) {
         int w0 = image.getWidth();
@@ -404,14 +401,6 @@ public abstract class VirtualList extends CanvasEx {
 
     protected void beginPaint(){};
 
-
-   /*
-    int frames = 0;
-    int showFrames = 0;
-    long time_start = 0;
-    long time_wait = 0;
-    */
-
 //#ifdef GRAPHICS_MENU
     public static GMenu menuItem;
 
@@ -423,24 +412,9 @@ public abstract class VirtualList extends CanvasEx {
 //#endif
 
     public void paint(Graphics g) {
-
         mHeight=0;
         iHeight=0;
-        /*
-        if((time_wait-time_start)>=1000) {
-            time_start = System.currentTimeMillis();
-            //time_start - 1023msec
-            //time_wait - 1025msec
-            showFrames = frames;
-            //System.out.println(frames + " per seconds.(FPS)");
-            frames=0;
-        }
-        frames++;
-         */
 
-
-        //System.out.println("paint " + Thread.activeCount());
-        //long s1 = System.currentTimeMillis();
 //#ifdef POPUPS
         getPopUp().init(g, width, height);
 //#endif
@@ -673,49 +647,6 @@ public abstract class VirtualList extends CanvasEx {
 //#endif
         }
 
-        /*
-        if (reconnectWindow.getInstance().isActive()) {
-            if (reconnectTimeout>reconnectPos && reconnectPos!=0) {
-
-                int strWidth=g.getFont().stringWidth(SR.get(SR.MS_RECONNECT));
-                int progressWidth=(width/3)*2;
-                progressWidth=(strWidth>progressWidth)?strWidth:progressWidth;
-                int progressX=(width-progressWidth)/2;
-                if (pb==null) pb=new Progress(progressX, height/2, progressWidth);
-                int popHeight=pb.getHeight();
-                g.setColor(ColorTheme.getColor(ColorTheme.POPUP_SYSTEM_BGND));
-                g.fillRoundRect(progressX-2, (height/2)-(popHeight*2), progressWidth+4, (popHeight*2)+1, 6, 6);
-                g.setColor(ColorTheme.getColor(ColorTheme.POPUP_SYSTEM_INK));
-                g.drawRoundRect(progressX-2, (height/2)-(popHeight*2), progressWidth+4, (popHeight*2)+1, 6, 6);
-                g.drawString(SR.get(SR.MS_RECONNECT), width/2, (height/2)-(popHeight*2), Graphics.TOP | Graphics.HCENTER);
-                Progress.draw(g, reconnectPos*progressWidth/reconnectTimeout, reconnectString);
-            }
-        }
-         */
-
-
-/*
-        long s2 = System.currentTimeMillis();
-        int ws = g.getFont().stringWidth(Long.toString(s2-s1)+"msec") + 5;
-        int fh = g.getFont().getHeight();
-        int xpos = width/2-ws/2;
-        g.setColor(255,255,0);
-        g.fillRect(xpos,1,ws,fh);
-        g.setColor(0,0,0);
-        g.drawRect(xpos,1,ws-1,fh-1);
-        g.drawString(Long.toString(s2-s1)+"msec", xpos+2, 2, g.LEFT|g.TOP);
-
-        //draw FPS
-        time_wait = System.currentTimeMillis();
-        int ws = g.getFont().stringWidth(Long.toString(showFrames)+" fps") + 5;
-        int fh = g.getFont().getHeight();
-        int xpos = width/2-ws/2;
-        g.setColor(255,255,0);
-        g.fillRect(xpos,1,ws,fh);
-        g.setColor(0,0,0);
-        g.drawRect(xpos,1,ws-1,fh-1);
-        g.drawString(Long.toString(showFrames)+" fps", xpos+2, 2, g.LEFT|g.TOP);
-*/
 //#ifdef TOUCH
 	if (pointer_state == POINTER_LONG) {
 	    int r=midlet.BombusQD.cf.minItemHeight;
@@ -1348,7 +1279,7 @@ public abstract class VirtualList extends CanvasEx {
             } else {
                 if (pointer_state == POINTER_SECOND) {
                     VirtualElement element = (VirtualElement)getFocusedObject();
-                    if (element == null || !element.handleEvent(x, y)) {
+                    if (element != null || !element.handleEvent(x, y)) {
                         eventOk();
                     }
                 }
@@ -1426,21 +1357,6 @@ public abstract class VirtualList extends CanvasEx {
         }
         return false;
     }
-
-/*
-    public void reconnectYes() {
-        reconnectWindow.getInstance().reconnect();
-        //reconnectDraw=false;
-        redraw();
-    }
-
-    public void reconnectNo() {
-        reconnectWindow.getInstance().stopReconnect();
-        //reconnectDraw=false;
-        redraw();
-    }
- */
-
 
 //#ifdef MENU_LISTENER
     public Vector menuCommands=new Vector(0);
@@ -1571,25 +1487,13 @@ public abstract class VirtualList extends CanvasEx {
 //#endif
 //#ifdef MENU_LISTENER
         if (keyCode==Config.SOFT_LEFT || keyCode=='(') {
-           /*
-            if (reconnectWindow.getInstance().isActive()) {
-                reconnectYes();
-                return;
-            }
-            */
             gm.itemCursorIndex=0;
             gm.itemCursorIndexIn=0;
              touchLeftPressed();
             return;
         }
          if (keyCode==Config.SOFT_RIGHT || keyCode==')') {
-           /*
-            if (reconnectWindow.getInstance().isActive()) {
-                reconnectNo();
-                return;
-            }
-            */
-             touchRightPressed();
+            touchRightPressed();
             return;
          }
 //#else

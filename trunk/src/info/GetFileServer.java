@@ -40,7 +40,7 @@ import menu.Command;
 //#endif
 import locale.SR;
 import ui.MainBar;
-import client.DiscoSearchForm;
+import disco.DiscoSearchForm;
 import javax.microedition.io.ConnectionNotFoundException;
 import menu.MenuListener;
 import midlet.BombusQD;

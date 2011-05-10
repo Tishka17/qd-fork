@@ -295,7 +295,7 @@ public class Config {
     public boolean graphicsMenu = true;
     public int graphicsMenuPosition = 0;
 
-    public boolean createMessageByFive = true;
+    public static boolean createMessageByFive = true;
     public boolean gradientBarLigth = false;
     public boolean shadowBar = true;
     public int gradientBarLight1=120;
@@ -788,6 +788,7 @@ public class Config {
             lightError = inputStream.readInt();
             lightBlink = inputStream.readInt();
 //#endif
+            minItemHeight = inputStream.readInt();
 	    inputStream.close();
             inputStream=null;
 	} catch (Exception e) {
@@ -867,6 +868,7 @@ public class Config {
             outputStream.writeInt(lightError);
             outputStream.writeInt(lightBlink);
 //#endif
+            outputStream.writeInt(minItemHeight);
 
 	} catch (IOException e) { }
 	return NvStorage.writeFileRecord(outputStream, INT_STORAGE_NAME, 0, true);

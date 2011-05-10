@@ -31,7 +31,6 @@ package disco;
 import client.Config;
 import client.Contact;
 import client.ContactEdit;
-import client.DiscoSearchForm;
 import client.StaticData;
 //#ifndef WMUC
 import conference.ConferenceForm;
@@ -200,10 +199,11 @@ public class ServiceDiscovery extends VirtualList implements MenuListener, Jabbe
     public int getItemCount(){ return items.size();}
     public VirtualElement getItemRef(int index) { return (VirtualElement) items.elementAt(index);}
 
-    protected void beginPaint(){
-        getMainBarItem().setElementAt(midlet.BombusQD.sd.roster.getEventIcon(), 4);
+    public void showNotify() {
+        discoIcon = 0;
+        mainbarUpdate();
     }
-
+    
     private void mainbarUpdate(){
         getMainBarItem().setElementAt(new Integer(discoIcon), 0);
         if(null == service && null == node) {
@@ -213,14 +213,10 @@ public class ServiceDiscovery extends VirtualList implements MenuListener, Jabbe
         }
         getMainBarItem().setElementAt(midlet.BombusQD.sd.roster.getEventIcon(), 4);
 
-	int size=0;
-	try { size=items.size(); } catch (Exception e) {}
-	String count=null;
-
-        if (size>0) {
-	    count=" ("+size+") ";
-	}
-        getMainBarItem().setElementAt(count,1);
+        int size = items.size();
+        if (size > 0) {
+            getMainBarItem().setElementAt(" (" + size + ") ", 1);
+        }
     }
 
     private void requestQuery(String namespace, String id){
@@ -372,34 +368,30 @@ public class ServiceDiscovery extends VirtualList implements MenuListener, Jabbe
             }
         } else if (id.startsWith ("discoreg")) {
             discoIcon=0;
-            DiscoForm form = new DiscoForm(data, stream, "discoResult", "query");
-            form.setParentView(BombusQD.sd.roster);
-            form.show();
+            new DiscoForm(data, stream, "discoResult", "query").show();
         } else if (id.startsWith("discocmd")) {
             discoIcon=0;
-            DiscoForm form = new DiscoForm(data, stream, "discocmd", "command");
-            //form.setParentView(BombusQD.sd.roster);
-            form.show();
+            new DiscoForm(data, stream, "discocmd", "command").show();
         } else if (id.startsWith("discosrch")) {
             discoIcon=0;
-            DiscoForm form = new DiscoForm(data, stream, "discoRSearch", "query");
-            form.setParentView(BombusQD.sd.roster);
-            form.show();
+            new DiscoForm(data, stream, "discoRSearch", "query").show();
         } else if (id.startsWith("discoR")) {
             String text=SR.get(SR.MS_DONE);
-            if(null == typeAttr) typeAttr = "-";
-            if (typeAttr.equals("error")) text=XmppError.findInStanza(data).toString();
+            if(null == typeAttr) {
+                typeAttr = "-";
+            }
+            if (typeAttr.equals("error")) {
+                text=XmppError.findInStanza(data).toString();
+            }
             if (text.equals(SR.get(SR.MS_DONE)) && id.endsWith("Search") ) {
                 new SearchResult(data).show();
             } else {
-                AlertBox box = new AlertBox(typeAttr, text, AlertBox.BUTTONS_OK);
-                box.show();
+                new AlertBox(typeAttr, text, AlertBox.BUTTONS_OK).show();
             }
         }
         redraw();
         return JabberBlockListener.BLOCK_PROCESSED;
     }
-
 
     public void eventOk(){
         super.eventOk();
@@ -495,7 +487,6 @@ public class ServiceDiscovery extends VirtualList implements MenuListener, Jabbe
         }
     }
 
-
     private void showResults(final Vector items) {
         try {
             sort(items);
@@ -569,11 +560,12 @@ public class ServiceDiscovery extends VirtualList implements MenuListener, Jabbe
             StaticData.getInstance().roster.theStream.send(req);
         }
     }
-    private void exitDiscovery(boolean cancel){
+
+    public void destroyView()	{
         boolean stackItemsEmpty = false;
         try {
         if(stackItems != null) stackItemsEmpty = stackItems.isEmpty();
-        if (cancel || stackItems==null || stackItemsEmpty) {
+        if (stackItems==null || stackItemsEmpty) {
             if (stream!=null) {
                 stream.cancelBlockListener(this);
             }
@@ -599,11 +591,6 @@ public class ServiceDiscovery extends VirtualList implements MenuListener, Jabbe
 //#             midlet.BombusQD.debug.add("ServiceDiscovery exception(" + ex.getMessage() + ")",10);
 //#endif
         }
-    }
-
-
-    public void destroyView()	{
-           exitDiscovery(false);
     }
 
     private static String bareJid = "";

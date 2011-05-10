@@ -242,7 +242,9 @@ public final class Roster
        if (isLoggedIn()) {
            if (object instanceof Group) {
                int type = ((Group)object).type;
-               if (type == Groups.TYPE_TRANSP || type == Groups.TYPE_SELF) {
+               if (type == Groups.TYPE_TRANSP || 
+                       type == Groups.TYPE_SELF || 
+                       type == Groups.TYPE_NOT_IN_LIST) {
                    return;
                }
            }

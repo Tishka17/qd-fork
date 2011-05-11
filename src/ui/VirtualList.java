@@ -1279,7 +1279,7 @@ public abstract class VirtualList extends CanvasEx {
             } else {
                 if (pointer_state == POINTER_SECOND) {
                     VirtualElement element = (VirtualElement)getFocusedObject();
-                    if (element != null || !element.handleEvent(x, y)) {
+                    if (element != null && !element.handleEvent(x, y)) {
                         eventOk();
                     }
                 }

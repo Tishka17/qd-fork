@@ -307,7 +307,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
             showMsgEdit(ClipBoard.getClipBoard());
 //#endif
         } else if (c == Commands.cmdResume) {
-            showMsgEdit(contact.msgSuspended);
+            resumeMessage();
         } else if (c == Commands.cmdQuote) {
             quoteMessage();
         } else if (c == Commands.cmdReply) {
@@ -441,7 +441,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
             if (msg == null ||
                     msg.messageType == Msg.MESSAGE_TYPE_OUT ||
                     msg.messageType == Msg.MESSAGE_TYPE_SUBJ) {
-                showMsgEdit(null);
+                newMessage();
             } else {
                 String text;
 //#ifdef JUICK.COM
@@ -457,7 +457,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
                final String msgText = text;
                AlertBox box = new AlertBox(msg.from, SR.get(SR.MS_MSGBUFFER_NOT_EMPTY), AlertBox.BUTTONS_YESNO) {
                     public void yes() { showMsgEdit(msgText); }
-                    public void no()  { keyGreen(); }
+                    public void no()  { resumeMessage(); }
                };
                box.show();
                return;
@@ -470,7 +470,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
     
     public void eventOk() {
         if (Config.createMessageByFive) {
-            newMessage();
+            resumeMessage();
         } else {
             super.eventOk();
         }
@@ -490,7 +490,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
             if (Config.createMessageByFive) {
                 super.eventOk();
             } else {
-                showMsgEdit(contact.msgSuspended);
+                resumeMessage();
             }
         }
     }
@@ -602,9 +602,17 @@ public final class ContactMessageList extends MessageList implements InputTextBo
             }
         }
     }
-   
+    
     public void newMessage() {
-        showMsgEdit(null);
+        if (midlet.BombusQD.sd.roster.isLoggedIn()) {
+            showMsgEdit(null);
+        }
+    }
+   
+    public void resumeMessage() {
+        if (midlet.BombusQD.sd.roster.isLoggedIn()) {
+            showMsgEdit(contact.msgSuspended);
+        }
     }
 
     private void answer() {
@@ -621,7 +629,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
 //#endif
         }
 //#endif
-        newMessage();
+        resumeMessage();
     }
 
     public void touchRightPressed(){
@@ -633,7 +641,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
     }
 
     public void touchMiddlePressed(){
-        showMsgEdit(contact.msgSuspended);
+        resumeMessage();
     }
     
     public void touchLeftPressed(){

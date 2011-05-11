@@ -32,10 +32,6 @@ import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import ui.controls.form.DefForm;
 
-//#ifdef LIGHT_CONTROL
-import light.CustomLight;
-//#endif
-
 public class ColorSelector extends DefForm implements Runnable {
     private Font font;
     private int fontH;
@@ -239,9 +235,6 @@ public class ColorSelector extends DefForm implements Runnable {
 //#endif
 
     protected void keyPressed(int key) {
-//#ifdef LIGHT_CONTROL
-        CustomLight.keyPressed();
-//#endif
         switch (key) {
             case KEY_NUM2:
                 timer = 7;

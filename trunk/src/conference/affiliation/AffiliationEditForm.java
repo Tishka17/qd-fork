@@ -33,6 +33,7 @@ import com.alsutton.jabber.JabberStream;
 import com.alsutton.jabber.datablocks.Iq;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
+import ui.IconTextElement;
 import ui.controls.form.DefForm;
 import ui.controls.form.DropChoiceBox;
 import ui.controls.form.TextInput;
@@ -60,11 +61,12 @@ public final class AffiliationEditForm extends DefForm {
         addControl(jidItem);
 
         affiliationItem = new DropChoiceBox(SR.get(SR.MS_SET_AFFILIATION));
-        affiliationItem.append("owner");
-        affiliationItem.append("admin");
-        affiliationItem.append("member");
-        affiliationItem.append("none");
-        affiliationItem.append("outcast");
+        //FIXME: probably replace with IconTextElement
+        affiliationItem.append(new AffiliationItem("owner", "owner"));
+        affiliationItem.append(new AffiliationItem("admin", "admin"));
+        affiliationItem.append(new AffiliationItem("member", "member"));
+        affiliationItem.append(new AffiliationItem("none", "none"));
+        affiliationItem.append(new AffiliationItem("outcast", "outcast"));
         affiliationItem.setSelectedIndex(AffiliationItem.getIndexByName(affiliation));
         addControl(affiliationItem);
 

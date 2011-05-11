@@ -36,6 +36,7 @@ import javax.microedition.lcdui.Graphics;
 import ui.IconTextElement;
 import ui.VirtualCanvas;
 import ui.VirtualList;
+import ui.VirtualElement;
 
 /**
  *
@@ -55,7 +56,6 @@ public  class DropChoiceBox extends IconTextElement {
     public DropChoiceBox(String caption) {
         super(RosterIcons.getInstance());
         this.caption = caption;
-
         font = FontCache.getFont(false, Config.rosterFont);
         fontHeight = font.getHeight();
         itemHeight = fontHeight;
@@ -90,7 +90,7 @@ public  class DropChoiceBox extends IconTextElement {
         if (items.size() < 1) {
             return null;
         }
-        return (String)items.elementAt(index);
+        return items.elementAt(index).toString();
     }
 
     public String toString() {
@@ -107,10 +107,9 @@ public  class DropChoiceBox extends IconTextElement {
         return index;
     }
 
-    public void append(String value) {
+    public void append(Object value) {
         items.addElement(value);
     }
-
     public void setSelectedIndex(int index) {
         if (index > items.size() - 1) {
             index = 0;
@@ -140,13 +139,12 @@ public  class DropChoiceBox extends IconTextElement {
             g.drawString(caption, xOffset, y, Graphics.TOP | Graphics.LEFT);
             y = captionFontHeight;
         }
-
+        Object c = items.elementAt(index);
         if (getTextLength() > 0) {
             xOffset = (getTextLength() > width) ? -ofs + baseOffset: baseOffset;
             g.setFont(font);
             g.drawString(getTextValue(), xOffset, y, Graphics.TOP | Graphics.LEFT);
         }
-
         if (size() > 1) {
             il.drawImage(g, RosterIcons.ICON_COLLAPSED_INDEX, (width - imgHeight) - 1, (y + (height >> 1)) - (imgHeight >> 1));
         }

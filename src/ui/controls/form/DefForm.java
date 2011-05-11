@@ -78,7 +78,11 @@ public class DefForm extends VirtualList {
     }
 
     public final void addControl(Object obj) {
-        itemsList.addElement(obj);
+        if (obj instanceof String) {
+                SimpleString string = new SimpleString((String)obj);
+                string.setSelectable(true);
+                addControl(string);
+        } else itemsList.addElement(obj);
     }
 
     public Object getControl(int index) {

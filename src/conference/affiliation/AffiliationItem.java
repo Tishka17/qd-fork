@@ -27,7 +27,7 @@
 package conference.affiliation;
 
 import com.alsutton.jabber.JabberDataBlock;
-import images.RosterIcons;
+import images.ActionsIcons;
 import ui.IconTextElement;
 
 /**
@@ -46,7 +46,7 @@ public class AffiliationItem extends IconTextElement {
     private int affiliation;
 
     public AffiliationItem(String jid, String affiliation) {
-        super(RosterIcons.getInstance());
+        super(ActionsIcons.getInstance());
         this.jid = jid;
 
         this.affiliation = getIndexByName(affiliation);
@@ -65,15 +65,15 @@ public class AffiliationItem extends IconTextElement {
     public int getImageIndex() {
         switch (affiliation) {
             case AFFILIATION_OWNER:
-                return RosterIcons.ICON_REGISTER_INDEX;
+                return ActionsIcons.ICON_OWNERS;
             case AFFILIATION_ADMIN:
-                return RosterIcons.ICON_MODERATOR_INDEX;
+                return ActionsIcons.ICON_ADMINS;
             case AFFILIATION_MEMBER:
-                return 0;
+                return ActionsIcons.ICON_MEMBERS;
             case AFFILIATION_OUTCAST:
-                return RosterIcons.ICON_ERROR_INDEX;
+                return ActionsIcons.ICON_OUTCASTS;
         }
-        return RosterIcons.ICON_INVISIBLE_INDEX;
+        return ActionsIcons.ICON_DEMEMBER;
     }
 
     public String getJid() {

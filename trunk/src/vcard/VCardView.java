@@ -199,6 +199,7 @@ public class VCardView extends DefForm implements MenuListener
 //#endif
                     //photoImg = null;
                 }
+            } catch (OutOfMemoryError eom) {
             } catch (Exception e) {
                 addControl(badFormat);
             }

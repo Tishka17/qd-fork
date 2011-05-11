@@ -39,6 +39,7 @@ import io.file.FileIO;
 //#endif
 import midlet.BombusQD;
 import font.FontCache;
+import images.MenuIcons;
 import util.StringLoader;
 import util.Time;
 import ui.VirtualList;
@@ -95,6 +96,7 @@ public class Config {
     public final static byte LG=15;
     public final static byte JBED=16;
     public final static byte MICROEMU = 17;
+    public final static byte NOKIA_S40 = 18;
     public final static byte WTK=50;
     public final static byte OTHER=99;
     public final static byte NOKIA_5800=44;
@@ -370,22 +372,23 @@ public class Config {
 	gmtOffset=gmtloc;
 
 	short greenKeyCode=-1000;
+        //prefetch images
+        RosterIcons.getInstance();
+        ActionsIcons.getInstance();
+        MenuIcons.getInstance();
+//#ifdef SMILES
+        if (smiles) {
+            if (animatedSmiles) {
+                SmilesIcons.getInstance();
+            } else {
+                SmilesIcons.getStaticInstance();
+            }
+        }
+//#endif
+        System.gc();
 
         switch (phoneManufacturer) {
             case SONYE:
-             //prefetch images
-                RosterIcons.getInstance();
-                ActionsIcons.getInstance();
-//#ifdef SMILES
-                if (smiles) {
-                    if (animatedSmiles) {
-                        SmilesIcons.getInstance();
-                    } else {
-                        SmilesIcons.getStaticInstance();
-                    }
-                }
-//#endif
-                System.gc();
                 try { Thread.sleep(50); } catch (InterruptedException e){}
                 allowMinimize=true;
                 greenKeyCode=-10;

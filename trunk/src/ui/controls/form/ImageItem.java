@@ -103,7 +103,8 @@ public class ImageItem
                         int newHeight=(img.getHeight() * (screenWidth * 100 / img.getWidth()))/100;
                         this.img=scale(img, screenWidth, newHeight);
                     }
-                } catch (Exception e) {
+                } catch(OutOfMemoryError eom){
+				} catch (Exception e) {
                 }
                 return true;
                 //break;

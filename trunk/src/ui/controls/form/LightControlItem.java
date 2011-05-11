@@ -32,11 +32,12 @@ import ui.VirtualCanvas;
 import ui.VirtualList;
 
 public final class LightControlItem extends TrackItem {
-    private int lightValues[] = {0, 1, 2, 3, 5, 7, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100};
+    private static final int LIGHT_VALUES_COUNT = 20;    
+    private int lightValues[] = {-1, 0, 1, 2, 3, 5, 7, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100};
     private int index = 0;
 
     public LightControlItem(int value) {
-        super(value, 19);
+        super(value, LIGHT_VALUES_COUNT);
 
         calculateIndex();
     }

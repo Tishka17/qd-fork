@@ -102,7 +102,7 @@ public final class CustomLight extends TimerTask {
 
     //returns if current displayable is system one
     private static boolean isSystem() {
-        return !(Display.getDisplay(BombusQD.getInstance()).getCurrent() instanceof Canvas);
+        return !(BombusQD.sd.canvas.isShown());
     }
 
     //returns number of ticks should be made at a certain state

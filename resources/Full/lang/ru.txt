@@ -204,7 +204,7 @@ Accept file	Принять файл
 File	Файл
 Sender	Отправитель
 Rejected	Отменено
-Send file	Послать файл
+Send file	Отправить файл
 Can't open file	Невозможно открыть файл
 New	Новый
 Save photo	Сохранить фото

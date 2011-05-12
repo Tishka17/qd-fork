@@ -496,31 +496,35 @@ public final class ContactMessageList extends MessageList implements InputTextBo
     }
 
     public void keyPressed(int keyCode) {
-        switch (keyCode) {
-            case KEY_NUM5:
-                if (Config.createMessageByFive) {
-                    answer();
-                } else {
-                    super.eventOk();
-                }
-                break;
-            case KEY_POUND:
-                if (!Config.createMessageByFive) {
-                    answer();
-                } else {
-                    // for message collapsing
-                    super.eventOk();
-                }
-                break;
-//#ifdef SMILES
-            case KEY_STAR:
-                if (getItemCount() > 0) {
-                    ((MessageItem)getFocusedObject()).toggleSmiles(this);
-                }
-                break;
-//#endif
-            default:
-                super.keyPressed(keyCode);
+        if (gm.itemGrMenu < 0 && getPopUp().size() == 0) {
+            switch (keyCode) {
+                case KEY_NUM5:
+                    if (Config.createMessageByFive) {
+                        answer();
+                    } else {
+                        super.eventOk();
+                    }
+                    break;
+                case KEY_POUND:
+                    if (!Config.createMessageByFive) {
+                        answer();
+                    } else {
+                        // for message collapsing
+                        super.eventOk();
+                    }
+                    break;
+    //#ifdef SMILES
+                case KEY_STAR:
+                    if (getItemCount() > 0) {
+                        ((MessageItem)getFocusedObject()).toggleSmiles(this);
+                    }
+                    break;
+    //#endif
+                default:
+                    super.keyPressed(keyCode);
+            }
+        } else {
+            super.keyPressed(keyCode);
         }
     }
     

@@ -1350,13 +1350,6 @@ public abstract class VirtualList extends CanvasEx {
         }
         return false;
     }
-    
-    private boolean sendEvent(int x, int y) {
-        if (getPopUp().size() > 0) {
-            return popup.handleEvent(x, y);
-        }
-        return false;
-    }
 
 //#ifdef MENU_LISTENER
     public Vector menuCommands=new Vector(0);

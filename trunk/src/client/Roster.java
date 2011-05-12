@@ -302,7 +302,6 @@ public final class Roster
         createMessageEdit();
         StatusList.getInstance().reinit();
 
-        cmdActions = new Command(SR.get(SR.MS_ITEM_ACTIONS), MenuIcons.ICON_ITEM_ACTIONS);
         cmdStatus = new Command(SR.get(SR.MS_STATUS), MenuIcons.ICON_STATUS);
 
 //#ifdef GRAPHICS_MENU
@@ -453,10 +452,7 @@ public final class Roster
 //#ifndef MENU
     public void commandAction(Command c){
 //#ifdef GRAPHICS_MENU
-        if (c == cmdActions) {
-            showActionsMenu(getFocusedObject());
-        }
-           else if(c==cmdOptions) {
+        if(c==cmdOptions) {
               new ConfigForm().show();
 //#ifdef SERVICE_DISCOVERY
            } else if(c==cmdMyService) {
@@ -3457,9 +3453,8 @@ public final class Roster
         return pos;
      }
 
-    private Vector aContacts = new Vector(0);
     public void searchActiveContact(Contact first, boolean right) {
-        aContacts = new Vector(0);
+        Vector aContacts = new Vector(0);
         Vector search = contactList.contacts;
         int size = search.size();
         Contact activeContact;

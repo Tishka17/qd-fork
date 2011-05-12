@@ -122,7 +122,6 @@ public final class ChatInfo {
     }
 
     public void addMessage(Msg m) {
-        if (midlet.BombusQD.cf.createMessageByFive) m.itemCollapsed=false;
         msgs.addElement(m);
         if(m.isPresence()) return;
         //System.out.println("addMessage "+opened);

@@ -221,15 +221,6 @@ public final class Roster
         mainbar.addElement(null);
         mainbar.addElement(null); //ft
         updateMainBar();
-
-//#ifdef AUTOSTATUS
-        if (Config.module_autostatus) {
-            if (Config.autoAwayType==Config.AWAY_IDLE || Config.autoAwayType == Config.AWAY_MESSAGE) {
-                autostatus = new AutoStatusTask(true);
-                autostatus.setTimeEvent(Config.autoAwayDelay * 60 * 1000L);
-            }
-        }
-//#endif
     }
 
     public void showActiveContacts(Contact current){
@@ -326,7 +317,6 @@ public final class Roster
         cmdQuit = new Command(SR.get(SR.MS_APP_QUIT), MenuIcons.ICON_BUILD_NEW);
     }
 
-    private static Command cmdActions;
     private static Command cmdStatus;
 //#ifdef GRAPHICS_MENU
     private static Command cmdOptions;
@@ -1534,6 +1524,11 @@ public final class Roster
             theStream.send( qr );
             qr=null;
         }
+        
+//#ifdef AUTOSTATUS
+        autostatus = new AutoStatusTask(true);
+        autostatus.setTimeEvent(Config.autoAwayDelay * 60 * 1000L);
+//#endif
     }
 
     public void bindResource(String myJid) {
@@ -2946,6 +2941,9 @@ public final class Roster
          if( e!=null ) {
             askReconnect(e);
         } else {
+//#ifdef AUTOSTATUS
+             stopAutoStatusTask();
+//#endif
             setProgress(SR.get(SR.MS_DISCONNECTED), 0);
             try {
                 sendPresence(Presence.PRESENCE_OFFLINE, null);
@@ -3135,6 +3133,8 @@ public final class Roster
             case KEY_NUM6:
                 super.pageRight();
                 return;
+// что это?
+/*
 //#ifdef AUTOSTATUS
             case SE_FLIPCLOSE_JP6:
             case SIEMENS_FLIPCLOSE:
@@ -3151,6 +3151,7 @@ public final class Roster
                         autostatus.setTimeEvent(Config.autoAwayDelay * 60 * 1000L);
                 break;
 //#endif
+*/
 
 
             case KEY_NUM0:
@@ -3391,11 +3392,7 @@ public final class Roster
 
     public void quit() {
 //#ifdef AUTOSTATUS
-        if (midlet.BombusQD.cf.autoAwayType!=Config.AWAY_OFF) {
-            try {
-                autostatus.destroyTask();
-            } catch (Exception ex) {}
-        }
+        stopAutoStatusTask();
 //#endif
         logoff(null);
 
@@ -3571,6 +3568,12 @@ public final class Roster
 
         ExtendedStatus status = StatusList.getInstance().getStatus(oldStatus);
         sendPresence(oldStatus, status.getMessage());
+    }
+    
+    private void stopAutoStatusTask() {
+        if (autostatus != null) {
+            autostatus.destroyTask();
+        }
     }
 //#endif
 

@@ -80,15 +80,17 @@ public class TrackItem extends IconTextElement {
 
         g.setFont(getFont());
         g.setColor(0xFFFFFF - g.getColor());
-        g.drawString(Integer.toString(value), xOffset + pos, 1, Graphics.TOP|Graphics.LEFT);
+        g.drawString(
+                Integer.toString(value), 
+                xOffset + pos, 
+                (itemHeight - getFont().getHeight()) / 2, 
+                Graphics.TOP|Graphics.LEFT);
     }
 
     public int getVHeight() {
         if (0 == itemHeight) {
-            itemHeight = ITEM_HEIGHT;
-        }
-        if (itemHeight < midlet.BombusQD.cf.minItemHeight) {
-            itemHeight = midlet.BombusQD.cf.minItemHeight;
+            itemHeight = Math.max(Config.getInstance().minItemHeight,
+                    Math.max(getFont().getHeight(), ITEM_HEIGHT));
         }
         return itemHeight;
     }
@@ -118,6 +120,6 @@ public class TrackItem extends IconTextElement {
     }
 
     public final Font getFont() {
-        return FontCache.getFont(false, FontCache.SMALL);
+        return FontCache.getFont(false, Config.getInstance().rosterFont);
     }
 }

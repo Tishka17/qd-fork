@@ -751,6 +751,9 @@ public class ModuleConfigForm extends DefForm {
             config.autoAwayType = autoAwayType.getSelectedIndex();
             config.autoAwayDelay = Integer.parseInt(fieldAwayDelay.getValue());
             config.setAutoStatusMessage = awayStatus.getValue();
+            
+            // reset timer
+            BombusQD.sd.roster.userActivity(config.autoAwayType);
 //#endif
 //#ifdef CLASSIC_CHAT
 //#         } else if (type == PluginBox.CLASSIC_CHAT) {

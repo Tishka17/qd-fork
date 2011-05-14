@@ -25,6 +25,7 @@ package ui.controls.form;
 
 import colors.ColorTheme;
 import java.util.Vector;
+import ui.VirtualCanvas;
 
 public class ColorThemeSelector extends DropChoiceBox {
     private Vector paths;
@@ -49,10 +50,21 @@ public class ColorThemeSelector extends DropChoiceBox {
     }
 
     public boolean handleEvent(int keyCode) {
-        boolean handled = super.handleEvent(keyCode);
-        if (handled) {
-            setSelectedIndex(index);
-            return true;
+        switch (keyCode) {
+            case VirtualCanvas.LEFT:
+            case VirtualCanvas.KEY_NUM4:
+                if (--index < 0) {
+                    index = 0;
+                }
+                setSelectedIndex(index);
+                return true;
+            case VirtualCanvas.RIGHT:
+            case VirtualCanvas.KEY_NUM6:
+                if (++index > items.size() - 1) {
+                    index = items.size() - 1;
+                }
+                setSelectedIndex(index);
+                return true;
         }
         return false;
     }

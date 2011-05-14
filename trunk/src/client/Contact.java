@@ -298,6 +298,7 @@ public class Contact extends IconTextElement {
             getML().deleteOldMessages();
         }
         if (origin != ORIGIN_GROUPCHAT) {
+            if (!m.isPresence()) {
             //if (m.isPresence()) first_replace = chatInfo.isOnlyStatusMessage();
             //else {
                 //first_msgreplace = chatInfo.isFirstMessage();
@@ -327,6 +328,7 @@ public class Contact extends IconTextElement {
                     m.subject = temp.toString();
                 }
             //}
+            }
         } else {
             status = Presence.PRESENCE_ONLINE;
         }

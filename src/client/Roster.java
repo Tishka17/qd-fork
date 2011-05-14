@@ -290,7 +290,9 @@ public final class Roster
     }
 
     public void initCommands() {
+//#ifndef ANDROID
         createMessageEdit();
+//#endif
         StatusList.getInstance().reinit();
 
         cmdStatus = new Command(SR.get(SR.MS_STATUS), MenuIcons.ICON_STATUS);
@@ -3015,11 +3017,13 @@ public final class Roster
     }
 
     public void setMsgEditText(Contact contact, String text){
-         msgEditor.setString(text);
          showMsgEditor(contact, text);
     }
 
     public void showMultiMsgEditor(Vector contacts) {
+//#ifdef ANDROID
+//#         createMessageEdit();
+//#endif
 //#ifdef RUNNING_MESSAGE
         msgEditor.setTicker("");
 //#endif
@@ -3027,6 +3031,9 @@ public final class Roster
     }
 
     public void showMsgEditor(Contact c, String body) {
+//#ifdef ANDROID
+//#         createMessageEdit();
+//#endif
 //#ifdef RUNNING_MESSAGE
         msgEditor.setTicker(c.getNickJid());
 //#endif

@@ -426,6 +426,11 @@ public class Config {
                 KEY_BACK=VirtualList.MOTOE680_REALPLAYER;
 		greenKeyCode=-31;
                 break;
+            case MICROEMU:
+                Config.SOFT_LEFT = -82;
+                Config.SOFT_RIGHT = -8;
+                VirtualList.keyClear = -27;
+                break;
         }
 	VirtualList.greenKeyCode=greenKeyCode;
     }

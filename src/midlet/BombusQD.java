@@ -59,11 +59,6 @@ import light.CustomLight;
 //#ifdef CLIENTS_ICONS
 import images.ClientsIconsData;
 //#endif
-
-import ui.controls.AlertBox;
-import io.NvStorage;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import ui.VirtualCanvas;
 
 /** Entry point class
@@ -106,7 +101,11 @@ public class BombusQD extends MIDlet implements Runnable {
 
             SplashScreen screen = new SplashScreen();
             screen.show();
+            
+            // ух как нехорошо Эсприт сделал :D
+//#ifndef ANDROID
             screen.getKeys();
+//#endif
 
             screen.setProgress("Loading", 3);
 

@@ -1279,6 +1279,10 @@ public final class Roster
     }
 
     public void sendMessage(Contact to, String id,String body,String subject, String composingState) {
+//#ifdef AUTOSTATUS
+        userActivity(Config.AWAY_MESSAGE);
+//#endif
+
         try {
 //#ifndef WMUC
             boolean groupchat=to.origin==Contact.ORIGIN_GROUPCHAT;
@@ -1364,9 +1368,6 @@ public final class Roster
         } catch (Exception e) {
             //e.printStackTrace()
         }
-//#ifdef AUTOSTATUS
-        userActivity(Config.AWAY_MESSAGE);
-//#endif
     }
 
     private void sendDeliveryMessage(Contact c, String id) {

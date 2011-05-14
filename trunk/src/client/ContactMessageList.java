@@ -243,13 +243,15 @@ public final class ContactMessageList extends MessageList implements InputTextBo
 
 //#ifdef TOUCH
     protected void touchMainPanelPressed(int x, int y) {
-        if (x>50 && x< width-50) {
-                contact.getChatInfo().opened = false;
-                midlet.BombusQD.sd.roster.showActiveContacts(contact);
-        } else if (x<50){
-            midlet.BombusQD.sd.roster.searchActiveContact(contact, false);
+        int zoneWidth = width / 4;
+
+        if (x > zoneWidth && x < width - zoneWidth) {
+            contact.getChatInfo().opened = false;
+            BombusQD.sd.roster.showActiveContacts(contact);
+        } else if (x < zoneWidth) {
+            BombusQD.sd.roster.searchActiveContact(contact, false);
         } else {
-            midlet.BombusQD.sd.roster.searchActiveContact(contact, true);
+            BombusQD.sd.roster.searchActiveContact(contact, true);
         }
     }
 //#endif
@@ -477,8 +479,12 @@ public final class ContactMessageList extends MessageList implements InputTextBo
     }
 
     public void eventLongOk(){
-        super.eventLongOk();
-	answer();
+        if (!Config.getInstance().createMessageByFive) {
+            answer();
+        } else {
+            // for message collapsing
+            super.eventOk();
+        }
     }
 
     protected void keyClear(){

@@ -59,8 +59,10 @@ public final class ActiveContacts extends VirtualList implements
         MenuListener
 //#endif
 {
-    private static final int SORT_BY_STATUS = 0;
-    private static final int SORT_BY_MSGCOUNT = 1;
+    private static final int SORT_BY_STATUS = 1;
+    private static final int SORT_BY_MSGCOUNT = 2;
+    
+    private static int sortingType = 0;
 
     private Vector contacts;
 
@@ -86,11 +88,14 @@ public final class ActiveContacts extends VirtualList implements
         if (contacts.contains(current)) {
             focusToContact(current);
         }
+        
+        sortContacts(sortingType);
 
         setMainBarItem(new MainBar(SR.get(SR.MS_ACTIVE_CONTACTS) + " (" + getItemCount() + ")"));
     }
 
     private void sortContacts(int type) {
+        sortingType = type;
         switch(type) {
             case SORT_BY_STATUS:
                 sort(contacts, 0, 0);
@@ -110,11 +115,14 @@ public final class ActiveContacts extends VirtualList implements
         cmdfirstList.removeAllElements();
 //#endif
         addCommand(cmdOk);
-        addCommand(cmdCreateMultiMessage);
-        addCommand(cmdSortType);
-        addInCommand(1, cmdSortDefault);
-        addInCommand(1, cmdSortByStatus);
-        addInCommand(1, cmdSortByMsgsCount);
+        if (contacts.size() > 1) {
+            addCommand(cmdCreateMultiMessage);
+            addCommand(cmdSortType);
+            addInCommand(1, cmdSortDefault);
+            addInCommand(1, cmdSortByStatus);
+            addInCommand(1, cmdSortByMsgsCount);
+            gm.itemCursorIndexIn = sortingType;
+        }
         addCommand(cmdClearAllMessages);
     }
 
@@ -172,7 +180,7 @@ public final class ActiveContacts extends VirtualList implements
             sortContacts(SORT_BY_STATUS);
         }
         if (c == cmdSortByMsgsCount) {
-            sortContacts(SORT_BY_STATUS);
+            sortContacts(SORT_BY_MSGCOUNT);
         }
     }
 
@@ -221,11 +229,11 @@ public final class ActiveContacts extends VirtualList implements
         }
     }
 
-    protected void keyGreen(){
+    protected void keyGreen() {
         eventOk();
     }
 
-    protected void keyClear () {
+    protected void keyClear() {
         Contact contact = (Contact) getFocusedObject();
 
         contact.purge();

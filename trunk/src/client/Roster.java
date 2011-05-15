@@ -3635,9 +3635,11 @@ public final class Roster
 
 //#ifdef TOUCH
     protected void touchMainPanelPressed(int x, int y) {
-        if (x> width-50) {
+        int zoneWidth = width / 4;
+        
+        if (x > width - zoneWidth) {
             cmdAlert();
-        } else if (x < 50){
+        } else if (x < zoneWidth){
             cmdStatus();
         } else {
             showActiveContacts(null);

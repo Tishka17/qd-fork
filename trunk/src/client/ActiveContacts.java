@@ -62,7 +62,7 @@ public final class ActiveContacts extends VirtualList implements
     private static final int SORT_BY_STATUS = 0;
     private static final int SORT_BY_MSGCOUNT = 1;
 
-    private Vector contacts = new Vector();
+    private Vector contacts;
 
     private Command cmdOk;
     private Command cmdCreateMultiMessage;
@@ -72,7 +72,7 @@ public final class ActiveContacts extends VirtualList implements
     private Command cmdSortByMsgsCount;
     private Command cmdClearAllMessages;
 
-    public ActiveContacts(Contact current) {
+    public ActiveContacts(Vector contacts, Contact current) {
         cmdOk = new Command(SR.get(SR.MS_SELECT), 0x43);
         cmdCreateMultiMessage = new Command(SR.get(SR.MS_MULTI_MESSAGE), 0x81);
         cmdSortType = new Command(SR.get(SR.MS_SORT_TYPE), 0x64);
@@ -80,15 +80,8 @@ public final class ActiveContacts extends VirtualList implements
         cmdSortByStatus = new Command(SR.get(SR.MS_SORT_TYPE_STATUS), 0x64);
         cmdSortByMsgsCount = new Command(SR.get(SR.MS_SORT_TYPE_MSGS), 0x64);
         cmdClearAllMessages = new Command(SR.get(SR.MS_CLEAN_ALL_MESSAGES), 0x41);
-
-        Vector hContacts = BombusQD.sd.roster.getHContacts();
-        int size = hContacts.size();
-        for (int i = 0; i < size; ++i) {
-           Contact c = (Contact)hContacts.elementAt(i);
-           if (c.active()) {
-               contacts.addElement(c);
-           }
-        }
+        
+        this.contacts = contacts;
 
         if (contacts.contains(current)) {
             focusToContact(current);

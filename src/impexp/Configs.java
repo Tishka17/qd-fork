@@ -253,6 +253,7 @@ public class Configs {
         writeInt(data, "vibraRepeatPause", ac.vibraRepeatPause);
 
         writeBoolean(data, "vibrateOnlyHighlited", ac.vibrateOnlyHighlited);
+        writeBoolean(data, "enableAttention", ac.enableAttention);
 
         data.append("</config>\n");
 
@@ -458,6 +459,7 @@ public class Configs {
             ac.vibraRepeatPause = readInt(data, "vibraRepeatPause", ac.vibraRepeatPause);
 
             ac.vibrateOnlyHighlited = readBoolean(data, "vibrateOnlyHighlited", ac.vibrateOnlyHighlited);
+            ac.enableAttention = readBoolean(data, "enableAttention", ac.enableAttention);
 
 //#ifdef HISTORY
             Config.historyTypeIndex = readInt(data, "historyTypeIndex", Config.historyTypeIndex);

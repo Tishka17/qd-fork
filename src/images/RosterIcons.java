@@ -103,6 +103,7 @@ public class RosterIcons extends ImageList {
     public static final byte ICON_REGISTER_INDEX = 0x15;
     public static final byte ICON_MSGCOLLAPSED_INDEX = 0x16;
     public static final byte ICON_MESSAGE_INDEX = 0x20;
+    public static final byte ICON_DELIVERED_INDEX = 0x21;
     public static final byte ICON_AUTHRQ_INDEX = 0x21;
     public static final byte ICON_COMPOSING_INDEX = 0x22;    
     public static final byte ICON_AD_HOC=ICON_COMPOSING_INDEX;
@@ -115,8 +116,6 @@ public class RosterIcons extends ImageList {
     public static final byte ICON_KEYBLOCK_INDEX = 0x17;
     public static final byte ICON_VIEWING_INDEX = 0x14;
     public static final byte ICON_APPEARING_INDEX = 0x36;
-
-    public static final byte ICON_DELIVERED_INDEX = 0x27;
     public static final byte ICON_TRANSPARENT = 0x44;
 
     public static final byte ICON_PLUGINBOX_CHECKED = 0x36;

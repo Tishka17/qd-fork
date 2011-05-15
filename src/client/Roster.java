@@ -223,10 +223,23 @@ public final class Roster
         updateMainBar();
     }
 
-    public void showActiveContacts(Contact current){
-        ActiveContacts form = new ActiveContacts(current);
-        form.setParentView(this);
-        form.show();
+    public void showActiveContacts(Contact current) {
+        Vector contacts = new Vector();
+        Vector hContacts = getHContacts();
+        
+        Contact contact;
+        int size = hContacts.size();
+        for (int i = 0; i < size; ++i) {
+           contact = (Contact)hContacts.elementAt(i);
+           if (contact.active()) {
+               contacts.addElement(contact);
+           }
+        }
+        if (!contacts.isEmpty()) {
+            ActiveContacts form = new ActiveContacts(contacts, current);
+            form.setParentView(this);
+            form.show();
+        }
     }
 
     public void showActionsMenu(Object object) {

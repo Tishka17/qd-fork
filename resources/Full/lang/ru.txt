@@ -36,7 +36,6 @@ Room	Комната
 Messages	Сообщения
 Refresh	Обновить
 Resolve Nicknames	Преобразовать в ник
-Action	Действие
 Ban	Бан (ban)
 Leave Room	Покинуть комнату
 Password	Пароль
@@ -532,8 +531,6 @@ Network	Настройки сети
 Appearance	Внешний вид
 Application	Приложение
 Hotkeys	Горячие клавиши
-Autostatus	Автостатус
-Color Themes	Цветовые схемы
 History	История сообщений
 Fonts	Шрифты
 Notifications&Light Control	Уведомления и подсветка
@@ -574,9 +571,17 @@ Light control	Управление подсветкой
 Enable light control	Включить управление подсветкой
 Idle screen brightness	Яркость в покое
 Keypress screen brightness	Яркость после нажатия
-Keypress idle timeout	Таймаут после нажатия(сек.)
+Keypress idle timeout	Таймаут после нажатия (сек.)
 Message screen brightness	Яркость при сообщении
-Message idle timeout	Таймаут после сообщения(сек.)
+Message idle timeout	Таймаут после сообщения (сек.)
+Presence screen brightness	Яркость при смене статуса
+Presence idle timeout	Таймаут после смены статуса (сек.)
+Connect screen brightness	Яркость при подключении
+Connect idle timeout	Таймаут при подключении (сек.)
+Error screen brightness	Яркость при ошибке
+Error idle timeout	Таймаут при ошибке (сек.)
+Blink brightness	Яркость мигания
+Blink timeout	Интервал между миганиями (сек.)
 Use 5 key to create Message	Клавиша 5 для создания сообщения
 Use Light to draw panels	Светлый градиент панелей
 MainBar Gradient Light #	Градиент панелей #
@@ -641,3 +646,7 @@ Hide panels, popups and baloons; simple cursor	Скрыть панели, всп
 Show panels and popups; gradient cursor	Показывать панели и всплывающие окна; градиентный курсор
 Show panels, popups and baloons; show time and traffic on panel; gradient cursor	Показывать панели, всплывающие окна и подсказки; время и трафик на панелях; градиентный курсор
 Keep current settings	Не изменять настройки
+There are no active conferences	Активных конференций нет
+Account has been removed from server successfully	Аккаунт был успешно удалён с сервера
+Use	Клиент
+Lang	Язык

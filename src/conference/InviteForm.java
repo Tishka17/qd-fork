@@ -67,7 +67,7 @@ public class InviteForm extends DefForm {
             reason = new TextInput(SR.get(SR.MS_REASON), null, TextField.ANY);
             addControl(reason);
         } else {
-            addControl(new MultiLine(null, "There are no active conferences"));
+            addControl(new MultiLine(null, SR.get(SR.MS_NO_ACTIVE_ROOMS)));
         }
 
         // first control is unselectable

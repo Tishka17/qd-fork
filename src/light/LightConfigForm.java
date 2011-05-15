@@ -90,36 +90,36 @@ public class LightConfigForm extends DefForm {
 
         addControl(new SpacerItem(SPACE_HEIGHT));
 
-        addControl(new SimpleString("Presence screen brightness", true));
+        addControl(new SimpleString(SR.get(SR.MS_PRESENCE_VALUE), true));
         lightPresence = new LightControlItem(Config.lightPresence);
         addControl(lightPresence);
 
-        lightPresenceTime = new NumberInput("Presence idle timeout", Config.lightPresenceTime, 1, 600);
+        lightPresenceTime = new NumberInput(SR.get(SR.MS_PRESENCE_TIMEOUT), Config.lightPresenceTime, 1, 600);
         addControl(lightPresenceTime);
 
         addControl(new SpacerItem(SPACE_HEIGHT));
 
-        addControl(new SimpleString("Connect screen brightness", true));
+        addControl(new SimpleString(SR.get(SR.MS_CONNECT_VALUE), true));
         lightConnect = new LightControlItem(Config.lightConnect);
         addControl(lightConnect);
 
-        lightConnectTime = new NumberInput("Connect idle timeout", Config.lightConnectTime, 1, 600);
+        lightConnectTime = new NumberInput(SR.get(SR.MS_CONNECT_TIMEOUT), Config.lightConnectTime, 1, 600);
         addControl(lightConnectTime);
 
         addControl(new SpacerItem(SPACE_HEIGHT));
 
-        addControl(new SimpleString("Error screen brightness", true));
+        addControl(new SimpleString(SR.get(SR.MS_ERROR_VALUE), true));
         lightError = new LightControlItem(Config.lightError);
         addControl(lightError);
 
-        lightErrorTime = new NumberInput("Error idle timeout", Config.lightErrorTime, 1, 600);
+        lightErrorTime = new NumberInput(SR.get(SR.MS_ERROR_TIMEOUT), Config.lightErrorTime, 1, 600);
         addControl(lightErrorTime);
 
-        addControl(new SimpleString("Blink brightness", true));
+        addControl(new SimpleString(SR.get(SR.MS_BLINK_VALUE), true));
         lightBlink = new LightControlItem(Config.lightBlink);
         addControl(lightBlink);
 
-        lightBlinkTime = new NumberInput("Blink timeout", Config.lightBlinkTime, 1, 600);
+        lightBlinkTime = new NumberInput(SR.get(SR.MS_BLINK_TIMEOUT), Config.lightBlinkTime, 1, 600);
         addControl(lightBlinkTime);
     }
 

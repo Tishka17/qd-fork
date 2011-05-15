@@ -621,7 +621,9 @@ public class ServiceDiscovery extends VirtualList implements MenuListener, Jabbe
                 try {
                     ostream.writeUTF((String)favServers.elementAt(i));
                 } catch (IOException e) {
-                    e.printStackTrace();
+//#ifdef DEBUG
+//#                     e.printStackTrace();
+//#endif
                 }
             }
             NvStorage.writeFileRecord(ostream, FAV_SERVERS_DB, 0, true);

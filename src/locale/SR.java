@@ -170,7 +170,7 @@ public class SR {
      public final static short MS_STARTUP  = 138; //Startup
      public final static short MS_EDIT_RULE  = 139; //Edit rule
      public final static short MS_CANCEL  = 140; //Cancel
-     public final static short MS_COLOR_SCHEMES = 141; //Color Themes
+     public final static short MS_NO_ACTIVE_ROOMS = 141; //There are no active conferences
      public final static short MS_ARCHIVE  = 142; //Archive
      public final static short MS_CONFERENCE  = 143; //Conference
      public final static short MS_SOUND  = 144; //Sound
@@ -319,7 +319,7 @@ public class SR {
      public final static short MS_CONTROL_ITEM = 287; //Control color
      public final static short MS_GRADIENT_BGND_LEFT = 288; //Gradient_Background_left color
      public final static short MS_GRADIENT_BGND_RIGHT = 289; //Gradient_Background_right color
-     public final static short MS_COLOR_TUNE = 290; //Themes
+     public final static short MS_THEMES = 290; //Themes
      public final static short MS_VIBRATION_LEN = 291; //Vibration Len
      public final static short MS_TIME = 292; //Time
      public final static short MS_ROLE_PARTICIPANT = 293; //participant
@@ -671,6 +671,17 @@ public class SR {
      public final static short MS_APPEARANCE  = 639; //Appearance
      public final static short MS_CATEGORY  = 640; //Category
      public final static short MS_TYPE  = 641; //Type
+     public final static short MS_PRESENCE_VALUE = 642; //Presence screen brightness
+     public final static short MS_PRESENCE_TIMEOUT = 643; //Presence idle timeout
+     public final static short MS_CONNECT_VALUE = 644; //Connect screen brightness
+     public final static short MS_CONNECT_TIMEOUT = 645; //Connect idle timeout
+     public final static short MS_ERROR_VALUE = 646; //Error screen brightness
+     public final static short MS_ERROR_TIMEOUT = 647; //Error idle timeout
+     public final static short MS_BLINK_VALUE = 648; //Blink brightness
+     public final static short MS_BLINK_TIMEOUT = 649; //Blink timeout
+     public final static short MS_ACCOUNT_HAS_BEEN_REMOVED = 650; //Account has been removed from server successfully
+     public final static short MS_USE = 651; //Use
+     public final static short MS_LANG = 652; //Lang
 
      private static String[] localeItemsDefault = new String[0];
     private static String[] localeItems = {
@@ -815,7 +826,7 @@ public class SR {
         "Startup",
         "Edit rule",
         "Cancel",
-        "Color Themes",
+        "There are no active conferences",
         "Archive",
         "Conference",
         "Sound",
@@ -1315,7 +1326,18 @@ public class SR {
         "Network",
         "Appearance",
         "Category",
-        "Type"
+        "Type",
+        "Presence screen brightness",
+        "Presence idle timeout",
+        "Connect screen brightness",
+        "Connect idle timeout",
+        "Error screen brightness",
+        "Error idle timeout",
+        "Blink brightness",
+        "Blink timeout",
+        "Account has been removed from server successfully",
+        "Use",
+        "Lang"
    };
 
     private SR() { }
@@ -1376,6 +1398,5 @@ public class SR {
         localeItems[0] = langName;
         localeItems[1] = langName;
         localeItems  = new StringLoader().arrayLoader(langFile, localeItems);
-        System.out.println(localeItems.length);
     }
 }

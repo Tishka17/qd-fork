@@ -112,7 +112,6 @@ public class GetFileServer extends DefForm implements MenuListener, Runnable {
             addControl(new MultiLine("Last version", (String)versions[0].elementAt(0)));
 
             int size = versions[0].size();
-            System.out.println(size);
             for (int i = 1; i < size; i++) {
                 String name = (String)versions[0].elementAt(i);
                 if (name != null) {

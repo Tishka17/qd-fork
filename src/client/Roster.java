@@ -1777,7 +1777,7 @@ public final class Roster
                         JabberDataBlock reg=data.findNamespace("query","jabber:iq:register");
                         JabberDataBlock remove=reg.getChildBlock("remove");
                         if(remove!=null){
-                            new AccountRemoveForm(from).show();
+                            new AccountRemoveForm().show();
                             return JabberBlockListener.BLOCK_PROCESSED;
                         }
                     }
@@ -3377,7 +3377,10 @@ public final class Roster
 //#ifdef CLIENTS_ICONS
                 if (midlet.BombusQD.cf.showClientIcon) {
                     if (cntact.client != -1) {
-                        mess.append("\nUse: ").append(cntact.clientName);
+                        mess.append("\n")
+                            .append(SR.get(SR.MS_USE))
+                            .append(": ")
+                            .append(cntact.clientName);
                         if (cntact.version != null) {
                             mess.append(" ").append(cntact.version);
                         }
@@ -3385,7 +3388,10 @@ public final class Roster
                 }
 //#endif
                 if (cntact.lang != null) {
-                    mess.append("\nLang: ").append(cntact.lang);
+                    mess.append("\n")
+                        .append(SR.get(SR.MS_LANG))
+                        .append(": ")
+                        .append(cntact.lang);
                 }
             }
 

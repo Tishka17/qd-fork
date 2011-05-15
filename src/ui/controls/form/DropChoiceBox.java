@@ -160,10 +160,6 @@ public  class DropChoiceBox extends IconTextElement {
         }
 
         switch (keyCode) {
-            case VirtualCanvas.FIRE:
-            case VirtualCanvas.KEY_NUM5:
-                onSelect(null);
-                return true;
             case VirtualCanvas.LEFT:
             case VirtualCanvas.KEY_NUM4:
                 if (--index < 0) {

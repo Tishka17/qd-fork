@@ -54,6 +54,8 @@ public class SmilePicker extends DefForm implements VirtualElement {
     private int lines;
 
     private int lineHeight;
+    private int lineWidth;
+    private int imgHeight;
     private int imgWidth;
 
     private ImageList il;
@@ -85,16 +87,19 @@ public class SmilePicker extends DefForm implements VirtualElement {
 
         realWidth=getWidth()-scrollbar.getScrollWidth();
 
-        imgWidth=il.getWidth()+(CURSOR_HOFFSET<<1);
-        lineHeight = il.getHeight()+(CURSOR_VOFFSET<<1);
+        imgWidth = il.getWidth() + (CURSOR_HOFFSET<<1);
+        imgHeight = il.getHeight() + (CURSOR_VOFFSET<<1);
+        
+        lineWidth = Math.max(imgWidth, Config.getInstance().minItemHeight);
+        lineHeight = Math.max(imgHeight, Config.getInstance().minItemHeight);
 
-        xCnt= realWidth / imgWidth;
+        xCnt = realWidth / lineWidth;
 
         lines=imgCnt/xCnt;
         xLastCnt=imgCnt-lines*xCnt;
         if (xLastCnt>0) lines++; else xLastCnt=xCnt;
 
-        xBorder=(realWidth-(xCnt*imgWidth))/2;
+        xBorder=(realWidth-(xCnt * lineWidth)) / 2;
     }
 
     int lineIndex;
@@ -130,31 +135,36 @@ public class SmilePicker extends DefForm implements VirtualElement {
 
     public void drawItem(VirtualList view, Graphics g, int ofs, boolean selected){
         int max=(lineIndex==lines-1)? xLastCnt:xCnt;
+        
+        int x, y;
+        
         for (int i=0;i<max;i++) {
             int index = lineIndex*xCnt + i;
-            int x = xBorder + CURSOR_HOFFSET + i*imgWidth;
+            //x = xBorder + CURSOR_HOFFSET + i * lineWidth + (lineWidth - imgWidth) / 2;
+            //y = CURSOR_VOFFSET + (lineHeight - imgHeight) / 2;
+            
             if(aniSmiles){
-                int hCenter = (imgWidth-il.getWidth(index))/2;
-                int vCenter = (lineHeight-il.getHeight(index))/2;
-                x+=hCenter;
-                il.drawImage(g, index, x, vCenter);
+                x = xBorder + CURSOR_HOFFSET + i * lineWidth + (lineWidth - il.getWidth(index)) / 2;
+                y = CURSOR_VOFFSET + (lineHeight - il.getHeight(index)) / 2;
             }else {
-                il.drawImage(g, index, x, CURSOR_VOFFSET);
+                x = xBorder + CURSOR_HOFFSET + i * lineWidth + (lineWidth - imgWidth) / 2;
+                y = CURSOR_VOFFSET + (lineHeight - imgHeight) / 2;
             }
+            il.drawImage(g, index, x, y);
         }
     }
 
     public void drawCursor (Graphics g, int x0, int y0, int width, int height){ //Tishka17
-         int x=xBorder+(xCursor*imgWidth);
+         int x=xBorder+(xCursor*lineWidth);
          g.setColor(getColorBGnd());
          g.fillRect(0,y0,width, height);
-         super.drawCursor(g, x+x0,y0,imgWidth, lineHeight);
+         super.drawCursor(g, x+x0,y0,lineWidth, lineHeight);
          getMainBarItem().setElementAt(getTipString(), 0);
      }
 
     protected void drawBalloon(final Graphics g, int balloon, final String text) {
         if (cursor==0) balloon+=lineHeight+Balloon.getHeight();
-        int x=xBorder+(xCursor*imgWidth);
+        int x=xBorder+(xCursor*lineWidth);
         g.translate(x, balloon);
         Balloon.draw(g, text);
     }
@@ -213,10 +223,10 @@ public class SmilePicker extends DefForm implements VirtualElement {
                 pointer_state != POINTER_NONE) {
             return;
         }
-        if (x>=xCnt*imgWidth) return;
-        if (pointer_state == POINTER_SECOND && xCursor!= x/imgWidth)
+        if (x>=xCnt*lineWidth) return;
+        if (pointer_state == POINTER_SECOND && xCursor!= x/lineWidth)
             pointer_state = POINTER_NONE;
-        xCursor=x/imgWidth;
+        xCursor=x/lineWidth;
         setRotator();
         if (cursor!=lines-1) return;
         if (xCursor >= xLastCnt) xCursor=xLastCnt-1;

@@ -65,8 +65,12 @@ public final class SelectPEP extends DefForm implements VirtualElement, InputTex
     private int xLastCnt;
     private int xCursor;
     private int lines;
+
     private int lineHeight;
+    private int lineWidth;
+    private int imgHeight;
     private int imgWidth;
+
     private ImageList il;
     private int realWidth=0;
     private int xBorder = 0;
@@ -144,7 +148,6 @@ public final class SelectPEP extends DefForm implements VirtualElement, InputTex
        Activity.ACTIVITY_on_the_phone,
        Activity.ACTIVITY_on_video_phone,
 
-
        Activity.CATEGORY_traveling,
        Activity.ACTIVITY_commuting,
        Activity.ACTIVITY_cycling,
@@ -194,15 +197,20 @@ public final class SelectPEP extends DefForm implements VirtualElement, InputTex
 
         imgCnt = pep.size();
         realWidth = getWidth()-scrollbar.getScrollWidth();
+        
         imgWidth = il.getWidth()+(CURSOR_HOFFSET*2);
-        lineHeight = il.getHeight()+(CURSOR_VOFFSET*2);
-        xCnt = realWidth / imgWidth;
+        imgHeight = il.getHeight()+(CURSOR_VOFFSET*2);
+        
+        lineWidth = Math.max(imgWidth, Config.getInstance().minItemHeight);
+        lineHeight = Math.max(imgHeight, Config.getInstance().minItemHeight);
+        
+        xCnt = realWidth / lineWidth;
 
         lines=imgCnt/xCnt;
         xLastCnt=imgCnt-lines*xCnt;
         if (xLastCnt>0) lines++; else xLastCnt=xCnt;
 
-        xBorder=(realWidth-(xCnt*imgWidth))/2;
+        xBorder=(realWidth-(xCnt*lineWidth))/2;
 
         updateMainBar();
         super.show();
@@ -239,9 +247,6 @@ public final class SelectPEP extends DefForm implements VirtualElement, InputTex
       }
     }
 
-
-
-    //******************************USER ACTIVITY PUBLISH******************************
     private String category = null;
     private String descr;
 
@@ -291,19 +296,13 @@ public final class SelectPEP extends DefForm implements VirtualElement, InputTex
           return;
         }
     }
-    //******************************USER ACTIVITY PUBLISH******************************
 
-
-
-
-    //******************************USER MOOD PUBLISH******************************
     public void okNotify(String moodText) {
         int index = pep.indexOf(getTipString());
         String moodName = Moods.getInstance().getMoodName(index);
         publishMood(moodText, moodName);
         BombusQD.sd.roster.show();
     }
-
 
     public void publishMood(final String moodText, final String moodName) {
         BombusQD.cf.moodName=moodName;
@@ -337,33 +336,32 @@ public final class SelectPEP extends DefForm implements VirtualElement, InputTex
         }
        BombusQD.cf.saveToStorage();//?
    }
-    //******************************USER MOOD PUBLISH******************************
-
-
 
     public void drawItem(VirtualList view, Graphics g, int ofs, boolean selected){
         int max=(lineIndex==lines-1)? xLastCnt:xCnt;
         int index = 0;
         int x = 0;
+        int y = 0;
         for (int i=0;i<max;i++) {
-            index = lineIndex*xCnt + i;
-            x = xBorder + CURSOR_HOFFSET + i*imgWidth;
-            il.drawImage(g, index, x, CURSOR_VOFFSET);
+            index = lineIndex * xCnt + i;
+            x = xBorder + CURSOR_HOFFSET + i * lineWidth + (lineWidth - imgWidth) / 2;
+            y = CURSOR_VOFFSET + (lineHeight - imgHeight) / 2;
+            il.drawImage(g, index, x, y);
         }
     }
 
     public void drawCursor (Graphics g, int x0, int y0, int width, int height){ //Tishka17
-         int x=xBorder+(xCursor*imgWidth);
+         int x=xBorder+(xCursor*lineWidth);
          g.setColor(getColorBGnd());
          g.fillRect(0,y0,width, height);
-         super.drawCursor(g, x+x0,y0,imgWidth, lineHeight);
+         super.drawCursor(g, x+x0,y0,lineWidth, lineHeight);
 
          updateMainBar();
      }
 
     protected void drawBalloon(final Graphics g, int balloon, final String text) {
         if (cursor==0) balloon+=lineHeight+Balloon.getHeight();
-        int x=xBorder+(xCursor*imgWidth);
+        int x=xBorder+(xCursor * lineWidth);
         int widthItem = FontCache.getFont(false, Config.baloonFont).stringWidth(text);
         int width = g.getClipWidth() - 10;
         if( widthItem + x > width) { //fix autoCorrect
@@ -426,10 +424,10 @@ public final class SelectPEP extends DefForm implements VirtualElement, InputTex
                 pointer_state != POINTER_NONE) {
             return;
         }
-        if (x>=xCnt*imgWidth) return;
-        if (pointer_state == POINTER_SECOND && xCursor!= x/imgWidth)
+        if (x>=xCnt * lineWidth) return;
+        if (pointer_state == POINTER_SECOND && xCursor!= x / lineWidth)
             pointer_state = POINTER_NONE;
-        xCursor=x/imgWidth;
+        xCursor=x / lineWidth;
         setRotator();
         if (cursor!=lines-1) return;
         if (xCursor >= xLastCnt) {

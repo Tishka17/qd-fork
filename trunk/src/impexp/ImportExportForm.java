@@ -83,7 +83,6 @@ public class ImportExportForm extends Menu implements BrowserListener {
 
     public void BrowserFilePathNotify(String path) {
         MenuItem mItem = (MenuItem)getFocusedObject();
-        System.out.println(path);
         switch (mItem.index) {
 //#if ARCHIVE
             case ARCHIVE_EXPORT:

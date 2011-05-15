@@ -16,19 +16,19 @@ public class AccountRemoveForm extends DefForm {
 
     private boolean confirm;
 
+    public AccountRemoveForm() {
+        this(null, true);
+    }
+    
     public AccountRemoveForm(Account account) {
-        this(account, false, null);
+        this(account, false);
     }
 
-    public AccountRemoveForm(String name) {
-        this(null, true, name);
-    }
-
-    private AccountRemoveForm(Account account, boolean confirm, String name) {
+    private AccountRemoveForm(Account account, boolean confirm) {
         super("");
 
         if (confirm) {
-            addControl(new MultiLine(null, "Account has been deleted from server successfully"));
+            addControl(new MultiLine(null, SR.get(SR.MS_ACCOUNT_HAS_BEEN_REMOVED)));
         } else {
             this.account = account;
 

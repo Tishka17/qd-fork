@@ -41,7 +41,6 @@ public class HistoryExportTask implements Runnable {
     public HistoryExportTask(Vector msgs, String path) {
         this.msgs = msgs;
         this.path = path;
-        System.out.println(path);
     }
 
     public void start() {

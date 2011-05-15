@@ -66,14 +66,14 @@ public class ColorConfigForm extends DefForm
     private TrackItem cursor_bgnd;
 
     public ColorConfigForm() {
-        super(SR.get(SR.MS_COLOR_TUNE));
+        super(SR.get(SR.MS_THEMES));
 
         Vector[] files = new StringLoader().stringLoader("/themes/res.txt", 2);
         if (files != null) {
             int size = files[0].size();
 
             if (size > 0) {
-                skinFiles = new ColorThemeSelector(SR.get(SR.MS_COLOR_SCHEMES));
+                skinFiles = new ColorThemeSelector(SR.get(SR.MS_THEMES));
 
                 for (int i = 0; i < size; ++i) {
                     String themeName = (String)files[1].elementAt(i);

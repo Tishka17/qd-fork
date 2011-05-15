@@ -2453,20 +2453,15 @@ public final class Roster
           }
      }
 
-     private static StringBuffer mucContactBuf = new StringBuffer(0);
      private String processPresence(MucContact mc, JabberDataBlock xmuc, Presence presence, String Prtext) {
-//#ifdef DEBUG_CONSOLE
-//#           midlet.BombusQD.debug.add("::role: processPresence", 10);
-//#           midlet.BombusQD.debug.add("::role: processPresence->affiliation.." +  mc.affiliation, 10);
-//#           midlet.BombusQD.debug.add("::role: processPresence->role.." +  mc.role, 10);
-//#endif
-
          String affiliation = mc.affiliation;
          String role = mc.role;
          String from = mc.jid.getJid();
          byte presenceType=presence.getTypeIndex();
 
-         if (presenceType==Presence.PRESENCE_ERROR) return StringUtils.processError(presence, presenceType, (ConferenceGroup)mc.group, mc);
+         if (presenceType==Presence.PRESENCE_ERROR) {
+             return StringUtils.processError(presence, presenceType, (ConferenceGroup)mc.group, mc);
+         }
 
          JabberDataBlock item=xmuc.getChildBlock("item");
 
@@ -2495,10 +2490,6 @@ public final class Roster
 
          boolean roleChanged = !tempRole.equals(role);
          boolean affiliationChanged = !tempAffiliation.equals(affiliation);
- //#ifdef DEBUG_CONSOLE
-//#          midlet.BombusQD.debug.add("::role: " +  role  + "/"  + tempRole +  "("  + roleChanged +  ")"   +
-//#                  "\naff:" +  affiliation +  "/" +  tempAffiliation +  "("  + affiliationChanged  + ")", 10);
-//#endif
 
          mc.affiliation = tempAffiliation;
          mc.role = tempRole;
@@ -2535,7 +2526,7 @@ public final class Roster
              }
          }
 
-         mucContactBuf = new StringBuffer(0);
+         StringBuffer mucContactBuf = new StringBuffer(0);
          mucContactBuf.append(mc.getNick().trim());
 
          String statusText = presence.getChildBlockText("status");
@@ -2570,18 +2561,17 @@ public final class Roster
                      mc.setNick(chNick);
                      break;
                  case 301: //ban
-                     presenceType=Presence.PRESENCE_ERROR;
-                     break;
                  case 307: //kick
-                     mucContactBuf.append((statusCode==301)? SR.get(SR.MS_WAS_BANNED) : SR.get(SR.MS_WAS_KICKED) );
+                     mucContactBuf.append((statusCode==301) ? SR.get(SR.MS_WAS_BANNED) : SR.get(SR.MS_WAS_KICKED) );
 //#ifdef POPUPS
-                     if (  ((ConferenceGroup)mc.group).selfContact  == mc ) {
-                         setWobble(3, null, ((statusCode==301)? SR.get(SR.MS_WAS_BANNED) :
-                             SR.get(SR.MS_WAS_KICKED))+((reason.length() != 0)?"\n"+reason:""));
+                     if (((ConferenceGroup) mc.group).selfContact == mc) {
+                         setWobble(3, null, ((statusCode == 301) ? SR.get(SR.MS_WAS_BANNED)
+                                 : SR.get(SR.MS_WAS_KICKED)) + ((reason.length() != 0) ? "\n" + reason : ""));
                      }
 //#endif
-                     if (reason.length() != 0)
-                         mucContactBuf.append('(').append(reason).append(')');
+                     if (reason.length() != 0) {
+                         mucContactBuf.append(" (").append(reason).append(")");
+                     }
 
                      testMeOffline(mc, (ConferenceGroup)mc.group , true);
                      break;
@@ -2612,17 +2602,24 @@ public final class Roster
                      mucContactBuf.append(" (").append(tempRealJid).append(')');
                  }
                  mucContactBuf.append(SR.get(SR.MS_HAS_JOINED_THE_CHANNEL_AS));
-                 if (affiliationCode!=MucContact.AFFILIATION_MEMBER) mucContactBuf.append(getRoleLocale(roleCode));
+                 if (affiliationCode!=MucContact.AFFILIATION_MEMBER) {
+                     mucContactBuf.append(getRoleLocale(roleCode));
+                 }
                  //
                  if (!mc.affiliation.equals("none")) {
-                     if (roleCode!=MucContact.ROLE_PARTICIPANT) mucContactBuf.append(SR.get(SR.MS_AND));
+                     if (roleCode!=MucContact.ROLE_PARTICIPANT) {
+                         mucContactBuf.append(SR.get(SR.MS_AND));
+                     }
                      mucContactBuf.append(getAffiliationLocale(affiliationCode));
                  }
-
-                 if (statusText.length()>0) mucContactBuf.append(" (").append(statusText).append(')');
+                 if (statusText.length()>0) {
+                     mucContactBuf.append(" (").append(statusText).append(')');
+                 }
              } else {
                  mucContactBuf.append(SR.get(SR.MS_IS_NOW));
-                 if (roleChanged) mucContactBuf.append(getRoleLocale(roleCode));
+                 if (roleChanged) {
+                     mucContactBuf.append(getRoleLocale(roleCode));
+                 }
                  if(mc.role.equals("visitor")) {
                        if(null != item.getChildBlockText("reason")) {
                            mucContactBuf.append('(').append(item.getChildBlockText("reason")).append(')');
@@ -2632,7 +2629,9 @@ public final class Roster
                      if (roleChanged) mucContactBuf.append(SR.get(SR.MS_AND));
                      mucContactBuf.append(getAffiliationLocale(affiliationCode));
                  }
-                 if (!roleChanged && !affiliationChanged) mucContactBuf.append(Prtext);
+                 if (!roleChanged && !affiliationChanged) {
+                     mucContactBuf.append(Prtext);
+                 }
              }
          }
 

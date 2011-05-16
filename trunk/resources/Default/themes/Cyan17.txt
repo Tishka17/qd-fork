@@ -1,4 +1,4 @@
-xmlSkin	default
+xmlSkin	Tishkà17
 BALLOON_INK	0x000000
 BALLOON_BGND	0xceffff
 LIST_BGND	0xe0fff0

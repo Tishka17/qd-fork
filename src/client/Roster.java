@@ -3046,10 +3046,14 @@ public final class Roster
 //#ifdef ANDROID
 //#         createMessageEdit();
 //#endif
+        
 //#ifdef RUNNING_MESSAGE
         msgEditor.setTicker(c.getNickJid());
 //#endif
         msgEditor.show(c, body);
+//#ifdef ANDROID
+//# msgEditor = null; 
+//#endif     
     }
 
     protected void keyGreen() {

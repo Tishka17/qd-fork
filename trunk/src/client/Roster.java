@@ -1627,16 +1627,7 @@ public final class Roster
               b = f.fileRead();
               len = b.length;
               photoImg=Image.createImage(b, 0, len);
-              int newW=photoImg.getWidth();
-              int newH=photoImg.getHeight();
-                while(newW > midlet.BombusQD.cf.maxAvatarWidth || newH > midlet.BombusQD.cf.maxAvatarHeight){
-                  newW -= (newW*10)/100;
-                  newH -= (newH*10)/100;
-                }
-              c.img_vcard = resizeImage(photoImg,newW,newH);
-              c.avatar_width=newW;
-              c.avatar_height=newH;
-              //errorLog("AVATAR APPLY: " + photoImg + "(" + c.img_vcard + ")");
+              c.setImageAvatar(photoImg);
               f.close();
               f = null;
           } catch(OutOfMemoryError eom) {

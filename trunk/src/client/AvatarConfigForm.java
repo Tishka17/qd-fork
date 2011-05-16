@@ -155,7 +155,7 @@ public class AvatarConfigForm extends DefForm {
             int size1 = e.size() - 1;
             int size = midlet.BombusQD.sd.roster.contactList.contacts.size();
 
-            StaticData.getInstance().roster.errorLog(e.toString());
+            //StaticData.getInstance().roster.errorLog(e.toString());
             for (int i = 0; i < size1; i++) {
                 for (int j = 0; j < size; j++) {
                     c = (Contact)midlet.BombusQD.sd.roster.contactList.contacts.elementAt(j);
@@ -173,7 +173,6 @@ public class AvatarConfigForm extends DefForm {
                         }
                     } else {
                         String checkNick = StringUtils.replaceBadChars("muc_" + c.getNick());
-                        int len = checkNick.length() - 1;
                         String fsName = e.elementAt(i).toString();
                         if (fsName.startsWith("muc") && fsName.indexOf(checkNick) > -1) {
                             if (createContactImageFS(c, fsName)) {
@@ -206,21 +205,14 @@ public class AvatarConfigForm extends DefForm {
             if (c.hasPhoto == false) {
                 try {
                     photoImg = Image.createImage(b, 0, len);
-                    int newW = photoImg.getWidth();
-                    int newH = photoImg.getHeight();
-                    while (newW > config.maxAvatarWidth || newH > config.maxAvatarHeight) {
-                        newW -= (newW * 10) / 100;
-                        newH -= (newH * 10) / 100;
-                    }
-                    c.img_vcard = resizeImage(photoImg, newW, newH);
-                    c.avatar_width = newW;
-                    c.avatar_height = newH;
+                    c.setImageAvatar(photoImg);
                 } catch (OutOfMemoryError eom) {
-                    StaticData.getInstance().roster.errorLog("createContactImage: OutOfMemoryError " + c.getJid());
+                    //StaticData.getInstance().roster.errorLog("createContactImage: OutOfMemoryError " + c.getJid());
                 } catch (Exception e) {
-                    StaticData.getInstance().roster.errorLog("createContactImage: Exception " + c.getJid());
+                    //StaticData.getInstance().roster.errorLog("createContactImage: Exception " + c.getJid());
                 }
             }
+            f.close();
         } catch (Exception e) {
         }
         return true;
@@ -235,15 +227,7 @@ public class AvatarConfigForm extends DefForm {
             if (c.hasPhoto) {
                 try {
                     photoImg = Image.createImage(c.vcard.getPhoto(), 0, c.vcard.getPhoto().length);
-                    int newW = photoImg.getWidth();
-                    int newH = photoImg.getHeight();
-                    while (newW > config.maxAvatarWidth || newH > config.maxAvatarHeight) {
-                        newW -= (newW * 10) / 100;
-                        newH -= (newH * 10) / 100;
-                    }
-                    c.img_vcard = resizeImage(photoImg, newW, newH);
-                    c.avatar_width = newW;
-                    c.avatar_height = newH;
+                    c.setImageAvatar(photoImg);
                 } catch (OutOfMemoryError eom) {
                     //StaticData.getInstance().roster.errorLog("UpdateAvatars_menu: OutOfMemoryError "+c.getJid());
                 } catch (Exception e) {

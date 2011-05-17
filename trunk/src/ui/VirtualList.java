@@ -894,23 +894,23 @@ public abstract class VirtualList extends CanvasEx {
                     transformColorLight(getMainBarBGnd(), c*midlet.BombusQD.cf.gradientBarLight1),
                     transformColorLight(getMainBarBGndBottom(), c*midlet.BombusQD.cf.gradientBarLight2), Gradient.MIXED_DOWN);
             MainBarBG.paint(g);
-            if (midlet.BombusQD.cf.shadowBar) {
-                int sh = (width <= height)?width:height;
-                if (reverse) {
-                    sh = sh/50;
-                       drawShadow(g,0,y-sh,width,sh,200,10);
-                }
-                else {
-                    sh = sh/40;
-                       drawShadow(g,0,y+h,width,sh,10,200);
-                }
-            }
          } else 
 //#endif
-         {
-             g.setColor(getMainBarBGnd());
-             g.fillRect(0, y, width, h);
-         }
+        {
+            g.setColor(getMainBarBGnd());
+            g.fillRect(0, y, width, h);
+        }
+        if (midlet.BombusQD.cf.shadowBar) {
+            int sh = (width <= height)?width:height;
+            if (reverse) {
+                sh = sh/50;
+                   drawShadow(g,0,y-sh,width,sh,200,10);
+            }
+            else {
+                sh = sh/40;
+                   drawShadow(g,0,y+h,width,sh,10,200);
+            }
+        }
         setAbsOrg(g, 0, y);
         g.setColor(getMainBarRGB());
         mainbar.drawItem(this, g,(phoneManufacturer==Config.NOKIA && !reverse)?17:0,false);
@@ -926,22 +926,22 @@ public abstract class VirtualList extends CanvasEx {
                     transformColorLight(getMainBarBGndBottom(), c*midlet.BombusQD.cf.gradientBarLight2),
                     Gradient.MIXED_UP);
             InfoBarBG.paint(g);
-            if (midlet.BombusQD.cf.shadowBar) {
-                int sh = (width <= height)?width:height;
-                if (!reverse) {
-                    sh = sh/50;
-                       drawShadow(g,0,y-sh,width,sh,200,10);
-                }
-                else {
-                    sh = sh/40;
-                       drawShadow(g,0,y+h,width,sh,10,200);
-                }
-            }
         } else 
 //#endif
         {
             g.setColor(getMainBarBGnd());
             g.fillRect(0, y, width, h);
+        }
+        if (midlet.BombusQD.cf.shadowBar) {
+            int sh = (width <= height)?width:height;
+            if (!reverse) {
+                sh = sh/50;
+                   drawShadow(g,0,y-sh,width,sh,200,10);
+            }
+            else {
+                sh = sh/40;
+                   drawShadow(g,0,y+h,width,sh,10,200);
+            }
         }
         if(midlet.BombusQD.sd.roster!=null) {
             if (midlet.BombusQD.sd.roster.messageCount>0) {
@@ -958,11 +958,7 @@ public abstract class VirtualList extends CanvasEx {
         g.setColor(getMainBarRGB());
         infobar.drawItem(this, g,(phoneManufacturer==Config.NOKIA && reverse)?20:0,false);
     }
-
-//#ifdef GRADIENT
-    private static Gradient InfoBarBG=new Gradient();
-    private static Gradient MainBarBG=new Gradient();
-
+    
     private void drawShadow(final Graphics g, int ox, int oy, int width, int height, int op1, int op2) {
         int []menuBarShadow = new int[width];
         int alpha, color;
@@ -976,6 +972,10 @@ public abstract class VirtualList extends CanvasEx {
             g.drawRGB(menuBarShadow, 0, width, ox, oy+y, width, 1, true);
         }
     }
+
+//#ifdef GRADIENT
+    private static Gradient InfoBarBG=new Gradient();
+    private static Gradient MainBarBG=new Gradient();
     
    private static int transformColorLight(int color, int light) {
 		int r = (color & 0xFF) + light;

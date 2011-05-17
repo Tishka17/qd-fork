@@ -46,6 +46,11 @@ import ui.keys.UserKeysList;
 import history.HistoryConfigForm;
 //#endif
 
+import ui.controls.form.SimpleString;
+import ui.controls.form.SpacerItem;
+import ui.controls.form.LinkString;
+import ui.controls.AlertBox;
+
 /**
  *
  * @author aqent
@@ -89,6 +94,24 @@ public class ConfigForm extends DefForm {
 //#             addPluginBox(SR.get(SR.MS_DEBUG_MENU), PluginBox.DEBUG);
 //#endif
         }
+        addControl(new SpacerItem(6));
+        addControl(new SimpleString("Advanced mode:", true));
+        addControl(new LinkString((midlet.BombusQD.cf.userAppLevel > 0)?"Use simple mode":"Unlock adnvanced mode") {
+            public void doAction() {
+                String authMsg;
+                if (midlet.BombusQD.cf.userAppLevel == 0) {
+                    midlet.BombusQD.cf.userAppLevel = 1;
+                    authMsg = "Advanced Mode now ON";
+                } else {
+                    midlet.BombusQD.cf.userAppLevel = 0;
+                    authMsg = "Advanced Mode now OFF!";
+                }
+                midlet.BombusQD.cf.saveInt();
+                AlertBox box = new AlertBox(SR.get(SR.MS_INFO), authMsg, AlertBox.BUTTONS_OK, 10);
+                box.setParentView(getParentView());
+                box.show();
+            }
+        });
     }
     
     private void addPluginBox(String label, int type) {
@@ -100,6 +123,9 @@ public class ConfigForm extends DefForm {
     }
 
     public String touchLeftCommand() {
+        if (! (getFocusedObject() instanceof PluginBox)) {
+            return null;
+        }
         PluginBox box = (PluginBox)getFocusedObject();
         if (!box.isEnabled()) {
             return null;
@@ -112,6 +138,11 @@ public class ConfigForm extends DefForm {
     }
 
     public void cmdOk() {
+        if (! (getFocusedObject() instanceof PluginBox)) {
+            super.cmdOk();
+            return;
+        }
+            
         PluginBox box = (PluginBox)getFocusedObject();
         if (!box.isEnabled()) {
             return;

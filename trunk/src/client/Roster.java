@@ -3384,7 +3384,7 @@ public final class Roster
 //#endif
                 if (cntact.lang != null) {
                     mess.append("\n")
-                        .append(SR.get(SR.MS_LANG))
+                        .append(SR.get(SR.MS_LANGUAGE))
                         .append(": ")
                         .append(cntact.lang);
                 }

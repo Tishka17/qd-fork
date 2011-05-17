@@ -1,6 +1,8 @@
-/themes/default.txt	default
-/themes/z-ice.txt	z-ice
-/themes/red_17.txt	red_17
+/themes/Cyan17.txt	Cyan17
+/themes/Gray.txt	Gray
+/themes/Warm_wind.txt	Теплый ветер
+/themes/Blue17.txt	Blue17
 /themes/green.txt	green
-/themes/light.txt	light
-/themes/sky.txt	sky
+/themes/Just_b&w.txt	Just_b&w
+/themes/Electro.txt	Electro
+/themes/Dark only.txt	Dark only

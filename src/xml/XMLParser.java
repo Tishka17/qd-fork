@@ -273,7 +273,8 @@ public class XMLParser {
         int lenn = sb.length();
         char k;
 
-        temp = new StringBuffer(0);
+        
+       /* temp = new StringBuffer(0);
         try{
           int i = 0;
           while(i<lenn){
@@ -288,7 +289,7 @@ public class XMLParser {
           }
         } catch (Exception e) {}
 
-        sb = temp;
+        sb = temp;*/
         lenn = sb.length();
         //System.out.println("BUF("+lenn+"):" + sb);
         char c;

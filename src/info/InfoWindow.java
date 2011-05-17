@@ -39,6 +39,7 @@ import ui.controls.AlertBox;
 import ui.controls.form.DefForm;
 import ui.controls.form.LinkString;
 import ui.controls.form.MultiLine;
+import ui.controls.form.SimpleString;
 import ui.controls.form.SpacerItem;
 
 /**
@@ -47,7 +48,6 @@ import ui.controls.form.SpacerItem;
  */
 
 public class InfoWindow extends DefForm {
-    private int auth = 0;
 
     public InfoWindow() {
         super(SR.get(SR.MS_ABOUT));
@@ -85,41 +85,49 @@ public class InfoWindow extends DefForm {
 
         addControl(new SpacerItem(6));
 
-//#ifdef TOUCH
-        if (Config.isTouchPhone) {
-            addControl(
-                    new MultiLine("Easter Egg", "Press link under this text"));
-            addControl(new LinkString("Yes,give me egg") {
-
-                public void doAction() {
-                    showMsg();
+        //TODO: real names
+        addControl(new MultiLine("Copyright (c) 2005-2011","Distributed under GPL v2 License"));
+        addControl(new MultiLine("BombusQD",   
+                "Alexej Kotov(aqent),\n" +
+                "Andrey Tikhonov (Tishka17)\n" + 
+                "Alexey Esprit (-Esprit-)"));
+        addControl(new LinkString("http://bombusqd.hdd1.ru") {
+            public void doAction() {
+                try {
+                    BombusQD.getInstance().platformRequest("http://bombusqd.hdd1.ru/m/");
+                } catch (ConnectionNotFoundException ex) {
                 }
-
-            });
-        } else
-//#endif
-        {
-            addControl(new MultiLine(
-                    "Easter Egg:", "Press 5-1-2 keys to lock/unlock new options"));
-        }
-
+            }
+        });
+        addControl(new MultiLine("BombusMod", 
+                "Daniel Apatin (ad)"));
+        addControl(new LinkString("http://bombusmod.net.ru") {
+            public void doAction() {
+                try {
+                    BombusQD.getInstance().platformRequest("http://bombusmod.net.ru");
+                } catch (ConnectionNotFoundException ex) {
+                }
+            }
+        });
+        addControl(new MultiLine("Bombus",  
+                  "Eugene Stahov (evgs)"));
+        addControl(new LinkString("http://bombus-im.org") {
+            public void doAction() {
+                try {
+                    BombusQD.getInstance().platformRequest("http://bombus-im.org");
+                } catch (ConnectionNotFoundException ex) {
+                }
+            }
+        });
         addControl(new SpacerItem(6));
-
-        addControl(new MultiLine("Copyright (c) 2005-2011",
-                "Eugene Stahov (evgs,Bombus);\nDaniel Apatin (ad,BombusMod);\nAlexej Kotov(aqent,BombusQD);\n"
-                + "Andrey Tikhonov(Tishka17,BombusQD)\n"
-                + "Distributed under GPL v2 License"));
-
-        addControl(new MultiLine("Thanks to:", "Testing: zaetz,balor,demon(Dmitry Krylov),magnit,Sniffy,NNn,DsXack and many others\n"
-                + "Patches: Vladimir Krukov (aspro),vinz@\n"
-                + "Graphics: Xa,Makasim\n"
-                + "Actions icons: Rederick Asher\n"
-                + "Site managment: BiLLy\n"
-                + "Jimm Dev's for back.png ;)\n"
-                + "Windows Fonts: magdelphi(mobilab.ru)"
-                + "\nMathFP library"
-                + "\nSmiles Author: Copyright (c) Aiwan. Kolobok smiles"));
-
+        addControl(new SimpleString("Special thanks", true));
+        addControl(new MultiLine("Patches:", "Vladimir Krukov (aspro), vinz@, radiance, _modi, Марс"));
+        addControl(new MultiLine("Graphics:", "Xa, Makasi, fin, -dp-"));
+        addControl(new MultiLine("Site managment:", "Makasi, BiLLy"));
+        addControl(new MultiLine("Actions icons:", "Rederick Asher"));
+        addControl(new MultiLine("Themes:", "Lesli, Я2R and others"));
+        addControl(new MultiLine("Testing: ", "zaetz, balor, demon(Dmitry Krylov), magnit, Sniffy, NNn, DsXack, Gho$t, Artem, Tiesto and many others"));
+        addControl(new MultiLine("Smiles:", "Copyright (c) Aiwan. Kolobok smiles"));
         addControl(new LinkString("http://www.kolobok.us") {
             public void doAction() {
                 try {
@@ -129,23 +137,6 @@ public class InfoWindow extends DefForm {
             }
         });
 
-        addControl(new LinkString("http://bombusmod-qd.wen.ru") {
-            public void doAction() {
-                try {
-                    BombusQD.getInstance().platformRequest("http://bombusmod-qd.wen.ru");
-                } catch (ConnectionNotFoundException ex) {
-                }
-            }
-        });
-
-        addControl(new LinkString("http://bombusmod.net.ru") {
-            public void doAction() {
-                try {
-                    BombusQD.getInstance().platformRequest("http://bombusmod.net.ru");
-                } catch (ConnectionNotFoundException ex) {
-                }
-            }
-        });
 
         addControl(new SpacerItem(6));
 
@@ -167,47 +158,4 @@ public class InfoWindow extends DefForm {
         destroyView();
     }
 
-    private void showMsg() {
-        String authMsg;
-        if (midlet.BombusQD.cf.userAppLevel == 0) {
-            midlet.BombusQD.cf.userAppLevel = 1;
-            authMsg = "Advanced Mode now ON";
-        } else {
-            midlet.BombusQD.cf.userAppLevel = 0;
-            authMsg = "Advanced Mode now OFF!";
-        }
-        midlet.BombusQD.cf.saveInt();
-        AlertBox box = new AlertBox(SR.get(SR.MS_INFO), authMsg, AlertBox.BUTTONS_OK, 10);
-        box.setParentView(getParentView());
-        box.show();
-    }
-
-    public void keyPressed(int keyCode) {
-        switch (auth) {
-            /*1*/ case 0:
-                if (keyCode == KEY_NUM5) {
-                    auth++;
-                }
-                break;
-            /*2*/ case 1:
-                if (keyCode == KEY_NUM1) {
-                    auth++;
-                } else {
-                    auth = 0;
-                }
-                break;
-            /*3*/ case 2:
-                if (keyCode == KEY_NUM2) {
-                    auth++;
-                } else {
-                    auth = 0;
-                }
-                break;
-        }
-        if (auth == 3) {
-            showMsg();
-            auth = 0;
-        }
-        super.keyPressed(keyCode);
-    }
 }

@@ -37,10 +37,10 @@ guilty	винуватий
 happy	щасливий
 hopeful	надіюсь
 hot	жарко
-humbled	смиренне
+humbled	смиренний
 humiliated	принижений
 hungry	хочу їсти
-hurt	скривджене
+hurt	скривджений
 impressed	вражений
 in_awe	підчинений
 in_love	любов

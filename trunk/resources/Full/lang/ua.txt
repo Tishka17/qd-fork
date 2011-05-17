@@ -650,7 +650,7 @@ There are no active conferences	Активних конференцій нема
 Account has been removed from server successfully	Аккаунт бул успішно видалений з сервера
 Use	Кліент
 Advanced mode	Розширений режим
-Use simple mode	Вик. простий режим
-Unlock adnvanced mode	Вик. розширений режим
+Use simple mode	Вимк. простий режим
+Unlock adnvanced mode	Вимк. розширений режим
 Advanced mode is enabled	Розширений режим ввімкнений
 Advanced Mode is disabled	Розширений режим вимкнений

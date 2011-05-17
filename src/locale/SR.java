@@ -681,7 +681,11 @@ public class SR {
      public final static short MS_BLINK_TIMEOUT = 649; //Blink timeout
      public final static short MS_ACCOUNT_HAS_BEEN_REMOVED = 650; //Account has been removed from server successfully
      public final static short MS_USE = 651; //Use
-     public final static short MS_LANG = 652; //Lang
+     public final static short MS_ADVANCED_MODE = 652; //Advanced mode
+     public final static short MS_USE_SIMPLE_MODE = 653; //Use simple mode
+     public final static short MS_USE_ADVANCED_MODE = 654; //Unlock adnvanced mode
+     public final static short MS_ADVANCED_MODE_ENABLED = 655; //Advanced mode is enabled
+     public final static short MS_ADVANCED_MODE_DISABLED = 656; //Advanced Mode is disabled
 
      private static String[] localeItemsDefault = new String[0];
     private static String[] localeItems = {
@@ -1337,7 +1341,11 @@ public class SR {
         "Blink timeout",
         "Account has been removed from server successfully",
         "Use",
-        "Lang"
+        "Advanced mode",
+        "Use simple mode",
+        "Unlock adnvanced mode",
+        "Advanced mode is enabled",
+        "Advanced Mode is disabled"
    };
 
     private SR() { }

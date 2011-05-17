@@ -649,4 +649,8 @@ Keep current settings	Не изменять настройки
 There are no active conferences	Активных конференций нет
 Account has been removed from server successfully	Аккаунт был успешно удалён с сервера
 Use	Клиент
-Lang	Язык
+Advanced mode	Расширенный режим
+Use simple mode	Исп. простой режим
+Unlock adnvanced mode	Исп. расширенный режим
+Advanced mode is enabled	Расширенный режим включён
+Advanced Mode is disabled	Расширенный режим отключён

@@ -95,19 +95,20 @@ public class ConfigForm extends DefForm {
 //#endif
         }
         addControl(new SpacerItem(6));
-        addControl(new SimpleString("Advanced mode:", true));
-        addControl(new LinkString((midlet.BombusQD.cf.userAppLevel > 0)?"Use simple mode":"Unlock adnvanced mode") {
+        addControl(new SimpleString(SR.get(SR.MS_ADVANCED_MODE) + ":", true));
+        addControl(new LinkString(
+                SR.get(Config.getInstance().userAppLevel > 0 ? SR.MS_USE_SIMPLE_MODE : SR.MS_USE_ADVANCED_MODE)) {
             public void doAction() {
                 String authMsg;
-                if (midlet.BombusQD.cf.userAppLevel == 0) {
-                    midlet.BombusQD.cf.userAppLevel = 1;
-                    authMsg = "Advanced Mode now ON";
+                if (Config.getInstance().userAppLevel == 0) {
+                    Config.getInstance().userAppLevel = 1;
+                    authMsg = SR.get(SR.MS_ADVANCED_MODE_ENABLED);
                 } else {
-                    midlet.BombusQD.cf.userAppLevel = 0;
-                    authMsg = "Advanced Mode now OFF!";
+                    Config.getInstance().userAppLevel = 0;
+                    authMsg = SR.get(SR.MS_ADVANCED_MODE_DISABLED);
                 }
-                midlet.BombusQD.cf.saveInt();
-                AlertBox box = new AlertBox(SR.get(SR.MS_INFO), authMsg, AlertBox.BUTTONS_OK, 10);
+                Config.getInstance().saveInt();
+                AlertBox box = new AlertBox(SR.get(SR.MS_INFO), authMsg, AlertBox.BUTTONS_OK);
                 box.setParentView(getParentView());
                 box.show();
             }
@@ -134,7 +135,7 @@ public class ConfigForm extends DefForm {
     }
 
     public void eventLongOk() {
-	touchLeftPressed();
+        touchLeftPressed();
     }
 
     public void cmdOk() {

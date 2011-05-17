@@ -1,5 +1,5 @@
 ﻿doing_chores	Займаюсь господарством
-buying_groceries	Купляю продукти
+buying_groceries	Купую продукти
 cleaning	Прибираю
 cooking	Готую
 doing_maintenance	Ремонт
@@ -31,7 +31,7 @@ grooming	Догляд за собою
 at_the_spa	В спа салоні
 brushing_teeth	Чищу зуби
 getting_a_haircut	Роблю зачіску
-shaving	Бриюсь
+shaving	Голюсь
 taking_a_bath	Приймаю ванну
 taking_a_shower	Приймаю душ
 having_appointment	Зустріч
@@ -59,8 +59,8 @@ watching_tv	Дивлюсь ТВ
 watching_a_movie	Дивлюсь кіно
 talking	Розмовляю
 in_real_life	В реальному житті
-on_the_phone	Говорю по телефону
-on_video_phone	Говорю по відеотелефону
+on_the_phone	Розмовляю по телефону
+on_video_phone	Розмовляю по відеотелефону
 traveling	Мандрую
 commuting	Їду з роботи/на роботу
 cycling	На велосипеді
@@ -68,8 +68,8 @@ driving	Водіння
 in_a_car	В машині
 on_a_bus	В автобусі
 on_a_plane	В літаку
-on_a_train	В поезде
-on_a_trip	В поездке
+on_a_train	В поїзді
+on_a_trip	В поїздці 
 walking	Прогулянка
 working	Працюю
 coding	Пишу програму

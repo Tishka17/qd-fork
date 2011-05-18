@@ -528,7 +528,7 @@ Italic	Нахилений шрифт
 Contacts	Контакти
 Chat	Вікно чату і повідомлень
 Network	Налаштування мережі
-Appearance Зовнішній вигляд
+Appearance	Зовнішній вигляд
 Application	Программа
 Hotkeys	Гарячі клавіші
 History	Історія повідомлень
@@ -648,9 +648,9 @@ Show panels, popups and baloons; show time and traffic on panel; gradient cursor
 Keep current settings	Не змінювати налаштуання
 There are no active conferences	Активних конференцій немає
 Account has been removed from server successfully	Аккаунт бул успішно видалений з сервера
-Use	Кліент
+Use	Клієнт
 Advanced mode	Розширений режим
-Use simple mode	Вимк. простий режим
-Unlock adnvanced mode	Вимк. розширений режим
+Use simple mode	Вимк. розширений режим
+Unlock adnvanced mode	Ввімк. розширений режим
 Advanced mode is enabled	Розширений режим ввімкнений
 Advanced Mode is disabled	Розширений режим вимкнений

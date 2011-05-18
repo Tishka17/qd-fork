@@ -276,8 +276,8 @@ public abstract class BaseMessageEdit implements CommandListener {
                 send(null, null);
             }
             multiMessage = false;
-            if (null != to && c == cmdSuspend) {
-                to.msgSuspended = body;
+            if (null != to) {
+                to.msgSuspended = (c == cmdSuspend) ? body : null;
             }
             body = null;
             destroyView();
@@ -294,7 +294,7 @@ public abstract class BaseMessageEdit implements CommandListener {
                         send(null, null);
                     }
                     multiMessage = false;
-                    if (null != to && to.msgSuspended != null) {
+                    if (null != to) {
                         to.msgSuspended = null;
                     }
                     destroyView();

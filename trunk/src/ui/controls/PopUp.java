@@ -295,13 +295,13 @@ public class PopUp {
 
         switch (scrollable) {
             case SCROLLABLE_UP:
-                ri.drawImage(graph, 0x27, widthBorder+maxWdth-ri.getWidth(), heightBorder+popUpHeight-ri.getHeight());
+                ri.drawImage(graph, RosterIcons.ICON_ARROW_LEFT, widthBorder+maxWdth-ri.getWidth(), heightBorder+popUpHeight-ri.getHeight());
                 break;
             case SCROLLABLE_BOTH:
-                ri.drawImage(graph, 0x25, widthBorder+maxWdth-ri.getWidth(), heightBorder+popUpHeight-ri.getHeight());
+                ri.drawImage(graph, RosterIcons.ICON_ARROW_RIGHTLEFT, widthBorder+maxWdth-ri.getWidth(), heightBorder+popUpHeight-ri.getHeight());
                 break;
             case SCROLLABLE_DOWN:
-                ri.drawImage(graph, 0x26, widthBorder+maxWdth-ri.getWidth(), heightBorder+popUpHeight-ri.getHeight());
+                ri.drawImage(graph, RosterIcons.ICON_ARROW_RIGHT, widthBorder+maxWdth-ri.getWidth(), heightBorder+popUpHeight-ri.getHeight());
                 break;
         }
 

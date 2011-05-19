@@ -33,14 +33,14 @@ import javax.microedition.lcdui.Graphics;
 import colors.ColorTheme;
 import font.FontCache;
 
-public class Balloon {
-    private static Font f=FontCache.getFont(false, Config.baloonFont);
-    
+public class Balloon {   
     public static int getHeight(){
-        return f.getHeight()+1;
+        return FontCache.getFont(false, Config.baloonFont).getHeight() + 1;
     }
     
     public static void draw(Graphics g, String text) {
+        Font f = FontCache.getFont(false, Config.baloonFont);
+        
         g.setFont(f);
         int height=getHeight();
         int width=f.stringWidth(text)+6;

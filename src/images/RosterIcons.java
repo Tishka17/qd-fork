@@ -92,35 +92,39 @@ public class RosterIcons extends ImageList {
     public static final byte ICON_ERROR_INDEX = 0x11;
     public static final byte ICON_TRASHCAN_INDEX = 0x12;
     public static final byte ICON_PROGRESS_INDEX = 0x13;
-    public static final byte ICON_MODERATOR_INDEX = 0x50;
-    public static final byte ICON_PRIVACY_ACTIVE = 0x46;
-    public static final byte ICON_ROOMLIST=ICON_PRIVACY_ACTIVE;
-    public static final byte ICON_PRIVACY_PASSIVE = 0x47;
-    public static final byte ICON_GROUPCHAT_INDEX = 0x40;
-    public static final byte ICON_GCJOIN_INDEX = 0x41;   
-    public static final byte ICON_GCCOLLAPSED_INDEX = 0x42;
+    public static final byte ICON_VIEWING_INDEX = 0x14;
     public static final byte ICON_SEARCH_INDEX = 0x14;
     public static final byte ICON_REGISTER_INDEX = 0x15;
     public static final byte ICON_MSGCOLLAPSED_INDEX = 0x16;
+    public static final byte ICON_KEYBLOCK_INDEX = 0x17;
     public static final byte ICON_MESSAGE_INDEX = 0x20;
-    public static final byte ICON_DELIVERED_INDEX = 0x21;
     public static final byte ICON_AUTHRQ_INDEX = 0x21;
     public static final byte ICON_COMPOSING_INDEX = 0x22;    
     public static final byte ICON_AD_HOC=ICON_COMPOSING_INDEX;
     public static final byte ICON_EXPANDED_INDEX = 0x23;
     public static final byte ICON_COLLAPSED_INDEX = 0x24;
     public static final byte ICON_MESSAGE_BUTTONS = 0x25;
-    public static final byte ICON_PROFILE_INDEX = 0x30;
+    public static final byte ICON_PROFILE_INDEX = 0x30;/*30..34*/
+    public static final byte ICON_DELIVERED_INDEX = 0x35;
     public static final byte ICON_PRIVACY_ALLOW = 0x36;
-    public static final byte ICON_PRIVACY_BLOCK = 0x37;
-    public static final byte ICON_KEYBLOCK_INDEX = 0x17;
-    public static final byte ICON_VIEWING_INDEX = 0x14;
     public static final byte ICON_APPEARING_INDEX = 0x36;
+    public static final byte ICON_PRIVACY_BLOCK = 0x37;
+    public static final byte ICON_GROUPCHAT_INDEX = 0x40;
+    public static final byte ICON_GCJOIN_INDEX = 0x41;   
+    public static final byte ICON_GCCOLLAPSED_INDEX = 0x42;
     public static final byte ICON_TRANSPARENT = 0x44;
+    public static final byte ICON_PRIVACY_ACTIVE = 0x46;
+    public static final byte ICON_ROOMLIST=ICON_PRIVACY_ACTIVE;
+    public static final byte ICON_PRIVACY_PASSIVE = 0x47;
+    public static final byte ICON_MODERATOR_INDEX = 0x50;
 
     public static final byte ICON_PLUGINBOX_CHECKED = 0x36;
     public static final byte ICON_PLUGINBOX_UNCHECKED = 0x37;
 
-    public static final byte ICON_CHOICEBOX_CHECKED = 0x57;
     public static final byte ICON_CHOICEBOX_UNCHECKED = 0x56;
+    public static final byte ICON_CHOICEBOX_CHECKED = 0x57;
+
+    public static final byte ICON_ARROW_RIGHTLEFT = 0x25;
+    public static final byte ICON_ARROW_RIGHT = 0x26;
+    public static final byte ICON_ARROW_LEFT = 0x27;
 }

@@ -30,151 +30,105 @@ package io.file.browse;
 
 import io.file.FileIO;
 import java.io.IOException;
-import javax.microedition.lcdui.*;
+import javax.microedition.lcdui.Image;
 import javax.microedition.media.Manager;
 import javax.microedition.media.MediaException;
 import javax.microedition.media.Player;
-import locale.SR;
-import util.Strconv;
-import ui.VirtualList;
 import ui.controls.AlertBox;
-import midlet.BombusQD;
-import ui.CanvasEx;
+import ui.controls.form.DefForm;
+import ui.controls.form.ImageItem;
+import ui.controls.form.MultiLine;
+import util.Strconv;
 
 /**
  *
  * @author User
  */
-public class ShowFile implements CommandListener{
-    private CanvasEx parentView;
 
-    private Command back;
-    private Command stop;
-
+public class ShowFile extends DefForm {   
     private int len;
-
     private byte[] b;
 
     private Player pl;
 
-    private boolean useWin1251 = false;
+    public ShowFile(final String fileName, int type) {
+        super(fileName);
 
-    int width;
-
-    public ShowFile(final String fileName, int type,String trackname, int width, int height) {
-        this.width=width;
-
-        back = new Command(SR.get(SR.MS_BACK), Command.BACK, 2);
-        stop = new Command(SR.get(SR.MS_STOP), Command.BACK, 3);
-
-        parentView = BombusQD.sd.canvas.getCanvas();
-
-        load(fileName);
-        if (type==1) { //sounds
-          play(fileName, "", true);
-        }
-        if (type==2) view(fileName); //images
-        if (type==3) {
-            AlertBox box = new AlertBox( "Info", "Windows cp1251?" , AlertBox.BUTTONS_YESNO) {
-               public void yes() { useWin1251 = true; read(fileName);  }
-               public void no() { useWin1251 = false; read(fileName);  }
-            };
-            box.show();
+        if (loadFile(fileName)) {
+            switch (type) {
+                case Browser.TEXT_FILE:
+                    showText();
+                    break;
+                case Browser.IMAGE_FILE:
+                    showImage();
+                    break;
+                case Browser.SOUND_FILE:
+                    playFile(fileName);
+                    break;
+            }
         }
     }
 
-    private void load(String file) {
-        try {
-            FileIO f=FileIO.createConnection(file);
+    private boolean loadFile(String fileName) {
+        FileIO f = FileIO.createConnection(fileName);
+        if (f == null) {
+            return false;
+        }        
+        try {            
             b = f.fileRead();
             len = b.length;
             f.close();
-        } catch (Exception e) {}
-    }
-
-
-    private void view(String file) {
-          Image photoImg = null;
-              try {
-                photoImg = Image.createImage(b, 0, len);
-                if(photoImg.getWidth() > width) {
-                   int newW = photoImg.getWidth();
-                   int newH = photoImg.getHeight();
-                   while(newW > width) {
-                       newW-=(newW*10)/100;
-                       newH-=(newH*10)/100;
-                   }
-                   photoImg = VirtualList.resizeImage(photoImg, newW, newH);
-                }
-              }  catch(OutOfMemoryError eom) {
-              }  catch (Exception e) {
-              }
-        if (null == photoImg) return;
-        Form form = new Form(file);
-        form.append(new ImageItem(null, photoImg, ImageItem.LAYOUT_CENTER | ImageItem.LAYOUT_NEWLINE_BEFORE, "[image]"));
-        form.addCommand(back);
-        form.setCommandListener(this);
-
-        BombusQD.setCurrentView(form);
-    }
-
-    private void read(String file) {
-       Form form = new Form("");
-       TextField tf = new TextField(file+" ("+len+" bytes)", null, len, TextField.ANY);
-       form.append(tf);
-       form.addCommand(back);
-       form.setCommandListener(this);
-        if (len > 0) {
-           String s="";
-            try {
-                int maxSize=tf.getMaxSize();
-
-                if (maxSize>len){
-                    s=new String(b, 0, len);
-                } else {
-                    s=new String(b, 0, maxSize);
-                }
-            } catch (Exception e) {}
-
-            if (useWin1251) {
-                tf.setString(Strconv.convCp1251ToUnicode(s));
-            }
-            else {
-               tf.setString(s);
-            }
+        } catch (IOException e) {
+            return false;
         }
-        BombusQD.setCurrentView(form);
+        return true;
     }
 
-    private void play(String file,String trackname,boolean play) {
+    private void showImage() {
+        Image photoImg = null;
+        try {
+            photoImg = Image.createImage(b, 0, len);
+        } catch (OutOfMemoryError eom) {
+        } catch (Exception e) {}
+
+        if (null == photoImg) {
+            return;
+        }
+        addControl(new ImageItem(photoImg));
+    }
+
+    private void showText() {
+        if (len > 0) {
+            addControl(new MultiLine(null, new String(b, 0, len)));
+        }        
+    }
+
+    private void playFile(String file) {
         try {
             pl = Manager.createPlayer("file://" + file);
             pl.realize();
             pl.start();
         } catch (IOException ex) {
-            //ex.printStackTrace();
+//#ifdef DEBUG
+//#             ex.printStackTrace();
+//#endif
         } catch (MediaException ex) {
-            //ex.printStackTrace();
+//#ifdef DEBUG
+//#             ex.printStackTrace();
+//#endif
         }
 
-        Alert a = new Alert("Play", "Playing" + " " + file, null, null);
-        a.addCommand(stop);
-        a.addCommand(back);
-        a.setCommandListener(this);
-
-        BombusQD.setCurrentView(a);
+        addControl("Playing...");
     }
-
-    public void commandAction(Command c, Displayable d) {
-        if (c==back) {
-            BombusQD.sd.canvas.show(parentView);
-        }
-        if (c==stop) {
+    
+    public void destroyView() {
+        if (pl != null) {
             try {
                 pl.stop();
-                pl.close();
-            } catch (Exception e) { }
+            } catch (MediaException e) {}
+            pl.close();
         }
+        super.destroyView();
     }
 }
 //#endif

@@ -65,6 +65,10 @@ public class Browser
         MenuListener
 //#endif
     {
+    public static final int UNKNOWN_FILE = -1;
+    public static final int TEXT_FILE = 0;
+    public static final int IMAGE_FILE = 1;
+    public static final int SOUND_FILE = 2;    
 
     private Vector dir;
 
@@ -267,8 +271,8 @@ public class Browser
 
     public void showFile() {
         FileItem fi=(FileItem)getFocusedObject();
-        if (fi.getType()<4 && fi.getType()>0){
-         new ShowFile(path+fi.name, fi.getType(),fi.name, width, height);
+        if (fi.getType() != UNKNOWN_FILE){
+            new ShowFile(path + fi.name, fi.getType()).show();
         }
     }
 
@@ -297,7 +301,7 @@ public class Browser
 
         public String name;
         private int iconIndex;
-        private int type;
+        private int type = UNKNOWN_FILE;
 
         public FileItem(String name) {
             super(RosterIcons.getInstance());
@@ -310,19 +314,15 @@ public class Browser
             String snds="wav.mid.amr.wav.mp3.aac";
             String txts="txt.log";
 
-            if (txts.indexOf(ext)>=0) {
-                iconIndex=RosterIcons.ICON_PRIVACY_ACTIVE;
-                type=3;
-                return;
-            }
-            if (imgs.indexOf(ext)>=0) {
-                iconIndex=0x57;
-                type=2;
-                return;
-            }
-            if (snds.indexOf(ext)>=0) {
-                iconIndex=0x33;
-                type=1;
+            if (txts.indexOf(ext) >= 0) {
+                iconIndex = RosterIcons.ICON_PRIVACY_ACTIVE;
+                type = TEXT_FILE;
+            } else if (imgs.indexOf(ext) >= 0) {
+                iconIndex = 0x57;
+                type = IMAGE_FILE;
+            } else if (snds.indexOf(ext) >= 0) {
+                iconIndex = 0x33;
+                type = SOUND_FILE;
                 return;
             }
         }

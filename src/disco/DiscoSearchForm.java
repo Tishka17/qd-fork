@@ -83,6 +83,7 @@ public final class DiscoSearchForm extends VirtualList implements MenuListener, 
             }
         }
         updateMainBar();
+        commandState();
     }
 
     protected int getItemCount() {
@@ -136,7 +137,22 @@ public final class DiscoSearchForm extends VirtualList implements MenuListener, 
 //#      addCommand(cmdCancel);
 //#endif
     }
-
+    
+    
+//#ifdef MENU_LISTENER
+    public String touchLeftCommand(){ 
+        return (list==null)?SR.get(SR.MS_MENU):SR.get(SR.MS_SELECT); 
+    }
+    public void touchLeftPressed(){
+    //#ifdef GRAPHICS_MENU
+        if  (list==null) 
+            showGraphicsMenu();
+        else eventOk();
+    //#endif
+    }
+//#endif
+    
+    
     public void commandAction(Command c) {
         if (c == cmdSearch) {
             eventOk();
@@ -205,7 +221,6 @@ public final class DiscoSearchForm extends VirtualList implements MenuListener, 
     }
 
     public int showGraphicsMenu() {
-        commandState();
         menuItem = new GMenu(this, menuCommands);
         GMenuConfig.getInstance().itemGrMenu=GMenu.SEARCH_FORM;
         return GMenu.SEARCH_FORM;

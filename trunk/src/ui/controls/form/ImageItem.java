@@ -45,8 +45,11 @@ public class ImageItem
     private String altText;
 
     private int screenWidth;
+
+    public ImageItem(Image img) {
+        this(img, null);
+    }
     
-    /** Creates a new instance of ImageItem */
     public ImageItem(Image img, String altText) {
         super(null);
 
@@ -65,9 +68,10 @@ public class ImageItem
         if (img==null)
             return "[No image]";
         
-        StringBuffer im=new StringBuffer(altText);
-        if (altText!=null)
-            im.append(" ");
+        StringBuffer im = new StringBuffer();
+        if (altText != null) {
+            im.append(altText).append(" ");
+        }
         im.append(img.getWidth()).append("x").append(img.getHeight());
         
         return im.toString();            

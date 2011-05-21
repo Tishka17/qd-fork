@@ -25,7 +25,6 @@
  *
  */
 
-//#ifdef SERVICE_DISCOVERY 
 package disco;
 
 import java.util.Vector;
@@ -48,4 +47,3 @@ public class ServerStatsForm extends DefForm {
         destroyView();
     }
 }
-//#endif

@@ -32,12 +32,7 @@ import java.io.InputStream;
 import java.util.Vector;
 import javax.microedition.io.Connector;
 import javax.microedition.io.HttpConnection;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
 import menu.Command;
-//#endif
 import locale.SR;
 import ui.MainBar;
 import disco.DiscoSearchForm;
@@ -45,13 +40,11 @@ import javax.microedition.io.ConnectionNotFoundException;
 import menu.MenuListener;
 import midlet.BombusQD;
 import ui.controls.form.DefForm;
-//#ifdef GRAPHICS_MENU
 import ui.GMenu;
 import ui.GMenuConfig;
 import ui.controls.form.LinkString;
 import ui.controls.form.MultiLine;
 import ui.controls.form.SpacerItem;
-//#endif
 
 /**
  *
@@ -188,12 +181,11 @@ public class GetFileServer extends DefForm implements MenuListener, Runnable {
     }
 
     public void commandState() {
-//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
         cmdfirstList.removeAllElements();
         cmdsecondList.removeAllElements();
         cmdThirdList.removeAllElements();
-//#endif
+
         addCommand(cmdICQ);
         addCommand(cmdMrim);
         addCommand(cmdIrc);
@@ -201,12 +193,10 @@ public class GetFileServer extends DefForm implements MenuListener, Runnable {
         addCommand(cmdJ2J);
     }
 
-//#ifdef MENU_LISTENER
     public String touchLeftCommand() {
         return SR.get(SR.MS_MENU);
     }
 
-//#ifdef GRAPHICS_MENU
     public void touchLeftPressed() {
         showGraphicsMenu();
     }
@@ -218,16 +208,4 @@ public class GetFileServer extends DefForm implements MenuListener, Runnable {
         redraw();
         return 123;
     }
-
-//#else
-//#     public void touchLeftPressed(){
-//#         showMenu();
-//#     }
-//#
-//#     public void showMenu() {
-//#         commandState();
-//#         new MyMenu(display, parentView, this, SR.get(SR.MS_HISTORY_OPTIONS), null, menuCommands);
-//#    }
-//#endif
-//#endif
 }

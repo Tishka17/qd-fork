@@ -29,37 +29,26 @@
 package privacy;
 
 import client.StaticData;
-import javax.microedition.lcdui.Displayable;
+import com.alsutton.jabber.JabberBlockListener;
+import com.alsutton.jabber.JabberDataBlock;
+import com.alsutton.jabber.JabberStream;
 import images.RosterIcons;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
-import menu.MenuListener;
-import menu.Command;
-//#endif
+import java.util.Vector;
 import locale.SR;
-import ui.*;
-import java.util.*;
-import com.alsutton.jabber.*;
-//#ifdef GRAPHICS_MENU
+import menu.Command;
+import menu.MenuListener;
 import ui.GMenu;
-//#endif
+import ui.GMenuConfig;
+import ui.MainBar;
+import ui.VirtualElement;
+import ui.VirtualList;
 
 /**
  *
  * @author EvgS,aqent
  */
 
-public class PrivacyModifyList extends VirtualList
-        implements
-//#ifndef MENU_LISTENER
-//#         CommandListener,
-//#else
-        MenuListener,
-//#endif
-        JabberBlockListener
-{
+public class PrivacyModifyList extends VirtualList  implements  MenuListener, JabberBlockListener {
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_PRIVACY");
 //#endif
@@ -92,12 +81,8 @@ public class PrivacyModifyList extends VirtualList
     }
 
     public void commandState() {
-//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
-//#endif
-//#ifndef GRAPHICS_MENU
-//#      addCommand(cmdCancel);
-//#endif
+
         addCommand(cmdEdit);
         addCommand(cmdAdd);
         addCommand(cmdDel);
@@ -106,23 +91,12 @@ public class PrivacyModifyList extends VirtualList
         addCommand(cmdSave);
     }
 
-//#ifdef MENU_LISTENER
-
-//#ifdef GRAPHICS_MENU
     public int showGraphicsMenu() {
         commandState();
         menuItem = new GMenu(this, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.PRIVACY_MODIFY_LIST;
         return GMenu.PRIVACY_MODIFY_LIST;
     }
-//#else
-//#     public void showMenu() {
-//#         commandState();
-//#         new MyMenu(display, parentView, this, SR.get(SR.MS_STATUS), null, menuCommands);
-//#     }
-//#endif
-
-//#endif
 
     private void processIcon(boolean processing){
         getMainBarItem().setElementAt((processing)?(Object)new Integer(RosterIcons.ICON_PROGRESS_INDEX):(Object)null, 0);

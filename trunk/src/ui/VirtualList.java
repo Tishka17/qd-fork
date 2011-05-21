@@ -52,11 +52,7 @@ import util.StringUtils;
 import ui.keys.UserKeyExec;
 //#endif
 import java.util.Vector;
-
-//#ifdef MENU_LISTENER
 import menu.Command;
-import menu.MenuListener;
-//#endif
 
 public abstract class VirtualList extends CanvasEx {
 //#ifdef TOUCH
@@ -401,15 +397,12 @@ public abstract class VirtualList extends CanvasEx {
 
     protected void beginPaint(){};
 
-//#ifdef GRAPHICS_MENU
     public static GMenu menuItem;
 
     private void drawGraphicsMenu(final Graphics g) {
         if(null == menuItem) return;
         menuItem.paintCustom(g,gm.itemGrMenu);
     }
-
-//#endif
 
     public void paint(Graphics g) {
         mHeight=0;
@@ -418,13 +411,11 @@ public abstract class VirtualList extends CanvasEx {
 //#ifdef POPUPS
         getPopUp().init(g, width, height);
 //#endif
-//#ifdef GRAPHICS_MENU
         if(midlet.BombusQD.cf.graphicsMenu) {
            if(null != menuItem) {
              if(gm.ml!=null && gm.itemGrMenu==-1) menuItem.select(gm.inMenuSelected);
            }
         }
-//#endif
 
         beginPaint();
 
@@ -626,9 +617,7 @@ public abstract class VirtualList extends CanvasEx {
 
         if(gm.itemGrMenu>0 && midlet.BombusQD.cf.graphicsMenu){
           //showBalloon=false;
-//#ifdef GRAPHICS_MENU
           drawGraphicsMenu(g);
-//#endif
         }else{
 
 
@@ -1331,7 +1320,6 @@ public abstract class VirtualList extends CanvasEx {
         return false;
     }
 
-//#ifdef MENU_LISTENER
     public Vector menuCommands=new Vector(0);
 
     public Vector cmdfirstList=new Vector(0);
@@ -1379,21 +1367,12 @@ public abstract class VirtualList extends CanvasEx {
         menuCommands.removeElement(command);
     }
 
-    public void touchLeftPressed(){
-//#ifdef GRAPHICS_MENU
+    public void touchLeftPressed() {
          gm.itemGrMenu = showGraphicsMenu();
          redraw();
-//#else
-//#         showMenu();
-//#endif
     }
 
-
-//#ifdef GRAPHICS_MENU
-        public int showGraphicsMenu() { return -10; }
-//#else
-//#     public void showMenu() {};
-//#endif
+    public int showGraphicsMenu() { return -10; }
 
     public Command getCommand(int index) {
         if (index>menuCommands.size()-1) return null;
@@ -1404,12 +1383,11 @@ public abstract class VirtualList extends CanvasEx {
     public void touchRightPressed(){
         destroyView();
     }
-//#endif
+
     public void touchMiddlePressed(){
     }
 
     private void key(int keyCode) {
-//#ifdef GRAPHICS_MENU
      if(gm.itemGrMenu>0 && midlet.BombusQD.cf.graphicsMenu ) { //�������� ����
          if(null != menuItem) menuItem.keyPressed(keyCode);
          redraw();
@@ -1458,7 +1436,6 @@ public abstract class VirtualList extends CanvasEx {
             }
         }
 //#endif
-//#ifdef MENU_LISTENER
         if (keyCode==Config.SOFT_LEFT || keyCode=='(') {
             gm.itemCursorIndex=0;
             gm.itemCursorIndexIn=0;
@@ -1469,15 +1446,6 @@ public abstract class VirtualList extends CanvasEx {
             touchRightPressed();
             return;
          }
-//#else
-//#          if (keyCode==Config.SOFT_RIGHT) {
-//#             if (phoneManufacturer!=Config.SONYE || phoneManufacturer==Config.SIEMENS || phoneManufacturer==Config.SIEMENS2 || phoneManufacturer==Config.MOTO) {
-//#                if (canBack==true)
-//#                     destroyView();
-//#                 return;
-//#             }
-//#          }
-//#endif
 
     switch (keyCode) {
         case 0:
@@ -1564,153 +1532,8 @@ public abstract class VirtualList extends CanvasEx {
             }
         }
         redraw();
-     }
-//#else
-//#if DEBUG
-//#    System.out.println(keyCode);
-//#endif
-//#ifdef POPUPS
-//#         if (keyCode==greenKeyCode) {
-//#             if (popup.getContact()!=null) {
-//#                    if(midlet.BombusQD.cf.useClassicChat){
-//#                       new SimpleItemChat(display,sd.roster,sd.roster.getContact(popup.getContact(), false));
-//#                    }else{
-//#                       new ContactMessageList(sd.roster.getContact(popup.getContact(), false),display);
-//#                    }
-//#                 popup.next();
-//#                 return;
-//#             } else if (phoneManufacturer==Config.MOTO || phoneManufacturer==Config.NOKIA || phoneManufacturer==Config.NOKIA_9XXX) {
-//#                 keyGreen();
-//#                 return;
-//#             }
-//#         }
-//#endif
-//#ifdef MENU_LISTENER
-//#         if (keyCode==Config.SOFT_LEFT || keyCode=='(') {
-//#             if (reconnectWindow.getInstance().isActive()) {
-//#                 reconnectYes();
-//#                 return;
-//#             }
-//#              touchLeftPressed();
-//#             return;
-//#         }
-//#          if (keyCode==Config.SOFT_RIGHT || keyCode==')') {
-//#             if (reconnectWindow.getInstance().isActive()) {
-//#                 reconnectNo();
-//#                 return;
-//#             }
-//#              touchRightPressed();
-//#             return;
-//#          }
-//#else
-//#          if (keyCode==Config.SOFT_RIGHT) {
-//#             if (phoneManufacturer!=Config.SONYE || phoneManufacturer==Config.SIEMENS || phoneManufacturer==Config.SIEMENS2 || phoneManufacturer==Config.MOTO) {
-//#                if (canBack==true)
-//#                     destroyView();
-//#                 return;
-//#             }
-//#          }
-//#endif
-//#         if (sendEvent(keyCode)) {
-//#             redraw();
-//#             return;
-//#         }
-//#ifdef USER_KEYS
-//#         if (Config.userKeys) {
-//#             switch (additionKeyState) {
-//#                 case USER_OTHER_KEY_PRESSED:
-//#                 case USER_KEY_EXECUTED:
-//#                     additionKeyState=(keyCode==KEY_STAR)?USER_STAR_KEY_PRESSED:USER_OTHER_KEY_PRESSED;
-//#                     break;
-//#                 case USER_STAR_KEY_PRESSED:
-//#                     additionKeyState=(keyCode!=KEY_STAR)?USER_KEY_EXECUTED:USER_STAR_KEY_PRESSED;
-//#                     additionKeyPressed(keyCode);
-//#                     break;
-//#             }
-//#         }
-//#endif
-//#
-//#     switch (keyCode) {
-//#         case 0:
-//#             break;
-//#         case KEY_NUM1:
-//#             moveCursorHome();
-//#             break;
-//#         case KEY_NUM2:
-//#             keyUp();
-//#             break;
-//#         case KEY_NUM4:
-//#             userKeyPressed(keyCode);
-//#             break;
-//#         case KEY_NUM6:
-//#             userKeyPressed(keyCode);
-//#             break;
-//#         case KEY_NUM7:
-//# /*
-//#             if(running_animation==true){
-//#                 midlet.BombusQD.cf.flagQuerySign=false;
-//#                 at.stop();
-//#             }else{
-//#                 midlet.BombusQD.cf.flagQuerySign=true;
-//#                 at.start();
-//#             }
-//#  */
-//#             moveCursorEnd();
-//#             break;
-//#         case KEY_NUM8:
-//#             keyDwn();
-//#             break;
-//#         case KEY_STAR:
-//#             System.gc();
-//#             try { Thread.sleep(50); } catch (InterruptedException ex) { }
-//#             break;
-//#ifdef POPUPS
-//#         case KEY_POUND:
-//#             //if (midlet.BombusQD.cf.popUps) {
-//#                 try {
-//#                     String text=((VirtualElement)getFocusedObject()).getTipString();
-//#                     if (text!=null) {
-//#                         setWobble(1, null, text);
-//#                     }
-//#                 } catch (Exception e) { }
-//#             //}
-//#             break;
-//#endif
-//#
-//#         default:
-//#             try {
-//#                 switch (getGameAction(keyCode)){
-//#                     case UP:
-//#                         keyUp();
-//#                         break;
-//#                     case DOWN:
-//#                         keyDwn();
-//#                         break;
-//#                     case LEFT:
-//#                         pageLeft();
-//#                         break;
-//#                     case RIGHT:
-//#                         pageRight();
-//#                         break;
-//#                     case FIRE:
-//#                         eventOk();
-//#                         break;
-//#                 default:
-//#                     if (keyCode==keyClear) { keyClear(); break; }
-//#                     if (keyCode==keyVolDown) { moveCursorEnd(); break; }
-//#                     if (keyCode=='5') {  eventOk(); break; }
-//#                     if (keyCode==Config.KEY_BACK /*&&  canBack==true*/) { destroyView(); }
-//#                     if (keyCode==greenKeyCode) { keyGreen(); }
-//#
-//#                     userKeyPressed(keyCode);
-//#                 }
-//#             } catch (Exception e) {/* IllegalArgumentException @ getGameAction */}
-//#         }
-//#         redraw();
-//#endif
+        }
     }
-
-
 
     public int getPrevSelectableRef(int curRef) {
         int prevRef=curRef;

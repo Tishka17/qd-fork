@@ -41,27 +41,21 @@ import ui.controls.form.DefForm;
 import ui.controls.form.NumberInput;
 import ui.controls.form.PasswordInput;
 import ui.controls.form.TextInput;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
 import menu.Command;
-//#endif
-//#ifdef GRAPHICS_MENU
 import menu.MenuListener;
 import ui.GMenu;
 import ui.GMenuConfig;
-//#endif
+
 /**
  *
  * @author EvgS,aqent
  */
+
 public final class ConferenceForm extends DefForm implements MenuListener {
-//#ifndef MENU
     Command cmdJoin;
     Command cmdAdd;
     Command cmdSave;
-//#endif
+
     private TextInput roomField;
     private TextInput hostField;
     private TextInput nickField;
@@ -215,9 +209,8 @@ public final class ConferenceForm extends DefForm implements MenuListener {
     }
 
     public void commandState(){
-//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
-//#endif
+
         addCommand(cmdJoin);
         addCommand(cmdAdd);
         if (editConf != null) {
@@ -225,10 +218,8 @@ public final class ConferenceForm extends DefForm implements MenuListener {
         }
     }
 
-//#ifdef MENU_LISTENER
     public String touchLeftCommand(){ return SR.get(SR.MS_MENU); }
 
-//#ifdef GRAPHICS_MENU
     public void touchLeftPressed(){
         showGraphicsMenu();
     }
@@ -240,18 +231,6 @@ public final class ConferenceForm extends DefForm implements MenuListener {
         redraw();
         return GMenu.CONFERENCE_FORM;
     }
-//#else
-//#     public void touchLeftPressed(){
-//#         showMenu();
-//#     }
-//#     public void showMenu() {
-//#         commandState();
-//#         new MyMenu(display, parentView, this, SR.get(SR.MS_JOIN_CONFERENCE), null, menuCommands);
-//#    }
-//#endif
-
-
-//#endif
 
     private void saveMsgCount(int msgLimit) {
         if (midlet.BombusQD.cf.confMessageCount!=msgLimit) {

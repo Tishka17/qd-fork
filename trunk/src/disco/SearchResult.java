@@ -28,58 +28,38 @@
 //#ifdef SERVICE_DISCOVERY
 package disco;
 
-import java.util.*;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
-import menu.MenuListener;
-import menu.Command;
-//#endif
+import client.Contact;
+import client.ContactEdit;
+import client.Groups;
+import client.Msg;
+import client.StaticData;
+import com.alsutton.jabber.JabberDataBlock;
+import com.alsutton.jabber.datablocks.Presence;
+import java.util.Vector;
 import locale.SR;
-import ui.*;
-import com.alsutton.jabber.*;
-import com.alsutton.jabber.datablocks.*;
-import client.*;
 import ui.MainBar;
-//#ifdef GRAPHICS_MENU
-import ui.GMenu;
-import ui.GMenuConfig;
-//#endif
+import ui.controls.form.DefForm;
+
 /**
  *
  * @author EvgS,aqent
  */
-public class SearchResult
-        extends VirtualList
-        implements
-//#ifndef MENU_LISTENER
-//#         CommandListener,
-//#else
-        MenuListener
-//#endif
-{
-
+public class SearchResult extends DefForm {
     StaticData sd=StaticData.getInstance();
-    private Command cmdAdd;
 
-    private Vector items;
     boolean xData;
 
     public SearchResult(JabberDataBlock result) {
-        super();
+        super("");
 
-        cmdAdd=new Command(SR.get(SR.MS_ADD), 0x47);
         String service=result.getAttribute("from");
 
         setMainBarItem(new MainBar(2, null, service, false));
 
-        items=new Vector(0);
-
         JabberDataBlock query=result.getChildBlock("query");
-        if (query==null) return;
-
-        addCommand(cmdAdd);
+        if (query==null){
+            return;
+        }
 
         JabberDataBlock x=query.getChildBlock("x");
         if (x!=null) { query=x; xData=true; }
@@ -135,7 +115,7 @@ public class SearchResult
                 m.itemCollapsed = false;
                 serv.addMessage(m);
 
-                items.addElement(serv);
+                addControl(serv);
                 sd.roster.addContact(serv);
             }
         }
@@ -147,35 +127,12 @@ public class SearchResult
         sd.roster.reEnumRoster();
      }
 
-    public void commandState(){
-//#ifdef MENU_LISTENER
-        menuCommands.removeAllElements();
-//#endif
-    }
-
     public String touchLeftCommand() {
         return SR.get(SR.MS_ADD);
     }
 
     public void touchLeftPressed() {
         showContactEditForm();
-    }
-
-    public int showGraphicsMenu() {
-         commandState();
-         menuItem = new GMenu(this, menuCommands);
-         GMenuConfig.getInstance().itemGrMenu = -1;
-         eventOk();
-         return -1;
-    }
-
-    public int getItemCount(){ return items.size();}
-    public VirtualElement getItemRef(int index) { return (VirtualElement) items.elementAt(index);}
-
-    public void commandAction(Command c){
-        if (c==cmdAdd){
-            showContactEditForm();
-        }
     }
 
     private void showContactEditForm() {

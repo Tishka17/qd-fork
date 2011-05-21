@@ -40,12 +40,7 @@ import util.Time;
 //#ifdef DETRANSLIT
 //# import util.DeTranslit;
 //#endif
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
 import menu.Command;
-//#endif
 import javax.microedition.lcdui.Image;
 import locale.SR;
 import ui.controls.form.DefForm;
@@ -58,14 +53,12 @@ import util.ClipBoard;
 //#endif
 import midlet.BombusQD;
 import javax.microedition.io.ConnectionNotFoundException;
-//#ifdef GRAPHICS_MENU
 import menu.MenuListener;
 import midlet.Commands;
 import ui.GMenu;
 import ui.GMenuConfig;
 import ui.MainBar;
 import ui.VirtualElement;
-//#endif
 
 /**
  *
@@ -225,21 +218,11 @@ public class VCardView extends DefForm implements MenuListener
 //#endif
 //#ifdef CLIPBOARD
         } else if (c == Commands.cmdCopy) {
-            /*String lineValue = ((MultiLine)getFocusedObject()).getValue();
-
-            if (lineValue != null) {
-                ClipBoard.setClipBoard(lineValue);
-            }*/
             String str = ((VirtualElement)getFocusedObject()).toString();
             if (str != null) {
                 ClipBoard.setClipBoard(str);
             }
         } else if (c == Commands.cmdCopyPlus) {
-            /*String lineValue = ((MultiLine)getFocusedObject()).getValue();
-
-            if (lineValue != null) {
-                ClipBoard.addToClipBoard(lineValue);
-            }*/
             String str = ((VirtualElement)getFocusedObject()).toString();
             if (str != null) {
                 ClipBoard.addToClipBoard(str);
@@ -286,9 +269,7 @@ public class VCardView extends DefForm implements MenuListener
 //#endif
 
     public void commandState() {
-//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
-//#endif
 
         if (vcard != null) {
             if (vcard.hasPhoto) {
@@ -314,12 +295,10 @@ public class VCardView extends DefForm implements MenuListener
         addCommand(cmdRefresh);
     }
 
-//#ifdef MENU_LISTENER
     public String touchLeftCommand() {
         return SR.get(SR.MS_MENU);
     }
 
-//#ifdef GRAPHICS_MENU
     public void touchLeftPressed() {
         showGraphicsMenu();
     }
@@ -331,15 +310,4 @@ public class VCardView extends DefForm implements MenuListener
         redraw();
         return GMenu.VCARD_VIEW;
     }
-//#else
-//#     public void touchLeftPressed(){
-//#         showMenu();
-//#     }
-//#
-//#     public void showMenu() {
-//#         commandState();
-//#         new MyMenu(display, parentView, this, SR.get(SR.MS_VCARD), null, menuCommands);
-//#    }
-//#endif
-//#endif
 }

@@ -28,15 +28,10 @@
 package conference.affiliation;
 
 import client.Config;
-//#ifndef MENU_LISTENER
-//#     import javax.microedition.lcdui.CommandListener;
-//#     import javax.microedition.lcdui.Command;
-//#else
 import menu.MenuListener;
 import menu.Command;
 import ui.GMenu;
 import ui.GMenuConfig;
-//#endif
 import com.alsutton.jabber.JabberBlockListener;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.JabberStream;
@@ -58,15 +53,7 @@ import util.ClipBoard;
  * @author EvgS
  */
 
-public final class AffiliationList extends VirtualList implements
-//#ifndef MENU_LISTENER
-//#         CommandListener,
-//#else
-            MenuListener,
-//#endif
-            JabberBlockListener
-{
-
+public final class AffiliationList extends VirtualList implements MenuListener, JabberBlockListener {
     private Vector items;
     private String affiliation;
     private String namespace="http://jabber.org/protocol/muc#admin";
@@ -103,12 +90,11 @@ public final class AffiliationList extends VirtualList implements
     }
 
     public void commandState() {
-//#ifdef MENU_LISTENER
-            menuCommands.removeAllElements();
-            cmdfirstList.removeAllElements();
-            cmdsecondList.removeAllElements();
-            cmdThirdList.removeAllElements();
-//#endif
+        menuCommands.removeAllElements();
+        cmdfirstList.removeAllElements();
+        cmdsecondList.removeAllElements();
+        cmdThirdList.removeAllElements();
+
         addCommand(cmdNew);
         addCommand(cmdModify);
 
@@ -220,12 +206,10 @@ public final class AffiliationList extends VirtualList implements
         stream.send(request);
     }
 
-//#ifdef GRAPHICS_MENU
     public int showGraphicsMenu() {
         commandState();
         menuItem = new GMenu(this, null, menuCommands, cmdfirstList, cmdsecondList, cmdThirdList);
         GMenuConfig.getInstance().itemGrMenu = GMenu.AFFILIATIONS_EDIT;
         return GMenu.AFFILIATIONS_EDIT;
     }
-//#endif
 }

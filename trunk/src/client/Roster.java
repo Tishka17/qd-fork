@@ -54,17 +54,10 @@ import archive.ArchiveList;
 import images.ClientsIconsData;
 //#endif
 import images.RosterIcons;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
 import menu.MenuListener;
 import menu.Command;
-//#endif
-//#ifdef FILE_IO
-//#ifdef FILE_TRANSFER
+//#if FILE_IO && FILE_TRANSFER
 import io.file.transfer.TransferDispatcher;
-//#endif
 //#endif
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
@@ -112,7 +105,6 @@ import io.file.FileIO;
 import java.io.IOException;
 import java.io.OutputStream;
 //#endif
-//#ifdef GRAPHICS_MENU
 import ui.GMenu;
 //#ifdef SERVICE_DISCOVERY
 import disco.ServiceDiscovery;
@@ -128,9 +120,6 @@ import stats.Stats;
 //#ifdef DEBUG_CONSOLE
 //# import console.debug.DebugConsole;
 //#endif
-//#else
-//# import Menu.RosterToolsMenu;
-//#endif
 //#ifdef LIGHT_CONTROL
 import light.CustomLight;
 //#endif
@@ -142,18 +131,8 @@ import disco.ServerStatsForm;
 import history.HistoryViewer;
 //#endif
 
-public final class Roster
-        extends VirtualList
-        implements
-        JabberListener,
-//#ifndef MENU_LISTENER
-//#         CommandListener,
-//#else
-        MenuListener,
-//#endif
-        Runnable,
-        LoginListener
-{
+public final class Roster extends VirtualList
+            implements JabberListener, MenuListener, Runnable, LoginListener {
     public final static int DROP_MESSAGES_PRESENCES = 0;
     public final static int DROP_PRESENCES = 1;
     public final static int ALLOW_ALL = 2;
@@ -310,13 +289,11 @@ public final class Roster
 
         cmdStatus = new Command(SR.get(SR.MS_STATUS), MenuIcons.ICON_STATUS);
 
-//#ifdef GRAPHICS_MENU
         cmdOptions = new Command(SR.get(SR.MS_OPTIONS), 0x03);
         cmdMyService = new Command(SR.get(SR.MS_SERVICE), 0x90);
         cmdAlert = new Command(SR.get(SR.MS_ALERT_PROFILE_CMD), MenuIcons.ICON_NOTIFY);
 //#ifdef ARCHIVE
         cmdArchive = new Command(SR.get(SR.MS_ARCHIVE), MenuIcons.ICON_ARCHIVE);
-//#endif
 //#endif
 //#ifdef XML_CONSOLE
 //#         cmdXMLConsole = new Command(SR.get(SR.MS_XML_CONSOLE), MenuIcons.ICON_CONCOLE);
@@ -333,7 +310,6 @@ public final class Roster
     }
 
     private static Command cmdStatus;
-//#ifdef GRAPHICS_MENU
     private static Command cmdOptions;
     private static Command cmdMyService;
 
@@ -345,7 +321,6 @@ public final class Roster
 //#       private static Command cmdDebugConsole;
 //#endif
 
-//#endif
 //#ifdef ARCHIVE
     private static Command cmdArchive;
 //#endif
@@ -355,11 +330,8 @@ public final class Roster
     private static Command cmdQuit;
 
     public void commandState(){
-//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
-//#endif
 
-//#ifdef GRAPHICS_MENU
         addCommand(cmdStatus);
         if (isLoggedIn()) {
             addCommand(cmdMyService);
@@ -391,77 +363,14 @@ public final class Roster
         if (phoneManufacturer != Config.NOKIA_9XXX) {
             addCommand(cmdQuit);
         }
-
-//#else
-//#        addCommand(cmdTools);
-//#
-  //#ifndef MENU_LISTENER
-  //#         addCommand(cmdActions);
-  //#endif
-//#
-//#
-//#
-//#         addCommand(cmdStatus);
-  //#ifndef WMUC
-  //#ifdef MENU_LISTENER
-//#         if (isLoggedIn())
-  //#endif
-//#             addCommand(cmdConference);
-  //#endif
-//#         addCommand(cmdAlert);
-  //#ifdef ARCHIVE
-  //#ifdef PLUGINS
-  //#          if (midlet.BombusQD.sd.Archive)
-  //#endif
-//#             addCommand(cmdArchive);
-  //#endif
-  //#ifdef MENU_LISTENER
-//#         if (isLoggedIn())
-  //#endif
-//#             addCommand(cmdAdd);
-//#         addCommand(cmdAccount);
-//#         addCommand(cmdInfo);
-//#
-//#         if (midlet.BombusQD.cf.allowMinimize)
-//#             addCommand(cmdMinimize);
-//#
-//#         addCommand(cmdCleanAllMessages);
-//#         if (phoneManufacturer!=Config.NOKIA_9XXX)
-//#             addCommand(cmdQuit);
-//#
-//#
-  //#ifdef MENU_LISTENER
-//#         cmdActions.setImg(MenuIcons.ICON_ITEM_ACTIONS);
-//#         cmdStatus.setImg(MenuIcons.ICON_STATUS);
-//#
-//#         cmdAlert.setImg(MenuIcons.ICON_NOTIFY);
-  //#ifndef WMUC
-//#         cmdConference.setImg(MenuIcons.ICON_CONFERENCE);
-  //#endif
-  //#ifdef ARCHIVE
-//#         cmdArchive.setImg(MenuIcons.ICON_ARCHIVE);
-  //#endif
-//#         cmdAdd.setImg(MenuIcons.ICON_ADD_CONTACT);
-//#         cmdTools.setImg(MenuIcons.ICON_SETTINGS);
-//#         cmdAccount.setImg(MenuIcons.ICON_VCARD);
-//#         cmdInfo.setImg(MenuIcons.ICON_CHECK_UPD);
-//#         if (midlet.BombusQD.cf.allowMinimize)
-//#             cmdMinimize.setImg(MenuIcons.ICON_FILEMAN);
-//#         cmdCleanAllMessages.setImg(MenuIcons.ICON_CLEAN_MESSAGES);
-//#         cmdQuit.setImg(MenuIcons.ICON_BUILD_NEW);
-  //#endif
-//#endif
     }
 
-
-//#ifndef MENU
     public void commandAction(Command c){
-//#ifdef GRAPHICS_MENU
         if(c==cmdOptions) {
-              new ConfigForm().show();
+            new ConfigForm().show();
 //#ifdef SERVICE_DISCOVERY
-           } else if(c==cmdMyService) {
-               new ServiceDiscovery(null, null, false).show();
+        } else if(c==cmdMyService) {
+            new ServiceDiscovery(null, null, false).show();
 //#endif
 //#ifdef XML_CONSOLE
 //#             } else if(c==cmdXMLConsole){
@@ -471,38 +380,25 @@ public final class Roster
 //#           } else if(c==cmdDebugConsole){
 //#                 new DebugConsole().show();
 //#endif
-         } else if (c==cmdMinimize) { cmdMinimize();  }
-
-         else if (c==cmdAccount){ cmdAccount(); }
-         else if (c==cmdStatus) { cmdStatus(); }
-         else if (c==cmdAlert) { cmdAlert(); }
+         } else if (c==cmdMinimize) { 
+             cmdMinimize();  
+         } else if (c==cmdAccount) { 
+             cmdAccount(); 
+         } else if (c==cmdStatus) { 
+             cmdStatus(); 
+         } else if (c==cmdAlert) { 
+             cmdAlert();
 //#ifdef ARCHIVE
- 	 else if (c==cmdArchive) { cmdArchive(); }
+         } else if (c==cmdArchive) { 
+             cmdArchive();
 //#endif
-         else if (c==cmdInfo) { cmdInfo(); }
-         else if (c==cmdQuit) { cmdQuit(); }
-//#else
-//#         if (c==cmdActions) { cmdActions(); }
-//#         else if (c==cmdMinimize) { cmdMinimize();  }
-//#         else if (c==cmdAccount){ cmdAccount(); }
-//#         else if (c==cmdStatus) { cmdStatus(); }
-//#         else if (c==cmdAlert) { cmdAlert(); }
-//#ifdef ARCHIVE
-//# 	else if (c==cmdArchive) { cmdArchive(); }
-//#endif
-//#         else if (c==cmdInfo) { cmdInfo(); }
-//#         else if (c==cmdTools) { cmdTools(); }
-//#         else if (c==cmdCleanAllMessages) { cmdCleanAllMessages(); }
-//#ifndef WMUC
-//#         else if (c==cmdConference) { cmdConference(); }
-//#endif
-//#         else if (c==cmdQuit) { cmdQuit(); }
-//#         else if (c==cmdAdd) { cmdAdd(); }
-//#endif
+         } else if (c==cmdInfo) {
+             cmdInfo(); 
+         } else if (c==cmdQuit) { 
+             cmdQuit(); 
+         }
 
     }
-//#endif
-//menu actions
 
     public void cmdMinimize() {
         BombusQD.hideApp();
@@ -3606,10 +3502,6 @@ public final class Roster
         }
     }
 
-
-//#ifdef MENU_LISTENER
-
-//#ifdef GRAPHICS_MENU
     public int showGraphicsMenu() {
          GMenuConfig.getInstance().itemGrMenu = GMenu.MAIN_MENU_ROSTER;
          commandState();
@@ -3620,13 +3512,6 @@ public final class Roster
 
     public String touchLeftCommand(){ return (midlet.BombusQD.cf.oldSE)?SR.get(SR.MS_ITEM_ACTIONS):SR.get(SR.MS_MENU); }
     public String touchRightCommand(){ return (midlet.BombusQD.cf.oldSE)?SR.get(SR.MS_MENU):SR.get(SR.MS_ITEM_ACTIONS); }
-
-//#else
-//#       public void showMenu() {
-//#        commandState();
-//#        new MyMenu(display, parentView, this, SR.get(SR.MS_MAIN_MENU), MenuIcons.getInstance(), menuCommands);
-//#      }
-//#endif
 
 //#ifdef TOUCH
     protected void touchMainPanelPressed(int x, int y) {
@@ -3663,8 +3548,6 @@ public final class Roster
         redraw();
     }
 //#endif
-//#ifdef GRAPHICS_MENU
-
     public void touchRightPressed() {
         if (midlet.BombusQD.cf.oldSE) {
             showGraphicsMenu();
@@ -3680,14 +3563,6 @@ public final class Roster
             showGraphicsMenu();
         }
     }
-//#else
-//#     public void touchRightPressed(){ if (midlet.BombusQD.cf.oldSE) showMenu(); else cmdActions(); }
-//#     public void touchLeftPressed(){ if (midlet.BombusQD.cf.oldSE) cmdActions(); else showMenu(); }
-//#
-//#endif
-
-//#endif
-
 
 //#ifdef RUNNING_MESSAGE
     void setTicker(Contact c, String message) {

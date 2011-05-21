@@ -42,16 +42,9 @@ import ui.controls.form.TrackItem;
 import ui.controls.form.NumberInput;
 import util.StringLoader;
 import java.util.Enumeration;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
-//#endif
-//#ifdef GRAPHICS_MENU
 import menu.Command;
 import ui.GMenu;
 import ui.GMenuConfig;
-//#endif
 //#ifdef LIGHT_CONTROL
 import light.LightConfigForm;
 import ui.controls.form.LinkString;
@@ -276,12 +269,8 @@ public class AlertCustomizeForm extends DefForm implements MenuListener {
         addCommand(cmdSave);
     }
 
-
-//#ifdef MENU_LISTENER
     public String touchLeftCommand(){ return SR.get(SR.MS_MENU); }
 
-
-//#ifdef GRAPHICS_MENU
     public void touchLeftPressed(){
         showGraphicsMenu();
     }
@@ -294,14 +283,4 @@ public class AlertCustomizeForm extends DefForm implements MenuListener {
         redraw();
         return GMenu.ALERT_CUSTOMIZE_FORM;
     }
-//#else
-//#     public void touchLeftPressed(){
-//#         showMenu();
-//#     }
-//#     public void showMenu() {
-//#         commandState();
-//#         new MyMenu(display, parentView, this, SR.get(SR.MS_NOTICES_OPTIONS), null, menuCommands);
-//#    }
-//#endif
-//#endif
 }

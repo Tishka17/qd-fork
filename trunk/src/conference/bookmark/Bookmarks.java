@@ -36,13 +36,8 @@ import conference.affiliation.AffiliationList;
 //#ifdef SERVICE_DISCOVERY
 import disco.ServiceDiscovery;
 //#endif
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
 import menu.MenuListener;
 import menu.Command;
-//#endif
 import locale.SR;
 import ui.VirtualElement;
 import ui.VirtualList;
@@ -50,23 +45,15 @@ import java.util.Enumeration;
 import java.util.Vector;
 import ui.MainBar;
 import ui.controls.AlertBox;
-//#ifdef GRAPHICS_MENU
 import ui.GMenu;
 import ui.GMenuConfig;
-//#endif
+
 /**
  *
  * @author EvgS,aqent
  */
-public final class Bookmarks extends VirtualList
-        implements
-//#ifndef MENU_LISTENER
-//#         CommandListener
-//#else
-        MenuListener
-//#endif
-    {
 
+public final class Bookmarks extends VirtualList implements MenuListener {
     private Command cmdJoin;
     private Command cmdAdvJoin;
     private Command cmdDoAutoJoin;
@@ -125,12 +112,11 @@ public final class Bookmarks extends VirtualList
     }
 
     public void commandState() {
-//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
         cmdfirstList.removeAllElements();
         cmdsecondList.removeAllElements();
         cmdThirdList.removeAllElements();
-//#endif
+
         boolean notEmpty = (getItemCount() > 0);
 
         if (notEmpty) {
@@ -154,13 +140,10 @@ public final class Bookmarks extends VirtualList
             addInCommand(3, cmdRoomMembers);
             addInCommand(3, cmdRoomBanned);
             addInCommand(3, cmdConfigure);
-    //#ifdef SERVICE_DISCOVERY
+//#ifdef SERVICE_DISCOVERY
             addCommand(cmdDisco);
-    //#endif
-        }
-//#ifndef GRAPHICS_MENU
-//#      addCommand(cmdCancel);
 //#endif
+        }
     }
 
     protected int getItemCount() {
@@ -213,8 +196,7 @@ public final class Bookmarks extends VirtualList
 //#ifdef SERVICE_DISCOVERY
         } else if (c == cmdDisco) {
             new ServiceDiscovery(roomJid, null, false).show();
-        }
-        else if (c == cmdConfigure) {
+        } else if (c == cmdConfigure) {
             new QueryConfigForm(roomJid);
 //#endif
         } else if (c == cmdRoomOwners) {
@@ -298,19 +280,10 @@ public final class Bookmarks extends VirtualList
         box.show();
     }
 
-//#ifdef MENU_LISTENER
-//#ifdef GRAPHICS_MENU
     public int showGraphicsMenu() {
         commandState();
         menuItem = new GMenu(this, null, menuCommands, cmdfirstList, cmdsecondList, cmdThirdList);
         GMenuConfig.getInstance().itemGrMenu=GMenu.BOOKMARKS;
         return GMenu.BOOKMARKS;
     }
-//#else
-//#     public void showMenu() {
-//#         commandState();
-//#         new MyMenu(display, parentView, this, SR.get(SR.MS_BOOKMARKS), null, menuCommands);
-//#     }
-//#endif
-//#endif
 }

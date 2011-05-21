@@ -34,17 +34,11 @@ import javax.microedition.lcdui.TextBox;
 import javax.microedition.lcdui.TextField;
 import ui.MainBar;
 import message.MessageList;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.Command;
-//#else
 import menu.Command;
-//#endif
 import locale.SR;
 import ui.controls.AlertBox;
-//#ifdef IMPORT_EXPORT
-//#ifdef FILE_IO
+//#if IMPORT_EXPORT && FILE_IO
 import impexp.ImportExportForm;
-//#endif
 //#endif
 import ui.GMenu;
 import ui.GMenuConfig;
@@ -53,6 +47,7 @@ import ui.GMenuConfig;
  *
  * @author EvgS,aqent
  */
+
 public class ArchiveList extends MessageList {
     private static final int BODY = 0;
     private static final int SUBJECT = 1;
@@ -106,9 +101,7 @@ public class ArchiveList extends MessageList {
     }
 
     public final void commandState() {
-//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
-//#endif
 
         addCommand(cmdNew);
         if (getItemCount() > 0) {
@@ -128,9 +121,7 @@ public class ArchiveList extends MessageList {
             addCommand(cmdExport);
 //#endif
 
-//#ifdef MENU_LISTENER
         super.addDefaultCommands();
-//#endif
     }
 
     protected void beginPaint() {

@@ -42,10 +42,8 @@ import menu.Command;
 //#ifdef ARCHIVE
 import archive.MessageArchive;
 //#endif
-//#ifdef GRAPHICS_MENU
 import ui.GMenu;
 import ui.GMenuConfig;
-//#endif
 //#ifdef HISTORY
 import history.HistoryStorage;
 //#endif
@@ -121,12 +119,11 @@ public final class ContactMessageList extends MessageList implements InputTextBo
 
 
     public void commandState(){
-//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
         cmdfirstList.removeAllElements();
         cmdsecondList.removeAllElements();
         cmdThirdList.removeAllElements();
-//#endif
+
         if (startSelection) {
             addCommand(Commands.cmdSelect);
         }

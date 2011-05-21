@@ -10,45 +10,31 @@
 package vcard;
 
 import client.StaticData;
-//#if (FILE_IO)
 //#ifdef DETRANSLIT
 //# import util.DeTranslit;
 //# import client.Config;
 //#endif
-
+//#if (FILE_IO)
 import io.file.FileIO;
 import io.file.browse.Browser;
 import io.file.browse.BrowserListener;
 //#endif
 import images.MenuIcons;
 import images.camera.*;
-
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
 import menu.Command;
-//#endif
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
 import menu.MenuListener;
-import midlet.BombusQD;
-
 import util.Time;
 import util.StringUtils;
-
 import ui.controls.form.ImageItem;
 import ui.controls.form.DefForm;
 import ui.controls.form.SimpleString;
 import ui.controls.form.TextInput;
 import ui.controls.form.LinkString;
-
-//#ifdef GRAPHICS_MENU
 import ui.GMenu;
 import ui.GMenuConfig;
-//#endif
 
 /**
  *
@@ -241,15 +227,7 @@ public class VCardEdit extends DefForm implements MenuListener, Runnable
     }
 
     public void commandState(){
-//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
-//#endif
-
-//#ifdef GRAPHICS_MENU
-        //super.commandState();
-//#else
-//#     super.commandState();
-//#endif
 
         addCommand(cmdPublish);
         addCommand(cmdRefresh);
@@ -264,15 +242,10 @@ public class VCardEdit extends DefForm implements MenuListener, Runnable
             }
         }
         addCommand(cmdDelPhoto);
-//#ifndef GRAPHICS_MENU
-//#      addCommand(cmdCancel);
-//#endif
     }
 
-//#ifdef MENU_LISTENER
     public String touchLeftCommand(){ return SR.get(SR.MS_MENU); }
 
- //#ifdef GRAPHICS_MENU
     public void touchLeftPressed(){
         showGraphicsMenu();
     }
@@ -283,14 +256,4 @@ public class VCardEdit extends DefForm implements MenuListener, Runnable
         redraw();
         return GMenu.VCARD_EDIT;
     }
-//#else
-//#     public void touchLeftPressed(){
-//#         showMenu();
-//#     }
-//#     public void showMenu() {
-//#         commandState();
-//#         new MyMenu(display, parentView, this, SR.get(SR.MS_PUBLISH), null, menuCommands);
-//#    }
-//#endif
-//#endif
 }

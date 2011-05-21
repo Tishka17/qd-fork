@@ -86,16 +86,20 @@ public class ImageList {
     public int getHeight() {return height;}
 
     public int getHeight(int smileIndex) {
-        if(!midlet.BombusQD.cf.animatedSmiles) return height;
-        if(aniHeight!=null && smileIndex<aniHeight.length) return aniHeight[smileIndex];
+//#ifdef SMILES
+//#         if(!midlet.BombusQD.cf.animatedSmiles) return height;
+//#         if(aniHeight!=null && smileIndex<aniHeight.length) return aniHeight[smileIndex];
+//#endif
         return height;
     }
 
     public int getWidth() {return width;}
 
     public int getWidth(int smileIndex) {
-        if(!midlet.BombusQD.cf.animatedSmiles) return width;
-        if(smileIndex<aniWidth.length) return aniWidth[smileIndex];
+//#ifdef SMILES
+//#         if(!midlet.BombusQD.cf.animatedSmiles) return width;
+//#         if(smileIndex<aniWidth.length) return aniWidth[smileIndex];
+//#endif
         return width;
     }
     

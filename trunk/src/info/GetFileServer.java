@@ -35,7 +35,9 @@ import javax.microedition.io.HttpConnection;
 import menu.Command;
 import locale.SR;
 import ui.MainBar;
-import disco.DiscoSearchForm;
+//#ifdef SERVICE_DISCOVERY
+//# import disco.DiscoSearchForm;
+//#endif
 import javax.microedition.io.ConnectionNotFoundException;
 import menu.MenuListener;
 import midlet.BombusQD;
@@ -152,17 +154,19 @@ public class GetFileServer extends DefForm implements MenuListener, Runnable {
     }
 
     public void commandAction(Command c) {
-        if (c == cmdICQ) {
-            new DiscoSearchForm(icq, 0).show();
-        } else if (c == cmdMrim) {
-            new DiscoSearchForm(mrim, 1).show();
-        } else if (c == cmdIrc) {
-            new DiscoSearchForm(irc, 2).show();
-        } else if (c == cmdVk) {
-            new DiscoSearchForm(vk, 4).show();
-        } else if (c == cmdJ2J) {
-            new DiscoSearchForm(j2j, 3).show();
-        }
+//#ifdef SERVICE_DISCOVERY
+//#         if (c == cmdICQ) {
+//#             new DiscoSearchForm(icq, 0).show();
+//#         } else if (c == cmdMrim) {
+//#             new DiscoSearchForm(mrim, 1).show();
+//#         } else if (c == cmdIrc) {
+//#             new DiscoSearchForm(irc, 2).show();
+//#         } else if (c == cmdVk) {
+//#             new DiscoSearchForm(vk, 4).show();
+//#         } else if (c == cmdJ2J) {
+//#             new DiscoSearchForm(j2j, 3).show();
+//#         }
+//#endif
     }
 
     protected void updateCaption() {

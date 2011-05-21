@@ -40,19 +40,19 @@ import ui.VirtualElement;
 import ui.VirtualList;
 import menu.Command;
 //#ifdef ARCHIVE
-import archive.MessageArchive;
+//# import archive.MessageArchive;
 //#endif
 import ui.GMenu;
 import ui.GMenuConfig;
 //#ifdef HISTORY
-import history.HistoryStorage;
+//# import history.HistoryStorage;
 //#endif
 import message.MessageList;
 import midlet.BombusQD;
 import midlet.Commands;
 import ui.controls.AlertBox;
 //#ifdef CLIPBOARD
-import util.ClipBoard;
+//# import util.ClipBoard;
 //#endif
 import ui.input.InputTextBox;
 import ui.input.InputTextBoxNotify;
@@ -80,11 +80,11 @@ public final class ContactMessageList extends MessageList implements InputTextBo
     }
 
 //#ifdef HISTORY
-    public void storeMessage(Msg msgObj) {
-        synchronized (this) {
-           HistoryStorage.addText(contact, msgObj);
-       }
-    }
+//#     public void storeMessage(Msg msgObj) {
+//#         synchronized (this) {
+//#            HistoryStorage.addText(contact, msgObj);
+//#        }
+//#     }
 //#endif
 
     public void updateMainBar(Contact contact){
@@ -96,9 +96,9 @@ public final class ContactMessageList extends MessageList implements InputTextBo
         midlet.BombusQD.sd.roster.activeContact=contact;
 
 //#ifdef SMILES
-        smiles=midlet.BombusQD.cf.smiles;
+//#         smiles=midlet.BombusQD.cf.smiles;
 //#else
-//#         smiles=false;
+        smiles=false;
 //#endif
 
         //MainBar mainbar=new MainBar(contact);
@@ -108,7 +108,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
         cursor=0;
         contact.setIncoming(0);
 //#ifdef FILE_TRANSFER
-        contact.fileQuery=false;
+//#         contact.fileQuery=false;
 //#endif
         enableListWrapping(false);
     }
@@ -145,13 +145,13 @@ public final class ContactMessageList extends MessageList implements InputTextBo
         }
 
 //#ifdef HISTORY
-        if (contact.origin != Contact.ORIGIN_GROUPCHAT) {
-            if (Config.module_history) {
-                if (Config.historyTypeIndex == Config.HISTORY_RMS) {
-                    addCommand(Commands.cmdHistory);
-                }
-            }
-        }
+//#         if (contact.origin != Contact.ORIGIN_GROUPCHAT) {
+//#             if (Config.module_history) {
+//#                 if (Config.historyTypeIndex == Config.HISTORY_RMS) {
+//#                     addCommand(Commands.cmdHistory);
+//#                 }
+//#             }
+//#         }
 //#endif
 
         if (contact.getChatInfo().getMessageCount()>0) {
@@ -173,17 +173,17 @@ public final class ContactMessageList extends MessageList implements InputTextBo
             }
 
 //#ifdef ARCHIVE
-            addCommand(Commands.cmdArch);
+//#             addCommand(Commands.cmdArch);
 //#endif
 
 //#ifdef CLIPBOARD
-            if (Config.useClipBoard) {
-                addCommand(Commands.cmdCopy);
-                if (!ClipBoard.isEmpty()) {
-                    addCommand(Commands.cmdCopyPlus);
-                    addCommand(Commands.cmdPaste);
-                }
-            }
+//#             if (Config.useClipBoard) {
+//#                 addCommand(Commands.cmdCopy);
+//#                 if (!ClipBoard.isEmpty()) {
+//#                     addCommand(Commands.cmdCopyPlus);
+//#                     addCommand(Commands.cmdPaste);
+//#                 }
+//#             }
 //#endif
             if (hasScheme()) {
                 addInCommand(3, Commands.cmdxmlSkin);
@@ -194,9 +194,9 @@ public final class ContactMessageList extends MessageList implements InputTextBo
         }
 
 //#ifdef CLIPBOARD
-        if (Config.useClipBoard && !ClipBoard.isEmpty()) {
-            addInCommand(3, Commands.cmdSendBuffer);
-        }
+//#         if (Config.useClipBoard && !ClipBoard.isEmpty()) {
+//#             addInCommand(3, Commands.cmdSendBuffer);
+//#         }
 //#endif
     }
 
@@ -239,18 +239,18 @@ public final class ContactMessageList extends MessageList implements InputTextBo
     protected int getItemCount(){ return messages.size(); }
 
 //#ifdef TOUCH
-    protected void touchMainPanelPressed(int x, int y) {
-        int zoneWidth = width / 4;
-
-        if (x > zoneWidth && x < width - zoneWidth) {
-            contact.getChatInfo().opened = false;
-            BombusQD.sd.roster.showActiveContacts(contact);
-        } else if (x < zoneWidth) {
-            BombusQD.sd.roster.searchActiveContact(contact, false);
-        } else {
-            BombusQD.sd.roster.searchActiveContact(contact, true);
-        }
-    }
+//#     protected void touchMainPanelPressed(int x, int y) {
+//#         int zoneWidth = width / 4;
+//# 
+//#         if (x > zoneWidth && x < width - zoneWidth) {
+//#             contact.getChatInfo().opened = false;
+//#             BombusQD.sd.roster.showActiveContacts(contact);
+//#         } else if (x < zoneWidth) {
+//#             BombusQD.sd.roster.searchActiveContact(contact, false);
+//#         } else {
+//#             BombusQD.sd.roster.searchActiveContact(contact, true);
+//#         }
+//#     }
 //#endif
 
     public void commandAction(Command c) {
@@ -275,16 +275,16 @@ public final class ContactMessageList extends MessageList implements InputTextBo
             }
             return;
 //#ifdef HISTORY
-        } else if (c == Commands.cmdHistory) {
-            BombusQD.sd.roster.showHistory(this, contact);
+//#         } else if (c == Commands.cmdHistory) {
+//#             BombusQD.sd.roster.showHistory(this, contact);
 //#endif
 //#ifdef ARCHIVE
-        } else if (c == Commands.cmdArch) {
-            try {
-                MessageArchive.store(util.StringUtils.replaceNickTags(getMessage(cursor)));
-            } catch (Exception e) {/*no messages*/
-
-            }
+//#         } else if (c == Commands.cmdArch) {
+//#             try {
+//#                 MessageArchive.store(util.StringUtils.replaceNickTags(getMessage(cursor)));
+//#             } catch (Exception e) {/*no messages*/
+//# 
+//#             }
 //#endif
         } else if (c == Commands.cmdSelect) {
             startSelection = true;
@@ -302,8 +302,8 @@ public final class ContactMessageList extends MessageList implements InputTextBo
         if (c == Commands.cmdMessage) {
             newMessage();
 //#ifdef CLIPBOARD
-        } else if (c == Commands.cmdPaste) {
-            showMsgEdit(ClipBoard.getClipBoard());
+//#         } else if (c == Commands.cmdPaste) {
+//#             showMsgEdit(ClipBoard.getClipBoard());
 //#endif
         } else if (c == Commands.cmdResume) {
             resumeMessage();
@@ -322,26 +322,26 @@ public final class ContactMessageList extends MessageList implements InputTextBo
         } else if (c == Commands.cmdUnsubscribed) {
             midlet.BombusQD.sd.roster.sendPresence(contact.bareJid, "unsubscribed", null, false);
 //#ifdef CLIPBOARD
-        } else if (c == Commands.cmdSendBuffer) {
-            String from = midlet.BombusQD.sd.account.toString();
-            String body = ClipBoard.getClipBoard();
-
-            String id = String.valueOf((int) System.currentTimeMillis());
-            Msg msg = new Msg(Msg.MESSAGE_TYPE_OUT, from, null, body);
-            msg.id = id;
-            msg.itemCollapsed = true;
-
-            try {
-                if (body != null && body.length() > 0) {
-                    midlet.BombusQD.sd.roster.sendMessage(contact, id, body, null, null);
-                    if (contact.origin < Contact.ORIGIN_GROUPCHAT) {
-                        contact.addMessage(msg);
-                    }
-                }
-            } catch (Exception e) {
-                contact.addMessage(new Msg(Msg.MESSAGE_TYPE_OUT, from, null, SR.get(SR.MS_CLIPBOARD_SENDERROR)));
-            }
-            redraw();
+//#         } else if (c == Commands.cmdSendBuffer) {
+//#             String from = midlet.BombusQD.sd.account.toString();
+//#             String body = ClipBoard.getClipBoard();
+//# 
+//#             String id = String.valueOf((int) System.currentTimeMillis());
+//#             Msg msg = new Msg(Msg.MESSAGE_TYPE_OUT, from, null, body);
+//#             msg.id = id;
+//#             msg.itemCollapsed = true;
+//# 
+//#             try {
+//#                 if (body != null && body.length() > 0) {
+//#                     midlet.BombusQD.sd.roster.sendMessage(contact, id, body, null, null);
+//#                     if (contact.origin < Contact.ORIGIN_GROUPCHAT) {
+//#                         contact.addMessage(msg);
+//#                     }
+//#                 }
+//#             } catch (Exception e) {
+//#                 contact.addMessage(new Msg(Msg.MESSAGE_TYPE_OUT, from, null, SR.get(SR.MS_CLIPBOARD_SENDERROR)));
+//#             }
+//#             redraw();
 //#endif
         } else {
             super.commandAction(c);
@@ -444,13 +444,13 @@ public final class ContactMessageList extends MessageList implements InputTextBo
             } else {
                 String text;
 //#ifdef JUICK.COM
-               if(msg.messageType==Msg.MESSAGE_TYPE_JUICK){
-                    text=util.StringUtils.replaceNickTags(msg.id);
-               } else {
+//#                if(msg.messageType==Msg.MESSAGE_TYPE_JUICK){
+//#                     text=util.StringUtils.replaceNickTags(msg.id);
+//#                } else {
 //#endif
                    text = msg.from+": ";
 //#ifdef JUICK.COM
-              }
+//#               }
 //#endif
              if(contact.msgSuspended != null && check) {
                final String msgText = text;
@@ -499,7 +499,11 @@ public final class ContactMessageList extends MessageList implements InputTextBo
     }
 
     public void keyPressed(int keyCode) {
-        if (gm.itemGrMenu < 0 && getPopUp().size() == 0) {
+        if (gm.itemGrMenu < 0 
+//#ifdef POPUPS 
+//#                 && getPopUp().size() == 0
+//#endif
+                ) {
             switch (keyCode) {
                 case KEY_NUM5:
                     if (Config.createMessageByFive) {
@@ -517,11 +521,11 @@ public final class ContactMessageList extends MessageList implements InputTextBo
                     }
                     break;
     //#ifdef SMILES
-                case KEY_STAR:
-                    if (getItemCount() > 0) {
-                        ((MessageItem)getFocusedObject()).toggleSmiles(this);
-                    }
-                    break;
+//#                 case KEY_STAR:
+//#                     if (getItemCount() > 0) {
+//#                         ((MessageItem)getFocusedObject()).toggleSmiles(this);
+//#                     }
+//#                     break;
     //#endif
                 default:
                     super.keyPressed(keyCode);
@@ -546,7 +550,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
                      if(found_count>0) found_count--;
                       else {
 //#ifdef POPUPS
-                          VirtualList.setWobble(1, null, SR.get(SR.MS_END_SEARCH));
+//#                           VirtualList.setWobble(1, null, SR.get(SR.MS_END_SEARCH));
 //#endif
                           clearResults();
                       }
@@ -559,7 +563,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
                       if(found_count<vectorfound.size()-1) found_count++;
                       else {
 //#ifdef POPUPS
-                          VirtualList.setWobble(1, null, SR.get(SR.MS_END_SEARCH));
+//#                           VirtualList.setWobble(1, null, SR.get(SR.MS_END_SEARCH));
 //#endif
                           clearResults();
                       }
@@ -628,11 +632,11 @@ public final class ContactMessageList extends MessageList implements InputTextBo
             answerMucContact();
             return;
 //#ifdef JUICK.COM
-        } else {
-            if (contact.getJid().indexOf("juick@juick.com") > -1) {
-                reply(false);
-                return;
-            }
+//#         } else {
+//#             if (contact.getJid().indexOf("juick@juick.com") > -1) {
+//#                 reply(false);
+//#                 return;
+//#             }
 //#endif
         }
 //#endif

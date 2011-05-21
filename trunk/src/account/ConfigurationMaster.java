@@ -118,7 +118,7 @@ public final class ConfigurationMaster extends DefForm {
             case SIMPLE:
                 Config.simpleContacts = true;
 //#ifdef AVATARS
-                Config.auto_queryPhoto = false;
+//#                 Config.auto_queryPhoto = false;
 //#endif
                 Config.showResources = false;
                 break;
@@ -126,10 +126,10 @@ public final class ConfigurationMaster extends DefForm {
                 Config.simpleContacts = false;
                 Config.rosterStatus = false;
 //#ifdef CLIENTS_ICONS
-                Config.showClientIcon = true;
+//#                 Config.showClientIcon = true;
 //#endif
 //#ifdef AVATARS
-                Config.auto_queryPhoto = false;
+//#                 Config.auto_queryPhoto = false;
 //#endif
                 Config.showResources = false;
                 break;
@@ -137,10 +137,10 @@ public final class ConfigurationMaster extends DefForm {
                 Config.simpleContacts = false;
                 Config.rosterStatus = true;
 //#ifdef CLIENTS_ICONS
-                Config.showClientIcon = true;
+//#                 Config.showClientIcon = true;
 //#endif
 //#ifdef AVATARS
-                Config.auto_queryPhoto = true;
+//#                 Config.auto_queryPhoto = true;
 //#endif
                 Config.showResources = true;
                 break;
@@ -171,21 +171,27 @@ public final class ConfigurationMaster extends DefForm {
             case SIMPLE:
                 Config.panelsState = 0;
                 Config.showTimeTraffic = false;
-                Config.popUps = false;
+//#ifdef POPUPS
+//#                 Config.popUps = false;
+//#endif
                 Config.showBalloons = false;
                 Config.gradient_cursor = false;
                 break;
             case MEDIUM:
                 Config.panelsState = 2;
                 Config.showTimeTraffic = false;
-                Config.popUps = true;
+//#ifdef POPUPS
+//#                 Config.popUps = true;
+//#endif
                 Config.showBalloons = false;
                 Config.gradient_cursor = true;
                 break;
             case DETAILED:
                 Config.panelsState = 2;
                 Config.showTimeTraffic = true;
-                Config.popUps = true;
+//#ifdef POPUPS
+//#                 Config.popUps = true;
+//#endif
                 Config.showBalloons = true;
                 Config.gradient_cursor = true;
                 break;

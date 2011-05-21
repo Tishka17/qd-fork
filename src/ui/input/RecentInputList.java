@@ -28,42 +28,23 @@
 
 package ui.input;
 
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import ui.MainBar;
 import ui.VirtualElement;
 import ui.VirtualList;
-import client.Config;
-
 import java.util.Vector;
 import locale.SR;
-
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
 import menu.MenuListener;
 import menu.Command;
-//#endif
-//#ifdef GRAPHICS_MENU
 import ui.GMenu;
 import ui.GMenuConfig;
 import ui.controls.form.ListItem;
-//#endif
 
 /**
  *
  * @author ad,aqent
  */
 
-public class RecentInputList extends VirtualList
-        implements
-//#ifndef MENU_LISTENER
-//#         CommandListener
-//#else
-        MenuListener
-//#endif
-    {
+public class RecentInputList extends VirtualList implements MenuListener {
 
     private Command cmdOk;
     private Command cmdClear;
@@ -84,9 +65,8 @@ public class RecentInputList extends VirtualList
     }
 
     public void commandState() {
-//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
-//#endif
+
         addCommand(cmdOk); 
         addCommand(cmdClear);
     }
@@ -118,8 +98,6 @@ public class RecentInputList extends VirtualList
         return SR.get(SR.MS_MENU);
     }
 
-//#ifdef MENU_LISTENER
-//#ifdef GRAPHICS_MENU
     public int showGraphicsMenu() {
         commandState();
 
@@ -127,15 +105,4 @@ public class RecentInputList extends VirtualList
         GMenuConfig.getInstance().itemGrMenu = GMenu.TEXTLISTBOX;
         return GMenu.TEXTLISTBOX;
     }
-//#else
-//#     public void showMenu() {
-//#         commandState();
-//#         String capt="";
-//#         try {
-//#             capt=getMainBarItem().elementAt(0).toString();
-//#         } catch (Exception ex){ }
-//#         new MyMenu(display, parentView, this, capt, null, menuCommands);
-//#    }
-//#endif
-//#endif
 }

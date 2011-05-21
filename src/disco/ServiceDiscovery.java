@@ -515,10 +515,7 @@ public class ServiceDiscovery extends VirtualList implements MenuListener, Jabbe
 
             items=new Vector(0);
             features=new Vector(0);
-//#ifndef GRAPHICS_MENU
-//#         removeCommand(cmdBack);
-//#         addCommand(cmdBack);
-//#endif
+
             this.service=service;
             this.node=node;
             requestQuery(NS_INFO,"disco");

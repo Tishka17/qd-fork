@@ -29,23 +29,16 @@
 package stats;
 
 import client.Config;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
 import client.Roster;
 import menu.Command;
-//#endif
 import locale.SR;
 import menu.MenuListener;
 import midlet.Commands;
 import ui.controls.form.DefForm;
 import ui.controls.form.MultiLine;
 import util.StringUtils;
-//#ifdef GRAPHICS_MENU
 import ui.GMenu;
 import ui.GMenuConfig;
-//#endif
 //#ifdef CLIPBOARD
 import util.ClipBoard;
 //#endif
@@ -119,9 +112,7 @@ public class StatsWindow extends DefForm implements MenuListener {
     }
 
     public void commandState(){
-//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
-//#endif
 //#ifdef CLIPBOARD
         if (Config.useClipBoard) {
             addCommand(Commands.cmdCopy);
@@ -130,12 +121,10 @@ public class StatsWindow extends DefForm implements MenuListener {
         addCommand(cmdClear);
     }
 
-//#ifdef MENU_LISTENER
     public String touchLeftCommand() {
         return SR.get(SR.MS_MENU);
     }
 
-//#ifdef GRAPHICS_MENU
     public void touchLeftPressed(){
         showGraphicsMenu();
     }
@@ -147,15 +136,5 @@ public class StatsWindow extends DefForm implements MenuListener {
         redraw();
         return GMenu.STATS_WINDOW;
     }
-//#else
-//#     public void touchLeftPressed(){
-//#         showMenu();
-//#     }
-//#     public void showMenu() {
-//#         commandState();
-//#         new MyMenu(display, parentView, this, SR.get(SR.MS_STATS), null, menuCommands);
-//#    }
-//#endif
-//#endif
 }
 //#endif

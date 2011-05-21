@@ -25,40 +25,26 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-//#ifdef FILE_IO
-//#ifdef FILE_TRANSFER
+//#if FILE_IO && FILE_TRANSFER
 package io.file.transfer;
 
 import ui.MainBar;
 import java.util.Vector;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
 import menu.MenuListener;
 import menu.Command;
-//#endif
 import locale.SR;
 import util.Time;
 import ui.VirtualElement;
 import ui.VirtualList;
-//#ifdef GRAPHICS_MENU
 import ui.GMenu;
 import ui.GMenuConfig;
-//#endif
+
 /**
  *
  * @author Evg_S
  */
-public class TransferManager
-    extends VirtualList
-    implements
-//#ifndef MENU_LISTENER
-//#         CommandListener
-//#else
-        MenuListener
-//#endif
-    {
+
+public class TransferManager extends VirtualList implements MenuListener {
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_FILE_TRANSFER");
 //#endif
@@ -85,21 +71,7 @@ public class TransferManager
         taskList=TransferDispatcher.getInstance().getTaskList();
     }
 
-    public void showNotify(){
-        super.showNotify();
-//#ifndef MENU_LISTENER
-//#         removeCommand(cmdDel);
-//#         removeCommand(cmdClrF);
-//#         removeCommand(cmdInfo);
-//#         commandState();
-//#endif
-    }
-
     public void commandState(){
-//#ifdef MENU_LISTENER
-        menuCommands.removeAllElements();
-//#endif
-        //addCommand(cmdBack);
         if (getItemCount()>0) {
             addCommand(cmdDel);
             addCommand(cmdClrF);
@@ -163,12 +135,8 @@ public class TransferManager
         super.destroyView();
     }
 
-//#ifdef MENU_LISTENER
-
-//#ifdef MENU_LISTENER
     public String touchLeftCommand(){ return SR.get(SR.MS_MENU); }
 
-//#ifdef GRAPHICS_MENU
     public void touchLeftPressed(){
         if (getItemCount()>0){
            showGraphicsMenu();
@@ -183,32 +151,16 @@ public class TransferManager
         }
         return GMenu.TRANSFER_MANAGER;
     }
-//#else
-//#     public void touchLeftPressed(){
-//#         showMenu();
-//#     }
-//# 
-//#     public void showMenu() {
-//#         commandState();
-//#         new MyMenu(display, parentView, this, SR.get(SR.MS_VCARD), null, menuCommands);
-//#    }
-//#endif
 
-
-//#endif
-
-    protected void keyPressed(int keyCode) { // overriding this method to avoid autorepeat
 //#ifdef POPUPS
+    protected void keyPressed(int keyCode) {
         if (keyCode==KEY_POUND) {
             cmdInfo();
-            return;
+        } else {
+            super.keyPressed(keyCode);
         }
-//#endif
-        super.keyPressed(keyCode);
     }
-//#endif
 
-//#ifdef POPUPS
     private void cmdInfo() {
         if (getItemCount()>0) {
             TransferTask t=(TransferTask) getFocusedObject();
@@ -234,4 +186,4 @@ public class TransferManager
 //#endif
 }
 //#endif
-//#endif
+

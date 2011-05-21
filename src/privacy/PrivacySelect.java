@@ -29,22 +29,21 @@
 package privacy;
 
 import client.StaticData;
-import javax.microedition.lcdui.TextField;
+import com.alsutton.jabber.JabberBlockListener;
+import com.alsutton.jabber.JabberDataBlock;
+import com.alsutton.jabber.JabberStream;
 import images.RosterIcons;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
-import menu.MenuListener;
-import menu.Command;
-//#endif
+import java.util.Enumeration;
+import java.util.Vector;
+import javax.microedition.lcdui.TextField;
 import locale.SR;
-import ui.*;
-import java.util.*;
-import com.alsutton.jabber.*;
-//#ifdef GRAPHICS_MENU        
+import menu.Command;
+import menu.MenuListener;
 import ui.GMenu;
-//#endif
+import ui.GMenuConfig;
+import ui.MainBar;
+import ui.VirtualElement;
+import ui.VirtualList;
 import ui.input.InputTextBox;
 import ui.input.InputTextBoxNotify;
 
@@ -53,17 +52,8 @@ import ui.input.InputTextBoxNotify;
  * @author EvgS,aqent
  */
 
-public class PrivacySelect 
-        extends VirtualList 
-        implements
-//#ifndef MENU_LISTENER
-//#         CommandListener,
-//#else
-        MenuListener,
-//#endif
-        JabberBlockListener,
-        InputTextBoxNotify
-{
+public class PrivacySelect extends VirtualList 
+        implements MenuListener, JabberBlockListener, InputTextBoxNotify {
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_PRIVACY");
 //#endif
@@ -96,14 +86,10 @@ public class PrivacySelect
     }
     
     public void commandState() {
-//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
-//#endif
+
         addCommand(cmdActivate); 
         addCommand(cmdDefault); 
-//#ifndef GRAPHICS_MENU        
-//#      addCommand(cmdCancel);
-//#endif     
         addCommand(cmdNewList); 
         addCommand(cmdDelete); 
         addCommand(cmdIL); 
@@ -156,24 +142,13 @@ public class PrivacySelect
             input.show();
         }
     }
-    
-//#ifdef MENU_LISTENER
-    
-//#ifdef GRAPHICS_MENU        
+     
     public int showGraphicsMenu() {
         commandState();
         menuItem = new GMenu(this, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.PRIVACY_SELECT;         
         return GMenu.PRIVACY_SELECT;
     }
-//#else
-//#     public void showMenu() {
-//#         commandState();
-//#         new MyMenu(display, parentView, this, SR.get(SR.MS_STATUS), null, menuCommands);
-//#     }   
-//#endif    
-
-//#endif
 
     public void okNotify(String listName) {
         if (listName.length()>0) {

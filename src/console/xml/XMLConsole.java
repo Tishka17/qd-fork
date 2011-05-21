@@ -33,11 +33,7 @@
 //# import client.Config;
 //# import client.Msg;
 //# import message.MessageList;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.Command;
-//#else
 //# import menu.Command;
-//#endif
 //# import locale.SR;
 //#ifdef CLIPBOARD
 //# import util.ClipBoard;
@@ -76,13 +72,8 @@
 //#     }
 //# 
 //#     public void commandState() {
-//#ifdef MENU_LISTENER
 //#         menuCommands.removeAllElements();
-//#endif
 //# 
-//#ifndef GRAPHICS_MENU
-//#      addCommand(cmdBack);
-//#endif
 //#         if (BombusQD.sd.roster.isLoggedIn()) {
 //#             addCommand(cmdNew);
 //#         }

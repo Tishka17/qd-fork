@@ -33,27 +33,12 @@ import locale.SR;
 import ui.MainBar;
 import ui.VirtualElement;
 import ui.VirtualList;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
 import menu.MenuListener;
-import menu.Command;
-//#endif
-//#ifdef GRAPHICS_MENU        
+import menu.Command;   
 import ui.GMenu;
 import ui.GMenuConfig;
-//#endif
 
-public class UserKeysList
-        extends VirtualList 
-        implements
-//#ifndef MENU_LISTENER
-//#         CommandListener
-//#else
-        MenuListener
-//#endif
-    {
+public class UserKeysList extends VirtualList implements MenuListener {
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_USER_KEYS");
 //#endif
@@ -80,18 +65,14 @@ public class UserKeysList
     }
 
     void commandState(){
-//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
-//#endif
+
         addCommand(cmdSave);
         addCommand(cmdAdd);
         if (getItemCount() > 0) {
             addCommand(cmdEdit); 
             addCommand(cmdDel); 
-        }
-//#ifndef GRAPHICS_MENU        
-//#      addCommand(cmdCancel);
-//#endif     
+        }  
     }
 
     public VirtualElement getItemRef(int Index) { 

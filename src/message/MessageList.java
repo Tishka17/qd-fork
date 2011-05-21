@@ -32,42 +32,25 @@ import client.Config;
 import client.Msg;
 import colors.ColorTheme;
 import java.util.Vector;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
 import menu.MenuListener;
 import menu.Command;
-//#endif
 import midlet.Commands;
 import ui.VirtualElement;
 import ui.VirtualList;
-//#ifdef GRAPHICS_MENU
 import ui.GMenu;
 import ui.GMenuConfig;
 //#ifdef CLIPBOARD
 import util.ClipBoard;
 //#endif
-//#endif
 import util.StringUtils;
 
-public abstract class MessageList extends VirtualList
-    implements
-//#ifndef MENU_LISTENER
-//#         CommandListener
-//#else
-        MenuListener
-//#endif
-    {
+public abstract class MessageList extends VirtualList implements MenuListener {
     protected boolean smiles;
 
     protected final Vector messages = new Vector(0);
 
     public MessageList() {
         super();
-//#ifdef MENU_LISTENER
-        menuCommands.removeAllElements();
-//#endif
 
 //#ifdef SMILES
         smiles=midlet.BombusQD.cf.smiles;
@@ -164,26 +147,12 @@ public abstract class MessageList extends VirtualList
        super.keyPressed(keyCode);
     }
 
-//#ifdef MENU_LISTENER
-
-//#ifdef GRAPHICS_MENU
     public int showGraphicsMenu() {
         commandState();
         menuItem = new GMenu(this, menuCommands);
         GMenuConfig.getInstance().itemGrMenu = GMenu.MESSAGE_LIST;
         return GMenu.MESSAGE_LIST;
     }
-//#else
-//#     public void showMenu() {
-//#         commandState();
-//#         String capt="";
-//#         try {
-//#             capt=getMainBarItem().elementAt(0).toString();
-//#         } catch (Exception ex){ }
-//#         new MyMenu(display, parentView, this, capt, null, menuCommands);
-//#    }
-//#endif
-//#endif
 
     protected boolean hasScheme() {
         if (0 == getItemCount()) {

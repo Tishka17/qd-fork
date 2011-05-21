@@ -28,32 +28,19 @@
 package account;
 
 import locale.SR;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
 import menu.MenuListener;
 import menu.Command;
-//#endif
 import ui.MainBar;
 import io.NvStorage;
 import java.io.DataOutputStream;
 import java.util.Vector;
 import ui.controls.AlertBox;
-//#ifdef GRAPHICS_MENU
 import ui.GMenu;
 import ui.GMenuConfig;
-//#endif
 import ui.VirtualElement;
 import ui.VirtualList;
 
-public class AccountSelect extends VirtualList implements
-//#ifndef MENU_LISTENER
-//#         CommandListener
-//#else
-        MenuListener
-//#endif
-{
+public class AccountSelect extends VirtualList implements MenuListener {
     private Vector accountList;
 
     private int activeAccount;
@@ -143,12 +130,11 @@ public class AccountSelect extends VirtualList implements
     }
 
     public void commandState() {
-//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
         cmdfirstList.removeAllElements();
         cmdsecondList.removeAllElements();
         cmdThirdList.removeAllElements();
-//#endif
+
         addCommand(cmdConfigurationMaster);
 
         addCommand(cmdAdd);
@@ -179,11 +165,6 @@ public class AccountSelect extends VirtualList implements
                 }
             }
         }
-
-//#ifndef GRAPHICS_MENU
-//#     if (activeAccount>=0 && !enableQuit)
-//#      addCommand(cmdCancel);
-//#endif
     }
 
     public void addAccount(Account a) {
@@ -199,7 +180,6 @@ public class AccountSelect extends VirtualList implements
     }
 
     public void commandAction(Command c) {
-//#ifdef GRAPHICS_MENU
         if (c == cmdServ1_reg) {
             new AccountForm("jabber.ru").show();
         }
@@ -242,11 +222,6 @@ public class AccountSelect extends VirtualList implements
         if (c == cmdVk) {
             new AccountForm(null, AccountForm.PROFILE_VKONTAKTE).show();
         }
-//#else
-//#         if (c==cmdAdd) {
-//#             new AccountForm(display, this, this, null);
-//#         }
-//#endif
         if (c == cmdConfigurationMaster) {
             new ConfigurationMaster().show();
         }
@@ -320,20 +295,10 @@ public class AccountSelect extends VirtualList implements
         NvStorage.writeFileRecord(outputStream, "accnt_db", 0, true); //Account.storage
     }
 
-//#ifdef MENU_LISTENER
-//#ifdef GRAPHICS_MENU
     public int showGraphicsMenu() {
         commandState();
         menuItem = new GMenu(this, null, menuCommands, cmdfirstList, cmdsecondList, cmdThirdList);
         GMenuConfig.getInstance().itemGrMenu = GMenu.ACCOUNT_SELECT_MENU;
         return GMenu.ACCOUNT_SELECT_MENU;
     }
-//#else
-//#     public void showMenu() {
-//#         commandState();
-//#         new MyMenu(display, parentView, this, SR.get(SR.MS_DISCO, null, menuCommands));
-//#    }
-//#endif
-
-//#endif
 }

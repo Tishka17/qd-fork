@@ -31,17 +31,10 @@ package alert;
 import client.Config;
 import images.RosterIcons;
 import locale.SR;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
 import menu.MenuListener;
 import menu.Command;
-//#endif
-import ui.MainBar;
-//#ifdef GRAPHICS_MENU        
+import ui.MainBar;    
 import ui.GMenu;
-//#endif
 import ui.IconTextElement;
 import ui.VirtualElement;
 import ui.VirtualList;
@@ -51,14 +44,7 @@ import ui.VirtualList;
  * @author Eugene Stahov,aqent
  */
 
-public class AlertProfile extends VirtualList implements
-//#ifndef MENU_LISTENER
-//#         CommandListener
-//#else
-        MenuListener
-//#endif
-    {
-    
+public class AlertProfile extends VirtualList implements MenuListener {    
     private final static int ALERT_COUNT=4;
     
     public final static int ALL=0;
@@ -86,28 +72,17 @@ public class AlertProfile extends VirtualList implements
     }
 
     public void commandState() {
-//#ifdef MENU_LISTENER
         menuCommands.removeAllElements();
-//#endif
+
         addCommand(cmdOk); 
         addCommand(cmdDef);  
     }
-    
-//#ifdef MENU_LISTENER
-    
-//#ifdef GRAPHICS_MENU        
+      
     public int showGraphicsMenu() {
         commandState();
         menuItem = new GMenu(this, menuCommands);        
         return GMenu.ALERT_PROFILE;
     }
-//#else
-//#     public void showMenu() {
-//#         commandState();
-//#         new MyMenu(display, parentView, this, SR.get(SR.MS_STATUS), null, menuCommands);
-//#    }   
-//#endif       
-//#endif
     
     int index;
     public VirtualElement getItemRef(int Index){

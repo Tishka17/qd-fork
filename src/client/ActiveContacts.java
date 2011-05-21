@@ -30,35 +30,22 @@ package client;
 
 import java.util.Enumeration;
 import java.util.Vector;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.CommandListener;
-//# import javax.microedition.lcdui.Command;
-//#else
 import menu.MenuListener;
 import menu.Command;
-//#endif
 import locale.SR;
 import midlet.BombusQD;
+import ui.GMenu;
+import ui.GMenuConfig;
 import ui.MainBar;
 import ui.VirtualElement;
 import ui.VirtualList;
-//#ifdef GRAPHICS_MENU
-import ui.GMenu;
-import ui.GMenuConfig;
-//#endif
 
 /**
  *
  * @author EvgS,aqent
  */
 
-public final class ActiveContacts extends VirtualList implements
-//#ifndef MENU_LISTENER
-//#         CommandListener
-//#else
-        MenuListener
-//#endif
-{
+public final class ActiveContacts extends VirtualList implements MenuListener {
     private static final int SORT_BY_STATUS = 1;
     private static final int SORT_BY_MSGCOUNT = 2;
     
@@ -110,10 +97,10 @@ public final class ActiveContacts extends VirtualList implements
         if (contacts.isEmpty()) {
             return;
         }
-//#ifdef MENU_LISTENER
+
         menuCommands.removeAllElements();
         cmdfirstList.removeAllElements();
-//#endif
+
         addCommand(cmdOk);
         if (contacts.size() > 1) {
             addCommand(cmdCreateMultiMessage);
@@ -126,9 +113,6 @@ public final class ActiveContacts extends VirtualList implements
         addCommand(cmdClearAllMessages);
     }
 
-//#ifdef MENU_LISTENER
-
-//#ifdef GRAPHICS_MENU
     public int showGraphicsMenu() {
         if (contacts.isEmpty()) {
             return 0;
@@ -139,11 +123,6 @@ public final class ActiveContacts extends VirtualList implements
         GMenuConfig.getInstance().itemGrMenu = GMenu.ACTIVE_CONTACTS;
         return GMenu.ACTIVE_CONTACTS;
     }
-//#else
-//#     public void showMenu() { eventOk();}
-//#endif
-
-//#endif
 
     protected int getItemCount() {
         return contacts.size();
@@ -246,7 +225,6 @@ public final class ActiveContacts extends VirtualList implements
         super.destroyView();
     }
 
-//#ifdef MENU_LISTENER
     public String touchLeftCommand() {
         if (contacts.isEmpty()) {
             return null;
@@ -257,5 +235,4 @@ public final class ActiveContacts extends VirtualList implements
     public String touchRightCommand() {
         return SR.get(SR.MS_BACK);
     }
-//#endif
 }

@@ -27,32 +27,24 @@
  */
 
 package menu;
-import images.ImageList;
+
 import client.Config;
-import java.util.*;
-//#ifndef MENU_LISTENER
-//# import javax.microedition.lcdui.Command;
-//# import javax.microedition.lcdui.CommandListener;
-//#endif
+import images.ImageList;
+import java.util.Vector;
 import locale.SR;
-import ui.*;
+import ui.MainBar;
+import ui.VirtualElement;
+import ui.VirtualList;
+
 
 /**
  *
  * @author Evg_S,aqent
  */
 
-public class Menu extends VirtualList
-//#ifndef MENU_LISTENER
-//#         implements CommandListener
-//#endif
-{
+public class Menu extends VirtualList {
     private Vector menuitems;
 
-//#ifndef MENU_LISTENER
-//#     Command cmdBack=new Command(SR.get(SR.MS_BACK),Command.BACK,99);
-//#     Command cmdOk=new Command(SR.get(SR.MS_OK),Command.OK,1);
-//#endif
     private ImageList il;
 
     public Menu(String mainbar) {
@@ -64,11 +56,6 @@ public class Menu extends VirtualList
         setMainBarItem(new MainBar(mainbar));
         menuitems = new Vector(0);
         this.il = il;
-//#ifndef MENU_LISTENER
-//#         addCommand(cmdBack);
-//#         addCommand(cmdOk);
-//#         setCommandListener(this);
-//#endif
     }
     
     public VirtualElement getItemRef(int index) {
@@ -92,12 +79,6 @@ public class Menu extends VirtualList
         addItem(label, index, -1);
     }
 
-//#ifndef MENU_LISTENER
-//#     public void commandAction(Command c, Displayable d) {
-//#         if (c==cmdBack) destroyView();
-//#         if (c==cmdOk) eventOk();
-//#     }
-//#else    
     public String touchLeftCommand() {
         return SR.get(SR.MS_OK);
     }
@@ -159,7 +140,5 @@ public class Menu extends VirtualList
     private void executeCommand(int index) {
         moveCursorTo(index);
         eventOk();
-    }
-//#endif
-    
+    }   
 }

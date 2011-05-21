@@ -65,6 +65,12 @@ public class CameraImage implements CommandListener {
         try {
             String uri = "capture://video";
 
+            String device = System.getProperty("microedition.platform").toLowerCase();
+            int ind = device.indexOf(".");
+            if (ind != -1) ind = device.indexOf(".", ind +1);
+            if( (device.indexOf("nokia") != -1) && (ind == -1))
+            uri = "capture://image";
+
             player = Manager.createPlayer(uri);
             player.realize();
 

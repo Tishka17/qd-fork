@@ -110,8 +110,7 @@ final class InfBlocks{
   void reset(ZStream z, long[] c){
     if(c!=null) c[0]=check;
     if(mode==BTREE || mode==DTREE){
-    }
-    if(mode==CODES){
+    } else if(mode==CODES){
       codes.free(z);
     }
     mode=TYPE;

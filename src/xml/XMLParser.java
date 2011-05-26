@@ -30,7 +30,6 @@ package xml;
 
 import java.io.ByteArrayOutputStream;
 import java.util.*;
-import java.io.IOException;
 
 public class XMLParser {
     private final static int MAX_BIN_DATASIZE=60*1024; //40 KB - experimental
@@ -50,7 +49,6 @@ public class XMLParser {
     private XMLEventListener eventListener;
 
     private StringBuffer sbuf=new StringBuffer(0);
-    private StringBuffer temp = new StringBuffer(0);
     private StringBuffer tagName=new StringBuffer(0);
     private StringBuffer xmlChar=new StringBuffer(0);
 
@@ -87,7 +85,6 @@ public class XMLParser {
                         if (sbuf.length()>0) eventListener.plainTextEncountered( parsePlainText(sbuf) );
 
                         sbuf = new StringBuffer(0);
-                        temp = new StringBuffer(0);
                         tagName = new StringBuffer(0);
 
                         attr=null;
@@ -184,7 +181,6 @@ public class XMLParser {
                     attr.addElement(atrName);
                     attr.addElement(parsePlainText(sbuf));
                     sbuf = new StringBuffer(0);
-                    temp = new StringBuffer(0);
                     continue;
                 }
                 sbuf.append(c);
@@ -197,7 +193,6 @@ public class XMLParser {
                     attr.addElement(atrName);
                     attr.addElement(parsePlainText(sbuf));
                     sbuf = new StringBuffer(0);
-                    temp = new StringBuffer(0);
                     continue;
                 }
                 sbuf.append(c);
@@ -359,7 +354,6 @@ public class XMLParser {
                 eventListener.plainTextEncountered( parsePlainText(sbuf) );
 
             sbuf = new StringBuffer(0);
-            temp = new StringBuffer(0);
         }
     }
 

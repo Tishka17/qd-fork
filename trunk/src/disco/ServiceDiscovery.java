@@ -275,11 +275,8 @@ public class ServiceDiscovery extends VirtualList implements MenuListener, Jabbe
         }
         JabberDataBlock command1=data.getChildBlock("query");
         JabberDataBlock command2=data.getChildBlock("command");
-        if (command1==null) {
-            if (command2!=null) {
-                command1=command2;
-            }
-            String node = command1.getAttribute("node");
+        if (command1==null && command2!=null) {
+            String node = command2.getAttribute("node");
             if(node != null){
                if (node.startsWith("http://jabber.org/protocol/rc#")) id="discocmd"; //hack
             }
@@ -644,7 +641,7 @@ public class ServiceDiscovery extends VirtualList implements MenuListener, Jabbe
         return (Config.getInstance().oldSE) ? SR.get(SR.MS_MENU) : SR.get(SR.MS_BACK);
     }
 
-    private class State {
+    private static class State {
         public String service;
         public String node;
         public Vector items;
@@ -652,7 +649,7 @@ public class ServiceDiscovery extends VirtualList implements MenuListener, Jabbe
         public int cursor;
     }
     
-    private class DiscoCommand extends IconTextElement {
+    private static class DiscoCommand extends IconTextElement {
         private String name;
         private int icon;
         private int offs = 4;

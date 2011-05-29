@@ -33,7 +33,9 @@ import locale.SR;
 import ui.controls.form.DefForm;
 import ui.controls.form.DropChoiceBox;
 //#ifdef FILE_IO
+import ui.controls.form.NumberInput;
 import ui.controls.form.PathSelector;
+import ui.controls.form.SpacerItem;
 //#endif
 
 /**
@@ -43,32 +45,43 @@ import ui.controls.form.PathSelector;
 
 public class HistoryConfigForm extends DefForm {
     private DropChoiceBox historyType;
+    private NumberInput loadLastMsgCount;
 //#ifdef FILE_IO
     private PathSelector historyFolder;
 //#endif
 
     public HistoryConfigForm() {
         super(SR.get(SR.MS_HISTORY));
+        
+        Config config = Config.getInstance();
 
         historyType = new DropChoiceBox(SR.get(SR.MS_HISTORY_TYPE));
         historyType.append(SR.get(SR.MS_HISTORY_RMS));
 //#ifdef FILE_IO
         historyType.append(SR.get(SR.MS_HISTORY_FS));
 //#endif
-        historyType.setSelectedIndex(Config.historyTypeIndex);
+        historyType.setSelectedIndex(config.historyTypeIndex);
         addControl(historyType);
 
 //#ifdef FILE_IO
-        historyFolder = new PathSelector(SR.get(SR.MS_HISTORY_FOLDER), Config.historyPath, PathSelector.TYPE_DIR);
+        historyFolder = new PathSelector(SR.get(SR.MS_HISTORY_FOLDER), config.historyPath, PathSelector.TYPE_DIR);
         addControl(historyFolder);
 //#endif
+        
+        addControl(new SpacerItem(5));
+        
+        loadLastMsgCount = new NumberInput("Show last messages from history", config.loadLastMsgCount, 0, 50);
+        addControl(loadLastMsgCount);
     }
 
     public void cmdOk() {
+        Config config = Config.getInstance();
 //#ifdef FILE_IO
-        Config.historyPath = historyFolder.getValue();
+        config.historyPath = historyFolder.getValue();
 //#endif
-        Config.historyTypeIndex = historyType.getValue();
+        config.historyTypeIndex = historyType.getValue();
+        config.loadLastMsgCount = loadLastMsgCount.getIntValue();
+
         destroyView();
     }
 }

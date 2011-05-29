@@ -36,9 +36,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 //#if FILE_IO
 import io.file.FileIO;
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.Vector;
+import javax.microedition.rms.InvalidRecordIDException;
+import javax.microedition.rms.RecordStoreNotOpenException;
 import util.StringUtils;
 //#endif
 //#ifdef DETRANSLIT
@@ -193,6 +198,33 @@ public class HistoryStorage {
               }
         }
     }
+    
+    public static Vector getLastMessages(Contact contact, int count) {
+        RecordStore store = null;        
+        Vector vector = null;
+        
+        try {
+            store = RecordStore.openRecordStore(getRSName(contact.bareJid), true);
+            vector = new Vector(count);
+            int size = store.getNumRecords();
+
+            for (int i = size - count + 1; i <= size; ++i) {
+                Msg msg = readMessage(store, i);
+                if (msg != null) {
+                    msg.setType(Msg.MESSAGE_TYPE_HISTORY);
+                    vector.addElement(msg);
+                }
+            }
+        } catch (RecordStoreException e) {
+        } finally {
+            if (store != null) {
+                try {
+                    store.closeRecordStore();
+                } catch (RecordStoreException ex) {}
+            }
+        }
+        return vector;
+    }
 
     private static final int MAX_RECORDNAME_LEN = 32;
 
@@ -202,6 +234,35 @@ public class HistoryStorage {
             str = str.substring(0, MAX_RECORDNAME_LEN);
         }
         return str;
+    }
+    
+    public static Msg readMessage(RecordStore store, int id) 
+            throws RecordStoreNotOpenException, RecordStoreException {
+        byte buf[];
+
+        try {
+            buf = store.getRecord(id);
+        } catch (InvalidRecordIDException e) {
+//#ifdef DEBUG
+//#                         System.out.println(i + " record doesn't exist, skipping...");
+//#endif
+            return null;
+        }
+
+        ByteArrayInputStream bais = new ByteArrayInputStream(buf);
+        DataInputStream dis = new DataInputStream(bais);
+        try {
+            byte msgtype = dis.readByte();
+            String from = dis.readUTF();
+            long date = dis.readLong();
+            String text = dis.readUTF();
+            
+            Msg msg = new Msg(msgtype, from, null, text);
+            msg.setDayTime(date);
+            return msg;
+        } catch (IOException e) {}
+        
+        return null;
     }
 }
 //#endif

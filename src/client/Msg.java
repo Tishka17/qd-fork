@@ -95,6 +95,10 @@ public class Msg {
         else if (body!=null && messageType!=Msg.MESSAGE_TYPE_SUBJ)
             if (body.length()>midlet.BombusQD.cf.messageLimit) itemCollapsed=true;
     }
+    
+    public void setType(byte type) {
+        messageType = type;
+    }
 
     public String getTime(){
         return Time.timeLocalString(dateGmt);

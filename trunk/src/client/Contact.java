@@ -130,6 +130,8 @@ public class Contact extends IconTextElement {
 //#ifdef FILE_TRANSFER
     public boolean fileQuery;
 //#endif
+    
+    private boolean historyLoaded;
 
     private ChatInfo chatInfo = null;
     private ContactMessageList messageList = null;
@@ -145,7 +147,7 @@ public class Contact extends IconTextElement {
 //#ifdef FILE_TRANSFER
         fileQuery=false;
 //#endif
-        chatInfo.opened = true;//chat open flag
+        getChatInfo().opened = true;//chat open flag
         getML().updateMainBar(this);
         return getML();
     }
@@ -156,6 +158,14 @@ public class Contact extends IconTextElement {
             chatInfo.initMsgs();
         }
         return chatInfo;
+    }
+    
+    public final boolean isHistoryLoaded() {
+        return historyLoaded;
+    }
+    
+    public final void historyLoaded() {
+        historyLoaded = true;
     }
 
     public void destroy() {
@@ -341,11 +351,6 @@ public class Contact extends IconTextElement {
             }
             return;
         }*/
-
-        chatInfo.addMessage(m);
-        if(chatInfo.opened || m.messageType == Msg.MESSAGE_TYPE_OUT) {
-            chatInfo.reEnumCounts();
-        }
         
         /*if (first_msgreplace){
             chatInfo.setFirstMessage(m);

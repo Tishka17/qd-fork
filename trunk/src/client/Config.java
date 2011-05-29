@@ -313,6 +313,7 @@ public class Config {
 //#ifdef HISTORY
     public static int historyTypeIndex = 0;
     public static String historyPath = "";
+    public int loadLastMsgCount = 0;
 //#endif
 
 //#ifdef LIGHT_CONTROL
@@ -610,18 +611,18 @@ public class Config {
 
     private boolean saveBoolean() {
        	DataOutputStream outputStream=NvStorage.CreateDataOutputStream();
-	try {
-	    outputStream.writeBoolean(showOfflineContacts);
-	    outputStream.writeBoolean(fullscreen);
-	    outputStream.writeBoolean(showTransports);
-	    outputStream.writeBoolean(selfContact);
-	    outputStream.writeBoolean(collapsedGroups);
-	    outputStream.writeBoolean(ignore);
-	    outputStream.writeBoolean(eventComposing);
-	    outputStream.writeBoolean(autoLogin);
-	    outputStream.writeBoolean(autoJoinConferences);
+        try {
+            outputStream.writeBoolean(showOfflineContacts);
+            outputStream.writeBoolean(fullscreen);
+            outputStream.writeBoolean(showTransports);
+            outputStream.writeBoolean(selfContact);
+            outputStream.writeBoolean(collapsedGroups);
+            outputStream.writeBoolean(ignore);
+            outputStream.writeBoolean(eventComposing);
+            outputStream.writeBoolean(autoLogin);
+            outputStream.writeBoolean(autoJoinConferences);
             outputStream.writeBoolean(popupFromMinimized);
-	    outputStream.writeBoolean(notifyBlink);
+            outputStream.writeBoolean(notifyBlink);
             outputStream.writeBoolean(autoFocus);
             outputStream.writeBoolean(storeConfPresence);
             outputStream.writeBoolean(capsState);
@@ -667,7 +668,7 @@ public class Config {
             outputStream.writeBoolean(popUps);
 //#endif
 //#ifdef SMILES
-	    outputStream.writeBoolean(smiles);
+            outputStream.writeBoolean(smiles);
 //#endif
 //#ifdef CLASSIC_CHAT
 //#             outputStream.writeBoolean(usePhoneTheme);
@@ -731,14 +732,14 @@ public class Config {
 
     protected void loadInt(){
         DataInputStream inputStream=NvStorage.ReadFileRecord(INT_STORAGE_NAME, 0);
-	try {
-	    accountIndex=inputStream.readInt();
-	    defaultAlertProfile=inputStream.readInt();
-	    gmtOffset=inputStream.readInt();
+        try {
+            accountIndex=inputStream.readInt();
+            defaultAlertProfile=inputStream.readInt();
+            gmtOffset=inputStream.readInt();
             rosterFont=inputStream.readInt();
             msgFont=inputStream.readInt();
             notInListDropLevel=inputStream.readInt();
-	    textWrap=inputStream.readInt();
+            textWrap=inputStream.readInt();
             loginstatus=inputStream.readInt();
             panelsState=inputStream.readInt();
             confMessageCount=inputStream.readInt();
@@ -797,28 +798,30 @@ public class Config {
             lightBlink = inputStream.readInt();
 //#endif
             minItemHeight = inputStream.readInt();
-	    inputStream.close();
+            loadLastMsgCount = inputStream.readInt();
+            
+            inputStream.close();
             inputStream=null;
-	} catch (Exception e) {
+        } catch (Exception e) {
             try {
                 if (inputStream!=null) {
                     inputStream.close();
                     inputStream=null;
                 }
             } catch (IOException ex) { }
-	}
+        }
     }
 
    public boolean saveInt(){
        	DataOutputStream outputStream=NvStorage.CreateDataOutputStream();
-	try {
-	    outputStream.writeInt(accountIndex);
-	    outputStream.writeInt(defaultAlertProfile);
-	    outputStream.writeInt(gmtOffset);
+        try {
+            outputStream.writeInt(accountIndex);
+            outputStream.writeInt(defaultAlertProfile);
+            outputStream.writeInt(gmtOffset);
             outputStream.writeInt(rosterFont);
             outputStream.writeInt(msgFont);
             outputStream.writeInt(notInListDropLevel);
-	    outputStream.writeInt(textWrap);
+            outputStream.writeInt(textWrap);
             outputStream.writeInt(loginstatus);
             outputStream.writeInt(panelsState);
             outputStream.writeInt(confMessageCount);
@@ -877,9 +880,10 @@ public class Config {
             outputStream.writeInt(lightBlink);
 //#endif
             outputStream.writeInt(minItemHeight);
+            outputStream.writeInt(loadLastMsgCount);
 
-	} catch (IOException e) { }
-	return NvStorage.writeFileRecord(outputStream, INT_STORAGE_NAME, 0, true);
+        } catch (IOException e) { }
+        return NvStorage.writeFileRecord(outputStream, INT_STORAGE_NAME, 0, true);
     }
 
     protected void loadUTF() {

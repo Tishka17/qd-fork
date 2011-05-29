@@ -119,29 +119,11 @@ public class HistoryViewer extends MessageList
             int size = store.getNumRecords();
             for (int i = 1; i <= size; ++i) {
                 try {
-                    byte buf[];
-
-                    try {
-                        buf = store.getRecord(i);
-                    } catch (InvalidRecordIDException e) {
-//#ifdef DEBUG
-//#                         System.out.println(i + " record doesn't exist, skipping...");
-//#endif
-                        continue;
+                    Msg msg = HistoryStorage.readMessage(store, i);
+                    if (msg != null) {
+                        elements.addElement(msg);
                     }
-
-                    ByteArrayInputStream bais = new ByteArrayInputStream(buf);
-                    DataInputStream dis = new DataInputStream(bais);
-                    byte msgtype = dis.readByte();
-                    String from = dis.readUTF();
-                    long date = dis.readLong();
-                    String text = dis.readUTF();
-
-                    Msg msg = new Msg(msgtype, from, null, text);
-                    msg.setDayTime(date);
-                    elements.addElement(msg);
-                } catch (RecordStoreException ex) {
-                } catch (IOException ioe) {}
+                } catch (RecordStoreException ex) {}
             }
             closeRecordStore();
         } catch (RecordStoreNotOpenException e) {}

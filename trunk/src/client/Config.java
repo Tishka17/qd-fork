@@ -798,7 +798,9 @@ public class Config {
             lightBlink = inputStream.readInt();
 //#endif
             minItemHeight = inputStream.readInt();
+//#ifdef HISTORY
             loadLastMsgCount = inputStream.readInt();
+//#endif
             
             inputStream.close();
             inputStream=null;
@@ -880,7 +882,9 @@ public class Config {
             outputStream.writeInt(lightBlink);
 //#endif
             outputStream.writeInt(minItemHeight);
+//#ifdef HISTORY
             outputStream.writeInt(loadLastMsgCount);
+//#endif
 
         } catch (IOException e) { }
         return NvStorage.writeFileRecord(outputStream, INT_STORAGE_NAME, 0, true);

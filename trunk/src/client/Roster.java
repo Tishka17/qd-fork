@@ -2955,7 +2955,10 @@ public final class Roster extends VirtualList
 //#             if (!Config.module_classicchat) {
 //#endif
                 if (c.getChatInfo().getMessageCount() == 0) {
-                    if (!Config.module_history || Config.getInstance().loadLastMsgCount == 0) {
+//#ifdef HISTORY
+                    if (!Config.module_history || Config.getInstance().loadLastMsgCount == 0)
+//#endif
+                    {
                         showMsgEditor(c, c.msgSuspended);
                         return;
                     }

@@ -138,6 +138,8 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
     public ActionsMenu(Object item) {
         super(null, ActionsIcons.getInstance());
 
+        boolean isAdvMode = Config.getInstance().userAppLevel == 1;
+
         this.item = item;
         if (item instanceof Contact) {
             setMainBarItem(new MainBar(((Contact) item).getNickJid()));
@@ -174,7 +176,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                 }
 //#endif
             }
-            if (midlet.BombusQD.cf.userAppLevel == 1) {
+            if (isAdvMode) {
                 addItem(SR.get(SR.MS_FEATURES), MI_FEATURES, ActionsIcons.ICON_INFO);
             }
 //#ifdef POPUPS
@@ -191,7 +193,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                     }
                 }
 //#ifdef HISTORY
-                if (groupType != Groups.TYPE_TRANSP && !(contact instanceof MucContact)) {
+                if (groupType != Groups.TYPE_TRANSP && !isMucContact) {
                     if (Config.module_history) {
                         if (Config.historyTypeIndex == Config.HISTORY_RMS) {
                             addItem(SR.get(SR.MS_HISTORY_SHOW), MI_HISTORY, ActionsIcons.ICON_VERSION);
@@ -222,13 +224,16 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                 }
                 if (contact.status < Presence.PRESENCE_OFFLINE) {
                     addItem(SR.get(SR.MS_TIME), MI_TIME, ActionsIcons.ICON_TIME);
-                    addItem(SR.get(SR.MS_IDLE), MI_IDLE, ActionsIcons.ICON_IDLE);
-                    addItem(SR.get(SR.MS_PING), MI_PING, ActionsIcons.ICON_PING);
+                    if (isAdvMode) {
+                        addItem(SR.get(SR.MS_IDLE), MI_IDLE, ActionsIcons.ICON_IDLE);
+                        addItem(SR.get(SR.MS_PING), MI_PING, ActionsIcons.ICON_PING);
+                    }
                     if (AlertCustomize.getInstance().enableAttention) {
                         addItem(SR.get(SR.LA_REQUEST), MI_ATTENTION, ActionsIcons.ICON_TIME);
                     }
                 }
-                if (groupType != Groups.TYPE_SELF
+                if (isAdvMode) {
+                    if (groupType != Groups.TYPE_SELF
                         && groupType != Groups.TYPE_SEARCH_RESULT) {
                         if (!isMucContact) {
                             if (contact.status < Presence.PRESENCE_OFFLINE) {
@@ -237,7 +242,8 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                                 addItem(SR.get(SR.MS_SEEN), MI_SEEN, ActionsIcons.ICON_ONLINE);
                             }
                         }
-                    addItem(SR.get(SR.MS_DIRECT_PRESENCE), MI_SEND_PRESENCE, ActionsIcons.ICON_SET_STATUS);
+                        addItem(SR.get(SR.MS_DIRECT_PRESENCE), MI_SEND_PRESENCE, ActionsIcons.ICON_SET_STATUS);
+                    }
                 }
 
 //#ifndef WMUC
@@ -334,7 +340,10 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                 if (self.status == Presence.PRESENCE_OFFLINE) {
                     addItem(SR.get(SR.MS_REENTER), MI_REJOIN, ActionsIcons.ICON_CHANGE_NICK);
                 } else {
-                    addItem(SR.get(SR.MS_DIRECT_PRESENCE), MI_SEND_PRESENCE, ActionsIcons.ICON_SET_STATUS);
+                    if (isAdvMode) {
+                        addItem(SR.get(SR.MS_DIRECT_PRESENCE), MI_SEND_PRESENCE, ActionsIcons.ICON_SET_STATUS);
+                    }
+                    
                     addItem(SR.get(SR.MS_CHANGE_NICKNAME), MI_CHANGE_NICK, ActionsIcons.ICON_CHANGE_NICK);
                     if (self.affiliationCode == MucContact.AFFILIATION_OWNER) {
 //#ifdef SERVICE_DISCOVERY

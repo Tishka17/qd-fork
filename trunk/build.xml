@@ -11,7 +11,7 @@
 		<exec 
 			dir="src"
 			executable="svnversion" 
-			outputproperty="qd.revision">
+			outputproperty="app.revision">
 				<arg value="-n"/>
 		</exec>
     </target>
@@ -21,11 +21,11 @@
 		<property file="config/version.properties" />
 		<replace 
 			file="${preprocessed.dir}\info\Version.java"  
-			token="$BOMBUSVERSION$"
-			value="${qd.revision}"/>
+			token="$APP_REVISION$"
+			value="${app.revision}"/>
 		<replace file="${preprocessed.dir}\info\Version.java"  
-			token="$MIDLETVERSION$"
-			value="${qd.version}"/>
+			token="$APP_VERSION$"
+			value="${app.version}"/>
     </target>
 	
     <!-- version patch in manifest -->
@@ -33,7 +33,7 @@
 		<property file="config/version.properties" />
 		<replace file="${build.dir}/manifest.mf"  
 			token="$MIDLETVERSION$"
-			value="${qd.version}"/>
+			value="${mf.version}"/>
     </target>
 
 	<!-- version patch in jad -->
@@ -41,7 +41,7 @@
 		<property file="config/version.properties" />
 		<replace file="${dist.dir}/${dist.jad}"
 			token="$MIDLETVERSION$"
-			value="${qd.version}"/>
+			value="${mf.version}"/>
     </target>
 
     <!-- overrided to change bootclasspath -->

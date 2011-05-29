@@ -35,7 +35,7 @@ public final class Version {
     public final static String NAME = "BombusQD";
     public final static String BOMBUS_SITE_URL = "http://bombusmod-qd.wen.ru";
 
-    private static String version = "$MIDLETVERSION$ (r$BOMBUSVERSION$)";
+    private static String version = "$APP_VERSION$ (r$APP_REVISION$)";
 
     public static String getVersionString(boolean showLang) {
         StringBuffer buf = new StringBuffer();

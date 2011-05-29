@@ -244,7 +244,7 @@ public class HistoryStorage {
             buf = store.getRecord(id);
         } catch (InvalidRecordIDException e) {
 //#ifdef DEBUG
-//#                         System.out.println(i + " record doesn't exist, skipping...");
+//#                         System.out.println(id + " record doesn't exist, skipping...");
 //#endif
             return null;
         }

@@ -445,7 +445,7 @@ public abstract class VirtualList extends CanvasEx {
 //#ifdef GRADIENT
         else if (Config.backImgType == 2) {
             listGradient.update(0, 0, width, height, ColorTheme.getColor(ColorTheme.GRADIENT_BGND_LEFT),
-                    ColorTheme.getColor(ColorTheme.GRADIENT_BGND_RIGHT), Gradient.BACKGROUND);
+                    ColorTheme.getColor(ColorTheme.GRADIENT_BGND_RIGHT), Gradient.CACHED_VERTICAL);
             listGradient.paint(g);
         }
 //#endif

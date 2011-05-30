@@ -33,6 +33,9 @@ import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
 import ui.IconTextElement;
 import ui.VirtualList;
+//#ifdef GRADIENT
+import ui.Gradient;
+//#endif
 
 /**
  *
@@ -46,6 +49,9 @@ public class Group extends IconTextElement {
     protected int onlines;
     private Vector contacts = new Vector(0);
     public Vector visibleContacts = new Vector(0);
+    //#ifdef GRADIENT
+    private static Gradient bg=new Gradient();
+    //#endif
     private boolean hasUnreadMessages = false;
     protected boolean collapsed;
 
@@ -92,7 +98,13 @@ public class Group extends IconTextElement {
 
     public final void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {
         g.setFont(getFont());
-
+        //#ifdef GRADIENT
+        if (!sel) {
+            bg.update(0, 0, g.getClipWidth(), getVHeight(), ColorTheme.getColor(ColorTheme.BAR_BGND), ColorTheme.getColor(ColorTheme.BAR_BGND_BOTTOM), Gradient.CACHED_HORIZONTAL);
+            bg.paint(g);
+        }
+        //#endif
+        g.setColor(ColorTheme.getColor(ColorTheme.GROUP_INK));
         int xOffset = getOffset();
         if (null != il) {
             if (getImageIndex() != -1) {

@@ -32,6 +32,13 @@ import javax.microedition.lcdui.Image;
 import ui.IconTextElement;
 import ui.VirtualList;
 
+import javax.microedition.io.Connector;
+import javax.microedition.io.ContentConnection;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.String;
+
 /**
  *
  * @author ad
@@ -57,6 +64,22 @@ public class ImageItem
         this.altText=altText;
     }
     
+    public ImageItem(String url) {
+        super(null);
+         ContentConnection c = null;
+         DataInputStream is = null;
+         try {
+             c = (ContentConnection)Connector.open(url);
+             is = c.openDataInputStream();
+             this.img = Image.createImage((InputStream)is);
+         } catch (IOException e) {}
+        /* }finally {
+             if (is != null)
+                 is.close();
+             if (c != null)
+                 c.close();
+         }*/
+    }
     public void onSelect(VirtualList view) {
         collapsed=!collapsed;
     }

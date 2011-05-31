@@ -141,6 +141,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
         cmdsecondList.removeAllElements();
         cmdThirdList.removeAllElements();
 
+        if (contact==null) return;
         if (startSelection) {
             addCommand(Commands.cmdSelect);
         }
@@ -619,8 +620,10 @@ public final class ContactMessageList extends MessageList implements InputTextBo
                     super.pageRight();
                 break;
             case KEY_NUM3:
-                contact.getChatInfo().opened = false;
-                midlet.BombusQD.sd.roster.showActiveContacts(contact);
+                try {
+                    contact.getChatInfo().opened = false;
+                    midlet.BombusQD.sd.roster.showActiveContacts(contact);
+                } catch (NullPointerException e){}
                 break;
             case KEY_NUM9:
                 if (BombusQD.sd.roster.isLoggedIn()) {
@@ -772,7 +775,8 @@ public final class ContactMessageList extends MessageList implements InputTextBo
     }
 
     public void destroyView(){
-        contact.getChatInfo().opened = false;
+        if (contact!=null)
+            contact.getChatInfo().opened = false;
 
         midlet.BombusQD.sd.roster.activeContact=null;
         midlet.BombusQD.sd.roster.reEnumRoster(); //to reset unread messages icon for this conference in roster

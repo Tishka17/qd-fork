@@ -35,13 +35,11 @@ import midlet.BombusQD;
 //#ifdef STATS
 import stats.StatsWindow;
 //#endif
-import ui.controls.AlertBox;
 import ui.controls.form.DefForm;
 import ui.controls.form.LinkString;
 import ui.controls.form.MultiLine;
 import ui.controls.form.SimpleString;
 import ui.controls.form.SpacerItem;
-
 /**
  *
  * @author ad
@@ -51,7 +49,6 @@ public class InfoWindow extends DefForm {
 
     public InfoWindow() {
         super(SR.get(SR.MS_ABOUT));
-
         addControl(new MultiLine(Version.NAME, Version.getVersionNumber()
                 + "\n" + Config.platformName
                 + "\nMobile Jabber client"));
@@ -82,7 +79,7 @@ public class InfoWindow extends DefForm {
             }
         });
 //#endif
-
+        
         addControl(new SpacerItem(6));
 
         //TODO: real names

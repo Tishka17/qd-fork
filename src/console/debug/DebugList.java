@@ -28,13 +28,14 @@
 //#ifdef DEBUG_CONSOLE
 //# package console.debug;
 //# 
-//# import client.Msg;
+//# import client.MsgItem;
 //# import java.util.Vector;
 //# 
 //# /**
 //#  *
 //#  * @author ad,aqent
 //#  */
+//# 
 //# public class DebugList {
 //#     Vector stanzas = new Vector(0);
 //#     private static DebugList instance;
@@ -46,12 +47,10 @@
 //#         return instance;
 //#     }
 //# 
-//#     public Msg msg(int index) {
+//#     public MsgItem getMessage(int index) {
 //#         try {
-//#             Msg msg = (Msg)stanzas.elementAt(index);
-//#             return msg;
-//#         } catch (Exception e) {
-//#         }
+//#             return (MsgItem) stanzas.elementAt(index);
+//#         } catch (Exception e) {}
 //#         return null;
 //#     }
 //# 
@@ -60,7 +59,7 @@
 //#             try {
 //#                 int free = (int)Runtime.getRuntime().freeMemory() >> 10;
 //#                 int total = (int)Runtime.getRuntime().totalMemory() >> 10;
-//#                 Msg stanza = new Msg((byte)type, "debug", null, "[" + free + "/" + total + "]\t" + msg.toString());
+//#                 MsgItem stanza = new MsgItem((byte)type, "debug", null, "[" + free + "/" + total + "]\t" + msg.toString());
 //#                 stanza.itemCollapsed = false;
 //#                 stanzas.addElement(stanza);
 //#                 stanza = null;

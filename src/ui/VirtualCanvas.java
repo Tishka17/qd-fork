@@ -78,6 +78,10 @@ public class VirtualCanvas extends Canvas {
             offscreen = Image.createImage(w, h);
         }
     }
+    
+    public int getAvailWidth() {
+        return getWidth() - Config.getInstance().scrollWidth - 2;
+    }
 
     public CanvasEx getCanvas() {
         return canvas;

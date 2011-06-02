@@ -93,7 +93,7 @@ public class IqTimeReply implements JabberBlockListener{
                 roster.querysign=false;
             }
             if (body!=null) {
-                Msg m=new Msg(Msg.MESSAGE_TYPE_SYSTEM, "time", " "+SR.get(SR.MS_TIME), body);
+                Msg m=new Msg(Msg.SYSTEM, "time", " "+SR.get(SR.MS_TIME), body);
                 roster.messageStore(c, m);
                 roster.redraw();
                 return BLOCK_PROCESSED;

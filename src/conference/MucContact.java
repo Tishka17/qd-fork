@@ -75,11 +75,13 @@ import ui.IconTextElement;
 
      public void addMessage(Msg m) {
          super.addMessage(m);
-         switch (m.messageType) {
-            case Msg.MESSAGE_TYPE_IN:
-            case Msg.MESSAGE_TYPE_OUT:
-            case Msg.MESSAGE_TYPE_HISTORY: break;
-            default: return;
+         switch (m.getType()) {
+            case Msg.INCOMING:
+            case Msg.OUTGOING:
+            case Msg.HISTORY: 
+                break;
+            default: 
+                return;
          }
          lastMessageTime=m.dateGmt;
     }
@@ -96,7 +98,7 @@ import ui.IconTextElement;
         return super.compare(right);
     }
     public String getTipString() {
-        int nm=getNewMsgsCount();
+        int nm=getNewMessageCount();
         if (nm!=0)
             return String.valueOf(nm);
         if (realJid!=null)

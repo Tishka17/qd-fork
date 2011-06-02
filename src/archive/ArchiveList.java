@@ -90,7 +90,11 @@ public class ArchiveList extends MessageList {
         cmdExport = new Command(SR.get(SR.MS_IMPORT_EXPORT), 0x60);
 //#endif
 
+        // rewrite this
         archive = new MessageArchive();
+        for (int i = 0; i < archive.size(); ++i) {
+            messages.addElement(archive.msg(i));
+        }
 
         MainBar bar = new MainBar(SR.get(SR.MS_ARCHIVE));
         bar.addElement(null);
@@ -118,7 +122,7 @@ public class ArchiveList extends MessageList {
         }
 
 //#ifdef IMPORT_EXPORT
-            addCommand(cmdExport);
+        addCommand(cmdExport);
 //#endif
 
         super.addDefaultCommands();
@@ -127,14 +131,6 @@ public class ArchiveList extends MessageList {
     protected void beginPaint() {
         getMainBarItem().setElementAt(" (" + getItemCount() + ")", 1);
         getMainBarItem().setElementAt(String.valueOf(getFreeSpace()), 3);
-    }
-
-    public int getItemCount() {
-        return archive.size();
-    }
-
-    protected Msg getMessage(int index) {
-        return archive.msg(index);
     }
 
     public void commandAction(Command c) {
@@ -193,13 +189,13 @@ public class ArchiveList extends MessageList {
         String data;
         switch (field) {
             case SUBJECT:
-                data = m.subject;
+                data = m.getSubject();
                 break;
             case JID:
-                data = m.from;
+                data = m.getFrom();
                 break;
             default:
-                data = m.body;
+                data = m.getBody();
                 break;
         }
         if (input instanceof TextBox) {

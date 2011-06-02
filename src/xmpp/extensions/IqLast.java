@@ -102,7 +102,7 @@ public class IqLast implements JabberBlockListener {
                     lastType=SR.get(SR.MS_ONLINE_TIME);
                 }
                 String status=(data.getChildBlockText("query").length()!=0)?" ("+data.getChildBlockText("query")+")":"";
-                Msg m=new Msg(Msg.MESSAGE_TYPE_SYSTEM, "last", " "+lastType, body+status);
+                Msg m=new Msg(Msg.SYSTEM, "last", " "+lastType, body+status);
                 roster.messageStore(c, m);
                 roster.redraw();
                 return BLOCK_PROCESSED;

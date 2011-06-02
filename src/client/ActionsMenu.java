@@ -430,7 +430,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                     BombusQD.sd.roster.sendMessage(contact, id, body, null, null);
 
                     String from2 = midlet.BombusQD.sd.account.toString();
-                    contact.addMessage(new Msg(Msg.MESSAGE_TYPE_OUT, from2, null, SR.get(SR.MS_SCHEME_SENT)));
+                    contact.addMessage(new Msg(Msg.OUTGOING, from2, null, SR.get(SR.MS_SCHEME_SENT)));
                 } break;
                 case MI_VCARD: {
                     if (contact.vcard != null) {
@@ -544,7 +544,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
 
                     String from = midlet.BombusQD.sd.account.toString();
                     contact.addMessage(
-                            new Msg(Msg.MESSAGE_TYPE_OUT, from, null, SR.get(SR.MS_YOU_WOKE_UP) + " " + contact.getName()));
+                            new Msg(Msg.OUTGOING, from, null, SR.get(SR.MS_YOU_WOKE_UP) + " " + contact.getName()));
                     break;
                 }
                 case MI_IDLE:
@@ -610,9 +610,9 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
 
                     BombusQD.sd.roster.sendMessage(contact, id, body, null, null);
 
-                    Msg msg = new Msg(Msg.MESSAGE_TYPE_OUT, from, null, body);
-                    msg.id = id;
-                    msg.itemCollapsed = true;
+                    Msg msg = new Msg(Msg.OUTGOING, from, null, body);
+                    msg.setId(id);
+                    msg.collapse();
 
                     contact.addMessage(msg);
                     break;

@@ -28,54 +28,47 @@
 //#ifdef XML_CONSOLE
 //# package console.xml;
 //# 
-//# import client.Msg;
+//# import client.MsgItem;
 //# import java.util.Vector;
 //# 
 //# /**
 //#  *
 //#  * @author ad
 //#  */
+//# 
 //# public class XMLList {
-//#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_CONSOLE");
-//#endif
-//# 
-//#     Vector stanzas=new Vector(0);
-//# 
+//#     Vector stanzas = new Vector(0);
 //#     public static boolean enabled = false;
-//# 
 //#     private static XMLList instance;
 //# 
-//#     public static XMLList getInstance(){
-//# 	if (instance==null) {
-//# 	    instance=new XMLList();
-//# 	}
-//# 	return instance;
+//#     public static XMLList getInstance() {
+//#         if (instance == null) {
+//#             instance = new XMLList();
+//#         }
+//#         return instance;
 //#     }
 //# 
-//#     public Msg msg(int index){
-//# 	try {
-//#             Msg msg=(Msg)stanzas.elementAt(index);
-//# 	    return msg;
-//# 	} catch (Exception e) { }
-//# 	return null;
+//#     public MsgItem getMessage(int index) {
+//#         try {
+//#             return (MsgItem) stanzas.elementAt(index);
+//#         } catch (Exception e) {}
+//#         return null;
 //#     }
 //# 
 //#     public void add(String msg, int type) {
-//#       if (enabled) {
-//# 	  try {
-//#             if(msg.length()>0) {
-//#               Msg stanza=new Msg((byte)type, "local", null, msg.toString());
-//#               stanza.itemCollapsed=true;
-//#               stanzas.addElement(stanza);
-//#               stanza=null;
-//#             }
-//# 	  } catch (Exception e) { }
-//#        }
+//#         if (enabled) {
+//#             try {
+//#                 if (msg.length() > 0) {
+//#                     MsgItem stanza = new MsgItem((byte) type, "local", null, msg.toString());
+//#                     stanza.itemCollapsed = true;
+//#                     stanzas.addElement(stanza);
+//#                 }
+//#             } catch (Exception e) {}
+//#         }
 //#     }
 //# 
-//#     public int size(){
-//# 	return stanzas.size();
+//#     public int size() {
+//#         return stanzas.size();
 //#     }
 //# }
 //#endif

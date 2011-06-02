@@ -58,7 +58,7 @@ public class ArchiveEdit extends InputTextBox {
 
         if (pos > -1) {
             this.msg = archive.msg(pos);
-            setString(msg.body);
+            setString(msg.getBody());
         }
     }
 
@@ -68,13 +68,13 @@ public class ArchiveEdit extends InputTextBox {
             if (body.length() == 0) {
                 body = null;
             }
-            byte type = Msg.MESSAGE_TYPE_OUT;
+            byte type = Msg.OUTGOING;
             String from = "";
             String subj = "";
             if (pos > -1) {
-                type = msg.messageType;
-                from = msg.from;
-                subj = msg.subject;
+                type = msg.getType();
+                from = msg.getFrom();
+                subj = msg.getSubject();
                 archive.delete(pos);
             }
             Msg newmsg = new Msg(type, from, subj, body);

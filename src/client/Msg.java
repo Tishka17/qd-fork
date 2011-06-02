@@ -1,7 +1,7 @@
 /*
- * msg.java
+ * Message.java
  *
- * Created on 6.01.2005, 19:20
+ * Created on 21.01.2006, 23:17
  * Copyright (c) 2005-2008, Eugene Stahov (evgs), http://bombus-im.org
  *
  * This program is free software; you can redistribute it and/or
@@ -24,130 +24,232 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-
 package client;
+
+import colors.ColorTheme;
+import font.FontCache;
+import images.RosterIcons;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import colors.ColorTheme;
+import java.util.Vector;
+import javax.microedition.lcdui.Font;
+import javax.microedition.lcdui.Graphics;
+import message.MessageParser;
+import midlet.BombusQD;
+import ui.ComplexString;
+import ui.VirtualElement;
+import ui.VirtualList;
 import util.Time;
 
-/**
- *
- * @author Eugene Stahov
- */
-public class Msg {
+public final class Msg implements VirtualElement {
     // without signaling
-    public final static byte MESSAGE_TYPE_OUT=1;
-    public final static byte MESSAGE_TYPE_PRESENCE=2;
-    public final static byte MESSAGE_TYPE_HISTORY=3;
+    public final static byte OUTGOING = 1;
+    public final static byte PRESENCE = 2;
+    public final static byte HISTORY = 3;
+
     // with signaling
-    public final static byte MESSAGE_TYPE_IN=10;
-    public final static byte MESSAGE_TYPE_HEADLINE=11;
-    public final static byte MESSAGE_TYPE_ERROR=12;
-    public final static byte MESSAGE_TYPE_SUBJ=13;
-    public final static byte MESSAGE_TYPE_AUTH=14;
-    public final static byte MESSAGE_TYPE_SYSTEM=15;
-//#ifdef JUICK.COM
-    public final static byte MESSAGE_TYPE_JUICK=18;
-//#endif
-    public boolean highlite;
+    public final static byte INCOMING = 10;
+    public final static byte HEADLINE = 11;
+    public final static byte ERROR = 12;
+    public final static byte SUBJECT = 13;
+    public final static byte AUTH = 14;
+    public final static byte SYSTEM = 15;
+    public final static byte JUICK = 18;
 
-    public byte messageType;
+    private boolean highlite;
+    private byte type;
+    private boolean isMucMsg;
 
-    public boolean MucChat;
+    private String from;
+    private String subject;
+    private String body;
 
-    public String from;
-    public String subject;
-    public String body;
     public long dateGmt;
-    public boolean delivered;
-    public String id;
-    public boolean search_word;
-
-    public boolean unread = false;
-
-    public boolean itemCollapsed;
-    //public int itemHeight=-1;
-
-    public int color = -1;
-
-    public boolean selected;
-
-    public void destroy(){
-       if(null != from) from = null;
-       if(null != subject) subject = null;
-       if(null != body) body = null;
-       if(null != id) id = null;
+    private boolean delivered;
+    private String id;
+    public boolean found;
+    private boolean unread = false;
+    private boolean collapsed;
+    private int color = -1;
+    private boolean selected;
+    
+    public Vector msgLines;
+    private boolean isEven;
+    private boolean smiles;
+    private boolean partialParse = false;
+    private int itemHeight = -1;
+    
+    public Msg(byte type, String from, String body) {
+        this(type, from, null, body);
     }
 
-    /** Creates a new instance of msg */
-    public Msg(byte messageType, String from, String subj, String body) {
-        this.messageType=messageType;
-        this.from=from;
-        this.body=body;
-        this.subject=subj;
-        this.dateGmt=Time.utcTimeMillis();
-        this.id=null;
-        if (messageType>=Msg.MESSAGE_TYPE_IN) unread=true;
-        if (messageType==Msg.MESSAGE_TYPE_PRESENCE) itemCollapsed = midlet.BombusQD.cf.showCollapsedPresences;
-        else if (messageType==Msg.MESSAGE_TYPE_HEADLINE) itemCollapsed=true;
-        else if (body!=null && messageType!=Msg.MESSAGE_TYPE_SUBJ)
-            if (body.length()>midlet.BombusQD.cf.messageLimit) itemCollapsed=true;
+    public Msg(byte type, String from, String subj, String body) {
+        this.type = type;
+        this.from = from;
+        this.body = body;
+        this.subject = subj;
+        this.dateGmt = Time.utcTimeMillis();
+        this.id = null;
+        
+        if (type >= INCOMING) {
+            unread = true;
+        }
+        if (type == PRESENCE) {
+            collapsed = Config.getInstance().showCollapsedPresences;
+        } else if (type == HEADLINE) {
+            collapsed = true;
+        } else if (body != null && type != SUBJECT) {
+            if (body.length() > midlet.BombusQD.cf.messageLimit) {
+                collapsed = true;
+            }
+        }
+        this.smiles = true;
+        partialParse = collapsed;
     }
     
-    public void setType(byte type) {
-        messageType = type;
+    public Msg(DataInputStream is) throws IOException {
+        from = is.readUTF();
+        body = is.readUTF();
+        dateGmt = is.readLong();
+        type = INCOMING;
+        try {
+            subject = is.readUTF();
+        } catch (Exception e) {
+            subject = null;
+        }
     }
 
-    public String getTime(){
+    public void serialize(DataOutputStream os) throws IOException {
+        os.writeUTF(from);
+        os.writeUTF(body);
+        os.writeLong(dateGmt);
+        if (subject != null) {
+            os.writeUTF(subject);
+        }
+    }
+    
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    public boolean isDelivered() {
+        return delivered;
+    }
+
+    public void setDelivered(boolean delivered) {
+        this.delivered = delivered;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public boolean isUnread() {
+        return unread;
+    }
+    
+    public void read() {
+        unread = false;
+    }
+
+    public boolean isItemCollapsed() {
+        return collapsed;
+    }
+
+    public void expand() {
+        collapsed = false;
+    }
+    
+    public void collapse() {
+        collapsed = true;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    public String getTime() {
         return Time.timeLocalString(dateGmt);
     }
-    public String getDayTime(){
+
+    public String getDayTime() {
         return Time.dayLocalString(dateGmt) + " " + Time.timeLocalString(dateGmt);
     }
 
-    public void setDayTime(String date){ //ArchiveTemplates
-        this.dateGmt=Time.dateStringToLong(date);
+    public void setDayTime(String date) { //ArchiveTemplates
+        this.dateGmt = Time.dateStringToLong(date);
+    }
+    
+    public boolean isHighlite() {
+        return highlite;
+    }
+    
+    public void highlite() {
+        highlite = true;
+    }
+    
+    public void found() {
+        found = true;
+    }
+    
+    public void reset() {
+        highlite = false;
+        found = false;
+    }
+
+    public byte getType() {
+        return type;
+    }
+    
+    public void setType(byte type) {
+        type = type;
+    }
+
+    public boolean isMucMsg() {
+        return isMucMsg;
+    }
+
+    public void setMucChat(boolean isMucMsg) {
+        this.isMucMsg = isMucMsg;
     }
 
     public void setDayTime(long dateGmt) {
         this.dateGmt = dateGmt;
     }
 
-    public int getColor() {
-        if (selected || highlite) {
-            return ColorTheme.getColor(ColorTheme.MSG_HIGHLIGHT);
-        }
-        if (color > -1) {
-            return color;
-        }
-
-        switch (messageType) {
-            case MESSAGE_TYPE_IN:
-            case MESSAGE_TYPE_HEADLINE:
-//#ifdef JUICK.COM
-            case MESSAGE_TYPE_JUICK:
-//#endif
-                return ColorTheme.getColor(ColorTheme.MESSAGE_IN);
-            case MESSAGE_TYPE_PRESENCE:
-                return ColorTheme.getColor(ColorTheme.MESSAGE_PRESENCE);
-            case MESSAGE_TYPE_OUT:
-                return ColorTheme.getColor(ColorTheme.MESSAGE_OUT);
-            case MESSAGE_TYPE_SUBJ:
-                return ColorTheme.getColor(ColorTheme.MSG_SUBJ);
-            case MESSAGE_TYPE_AUTH:
-                return ColorTheme.getColor(ColorTheme.MESSAGE_AUTH);
-            case MESSAGE_TYPE_HISTORY:
-                return ColorTheme.getColor(ColorTheme.MESSAGE_HISTORY);
-        }
-        return ColorTheme.getColor(ColorTheme.LIST_INK);
-    }
-
     //memory leak
     public String toString() {
         StringBuffer buf = new StringBuffer();
-        if (MucChat || isPresence() || !(Config.showNickNames && subject != null)) {
+        if (isMucMsg || isPresence() || !(Config.showNickNames && subject != null)) {
             if (Config.showTimeInMsgs) {
                 buf.append("[");
                 if ((Time.utcTimeMillis() - dateGmt) > 86400000) {
@@ -162,20 +264,210 @@ public class Msg {
         return buf.toString();
     }
 
-    public boolean isPresence() { return messageType==Msg.MESSAGE_TYPE_PRESENCE; }
-
-    public void serialize(DataOutputStream os) throws IOException {
-	os.writeUTF(from);
-	os.writeUTF(body);
-	os.writeLong(dateGmt);
-	if (subject!=null) os.writeUTF(subject);
+    public boolean isPresence() {
+        return type == PRESENCE;
     }
 
-    public Msg (DataInputStream is) throws IOException {
-	from=is.readUTF();
-	body=is.readUTF();
-	dateGmt=is.readLong();
-        messageType=Msg.MESSAGE_TYPE_IN;
-	try { subject=is.readUTF(); } catch (Exception e) { subject=null; }
+    public int getVHeight() { 
+        if (msgLines == null) {
+            parse();
+        }
+        int height = 0;
+        int size = collapsed ? Math.min(msgLines.size(), 1) : msgLines.size();
+        for (int i = 0; i < size; ++i) {
+            height+=((ComplexString)msgLines.elementAt(i)).getVHeight();
+        }
+        itemHeight = height;
+        if (!Config.getInstance().hideMessageIcon || !isMucMsg) {
+            int rh=RosterIcons.getInstance().getHeight();
+            if (itemHeight<rh) {
+                return rh;
+            }
+        }
+        if (itemHeight<3) {
+            itemHeight = 3;
+        }
+        return itemHeight; 
+    }
+
+    public Font getFont() {
+        return FontCache.getFont(false, Config.msgFont);
+    }
+
+    public int getVWidth(){ 
+        return -1;
+    }     
+    
+    public int getColorBGnd() {
+        return ColorTheme.getColor(isEven ? ColorTheme.LIST_BGND_EVEN : ColorTheme.LIST_BGND);
+    }
+    
+    public int getColor() {
+        if (selected || highlite) {
+            return ColorTheme.getColor(ColorTheme.MSG_HIGHLIGHT);
+        }
+        if (color > -1) {
+            return color;
+        }
+
+        switch (type) {
+            case INCOMING:
+            case HEADLINE:
+//#ifdef JUICK.COM
+            case JUICK:
+//#endif
+                return ColorTheme.getColor(ColorTheme.MESSAGE_IN);
+            case PRESENCE:
+                return ColorTheme.getColor(ColorTheme.MESSAGE_PRESENCE);
+            case OUTGOING:
+                return ColorTheme.getColor(ColorTheme.MESSAGE_OUT);
+            case SUBJECT:
+                return ColorTheme.getColor(ColorTheme.MSG_SUBJ);
+            case AUTH:
+                return ColorTheme.getColor(ColorTheme.MESSAGE_AUTH);
+            case HISTORY:
+                return ColorTheme.getColor(ColorTheme.MESSAGE_HISTORY);
+        }
+        return ColorTheme.getColor(ColorTheme.LIST_INK);
+    }
+    
+    public void setColor(int color) {
+        this.color = color;
+    }
+    
+    public void parse() {
+        MessageParser.getInstance().parseMsg(this, BombusQD.sd.canvas.getAvailWidth());
+        //updateHeight();
+    }
+
+    public void drawItem(VirtualList view, Graphics g, int ofs, boolean selected) {
+        /*if (msgLines == null) {
+            parse();
+            return;
+        }***/
+        int xorg = g.getTranslateX();
+        int yorg = g.getTranslateY();
+        
+        g.translate(2, 0);
+
+        int size = collapsed ? 1 : msgLines.size();
+        for (int i = 0; i < size; ++i) {
+            ComplexString string = (ComplexString)msgLines.elementAt(i);
+
+            if (string.isEmpty()) {
+                break;
+            }
+            int h = string.getVHeight();
+            int cy = g.getClipY();
+
+            if (cy <= h && cy + g.getClipHeight() > 0) {
+                ofs = 0;
+                boolean cols = (collapsed && msgLines.size() > 1);
+                if (!Config.hideMessageIcon) {
+                    if (i == 0 && !isPresence() && !isMucMsg) {
+                        if (delivered) {
+                            RosterIcons.getInstance().drawImage(g, RosterIcons.ICON_DELIVERED_INDEX, 0, 0);
+                        } else {
+                            RosterIcons.getInstance().drawImage(g, RosterIcons.ICON_MESSAGE_INDEX, 0, 0);
+                        }
+                        ofs += RosterIcons.getInstance().getWidth() + 4;
+                    }
+                }
+                if (cols) {
+                    RosterIcons.getInstance().drawImage(g, RosterIcons.ICON_MSGCOLLAPSED_INDEX, 0, 0);
+                    //g.translate(8, 0);
+                }
+                string.drawItem(view, g, ofs, selected);
+            }
+            g.translate(0, h);
+            if (collapsed) {
+                break;
+            }
+        }
+
+        g.translate(xorg - g.getTranslateX(), yorg - g.getTranslateY());
+
+        if (found) {
+            int right = g.getClipX() + g.getClipWidth();
+            RosterIcons.getInstance().drawImage(
+                    g, RosterIcons.ICON_PRIVACY_ALLOW,
+                    right - RosterIcons.getInstance().getWidth() - 3 - 16, 0);
+        }
+    }
+    
+    public void onSelect(VirtualList view) {
+        collapsed = !collapsed;
+        if (partialParse) {
+            partialParse=false;
+            parse();
+        }
+        //updateHeight();
+        view.redraw();
+    }
+
+    public Vector getUrlList() { 
+        Vector urlList=new Vector(0);
+        addUrls(body, "http://", urlList);
+        addUrls(body, "https://", urlList);
+        addUrls(body, "tel:", urlList);
+        addUrls(body, "ftp://", urlList);
+        addUrls(body, "native:", urlList);
+        return (urlList.isEmpty())? null: urlList;
+    }
+    
+    private void addUrls(String text, String addString, Vector urlList) {
+        int pos=0;
+        int len=text.length();
+        while (pos<len) {
+            int head=text.indexOf(addString, pos);
+            if (head>=0) {
+                pos=head;
+                
+                while (pos<len) {
+                    char c=text.charAt(pos);
+                    if (c==' ' || c==0x09 || c==0x0d || c==0x0a || c==0xa0 || c==')' )  
+                        break;
+                    pos++;
+                }
+                urlList.addElement(text.substring(head, pos));
+                
+            } else break;
+        }
+    }
+    
+    public void setEven(boolean even) {
+        this.isEven = even;
+    }
+
+    public String getTipString() {
+        if (Time.utcTimeMillis() - dateGmt> (86400000)) {
+            return getDayTime();
+        }
+        return getTime();
+    }
+
+//#ifdef SMILES
+    public void toggleSmiles(VirtualList view) {
+        smiles = !smiles;
+        if(!collapsed) {
+            parse();
+        }
+    }
+    
+    public boolean smilesEnabled() { 
+        return smiles; 
+    }
+//#endif
+
+    public boolean isSelectable() { 
+        return true; 
+    }
+
+    public boolean handleEvent(int keyCode) { 
+        return false;
+    }
+    
+    public boolean handleEvent(int x, int y) {
+        return false;
     }
 }

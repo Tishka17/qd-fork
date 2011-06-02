@@ -110,9 +110,9 @@ public class SearchResult extends DefForm {
                 }
                 serv = new Contact(null, jid, status,"search");
                 serv.setGroup(sd.roster.contactList.groups.getGroup(Groups.TYPE_SEARCH_RESULT));
-                m=new Msg(Msg.MESSAGE_TYPE_PRESENCE, jid, "Short info", vcard.toString());
-                m.unread=false;
-                m.itemCollapsed = false;
+                m=new Msg(Msg.PRESENCE, jid, "Short info", vcard.toString());
+                m.read();
+                m.expand();
                 serv.addMessage(m);
 
                 addControl(serv);

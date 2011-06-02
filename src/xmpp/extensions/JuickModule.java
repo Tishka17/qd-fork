@@ -59,7 +59,7 @@ public class JuickModule{
 
 
     private boolean separateMsgs(Msg message){
-       String body = message.body.concat("\n");
+       String body = message.getBody().concat("\n");
        StringBuffer bufMsg = new StringBuffer(0);
        StringBuffer id = new StringBuffer(0);
         int len = body.length();
@@ -69,7 +69,7 @@ public class JuickModule{
         boolean lastMessages = body.startsWith("Last messages:");
 
         if( lastMessages || lastPopularMessages) {
-          message = new Msg(Msg.MESSAGE_TYPE_JUICK, BOTNAME , null ,"<nick>[Last" + (lastMessages?" ":" popular ") + "messages]</nick>" );
+          message = new Msg(Msg.JUICK, BOTNAME, null,"<nick>[Last" + (lastMessages?" ":" popular ") + "messages]</nick>" );
           storeMessage(message);
           boolean parse = false;
           for (i = 0; i < len; i++) {
@@ -96,8 +96,8 @@ public class JuickModule{
                          j=j-1;
                          while(c!=')') { j++;  c = body.charAt(j);  bufMsg.append(c); } //include replies
                        }
-                       message = new Msg(Msg.MESSAGE_TYPE_JUICK, BOTNAME , null , bufMsg.toString() );
-                       message.id = id.append(' ').toString();
+                       message = new Msg(Msg.JUICK, BOTNAME, null, bufMsg.toString() );
+                                message.setId(id.append(' ').toString());
                        storeMessage(message);
                          bufMsg = new StringBuffer(0);
                          id = new StringBuffer(0);
@@ -219,8 +219,8 @@ public class JuickModule{
                               buf.append(message_id.toString());
                           }
 
-                          m = new Msg(Msg.MESSAGE_TYPE_JUICK, BOTNAME , null , buf.toString() );
-                          m.id = message_id.toString();
+                          m = new Msg(Msg.JUICK, BOTNAME, null, buf.toString() );
+                            m.setId(message_id.toString());
                           storeMessage(m);
                           buf = new StringBuffer(0);
                           message_id = new StringBuffer(0);
@@ -235,7 +235,7 @@ public class JuickModule{
                     }
                 }
                 if ( type.equals( "error" ) ) {
-                   m = new Msg(Msg.MESSAGE_TYPE_JUICK, BOTNAME , null , "<nick>error:</nick> "+data.toString());
+                   m = new Msg(Msg.JUICK, BOTNAME, null, "<nick>error:</nick> "+data.toString());
                    storeMessage(m);
                 }
                return null;
@@ -251,9 +251,9 @@ public class JuickModule{
                  //if (juickUnameNs!=null) juickUnameNs.getText();
 
                  JabberDataBlock juickNs = data.findNamespace("juick",NS_MESSAGE);
-                 m.messageType = Msg.MESSAGE_TYPE_JUICK;
-                 m.id = null;
-                 m.from = BOTNAME;
+                 m.setType(Msg.JUICK);
+                 m.setId(null);
+                 m.setFrom(BOTNAME);
 
                  if(juickNs!=null){
                        Vector childBlocks = new Vector(0);
@@ -308,7 +308,7 @@ public class JuickModule{
                             sb.append("+photo");
 
                        if(message.getUrl()!=null) sb.append('\n').append(message.getOOB());
-                       m.body=sb.toString();
+                       m.setBody(sb.toString());
 
                         /*
                          *  @NICK
@@ -327,7 +327,7 @@ public class JuickModule{
 
                        sb.append(' ');
 
-                       m.id=sb.toString(); // #id/num || #id
+                       m.setId(sb.toString()); // #id/num || #id
 ///////////////
                         //if(mid!=null) m.from = "[j]"+mid;
                         //created [j] temp contact

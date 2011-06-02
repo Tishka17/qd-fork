@@ -89,7 +89,7 @@ public class Archive {
                     String subj = findBlock(tempstr, START_SUBJ, END_SUBJ);
                     String body = findBlock(tempstr, START_BODY, END_BODY);
 
-                    Msg msg = new Msg(Msg.MESSAGE_TYPE_IN, from, subj, body);
+                    Msg msg = new Msg(Msg.INCOMING, from, subj, body);
                     msg.setDayTime(date);
                     vector.insertElementAt(msg, 0);
                 } else {
@@ -123,13 +123,13 @@ public class Archive {
             Msg m = archive.msg(i);
             body.append(START_ITEM).append("\r\n");
             body.append(START_DATE).append(m.getDayTime()).append(END_DATE).append("\r\n");
-            body.append(START_FROM).append(m.from).append(END_FROM).append("\r\n");
+            body.append(START_FROM).append(m.getFrom()).append(END_FROM).append("\r\n");
             body.append(START_SUBJ);
-            if (m.subject != null) {
-                body.append(m.subject);
+            if (m.getSubject() != null) {
+                body.append(m.getSubject());
             }
             body.append(END_SUBJ).append("\r\n");
-            body.append(START_BODY).append(m.body).append(END_BODY).append("\r\n");
+            body.append(START_BODY).append(m.getBody()).append(END_BODY).append("\r\n");
             body.append(END_ITEM).append("\r\n\r\n");
         }
 

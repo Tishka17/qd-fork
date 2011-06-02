@@ -35,11 +35,11 @@ import java.util.Vector;
 import menu.MenuListener;
 import menu.Command;
 import midlet.Commands;
-import ui.VirtualElement;
 import ui.VirtualList;
 import ui.GMenu;
 import ui.GMenuConfig;
 //#ifdef CLIPBOARD
+import ui.VirtualElement;
 import util.ClipBoard;
 //#endif
 import util.StringUtils;
@@ -59,26 +59,25 @@ public abstract class MessageList extends VirtualList implements MenuListener {
 //#endif
         enableListWrapping(false);
     }
-
-    public void destroy() {
-        messages.removeAllElements();
+    
+    // Helpers  
+    protected Msg getMessage(int index) {
+        return (Msg)messages.elementAt(index);
+    }
+    
+    protected Msg getSelectedMessage() {
+        return (Msg)messages.elementAt(cursor);
+    }
+    
+    protected VirtualElement getItemRef(int index) {
+        return (VirtualElement)messages.elementAt(index);
     }
 
-    public VirtualElement getItemRef(int index) {
-        if (messages.size()<getItemCount()) messages.setSize(getItemCount());
-        MessageItem mi = (MessageItem)messages.elementAt(index);
-        if (mi==null) {
-            mi = new MessageItem(getMessage(index), smiles);
-            mi.setEven( (index & 1) == 0);
-            mi.parse(this);
-            messages.setElementAt(mi, index);
-        }
-        return mi;
+    protected int getItemCount() {
+        return messages.size();
     }
 
     protected abstract void commandState();
-    protected abstract int getItemCount();
-    protected abstract Msg getMessage(int index);
 
     protected void addDefaultCommands() {
 //#ifdef CLIPBOARD
@@ -102,20 +101,20 @@ public abstract class MessageList extends VirtualList implements MenuListener {
     }
 
     public void commandAction(Command c) {
-        MessageItem item = (MessageItem)getFocusedObject();
+        Msg item = getSelectedMessage();
         if (c == Commands.cmdUrl) {
             Vector urls = (item).getUrlList();
             if (urls != null) {
                 new MessageUrl(urls).show();
             }
         } else if (c == Commands.cmdxmlSkin) {
-             ColorTheme.loadSkin(item.msg.body, 2, true);
+             ColorTheme.loadSkin(item.getBody(), 2, true);
         }
 //#ifdef CLIPBOARD
         else if(c == Commands.cmdCopy) {
-            ClipBoard.setClipBoard(msg2str(item.msg));
+            ClipBoard.setClipBoard(msg2str(item));
         } else  if (c == Commands.cmdCopyPlus) {
-            ClipBoard.addToClipBoard(msg2str(item.msg));
+            ClipBoard.addToClipBoard(msg2str(item));
         }
 //#endif
     }
@@ -124,8 +123,8 @@ public abstract class MessageList extends VirtualList implements MenuListener {
     private String msg2str(Msg msg) {
         StringBuffer buf = new StringBuffer();
 
-        if (msg.subject != null) {
-            buf.append(StringUtils.replaceNickTags(msg.subject));
+        if (msg.getSubject() != null) {
+            buf.append(StringUtils.replaceNickTags(msg.getSubject()));
             buf.append("\n");
         }
         buf.append(StringUtils.replaceNickTags(msg.toString()));
@@ -139,7 +138,7 @@ public abstract class MessageList extends VirtualList implements MenuListener {
 //#ifdef SMILES
         if (keyCode=='*') {
             try {
-                ((MessageItem)getFocusedObject()).toggleSmiles(this);
+                ((Msg)getFocusedObject()).toggleSmiles(this);
             } catch (Exception e){}
             return;
         }
@@ -158,7 +157,7 @@ public abstract class MessageList extends VirtualList implements MenuListener {
         if (0 == getItemCount()) {
             return false;
         }
-        String body = getMessage(cursor).body;
+        String body = getSelectedMessage().getBody();
         if (body.indexOf("xmlSkin") > -1) {
             return true;
         }
@@ -169,7 +168,7 @@ public abstract class MessageList extends VirtualList implements MenuListener {
         if (0 == getItemCount()) {
             return false;
         }
-        String body = getMessage(cursor).body;
+        String body = getSelectedMessage().getBody();
         if (-1 != body.indexOf("http://")) {
             return true;
         }

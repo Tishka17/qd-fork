@@ -80,16 +80,16 @@ public class HistoryStorage {
 //#if FILE_IO
     public static byte[] msg2byte(Msg m) {
         StringBuffer buf = new StringBuffer(0);
-        switch (m.messageType) {
-            case Msg.MESSAGE_TYPE_OUT:
+        switch (m.getType()) {
+            case Msg.OUTGOING:
                 buf.append("->");
                 break;
-            case Msg.MESSAGE_TYPE_ERROR:
+            case Msg.ERROR:
                 buf.append("!");
                 break;
-            case Msg.MESSAGE_TYPE_SUBJ:
-                if (m.subject != null) {
-                    buf.append('*').append(m.subject).append("\r\n");
+            case Msg.SUBJECT:
+                if (m.getSubject() != null) {
+                    buf.append('*').append(m.getSubject()).append("\r\n");
                 }
                 break;
             default:
@@ -97,7 +97,7 @@ public class HistoryStorage {
                 break;
         }
         buf.append(" [").append(m.getDayTime()).append("] ");
-        buf.append(StringUtils.replaceNickTags(m.body)).append("\r\n");
+        buf.append(StringUtils.replaceNickTags(m.getBody())).append("\r\n");
 
         byte[] arr;
         try {
@@ -158,10 +158,10 @@ public class HistoryStorage {
               baos = new ByteArrayOutputStream();
               das = new DataOutputStream(baos);
 
-              das.writeByte(message.messageType);
-              das.writeUTF(message.from);
+              das.writeByte(message.getType());
+              das.writeUTF(message.getFrom());
               das.writeLong(message.dateGmt);
-              das.writeUTF(message.body);
+              das.writeUTF(message.getBody());
 
             byte[] textData = baos.toByteArray();
 
@@ -211,7 +211,7 @@ public class HistoryStorage {
             for (int i = size - count + 1; i <= size; ++i) {
                 Msg msg = readMessage(store, i);
                 if (msg != null) {
-                    msg.setType(Msg.MESSAGE_TYPE_HISTORY);
+                    msg.setType(Msg.HISTORY);
                     vector.addElement(msg);
                 }
             }

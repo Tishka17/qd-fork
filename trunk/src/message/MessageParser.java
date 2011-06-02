@@ -40,6 +40,7 @@ import java.util.*;
 import ui.*;
 import images.RosterIcons;
 import client.Config;
+import client.Msg;
 import util.Strconv;
 
 public final class MessageParser {
@@ -116,16 +117,17 @@ public final class MessageParser {
     }
 
 
-    public void parseMsg(MessageItem messageItem,  int width) {
+    public void parseMsg(Msg messageItem,  int width) {
+        System.out.println("parse msg");
             wordsWrap=midlet.BombusQD.cf.textWrap==1;
             messageItem.msgLines=new Vector(0);
 //#ifdef SMILES
             this.smileImages = Config.animatedSmiles?SmilesIcons.getInstance():SmilesIcons.getStaticInstance();
 //#endif
-            if (null != messageItem.msg.subject) {//fixes by aspro
-             parseMessage(messageItem, width, messageItem.msg.subject, true);
+            if (null != messageItem.getSubject()) {//fixes by aspro
+             parseMessage(messageItem, width, messageItem.getSubject(), true);
             }
-            parseMessage(messageItem, width, messageItem.msg.toString(), false);
+            parseMessage(messageItem, width, messageItem.toString(), false);
             //messageItem.notifyRepaint();
     }
 
@@ -217,29 +219,31 @@ public final class MessageParser {
 
     private static StringBuffer s;
 
-    private void parseMessage(final MessageItem task, final int windowWidth, String txt, boolean isSubj) {//fixes by aspro
+    private void parseMessage(final Msg task, final int windowWidth, String txt, boolean isSubj) {//fixes by aspro
       synchronized(this) {
 //long s1 = System.currentTimeMillis();
         if (null == txt) return;
 
         Vector lines=task.msgLines;
-        boolean singleLine=task.msg.itemCollapsed;
+        boolean singleLine=task.isItemCollapsed();
 
         boolean underline=false;
 
         Leaf smileRoot=emptyRoot;
 //#ifdef SMILES
-        if (task.smilesEnabled() && !isSubj) smileRoot = root;
+        if (task.smilesEnabled() && !isSubj) {
+            smileRoot = root;
+        }
 //#endif
 
         s = new StringBuffer(0);
 
         int w=0;
-        if (!task.msg.MucChat) {
+        if (!task.isMucMsg()) {
             if (!Config.hideMessageIcon)
                 w+=RosterIcons.getInstance().getWidth()+4;
         }
-        else if (!task.msg.highlite && !isSubj)
+        else if (!task.isHighlite() && !isSubj)
             w+=11;
         int wordWidth=0;
         int wordStartPos=0;
@@ -250,7 +254,7 @@ public final class MessageParser {
 //#endif
         lines.addElement(l);
 
-        Font f=getFont((task.msg.highlite || isSubj));
+        Font f=getFont((task.isHighlite() || isSubj));
         l.setFont(f);
 
         int color=ColorTheme.getColor(isSubj ? ColorTheme.MSG_SUBJ : ColorTheme.LIST_INK);

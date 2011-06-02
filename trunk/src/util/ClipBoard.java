@@ -26,8 +26,6 @@
 //#ifdef CLIPBOARD
 package util;
 
-import client.Msg;
-
 public final class ClipBoard {
     private static String clipBoard = "";
 

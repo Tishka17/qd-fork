@@ -24,17 +24,17 @@
 package client.msgedit;
 
 //#ifdef ARCHIVE
-//# import archive.ArchiveList;
+import archive.ArchiveList;
 //#endif
 import client.Config;
 import client.Contact;
 import client.Msg;
 //#ifdef SMILES
-//# import client.SmilePicker;
+import client.SmilePicker;
 //#endif
 import conference.AppendNickForm;
 //#ifdef TRANSLATE
-//# import io.TranslateSelect;
+import io.TranslateSelect;
 //#endif
 import java.util.Vector;
 import javax.microedition.lcdui.Command;
@@ -44,7 +44,7 @@ import javax.microedition.lcdui.Ticker;
 import locale.SR;
 import midlet.BombusQD;
 //#ifdef CLIPBOARD
-//# import util.ClipBoard;
+import util.ClipBoard;
 //#endif
 //#ifdef DETRANSLIT
 //# import util.DeTranslit;
@@ -73,21 +73,21 @@ public abstract class BaseMessageEdit implements CommandListener {
     protected Command cmdInsNick;
     protected Command cmdLastMessage;
 //#ifdef ARCHIVE
-//#     protected Command cmdPaste;
+    protected Command cmdPaste;
 //#endif
 //#ifdef CLIPBOARD
-//#     protected Command cmdPasteText;
+    protected Command cmdPasteText;
 //#endif
     protected Command cmdSend;
     protected Command cmdSmile;
     protected Command cmdSubj;
     protected Command cmdSuspend;
 //#ifdef TRANSLATE
-//#     protected Command cmdTranslate;
+    protected Command cmdTranslate;
 //#endif
 
 //#ifdef RUNNING_MESSAGE
-//#     protected Ticker ticker = null;
+    protected Ticker ticker = null;
 //#endif
 
     protected Contact to;
@@ -101,7 +101,7 @@ public abstract class BaseMessageEdit implements CommandListener {
             cmdSuspend = new Command(SR.get(SR.MS_SUSPEND), Command.BACK, 90);
         }
 //#ifdef SMILES
-//#         cmdSmile = new Command(SR.get(SR.MS_ADD_SMILE), Command.SCREEN, 2);
+        cmdSmile = new Command(SR.get(SR.MS_ADD_SMILE), Command.SCREEN, 2);
 //#endif
         cmdInsNick = new Command(SR.get(SR.MS_NICKNAMES), Command.SCREEN, 3);
         cmdInsMe = new Command(SR.get(SR.MS_SLASHME), Command.SCREEN, 4);
@@ -113,13 +113,13 @@ public abstract class BaseMessageEdit implements CommandListener {
         cmdSubj = new Command(SR.get(SR.MS_SET_SUBJECT), Command.SCREEN, 10);
         cmdCancel = new Command(SR.get(SR.MS_CANCEL), Command.SCREEN, 99);
 //#ifdef TRANSLATE
-//#         cmdTranslate = new Command(SR.get(SR.MS_TRANSLATE), Command.SCREEN, 337);
+        cmdTranslate = new Command(SR.get(SR.MS_TRANSLATE), Command.SCREEN, 337);
 //#endif
 //#ifdef ARCHIVE
-//#         cmdPaste = new Command(SR.get(SR.MS_ARCHIVE), Command.SCREEN, 6);
+        cmdPaste = new Command(SR.get(SR.MS_ARCHIVE), Command.SCREEN, 6);
 //#endif
 //#ifdef CLIPBOARD
-//#         cmdPasteText = new Command(SR.get(SR.MS_PASTE), Command.SCREEN, 8);
+        cmdPasteText = new Command(SR.get(SR.MS_PASTE), Command.SCREEN, 8);
 //#endif
     }
 
@@ -138,11 +138,11 @@ public abstract class BaseMessageEdit implements CommandListener {
     public abstract void setString(String bodyNew);
 
 //#ifdef RUNNING_MESSAGE
-//#     public final void setTicker(String caption) {
-//#         if (midlet.BombusQD.cf.runningMessage) {
-//#             ticker.setString(caption);
-//#         }
-//#     }
+    public final void setTicker(String caption) {
+        if (midlet.BombusQD.cf.runningMessage) {
+            ticker.setString(caption);
+        }
+    }
 //#endif
 
     public final void show(Vector contacts) {
@@ -157,7 +157,7 @@ public abstract class BaseMessageEdit implements CommandListener {
     protected final void send(String body, String subj) {
         String comp = null;
         String id = String.valueOf((int)System.currentTimeMillis());
-        Msg msg = new Msg(Msg.MESSAGE_TYPE_OUT, midlet.BombusQD.sd.account.toString(), subj, body);
+        Msg msg = new Msg(Msg.OUTGOING, midlet.BombusQD.sd.account.toString(), subj, body);
 
         if (body != null) {
             body = body.trim();
@@ -181,10 +181,10 @@ public abstract class BaseMessageEdit implements CommandListener {
 //#         }
 //#endif
         if (body != null || subj != null) {
-            msg.subject = subj;
-            msg.body = body;
+            msg.setSubject(subj);
+            msg.setBody(body);
 
-            msg.id = id;
+            msg.setId(id);
 
             if (to.origin != Contact.ORIGIN_GROUPCHAT) {
                 to.addMessage(msg);
@@ -209,7 +209,7 @@ public abstract class BaseMessageEdit implements CommandListener {
                 id = to.msgSuspended = null;
             }
         } catch (Exception e) {
-            msg.body = "::MessageEdit Exception->Error send message(" + e.getMessage() + ")";
+            msg.setBody("::MessageEdit Exception->Error send message(" + e.getMessage() + ")");
             to.addMessage(msg);
         }
     }
@@ -225,7 +225,7 @@ public abstract class BaseMessageEdit implements CommandListener {
 
     protected final void destroyView(boolean forceChat) {
         if (!multiMessage && null != to) {
-            if (forceChat || to.getChatInfo().getMessageCount() > 0) {
+            if (forceChat || to.getMessageList().getMessageCount() > 0) {
                 to.getMessageList().show();
                 return;
             }
@@ -254,19 +254,19 @@ public abstract class BaseMessageEdit implements CommandListener {
             }
             insert(getCaretPosition(), to.lastSendedMessage);
 //#ifdef ARCHIVE
-//#         } else if (c == cmdPaste) {
-//#             if (null != to) {
-//#                 to.msgSuspended = body;
-//#             }
-//#             new ArchiveList(getCaretPosition(), getInput()).show();
+        } else if (c == cmdPaste) {
+            if (null != to) {
+                to.msgSuspended = body;
+            }
+            new ArchiveList(getCaretPosition(), getInput()).show();
 //#endif
 //#ifdef CLIPBOARD
-//#         } else if (c == cmdPasteText) {
-//#             insert(getCaretPosition(), ClipBoard.getClipBoard());
+        } else if (c == cmdPasteText) {
+            insert(getCaretPosition(), ClipBoard.getClipBoard());
 //#endif
 //#ifdef SMILES
-//#         } else if (c == cmdSmile) {
-//#             new SmilePicker(getCaretPosition(), getInput()).show();
+        } else if (c == cmdSmile) {
+            new SmilePicker(getCaretPosition(), getInput()).show();
 //#endif
 //#ifndef WMUC
         } else if (c == cmdInsNick) {
@@ -284,9 +284,9 @@ public abstract class BaseMessageEdit implements CommandListener {
             body = null;
             destroyView();
 //#ifdef TRANSLATE
-//#         } else if (c == cmdTranslate) {
-//#             new TranslateSelect(to, body).show();
-//#             body = null;
+        } else if (c == cmdTranslate) {
+            new TranslateSelect(to, body).show();
+            body = null;
 //#endif
         } else {
             if (c == cmdSend) {

@@ -31,20 +31,17 @@
 //# 
 //# import archive.MessageArchive;
 //# import client.Config;
-//# import client.Msg;
+//# import client.MsgItem;
 //# import message.MessageList;
 //# import menu.Command;
 //# import locale.SR;
 //#ifdef CLIPBOARD
 //# import util.ClipBoard;
 //#endif
-//#ifdef CONSOLE
-//# import ui.MainBar;
-//#endif
-//# import message.MessageItem;
 //# import midlet.BombusQD;
 //# import midlet.Commands;
 //# import ui.MainBar;
+//# import ui.VirtualElement;
 //# 
 //# /**
 //#  *
@@ -104,17 +101,13 @@
 //# 
 //#         getMainBarItem().setElementAt(str.toString(), 1);
 //#     }
+//#     
+//#     public VirtualElement getItemRef(int index) {
+//#         return stanzas.getMessage(index);
+//#     }
 //# 
 //#     public int getItemCount() {
 //#         return stanzas.size();
-//#     }
-//# 
-//#     public Msg getMessage(int index) {
-//#         try {
-//#             return stanzas.msg(index);
-//#         } catch (Exception e) {
-//#         }
-//#         return new Msg(Msg.MESSAGE_TYPE_OUT, "local", null, null);
 //#     }
 //# 
 //#     public void keyGreen() {

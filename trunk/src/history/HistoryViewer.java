@@ -31,12 +31,7 @@ import images.MenuIcons;
 import io.file.browse.Browser;
 import io.file.browse.BrowserListener;
 //#endif
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.util.Vector;
 import javax.microedition.lcdui.TextField;
-import javax.microedition.rms.InvalidRecordIDException;
 import javax.microedition.rms.RecordStore;
 import javax.microedition.rms.RecordStoreException;
 import javax.microedition.rms.RecordStoreNotOpenException;
@@ -66,7 +61,6 @@ public class HistoryViewer extends MessageList
 
     private static final String RECENT_LIST_ID = "history-srch";
 
-    private Vector elements;
     private RecordStore store;
     private String storeName;
 
@@ -86,8 +80,6 @@ public class HistoryViewer extends MessageList
         super();
 
         this.storeName = storeName;
-
-        elements = new Vector();
 
         cmdFind = new Command(SR.get(SR.MS_SEARCH), MenuIcons.ICON_SEARCH);
         cmdClear = new Command(SR.get(SR.MS_CLEAR), MenuIcons.ICON_CLEAR);
@@ -121,20 +113,20 @@ public class HistoryViewer extends MessageList
                 try {
                     Msg msg = HistoryStorage.readMessage(store, i);
                     if (msg != null) {
-                        elements.addElement(msg);
+                        messages.addElement(msg);
                     }
                 } catch (RecordStoreException ex) {}
             }
             closeRecordStore();
         } catch (RecordStoreNotOpenException e) {}
-        setMainBarItem(new MainBar(SR.get(SR.MS_HISTORY) + " [" + elements.size() + "]"));
+        setMainBarItem(new MainBar(SR.get(SR.MS_HISTORY) + " [" + messages.size() + "]"));
         redraw();
     }
 
     private int findString(String query) {
         for (int i = (cursor + 1); i < getItemCount(); ++i) {
             Msg msg = getMessage(i);
-            if (msg.body.indexOf(query) >= 0) {
+            if (msg.getBody().indexOf(query) >= 0) {
                 return i;
             }
         }
@@ -166,11 +158,7 @@ public class HistoryViewer extends MessageList
     }
 
     public int getItemCount() {
-        return elements.size();
-    }
-
-    public Msg getMessage(int index) {
-        return (Msg)elements.elementAt(index);
+        return messages.size();
     }
 
     public void commandAction(Command c) {
@@ -223,7 +211,7 @@ public class HistoryViewer extends MessageList
         buf.append(Time.localDate());
         buf.append(".txt");
 
-        HistoryExportTask task = new HistoryExportTask(elements, buf.toString());
+        HistoryExportTask task = new HistoryExportTask(messages, buf.toString());
         task.start();
     }
 //#endif

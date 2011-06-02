@@ -488,9 +488,9 @@ public final class Roster extends VirtualList
 
     public void errorLog(String s){
         if (s==null) return;
-        Msg m=new Msg(Msg.MESSAGE_TYPE_OUT, "local", "Info", s);
+        Msg m=new Msg(Msg.OUTGOING, "local", "Info", s);
         messageStore(selfContact(), m);
-        selfContact().getChatInfo().reEnumCounts();
+        selfContact().getMessageList().reEnumCounts();
 //#ifdef DEBUG_CONSOLE
 //#         midlet.BombusQD.debug.add(s,10);
 //#endif
@@ -636,7 +636,7 @@ public final class Roster extends VirtualList
 //#endif
                 for (int index = hC; index >= 0; --index) {
                     Contact contact=(Contact)hContacts.elementAt(index);
-                    if (0 == contact.getNewMsgsCount()) {
+                    if (0 == contact.getNewMessageCount()) {
                         contact.destroy();
                         contactList.removeContact(contact);
                         setModified();
@@ -1252,7 +1252,7 @@ public final class Roster extends VirtualList
 //#                 if (Config.module_classicchat) {
 //#                     if (!groupchat) {
 //#                         //forfix
-//#                         Msg mmm = new Msg(Msg.MESSAGE_TYPE_OUT, "Me", null, body);
+//#                         MsgItem mmm = new MsgItem(MsgItem.MESSAGE_TYPE_OUT, "Me", null, body);
 //#                         to.addMessage(mmm);
 //#                         StringUtils.addClassicChatMsg(mmm.toString(), SimpleItemChat.getWidth(), to.scroller);
 //#                     } else {
@@ -1547,7 +1547,7 @@ public final class Roster extends VirtualList
 //#ifdef JUICK.COM
                 if(from!=null){
                   if(from.indexOf("juick@juick.com")>-1) {
-                    Msg m=new Msg(Msg.MESSAGE_TYPE_JUICK, "juick@juick.com/Juick", null, null);
+                    Msg m=new Msg(Msg.JUICK, "juick@juick.com/Juick", null, null);
                     m = juick.getMsg(m,data);
                   }
                 }
@@ -1828,7 +1828,7 @@ public final class Roster extends VirtualList
 
                 long tStamp=message.getMessageTime();
 
-		byte mType=Msg.MESSAGE_TYPE_IN;
+		byte mType=Msg.INCOMING;
 
                 if (groupchat) {
                     if (subj!=null) { // subject
@@ -1841,13 +1841,13 @@ public final class Roster extends VirtualList
                         }
                         subj=null;
                         start_me=-1;
-                        mType=Msg.MESSAGE_TYPE_SUBJ;
+                        mType=Msg.SUBJECT;
                     }
                 } else if (type!=null){
                     if (type.equals("error")) {
                         body=SR.get(SR.MS_ERROR_) + XmppError.findInStanza(message).toString();
                     } else if (type.equals("headline")) {
-                        mType=Msg.MESSAGE_TYPE_HEADLINE;
+                        mType=Msg.HEADLINE;
                     }
                 } else {
                     type="chat";
@@ -1968,7 +1968,7 @@ public final class Roster extends VirtualList
                 if (body==null) return JabberBlockListener.BLOCK_REJECTED;
 
                 Msg m=new Msg(mType, from, subj, body);
-                m.MucChat = groupchat;
+                m.setMucChat(groupchat);
 
 //#ifdef JUICK.COM
                 if(from.indexOf("juick@juick.com")>-1 || data.findNamespace("juick", JuickModule.NS_MESSAGE)!=null) {
@@ -1976,32 +1976,31 @@ public final class Roster extends VirtualList
                     if(m==null) {
                        m = new Msg(mType, from.trim(), subj, body.toString());
                     } else {
-                       c = getContact(m.from, (midlet.BombusQD.cf.notInListDropLevel!=DROP_MESSAGES_PRESENCES));
+                       c = getContact(m.getFrom(), (midlet.BombusQD.cf.notInListDropLevel!=DROP_MESSAGES_PRESENCES));
                     }
                 }
 //#endif
                 if (tStamp!=0) m.dateGmt=tStamp;
 //#ifndef WMUC
-                if (m.body.indexOf(SR.get(SR.MS_IS_INVITING_YOU))>-1) m.dateGmt=0;
+                if (m.getBody().indexOf(SR.get(SR.MS_IS_INVITING_YOU))>-1) m.dateGmt=0;
                 if (groupchat) {
                     ConferenceGroup mucGrp=(ConferenceGroup)c.group;
                     if (mucGrp.selfContact.getJid().equals(message.getFrom())) {
-                        m.messageType=Msg.MESSAGE_TYPE_OUT;
-                        m.unread=false;
-                        m.highlite = false;
+                        m.setType(Msg.OUTGOING);
+                        m.read();
                     } else {
 //#ifdef LIGHT_CONTROL
                         CustomLight.message();
 //#endif
                         if (m.dateGmt<= ((ConferenceGroup)c.group).conferenceJoinTime) {
-                            if (m.messageType != Msg.MESSAGE_TYPE_SUBJ) {
-                                m.messageType=Msg.MESSAGE_TYPE_HISTORY;
+                            if (m.getType() != Msg.SUBJECT) {
+                                m.setType(Msg.HISTORY);
                             }
                         }
                         // highliting messages with myNick substring
-	                String myNick=mucGrp.selfContact.getNick();
+                        String myNick=mucGrp.selfContact.getNick();
                         String _myNick=" "+myNick;
-			if (body.indexOf(myNick)>-1) {
+                        if (body.indexOf(myNick)>-1) {
                             if (body.indexOf(": all:")>-1)
                                 highlite=true;
                             else if (body.indexOf("> "+myNick+": ")>-1)
@@ -2022,13 +2021,12 @@ public final class Roster extends VirtualList
                                 highlite=true;
                             else if (body.indexOf(_myNick+".")>-1)
                                 highlite=true;
-			}
-	                myNick=null;
-                        _myNick=null;
-                        //TODO: custom highliting dictionary
-                        m.highlite=highlite;
+                        }
+                        if (highlite) {
+                            m.highlite();
+                        }
                     }
-                    m.from=name;
+                    m.setFrom(name);
                     mucGrp=null;
                 }
 //#endif
@@ -2130,17 +2128,17 @@ public final class Roster extends VirtualList
                         Msg conferenceMessage;
                         if(chatPres.indexOf(SR.get(SR.MS_WAS_BANNED))>-1 || chatPres.indexOf(SR.get(SR.MS_WAS_KICKED))>-1
                                 || chatPres.indexOf(SR.get(SR.MS_NEW_ROOM_CREATED))>-1 ) {
-                                conferenceMessage = new Msg(Msg.MESSAGE_TYPE_ERROR, name, null, chatPres );
+                                conferenceMessage = new Msg(Msg.ERROR, name, null, chatPres );
                                 addPresenceMsg = true;
-                         } else conferenceMessage = new Msg(Msg.MESSAGE_TYPE_PRESENCE, name, null, chatPres );
+                         } else conferenceMessage = new Msg(Msg.PRESENCE, name, null, chatPres );
 
                         if(addPresenceMsg) {
-                            conferenceMessage.color = conferenceContact.getMainColor();
+                            conferenceMessage.setColor(conferenceContact.getMainColor());
                             messageStore(room, conferenceMessage);
                         }
 
                         conferenceMessage = new Msg( (ti==Presence.PRESENCE_AUTH ||
-                              ti==Presence.PRESENCE_AUTH_ASK)?Msg.MESSAGE_TYPE_AUTH : Msg.MESSAGE_TYPE_PRESENCE, from, null, Prtext );
+                              ti==Presence.PRESENCE_AUTH_ASK)?Msg.AUTH : Msg.PRESENCE, from, null, Prtext );
 
                         if (ti==Presence.PRESENCE_ERROR) {
                            StringBuffer sb = new StringBuffer(0);
@@ -2148,7 +2146,7 @@ public final class Roster extends VirtualList
                                .append('-')
                                .append('>')
                                .append(XmppError.findInStanza(pr).toString());
-                             conferenceMessage = new Msg(Msg.MESSAGE_TYPE_ERROR, name, null, sb.toString());
+                             conferenceMessage = new Msg(Msg.ERROR, name, null, sb.toString());
                              if(!chatPres.startsWith("remote-server-not-found")) messageStore(room, conferenceMessage);
                            sb = new StringBuffer(0);
                            sb=null;
@@ -2205,7 +2203,7 @@ public final class Roster extends VirtualList
                     Contact c=null;
                     //System.out.println("FROM:"+from);
                     Msg m=new Msg( (ti==Presence.PRESENCE_AUTH ||
-                         ti==Presence.PRESENCE_AUTH_ASK)?Msg.MESSAGE_TYPE_AUTH : Msg.MESSAGE_TYPE_PRESENCE, from, null, Prtext );
+                         ti==Presence.PRESENCE_AUTH_ASK)?Msg.AUTH : Msg.PRESENCE, from, null, Prtext );
                      if (ti==Presence.PRESENCE_AUTH_ASK) {
                         //processing subscriptions
                         if (midlet.BombusQD.cf.autoSubscribe==Config.SUBSCR_DROP)
@@ -2221,7 +2219,7 @@ public final class Roster extends VirtualList
                         m=null;
                         if (midlet.BombusQD.cf.autoSubscribe==Config.SUBSCR_AUTO) {
                              doSubscribe(c);
-                             messageStore(c, new Msg(Msg.MESSAGE_TYPE_AUTH, from, null, SR.get(SR.MS_AUTH_AUTO)));
+                             messageStore(c, new Msg(Msg.AUTH, from, null, SR.get(SR.MS_AUTH_AUTO)));
                          }
                     } else {
                         // processing presences
@@ -2561,7 +2559,7 @@ public final class Roster extends VirtualList
         Contact c=null;
         if(c==null) c=getContact(from, true);
         c.fileQuery=true;
-        messageStore(c, new Msg(Msg.MESSAGE_TYPE_SYSTEM, from, " "+SR.get(SR.MS_FILE), message));
+        messageStore(c, new Msg(Msg.SYSTEM, from, " "+SR.get(SR.MS_FILE), message));
     }
 //#endif
 
@@ -2569,7 +2567,7 @@ public final class Roster extends VirtualList
         if (c==null) return;
 
         boolean active=true;
-        if(message.messageType==Msg.MESSAGE_TYPE_PRESENCE){
+        if(message.getType()==Msg.PRESENCE){
            //reEnumRoster();//<<<
            Vector hContacts = contactList.contacts;
            int size = hContacts.size();
@@ -2587,7 +2585,7 @@ public final class Roster extends VirtualList
 
         boolean autorespond = false;
 //#ifdef RUNNING_MESSAGE
-        if (message.messageType==Msg.MESSAGE_TYPE_IN)
+        if (message.getType()==Msg.INCOMING)
             setTicker(c, message.toString());
 //#endif
 
@@ -2603,27 +2601,27 @@ public final class Roster extends VirtualList
 
 //#ifdef POPUPS
         if (midlet.BombusQD.cf.popUps)
-            if (message.messageType==Msg.MESSAGE_TYPE_AUTH && showWobbler(c))
-                setWobbler(2, c, message.from+"\n"+message.body,null);
+            if (message.getType()==Msg.AUTH && showWobbler(c))
+                setWobbler(2, c, message.getFrom()+"\n"+message.getBody(),null);
 //#endif
 
 	if (midlet.BombusQD.cf.popupFromMinimized && BombusQD.isMinimized())
 	    c.getMessageList().show();
 
-        if (midlet.BombusQD.cf.autoFocus && message.messageType!=Msg.MESSAGE_TYPE_PRESENCE && message.messageType!=Msg.MESSAGE_TYPE_OUT)
+        if (midlet.BombusQD.cf.autoFocus && message.getType()!=Msg.PRESENCE && message.getType()!=Msg.OUTGOING)
             focusToContact(c, false);
 
-        if (message.highlite) {
+        if (message.isHighlite()) {
             playNotify(SOUND_FOR_ME);
 //#ifdef POPUPS
             if (showWobbler(c))
-                setWobbler(2, c, message.body,null);
+                setWobbler(2, c, message.getBody(),null);
 //#endif
             autorespond = true;
 
         }else {
 	    //#ifdef JUICK.COM
-            boolean incomingMsg = (message.messageType==Msg.MESSAGE_TYPE_IN || message.messageType==Msg.MESSAGE_TYPE_JUICK);
+            boolean incomingMsg = (message.getType()==Msg.INCOMING || message.getType()==Msg.JUICK);
 	    //#else
 //#             boolean incomingMsg = (message.messageType==Msg.MESSAGE_TYPE_IN);
 	    //#endif
@@ -2636,7 +2634,7 @@ public final class Roster extends VirtualList
                 if (!(c instanceof MucContact)) {
 //#endif
                     if (showWobbler(c)) {
-                        setWobbler(2, c, c.toString()+": "+message.body,null);
+                        setWobbler(2, c, c.toString()+": "+message.getBody(),null);
                         autorespond = true;
                     }
                 }
@@ -2659,7 +2657,7 @@ public final class Roster extends VirtualList
                 || c.getGroupType()==Groups.TYPE_SELF)
             autorespond=false;
 
-        if (message.messageType!=Msg.MESSAGE_TYPE_IN)
+        if (message.getType()!=Msg.INCOMING)
             autorespond=false;
 
         if (!c.autoresponded && autorespond) {
@@ -2676,7 +2674,7 @@ public final class Roster extends VirtualList
                 es=null;
                 c.autoresponded=true;
 
-          c.addMessage(new Msg(Msg.MESSAGE_TYPE_SYSTEM, "local", SR.get(SR.MS_AUTORESPOND), ""));
+          c.addMessage(new Msg(Msg.SYSTEM, "local", SR.get(SR.MS_AUTORESPOND), ""));
 
 
             }
@@ -2954,7 +2952,7 @@ public final class Roster extends VirtualList
 //#ifdef CLASSIC_CHAT
 //#             if (!Config.module_classicchat) {
 //#endif
-                if (c.getChatInfo().getMessageCount() == 0) {
+                if (c.getMessageCount() == 0) {
 //#ifdef HISTORY
                     if (!Config.module_history || Config.getInstance().loadLastMsgCount == 0)
 //#endif
@@ -3384,7 +3382,6 @@ public final class Roster extends VirtualList
         }
         if (aContacts.isEmpty()) return;
         if (aContacts.size()<2 && first == aContacts.firstElement()) return;
-        first.getChatInfo().opened = false;
         int pos = aContacts.indexOf(first);
         if (pos<0) showNext = (Contact)aContacts.firstElement();
         else if (right) {

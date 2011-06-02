@@ -185,7 +185,7 @@ public final class ActiveContacts extends VirtualList implements MenuListener {
                 }
                 Contact p = (Contact) i.nextElement();
                 if (pass == 1) {
-                    if (p.getNewMsgsCount() > 0) {
+                    if (p.getNewMessageCount() > 0) {
                         focusToContact(p);
                         setRotator();
                         break;

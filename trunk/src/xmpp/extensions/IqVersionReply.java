@@ -80,7 +80,7 @@ public class IqVersionReply implements JabberBlockListener {
             
             if (body!=null) {
                 Roster roster=StaticData.getInstance().roster;
-                Msg m=new Msg(Msg.MESSAGE_TYPE_SYSTEM, "ver", " "+locale.SR.get(locale.SR.MS_CLIENT_INFO), body);
+                Msg m=new Msg(Msg.SYSTEM, "ver", " "+locale.SR.get(locale.SR.MS_CLIENT_INFO), body);
                 roster.messageStore(roster.getContact( data.getAttribute("from"), false), m);
                 roster.querysign=false;
                 roster.redraw();

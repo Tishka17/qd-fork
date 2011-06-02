@@ -30,8 +30,6 @@ package client;
 //#ifndef WMUC
 import conference.MucContact;
 //#endif
-import client.contact.ChatInfo;
-import message.MessageItem;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
 import ui.MainBar;
@@ -60,50 +58,25 @@ import ui.input.InputTextBoxNotify;
 public final class ContactMessageList extends MessageList implements InputTextBoxNotify {
     Contact contact;
     private boolean startSelection;
-
-    private Vector msgs;
-
-    public void destroy() {
-        int size = messages.size();
-        //System.out.println("    :::ContactMessageList destroy->"+contact+"->chat with "+size+" messages");
-        for(int i = 0; i<size; ++i){
-          MessageItem mi = (MessageItem)messages.elementAt(i);
-          //System.out.println("    :::   destroyMessageItem#"+i);
-          mi.destroy();
-          mi = null;
-        }
-        //System.out.println("    :::ContactMessageList destroy->"+contact+"->cml->messages&msgs");
-        messages.removeAllElements();
-        contact = null;
-        msgs.removeAllElements();
-        msgs = null;
-    }
-
-//#ifdef HISTORY
-    public void storeMessage(Msg msgObj) {
-        synchronized (this) {
-           HistoryStorage.addText(contact, msgObj);
-       }
-    }
-//#endif
-
-    public void updateMainBar(Contact contact){
-        setMainBarItem(new MainBar(contact));
-    }
+    
+    private int newMsgCnt = 0;
+    private int newHighLitedMsgCnt = 0;
+    public byte unreadType;
+    public int lastUnread;
 
     public ContactMessageList(Contact contact) {
-        this.contact=contact;
-        midlet.BombusQD.sd.roster.activeContact=contact;
+        System.out.println("Create MessageList for " + contact.getNickJid());
+        
+        this.contact = contact;
+        updateMainBar(contact);
+        
+        midlet.BombusQD.sd.roster.activeContact = contact;
 
 //#ifdef SMILES
         smiles=midlet.BombusQD.cf.smiles;
 //#else
 //#         smiles=false;
 //#endif
-
-        //MainBar mainbar=new MainBar(contact);
-        msgs = contact.getChatInfo().getMsgs();
-        updateMainBar(contact);
 
         cursor=0;
         contact.setIncoming(0);
@@ -113,7 +86,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
         enableListWrapping(false);
         
 //#ifdef HISTORY
-        if (Config.getInstance().loadLastMsgCount > 0 && Config.module_history
+        /*if (Config.getInstance().loadLastMsgCount > 0 && Config.module_history
                 && !contact.isHistoryLoaded()) {
             Vector vector = HistoryStorage.getLastMessages(
                     contact, Config.getInstance().loadLastMsgCount);
@@ -121,19 +94,36 @@ public final class ContactMessageList extends MessageList implements InputTextBo
             if (vector != null) {
                 int size = vector.size();
                 for (int i = 0; i < size; ++i) {
-                    addMessage((Msg)vector.elementAt(i));
+                    addMessage((MsgItem)vector.elementAt(i));
                 }
                 contact.getChatInfo().reEnumCounts();
             }
             contact.historyLoaded();
-        }
+        }*/
 //#endif
     }
-
-    private ChatInfo getChatInfo() {
-        return contact.getChatInfo();
+    
+    public void show() {
+        BombusQD.sd.roster.activeContact = contact;
+        contact.setIncoming(0);
+//#ifdef FILE_TRANSFER
+        contact.fileQuery = false;
+//#endif
+        updateMainBar(contact);
+        super.show();
     }
+    
+//#ifdef HISTORY
+    public void storeMessage(Msg msg) {
+        synchronized (this) {
+           HistoryStorage.addText(contact, msg);
+       }
+    }
+//#endif
 
+    public void updateMainBar(Contact contact){
+        setMainBarItem(new MainBar(contact));
+    }
 
     public void commandState(){
         menuCommands.removeAllElements();
@@ -150,8 +140,8 @@ public final class ContactMessageList extends MessageList implements InputTextBo
         }
 
         try {
-            Msg msg=getMessageAt(cursor);
-            if (msg.messageType==Msg.MESSAGE_TYPE_AUTH) {
+            Msg msg = getSelectedMessage();
+            if (msg.getType()==Msg.AUTH) {
                 addCommand(Commands.cmdSubscribe);
                 addCommand(Commands.cmdUnsubscribed);
             }
@@ -172,7 +162,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
         }
 //#endif
 
-        if (contact.getChatInfo().getMessageCount()>0) {
+        if (getItemCount() >0 ) {
 //#ifndef WMUC
             if (contact instanceof MucContact && contact.origin==Contact.ORIGIN_GROUPCHAT
                     || contact.getJid().indexOf("juick@juick.com")>-1 ) {
@@ -224,21 +214,16 @@ public final class ContactMessageList extends MessageList implements InputTextBo
     }
 
     public VirtualElement getItemRef(int index) {
-        MessageItem mi=(MessageItem) messages.elementAt(index);
-        if (mi.msg.unread) {
-            getChatInfo().readMessage(mi.msg);
+        Msg mi = (Msg)messages.elementAt(index);
+        if (mi.isUnread()) {
+            readMessage(mi);
         }
         return mi;
     }
-
-    public Msg getMessage(int index) {
-        return (Msg) msgs.elementAt(index);
+    
+    public int getMessageCount() {
+        return getItemCount();
     }
-
-    private Msg getMessageAt(int index) {
-        return (Msg) msgs.elementAt(index);
-    }
-
 
     private void forceScrolling() { //by voffk
         if (Config.autoScroll && isShown()) {
@@ -249,19 +234,17 @@ public final class ContactMessageList extends MessageList implements InputTextBo
     }
 
     public void deleteOldMessages() {
-       cursor -= getChatInfo().getMessageCount() - midlet.BombusQD.cf.msglistLimit+1;
-       if (cursor<0) cursor = 0;
-       getChatInfo().deleteOldMessages(messages);
+        int endPos = getMessageCount() - midlet.BombusQD.cf.msglistLimit;
+        for (int i = 0; i <= endPos; ++i) {
+            messages.removeElementAt(0);
+        }
     }
-
-    protected int getItemCount(){ return messages.size(); }
 
 //#ifdef TOUCH
     protected void touchMainPanelPressed(int x, int y) {
         int zoneWidth = width / 4;
 
         if (x > zoneWidth && x < width - zoneWidth) {
-            contact.getChatInfo().opened = false;
             BombusQD.sd.roster.showActiveContacts(contact);
         } else if (x < zoneWidth) {
             BombusQD.sd.roster.searchActiveContact(contact, false);
@@ -280,10 +263,10 @@ public final class ContactMessageList extends MessageList implements InputTextBo
                 return;
             }
             if (startSelection) {
-                int size = msgs.size();
+                int size = getMessageCount();
                 for (int i = 0; i < size; ++i) {
-                    Msg msg = (Msg)msgs.elementAt(i);
-                    if (msg.selected) {
+                    Msg msg = getMessage(i);
+                    if (msg.isSelected()) {
                         removeMessage(i);
                     }
                 }
@@ -306,10 +289,12 @@ public final class ContactMessageList extends MessageList implements InputTextBo
 //#endif
         } else if (c == Commands.cmdSelect) {
             startSelection = true;
-            Msg mess = getMessage(cursor);
-            mess.selected = !mess.selected;
-            mess.search_word = !mess.search_word;
-            mess.highlite = mess.selected;
+            Msg msg = getMessage(cursor);
+            if (msg.isSelected()) {
+                msg.reset();
+            } else {
+                msg.highlite();
+            }
             return;
         }
 
@@ -345,9 +330,9 @@ public final class ContactMessageList extends MessageList implements InputTextBo
             String body = ClipBoard.getClipBoard();
 
             String id = String.valueOf((int) System.currentTimeMillis());
-            Msg msg = new Msg(Msg.MESSAGE_TYPE_OUT, from, null, body);
-            msg.id = id;
-            msg.itemCollapsed = true;
+            Msg msg = new Msg(Msg.OUTGOING, from, null, body);
+            msg.setId(id);
+            msg.collapse();
 
             try {
                 if (body != null && body.length() > 0) {
@@ -357,7 +342,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
                     }
                 }
             } catch (Exception e) {
-                contact.addMessage(new Msg(Msg.MESSAGE_TYPE_OUT, from, null, SR.get(SR.MS_CLIPBOARD_SENDERROR)));
+                contact.addMessage(new Msg(Msg.OUTGOING, from, null, SR.get(SR.MS_CLIPBOARD_SENDERROR)));
             }
             redraw();
 //#endif
@@ -390,8 +375,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
         for (int i = 0; i < (cursor + 1); ++i) {
             Msg m = getMessage(i);
             if (m.toString().indexOf(searchQuery) > -1) {
-                m.search_word = false;
-                m.highlite = false;
+                m.reset();
             }
         }
         midlet.BombusQD.cf.find_text = false;
@@ -405,8 +389,8 @@ public final class ContactMessageList extends MessageList implements InputTextBo
             if (m.toString().indexOf(query) > -1) {
                 // FIXME элементы не удаляются.
                 vectorfound.addElement(Integer.toString(i));
-                m.search_word = true;
-                m.highlite = true;
+                m.found();
+                m.highlite();
             }
         }
         if (vectorfound.size() > 0) {
@@ -430,14 +414,14 @@ public final class ContactMessageList extends MessageList implements InputTextBo
              for(int i=0;i<size;i++){
               c=(Contact)midlet.BombusQD.sd.roster.contactList.contacts.elementAt(i);
               if (c instanceof MucContact){
-                if(c.jid.getBareJid().equals(contact.jid.getBareJid()) && c.getNick().equals(msg.from)) found=(c.status!=5);
+                if(c.jid.getBareJid().equals(contact.jid.getBareJid()) && c.getNick().equals(msg.getFrom())) found=(c.status!=5);
                }
              }
            }
        } catch (Exception e) { msg = null; }
 
        if(!found&&msg!=null) {
-            AlertBox box = new AlertBox(msg.from, SR.get(SR.MS_ALERT_CONTACT_OFFLINE), AlertBox.BUTTONS_YESNO) {
+            AlertBox box = new AlertBox(msg.getFrom(), SR.get(SR.MS_ALERT_CONTACT_OFFLINE), AlertBox.BUTTONS_YESNO) {
                 public void yes() { reply(true); }
             };
             box.show();
@@ -456,23 +440,23 @@ public final class ContactMessageList extends MessageList implements InputTextBo
         try {
             Msg msg = getMessage(cursor);
             if (msg == null ||
-                    msg.messageType == Msg.MESSAGE_TYPE_OUT ||
-                    msg.messageType == Msg.MESSAGE_TYPE_SUBJ) {
+                    msg.getType() == Msg.OUTGOING ||
+                    msg.getType() == Msg.SUBJECT) {
                 newMessage();
             } else {
                 String text;
 //#ifdef JUICK.COM
-               if(msg.messageType==Msg.MESSAGE_TYPE_JUICK){
-                    text=util.StringUtils.replaceNickTags(msg.id);
+               if(msg.getType() == Msg.JUICK){
+                    text=util.StringUtils.replaceNickTags(msg.getId());
                } else {
 //#endif
-                   text = msg.from+": ";
+                   text = msg.getFrom()+": ";
 //#ifdef JUICK.COM
               }
 //#endif
              if(contact.msgSuspended != null && check) {
                final String msgText = text;
-               AlertBox box = new AlertBox(msg.from, SR.get(SR.MS_MSGBUFFER_NOT_EMPTY), AlertBox.BUTTONS_YESNO) {
+               AlertBox box = new AlertBox(msg.getFrom(), SR.get(SR.MS_MSGBUFFER_NOT_EMPTY), AlertBox.BUTTONS_YESNO) {
                     public void yes() { showMsgEdit(msgText); }
                     public void no()  { resumeMessage(); }
                };
@@ -541,7 +525,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
     //#ifdef SMILES
                 case KEY_STAR:
                     if (getItemCount() > 0) {
-                        ((MessageItem)getFocusedObject()).toggleSmiles(this);
+                        ((Msg)getFocusedObject()).toggleSmiles(this);
                     }
                     break;
     //#endif
@@ -606,8 +590,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
                 Contact c;
                 for(int i=0;i<size;i++){
                         c = (Contact)midlet.BombusQD.sd.roster.contactList.contacts.elementAt(i);
-                        if (c.getNewMsgsCount()>0){
-                            contact.getChatInfo().opened = false;
+                        if (c.getNewMessageCount() > 0){
                             c.getMessageList().show();
                            break;
                         }
@@ -621,7 +604,6 @@ public final class ContactMessageList extends MessageList implements InputTextBo
                 break;
             case KEY_NUM3:
                 try {
-                    contact.getChatInfo().opened = false;
                     midlet.BombusQD.sd.roster.showActiveContacts(contact);
                 } catch (NullPointerException e){}
                 break;
@@ -697,34 +679,32 @@ public final class ContactMessageList extends MessageList implements InputTextBo
         } catch (Exception e) {/*no messages*/}
     }
 
-    /*public void resetMessages() {
-        //System.out.println("resetMessages");
-        messages.removeAllElements();
-        Msg msg;
-        MessageItem mi;
-        for (int i = messages.size(); i < msgs.size(); ++i) {
-            msg = (Msg)msgs.elementAt(i);
-            mi = new MessageItem(msg, smiles);
-            mi.setEven((messages.size() & 1) == 0);
-            mi.parse(this);
-            //mi.getColor();
-            messages.addElement(mi);
-        }
-        mi = null;
-    }*/
-
     public void addMessage(Msg msg) {
-        ChatInfo chatInfo = contact.getChatInfo();
-        
-        chatInfo.addMessage(msg);
-        if(chatInfo.opened || msg.messageType == Msg.MESSAGE_TYPE_OUT) {
-            chatInfo.reEnumCounts();
+        int msgCount = getItemCount();
+        if (msgCount >= midlet.BombusQD.cf.msglistLimit) {
+            deleteOldMessages();
         }
-        MessageItem mi = new MessageItem(msg, smiles);
-        mi.setEven((messages.size() & 1) == 0);
-        mi.parse(this);
-        messages.addElement(mi);
-        mi = null;
+        msg.setEven((messages.size() & 1) == 0);
+        messages.addElement(msg);
+        if(!msg.isPresence()) {
+            if(!isShown()){
+               newMsgCnt = 0;
+               newHighLitedMsgCnt = 0;
+            }
+            if (msg.isHighlite()) {
+                newHighLitedMsgCnt++;
+            }
+            newMsgCnt++;
+            if (msg.isUnread()) {
+                lastUnread = getMessageCount() - 1;
+                if (msg.getType() > unreadType) {
+                    unreadType = msg.getType();
+                }
+            }
+        }
+        if(isShown() || msg.getType() == Msg.OUTGOING) {
+            reEnumCounts();
+        }
         forceScrolling();
         redraw();
     }
@@ -732,10 +712,10 @@ public final class ContactMessageList extends MessageList implements InputTextBo
     private void smartPurge(boolean presence) {
         int cur=cursor+1;
         try {
-            if (msgs.size()>0){
-                int virtCursor=msgs.size();
+            if (getItemCount() > 0){
+                int virtCursor=getItemCount();
                 boolean delete = false;
-                int i=msgs.size();
+                int i=getItemCount();
                 while (true) {
                     if (i<0) break;
                     if (i<cur) {
@@ -768,16 +748,13 @@ public final class ContactMessageList extends MessageList implements InputTextBo
             }
         } catch (Exception e) { }
 
-        if(msgs.isEmpty()) {
+        if(getItemCount() == 0) {
           contact.clearVCard();
         }
-        contact.getChatInfo().resetLastUnreadMessage();
+        resetLastUnreadMessage();
     }
 
     public void destroyView(){
-        if (contact!=null)
-            contact.getChatInfo().opened = false;
-
         midlet.BombusQD.sd.roster.activeContact=null;
         midlet.BombusQD.sd.roster.reEnumRoster(); //to reset unread messages icon for this conference in roster
         midlet.BombusQD.sd.roster.show();
@@ -787,13 +764,6 @@ public final class ContactMessageList extends MessageList implements InputTextBo
         if (-1 == msgIndex) {
             return;
         }
-        getChatInfo().readMessage(getMessage(msgIndex));
-        getMessage(msgIndex).destroy();
-
-          MessageItem mi = (MessageItem)messages.elementAt(msgIndex);
-          mi.destroy();
-          mi = null;
-        msgs.removeElementAt(msgIndex);
         messages.removeElementAt(msgIndex);
     }
 
@@ -803,5 +773,92 @@ public final class ContactMessageList extends MessageList implements InputTextBo
          menuItem = new GMenu(this, null, menuCommands, cmdfirstList, cmdsecondList, cmdThirdList);
          redraw();
         return GMenu.CONTACT_MSGS_LIST;
+    }
+
+
+    public void readMessage(Msg msg) {
+        if (!isShown()) {
+            return;
+        }
+        if (newMsgCnt == 0 && newHighLitedMsgCnt == 0) {
+            return;
+        }
+        reEnumChat();
+        msg.read();
+        if ((14 == unreadType) && (14 == msg.getType())) {
+            unreadType = calcUnreadType();
+        }
+    }
+    
+    public void markDelivered(String id) {
+        if (id == null) {
+            return;
+        }
+        Msg m;
+        int size = getItemCount();
+        for (int i = 0; i < size; ++i) {
+            m = getMessage(i);
+            if ((null != m.getId()) && m.getId().equals(id)) {
+                m.setDelivered(true);
+            }
+        }
+    }
+    
+    private byte calcUnreadType() {
+        Msg m;
+        int size = getItemCount();
+        for (int i = 0; i < size; ++i) {
+            m = getMessage(i);
+            if (m.isUnread()) {
+                if (m.getType() == 14) {
+                    return m.getType();
+                }
+            }
+        }
+        return 10;
+    }
+    
+    public void reEnumCounts() {
+        /*if (newMsgCnt == 0 && newHighLitedMsgCnt == 0) {
+            return;
+        }*/
+        newMsgCnt = 0;
+        newHighLitedMsgCnt = 0;
+    }
+    
+    public void reEnumChat() {
+        if (newMsgCnt == 0) {
+            return;
+        }
+        Msg m;
+        int size = getItemCount();
+        for (int i = 0; i < size; ++i) {
+            m = getMessage(i);
+            m.read();
+        }
+        newMsgCnt = 0;
+        newHighLitedMsgCnt = 0;
+        midlet.BombusQD.sd.roster.countNewMsgs();
+    }
+    
+    public void resetLastUnreadMessage() {
+        lastUnread = 0;
+    }
+    
+    public int getNewMessageCount() {
+        return newMsgCnt;
+    }
+
+    public int getNewHighliteMessageCount() {
+        return newHighLitedMsgCnt;
+    }
+    
+    public byte getUnreadMessageType() {
+        return unreadType;
+    }
+    
+    public boolean isActiveChat() {
+        return (getMessageCount() > 0);
+
     }
 }

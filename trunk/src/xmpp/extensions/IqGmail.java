@@ -63,7 +63,7 @@ public class IqGmail implements JabberBlockListener {
                     String name=mail.getChildBlock("senders").getChildBlock("sender").getAttribute("name");
                     String address=mail.getChildBlock("senders").getChildBlock("sender").getAttribute("address");
 
-                    Msg m=new Msg(Msg.MESSAGE_TYPE_IN, "local", name+"("+address+")\n"+subject, body);
+                    Msg m=new Msg(Msg.INCOMING, "local", name+"("+address+")\n"+subject, body);
                     roster.messageStore(roster.selfContact(), m);
                 }
                 return BLOCK_PROCESSED;

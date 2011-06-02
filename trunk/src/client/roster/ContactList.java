@@ -41,7 +41,7 @@ public final class ContactList {
         int m=0;
         for (int i = contacts.size() - 1; 0 <= i; --i) {
             Contact c=(Contact)contacts.elementAt(i);
-            m += c.getNewMsgsCount();
+            m += c.getNewMessageCount();
         }
         return m;
     }

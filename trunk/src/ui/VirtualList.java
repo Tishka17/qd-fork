@@ -1420,7 +1420,7 @@ public abstract class VirtualList extends CanvasEx {
 //#                    } else {
 //#endif
                        Contact c = sd.roster.getContact(popup.getContact(), false);
-                       if(c.getChatInfo().getMessageCount() <= 0){
+                       if(c.getMessageCount() <= 0){
                           midlet.BombusQD.sd.roster.showMsgEditor(c, c.msgSuspended);
                           return;
                        }
@@ -1647,10 +1647,6 @@ public abstract class VirtualList extends CanvasEx {
  //#endif
     }
 
-    public int getListWidth() {
-        return width - midlet.BombusQD.cf.scrollWidth - 2;
-    }
-
     public static void sort(Vector sortVector, int itemType ,int sortType){
         try {
             int f,i;
@@ -1673,7 +1669,7 @@ public abstract class VirtualList extends CanvasEx {
                               int cIndex = 0;
                               for (i = 0; i < sortVector.size(); ++i) {
                                  find = (Contact)sortVector.elementAt(i);
-                                 int msgNext = find.getChatInfo().getNewMessageCount();
+                                 int msgNext = find.getNewMessageCount();
                                  if(msgNext > nextCount){
                                     nextCount = msgNext;
                                     cIndex = sortVector.indexOf(find);

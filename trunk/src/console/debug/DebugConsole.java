@@ -29,13 +29,15 @@
 //# package console.debug;
 //# 
 //# import client.Config;
-//# import client.Msg;
+//# import client.MsgItem;
 //# import message.MessageList;
 //# import menu.Command;
 //# import locale.SR;
+//# import midlet.BombusQD;
 //# import ui.MainBar;
 //# import midlet.Commands;
 //#ifdef CLIPBOARD
+//# import ui.VirtualElement;
 //# import util.ClipBoard;
 //#endif
 //# 
@@ -85,17 +87,12 @@
 //#         getMainBarItem().setElementAt(str.toString(), 1);
 //#     }
 //# 
-//# 
-//#     public int getItemCount() {
-//#         return midlet.BombusQD.debug.stanzas.size();
+//#     public VirtualElement getItemRef(int index) {
+//#         return (VirtualElement)BombusQD.debug.getMessage(index);
 //#     }
 //# 
-//#     protected Msg getMessage(int index) {
-//#         Msg msg=new Msg(Msg.MESSAGE_TYPE_OUT, "local", null, null);
-//#         try {
-//#             msg=midlet.BombusQD.debug.msg(index);
-//#         } catch (Exception e) {}
-//# 	return msg;
+//#     public int getItemCount() {
+//#         return BombusQD.debug.size();
 //#     }
 //# 
 //#     public void commandAction(Command c) {

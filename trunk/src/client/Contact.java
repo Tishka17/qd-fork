@@ -30,7 +30,6 @@ package client;
 
 //#ifndef WMUC
 import conference.MucContact;
-import client.contact.ChatInfo;
 //#endif
 //#ifdef CLIENTS_ICONS
 import images.ClientsIcons;
@@ -133,31 +132,14 @@ public class Contact extends IconTextElement {
     
     private boolean historyLoaded;
 
-    private ChatInfo chatInfo = null;
+    // don't use directly!
     private ContactMessageList messageList = null;
-    private ContactMessageList getML() {
+
+    public ContactMessageList getMessageList() {
         if (null == messageList) {
             messageList = new ContactMessageList(this);
         }
         return messageList;
-    }
-    public ContactMessageList getMessageList() {
-        midlet.BombusQD.sd.roster.activeContact = this;
-        setIncoming(0);
-//#ifdef FILE_TRANSFER
-        fileQuery=false;
-//#endif
-        getChatInfo().opened = true;//chat open flag
-        getML().updateMainBar(this);
-        return getML();
-    }
-
-    public final ChatInfo getChatInfo() {
-        if(chatInfo == null){
-            chatInfo = new ChatInfo();
-            chatInfo.initMsgs();
-        }
-        return chatInfo;
     }
     
     public final boolean isHistoryLoaded() {
@@ -170,14 +152,7 @@ public class Contact extends IconTextElement {
 
     public void destroy() {
         if(!midlet.BombusQD.sd.roster.isLoggedIn()) return;
-        if(chatInfo != null){
-           chatInfo.destroy();
-           chatInfo = null;
-        }
-        if (null != messageList) {
-            messageList.destroy();
-            messageList = null;
-        }
+        messageList = null;
         if(null != msgSuspended) msgSuspended = null;
         if(null != vcard) clearVCard();
 //#ifdef CLIENTS_ICONS
@@ -246,25 +221,38 @@ public class Contact extends IconTextElement {
         return ColorTheme.getColor(ColorTheme.CONTACT_DEFAULT);
     }
 
-    public final int getNewMsgsCount() {
+    public final int getNewMessageCount() {
         if (Groups.TYPE_IGNORE == getGroupType()) return 0;
-        if(chatInfo == null) return 0;
-        return chatInfo.getNewMessageCount();
+        if(messageList == null) {
+            return 0;
+        }
+        return getMessageList().getNewMessageCount();
     }
 
     public final boolean hasNewMsgs() {
-        return getNewMsgsCount() > 0;
+        return getNewMessageCount() > 0;
     }
 
     public int getNewHighliteMsgsCount() {
         if (Groups.TYPE_IGNORE == getGroupType()) return 0;
-        if(chatInfo == null) return 0;
-        return chatInfo.getNewHighliteMessageCount();
+        if(messageList == null) {
+            return 0;
+        }
+        return getMessageList().getNewHighliteMessageCount();
+    }
+    
+    public int getMessageCount() {
+        if (messageList == null) {
+            return 0;
+        }
+        return getMessageList().getMessageCount();
     }
 
     public boolean active() {
-        if(chatInfo == null) return false;
-        return chatInfo.isActiveChat();
+        if(messageList == null) {
+            return false;
+        }
+        return getMessageList().isActiveChat();
     }
 
     public final void setGroup(Group g) {
@@ -300,72 +288,38 @@ public class Contact extends IconTextElement {
     }
 
     public void addMessage(Msg m) {
-        //boolean first_replace=false;
-        //boolean first_msgreplace=false;
-        if(chatInfo == null) getChatInfo();
-        int msgCount = getChatInfo().getMessageCount();
-        if (msgCount >= midlet.BombusQD.cf.msglistLimit) {
-            getML().deleteOldMessages();
-        }
         if (origin != ORIGIN_GROUPCHAT) {
             if (!m.isPresence()) {
-            //if (m.isPresence()) first_replace = chatInfo.isOnlyStatusMessage();
-            //else {
-                //first_msgreplace = chatInfo.isFirstMessage();
                 StringBuffer temp;
 
-                if (m.body.startsWith("/me ")) {
+                if (m.getBody().startsWith("/me ")) {
                     temp = new StringBuffer("*");
 //#if NICK_COLORS
                     temp.append("<nick>");
 //#endif
-                    temp.append((m.messageType==Msg.MESSAGE_TYPE_OUT)?midlet.BombusQD.sd.account.getNickName():getName());
+                    temp.append((m.getType()==Msg.OUTGOING)?midlet.BombusQD.sd.account.getNickName():getName());
 //#if NICK_COLORS
                     temp.append("</nick>");
 //#endif
 
-                    temp.append(m.body.substring(3));
-                    m.body = temp.toString().trim();
+                    temp.append(m.getBody().substring(3));
+                    m.setBody(temp.toString().trim());
                 } else if (Config.showNickNames) {
                     temp = new StringBuffer(0);
-                    temp.append((m.messageType==Msg.MESSAGE_TYPE_OUT)?midlet.BombusQD.sd.account.getNickName():getName());
+                    temp.append((m.getType()==Msg.OUTGOING)?midlet.BombusQD.sd.account.getNickName():getName());
                     temp.append(" (");
                     temp.append(m.getTime());
                     temp.append(')');
-                    if (m.subject != null) {
-                        temp.append("\n").append(m.subject);
+                    if (m.getSubject() != null) {
+                        temp.append("\n").append(m.getSubject());
                     }
-                    m.subject = temp.toString();
+                    m.setSubject(temp.toString());
                 }
-            //}
             }
         } else {
             status = Presence.PRESENCE_ONLINE;
         }
-
-        /*if (first_replace) {
-            chatInfo.setFirstMessage(m);
-            if (null != messageList) {
-                getML().resetMessages();
-                getML().redraw();
-            }
-            return;
-        }*/
-        
-        /*if (first_msgreplace){
-            chatInfo.setFirstMessage(m);
-            if (null != messageList) {
-                getML().resetMessages();
-                getML().redraw();
-            }
-        } else {
-		if (null != messageList) {
-		    getML().addMessage(m);
-		} else if (!chatInfo.isOnlyStatusMessage()) {
-		    getML().resetMessages();
-		}
-        }*/
-        getML().addMessage(m);
+        getMessageList().addMessage(m);
 //#ifdef HISTORY
         if (group.type!=Groups.TYPE_TRANSP && group.type!=Groups.TYPE_SEARCH_RESULT) {
           boolean allowLog = (origin < ORIGIN_GROUPCHAT);
@@ -373,7 +327,7 @@ public class Contact extends IconTextElement {
               allowLog=false;
           }
           if(allowLog) {
-              getML().storeMessage(m);
+              getMessageList().storeMessage(m);
           }
         }
 //#endif
@@ -381,8 +335,10 @@ public class Contact extends IconTextElement {
 
     public boolean getFontIndex(){
        if (midlet.BombusQD.cf.useBoldFont && status<5) return true;
-       if(chatInfo == null) return false;
-       return chatInfo.isActiveChat();
+       if(messageList == null) {
+           return false;
+       }
+       return getMessageList().isActiveChat();
     }
 
     public final String getName(){
@@ -403,8 +359,6 @@ public class Contact extends IconTextElement {
     }
 
     public final void purge() {
-        chatInfo.initMsgs();
-        if (null != messageList) messageList.destroy();
         messageList = null;
         clearVCard();
     }
@@ -423,7 +377,7 @@ public class Contact extends IconTextElement {
     }
 
     public String getTipString() {
-        int nm=getNewMsgsCount();
+        int nm = getNewMessageCount();
         if (nm!=0)
             return String.valueOf(nm);
         if (nick!=null)
@@ -443,7 +397,7 @@ public class Contact extends IconTextElement {
     }
 
     final void markDelivered(String id) {
-        chatInfo.markDelivered(id);
+        getMessageList().markDelivered(id);
         if (null != messageList) messageList.redraw();
     }
 
@@ -500,7 +454,7 @@ public class Contact extends IconTextElement {
 
     public final int getSecImageIndex() {
         if (hasNewMsgs()) {
-            return (Msg.MESSAGE_TYPE_AUTH == chatInfo.getUnreadMessageType())
+            return (Msg.AUTH == getMessageList().getUnreadMessageType())
                     ? RosterIcons.ICON_AUTHRQ_INDEX
                     : RosterIcons.ICON_MESSAGE_INDEX;
         }

@@ -36,7 +36,7 @@ public class StringUtils {
 
     public static String quoteString(Msg msg) {
         StringBuffer out=new StringBuffer(0);
-        String subject = msg.subject;
+        String subject = msg.getSubject();
         if (subject!=null)
             if (subject.length()>0)
                 out.append(subject).append('\n');
@@ -63,7 +63,7 @@ public class StringUtils {
     }
 
     public static Msg replaceNickTags(Msg msg){
-         msg.body = replaceNickTags(msg.body);
+         msg.setBody(replaceNickTags(msg.getBody()));
          return msg;
     }
 

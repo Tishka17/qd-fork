@@ -29,7 +29,7 @@
 //# package console.debug;
 //# 
 //# import client.Config;
-//# import client.MsgItem;
+//# import client.Msg;
 //# import message.MessageList;
 //# import menu.Command;
 //# import locale.SR;

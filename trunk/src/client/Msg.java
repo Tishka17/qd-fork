@@ -129,6 +129,10 @@ public final class Msg implements VirtualElement {
         }
     }
     
+    public boolean isCollapsed() {
+        return collapsed;
+    }
+    
     public String getFrom() {
         return from;
     }
@@ -231,7 +235,7 @@ public final class Msg implements VirtualElement {
     }
     
     public void setType(byte type) {
-        type = type;
+        this.type = type;
     }
 
     public boolean isMucMsg() {

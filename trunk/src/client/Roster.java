@@ -1252,7 +1252,7 @@ public final class Roster extends VirtualList
 //#                 if (Config.module_classicchat) {
 //#                     if (!groupchat) {
 //#                         //forfix
-//#                         MsgItem mmm = new MsgItem(MsgItem.MESSAGE_TYPE_OUT, "Me", null, body);
+//#                         Msg mmm = new Msg(Msg.OUTGOING, "Me", null, body);
 //#                         to.addMessage(mmm);
 //#                         StringUtils.addClassicChatMsg(mmm.toString(), SimpleItemChat.getWidth(), to.scroller);
 //#                     } else {
@@ -2623,7 +2623,7 @@ public final class Roster extends VirtualList
 	    //#ifdef JUICK.COM
             boolean incomingMsg = (message.getType()==Msg.INCOMING || message.getType()==Msg.JUICK);
 	    //#else
-//#             boolean incomingMsg = (message.messageType==Msg.MESSAGE_TYPE_IN);
+//#             boolean incomingMsg = (message.getType()==Msg.INCOMING);
 	    //#endif
             boolean groupchat = (c.origin==Contact.ORIGIN_GROUPCHAT);
             if(!incomingMsg) return;

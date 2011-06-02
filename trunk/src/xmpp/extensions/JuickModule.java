@@ -53,7 +53,7 @@ public class JuickModule{
        Contact c = midlet.BombusQD.sd.roster.getContact(BOTNAME,false);
        midlet.BombusQD.sd.roster.messageStore( c ,msg);
 //#ifdef DEBUG_CONSOLE
-//#       midlet.BombusQD.debug.add("STORE::"+msg.body,10);
+//#       midlet.BombusQD.debug.add("STORE::"+msg.getBody(),10);
 //#endif
     }
 

@@ -28,7 +28,7 @@
 //#ifdef XML_CONSOLE
 //# package console.xml;
 //# 
-//# import client.MsgItem;
+//# import client.Msg;
 //# import java.util.Vector;
 //# 
 //# /**
@@ -48,9 +48,9 @@
 //#         return instance;
 //#     }
 //# 
-//#     public MsgItem getMessage(int index) {
+//#     public Msg getMessage(int index) {
 //#         try {
-//#             return (MsgItem) stanzas.elementAt(index);
+//#             return (Msg) stanzas.elementAt(index);
 //#         } catch (Exception e) {}
 //#         return null;
 //#     }
@@ -59,8 +59,8 @@
 //#         if (enabled) {
 //#             try {
 //#                 if (msg.length() > 0) {
-//#                     MsgItem stanza = new MsgItem((byte) type, "local", null, msg.toString());
-//#                     stanza.itemCollapsed = true;
+//#                     Msg stanza = new Msg((byte) type, "local", null, msg.toString());
+//#                     stanza.collapse();
 //#                     stanzas.addElement(stanza);
 //#                 }
 //#             } catch (Exception e) {}

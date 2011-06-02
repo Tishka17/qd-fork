@@ -82,15 +82,15 @@
 //# 
 //#         contact.scroller = scroller;
 //# 
-//#         int size = contact.getChatInfo().msgs.size();
+//#         int size = contact.getMessageCount();
 //#         for (int i = 0; i < size; i++) {
-//#             String msg = contact.getChatInfo().msgs.elementAt(i).toString();
-//#             if (((Msg) contact.getChatInfo().msgs.elementAt(i)).unread == true) {
-//#                 ((Msg) contact.getChatInfo().msgs.elementAt(i)).unread = false;
+//#             String msg = contact.getMessageList().getItemRef(i).toString();
+//#             if (((Msg) contact.getMessageList().getItemRef(i)).isUnread() == true) {
+//#                 ((Msg) contact.getMessageList().getItemRef(i)).read();
 //#             }
 //#             StringUtils.addClassicChatMsg(msg, width, scroller);
 //#         }
-//#         contact.getChatInfo().reEnumCounts();
+//#         contact.getMessageList().reEnumCounts();
 //# 
 //#         BombusQD.setCurrentView(form);
 //#     }

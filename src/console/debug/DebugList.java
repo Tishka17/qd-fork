@@ -28,7 +28,7 @@
 //#ifdef DEBUG_CONSOLE
 //# package console.debug;
 //# 
-//# import client.MsgItem;
+//# import client.Msg;
 //# import java.util.Vector;
 //# 
 //# /**
@@ -47,9 +47,9 @@
 //#         return instance;
 //#     }
 //# 
-//#     public MsgItem getMessage(int index) {
+//#     public Msg getMessage(int index) {
 //#         try {
-//#             return (MsgItem) stanzas.elementAt(index);
+//#             return (Msg) stanzas.elementAt(index);
 //#         } catch (Exception e) {}
 //#         return null;
 //#     }
@@ -59,8 +59,8 @@
 //#             try {
 //#                 int free = (int)Runtime.getRuntime().freeMemory() >> 10;
 //#                 int total = (int)Runtime.getRuntime().totalMemory() >> 10;
-//#                 MsgItem stanza = new MsgItem((byte)type, "debug", null, "[" + free + "/" + total + "]\t" + msg.toString());
-//#                 stanza.itemCollapsed = false;
+//#                 Msg stanza = new Msg((byte)type, "debug", null, "[" + free + "/" + total + "]\t" + msg.toString());
+//#                 stanza.expand();
 //#                 stanzas.addElement(stanza);
 //#                 stanza = null;
 //#             } catch (Exception e) {

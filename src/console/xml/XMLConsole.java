@@ -31,7 +31,7 @@
 //# 
 //# import archive.MessageArchive;
 //# import client.Config;
-//# import client.MsgItem;
+//# import client.Msg;
 //# import message.MessageList;
 //# import menu.Command;
 //# import locale.SR;
@@ -136,7 +136,7 @@
 //#             String stanza = "";
 //#             if (!isNew) {
 //#                 try {
-//#                     stanza = getMessage(cursor).body;
+//#                     stanza = getMessage(cursor).getBody();
 //#                 } catch (Exception e) {}
 //#             }
 //#             new ConsoleTextEdit(stanza).show();

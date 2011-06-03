@@ -426,7 +426,7 @@ public final class Roster extends VirtualList
     }
 
     public void setProgress(String pgs,int percent){
-	if (mainbar!=null)
+  if (mainbar!=null)
              mainbar.setElementAt(pgs, 3);
         redraw();
     }
@@ -434,7 +434,7 @@ public final class Roster extends VirtualList
     // establishing connection process
     public void run(){
         setQuerySign(true);
-	if (!doReconnect) {
+  if (!doReconnect) {
             resetRoster();
         }
         try {
@@ -929,7 +929,7 @@ public final class Roster extends VirtualList
                 if(c.group.type == Groups.TYPE_SELF) {
                     c = new Contact(null, jid, Presence.PRESENCE_OFFLINE, null );
                     c.setGroup(contactList.groups.getGroup(Groups.TYPE_SELF));
-		    c.origin = Contact.ORIGIN_CLONE;
+        c.origin = Contact.ORIGIN_CLONE;
                     addContact(c,true);
                 } else {
                  c.jid = J;
@@ -989,7 +989,7 @@ public final class Roster extends VirtualList
 
     public void sendPresence(int newStatus, String message) {
         myStatus=newStatus;
-	if (message!=null) {
+  if (message!=null) {
             myMessage=message;
         }
 
@@ -1029,7 +1029,7 @@ public final class Roster extends VirtualList
             int myPriority=es.getPriority();
             Presence presence = new Presence(myStatus, myPriority, myMessage, midlet.BombusQD.sd.account.getNick());
             if (!midlet.BombusQD.sd.account.isMucOnly() )
-		theStream.send(presence);
+    theStream.send(presence);
                 presence=null;
 //#ifdef DEBUG_CONSOLE
 //#             if(midlet.BombusQD.cf.debug) midlet.BombusQD.debug.add("::sendMultiPresence",10);
@@ -1099,7 +1099,7 @@ public final class Roster extends VirtualList
     }
 
     public Contact selfContact() {
-	return contactList.getSelfContact();
+  return contactList.getSelfContact();
     }
 
 
@@ -1118,6 +1118,10 @@ public final class Roster extends VirtualList
                   }
                 }
            }
+    }
+
+    public void MUCsAutoJoin(String mess) {//Mars
+        multicastConferencePresence(Presence.PRESENCE_ONLINE, mess, 0);
     }
 
 //#ifndef WMUC
@@ -1345,12 +1349,12 @@ public final class Roster extends VirtualList
 
 //#if CHANGE_TRANSPORT
     public void contactChangeTransport(String srcTransport, String dstTransport){ //<voffk>
-	setQuerySign(true);
+  setQuerySign(true);
         int size = contactList.contacts.size();
         Contact k;
         for(int i=0;i<size;++i){
             k =(Contact)contactList.contacts.elementAt(i);
-	    if (k.jid.isTransport()) continue;
+      if (k.jid.isTransport()) continue;
             int grpType=k.getGroupType();
             if (k.jid.getServer().equals(srcTransport) &&
                     (grpType==Groups.TYPE_COMMON || grpType==Groups.TYPE_NO_GROUP ||
@@ -1362,9 +1366,9 @@ public final class Roster extends VirtualList
                     Thread.sleep(300);
                 } catch (Exception ex) { }
                 deleteContact(k); //old contact deletion
-	    }
-	}
-	setQuerySign(false);
+      }
+  }
+  setQuerySign(false);
     }
 //#endif
 
@@ -1378,8 +1382,8 @@ public final class Roster extends VirtualList
 
         theStream.startKeepAliveTask();
 
-	theStream.loggedIn=true;
-	currentReconnect=0;
+  theStream.loggedIn=true;
+  currentReconnect=0;
 
         theStream.addBlockListener(new IqLast());
         theStream.addBlockListener(new IqTimeReply());
@@ -1555,9 +1559,9 @@ public final class Roster extends VirtualList
                 if (id!=null) {
                     if (id.startsWith("nickvc")) {
                         if (type.equals("get") || type.equals("set")) return JabberBlockListener.BLOCK_REJECTED;
-			String matchedjid = id.substring(6, id.length());
-			if (!(from.equals(matchedjid) || from.equals(new Jid(matchedjid).getBareJid())))
-				return JabberBlockListener.BLOCK_REJECTED;
+      String matchedjid = id.substring(6, id.length());
+      if (!(from.equals(matchedjid) || from.equals(new Jid(matchedjid).getBareJid())))
+        return JabberBlockListener.BLOCK_REJECTED;
 
                         VCard vc=new VCard(data);//.getNickName();
                         String nick=vc.getNickName();
@@ -1580,23 +1584,23 @@ public final class Roster extends VirtualList
                         Contact c=null;
 
                         if(c==null) c=getContact(jid, false); // drop unwanted vcards
-			if (c instanceof MucContact) {
-				MucContact mucContact=(MucContact)c;
-				String realjid=mucContact.realJid;
-				mucContact=null;
-				if (realjid==null)
-					if (!(from.equals(jid) || from.equals(new Jid(jid).getBareJid())))
-						return JabberBlockListener.BLOCK_REJECTED;
-				else
-					if (!(from.equals(jid)
-					     || from.equals(new Jid(jid).getBareJid())
-					     || from.equals(realjid)))
-						return JabberBlockListener.BLOCK_REJECTED;
-				realjid=null;
-			} else {
-				if (!(from.equals(jid) || from.equals(new Jid(jid).getBareJid())) )
-					return JabberBlockListener.BLOCK_REJECTED;
-			}
+      if (c instanceof MucContact) {
+        MucContact mucContact=(MucContact)c;
+        String realjid=mucContact.realJid;
+        mucContact=null;
+        if (realjid==null)
+          if (!(from.equals(jid) || from.equals(new Jid(jid).getBareJid())))
+            return JabberBlockListener.BLOCK_REJECTED;
+        else
+          if (!(from.equals(jid)
+               || from.equals(new Jid(jid).getBareJid())
+               || from.equals(realjid)))
+            return JabberBlockListener.BLOCK_REJECTED;
+        realjid=null;
+      } else {
+        if (!(from.equals(jid) || from.equals(new Jid(jid).getBareJid())) )
+          return JabberBlockListener.BLOCK_REJECTED;
+      }
 
 //#if FILE_IO && AVATARS
                                 if(midlet.BombusQD.cf.autoSaveVcard) {//check img in fs?
@@ -1622,9 +1626,9 @@ public final class Roster extends VirtualList
 //#ifdef AVATARS
                     if (id.startsWith("avcard_get")) {
                         Thread.sleep(100);
-			String matchedjid = id.substring(10, id.length());
+      String matchedjid = id.substring(10, id.length());
 
-			if (!from.equals(new Jid(matchedjid).getBareJid())) {
+      if (!from.equals(new Jid(matchedjid).getBareJid())) {
                             return JabberBlockListener.BLOCK_REJECTED;
                         }
                         VCard vc=new VCard(data);
@@ -1749,10 +1753,10 @@ public final class Roster extends VirtualList
                     }
 
                     if (id.equals("getros")){
-			if (from != null) {
-				if (!from.equals(midlet.BombusQD.sd.account.getBareJid()))
-					return JabberBlockListener.BLOCK_REJECTED;
-			}
+      if (from != null) {
+        if (!from.equals(midlet.BombusQD.sd.account.getBareJid()))
+          return JabberBlockListener.BLOCK_REJECTED;
+      }
                         processRoster(data, true);
 
                         if(!midlet.BombusQD.cf.collapsedGroups)
@@ -1828,7 +1832,7 @@ public final class Roster extends VirtualList
 
                 long tStamp=message.getMessageTime();
 
-		byte mType=Msg.INCOMING;
+    byte mType=Msg.INCOMING;
 
                 if (groupchat) {
                     if (subj!=null) { // subject
@@ -1921,17 +1925,17 @@ public final class Roster extends VirtualList
                      if (type.equals("chat")) CustomLight.message();
 //#endif
                 }
-		if (message.findNamespace("attention", "urn:xmpp:attention:0")!=null && AlertCustomize.getInstance().enableAttention) {
-			//#ifdef LIGHT_CONTROL
-			CustomLight.startBlinking();
-			//#endif
-			if (body==null || body.length()==0)
-          			body=SR.get(SR.LA_ATTENTION)+SR.get(SR.LA_WAKEUP);
+    if (message.findNamespace("attention", "urn:xmpp:attention:0")!=null && AlertCustomize.getInstance().enableAttention) {
+      //#ifdef LIGHT_CONTROL
+      CustomLight.startBlinking();
+      //#endif
+      if (body==null || body.length()==0)
+                body=SR.get(SR.LA_ATTENTION)+SR.get(SR.LA_WAKEUP);
 //#ifdef POPUPS
-			setWobbler(3, c, c.getName() + "\n" +body, null);
+      setWobbler(3, c, c.getName() + "\n" +body, null);
 //#endif
-			playNotify(SOUND_ATTENTION);
-		}
+      playNotify(SOUND_ATTENTION);
+    }
 
                 if (type.equals("chat") && myStatus!=Presence.PRESENCE_INVISIBLE) {
                     if (message.findNamespace("request", "urn:xmpp:receipts")!=null) {
@@ -2605,8 +2609,8 @@ public final class Roster extends VirtualList
                 setWobbler(2, c, message.getFrom()+"\n"+message.getBody(),null);
 //#endif
 
-	if (midlet.BombusQD.cf.popupFromMinimized && BombusQD.isMinimized())
-	    c.getMessageList().show();
+  if (midlet.BombusQD.cf.popupFromMinimized && BombusQD.isMinimized())
+      c.getMessageList().show();
 
         if (midlet.BombusQD.cf.autoFocus && message.getType()!=Msg.PRESENCE && message.getType()!=Msg.OUTGOING)
             focusToContact(c, false);
@@ -2620,11 +2624,11 @@ public final class Roster extends VirtualList
             autorespond = true;
 
         }else {
-	    //#ifdef JUICK.COM
+      //#ifdef JUICK.COM
             boolean incomingMsg = (message.getType()==Msg.INCOMING || message.getType()==Msg.JUICK);
-	    //#else
+      //#else
 //#             boolean incomingMsg = (message.getType()==Msg.INCOMING);
-	    //#endif
+      //#endif
             boolean groupchat = (c.origin==Contact.ORIGIN_GROUPCHAT);
             if(!incomingMsg) return;
 
@@ -2770,11 +2774,11 @@ public final class Roster extends VirtualList
                 vibraLen=0;
                 //flashBackLight=false;
                 break;
-	    case SOUND_ATTENTION://Attention Request
-		message=ac.soundAttention;
-		type=ac.soundAttentionType;
-		vibraLen=vibraLen*5;
-		break;
+      case SOUND_ATTENTION://Attention Request
+    message=ac.soundAttention;
+    type=ac.soundAttentionType;
+    vibraLen=vibraLen*5;
+    break;
 
             default:
                 message="";
@@ -2871,9 +2875,9 @@ public final class Roster extends VirtualList
         String topBar="("+currentReconnect + "/" + Config.reconnectCount+") Reconnecting";
         errorLog(topBar+"\n"+error.toString());
 
-	AlertBox box = new AlertBox(topBar, error.toString(), AlertBox.BUTTONS_YESNO, Config.reconnectTime){
-	    public void yes(){doReconnect();};
-	};
+  AlertBox box = new AlertBox(topBar, error.toString(), AlertBox.BUTTONS_YESNO, Config.reconnectTime){
+      public void yes(){doReconnect();};
+  };
         box.setParentView(BombusQD.sd.roster);
         box.show();
      }
@@ -2883,7 +2887,7 @@ public final class Roster extends VirtualList
 //#         midlet.BombusQD.debug.add("::doReconnect()" ,10);
 //#endif
 
-	setProgress(SR.get(SR.MS_DISCONNECTED), 0);
+  setProgress(SR.get(SR.MS_DISCONNECTED), 0);
         logoff(null);
         try {
              sendPresence(lastOnlineStatus, null);
@@ -2904,6 +2908,22 @@ public final class Roster extends VirtualList
 //#         if (midlet.BombusQD.sd.Stats)
 //#endif
             Stats.getInstance().saveToStorage(false,false);
+//#endif
+      }
+
+     public void logon(String mess){
+        if (!isLoggedIn()) {
+            try {
+                if (mess==null) mess = StatusList.getInstance().getStatus(Presence.PRESENCE_OFFLINE).getMessage();
+                sendPresence(Presence.PRESENCE_ONLINE, mess);
+//                Account.loadAccount(1, cf.accountIndex, -1);
+            } catch (Exception e) { }
+        }
+//#ifdef STATS
+//#ifdef PLUGINS
+//#         if (midlet.BombusQD.sd.Stats)
+//#endif
+            //Stats.getInstance().saveToStorage(false,false);
 //#endif
       }
 
@@ -3154,7 +3174,7 @@ public final class Roster extends VirtualList
         }
 //#endif
 
-       	else if (keyCode==KEY_NUM4) {
+        else if (keyCode==KEY_NUM4) {
               new ConfigForm().show();
         }
         else if (keyCode==KEY_NUM6) {

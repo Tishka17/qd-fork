@@ -49,6 +49,8 @@ public class AutoTask extends DefForm implements Runnable {
     public final int TASK_ACTION_CONFERENCE_QUIT = 1;
     public final int TASK_ACTION_LOGOFF = 2;
     public final int TASK_ACTION_RECONNECT = 3;
+    public final int TASK_ACTION_LOGIN = 4;
+    public final int TASK_ACTION_CONFERENCE_JOIN = 5;
 
     private static final int SLEEPTIME = 5000;
     private static final int WAITTIME = 60;
@@ -70,7 +72,7 @@ public class AutoTask extends DefForm implements Runnable {
     private int value;
 
     public AutoTask() {
-	super(null);
+  super(null);
     }
 
     public void startTask() {
@@ -140,6 +142,12 @@ public class AutoTask extends DefForm implements Runnable {
                 BombusQD.sd.roster.connectionTerminated(new Exception(
                         SR.get(SR.MS_AUTOTASKS) + ": " + SR.get(SR.MS_RECONNECT)));
                 break;
+            case TASK_ACTION_LOGIN:
+                BombusQD.sd.roster.logon(SR.get(SR.MS_AUTOTASKS) + ": " + "OnLining");
+                break;
+            case TASK_ACTION_CONFERENCE_JOIN:
+                BombusQD.sd.roster.MUCsAutoJoin(SR.get(SR.MS_AUTOTASKS) + ": " + "OnLining");
+                break;
         }
     }
 
@@ -174,6 +182,14 @@ public class AutoTask extends DefForm implements Runnable {
                 break;
             case TASK_ACTION_RECONNECT:
                 caption = SR.get(SR.MS_RECONNECT);
+                break;
+            case TASK_ACTION_LOGIN:
+//            caption = SR.get(SR.MS_AUTOTASK_LOGIN);
+                caption = "Connection";
+                break;
+            case TASK_ACTION_CONFERENCE_JOIN:
+//            caption = SR.get(SR.MS_AUTOTASK_JOIN_CONFERENCES);
+                caption = "Join conferences";
                 break;
         }
         caption += " [" + (WAITTIME-value) + "]";

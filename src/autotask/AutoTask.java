@@ -53,7 +53,7 @@ public class AutoTask extends DefForm implements Runnable {
     public final int TASK_ACTION_CONFERENCE_JOIN = 5;
 
     private static final int SLEEPTIME = 5000;
-    private static final int WAITTIME = 60;
+    private static final int WAITTIME = 5;
 
     private static final int PROGRESS_HEIGHT = 5;
     private static final int BORDER_WIDTH = 10;
@@ -143,10 +143,12 @@ public class AutoTask extends DefForm implements Runnable {
                         SR.get(SR.MS_AUTOTASKS) + ": " + SR.get(SR.MS_RECONNECT)));
                 break;
             case TASK_ACTION_LOGIN:
-                BombusQD.sd.roster.logon(SR.get(SR.MS_AUTOTASKS) + ": " + "OnLining");
+                BombusQD.sd.roster.logon(SR.get(SR.MS_AUTOTASKS) + ": " + SR.get(SR.MS_AUTOLOGIN));
+                //BombusQD.sd.roster.logon(SR.get(SR.MS_AUTOTASKS) + ": " + "Login");
                 break;
             case TASK_ACTION_CONFERENCE_JOIN:
-                BombusQD.sd.roster.MUCsAutoJoin(SR.get(SR.MS_AUTOTASKS) + ": " + "OnLining");
+                BombusQD.sd.roster.MUCsAutoJoin(SR.get(SR.MS_AUTOTASKS) + ": " + SR.get(SR.MS_DO_AUTOJOIN));
+                //BombusQD.sd.roster.MUCsAutoJoin(SR.get(SR.MS_AUTOTASKS) + ": " + "Join");
                 break;
         }
     }

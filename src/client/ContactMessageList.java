@@ -687,7 +687,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
         msg.setEven((messages.size() & 1) == 0);
         messages.addElement(msg);
         if(!msg.isPresence()) {
-            if(!isShown()){
+            if(isShown()) {
                newMsgCnt = 0;
                newHighLitedMsgCnt = 0;
             }
@@ -859,6 +859,5 @@ public final class ContactMessageList extends MessageList implements InputTextBo
     
     public boolean isActiveChat() {
         return (getMessageCount() > 0);
-
     }
 }

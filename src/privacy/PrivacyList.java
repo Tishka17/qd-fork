@@ -41,7 +41,6 @@ public class PrivacyList extends IconTextElement {
 //#     public static String plugin = new String("PLUGIN_PRIVACY");
 //#endif
     
-    String name;
     boolean isActive;
     boolean isDefault;
     
@@ -50,7 +49,7 @@ public class PrivacyList extends IconTextElement {
     /** Creates a new instance of PrivacyList */
     public PrivacyList(String name) {
         super(RosterIcons.getInstance());
-        this.name=name;
+        this.text=name;
     }
     
     public int getImageIndex() {return (isActive)?
@@ -58,7 +57,7 @@ public class PrivacyList extends IconTextElement {
         RosterIcons.ICON_PRIVACY_PASSIVE; }
     
     public String toString() {
-        StringBuffer result=new StringBuffer((name==null)? "<none>": name).append(' ');
+        StringBuffer result=new StringBuffer((text==null)? "<none>": text).append(' ');
         if (isDefault) result.append(locale.SR.get(locale.SR.MS_IS_DEFAULT));
         return result.toString();
     }
@@ -80,7 +79,7 @@ public class PrivacyList extends IconTextElement {
 
     private JabberDataBlock listBlock() {
         JabberDataBlock list=new JabberDataBlock("list", null, null);
-        list.setAttribute("name", name);
+        list.setAttribute("name", text);
         return list;
     }
     
@@ -91,7 +90,7 @@ public class PrivacyList extends IconTextElement {
   
     public void activate (String atr) {
         JabberDataBlock a=new JabberDataBlock(atr, null, null);
-        a.setAttribute("name", name);
+        a.setAttribute("name", text);
         privacyListRq(true, a, "plset");
     }
     

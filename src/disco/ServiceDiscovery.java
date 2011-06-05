@@ -656,16 +656,12 @@ public class ServiceDiscovery extends VirtualList implements MenuListener, Jabbe
         private boolean selectable = true;
 
         private DiscoCommand(int icon, String name, int offs) {
-            super(MenuIcons.getInstance());
-            this.icon=icon;
-            this.name=name;
+            super(name, MenuIcons.getInstance(), icon);
             this.offs=offs;
         }
 
         private DiscoCommand(int icon, String name) {
-            super(RosterIcons.getInstance());
-            this.icon=icon;
-            this.name=name;
+            super(name, RosterIcons.getInstance(), icon);
         }
 
         public int getOffset() {
@@ -676,13 +672,6 @@ public class ServiceDiscovery extends VirtualList implements MenuListener, Jabbe
             return ColorTheme.getColor(ColorTheme.DISCO_CMD);
         }
 
-        public int getImageIndex() {
-            return icon;
-        }
-
-        public String toString() {
-            return name;
-        }
 
         public boolean isSelectable() {
             return selectable;

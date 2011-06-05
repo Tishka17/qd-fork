@@ -131,7 +131,7 @@ public class PrivacySelect extends VirtualList
         if (c==cmdDelete) {
             PrivacyList pl=(PrivacyList) getFocusedObject();
             if (pl!=null) {
-                if (pl.name!=null)
+                if (pl.toString()!=null)
                         pl.deleteList();
                 getLists();
             }
@@ -203,7 +203,7 @@ public class PrivacySelect extends VirtualList
     public void eventOk(){
         PrivacyList pl=(PrivacyList) getFocusedObject();
         if (pl!=null) {
-            if (pl.name!=null) {
+            if (pl.toString()!=null) {
                 new PrivacyModifyList(pl).show();
             }
         }

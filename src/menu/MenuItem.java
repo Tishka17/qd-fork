@@ -38,25 +38,16 @@ import ui.IconTextElement;
 public class MenuItem extends IconTextElement {
     public int pos;
     public int index;
-    private int iconIndex;
-
-    private String name;    
 
     public MenuItem(String name, int index, int iconIndex, ImageList il) {
-        super(il);
+        super(name, il, iconIndex);
         this.index = index;
-        this.name = name;
-        this.iconIndex = iconIndex;
-    }
-
-    public int getImageIndex() {
-        return iconIndex;
     }
 
     public String toString() {
         if (pos < 10 && Config.executeByNum) {
-            return ((pos < 9) ? pos + 1 : 0) + "-" + name;
+            return ((pos < 9) ? pos + 1 : 0) + "-" + text;
         }
-        return name;
+        return text;
     }
 }

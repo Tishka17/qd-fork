@@ -42,8 +42,6 @@ import client.StaticData;
 import com.alsutton.jabber.datablocks.Presence;
 
 public class Account extends IconTextElement {
-    private int accountImgIndex = 0;
-
     private String username = "";
     private String password = "";
     private String server = "";
@@ -138,15 +136,15 @@ public class Account extends IconTextElement {
 
     public void setIconElement() {
         if (server.indexOf("ya.ru") > -1) {
-            accountImgIndex = MenuIcons.ICON_YANDEX_ACCOUNT;
+            imageindex = MenuIcons.ICON_YANDEX_ACCOUNT;
         } else if (server.indexOf("gmail.com") > -1) {
-            accountImgIndex = MenuIcons.ICON_GTALK_ACCOUNT;
+            imageindex = MenuIcons.ICON_GTALK_ACCOUNT;
         } else if (server.indexOf("livejournal.com") > -1) {
-            accountImgIndex = MenuIcons.ICON_LJ_ACCOUNT;
+            imageindex = MenuIcons.ICON_LJ_ACCOUNT;
         } else if (server.indexOf("qip.ru") > -1) {
-            accountImgIndex = MenuIcons.ICON_QIP_ACCOUNT;
+            imageindex = MenuIcons.ICON_QIP_ACCOUNT;
         } else {
-            accountImgIndex = MenuIcons.ICON_OTHER_ACCOUNT;
+            imageindex = MenuIcons.ICON_OTHER_ACCOUNT;
         }
     }
 
@@ -228,10 +226,6 @@ public class Account extends IconTextElement {
 
     public Font getFont() {
         return FontCache.getFont(active, Config.rosterFont);
-    }
-
-    public int getImageIndex() {
-        return accountImgIndex;
     }
 
     public String getUserName() {

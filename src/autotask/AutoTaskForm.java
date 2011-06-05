@@ -33,6 +33,8 @@ import ui.controls.form.NumberInput;
 import ui.controls.form.SimpleString;
 import ui.controls.form.DefForm;
 import locale.SR;
+import ui.IconTextElement;
+import images.MenuIcons;
 
 /**
  *
@@ -76,7 +78,7 @@ public class AutoTaskForm extends DefForm {
         taskType.setSelectedIndex(typeIndex);
 
         actionType=new DropChoiceBox(SR.get(SR.MS_AUTOTASK_ACTION_TYPE));
-        actionType.append(SR.get(SR.MS_AUTOTASK_QUIT_BOMBUSMOD));
+        actionType.append(new IconTextElement(SR.get(SR.MS_AUTOTASK_QUIT_BOMBUSMOD),MenuIcons.getInstance(),MenuIcons.ICON_QUIT));
         actionType.append(SR.get(SR.MS_AUTOTASK_QUIT_CONFERENCES));
         actionType.append(SR.get(SR.MS_AUTOTASK_LOGOFF));
         actionType.append(SR.get(SR.MS_BREAK_CONECTION));

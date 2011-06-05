@@ -34,21 +34,32 @@ import images.ImageList;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 
-abstract public class IconTextElement implements VirtualElement {
+public class IconTextElement implements VirtualElement {
     protected int itemHeight;
 
     protected ImageList il;
     protected int imgHeight = 0;
     protected int imgWidth = 0;
+    protected String text=null;
+    protected int imageindex=-1;
 
     public IconTextElement(ImageList il) {
+        super();
+        setImageList(il);
+    }
+    public IconTextElement(String text, ImageList il, int index) {
+        super();
+        setImageList(il);
+        this.text = text;
+        this.imageindex = index;
+    }
+    public void setImageList(ImageList il) {
         this.il = il;
         if (il != null) {
             imgHeight = il.getHeight();
             imgWidth = il.getWidth();
         }
     }
-
     public boolean isSelectable() {
         return true;
     }
@@ -61,8 +72,14 @@ abstract public class IconTextElement implements VirtualElement {
         return false;
     } 
 
+    public String toString() {
+        return text;
+    }
     public int getImageIndex() {
-        return -1;
+        return imageindex;
+    }
+    public void setImageIndex(int imageindex) {
+        this.imageindex = imageindex;
     }
 
     public boolean getFontIndex() {

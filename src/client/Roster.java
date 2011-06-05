@@ -306,7 +306,7 @@ public final class Roster extends VirtualList
         cmdAccount = new Command(SR.get(SR.MS_ACCOUNT_), MenuIcons.ICON_VCARD);
         cmdInfo = new Command(SR.get(SR.MS_ABOUT), MenuIcons.ICON_CHECK_UPD);
         cmdMinimize = new Command(SR.get(SR.MS_APP_MINIMIZE), MenuIcons.ICON_FILEMAN);
-        cmdQuit = new Command(SR.get(SR.MS_APP_QUIT), MenuIcons.ICON_BUILD_NEW);
+        cmdQuit = new Command(SR.get(SR.MS_APP_QUIT), MenuIcons.ICON_QUIT);
     }
 
     private static Command cmdStatus;

@@ -42,10 +42,8 @@ public class ListItem
     public int transport;
 
     public ListItem(String text, String name) {
-       super(RosterIcons.getInstance());
-       
+       super(text, RosterIcons.getInstance(),  RosterIcons.getInstance().getTransportIndex(name));
        this.name=name;
-       this.text=text;
     }
     public int getVWidth(){
         return -1;
@@ -56,11 +54,4 @@ public class ListItem
     }
 
     public int getColor(){ return ColorTheme.getColor(ColorTheme.DISCO_CMD); }
-    public int getImageIndex() { return RosterIcons.getInstance().getTransportIndex(name); }
-
-    public String toString() { return text; }
-
-
-
-
 }

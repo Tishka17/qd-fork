@@ -107,7 +107,7 @@ public class PrivacyModifyList extends VirtualList  implements  MenuListener, Ja
         processIcon(true);
         stream.addBlockListener(this);
         JabberDataBlock list=new JabberDataBlock("list", null, null);
-        list.setAttribute("name", plist.name);
+        list.setAttribute("name", plist.toString());
         PrivacyList.privacyListRq(false, list, "getlistitems");
     }
 

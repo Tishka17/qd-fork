@@ -29,11 +29,10 @@ package ui.controls.form;
 
 import client.Config;
 import colors.ColorTheme;
-import font.FontCache;
 import javax.microedition.lcdui.Font;
-import javax.microedition.lcdui.Graphics;
 import ui.IconTextElement;
 import ui.VirtualList;
+import images.MenuIcons;
 
 /**
  *
@@ -41,22 +40,24 @@ import ui.VirtualList;
  */
 
 public abstract class LinkString extends IconTextElement {
-    protected String text;
 
+    static Font font = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_UNDERLINED |  (Config.useItalic ? Font.STYLE_ITALIC : Font.STYLE_PLAIN), Config.msgFont);
     public LinkString(String text) {
-        super(null);
+        super(text, MenuIcons.getInstance(), MenuIcons.ICON_URL);
         this.text = text;
     }
 
     public Font getFont() {
-        return FontCache.getFont(true, Config.msgFont);
+        return font;
+         //return FontCache.getFont(true, Config.msgFont);
     }
 
     public int getColor() {
         return ColorTheme.getColor(ColorTheme.MSG_HIGHLIGHT);
     }
 
-    public void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {
+    /*public void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {
+        //todo: отображение иконки
         final int fontHeight = getFont().getHeight();
 
         final int yOffset = (itemHeight - fontHeight) / 2;
@@ -68,11 +69,7 @@ public abstract class LinkString extends IconTextElement {
         g.drawLine(getOffset(), lineOffset, getVWidth(), lineOffset);
 
         g.drawString(text, getOffset() - ofs, yOffset, Graphics.TOP | Graphics.LEFT);
-    }
-
-    public String toString() {
-        return text;
-    }
+    }*/
 
     public boolean isSelectable() {
         return true;

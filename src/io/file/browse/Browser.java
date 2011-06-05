@@ -258,14 +258,13 @@ public class Browser extends VirtualList implements MenuListener {
     private static class FileItem extends IconTextElement {
 
         public String name;
-        private int iconIndex;
         private int type = UNKNOWN_FILE;
 
         public FileItem(String name) {
             super(RosterIcons.getInstance());
             this.name=name;
             //TODO: file icons
-            iconIndex=name.endsWith("/")? RosterIcons.ICON_COLLAPSED_INDEX: RosterIcons.ICON_PROFILE_INDEX;
+            imageindex=name.endsWith("/")? RosterIcons.ICON_COLLAPSED_INDEX: RosterIcons.ICON_PROFILE_INDEX;
 
             String ext=name.substring(name.lastIndexOf('.')+1).toLowerCase();
             String imgs="png.bmp.jpg.jpeg.gif";
@@ -273,20 +272,16 @@ public class Browser extends VirtualList implements MenuListener {
             String txts="txt.log";
 
             if (txts.indexOf(ext) >= 0) {
-                iconIndex = RosterIcons.ICON_PRIVACY_ACTIVE;
+                imageindex = RosterIcons.ICON_PRIVACY_ACTIVE;
                 type = TEXT_FILE;
             } else if (imgs.indexOf(ext) >= 0) {
-                iconIndex = 0x57;
+                imageindex = 0x57;
                 type = IMAGE_FILE;
             } else if (snds.indexOf(ext) >= 0) {
-                iconIndex = 0x33;
+                imageindex = 0x33;
                 type = SOUND_FILE;
                 return;
             }
-        }
-
-        public int getImageIndex() {
-            return iconIndex;
         }
 
         public String toString() { return (name.endsWith("/"))?name.substring(0, name.length()-1):name; }
@@ -294,7 +289,7 @@ public class Browser extends VirtualList implements MenuListener {
         public int compare(IconTextElement right){
             FileItem fileItem=(FileItem) right;
 
-            int cpi=iconIndex-fileItem.iconIndex;
+            int cpi=imageindex-fileItem.imageindex;
             if (cpi==0) cpi=name.compareTo(fileItem.name);
             return cpi;
         }

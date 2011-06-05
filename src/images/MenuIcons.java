@@ -67,7 +67,7 @@ public class MenuIcons extends ImageList {
 
     public static final byte ICON_GMAIL      = 0x20;
     public static final byte ICON_CONFERENCE = 0x21;
-    public static final byte ICON_BUILD_NEW  = 0x22;
+    public static final byte ICON_QUIT  = 0x22;
     public static final byte ICON_HISTORY    = 0x23;
     public static final byte ICON_SETTINGS   = 0x24;
     public static final byte ICON_COLOR_TUNE = 0x25;

@@ -52,7 +52,6 @@ public final class PluginBox extends IconTextElement {
     public static final int APPEARANCE = 15;
     public static final int APPLICATION = 16;
 
-    private String text;
     private int type;
 
     public PluginBox(String text, int type) {
@@ -98,10 +97,6 @@ public final class PluginBox extends IconTextElement {
 //#endif
         }
         return true;
-    }
-
-    public String toString() {
-        return text;
     }
 
     public void onSelect(VirtualList view) {

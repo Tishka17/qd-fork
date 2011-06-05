@@ -49,7 +49,6 @@ public class ImageItem
     public Image img;
     public boolean collapsed;
 
-    private String altText;
 
     private int screenWidth;
 
@@ -61,7 +60,7 @@ public class ImageItem
         super(null);
 
         this.img=img;
-        this.altText=altText;
+        this.text=altText;
     }
     
     public ImageItem(String url) {
@@ -92,8 +91,8 @@ public class ImageItem
             return "[No image]";
         
         StringBuffer im = new StringBuffer();
-        if (altText != null) {
-            im.append(altText).append(" ");
+        if (text != null) {
+            im.append(text).append(" ");
         }
         im.append(img.getWidth()).append("x").append(img.getHeight());
         

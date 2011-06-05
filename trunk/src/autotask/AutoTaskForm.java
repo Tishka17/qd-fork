@@ -83,9 +83,9 @@ public class AutoTaskForm extends DefForm {
         actionType.append(SR.get(SR.MS_AUTOTASK_LOGOFF));
         actionType.append(SR.get(SR.MS_BREAK_CONECTION));
 //        actionType.append(SR.get(SR.MS_AUTOTASK_LOGIN));
-        actionType.append("Connection");
+        actionType.append(SR.get(SR.MS_AUTOLOGIN));
 //        actionType.append(SR.get(SR.MS_AUTOTASK_JOIN_CONFERENCES));
-        actionType.append("Join conferences");
+        actionType.append(SR.get(SR.MS_DO_AUTOJOIN));
         actionType.setSelectedIndex(actionIndex);
         
         autoTaskTimeDesc=new SimpleString(SR.get(SR.MS_AUTOTASK_TIME), true);

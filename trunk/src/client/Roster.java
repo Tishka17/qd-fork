@@ -40,6 +40,7 @@ import alert.AlertCustomize;
 import alert.AlertProfile;
 import client.roster.ContactList;
 //#ifndef WMUC
+import conference.bookmark.BookmarkItem;
 import conference.bookmark.BookmarkQuery;
 import conference.bookmark.Bookmarks;
 import conference.ConferenceGroup;
@@ -1121,7 +1122,12 @@ public final class Roster extends VirtualList
     }
 
     public void MUCsAutoJoin(String mess) {//Mars
-        multicastConferencePresence(Presence.PRESENCE_ONLINE, mess, 0);
+        for (Enumeration e = midlet.BombusQD.sd.roster.bookmarks.elements(); e.hasMoreElements();) {
+            BookmarkItem bm = (BookmarkItem)e.nextElement();
+                if (bm.isAutoJoin()) {
+                    ConferenceForm.join(bm.getDesc(), bm.getJidNick(), bm.getPassword(), midlet.BombusQD.cf.confMessageCount);
+                }
+        }
     }
 
 //#ifndef WMUC
@@ -2912,19 +2918,13 @@ public final class Roster extends VirtualList
       }
 
      public void logon(String mess){
+        if( midlet.BombusQD.cf.accountIndex <0) return;
         if (!isLoggedIn()) {
             try {
-                if (mess==null) mess = StatusList.getInstance().getStatus(Presence.PRESENCE_OFFLINE).getMessage();
-                sendPresence(Presence.PRESENCE_ONLINE, mess);
-//                Account.loadAccount(1, cf.accountIndex, -1);
+                Account.loadAccount(true, midlet.BombusQD.cf.accountIndex, -1);
             } catch (Exception e) { }
         }
-//#ifdef STATS
-//#ifdef PLUGINS
-//#         if (midlet.BombusQD.sd.Stats)
-//#endif
             //Stats.getInstance().saveToStorage(false,false);
-//#endif
       }
 
 

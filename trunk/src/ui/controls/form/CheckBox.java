@@ -47,10 +47,7 @@ public final class CheckBox extends IconTextElement {
     private boolean isChecked = false;
 
     private String tip;
-    private String text;
-
     private Vector tipLines;
-
 
     public CheckBox(String text, boolean isChecked) {
         super(RosterIcons.getInstance());
@@ -146,15 +143,5 @@ public final class CheckBox extends IconTextElement {
 
     public boolean isSelectable() {
         return true;
-    }
-
-    public boolean handleEvent(int keyCode) {
-        switch (keyCode) {
-            case VirtualCanvas.FIRE:
-            case VirtualCanvas.KEY_NUM5:
-                isChecked = !isChecked;
-                return true;
-        }
-        return false;
     }
 }

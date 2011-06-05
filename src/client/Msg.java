@@ -78,7 +78,6 @@ public final class Msg implements VirtualElement {
     private boolean isEven;
     private boolean smiles;
     private boolean partialParse = false;
-    private int itemHeight = -1;
     
     public Msg(byte type, String from, String body) {
         this(type, from, null, body);
@@ -279,19 +278,15 @@ public final class Msg implements VirtualElement {
         int height = 0;
         int size = collapsed ? Math.min(msgLines.size(), 1) : msgLines.size();
         for (int i = 0; i < size; ++i) {
-            height+=((ComplexString)msgLines.elementAt(i)).getVHeight();
+            height += ((ComplexString)msgLines.elementAt(i)).getVHeight();
         }
-        itemHeight = height;
-        if (!Config.getInstance().hideMessageIcon || !isMucMsg) {
-            int rh=RosterIcons.getInstance().getHeight();
-            if (itemHeight<rh) {
-                return rh;
-            }
+        if (!isMucMsg && !Config.getInstance().hideMessageIcon) {
+            return Math.max(height, RosterIcons.getInstance().getHeight());
         }
-        if (itemHeight<3) {
-            itemHeight = 3;
-        }
-        return itemHeight; 
+        /*if (height < 3) {
+            height = 3;
+        }*/
+        return height; 
     }
 
     public Font getFont() {

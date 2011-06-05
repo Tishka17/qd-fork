@@ -51,6 +51,19 @@ public class AffiliationItem extends IconTextElement {
 
         this.affiliation = getIndexByName(affiliation);
         this.reason = null;
+        switch (this.affiliation) {
+            case AFFILIATION_OWNER:
+                imageindex =  ActionsIcons.ICON_OWNERS; break;
+            case AFFILIATION_ADMIN:
+                imageindex =  ActionsIcons.ICON_ADMINS; break;
+            case AFFILIATION_MEMBER:
+                imageindex =  ActionsIcons.ICON_MEMBERS; break;
+            case AFFILIATION_OUTCAST:
+                imageindex =  ActionsIcons.ICON_OUTCASTS; break;
+            default:
+                 imageindex = ActionsIcons.ICON_DEMEMBER;
+        }
+
     }
 
     public AffiliationItem(JabberDataBlock item) {
@@ -60,20 +73,6 @@ public class AffiliationItem extends IconTextElement {
         if (reason.length() == 0) {
             reason = null;
         }
-    }
-
-    public int getImageIndex() {
-        switch (affiliation) {
-            case AFFILIATION_OWNER:
-                return ActionsIcons.ICON_OWNERS;
-            case AFFILIATION_ADMIN:
-                return ActionsIcons.ICON_ADMINS;
-            case AFFILIATION_MEMBER:
-                return ActionsIcons.ICON_MEMBERS;
-            case AFFILIATION_OUTCAST:
-                return ActionsIcons.ICON_OUTCASTS;
-        }
-        return ActionsIcons.ICON_DEMEMBER;
     }
 
     public String getJid() {

@@ -37,7 +37,6 @@ import ui.IconTextElement;
  */
 
 public class SimpleString extends IconTextElement {
-    protected String text;
     protected boolean bold;
 
     protected boolean isSelectable = false;
@@ -48,14 +47,10 @@ public class SimpleString extends IconTextElement {
 
     public SimpleString(String text, boolean bold) {
         super(null);
-
         this.text = text;
         this.bold = bold;
     }
 
-    public String toString() {
-        return text;
-    }
 
     public boolean isSelectable() {
         return isSelectable;

@@ -71,9 +71,6 @@ public final class CheckBox extends IconTextElement {
         this.isChecked = isChecked;
     }
 
-    public String toString() {
-        return text;
-    }
 
     public void onSelect(VirtualList view) {
         isChecked = !isChecked;

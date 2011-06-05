@@ -43,7 +43,7 @@ public class Node extends IconTextElement{
     public int getImageIndex() { return RosterIcons.ICON_COLLAPSED_INDEX; }
     /** Creates a new instance of Item */
     public Node(String name, String jid, String node) {
-        super(RosterIcons.getInstance());
+        super((name!=null)? name:node, RosterIcons.getInstance(), -1);
         this.name=name;
         this.node=node;
 	this.discoJid = jid;
@@ -51,9 +51,6 @@ public class Node extends IconTextElement{
     
     public String getName() { return name; }
     public String getNode() { return node; }
-      public String getTipString() { return discoJid; }
-
-    public String toString() { return (name!=null)? name:node; }   
-    //public String getTipString() { return (name!=null)? name:node; }
+    public String getTipString() { return discoJid; }
 }
 //#endif

@@ -95,8 +95,8 @@ public class AlertProfile extends VirtualList implements MenuListener {
     private class Profile extends IconTextElement {
         private Profile(){
             super(RosterIcons.getInstance());
+            setImageIndex( index+RosterIcons.ICON_PROFILE_INDEX+1);
         }
-        public int getImageIndex(){return index+RosterIcons.ICON_PROFILE_INDEX+1;}
         public String toString(){ 
             StringBuffer s=new StringBuffer();
             switch (index) {

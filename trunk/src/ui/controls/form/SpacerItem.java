@@ -44,10 +44,6 @@ public class SpacerItem extends IconTextElement {
         return -1;
     }
 
-    public String toString() {
-        return " ";
-    }
-
     public int getVHeight() {
         return itemHeight;
     }

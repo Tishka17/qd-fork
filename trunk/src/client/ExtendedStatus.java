@@ -43,7 +43,6 @@ public class ExtendedStatus extends IconTextElement{
     private String name="";    // status name
     private String status="";
     private int priority;
-    int index;
     private String screenName="";
     private boolean autoRespond;
     private String autoRespondMessage = "";
@@ -53,14 +52,14 @@ public class ExtendedStatus extends IconTextElement{
     /** Creates a new instance of ExtendedStatus */
     public ExtendedStatus(int index, String name, String showName) {
         super(RosterIcons.getInstance());
-        this.index=index;
+        this.imageindex=index;
         this.name=name;
         this.screenName=showName;
     }
 //#ifdef PEP
     public ExtendedStatus(int index, String name, String showName, boolean usermood) {
         super(usermood ? MoodIcons.getInstance() : ActivityIcons.getInstance());
-        this.index=index;
+        this.imageindex=index;
         this.name=name;
         this.screenName=showName;
         this.usermood=usermood;
@@ -84,8 +83,6 @@ public class ExtendedStatus extends IconTextElement{
         return state.toString();
     }
     public String getScreenName() { return screenName; }
-
-    public int getImageIndex(){ return index;}
 
     public String getName() { return name; }
     

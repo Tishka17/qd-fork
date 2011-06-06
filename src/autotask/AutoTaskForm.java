@@ -58,20 +58,21 @@ public class AutoTaskForm extends DefForm {
     
     private AutoTask at=midlet.BombusQD.sd.autoTask;
 
-    private int actionIndex;
+//    private int actionIndex;
+    private int taskIndex;
     private int typeIndex;
 
     public AutoTaskForm() {
         super(SR.get(SR.MS_AUTOTASKS));
 
-        typeIndex=at.taskType;
-        actionIndex=at.taskAction;
+        taskIndex= at.TASK_ACTION_QUIT;
+        typeIndex= at.taskArr[taskIndex].Type;
+
+        hour= at.taskArr[taskIndex].Hour;
+        min= at.taskArr[taskIndex].Minute;
+        wait= at.taskArr[taskIndex].WaitMS/60000;
         
-        hour = at.startHour;
-        min = at.startMin;
-        wait = at.waitTime/60000;
-        
-        taskType=new DropChoiceBox(SR.get(SR.MS_AUTOTASK_TYPE));
+        taskType= new DropChoiceBox(SR.get(SR.MS_AUTOTASK_TYPE));
         taskType.append(SR.get(SR.MS_DISABLED));
         taskType.append(SR.get(SR.MS_BY_TIME_));
         taskType.append(SR.get(SR.MS_BY_TIMER_));
@@ -86,7 +87,7 @@ public class AutoTaskForm extends DefForm {
         actionType.append(SR.get(SR.MS_AUTOLOGIN));
 //        actionType.append(SR.get(SR.MS_AUTOTASK_JOIN_CONFERENCES));
         actionType.append(SR.get(SR.MS_DO_AUTOJOIN));
-        actionType.setSelectedIndex(actionIndex);
+        actionType.setSelectedIndex(taskIndex);
         
         autoTaskTimeDesc=new SimpleString(SR.get(SR.MS_AUTOTASK_TIME), true);
 
@@ -100,18 +101,18 @@ public class AutoTaskForm extends DefForm {
         update();
     }
 
-    public void cmdOk() {
-        at.taskType=taskType.getSelectedIndex();
-        at.taskAction=actionType.getSelectedIndex();
-        if (at.taskType==1) {
-            at.startHour=autoTaskHour.getIntValue();
-            at.startMin=autoTaskMin.getIntValue();
-        } else if(at.taskType==2) {
-            at.waitTime=autoTaskDelay.getIntValue()*1000*60;
-            at.initTime=System.currentTimeMillis();
-        }
-        if (at.taskType!=0)
-            at.startTask();
+    public void cmdOk( ){
+        taskIndex= actionType.getSelectedIndex();
+        at.taskArr[taskIndex].Type= taskType.getSelectedIndex();
+        if( at.taskArr[taskIndex].Type ==1){
+            at.taskArr[taskIndex].Hour= autoTaskHour.getIntValue();
+            at.taskArr[taskIndex].Minute =autoTaskMin.getIntValue();
+        }else if( at.taskArr[taskIndex].Type ==2){
+            at.taskArr[taskIndex].WaitMS =autoTaskDelay.getIntValue()*60000;
+            at.taskArr[taskIndex].StartMS =System.currentTimeMillis();
+        }// elif
+//        if (at.taskType!=0)
+        at.startTask();
         destroyView();
     }
     

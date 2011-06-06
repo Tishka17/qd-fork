@@ -51,13 +51,27 @@ public class AutoTask extends DefForm implements Runnable {
     public final int TASK_ACTION_RECONNECT = 3;
     public final int TASK_ACTION_LOGIN = 4;
     public final int TASK_ACTION_CONFERENCE_JOIN = 5;
+    public final int TASK_ACTION_MAXNUMBER = TASK_ACTION_CONFERENCE_JOIN +1;
+
+    public class TaskArray {
+        public int Type = TASK_TYPE_DISABLED;
+        public int Action = TASK_ACTION_QUIT;
+        public long StartMS = 0;
+        public int WaitMS = 0;
+        public int Hour = 0;
+        public int Minute = 0;
+        public boolean Once = true;
+        public boolean isRunned = false;
+    }
+
+    public TaskArray taskArr[]= new TaskArray[TASK_ACTION_MAXNUMBER];
+//    public int taskCurrent;
 
     private static final int SLEEPTIME = 5000;
-    private static final int WAITTIME = 5;
 
+/*    private static final int WAITTIME = 5;
     private static final int PROGRESS_HEIGHT = 5;
     private static final int BORDER_WIDTH = 10;
-    
     public int taskType = TASK_TYPE_DISABLED;
     public int taskAction = TASK_ACTION_QUIT;
     
@@ -70,60 +84,60 @@ public class AutoTask extends DefForm implements Runnable {
     boolean isShowing;
 
     private int value;
-
+*/
     public AutoTask() {
-  super(null);
+        super(null);
     }
 
     public void startTask() {
         new Thread(this).start();
     }
-    
-    public void run() {
-        isRunning = true;
-        while (isRunning) {
-            if (taskType == TASK_TYPE_DISABLED){
-                 isRunning = false;
-            }
-            try {
-                Thread.sleep(SLEEPTIME);
-            } catch (Exception e) { break; }
-            
-            if (taskType==TASK_TYPE_TIMER) {
-                if ((System.currentTimeMillis()-initTime)>waitTime) {
-                    show();
-                    isRunning=false;
-                    taskType=TASK_TYPE_DISABLED;
+
+    public boolean checkTasks(){
+        boolean hasWaitingTasks= true;
+        for( int ti= TASK_ACTION_QUIT; ti<TASK_ACTION_MAXNUMBER; ti++){
+            hasWaitingTasks= true;
+            if( taskArr[ti].Type ==TASK_TYPE_DISABLED){
+                taskArr[ti].isRunned= false;
+                hasWaitingTasks= false;
+                continue;
+            }// if
+                        
+            if( taskArr[ti].Type ==TASK_TYPE_TIMER){
+                if( (System.currentTimeMillis() -taskArr[ti].StartMS) >taskArr[ti].WaitMS){
+//                    show( ti);
+                    taskArr[ti].StartMS= System.currentTimeMillis();
+                    taskArr[ti].isRunned= false;
                 }
-            } else if (taskType==TASK_TYPE_TIME) {
-                if (Time.getHour()==startHour && Time.getMin()==startMin ) {
-                    show();
-                    isRunning=false;
-                    taskType=TASK_TYPE_DISABLED;
+            }else if( taskArr[ti].Type ==TASK_TYPE_TIME){
+                if( Time.getHour() >=taskArr[ti].Hour && Time.getMin() >=taskArr[ti].Minute){
+//                    show( ti);
+                    taskArr[ti].isRunned= false;
                 }
-            } else {
-                 isRunning=false;
-                 taskType=TASK_TYPE_DISABLED;
-            }  
-        }
-        while (isShowing) {
-            try {
-                Thread.sleep(1000);
-            } catch (Exception e) {
-                break;
+            }// elif
+
+            if( taskArr[ti].Once ==true && taskArr[ti].isRunned ==false){
+                taskArr[ti].Type= TASK_TYPE_DISABLED;
+                hasWaitingTasks= false;
+                continue;
             }
-            ++value;
-            if (value >= WAITTIME) {
-                doAction();
-                destroyView();
-                break;
-            }
-            redraw();
-        }
-    }
+
+            setCaption( ti);
+            doAction( ti);
+//            destroyView();
+        }// for ti
+        return hasWaitingTasks;
+    }// checkTasks()
     
-    public void doAction() {
-        switch (taskAction) {
+    public void run(){
+        while( checkTasks())
+            try{
+                Thread.sleep( SLEEPTIME);
+            }catch( Exception e){ break;}
+    }// run()
+    
+    public void doAction( int ti){
+        switch( taskArr[ti].Action){
             case TASK_ACTION_QUIT:
                 BombusQD.getInstance().notifyDestroyed();
                 break;
@@ -136,13 +150,18 @@ public class AutoTask extends DefForm implements Runnable {
                 BombusQD.sd.roster.logoff(SR.get(SR.MS_AUTOTASKS) + ": " + SR.get(SR.MS_LOGOFF));
                 break;
            case TASK_ACTION_RECONNECT:
-                taskType=TASK_TYPE_TIMER;
-                initTime=System.currentTimeMillis();
-                startTask();
-                BombusQD.sd.roster.connectionTerminated(new Exception(
-                        SR.get(SR.MS_AUTOTASKS) + ": " + SR.get(SR.MS_RECONNECT)));
+                //taskType=TASK_TYPE_TIMER;
+                //initTime=System.currentTimeMillis();
+                //startTask();
+                BombusQD.sd.roster.connectionTerminated(new Exception(SR.get(SR.MS_AUTOTASKS) + ": " + SR.get(SR.MS_RECONNECT)));
+                try{
+                    Thread.sleep( SLEEPTIME);
+                }catch( Exception e){ break;}
+                BombusQD.sd.roster.logon(SR.get(SR.MS_AUTOTASKS) + ": " + SR.get(SR.MS_AUTOLOGIN));
                 break;
-            case TASK_ACTION_LOGIN:
+            case TASK_ACTION_LOGIN: 
+                //initTime=System.currentTimeMillis();
+                //startTask();
                 BombusQD.sd.roster.logon(SR.get(SR.MS_AUTOTASKS) + ": " + SR.get(SR.MS_AUTOLOGIN));
                 //BombusQD.sd.roster.logon(SR.get(SR.MS_AUTOTASKS) + ": " + "Login");
                 break;
@@ -153,26 +172,20 @@ public class AutoTask extends DefForm implements Runnable {
         }
     }
 
-    public void cmdOk() {
-        doAction();
-        destroyView();
-    }
-
     public void show() {
-        isShowing = true;
-        updateCaption();
+//        isShowing = true;
+//        updateCaption( ti);
         super.show();
     }
 
     public void destroyView() {
-        isShowing = false;
+//        isShowing = false;
         super.destroyView();
     }
 
-    private void updateCaption() {
+    private void setCaption( int ti) {
         String caption = "";
-
-        switch (taskAction) {
+        switch( taskArr[ti].Action){
             case TASK_ACTION_QUIT:
                 caption = SR.get(SR.MS_AUTOTASK_QUIT_BOMBUSMOD);
                 break;
@@ -187,21 +200,21 @@ public class AutoTask extends DefForm implements Runnable {
                 break;
             case TASK_ACTION_LOGIN:
 //            caption = SR.get(SR.MS_AUTOTASK_LOGIN);
-                caption = "Connection";
+                caption = SR.get(SR.MS_AUTOLOGIN);
                 break;
             case TASK_ACTION_CONFERENCE_JOIN:
 //            caption = SR.get(SR.MS_AUTOTASK_JOIN_CONFERENCES);
-                caption = "Join conferences";
+                caption = SR.get(SR.MS_DO_AUTOJOIN);
                 break;
         }
-        caption += " [" + (WAITTIME-value) + "]";
+//        caption += " [" + (WAITTIME-value) + "]";
         setMainBarItem(new MainBar(caption));
     }
 
     public void paint(Graphics g) {
             super.paint(g);
 
-            updateCaption();
+/*            updateCaption();
 
             int y = height / 2;            
             int itemWidth = width - (BORDER_WIDTH * 2);            
@@ -213,6 +226,8 @@ public class AutoTask extends DefForm implements Runnable {
             g.setColor(ColorTheme.getColor(ColorTheme.PGS_COMPLETE_TOP));
             g.drawRect(BORDER_WIDTH, y, itemWidth, PROGRESS_HEIGHT);
             g.fillRect(BORDER_WIDTH, y, fillWidth, PROGRESS_HEIGHT);
+ */
     }
+
 }
 //#endif

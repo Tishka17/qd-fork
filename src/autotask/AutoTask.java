@@ -51,9 +51,8 @@ public class AutoTask extends DefForm implements Runnable {
 
     public AutoTask() {
         super(null);
-        for( int ti= 0; ti<TASK_MAXNUMBER; ti++){
+        for( int ti= 0; ti<TASK_MAXNUMBER; ti++)
             taskList.addElement(new TaskElement());
-        }
     }
 
     public void startTask() {
@@ -61,37 +60,39 @@ public class AutoTask extends DefForm implements Runnable {
     }
 
     public boolean checkTasks(){
-        boolean hasWaitingTasks= true;
+        boolean hasWaitingTasks= false;
         for( int ti= 0; ti<TASK_MAXNUMBER; ti++){
-            TaskElement taskelem= (TaskElement)taskList.elementAt(ti);
-            hasWaitingTasks= true;
-            if( taskelem.Type ==TaskElement.TASK_TYPE_DISABLED){
-                taskelem.isRunned= false;
+//            TaskElement te= (TaskElement)taskList.elementAt(ti);
+/*            hasWaitingTasks= true;
+            if( te.Type ==TaskElement.TASK_TYPE_DISABLED){
+                te.isRunned= false;
                 hasWaitingTasks= false;
                 continue;
             }// if
                         
-            if( taskelem.Type ==TaskElement.TASK_TYPE_TIMER){
-                if( (System.currentTimeMillis() -taskelem.StartMS) >taskelem.WaitMS){
-//                    show( ti);
-                    taskelem.StartMS= System.currentTimeMillis();
-                    taskelem.isRunned= false;
+            if( te.Type ==TaskElement.TASK_TYPE_TIMER){
+                if( (System.currentTimeMillis() -te.StartMS) >=te.WaitMS){
+                    te.StartMS= System.currentTimeMillis();
+                    setCaption( te);
+                    doAction( te);
+                    te.isRunned= false;
                 }
-            }else if( taskelem.Type ==TaskElement.TASK_TYPE_TIME){
-                if( Time.getHour() >=taskelem.Hour && Time.getMin() >=taskelem.Minute){
-//                    show( ti);
-                    taskelem.isRunned= false;
+            }else if( te.Type ==TaskElement.TASK_TYPE_TIME){
+                if( Time.getHour() >=te.Hour && Time.getMin() >=te.Minute){
+                    setCaption( te);
+                    doAction( te);
+                    te.isRunned= false;
                 }
             }// elif
 
-            if( taskelem.Once ==true && taskelem.isRunned ==false){
-                taskelem.Type= TaskElement.TASK_TYPE_DISABLED;
+            if( te.Once ==true && te.isRunned ==false){
+                te.Type= TaskElement.TASK_TYPE_DISABLED;
                 hasWaitingTasks= false;
                 continue;
             }
-
-            setCaption( taskelem);
-            doAction( taskelem);
+*/
+        if( ((TaskElement)taskList.elementAt(ti)).doTask())
+             hasWaitingTasks= true;
 //            destroyView();
         }// for ti
         return hasWaitingTasks;
@@ -104,8 +105,8 @@ public class AutoTask extends DefForm implements Runnable {
             }catch( Exception e){ break;}
     }// run()
     
-    public void doAction( TaskElement taskelem){
-        switch( taskelem.Action){
+/*    public void doAction( TaskElement te){
+        switch( te.Action){
             case TaskElement.TASK_ACTION_QUIT:
                 BombusQD.getInstance().notifyDestroyed();
                 break;
@@ -139,8 +140,8 @@ public class AutoTask extends DefForm implements Runnable {
                 break;
         }
     }
-
-    public void show() {
+*/
+/*    public void show() {
 //        isShowing = true;
 //        updateCaption( ti);
         super.show();
@@ -150,10 +151,10 @@ public class AutoTask extends DefForm implements Runnable {
 //        isShowing = false;
         super.destroyView();
     }
-
-    private void setCaption( TaskElement taskelem) {
+*/
+/*    private void setCaption( TaskElement te) {
         String caption = "";
-        switch( taskelem.Action){
+        switch( te.Action){
             case TaskElement.TASK_ACTION_QUIT:
                 caption = SR.get(SR.MS_AUTOTASK_QUIT_BOMBUSMOD);
                 break;
@@ -178,11 +179,11 @@ public class AutoTask extends DefForm implements Runnable {
 //        caption += " [" + (WAITTIME-value) + "]";
         setMainBarItem(new MainBar(caption));
     }
-
-    public void paint(Graphics g) {
+*/
+/*    public void paint(Graphics g) {
             super.paint(g);
 
-/*            updateCaption();
+            updateCaption();
 
             int y = height / 2;            
             int itemWidth = width - (BORDER_WIDTH * 2);            
@@ -194,8 +195,8 @@ public class AutoTask extends DefForm implements Runnable {
             g.setColor(ColorTheme.getColor(ColorTheme.PGS_COMPLETE_TOP));
             g.drawRect(BORDER_WIDTH, y, itemWidth, PROGRESS_HEIGHT);
             g.fillRect(BORDER_WIDTH, y, fillWidth, PROGRESS_HEIGHT);
- */
-    }
 
+    }
+*/
 }
 //#endif

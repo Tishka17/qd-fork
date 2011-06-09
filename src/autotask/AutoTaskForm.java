@@ -42,9 +42,6 @@ import images.MenuIcons;
  */
 
 public class AutoTaskForm extends DefForm {
-    int hour =0;
-    int min  =0;
-    int wait =1;
 
     private DropChoiceBox taskNumber;
     private DropChoiceBox taskType;
@@ -57,11 +54,8 @@ public class AutoTaskForm extends DefForm {
     private NumberInput autoTaskMin;
     private NumberInput autoTaskHour;
 
-    private TaskElement taskelement;
-
     private AutoTask at=new AutoTask();
 
-//    private int actionIndex;
     private int taskIndex;
     private int typeIndex;
     private int actionIndex;
@@ -70,17 +64,12 @@ public class AutoTaskForm extends DefForm {
         super(SR.get(SR.MS_AUTOTASKS));
 
         taskIndex= 0;
-        taskelement= (TaskElement)at.taskList.elementAt(taskIndex);
-        actionIndex= taskelement.Action;
-        typeIndex= taskelement.Type;
-
-        hour= taskelement.Hour;
-        min= taskelement.Minute;
-        wait= taskelement.WaitMS/60000;
+        actionIndex= ((TaskElement)at.taskList.elementAt(taskIndex)).Action();
+        typeIndex= ((TaskElement)at.taskList.elementAt(taskIndex)).Type();
 
         //taskNumber= new DropChoiceBox(SR.get(SR.MS_AUTOTASK_TYPE));
         taskNumber= new DropChoiceBox("Task number");
-        for( int ti= 1; ti <=at.TASK_MAXNUMBER; ti++)
+        for( int ti= 0; ti <at.TASK_MAXNUMBER; ti++)
             taskNumber.append("Task " +ti);
         taskNumber.setSelectedIndex(taskIndex);
         
@@ -103,9 +92,9 @@ public class AutoTaskForm extends DefForm {
         
         autoTaskTimeDesc=new SimpleString(SR.get(SR.MS_AUTOTASK_TIME), true);
 
-        autoTaskHour=new NumberInput(SR.get(SR.MS_AUTOTASK_HOUR), hour, 0, 23);
-        autoTaskMin=new NumberInput(SR.get(SR.MS_AUTOTASK_MIN), min, 0, 59);
-        autoTaskDelay=new NumberInput(SR.get(SR.MS_AUTOTASK_DELAY), wait, 1, 600);
+        autoTaskHour=new NumberInput(SR.get(SR.MS_AUTOTASK_HOUR), ((TaskElement)at.taskList.elementAt(taskIndex)).Hour(), 0, 23);
+        autoTaskMin=new NumberInput(SR.get(SR.MS_AUTOTASK_MIN), ((TaskElement)at.taskList.elementAt(taskIndex)).Minute(), 0, 59);
+        autoTaskDelay=new NumberInput(SR.get(SR.MS_AUTOTASK_DELAY), ((TaskElement)at.taskList.elementAt(taskIndex)).Timer(), 1, 600);
         
         itemsList.addElement(taskNumber);
         itemsList.addElement(taskType);
@@ -116,39 +105,42 @@ public class AutoTaskForm extends DefForm {
 
     public void cmdOk( ){
         taskIndex= taskNumber.getSelectedIndex();
-        taskelement.Action= actionType.getSelectedIndex();
-        taskelement.Type= taskType.getSelectedIndex();
-        if( taskelement.Type ==1){
-            taskelement.Hour= autoTaskHour.getIntValue();
-            taskelement.Minute =autoTaskMin.getIntValue();
-        }else if( taskelement.Type ==2){
-            taskelement.WaitMS =autoTaskDelay.getIntValue()*60000;
-            taskelement.StartMS =System.currentTimeMillis();
+        //te= (TaskElement)((TaskElement)at.taskList.elementAt(taskIndex));
+        ((TaskElement)at.taskList.elementAt(taskIndex)).Action( actionType.getSelectedIndex());
+        ((TaskElement)at.taskList.elementAt(taskIndex)).Type( taskType.getSelectedIndex());
+        ((TaskElement)at.taskList.elementAt(taskIndex)).setRunned( true);
+        if( ((TaskElement)at.taskList.elementAt(taskIndex)).Type() ==1){
+            ((TaskElement)at.taskList.elementAt(taskIndex)).setTime( autoTaskHour.getIntValue(), autoTaskMin.getIntValue());
+        }else if( ((TaskElement)at.taskList.elementAt(taskIndex)).Type() ==2){
+            ((TaskElement)at.taskList.elementAt(taskIndex)).setTimer( autoTaskDelay.getIntValue());
+//            ((TaskElement)at.taskList.elementAt(taskIndex)).StartMS= System.currentTimeMillis();
         }// elif
 //        if (at.taskType!=0)
-        at.taskList.setElementAt(taskelement, taskIndex);
+//        at.taskList.setElementAt(te, taskIndex);
         at.startTask();
         destroyView();
     }
 
     protected void beginPaint(){
-        if( taskIndex !=taskNumber.getSelectedIndex()){
-            taskIndex= taskNumber.getSelectedIndex();
+        if( typeIndex !=taskType.getSelectedIndex()){
+            typeIndex= taskType.getSelectedIndex();
             update();
         }
     }
 
-    private void update(){
+    private void update(){        
+        itemsList.removeElement(autoTaskDelay);
         itemsList.removeElement(autoTaskTimeDesc);
         itemsList.removeElement(autoTaskHour);
         itemsList.removeElement(autoTaskMin);
-        itemsList.removeElement(autoTaskDelay);
-        
-        if (typeIndex==1) {
+
+        //taskIndex= taskNumber.getSelectedIndex();
+        //TaskElement te= (TaskElement)((TaskElement)at.taskList.elementAt(taskIndex));
+        if( typeIndex ==1) {
             itemsList.addElement(autoTaskTimeDesc);
             itemsList.addElement(autoTaskHour);
             itemsList.addElement(autoTaskMin);
-        } else if (typeIndex==2) {
+        }else if( typeIndex  ==2) {
             itemsList.addElement(autoTaskDelay);
         }
     }

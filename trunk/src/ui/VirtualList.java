@@ -1809,12 +1809,13 @@ class TimerTaskRotate extends Thread{
             try {  sleep(100);  } catch (Exception e) { instance=null; break; }
 	    //#ifdef TOUCH
     	    if (holdCount==5 ) {
-		if (attachedList.pointer_state == VirtualList.POINTER_FIRST || attachedList.pointer_state == VirtualList.POINTER_SECOND)
-		attachedList.pointer_state = VirtualList.POINTER_LONG;
+		if (VirtualList.pointer_state == VirtualList.POINTER_FIRST || VirtualList.pointer_state == VirtualList.POINTER_SECOND)
+		VirtualList.pointer_state = VirtualList.POINTER_LONG;
+		new EventNotify(null, null, -1, 50).startNotify();
 		holdCount=0;
 		attachedList.redraw();
 	    }
-	    if (attachedList.pointer_state == VirtualList.POINTER_FIRST || attachedList.pointer_state == VirtualList.POINTER_SECOND) {
+	    if (VirtualList.pointer_state == VirtualList.POINTER_FIRST || VirtualList.pointer_state == VirtualList.POINTER_SECOND) {
 		holdCount++;
 		continue;
 	    } else {

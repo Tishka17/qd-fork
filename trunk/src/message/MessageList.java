@@ -62,7 +62,9 @@ public abstract class MessageList extends VirtualList implements MenuListener {
     
     // Helpers  
     protected Msg getMessage(int index) {
-        return (Msg)messages.elementAt(index);
+        VirtualElement el = getItemRef(index);
+        if (el instanceof Msg) return (Msg)el;
+        return null;
     }
     
     protected Msg getSelectedMessage() {

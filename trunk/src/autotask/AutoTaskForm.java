@@ -54,30 +54,32 @@ public class AutoTaskForm extends DefForm {
     private NumberInput autoTaskMin;
     private NumberInput autoTaskHour;
 
-    private AutoTask at=new AutoTask();
+    private AutoTask at= null;
 
     private int taskIndex;
     private int typeIndex;
     private int actionIndex;
 
+    int h,m,t,a,i;
+
     public AutoTaskForm() {
         super(SR.get(SR.MS_AUTOTASKS));
-
-        taskIndex= 0;
-        actionIndex= ((TaskElement)at.taskList.elementAt(taskIndex)).Action();
-        typeIndex= ((TaskElement)at.taskList.elementAt(taskIndex)).Type();
+        if( at ==null){
+            at= new AutoTask();
+            taskIndex= 0;
+            typeIndex= 0;
+            actionIndex= 0;
+        }// if
 
         //taskNumber= new DropChoiceBox(SR.get(SR.MS_AUTOTASK_TYPE));
         taskNumber= new DropChoiceBox("Task number");
         for( int ti= 0; ti <at.TASK_MAXNUMBER; ti++)
             taskNumber.append("Task " +ti);
-        taskNumber.setSelectedIndex(taskIndex);
-        
+
         taskType= new DropChoiceBox(SR.get(SR.MS_AUTOTASK_TYPE));
         taskType.append(SR.get(SR.MS_DISABLED));
         taskType.append(SR.get(SR.MS_BY_TIME_));
         taskType.append(SR.get(SR.MS_BY_TIMER_));
-        taskType.setSelectedIndex(typeIndex);
 
         actionType=new DropChoiceBox(SR.get(SR.MS_AUTOTASK_ACTION_TYPE));
         actionType.append(new IconTextElement(SR.get(SR.MS_AUTOTASK_QUIT_BOMBUSMOD),MenuIcons.getInstance(),MenuIcons.ICON_QUIT));
@@ -88,54 +90,87 @@ public class AutoTaskForm extends DefForm {
         actionType.append(new IconTextElement(SR.get(SR.MS_AUTOLOGIN),MenuIcons.getInstance(),MenuIcons.ICON_QUIT));
 //        actionType.append(SR.get(SR.MS_AUTOTASK_JOIN_CONFERENCES));
         actionType.append(new IconTextElement(SR.get(SR.MS_DO_AUTOJOIN),MenuIcons.getInstance(),MenuIcons.ICON_CONFERENCE));
-        actionType.setSelectedIndex(actionIndex);
-        
+
         autoTaskTimeDesc=new SimpleString(SR.get(SR.MS_AUTOTASK_TIME), true);
 
-        autoTaskHour=new NumberInput(SR.get(SR.MS_AUTOTASK_HOUR), ((TaskElement)at.taskList.elementAt(taskIndex)).Hour(), 0, 23);
-        autoTaskMin=new NumberInput(SR.get(SR.MS_AUTOTASK_MIN), ((TaskElement)at.taskList.elementAt(taskIndex)).Minute(), 0, 59);
-        autoTaskDelay=new NumberInput(SR.get(SR.MS_AUTOTASK_DELAY), ((TaskElement)at.taskList.elementAt(taskIndex)).Timer(), 1, 600);
-        
+        actionIndex= ((TaskElement)at.taskList.elementAt(taskIndex)).Action();
+        typeIndex= ((TaskElement)at.taskList.elementAt(taskIndex)).Type();
+
+        taskNumber.setSelectedIndex(taskIndex);
+        taskType.setSelectedIndex(typeIndex);
+        actionType.setSelectedIndex(actionIndex);
+
         itemsList.addElement(taskNumber);
         itemsList.addElement(taskType);
         itemsList.addElement(actionType);
+
+        h= ((TaskElement)at.taskList.elementAt(taskIndex)).Hour();
+        m= ((TaskElement)at.taskList.elementAt(taskIndex)).Minute();
+        t= ((TaskElement)at.taskList.elementAt(taskIndex)).Timer();
+
+        autoTaskHour=new NumberInput(SR.get(SR.MS_AUTOTASK_HOUR), h, 0, 23);
+        autoTaskMin=new NumberInput(SR.get(SR.MS_AUTOTASK_MIN), m, 0, 59);
+        autoTaskDelay=new NumberInput(SR.get(SR.MS_AUTOTASK_DELAY), t, 1, 600);
         
         update();
     }
 
     public void cmdOk( ){
         taskIndex= taskNumber.getSelectedIndex();
-        //te= (TaskElement)((TaskElement)at.taskList.elementAt(taskIndex));
-        ((TaskElement)at.taskList.elementAt(taskIndex)).Action( actionType.getSelectedIndex());
-        ((TaskElement)at.taskList.elementAt(taskIndex)).Type( taskType.getSelectedIndex());
+        typeIndex= taskType.getSelectedIndex();
+        actionIndex= actionType.getSelectedIndex();
+
+        h= autoTaskHour.getIntValue();
+        m= autoTaskMin.getIntValue();
+        t= autoTaskDelay.getIntValue();
+
+        ((TaskElement)at.taskList.elementAt(taskIndex)).Action( actionIndex);
+        ((TaskElement)at.taskList.elementAt(taskIndex)).Type( typeIndex);
         ((TaskElement)at.taskList.elementAt(taskIndex)).setRunned( true);
-        if( ((TaskElement)at.taskList.elementAt(taskIndex)).Type() ==1){
-            ((TaskElement)at.taskList.elementAt(taskIndex)).setTime( autoTaskHour.getIntValue(), autoTaskMin.getIntValue());
-        }else if( ((TaskElement)at.taskList.elementAt(taskIndex)).Type() ==2){
-            ((TaskElement)at.taskList.elementAt(taskIndex)).setTimer( autoTaskDelay.getIntValue());
-//            ((TaskElement)at.taskList.elementAt(taskIndex)).StartMS= System.currentTimeMillis();
-        }// elif
-//        if (at.taskType!=0)
-//        at.taskList.setElementAt(te, taskIndex);
+        ((TaskElement)at.taskList.elementAt(taskIndex)).setTime( h, m); //autoTaskHour.getIntValue(), autoTaskMin.getIntValue());
+        ((TaskElement)at.taskList.elementAt(taskIndex)).setTimer( t); //autoTaskDelay.getIntValue());
+
         at.startTask();
         destroyView();
     }
 
     protected void beginPaint(){
-        if( typeIndex !=taskType.getSelectedIndex()){
             typeIndex= taskType.getSelectedIndex();
-            update();
+            actionIndex= actionType.getSelectedIndex();
+            h= autoTaskHour.getIntValue();
+            m= autoTaskMin.getIntValue();
+            t= autoTaskDelay.getIntValue();
+
+            ((TaskElement)at.taskList.elementAt(taskIndex)).Action( actionIndex);
+            ((TaskElement)at.taskList.elementAt(taskIndex)).Type( typeIndex);
+            //((TaskElement)at.taskList.elementAt(taskIndex)).setRunned( true);
+            ((TaskElement)at.taskList.elementAt(taskIndex)).setTime( h, m); //autoTaskHour.getIntValue(), autoTaskMin.getIntValue());
+            ((TaskElement)at.taskList.elementAt(taskIndex)).setTimer( t); //autoTaskDelay.getIntValue());
+
+        if( taskIndex !=taskNumber.getSelectedIndex()){
+            taskIndex= taskNumber.getSelectedIndex();
+
+            actionIndex= ((TaskElement)at.taskList.elementAt(taskIndex)).Action();
+            typeIndex= ((TaskElement)at.taskList.elementAt(taskIndex)).Type();
+            h= ((TaskElement)at.taskList.elementAt(taskIndex)).Hour();
+            m= ((TaskElement)at.taskList.elementAt(taskIndex)).Minute();
+            t= ((TaskElement)at.taskList.elementAt(taskIndex)).Timer();
+
+            taskType.setSelectedIndex(typeIndex);
+            actionType.setSelectedIndex(actionIndex);
+            autoTaskHour.setIntValue( h);
+            autoTaskMin.setIntValue( m);
+            autoTaskDelay.setIntValue( t);
         }
+        update();
     }
 
-    private void update(){        
+    private void update(){
         itemsList.removeElement(autoTaskDelay);
         itemsList.removeElement(autoTaskTimeDesc);
         itemsList.removeElement(autoTaskHour);
         itemsList.removeElement(autoTaskMin);
 
-        //taskIndex= taskNumber.getSelectedIndex();
-        //TaskElement te= (TaskElement)((TaskElement)at.taskList.elementAt(taskIndex));
         if( typeIndex ==1) {
             itemsList.addElement(autoTaskTimeDesc);
             itemsList.addElement(autoTaskHour);

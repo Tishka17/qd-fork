@@ -107,10 +107,10 @@ public class TaskElement {
                 return false;
             }
         }else if( Type ==TASK_TYPE_TIME){
-            if( Time.getHour() >=Hour && Time.getMin() >=Minute){
-                isRunned= false;
-                doAction( );
-                return false;
+            if( Time.getHour() ==Hour && Time.getMin() ==Minute){
+                    isRunned= false;
+                    doAction( );
+                    return false;
             }
         }// elif
         if( Once && !isRunned){

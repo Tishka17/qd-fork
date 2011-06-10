@@ -47,12 +47,19 @@ public class AutoTask extends DefForm implements Runnable {
 
     private static final int SLEEPTIME = 5000;
 
-    public Vector taskList= new Vector(0);
+    Vector taskList= null;
 
     public AutoTask() {
-        super(null);
-        for( int ti= 0; ti<TASK_MAXNUMBER; ti++)
-            taskList.addElement(new TaskElement());
+        super( null);
+        try{
+            if( taskList ==null){
+                taskList= new Vector(0);
+                for( int ti= 0; ti<TASK_MAXNUMBER; ti++)
+                    taskList.addElement(new TaskElement());
+            }else{
+//                this.taskList= taskList;
+            }
+        }catch( Exception e){ }
     }
 
     public void startTask() {
@@ -62,38 +69,8 @@ public class AutoTask extends DefForm implements Runnable {
     public boolean checkTasks(){
         boolean hasWaitingTasks= false;
         for( int ti= 0; ti<TASK_MAXNUMBER; ti++){
-//            TaskElement te= (TaskElement)taskList.elementAt(ti);
-/*            hasWaitingTasks= true;
-            if( te.Type ==TaskElement.TASK_TYPE_DISABLED){
-                te.isRunned= false;
-                hasWaitingTasks= false;
-                continue;
-            }// if
-                        
-            if( te.Type ==TaskElement.TASK_TYPE_TIMER){
-                if( (System.currentTimeMillis() -te.StartMS) >=te.WaitMS){
-                    te.StartMS= System.currentTimeMillis();
-                    setCaption( te);
-                    doAction( te);
-                    te.isRunned= false;
-                }
-            }else if( te.Type ==TaskElement.TASK_TYPE_TIME){
-                if( Time.getHour() >=te.Hour && Time.getMin() >=te.Minute){
-                    setCaption( te);
-                    doAction( te);
-                    te.isRunned= false;
-                }
-            }// elif
-
-            if( te.Once ==true && te.isRunned ==false){
-                te.Type= TaskElement.TASK_TYPE_DISABLED;
-                hasWaitingTasks= false;
-                continue;
-            }
-*/
         if( ((TaskElement)taskList.elementAt(ti)).doTask())
              hasWaitingTasks= true;
-//            destroyView();
         }// for ti
         return hasWaitingTasks;
     }// checkTasks()
@@ -102,101 +79,9 @@ public class AutoTask extends DefForm implements Runnable {
         while( checkTasks())
             try{
                 Thread.sleep( SLEEPTIME);
-            }catch( Exception e){ break;}
+            }catch( Exception e){ 
+                break;
+            }
     }// run()
-    
-/*    public void doAction( TaskElement te){
-        switch( te.Action){
-            case TaskElement.TASK_ACTION_QUIT:
-                BombusQD.getInstance().notifyDestroyed();
-                break;
-//#ifndef WMUC
-            case TaskElement.TASK_ACTION_CONFERENCE_QUIT:
-                BombusQD.sd.roster.leaveAllMUCs();//Tishka17
-                break;
-//#endif
-            case TaskElement.TASK_ACTION_LOGOFF:
-                BombusQD.sd.roster.logoff(SR.get(SR.MS_AUTOTASKS) + ": " + SR.get(SR.MS_LOGOFF));
-                break;
-           case TaskElement.TASK_ACTION_RECONNECT:
-                //taskType=TASK_TYPE_TIMER;
-                //initTime=System.currentTimeMillis();
-                //startTask();
-                BombusQD.sd.roster.connectionTerminated(new Exception(SR.get(SR.MS_AUTOTASKS) + ": " + SR.get(SR.MS_RECONNECT)));
-                try{
-                    Thread.sleep( SLEEPTIME);
-                }catch( Exception e){ break;}
-                BombusQD.sd.roster.logon(SR.get(SR.MS_AUTOTASKS) + ": " + SR.get(SR.MS_AUTOLOGIN));
-                break;
-            case TaskElement.TASK_ACTION_LOGIN:
-                //initTime=System.currentTimeMillis();
-                //startTask();
-                BombusQD.sd.roster.logon(SR.get(SR.MS_AUTOTASKS) + ": " + SR.get(SR.MS_AUTOLOGIN));
-                //BombusQD.sd.roster.logon(SR.get(SR.MS_AUTOTASKS) + ": " + "Login");
-                break;
-            case TaskElement.TASK_ACTION_CONFERENCE_JOIN:
-                BombusQD.sd.roster.MUCsAutoJoin(SR.get(SR.MS_AUTOTASKS) + ": " + SR.get(SR.MS_DO_AUTOJOIN));
-                //BombusQD.sd.roster.MUCsAutoJoin(SR.get(SR.MS_AUTOTASKS) + ": " + "Join");
-                break;
-        }
-    }
-*/
-/*    public void show() {
-//        isShowing = true;
-//        updateCaption( ti);
-        super.show();
-    }
-
-    public void destroyView() {
-//        isShowing = false;
-        super.destroyView();
-    }
-*/
-/*    private void setCaption( TaskElement te) {
-        String caption = "";
-        switch( te.Action){
-            case TaskElement.TASK_ACTION_QUIT:
-                caption = SR.get(SR.MS_AUTOTASK_QUIT_BOMBUSMOD);
-                break;
-            case TaskElement.TASK_ACTION_CONFERENCE_QUIT:
-                caption = SR.get(SR.MS_AUTOTASK_QUIT_CONFERENCES);
-                break;
-            case TaskElement.TASK_ACTION_LOGOFF:
-                caption = SR.get(SR.MS_AUTOTASK_LOGOFF);
-                break;
-            case TaskElement.TASK_ACTION_RECONNECT:
-                caption = SR.get(SR.MS_RECONNECT);
-                break;
-            case TaskElement.TASK_ACTION_LOGIN:
-//            caption = SR.get(SR.MS_AUTOTASK_LOGIN);
-                caption = SR.get(SR.MS_AUTOLOGIN);
-                break;
-            case TaskElement.TASK_ACTION_CONFERENCE_JOIN:
-//            caption = SR.get(SR.MS_AUTOTASK_JOIN_CONFERENCES);
-                caption = SR.get(SR.MS_DO_AUTOJOIN);
-                break;
-        }
-//        caption += " [" + (WAITTIME-value) + "]";
-        setMainBarItem(new MainBar(caption));
-    }
-*/
-/*    public void paint(Graphics g) {
-            super.paint(g);
-
-            updateCaption();
-
-            int y = height / 2;            
-            int itemWidth = width - (BORDER_WIDTH * 2);            
-            int fillWidth = (itemWidth * value) / WAITTIME;
-
-            g.setColor(ColorTheme.getColor(ColorTheme.PGS_REMAINED));
-            g.fillRect(BORDER_WIDTH, y, itemWidth, PROGRESS_HEIGHT);
-
-            g.setColor(ColorTheme.getColor(ColorTheme.PGS_COMPLETE_TOP));
-            g.drawRect(BORDER_WIDTH, y, itemWidth, PROGRESS_HEIGHT);
-            g.fillRect(BORDER_WIDTH, y, fillWidth, PROGRESS_HEIGHT);
-
-    }
-*/
 }
 //#endif

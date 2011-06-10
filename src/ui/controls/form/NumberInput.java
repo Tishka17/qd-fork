@@ -68,4 +68,9 @@ public final class NumberInput extends TextInput {
     public int getIntValue() {
         return val;
     }
+
+    public void setIntValue( int value) {
+        val= value;
+    }
+
 }

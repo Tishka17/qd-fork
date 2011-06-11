@@ -86,7 +86,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
         enableListWrapping(false);
         
 //#ifdef HISTORY
-        /*if (Config.getInstance().loadLastMsgCount > 0 && Config.module_history
+        if (Config.getInstance().loadLastMsgCount > 0 && Config.module_history
                 && !contact.isHistoryLoaded()) {
             Vector vector = HistoryStorage.getLastMessages(
                     contact, Config.getInstance().loadLastMsgCount);
@@ -94,12 +94,12 @@ public final class ContactMessageList extends MessageList implements InputTextBo
             if (vector != null) {
                 int size = vector.size();
                 for (int i = 0; i < size; ++i) {
-                    addMessage((MsgItem)vector.elementAt(i));
+                    addMessage((Msg)vector.elementAt(i));
                 }
-                contact.getChatInfo().reEnumCounts();
+                reEnumCounts();
             }
             contact.historyLoaded();
-        }*/
+        }
 //#endif
     }
     

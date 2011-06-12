@@ -110,6 +110,11 @@ public  class DropChoiceBox extends IconTextElement {
     public void append(Object value) {
         items.addElement(value);
     }
+
+    public void removeAt( int index) { // Mars
+        items.removeElementAt( index);
+    }
+
     public void setSelectedIndex(int index) {
         if (index > items.size() - 1) {
             index = 0;

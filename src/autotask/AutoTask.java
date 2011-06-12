@@ -36,10 +36,10 @@ import util.Time;
 import java.util.Vector;
 import ui.controls.form.DefForm;
 
-/**
- *
- * @author ad
- */
+/* * * * * * * * * * *
+ * @author ad        *
+ * Revrited by Mars  *
+ * * * * * * * * * * */
 
 public class AutoTask extends DefForm implements Runnable {
     
@@ -51,26 +51,40 @@ public class AutoTask extends DefForm implements Runnable {
 
     public AutoTask() {
         super( null);
-        try{
-            if( taskList ==null){
-                taskList= new Vector(0);
-                for( int ti= 0; ti<TASK_MAXNUMBER; ti++)
-                    taskList.addElement(new TaskElement());
-            }else{
-//                this.taskList= taskList;
-            }
-        }catch( Exception e){ }
+        if( taskList ==null){
+            taskList= new Vector(0);
+            taskList.addElement(new TaskElement());
+//            ((TaskElement)taskList.elementAt(0)).Name( "Task 0");
+/*            taskList.addElement(new TaskElement());
+            ((TaskElement)taskList.elementAt(1)).Name( "Task 1");
+            taskList.addElement(new TaskElement());
+            ((TaskElement)taskList.elementAt(2)).Name( "Task 2");
+*/
+        }
     }
 
-    public void startTask() {
+    public void startTask(){
         new Thread(this).start();
+    }
+
+    public void CreateTask( int taskIndex){
+        if( taskIndex >=0)
+            //taskList.insertElementAt(new TaskElement(), taskIndex);
+            taskList.addElement(new TaskElement());
+    }
+
+    public void DeleteTask( int taskIndex){
+        if( taskList.size() <=1)
+            return;
+        //taskList.removeElementAt( taskIndex);
+        taskList.removeElementAt( taskList.indexOf( taskList.lastElement()));
     }
 
     public boolean checkTasks(){
         boolean hasWaitingTasks= false;
-        for( int ti= 0; ti<TASK_MAXNUMBER; ti++){
-        if( ((TaskElement)taskList.elementAt(ti)).doTask())
-             hasWaitingTasks= true;
+        for( int ti= 0; ti <taskList.size(); ti++){
+            if( ((TaskElement)taskList.elementAt(ti)).doTask())
+                 hasWaitingTasks= true;
         }// for ti
         return hasWaitingTasks;
     }// checkTasks()

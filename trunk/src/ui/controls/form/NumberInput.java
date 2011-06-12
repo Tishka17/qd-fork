@@ -39,13 +39,18 @@ public final class NumberInput extends TextInput {
     private int min;
     private int val;
 
-    public NumberInput(String caption, int val, int min, int max) {
-        super(caption, String.valueOf(val), (min < 0) ? TextField.DECIMAL : TextField.NUMERIC);
+    public NumberInput(String caption, int value, int minue, int maxue) {
+        super(caption, String.valueOf(value), (minue < 0) ? TextField.DECIMAL : TextField.NUMERIC);
 
-        this.val = val;
-        this.min = min;
-        this.max = max;
-    }
+        min = minue;
+        max = maxue;
+
+        val= value;
+        if( value >maxue) val= maxue; // fix by Mars
+        if( value <minue) val= minue;
+
+        super.setValue( String.valueOf(val));
+   }
     
     public void okNotify(String text) {
         try {
@@ -71,6 +76,8 @@ public final class NumberInput extends TextInput {
 
     public void setIntValue( int value) {
         val= value;
+        if( value >max) val= max; // fix by Mars
+        if( value <min) val= min;
     }
 
 }

@@ -13,6 +13,7 @@ import ui.MainBar;
 import util.Time;
 import java.util.Vector;
 import ui.controls.form.DefForm;
+import ui.controls.AlertBox;
 
 /**
  *
@@ -23,6 +24,9 @@ public class TaskElement {
     public final static int TASK_TYPE_DISABLED = 0;
     public final static int TASK_TYPE_TIME = 1;
     public final static int TASK_TYPE_TIMER = 2;
+    public final static int TASK_TYPE_CREATE = 3;
+    public final static int TASK_TYPE_DELETE = 4;
+    public final static int TASK_TYPE_RENAME = 5;
 
     public final static int TASK_ACTION_QUIT = 0;
     public final static int TASK_ACTION_CONFERENCE_QUIT = 1;
@@ -30,6 +34,7 @@ public class TaskElement {
     public final static int TASK_ACTION_RECONNECT = 3;
     public final static int TASK_ACTION_LOGIN = 4;
     public final static int TASK_ACTION_CONFERENCE_JOIN = 5;
+    public final static int TASK_ACTION_REMINDER = 6;
 
     public int Type= TASK_TYPE_DISABLED;
     public int Action = TASK_ACTION_QUIT;
@@ -39,6 +44,8 @@ public class TaskElement {
     public int Minute = 0;
     public boolean Once = true;
     public boolean isRunned = false;
+    public String Name= "Default task name";
+    public String Text= "Default reminder text";
 
     public int Type( ){
         return Type;
@@ -46,6 +53,22 @@ public class TaskElement {
 
     public void Type( int targ){
         Type= targ;
+    }
+
+    public String Name( ){
+        return Name;
+    }
+
+    public void Name( String narg){
+        Name= narg;
+    }
+
+    public String Text( ){
+        return Text;
+    }
+
+    public void Text( String sarg){
+        Text= sarg;
     }
 
     public int Action( ){
@@ -95,24 +118,27 @@ public class TaskElement {
     }
 
     public boolean doTask( ){
-        if( Type ==TASK_TYPE_DISABLED){
-            isRunned= false;
-            return false;
-        }// if
-        if( Type ==TASK_TYPE_TIMER){
-            if( (System.currentTimeMillis() -StartMS) >=WaitMS){
-                StartMS= System.currentTimeMillis();
+        switch( Type){
+            case TASK_TYPE_DISABLED:
                 isRunned= false;
-                doAction( );
                 return false;
-            }
-        }else if( Type ==TASK_TYPE_TIME){
-            if( Time.getHour() ==Hour && Time.getMin() ==Minute){
+                //break;
+            case TASK_TYPE_TIMER:
+                if( (System.currentTimeMillis() -StartMS) >=WaitMS){
+                    StartMS= System.currentTimeMillis();
                     isRunned= false;
                     doAction( );
                     return false;
-            }
-        }// elif
+                }// if
+                break;
+            case TASK_TYPE_TIME:
+                if( Time.getHour() == Hour && Time.getMin() == Minute){
+                    isRunned= false;
+                    doAction( );
+                    return false;
+                }// if
+                break;
+        }// switch
         if( Once && !isRunned){
             Type= TASK_TYPE_DISABLED;
             return false;
@@ -122,39 +148,52 @@ public class TaskElement {
 
     public void doAction( ){
         String caption= "";
+        AlertBox box;
         switch( Action){
             case TASK_ACTION_QUIT:
                 caption = SR.get(SR.MS_AUTOTASK_QUIT_BOMBUSMOD);
-                //setMainBarItem(new MainBar(caption));
+                box= new AlertBox(caption, Name, AlertBox.BUTTONS_OK, 5);
+                box.show();
                 BombusQD.getInstance().notifyDestroyed();
                 break;
             case TASK_ACTION_CONFERENCE_QUIT:
                 caption = SR.get(SR.MS_AUTOTASK_QUIT_CONFERENCES);
-                //setMainBarItem(new MainBar(caption));
+                box= new AlertBox(caption, Name, AlertBox.BUTTONS_OK, 5);
+                box.show();
                 BombusQD.sd.roster.leaveAllMUCs();//Tishka17
                 break;
             case TASK_ACTION_LOGOFF:
                 caption = SR.get(SR.MS_AUTOTASK_LOGOFF);
-                //setMainBarItem(new MainBar(caption));
+                box= new AlertBox(caption, Name, AlertBox.BUTTONS_OK, 5);
+                box.show();
                 BombusQD.sd.roster.logoff(SR.get(SR.MS_AUTOTASKS) + ": " + SR.get(SR.MS_LOGOFF));
                 break;
            case TASK_ACTION_RECONNECT:
                 caption = SR.get(SR.MS_RECONNECT);
-                //setMainBarItem(new MainBar(caption));
-                BombusQD.sd.roster.connectionTerminated(new Exception(SR.get(SR.MS_AUTOTASKS) + ": " + SR.get(SR.MS_RECONNECT)));
+                box= new AlertBox(caption, Name, AlertBox.BUTTONS_OK, 5);
+                box.show();
                 try{
+                    BombusQD.sd.roster.connectionTerminated(new Exception(SR.get(SR.MS_AUTOTASKS) + ": " + SR.get(SR.MS_RECONNECT)));
                     Thread.sleep( 1000);
                 }catch( Exception e){ break;}
                 BombusQD.sd.roster.logon(SR.get(SR.MS_AUTOTASKS) + ": " + SR.get(SR.MS_AUTOLOGIN));
                 break;
             case TASK_ACTION_LOGIN:
                 caption = SR.get(SR.MS_AUTOLOGIN);
-                //setMainBarItem(new MainBar(caption));
+                box= new AlertBox(caption, Name, AlertBox.BUTTONS_OK, 5);
+                box.show();
                 BombusQD.sd.roster.logon(SR.get(SR.MS_AUTOTASKS) + ": " + SR.get(SR.MS_AUTOLOGIN));
                 break;
             case TASK_ACTION_CONFERENCE_JOIN:
                 caption = SR.get(SR.MS_DO_AUTOJOIN);
-                //setMainBarItem(new MainBar(caption));
+                box= new AlertBox(caption, Name, AlertBox.BUTTONS_OK, 5);
+                box.show();
+                BombusQD.sd.roster.MUCsAutoJoin(SR.get(SR.MS_AUTOTASKS) + ": " + SR.get(SR.MS_DO_AUTOJOIN));
+                break;
+            case TASK_ACTION_REMINDER:
+                caption = SR.get(SR.MS_DO_AUTOJOIN);
+                box= new AlertBox(caption, Name, AlertBox.BUTTONS_OK, 5);
+                box.show();
                 BombusQD.sd.roster.MUCsAutoJoin(SR.get(SR.MS_AUTOTASKS) + ": " + SR.get(SR.MS_DO_AUTOJOIN));
                 break;
         }// switch

@@ -1142,6 +1142,8 @@ public abstract class VirtualList extends CanvasEx {
     private int old_drag_x=-1;
     private int old_drag_y=-1;
     protected void pointerDragged(int x, int y) {
+        if (pointer_state == POINTER_LONG)
+            return;
         if (3 > Math.abs(old_drag_x - x)  && 3 > Math.abs(old_drag_y - y)) {
             return;
         }
@@ -1242,7 +1244,12 @@ public abstract class VirtualList extends CanvasEx {
         if (pointer_state==POINTER_SCROLLBAR) scrollbar.pointerReleased(x, y, this);
 
         if (pointer_state == POINTER_FIRST || pointer_state==POINTER_SECOND || pointer_state==POINTER_LONG) {
-            if (clickTime-lastClickTime>500 || pointer_state==POINTER_LONG) {
+//#ifdef USE_ROTATOR
+            if (pointer_state==POINTER_LONG)
+//#else
+//#             if (clickTime-lastClickTime>500)
+//#endif
+            {
                 y=0;
                 eventLongOk();
             } else {

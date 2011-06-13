@@ -210,10 +210,6 @@ public class VCard {
     }
     
     public void clearVCard() {
-        vCardFields=null;
-        vCardFields2=null;
-        vCardLabels=null;
-
         vCardData=null;
         jid=null;
         id=null;
@@ -262,10 +258,10 @@ public class VCard {
     public String getFileType() {
         String MIMEtype=getPhotoMIMEType();
         if (MIMEtype!=null) {
-            if (MIMEtype=="image/jpeg") return ".jpg";
-            if (MIMEtype=="image/png") return ".png";
-            if (MIMEtype=="image/gif") return ".gif";
-            if (MIMEtype=="image/x-ms-bmp") return ".bmp";
+            if ("image/jpeg".equals(MIMEtype)) return ".jpg";
+            if ("image/png".equals(MIMEtype)) return ".png";
+            if ("image/gif".equals(MIMEtype)) return ".gif";
+            if ("image/x-ms-bmp".equals(MIMEtype)) return ".bmp";
         }
         return ".jpg";
     }

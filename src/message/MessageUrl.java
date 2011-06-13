@@ -42,24 +42,25 @@ import util.ClipBoard;
 import midlet.Commands;
 import client.Config;
 //#endif
+import ui.input.InputTextBoxNotify;
 
 /**
  *
  * @author EvgS
  */
 
-public class MessageUrl extends Menu implements MenuListener {
+public class MessageUrl extends Menu implements MenuListener, InputTextBoxNotify {
     private Vector urlList;
 
     private Command cmdEdit;
 
-public MessageUrl(Vector urlList) {
-	super("URLs");
-	this.urlList = urlList;
-	
-	for (int i = 0; i < urlList.size(); ++i) {
-	    addItem((String)urlList.elementAt(i), i);
-	}
+    public MessageUrl(Vector urlList) {
+        super(SR.get(SR.MS_GOTO_URL));
+        this.urlList = urlList;
+
+        for (int i = 0; i < urlList.size(); ++i) {
+            addItem((String)urlList.elementAt(i), i);
+        }
 
         cmdEdit = new Command(SR.get(SR.MS_EDIT), 0x40);
     }
@@ -83,6 +84,7 @@ public MessageUrl(Vector urlList) {
 
         if (c == cmdEdit) {
             InputTextBox input = new InputTextBox("Edit URL", url, 1024, TextField.URL);
+            input.setNotifyListener(this);
             input.show();
 //#ifdef CLIPBOARD
         } else if (c == Commands.cmdCopy) {
@@ -91,6 +93,16 @@ public MessageUrl(Vector urlList) {
             ClipBoard.addToClipBoard(url);
 //#endif
         }
+    }
+
+    public void okNotify(String text) {
+        destroyView();
+        gotoURL(text);
+    }
+    
+    public void eventOk() {
+        destroyView();
+        gotoURL((String)urlList.elementAt(cursor));
     }
 
     public String touchLeftCommand() {
@@ -108,13 +120,11 @@ public MessageUrl(Vector urlList) {
         redraw();
         return GMenu.STATS_WINDOW;
     }
-    
-    public void eventOk() {
+
+    private void gotoURL(String url) {
+        System.out.println(url);
         try {
-            midlet.BombusQD.getInstance().platformRequest((String)urlList.elementAt(cursor));
-        } catch (ConnectionNotFoundException ex) {
-            //ex.printStackTrace();
-        }
-	destroyView();
+            midlet.BombusQD.getInstance().platformRequest(url);
+        } catch (ConnectionNotFoundException ex) {}
     }
 }

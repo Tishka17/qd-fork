@@ -118,7 +118,6 @@ public final class MessageParser {
 
 
     public void parseMsg(Msg messageItem,  int width) {
-        System.out.println("parse msg");
             wordsWrap=midlet.BombusQD.cf.textWrap==1;
             messageItem.msgLines=new Vector(0);
 //#ifdef SMILES

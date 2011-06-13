@@ -74,7 +74,6 @@ public class MessageArchive {
 	    );
 	    DataInputStream dis=new DataInputStream(bais);
 	    Msg msg=new Msg(dis);
-            msg.collapse();
 	    dis.close();
             bais.close();
             bais = null;

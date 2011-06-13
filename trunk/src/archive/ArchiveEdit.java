@@ -33,6 +33,7 @@ import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
+import midlet.BombusQD;
 import ui.input.InputTextBox;
 
 /**
@@ -68,21 +69,22 @@ public class ArchiveEdit extends InputTextBox {
             if (body.length() == 0) {
                 body = null;
             }
-            byte type = Msg.OUTGOING;
-            String from = "";
-            String subj = "";
             if (pos > -1) {
-                type = msg.getType();
-                from = msg.getFrom();
-                subj = msg.getSubject();
+                msg.setBody(body);
+
                 archive.delete(pos);
+                MessageArchive.store(msg);
+            } else {
+                Msg newmsg = new Msg(
+                        Msg.OUTGOING, 
+                        "", 
+                        null, 
+                        body);
+                MessageArchive.store(newmsg);
             }
-            Msg newmsg = new Msg(type, from, subj, body);
 
-            MessageArchive.store(newmsg);
             archive.close();
-
-            al.reFresh();
+            al.refresh();
             destroyView();
         } else {
             super.commandAction(c, d);

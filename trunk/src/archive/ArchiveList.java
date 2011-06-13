@@ -40,6 +40,7 @@ import ui.controls.AlertBox;
 //#if IMPORT_EXPORT && FILE_IO
 import impexp.ImportExportForm;
 //#endif
+import java.util.Vector;
 import ui.GMenu;
 import ui.GMenuConfig;
 
@@ -134,8 +135,6 @@ public class ArchiveList extends MessageList {
     }
 
     public void commandAction(Command c) {
-        super.commandAction(c);
-
         if (c == cmdNew) {
             new ArchiveEdit(-1, this).show();
         } else if (c == cmdDelete) {
@@ -155,17 +154,23 @@ public class ArchiveList extends MessageList {
         } else if (c == cmdExport) {
             new ImportExportForm().show();
 //#endif
+        } else {
+            super.commandAction(c);
         }
     }
 
-    public void reFresh() {
+    public void refresh() {
         archive = new MessageArchive();
         messages.removeAllElements();
+
+        for (int i = 0; i < archive.size(); ++i) {
+            messages.addElement(archive.msg(i));
+        }
     }
 
     private void deleteMessage() {
         archive.delete(cursor);
-        messages.removeAllElements();
+        messages.removeElementAt(cursor);
     }
 
     private void deleteAllMessages() {

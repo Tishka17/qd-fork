@@ -38,6 +38,8 @@ import ui.controls.form.DefForm;
 import locale.SR;
 import ui.IconTextElement;
 import images.MenuIcons;
+import images.ActionsIcons;
+import images.RosterIcons;
 
 /**
  *
@@ -82,27 +84,27 @@ public class AutoTaskForm extends DefForm {
         autoTaskOnce= new CheckBox( "Run once", ((TaskElement)at.taskList.elementAt(taskIndex)).Once());
 
         taskType= new DropChoiceBox(SR.get(SR.MS_AUTOTASK_TYPE));
-        taskType.append(SR.get(SR.MS_DISABLED));
-        taskType.append(SR.get(SR.MS_BY_TIME_));
-        taskType.append(SR.get(SR.MS_BY_TIMER_));
+        taskType.append(new IconTextElement(SR.get(SR.MS_DISABLED), RosterIcons.getInstance(), RosterIcons.ICON_PLUGINBOX_UNCHECKED));
+        taskType.append(new IconTextElement(SR.get(SR.MS_BY_TIME_), ActionsIcons.getInstance(), ActionsIcons.ICON_TIME));
+        taskType.append(new IconTextElement(SR.get(SR.MS_BY_TIMER_), ActionsIcons.getInstance(), ActionsIcons.ICON_TIME));
 //        taskType.append(SR.get(SR.MS_BY_TIME_));
-        taskType.append( "Create Task");
+        taskType.append(new IconTextElement("Create Task", MenuIcons.getInstance(), MenuIcons.ICON_ADD));
 //        taskType.append(SR.get(SR.MS_BY_TIMER_));
-        taskType.append( "Delete Task");
+        taskType.append(new IconTextElement("Delete Task", MenuIcons.getInstance(), MenuIcons.ICON_REMOVE));
 //        taskType.append(SR.get(SR.MS_BY_TIMER_));
-        taskType.append( "Rename Task");
+        taskType.append(new IconTextElement("Rename Task", ActionsIcons.getInstance(), ActionsIcons.ICON_RENAME));
 
         actionType=new DropChoiceBox(SR.get(SR.MS_AUTOTASK_ACTION_TYPE));
-        actionType.append(new IconTextElement(SR.get(SR.MS_AUTOTASK_QUIT_BOMBUSMOD),MenuIcons.getInstance(),MenuIcons.ICON_QUIT));
-        actionType.append(new IconTextElement(SR.get(SR.MS_AUTOTASK_QUIT_CONFERENCES),MenuIcons.getInstance(),MenuIcons.ICON_CONFERENCE));
-        actionType.append(new IconTextElement(SR.get(SR.MS_AUTOTASK_LOGOFF),MenuIcons.getInstance(),MenuIcons.ICON_QUIT));
-        actionType.append(new IconTextElement(SR.get(SR.MS_BREAK_CONECTION),MenuIcons.getInstance(),MenuIcons.ICON_RECONNECT));
+        actionType.append(new IconTextElement(SR.get(SR.MS_AUTOTASK_QUIT_BOMBUSMOD), MenuIcons.getInstance(), MenuIcons.ICON_QUIT));
+        actionType.append(new IconTextElement(SR.get(SR.MS_AUTOTASK_QUIT_CONFERENCES), ActionsIcons.getInstance(), ActionsIcons.ICON_LEAVE));
+        actionType.append(new IconTextElement(SR.get(SR.MS_AUTOTASK_LOGOFF), ActionsIcons.getInstance(), ActionsIcons.ICON_OFF));
+        actionType.append(new IconTextElement(SR.get(SR.MS_BREAK_CONECTION), MenuIcons.getInstance(), MenuIcons.ICON_RECONNECT));
 //        actionType.append(SR.get(SR.MS_AUTOTASK_LOGIN));
-        actionType.append(new IconTextElement(SR.get(SR.MS_AUTOLOGIN),MenuIcons.getInstance(),MenuIcons.ICON_QUIT));
+        actionType.append(new IconTextElement(SR.get(SR.MS_AUTOLOGIN), ActionsIcons.getInstance(), ActionsIcons.ICON_ON));
 //        actionType.append(SR.get(SR.MS_AUTOTASK_JOIN_CONFERENCES));
-        actionType.append(new IconTextElement(SR.get(SR.MS_DO_AUTOJOIN),MenuIcons.getInstance(),MenuIcons.ICON_CONFERENCE));
+        actionType.append(new IconTextElement(SR.get(SR.MS_DO_AUTOJOIN), ActionsIcons.getInstance(), ActionsIcons.ICON_SET_STATUS));
 //        actionType.append(SR.get(SR.MS_AUTOTASK_REMINDER));
-        actionType.append(new IconTextElement( "Reminder" ,MenuIcons.getInstance(),MenuIcons.ICON_CONFERENCE));
+        actionType.append(new IconTextElement( "Reminder", ActionsIcons.getInstance(), ActionsIcons.ICON_VOICE));
 
         autoTaskTimeDesc=new SimpleString(SR.get(SR.MS_AUTOTASK_TIME), true);
 

@@ -143,7 +143,7 @@ public class ServiceDiscovery extends VirtualList implements MenuListener, Jabbe
             
             items.addElement(new DiscoCommand(0x00, SR.get(SR.MS_MY_SERVERS)));
             items.addElement(new DiscoCommand(MenuIcons.ICON_ADD_SERVER, SR.get(SR.MS_ADD_SERVER), 16));
-            items.addElement(new DiscoCommand(MenuIcons.ICON_REMOVE_ICON, SR.get(SR.MS_CLEAR), 16));
+            items.addElement(new DiscoCommand(MenuIcons.ICON_REMOVE, SR.get(SR.MS_CLEAR), 16));
             try {
                 DataInputStream is = NvStorage.ReadFileRecord(FAV_SERVERS_DB, 0);
                 if (is == null) {
@@ -438,7 +438,7 @@ public class ServiceDiscovery extends VirtualList implements MenuListener, Jabbe
                     case MenuIcons.ICON_ADD_SERVER:
                         new ServerBox(service, this).show();
                         break;
-                    case MenuIcons.ICON_REMOVE_ICON:
+                    case MenuIcons.ICON_REMOVE:
                         try {
                             RecordStore.deleteRecordStore(FAV_SERVERS_DB);
                         } catch (RecordStoreException e) {

@@ -109,6 +109,10 @@ public  class DropChoiceBox extends IconTextElement {
 
     public void append(Object value) {
         items.addElement(value);
+        if (value instanceof IconTextElement) {
+            int h = captionFontHeight + ((IconTextElement)value).getVHeight();
+            if (h>itemHeight) itemHeight = h;
+        }
     }
 
     public void removeAt( int index) { // Mars
@@ -144,14 +148,17 @@ public  class DropChoiceBox extends IconTextElement {
             g.drawString(caption, xOffset, y, Graphics.TOP | Graphics.LEFT);
             y = captionFontHeight;
         }
+        if (size() > 1) {
+            il.drawImage(g, RosterIcons.ICON_COLLAPSED_INDEX, (width - imgHeight) - 1, (y + (height >> 1)) - (imgHeight >> 1));
+        }
         Object c = items.elementAt(index);
-        if (getTextLength() > 0) {
+        if (c instanceof IconTextElement) {
+            g.translate(0, y);
+            ((IconTextElement)c).drawItem(view, g, ofs, sel);
+        } else if (getTextLength() > 0) {
             xOffset = (getTextLength() > width) ? -ofs + baseOffset: baseOffset;
             g.setFont(font);
             g.drawString(getTextValue(), xOffset, y, Graphics.TOP | Graphics.LEFT);
-        }
-        if (size() > 1) {
-            il.drawImage(g, RosterIcons.ICON_COLLAPSED_INDEX, (width - imgHeight) - 1, (y + (height >> 1)) - (imgHeight >> 1));
         }
     }
 

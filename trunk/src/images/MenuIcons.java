@@ -91,7 +91,7 @@ public class MenuIcons extends ImageList {
     public static final byte ICON_OK = 0x43;
     public static final short ICON_ADD = 0x47;
 
-    public static final byte ICON_REMOVE_ICON = 0x51;
+    public static final byte ICON_REMOVE = 0x51;
     public static final byte ICON_ADD_SERVER = 0x55;
 
     public static final byte ICON_DISCO_SERVICE = 0x65;

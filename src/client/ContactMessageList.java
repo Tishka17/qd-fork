@@ -471,7 +471,12 @@ public final class ContactMessageList extends MessageList implements InputTextBo
     
     public void eventOk() {
         if (Config.createMessageByFive) {
-            resumeMessage();
+//#ifdef TOUCH
+            if (pointer_state!=POINTER_NONE) 
+                answer();
+            else
+//#endif
+                resumeMessage();
         } else {
             super.eventOk();
         }

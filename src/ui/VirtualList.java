@@ -151,8 +151,6 @@ public abstract class VirtualList extends CanvasEx {
 
     public void userKeyPressed(int keyCode){}
 
-    public void userAdditionKeyPressed(int keyCode){}
-
     public static final short SIEMENS_GREEN=-11;
 
     public static final byte NOKIA_PEN=-50;

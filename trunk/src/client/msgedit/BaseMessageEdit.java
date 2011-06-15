@@ -231,6 +231,7 @@ public abstract class BaseMessageEdit implements CommandListener {
             }
         }
         BombusQD.sd.roster.show();
+        System.gc();
     }
 
     public void commandAction(Command c, Displayable d) {

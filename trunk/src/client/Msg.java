@@ -281,10 +281,9 @@ public final class Msg implements VirtualElement {
             height = 3; 
             return height;
         }
+        height = ((ComplexString)msgLines.elementAt(0)).getVHeight();
         if (!isMucMsg && !Config.getInstance().hideMessageIcon && !isPresence() && !isMucMsg) {
             height = Math.max(height, RosterIcons.getInstance().getHeight());
-        } else {
-            height = ((ComplexString)msgLines.elementAt(0)).getVHeight();
         }
         for (int i = 1; i < size; ++i) {
             height += ((ComplexString)msgLines.elementAt(i)).getVHeight();

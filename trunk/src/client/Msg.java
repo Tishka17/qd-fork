@@ -277,12 +277,19 @@ public final class Msg implements VirtualElement {
         }
         int height = 0;
         int size = collapsed ? Math.min(msgLines.size(), 1) : msgLines.size();
-        for (int i = 0; i < size; ++i) {
+        if (msgLines.isEmpty()) {
+            height = 3; 
+            return height;
+        }
+        if (!isMucMsg && !Config.getInstance().hideMessageIcon && !isPresence() && !isMucMsg) {
+            height = Math.max(height, RosterIcons.getInstance().getHeight());
+        } else {
+            height = ((ComplexString)msgLines.elementAt(0)).getVHeight();
+        }
+        for (int i = 1; i < size; ++i) {
             height += ((ComplexString)msgLines.elementAt(i)).getVHeight();
         }
-        if (!isMucMsg && !Config.getInstance().hideMessageIcon) {
-            return Math.max(height, RosterIcons.getInstance().getHeight());
-        }
+        
         /*if (height < 3) {
             height = 3;
         }*/
@@ -364,6 +371,7 @@ public final class Msg implements VirtualElement {
                 boolean cols = (collapsed && msgLines.size() > 1);
                 if (!Config.hideMessageIcon) {
                     if (i == 0 && !isPresence() && !isMucMsg) {
+                        h = Math.max(h, RosterIcons.getInstance().getHeight());
                         if (delivered) {
                             RosterIcons.getInstance().drawImage(g, RosterIcons.ICON_DELIVERED_INDEX, 0, 0);
                         } else {

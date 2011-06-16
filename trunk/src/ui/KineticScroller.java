@@ -8,8 +8,9 @@ package ui;
  *
  * @author tishka17
  */
+//#ifdef TOUCH
 public class KineticScroller  extends Thread {
-    private static final int update_delta = 10;
+    private static final int update_delta = 20;
     private static long inverse_acceleration = 20000;
     private long velocity = 0;
     private int y0=0, y1=0;
@@ -73,7 +74,6 @@ public class KineticScroller  extends Thread {
         list.stickyWindow = false;
         long t = System.currentTimeMillis();
         long y = y1 + (y1 - y0) * (t - t1) / (t1 - t0) + (t - t1) * (t - t1) /2 / inverse_acceleration;
-        System.out.println(y + " at " + (t-t1));
         long new_velocity = velocity + (t - t1)* (t1 - t0) / inverse_acceleration;
         if ((velocity>=0 && new_velocity<=0) || 
                 (velocity<=0 && new_velocity>=0) || 
@@ -100,3 +100,4 @@ public class KineticScroller  extends Thread {
         }
     }
 }
+//#endif

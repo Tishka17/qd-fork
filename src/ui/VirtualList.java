@@ -195,7 +195,7 @@ public abstract class VirtualList extends CanvasEx {
     public int getListHeight() {
         return listHeight;
     }
-    private synchronized void updateLayout() {
+    public synchronized void updateLayout() {
         int size=getItemCount();
         if (size==0) {
             listHeight=0;
@@ -1061,6 +1061,7 @@ public abstract class VirtualList extends CanvasEx {
     KineticScroller kinetic = KineticScroller.getInstance();
     
     protected void pointerPressed(int x, int y) {
+        stickyWindow=false;
         kinetic.initPosition(this);
         lastClickTime=System.currentTimeMillis();
         lastClickX=x;
@@ -1111,7 +1112,6 @@ public abstract class VirtualList extends CanvasEx {
         }
         else if (scrollbar.pointerPressed(x, y, this)) {
             pointer_state = POINTER_SCROLLBAR;
-            stickyWindow=false;
             return;
         }
         int i=0;
@@ -1122,7 +1122,6 @@ public abstract class VirtualList extends CanvasEx {
         if (i==0 || i==32) {
             return;
         }
-        //System.out.println(i);
         int newcursor = getElementIndexAt(win_top)+i-1;
         if (cursor >= 0) {
             if (cursor != newcursor) {
@@ -1135,8 +1134,6 @@ public abstract class VirtualList extends CanvasEx {
             }
         }
 
-        //lastClickItem=cursor;
-
         if(cursor==-1) cursor = 0;
 	setRotator();
         redraw();
@@ -1146,6 +1143,7 @@ public abstract class VirtualList extends CanvasEx {
     private int old_drag_x=-1;
     private int old_drag_y=-1;
     protected void pointerDragged(int x, int y) {
+        stickyWindow=false;
         if (pointer_state == POINTER_LONG)
             return;
         if (3 > Math.abs(old_drag_x - x)  && 3 > Math.abs(old_drag_y - y)) {
@@ -1166,7 +1164,6 @@ public abstract class VirtualList extends CanvasEx {
         if (pointer_state == POINTER_SCROLLBAR) {
             scrollbar.pointerDragged(x, y, this);
             redraw();
-            stickyWindow=false;
             return;
         }
 
@@ -1179,7 +1176,6 @@ public abstract class VirtualList extends CanvasEx {
 
         if (win_top+winHeight>listHeight) win_top=listHeight-winHeight;
         if (win_top<0) win_top=0;
-        stickyWindow=false;
         redraw();
         return;
     }
@@ -1188,6 +1184,7 @@ public abstract class VirtualList extends CanvasEx {
     }
 
     protected void pointerReleased(int x, int y) {
+        stickyWindow=false;
         long clickTime=System.currentTimeMillis();
         if(gm.itemGrMenu>0){
             if(null != menuItem && y>lastClickY-7 && y<lastClickY+7) {
@@ -1232,7 +1229,6 @@ public abstract class VirtualList extends CanvasEx {
                     }else if (x>width/2+40){
                         if (pointer_state == POINTER_PANEL)touchRightPressed();
                     } else if (pointer_state == POINTER_PANEL)touchMiddlePressed();
-                    stickyWindow=false;
 		    pointer_state = POINTER_NONE;
 		    redraw();
                     return;
@@ -1875,8 +1871,9 @@ class TimerTaskRotate extends Thread{
     }
     
     public static void stop() {
+        instance.scrollline = false;
+        instance.balloon = -1;
         instance.scroll = 0;
-        instance.balloon = 0;
     }
 }
 //#endif

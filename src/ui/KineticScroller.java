@@ -32,7 +32,7 @@ public class KineticScroller  extends Thread {
         return instance;
     }
     public void initPosition(VirtualList list) {
-        stop();
+        stopscrolling();
         y0=y1=list.win_top;
         t0=t1=System.currentTimeMillis();
         this.list = list;
@@ -55,7 +55,7 @@ public class KineticScroller  extends Thread {
         velocity = (y1-y0);
         if (t1 == t0 || velocity == 0)
             return false;
-        stop();
+        stopscrolling();
         stopped = false;
         if (velocity>0) inverse_acceleration = -Math.abs(inverse_acceleration);
         else inverse_acceleration = Math.abs(inverse_acceleration);
@@ -63,7 +63,7 @@ public class KineticScroller  extends Thread {
         return true;
     }
     
-    public void stop() {
+    public void stopscrolling() {
         synchronized (this) {
             stopped = true;
             notify();
@@ -79,7 +79,7 @@ public class KineticScroller  extends Thread {
                 (velocity<=0 && new_velocity>=0) || 
                 y<0 || 
                 y + list.getHeight() > list.getListHeight()) {
-            stop();
+            stopscrolling();
             return;
         }
         list.win_top = (int)y;
@@ -95,7 +95,7 @@ public class KineticScroller  extends Thread {
             }
             while (true) {
                 if (!stopped) update();
-                try {  wait(update_delta);  } catch (Exception e) { stop(); break; }
+                try {  wait(update_delta);  } catch (Exception e) { stopscrolling(); break; }
             }
         }
     }

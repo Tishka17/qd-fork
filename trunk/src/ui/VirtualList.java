@@ -192,6 +192,9 @@ public abstract class VirtualList extends CanvasEx {
     private int itemLayoutY[]=new int[1];
     private int listHeight;
 
+    public int getListHeight() {
+        return listHeight;
+    }
     private synchronized void updateLayout() {
         int size=getItemCount();
         if (size==0) {
@@ -1055,7 +1058,10 @@ public abstract class VirtualList extends CanvasEx {
     int old_win_top;
 
 //#ifdef TOUCH
+    KineticScroller kinetic = KineticScroller.getInstance();
+    
     protected void pointerPressed(int x, int y) {
+        kinetic.initPosition(this);
         lastClickTime=System.currentTimeMillis();
         lastClickX=x;
         lastClickY=y;
@@ -1166,8 +1172,10 @@ public abstract class VirtualList extends CanvasEx {
 
         win_top = old_win_top - y + lastClickY;
         if (x - lastClickX > 9 || lastClickX-x >9
-              || y - lastClickY > 9 || lastClickY-y>9)
+              || y - lastClickY > 9 || lastClickY-y>9) {
           pointer_state = POINTER_DRAG;
+          kinetic.updatePostion();
+        }
 
         if (win_top+winHeight>listHeight) win_top=listHeight-winHeight;
         if (win_top<0) win_top=0;
@@ -1260,6 +1268,8 @@ public abstract class VirtualList extends CanvasEx {
             }
         }
 	redraw();
+        kinetic.updatePostion();
+        kinetic.startScroll();
 	pointer_state = POINTER_NONE;
     }
 
@@ -1651,7 +1661,12 @@ public abstract class VirtualList extends CanvasEx {
         }
  //#endif
     }
-
+    protected  void stopRotator(){
+//#if (USE_ROTATOR)
+        TimerTaskRotate.stop();
+ //#endif
+    }
+    
     public static void sort(Vector sortVector, int itemType ,int sortType){
         try {
             int f,i;
@@ -1857,6 +1872,11 @@ class TimerTaskRotate extends Thread{
             attachedList.showBalloon=(balloon<20 && balloon>0);
             return true;
        // }
+    }
+    
+    public static void stop() {
+        instance.scroll = 0;
+        instance.balloon = 0;
     }
 }
 //#endif

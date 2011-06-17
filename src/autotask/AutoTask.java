@@ -27,70 +27,26 @@
 //#ifdef AUTOTASK
 package autotask;
 
-import colors.ColorTheme;
-import javax.microedition.lcdui.Graphics;
-import locale.SR;
-import midlet.BombusQD;
-import ui.MainBar;
-import util.Time;
-import java.util.Vector;
 import ui.controls.form.DefForm;
 
-/* * * * * * * * * * *
- * @author ad        *
- * Revrited by Mars  *
- * * * * * * * * * * */
+/* * * * * * * * *
+ * @author Mars  *
+ * * * * * * * * */
 
 public class AutoTask extends DefForm implements Runnable {
     
-    public static final int TASK_MAXNUMBER = 8;
-
     private static final int SLEEPTIME = 5000;
 
-    Vector taskList= null;
-
-    public AutoTask() {
+    public AutoTask(){
         super( null);
-        if( taskList ==null){
-            taskList= new Vector(0);
-            taskList.addElement(new TaskElement());
-//            ((TaskElement)taskList.elementAt(0)).Name( "Task 0");
-/*            taskList.addElement(new TaskElement());
-            ((TaskElement)taskList.elementAt(1)).Name( "Task 1");
-            taskList.addElement(new TaskElement());
-            ((TaskElement)taskList.elementAt(2)).Name( "Task 2");
-*/
-        }
     }
 
     public void startTask(){
         new Thread(this).start();
     }
 
-    public void CreateTask( int taskIndex){
-        if( taskIndex >=0)
-            //taskList.insertElementAt(new TaskElement(), taskIndex);
-            taskList.addElement(new TaskElement());
-    }
-
-    public void DeleteTask( int taskIndex){
-        if( taskList.size() <=1)
-            return;
-        //taskList.removeElementAt( taskIndex);
-        taskList.removeElementAt( taskList.indexOf( taskList.lastElement()));
-    }
-
-    public boolean checkTasks(){
-        boolean hasWaitingTasks= false;
-        for( int ti= 0; ti <taskList.size(); ti++){
-            if( ((TaskElement)taskList.elementAt(ti)).doTask())
-                 hasWaitingTasks= true;
-        }// for ti
-        return hasWaitingTasks;
-    }// checkTasks()
-    
     public void run(){
-        while( checkTasks())
+        while( autotask.TaskList.checkTasks())
             try{
                 Thread.sleep( SLEEPTIME);
             }catch( Exception e){ 

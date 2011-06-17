@@ -39,15 +39,15 @@ public final class NumberInput extends TextInput {
     private int min;
     private int val;
 
-    public NumberInput(String caption, int value, int minue, int maxue) {
-        super(caption, String.valueOf(value), (minue < 0) ? TextField.DECIMAL : TextField.NUMERIC);
+    public NumberInput(String caption, int value, int minval, int maxval) {
+        super(caption, String.valueOf(value), (minval < 0) ? TextField.DECIMAL : TextField.NUMERIC);
 
-        min = minue;
-        max = maxue;
+        min = minval;
+        max = maxval;
 
         val= value;
-        if( value >maxue) val= maxue; // fix by Mars
-        if( value <minue) val= minue;
+        if( value >maxval) val= maxval; // fix by Mars
+        if( value <minval) val= minval;
 
         super.setValue( String.valueOf(val));
    }

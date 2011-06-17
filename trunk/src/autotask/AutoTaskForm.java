@@ -1,5 +1,5 @@
 /*
- * AutoTaskForm.java 
+ * AutoTaskForm.java
  *
  * Created on 20.03.2008, 19:52
  *
@@ -40,10 +40,10 @@ import ui.IconTextElement;
 import images.MenuIcons;
 import images.ActionsIcons;
 import images.RosterIcons;
+import java.util.Vector;
 
 /**
- *
- * @author ad
+ * @author Mars
  */
 
 public class AutoTaskForm extends DefForm {
@@ -51,134 +51,156 @@ public class AutoTaskForm extends DefForm {
     private DropChoiceBox taskNumber;
     private DropChoiceBox taskType;
     private DropChoiceBox actionType;
+    private DropChoiceBox notifyType;
 
     private SimpleString autoTaskTimeDesc;
 
     private NumberInput autoTaskDelay;
+    private NumberInput autoTaskNotify;
     private NumberInput autoTaskMin;
     private NumberInput autoTaskHour;
     private TextInput autoTaskText;
+    private TextInput autoTaskName;
     private CheckBox autoTaskOnce;
 
-    private AutoTask at;
+    private Vector tl= TaskList.TaskList();
+    private AutoTask at= new AutoTask();
 
-    private int taskIndex;
+    private static int taskIndex;
     private int typeIndex;
     private int actionIndex;
+    private int notifyIndex;
 
-    int h,m,t,a,i;
-
-    public AutoTaskForm() {
+    public AutoTaskForm(){
         super(SR.get(SR.MS_AUTOTASKS));
-        if( at ==null){
-            at= new AutoTask();
-            taskIndex= 0;
-            typeIndex= 0;
-            actionIndex= 0;
-        }// if
+        taskIndex= 0;
 
-        taskNumber= new DropChoiceBox("Task name");
-        for( int ti= 0; ti <at.taskList.size(); ti++)
-            taskNumber.append( ((TaskElement)at.taskList.elementAt(ti)).Name());
+        taskNumber= new DropChoiceBox( "Имя задачи");
+            for( int ti= 0; ti <tl.size(); ti++)
+                taskNumber.append( ((TaskElement)tl.elementAt(ti)).Name());
 
-        autoTaskOnce= new CheckBox( "Run once", ((TaskElement)at.taskList.elementAt(taskIndex)).Once());
+        autoTaskOnce= new CheckBox( "Выполнить однажды", ((TaskElement)tl.elementAt(taskIndex)).Once());
 
         taskType= new DropChoiceBox(SR.get(SR.MS_AUTOTASK_TYPE));
-        taskType.append(new IconTextElement(SR.get(SR.MS_DISABLED), RosterIcons.getInstance(), RosterIcons.ICON_PLUGINBOX_UNCHECKED));
-        taskType.append(new IconTextElement(SR.get(SR.MS_BY_TIME_), ActionsIcons.getInstance(), ActionsIcons.ICON_TIME));
-        taskType.append(new IconTextElement(SR.get(SR.MS_BY_TIMER_), ActionsIcons.getInstance(), ActionsIcons.ICON_TIME));
+            taskType.append(new IconTextElement(SR.get(SR.MS_DISABLED), RosterIcons.getInstance(), RosterIcons.ICON_PLUGINBOX_UNCHECKED));
+            taskType.append(new IconTextElement(SR.get(SR.MS_BY_TIME_), ActionsIcons.getInstance(), ActionsIcons.ICON_TIME));
+            taskType.append(new IconTextElement(SR.get(SR.MS_BY_TIMER_), ActionsIcons.getInstance(), ActionsIcons.ICON_TIME));
 //        taskType.append(SR.get(SR.MS_BY_TIME_));
-        taskType.append(new IconTextElement("Create Task", MenuIcons.getInstance(), MenuIcons.ICON_ADD));
+            taskType.append(new IconTextElement("Создать", MenuIcons.getInstance(), MenuIcons.ICON_ADD));
 //        taskType.append(SR.get(SR.MS_BY_TIMER_));
-        taskType.append(new IconTextElement("Delete Task", MenuIcons.getInstance(), MenuIcons.ICON_REMOVE));
+            taskType.append(new IconTextElement("Удалить", MenuIcons.getInstance(), MenuIcons.ICON_REMOVE));
 //        taskType.append(SR.get(SR.MS_BY_TIMER_));
-        taskType.append(new IconTextElement("Rename Task", ActionsIcons.getInstance(), ActionsIcons.ICON_RENAME));
+            taskType.append(new IconTextElement("Переименовать", ActionsIcons.getInstance(), ActionsIcons.ICON_RENAME));
 
         actionType=new DropChoiceBox(SR.get(SR.MS_AUTOTASK_ACTION_TYPE));
-        actionType.append(new IconTextElement(SR.get(SR.MS_AUTOTASK_QUIT_BOMBUSMOD), MenuIcons.getInstance(), MenuIcons.ICON_QUIT));
-        actionType.append(new IconTextElement(SR.get(SR.MS_AUTOTASK_QUIT_CONFERENCES), ActionsIcons.getInstance(), ActionsIcons.ICON_LEAVE));
-        actionType.append(new IconTextElement(SR.get(SR.MS_AUTOTASK_LOGOFF), ActionsIcons.getInstance(), ActionsIcons.ICON_OFF));
-        actionType.append(new IconTextElement(SR.get(SR.MS_BREAK_CONECTION), MenuIcons.getInstance(), MenuIcons.ICON_RECONNECT));
+            actionType.append(new IconTextElement(SR.get(SR.MS_AUTOTASK_QUIT_BOMBUSMOD), MenuIcons.getInstance(), MenuIcons.ICON_QUIT));
+            actionType.append(new IconTextElement(SR.get(SR.MS_AUTOTASK_QUIT_CONFERENCES), ActionsIcons.getInstance(), ActionsIcons.ICON_LEAVE));
+            actionType.append(new IconTextElement(SR.get(SR.MS_AUTOTASK_LOGOFF), ActionsIcons.getInstance(), ActionsIcons.ICON_OFF));
+            actionType.append(new IconTextElement(SR.get(SR.MS_BREAK_CONECTION), MenuIcons.getInstance(), MenuIcons.ICON_RECONNECT));
 //        actionType.append(SR.get(SR.MS_AUTOTASK_LOGIN));
-        actionType.append(new IconTextElement(SR.get(SR.MS_AUTOLOGIN), ActionsIcons.getInstance(), ActionsIcons.ICON_ON));
+            actionType.append(new IconTextElement(SR.get(SR.MS_AUTOLOGIN), ActionsIcons.getInstance(), ActionsIcons.ICON_ON));
 //        actionType.append(SR.get(SR.MS_AUTOTASK_JOIN_CONFERENCES));
-        actionType.append(new IconTextElement(SR.get(SR.MS_DO_AUTOJOIN), ActionsIcons.getInstance(), ActionsIcons.ICON_SET_STATUS));
+            actionType.append(new IconTextElement(SR.get(SR.MS_DO_AUTOJOIN), ActionsIcons.getInstance(), ActionsIcons.ICON_SET_STATUS));
 //        actionType.append(SR.get(SR.MS_AUTOTASK_REMINDER));
-        actionType.append(new IconTextElement( "Reminder", ActionsIcons.getInstance(), ActionsIcons.ICON_VOICE));
+            actionType.append(new IconTextElement( "Напоминалка", ActionsIcons.getInstance(), ActionsIcons.ICON_VOICE));
+
+//        notifyType= new DropChoiceBox(SR.get(SR.MS_AUTOTASK_NOTIFY));
+        notifyType= new DropChoiceBox( "Уведомления");
+            notifyType.append(new IconTextElement( "Выключены", RosterIcons.getInstance(), RosterIcons.ICON_PLUGINBOX_UNCHECKED));
+            notifyType.append(new IconTextElement( "Вибрацией", ActionsIcons.getInstance(), ActionsIcons.ICON_TIME));
+            notifyType.append(new IconTextElement( "Миганием", ActionsIcons.getInstance(), ActionsIcons.ICON_TIME));
+            notifyType.append(new IconTextElement( "Гудком", ActionsIcons.getInstance(), ActionsIcons.ICON_TIME));
 
         autoTaskTimeDesc=new SimpleString(SR.get(SR.MS_AUTOTASK_TIME), true);
 
-        autoTaskHour=new NumberInput(SR.get(SR.MS_AUTOTASK_HOUR), ((TaskElement)at.taskList.elementAt(taskIndex)).Hour(), 0, 23);
-        autoTaskMin=new NumberInput(SR.get(SR.MS_AUTOTASK_MIN), ((TaskElement)at.taskList.elementAt(taskIndex)).Minute(), 0, 59);
-        autoTaskDelay=new NumberInput(SR.get(SR.MS_AUTOTASK_DELAY), ((TaskElement)at.taskList.elementAt(taskIndex)).Timer(), 1, 600);
+        autoTaskHour=new NumberInput(SR.get(SR.MS_AUTOTASK_HOUR), ((TaskElement)tl.elementAt(taskIndex)).Hour(), 0, 23);
+        autoTaskMin=new NumberInput(SR.get(SR.MS_AUTOTASK_MIN), ((TaskElement)tl.elementAt(taskIndex)).Minute(), 0, 59);
+        autoTaskDelay=new NumberInput(SR.get(SR.MS_AUTOTASK_DELAY), ((TaskElement)tl.elementAt(taskIndex)).Timer(), 1, 600);
+        autoTaskNotify=new NumberInput(SR.get(SR.MS_AUTOTASK_DELAY), ((TaskElement)tl.elementAt(taskIndex)).NotifyVal(), 1, 15);
 
-        autoTaskText=new TextInput( "Reminder text", ((TaskElement)at.taskList.elementAt(taskIndex)).Text(), TextField.ANY);
+        autoTaskText=new TextInput( "Напомнить текст", ((TaskElement)tl.elementAt(taskIndex)).Text(), TextField.ANY);
+        autoTaskName= new TextInput( "Имя задачи", ((TaskElement)tl.elementAt(taskIndex)).Name(), TextField.ANY);
 
-        actionIndex= ((TaskElement)at.taskList.elementAt(taskIndex)).Action();
-        typeIndex= ((TaskElement)at.taskList.elementAt(taskIndex)).Type();
+        actionIndex= ((TaskElement)tl.elementAt(taskIndex)).Action();
+        typeIndex= ((TaskElement)tl.elementAt(taskIndex)).Type();
+        notifyIndex= ((TaskElement)tl.elementAt(taskIndex)).Notify();
 
         taskNumber.setSelectedIndex(taskIndex);
         taskType.setSelectedIndex(typeIndex);
         actionType.setSelectedIndex(actionIndex);
+        notifyType.setSelectedIndex(notifyIndex);
 
-        itemsList.addElement(taskNumber);
-        itemsList.addElement(autoTaskOnce);
-        itemsList.addElement(taskType);
-        itemsList.addElement(actionType);
-
-/*        h= ((TaskElement)at.taskList.elementAt(taskIndex)).Hour();
-        m= ((TaskElement)at.taskList.elementAt(taskIndex)).Minute();
-        t= ((TaskElement)at.taskList.elementAt(taskIndex)).Timer();
-*/
         update();
     }
 
     public void cmdOk( ){
         if( typeIndex ==TaskElement.TASK_TYPE_CREATE){
             typeIndex= TaskElement.TASK_TYPE_DISABLED;
-            at.CreateTask( taskIndex);
-            taskNumber.append( ((TaskElement)at.taskList.lastElement()).Name());
-            taskIndex++;
+            TaskList.CreateTask( taskIndex);
 
-            actionIndex= ((TaskElement)at.taskList.elementAt(taskIndex)).Action();
-            typeIndex= ((TaskElement)at.taskList.elementAt(taskIndex)).Type();
+            taskNumber.insertAt( ((TaskElement)tl.elementAt(taskIndex)).Name(), taskIndex);
+//            taskIndex++;
+
+            actionIndex= ((TaskElement)tl.elementAt(taskIndex)).Action();
+            typeIndex= ((TaskElement)tl.elementAt(taskIndex)).Type();
+            notifyIndex= ((TaskElement)tl.elementAt(taskIndex)).Notify();
 
             taskNumber.setSelectedIndex(taskIndex);
             taskType.setSelectedIndex(typeIndex);
             actionType.setSelectedIndex(actionIndex);
+            notifyType.setSelectedIndex(notifyIndex);
+            //update();
+            destroyView();
             return;
         }else if( typeIndex ==TaskElement.TASK_TYPE_DELETE){
-            typeIndex= TaskElement.TASK_TYPE_DISABLED;
+//            typeIndex= TaskElement.TASK_TYPE_DISABLED;
             if( taskIndex >0){
-                at.DeleteTask( taskIndex);
+                TaskList.DeleteTask( taskIndex);
                 taskNumber.removeAt( taskIndex);
                 taskIndex--;
-            }
 
-            actionIndex= ((TaskElement)at.taskList.elementAt(taskIndex)).Action();
-            typeIndex= ((TaskElement)at.taskList.elementAt(taskIndex)).Type();
+                actionIndex= ((TaskElement)tl.elementAt(taskIndex)).Action();
+                typeIndex= ((TaskElement)tl.elementAt(taskIndex)).Type();
+                notifyIndex= ((TaskElement)tl.elementAt(taskIndex)).Notify();
+            }
 
             taskNumber.setSelectedIndex(taskIndex);
             taskType.setSelectedIndex(typeIndex);
             actionType.setSelectedIndex(actionIndex);
+            notifyType.setSelectedIndex(notifyIndex);
+//            update();
+            destroyView();
+            return;
+        }else if( typeIndex ==TaskElement.TASK_TYPE_RENAME){
+            typeIndex= TaskElement.TASK_TYPE_DISABLED;
+
+            taskNumber.items.setElementAt( ((TaskElement)tl.elementAt(taskIndex)).Name(), taskIndex);
+
+            taskNumber.setSelectedIndex(taskIndex);
+            taskType.setSelectedIndex(typeIndex);
+            actionType.setSelectedIndex(actionIndex);
+            notifyType.setSelectedIndex(notifyIndex);
+            //update();
+            destroyView();
             return;
         }// elif
 
         taskIndex= taskNumber.getSelectedIndex();
         typeIndex= taskType.getSelectedIndex();
         actionIndex= actionType.getSelectedIndex();
+        notifyIndex= notifyType.getSelectedIndex();
 
-/*        h= autoTaskHour.getIntValue();
-        m= autoTaskMin.getIntValue();
-        t= autoTaskDelay.getIntValue();
-*/
-        ((TaskElement)at.taskList.elementAt(taskIndex)).Action( actionIndex);
-        ((TaskElement)at.taskList.elementAt(taskIndex)).Type( typeIndex);
-        ((TaskElement)at.taskList.elementAt(taskIndex)).setTime( autoTaskHour.getIntValue(), autoTaskMin.getIntValue());
-        ((TaskElement)at.taskList.elementAt(taskIndex)).setTimer( autoTaskDelay.getIntValue());
-        ((TaskElement)at.taskList.elementAt(taskIndex)).Once( autoTaskOnce.getValue());
+        ((TaskElement)tl.elementAt(taskIndex)).Action( actionIndex);
+        ((TaskElement)tl.elementAt(taskIndex)).Type( typeIndex);
+        ((TaskElement)tl.elementAt(taskIndex)).Notify( notifyIndex);
+        ((TaskElement)tl.elementAt(taskIndex)).setTime( autoTaskHour.getIntValue(), autoTaskMin.getIntValue());
+        ((TaskElement)tl.elementAt(taskIndex)).setTimer( autoTaskDelay.getIntValue());
+        ((TaskElement)tl.elementAt(taskIndex)).NotifyVal( autoTaskNotify.getIntValue());
+        ((TaskElement)tl.elementAt(taskIndex)).Once( autoTaskOnce.getValue());
+        ((TaskElement)tl.elementAt(taskIndex)).Text( autoTaskText.getValue( ));
+        ((TaskElement)tl.elementAt(taskIndex)).Name( autoTaskName.getValue( ));
 
-        ((TaskElement)at.taskList.elementAt(taskIndex)).setRunned( true);
+        ((TaskElement)tl.elementAt(taskIndex)).setRunned( true);
 
         at.startTask();
         destroyView();
@@ -187,53 +209,82 @@ public class AutoTaskForm extends DefForm {
     protected void beginPaint(){
             typeIndex= taskType.getSelectedIndex();
             actionIndex= actionType.getSelectedIndex();
-/*            h= autoTaskHour.getIntValue();
-            m= autoTaskMin.getIntValue();
-            t= autoTaskDelay.getIntValue();
-*/
-            ((TaskElement)at.taskList.elementAt(taskIndex)).Action( actionIndex);
-            ((TaskElement)at.taskList.elementAt(taskIndex)).Type( typeIndex);
-            ((TaskElement)at.taskList.elementAt(taskIndex)).Once( autoTaskOnce.getValue());
-            ((TaskElement)at.taskList.elementAt(taskIndex)).setTime( autoTaskHour.getIntValue(), autoTaskMin.getIntValue());
-            ((TaskElement)at.taskList.elementAt(taskIndex)).setTimer( autoTaskDelay.getIntValue());
+
+            ((TaskElement)tl.elementAt(taskIndex)).Action( actionIndex);
+            ((TaskElement)tl.elementAt(taskIndex)).Type( typeIndex);
+            ((TaskElement)tl.elementAt(taskIndex)).Notify( notifyIndex);
+            ((TaskElement)tl.elementAt(taskIndex)).Once( autoTaskOnce.getValue());
+            ((TaskElement)tl.elementAt(taskIndex)).setTime( autoTaskHour.getIntValue(), autoTaskMin.getIntValue());
+            ((TaskElement)tl.elementAt(taskIndex)).setTimer( autoTaskDelay.getIntValue());
+            ((TaskElement)tl.elementAt(taskIndex)).NotifyVal( autoTaskNotify.getIntValue());
+            ((TaskElement)tl.elementAt(taskIndex)).Text( autoTaskText.getValue( ));
+            ((TaskElement)tl.elementAt(taskIndex)).Name( autoTaskName.getValue( ));
 
         if( taskIndex !=taskNumber.getSelectedIndex()){
             taskIndex= taskNumber.getSelectedIndex();
 
-            actionIndex= ((TaskElement)at.taskList.elementAt(taskIndex)).Action();
-            typeIndex= ((TaskElement)at.taskList.elementAt(taskIndex)).Type();
-/*            h= ((TaskElement)at.taskList.elementAt(taskIndex)).Hour();
-            m= ((TaskElement)at.taskList.elementAt(taskIndex)).Minute();
-            t= ((TaskElement)at.taskList.elementAt(taskIndex)).Timer();
-*/
+            actionIndex= ((TaskElement)tl.elementAt(taskIndex)).Action();
+            typeIndex= ((TaskElement)tl.elementAt(taskIndex)).Type();
+            notifyIndex= ((TaskElement)tl.elementAt(taskIndex)).Notify();
+
             taskType.setSelectedIndex(typeIndex);
             actionType.setSelectedIndex(actionIndex);
-            autoTaskHour.setIntValue( ((TaskElement)at.taskList.elementAt(taskIndex)).Hour());
-            autoTaskMin.setIntValue( ((TaskElement)at.taskList.elementAt(taskIndex)).Minute());
-            autoTaskDelay.setIntValue( ((TaskElement)at.taskList.elementAt(taskIndex)).Timer());
-            autoTaskOnce.setValue( ((TaskElement)at.taskList.elementAt(taskIndex)).Once());
+            notifyType.setSelectedIndex(notifyIndex);
+            autoTaskHour.setIntValue( ((TaskElement)tl.elementAt(taskIndex)).Hour());
+            autoTaskMin.setIntValue( ((TaskElement)tl.elementAt(taskIndex)).Minute());
+            autoTaskDelay.setIntValue( ((TaskElement)tl.elementAt(taskIndex)).Timer());
+            autoTaskNotify.setIntValue( ((TaskElement)tl.elementAt(taskIndex)).NotifyVal());
+            autoTaskOnce.setValue( ((TaskElement)tl.elementAt(taskIndex)).Once());
+            autoTaskText.setValue( ((TaskElement)tl.elementAt(taskIndex)).Text());
+            autoTaskName.setValue( ((TaskElement)tl.elementAt(taskIndex)).Name());
         }
         update();
     }
 
     private void update(){
+
+        itemsList.removeElement(taskNumber);
+        itemsList.removeElement(autoTaskOnce);
+        itemsList.removeElement(taskType);
+        itemsList.removeElement(actionType);
+        itemsList.removeElement(notifyType);
         itemsList.removeElement(autoTaskText);
         itemsList.removeElement(autoTaskDelay);
         itemsList.removeElement(autoTaskTimeDesc);
         itemsList.removeElement(autoTaskHour);
         itemsList.removeElement(autoTaskMin);
+        itemsList.removeElement(autoTaskName);
 
-        if( typeIndex ==TaskElement.TASK_TYPE_TIME){
-            itemsList.addElement(autoTaskTimeDesc);
-            itemsList.addElement(autoTaskHour);
-            itemsList.addElement(autoTaskMin);
-            if( actionIndex ==TaskElement.TASK_ACTION_REMINDER)
-                itemsList.addElement(autoTaskText);
-        }else if( typeIndex ==TaskElement.TASK_TYPE_TIMER){
-            itemsList.addElement(autoTaskDelay);
-            if( actionIndex ==TaskElement.TASK_ACTION_REMINDER)
-                itemsList.addElement(autoTaskText);
-        }
+        itemsList.addElement(taskNumber);
+        itemsList.addElement(autoTaskOnce);
+        itemsList.addElement(taskType);
+        itemsList.addElement(actionType);
+        itemsList.addElement(notifyType);
+
+       switch( typeIndex){
+            case TaskElement.TASK_TYPE_TIME:
+                itemsList.addElement(autoTaskTimeDesc);
+                itemsList.addElement(autoTaskHour);
+                itemsList.addElement(autoTaskMin);
+                if( notifyIndex >TaskElement.TASK_NOTIFY_OFF)
+                    itemsList.addElement(autoTaskNotify);
+               if( actionIndex ==TaskElement.TASK_ACTION_REMINDER)
+                    itemsList.addElement(autoTaskText);
+            break;
+            case TaskElement.TASK_TYPE_TIMER:
+                itemsList.addElement(autoTaskDelay);
+                if( notifyIndex >TaskElement.TASK_NOTIFY_OFF)
+                    itemsList.addElement(autoTaskNotify);
+                if( actionIndex ==TaskElement.TASK_ACTION_REMINDER)
+                    itemsList.addElement(autoTaskText);
+            break;
+            //case TaskElement.TASK_TYPE_CREATE:
+            case TaskElement.TASK_TYPE_RENAME:
+                //typeIndex= TaskElement.TASK_TYPE_DISABLED;
+                //autoTaskName.setValue( ((TaskElement)tl.elementAt(taskIndex)).Name());
+                itemsList.addElement( autoTaskName);
+            break;
+        }// switch
     }
 }
 //#endif

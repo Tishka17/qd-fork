@@ -14,6 +14,8 @@ import util.Time;
 import java.util.Vector;
 import ui.controls.form.DefForm;
 import ui.controls.AlertBox;
+import ui.EventNotify;
+import light.CustomLight;
 
 /**
  *
@@ -36,16 +38,25 @@ public class TaskElement {
     public final static int TASK_ACTION_CONFERENCE_JOIN = 5;
     public final static int TASK_ACTION_REMINDER = 6;
 
+    public final static int TASK_NOTIFY_OFF = 0;
+    public final static int TASK_NOTIFY_VIBRO = 1;
+    public final static int TASK_NOTIFY_LIGHT = 2;
+    public final static int TASK_NOTIFY_SOUND = 3;
+
     public int Type= TASK_TYPE_DISABLED;
     public int Action = TASK_ACTION_QUIT;
+    public int Notify = TASK_NOTIFY_OFF;
     public long StartMS = 0;
     public long WaitMS = 0;
     public int Hour = 0;
     public int Minute = 0;
+    public int NotifyVal = 0;
     public boolean Once = true;
     public boolean isRunned = false;
-    public String Name= "Default task name";
-    public String Text= "Default reminder text";
+    public String Name= "Имя по умолчанию";
+//    public String Name= SR.get(SR.MS_AUTOTASK_DEFAULTNAME);
+    public String Text= "Текст по умолчанию";
+//    public String Name= SR.get(SR.MS_AUTOTASK_DEFAULTTEXT);
 
     public int Type( ){
         return Type;
@@ -55,6 +66,21 @@ public class TaskElement {
         Type= targ;
     }
 
+    public int Notify( ){
+        return Notify;
+    }
+
+    public void Notify( int narg){
+        Notify= narg;
+    }
+
+    public int NotifyVal( ){
+        return NotifyVal;
+    }
+
+    public void NotifyVal( int narg){
+        NotifyVal= narg;
+    }
     public String Name( ){
         return Name;
     }
@@ -124,7 +150,10 @@ public class TaskElement {
                 return false;
                 //break;
             case TASK_TYPE_TIMER:
-                if( (System.currentTimeMillis() -StartMS) >=WaitMS){
+                if( (System.currentTimeMillis() -StartMS) >WaitMS -60000*NotifyVal){
+                    doNotify();
+                }
+                if( (System.currentTimeMillis() -StartMS) >WaitMS){
                     StartMS= System.currentTimeMillis();
                     isRunned= false;
                     doAction( );
@@ -132,7 +161,10 @@ public class TaskElement {
                 }// if
                 break;
             case TASK_TYPE_TIME:
-                if( Time.getHour() == Hour && Time.getMin() == Minute){
+                if( (Time.getHour()*60 +Time.getMin()) ==Hour*60 +Minute){
+                    doNotify();
+                }
+                if( Time.getHour() ==Hour && Time.getMin() ==Minute){
                     isRunned= false;
                     doAction( );
                     return false;
@@ -145,6 +177,22 @@ public class TaskElement {
         }// if
         return true;
     }// doTask()
+
+    public void doNotify( ){
+        switch( Notify){
+            case TASK_NOTIFY_OFF:
+                break;
+            case TASK_NOTIFY_VIBRO:
+                new EventNotify(null, null, -1, 500).startNotify();
+                break;
+            case TASK_NOTIFY_SOUND:
+                new EventNotify(null, null, 50, 0).startNotify();
+                break;
+            case TASK_NOTIFY_LIGHT:
+                CustomLight.startBlinking();
+                break;
+        }// switch
+    }// doNotify()
 
     public void doAction( ){
         String caption= "";
@@ -186,15 +234,17 @@ public class TaskElement {
                 break;
             case TASK_ACTION_CONFERENCE_JOIN:
                 caption = SR.get(SR.MS_DO_AUTOJOIN);
+//                caption= SR.get(SR.MS_AUTOTASK_JOIN_CONFERENCES);
                 box= new AlertBox(caption, Name, AlertBox.BUTTONS_OK, 5);
                 box.show();
                 BombusQD.sd.roster.MUCsAutoJoin(SR.get(SR.MS_AUTOTASKS) + ": " + SR.get(SR.MS_DO_AUTOJOIN));
                 break;
             case TASK_ACTION_REMINDER:
                 caption = SR.get(SR.MS_DO_AUTOJOIN);
-                box= new AlertBox(caption, Name, AlertBox.BUTTONS_OK, 5);
+//                caption= SR.get(SR.MS_AUTOTASK_REMINDER);
+                box= new AlertBox( Name, Text, AlertBox.BUTTONS_OK, 5);
                 box.show();
-                BombusQD.sd.roster.MUCsAutoJoin(SR.get(SR.MS_AUTOTASKS) + ": " + SR.get(SR.MS_DO_AUTOJOIN));
+                //BombusQD.sd.roster.MUCsAutoJoin(SR.get(SR.MS_AUTOTASKS) + ": " + SR.get(SR.MS_DO_AUTOJOIN));
                 break;
         }// switch
     }// doAction()

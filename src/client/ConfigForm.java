@@ -108,7 +108,7 @@ public class ConfigForm extends DefForm {
                     authMsg = SR.get(SR.MS_ADVANCED_MODE_DISABLED);
                 }
                 Config.getInstance().saveInt();
-                AlertBox box = new AlertBox(SR.get(SR.MS_INFO), authMsg, AlertBox.BUTTONS_OK);
+                AlertBox box = new AlertBox(SR.get(SR.MS_INFO), authMsg, AlertBox.BUTTONS_OK, 10);
                 box.setParentView(getParentView());
                 box.show();
             }

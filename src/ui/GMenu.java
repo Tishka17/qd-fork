@@ -86,6 +86,9 @@ public class GMenu extends CanvasEx {
    private int fh;
    private int size;
    private static int x1,y1,x2,y2;
+   
+   private Gradient listBgnd;
+   private Gradient menuBgnd;
 
    public GMenu(MenuListener menuListener, Vector menuCommands) {
         gm.ml=menuListener;
@@ -104,6 +107,12 @@ public class GMenu extends CanvasEx {
 
        imgHeight = MenuIcons.getInstance().getHeight();
        imgWidth = MenuIcons.getInstance().getHeight();
+       
+       menuBgnd = new Gradient();
+       menuBgnd.useAlphaChannel(true);
+       
+       listBgnd = new Gradient();
+       listBgnd.useAlphaChannel(true);
    }
 
     public GMenu(MenuListener menuListener, ImageList il, Vector menuCommands,
@@ -227,18 +236,11 @@ public class GMenu extends CanvasEx {
        int mHfh = maxHeight*fh + 1;
        int w = maxwidth + imgWidth + 10;
        hitem=mHfh;
-        int bgnd_menu=ColorTheme.getARGB(false);
-        if (bgnd_menu!=-1){
-          int[] pixelArray = new int[width * height];
-          int lengntp = pixelArray.length;
-          for(int i = 0; i < lengntp; i++){
-            pixelArray[i] = bgnd_menu;
-          }
-          g.drawRGB(pixelArray, 0, width, 0 , 0 , width, height, true);
-          //g.drawRoundRect(-1,-1,width+1,height+1,10,10);
-          pixelArray = null;
-          pixelArray = new int[0];
-        }
+       int bgnd_menu = ColorTheme.getARGB(false);
+       if (bgnd_menu != -1) {
+           listBgnd.update(0, 0, width, height, bgnd_menu, bgnd_menu, Gradient.CACHED_HORIZONTAL);
+           listBgnd.paint(g);
+       }
 
        switch(midlet.BombusQD.cf.graphicsMenuPosition){
            case 0:
@@ -263,15 +265,8 @@ public class GMenu extends CanvasEx {
        }
        int alpha_menu=ColorTheme.getARGB(true);
         if (alpha_menu!=-1){
-          int[] pixelArray = new int[w * mHfh];
-          int lengntp = pixelArray.length;
-          for(int i = 0; i < lengntp; i++){
-            pixelArray[i] = alpha_menu;
-          }
-          g.drawRGB(pixelArray, 0, w, gm.xcoodr , gm.ycoodr , w, mHfh, true);
-          g.drawRoundRect(gm.xcoodr,gm.ycoodr,w,mHfh,10,10);
-          pixelArray = null;
-          pixelArray = new int[0];
+            menuBgnd.update(x1, y1, x2, y2, alpha_menu, alpha_menu, Gradient.CACHED_HORIZONTAL);
+            menuBgnd.paint(g);
         }else{
           g.setColor(ColorTheme.getColor(ColorTheme.GRAPHICS_MENU_BGNG_ARGB));
           //g.fillRoundRect(1 , 1 , w - 1, mHfh - 1,10,10);

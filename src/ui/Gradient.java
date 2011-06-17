@@ -51,10 +51,14 @@ public class Gradient {
 
 	private int blueS;
 	private int blueE;
+    
+    private int alpha;
 
 	private int type;
 	private int[] points=null;
 
+    private boolean useAlpha = false;
+    
 	public Gradient() {}
 
 	public void update(int x1, int y1, int x2, int y2, int STARTRGB, int ENDRGB, int type) {
@@ -83,7 +87,10 @@ public class Gradient {
 		this.blueS = blueS;
 		this.greenE = greenE;
 		this.greenS = greenS;
-		this.type = type; 
+		this.type = type;
+        
+        this.alpha = STARTRGB >> 24 & 0xFF;
+        
 		if ((type==MIXED_UP || type==MIXED_DOWN || type == CACHED_VERTICAL || type==CACHED_HORIZONTAL) && changed) {
 			makePoints();
 		}
@@ -101,10 +108,14 @@ public class Gradient {
 			case CACHED_HORIZONTAL:
 			case MIXED_UP:
 			case MIXED_DOWN:
-				g.drawRGB(points, 0, x2-x1, x1, y1 , x2-x1, y2-y1, false);
+				g.drawRGB(points, 0, x2-x1, x1, y1 , x2-x1, y2-y1, useAlpha);
 				break;
 		}            
 	}
+    
+    public void useAlphaChannel(boolean alphaChannel) {
+        this.useAlpha = alphaChannel;
+    }
 
 	public void paintHRoundRect(Graphics g, int R) {//Makasi
 		int ds = 0;
@@ -164,8 +175,8 @@ public class Gradient {
 	private int[] GradBackgr(int rS, int gS, int bS, int rE, int gE, int bE, int l1, int i2, int j2) {
 		return new int[] { 
 			(rE*(l1-i2)+rS*(j2-l1))/(j2-i2), 
-				(gE*(l1-i2)+gS*(j2-l1))/(j2-i2), 
-				(bE*(l1-i2)+bS*(j2-l1))/(j2-i2)
+			(gE*(l1-i2)+gS*(j2-l1))/(j2-i2), 
+			(bE*(l1-i2)+bS*(j2-l1))/(j2-i2)
 		};
 	}
 
@@ -217,24 +228,32 @@ public class Gradient {
 					color = (new_r << 16) | (new_g << 8) | (new_b);
 					points[idx++] = color;
 				}
-			}
-		} else if (type == CACHED_VERTICAL) {               
-			for (int x = x1; x < width; ++x) {
-                            int ai[] = GradBackgr(redS, greenS, blueS, redE, greenE, blueE, x, x1, x2 - 1);
-                            int color = (ai[0] << 16) | (ai[1] << 8) | (ai[2]);
-                            for (int y = y1; y < height; ++y) {
-                                    points[width * y + x] = color;
-                            }
-			}
-		} else if (type == CACHED_HORIZONTAL) {    
-			for (int y = y1; y < height; ++y) {
-                            int ai[] = GradBackgr(redS, greenS, blueS, redE, greenE, blueE, y, y1, y2 - 1);
-                            int color = (ai[0] << 16) | (ai[1] << 8) | (ai[2]);          
-                            for (int x = x1; x < width; ++x) {
-                                    points[width * y + x] = color;
-                            }
-			}
-		}  
+            }
+        } else if (type == CACHED_VERTICAL) {
+            for (int i = 0; i < width; ++i) {
+                int ai[] = GradBackgr(redS, greenS, blueS, redE, greenE, blueE, i, x1, x2 - 1);
+                int color = (ai[0] << 16) | (ai[1] << 8) | (ai[2]);
+                if (useAlpha) {
+                    color |= alpha << 24;
+                }
+
+                for (int j = 0; j < height; ++j) {
+                    points[width * j + i] = color;
+                }
+            }
+        } else if (type == CACHED_HORIZONTAL) {
+            for (int j = 0; j < height; ++j) {               
+                int ai[] = GradBackgr(redS, greenS, blueS, redE, greenE, blueE, j, y1, y2 - 1);
+                int color = (ai[0] << 16) | (ai[1] << 8) | (ai[2]);
+                if (useAlpha) {
+                    color |= alpha << 24;
+                }
+
+                for (int i = 0; i < width; ++i) {                   
+                    points[width * j + i] = color;
+                }
+            }
+        }
 	}
 }
 //#endif

@@ -996,6 +996,7 @@ public abstract class VirtualList extends CanvasEx {
 
     public void moveCursorTo(int index){
         int count=getItemCount();
+	if (count<=0) return;
         if (index<0) index=0;
         if (index>=count) index=count-1;
 
@@ -1264,7 +1265,7 @@ public abstract class VirtualList extends CanvasEx {
             }
         }
 	redraw();
-        kinetic.updatePostion();
+        //kinetic.updatePostion();
         kinetic.startScroll();
 	pointer_state = POINTER_NONE;
     }
@@ -1827,9 +1828,9 @@ class TimerTaskRotate extends Thread{
     	    if (holdCount==5 ) {
 		if (VirtualList.pointer_state == VirtualList.POINTER_FIRST || VirtualList.pointer_state == VirtualList.POINTER_SECOND)
 		VirtualList.pointer_state = VirtualList.POINTER_LONG;
-		new EventNotify(null, null, -1, 50).startNotify();
 		holdCount=0;
 		attachedList.redraw();
+		new EventNotify(null, null, -1, 30).startNotify();
 	    }
 	    if (VirtualList.pointer_state == VirtualList.POINTER_FIRST || VirtualList.pointer_state == VirtualList.POINTER_SECOND) {
 		holdCount++;

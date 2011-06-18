@@ -40,7 +40,7 @@ public class KineticScroller  extends Thread {
     
     public void updatePostion() {
         long t = System.currentTimeMillis(); 
-        if ((t-t1) < 50 && y1!=y0)
+        if ((t-t1) < 100 && y1!=y0)
             return;
         
         y0 = y1;
@@ -80,6 +80,7 @@ public class KineticScroller  extends Thread {
                 y<0 || 
                 y + list.getHeight() > list.getListHeight()) {
             stopscrolling();
+	    list.redraw();
             return;
         }
         list.win_top = (int)y;

@@ -205,9 +205,11 @@ public class TaskElement {
             case TASK_NOTIFY_SOUND:
                 new EventNotify(null, null, 50, 0).startNotify();
                 break;
+//#ifdef LIGHT_CONTROL
             case TASK_NOTIFY_LIGHT:
                 CustomLight.startBlinking();
                 break;
+//#endif
         }// switch
     }// doNotify()
 

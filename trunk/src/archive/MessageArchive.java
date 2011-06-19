@@ -43,99 +43,108 @@ public class MessageArchive {
 //#ifdef PLUGINS
 //#     public static String plugin = new String("PLUGIN_ARCHIVE");
 //#endif
-
-    private final static String ARCHIVE="archive";
+    private final static String ARCHIVE = "archive";
 
     /** Creates a new instance of MessageArchive */
     public MessageArchive() {
-	try {
-	    rs=RecordStore.openRecordStore(ARCHIVE, true);
-	    int size=rs.getNumRecords();
-	    indexes=new Vector(size);
-	    RecordEnumeration re=rs.enumerateRecords(null, null, false);
+        try {
+            rs = RecordStore.openRecordStore(ARCHIVE, true);
+            int size = rs.getNumRecords();
+            indexes = new Vector(size);
+            RecordEnumeration re = rs.enumerateRecords(null, null, false);
 
-	    while (re.hasNextElement() ){
-		indexes.addElement(new Integer(re.nextRecordId()));
-	    }
-	} catch (Exception e) { }
+            while (re.hasNextElement()) {
+                indexes.addElement(new Integer(re.nextRecordId()));
+            }
+        } catch (Exception e) {
+        }
     }
 
-    public int size(){
-	return indexes.size();
+    public int size() {
+        return indexes.size();
     }
 
     private int getRecordId(int index) {
-	return ((Integer)indexes.elementAt(index)).intValue();
+        return ((Integer) indexes.elementAt(index)).intValue();
     }
-    public Msg msg(int index){
-	try {
-	    ByteArrayInputStream bais=new ByteArrayInputStream(
-		rs.getRecord(getRecordId(index))
-	    );
-	    DataInputStream dis=new DataInputStream(bais);
-	    Msg msg=new Msg(dis);
-	    dis.close();
+
+    public Msg msg(int index) {
+        try {
+            ByteArrayInputStream bais = new ByteArrayInputStream(
+                    rs.getRecord(getRecordId(index)));
+            DataInputStream dis = new DataInputStream(bais);
+            Msg msg = new Msg(dis);
+            msg.collapse();
+
+            dis.close();
             bais.close();
             bais = null;
-            dis=null;
-	    return msg;
-	} catch (Exception e) {}
-	return null;
+            dis = null;
+            return msg;
+        } catch (Exception e) {
+        }
+        return null;
     }
 
     public void delete(int index) {
-	try {
-	    rs.deleteRecord(getRecordId(index));
-	    indexes.removeElementAt(index);
-	} catch (Exception e) {}
+        try {
+            rs.deleteRecord(getRecordId(index));
+            indexes.removeElementAt(index);
+        } catch (Exception e) {
+        }
     }
 
     public void deleteAll() {
-	try {
-            int i=-1;
-            int num=rs.getNumRecords();
+        try {
+            int i = -1;
+            int num = rs.getNumRecords();
             while (true) {
-                i=i+1;
+                i = i + 1;
                 rs.deleteRecord(getRecordId(i));
 
-                if (num==i) break;
+                if (num == i) {
+                    break;
+                }
             }
-	} catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
         indexes.removeAllElements();
     }
 
-    public int freeSpace(){
-	try {
-	    return rs.getSizeAvailable()/1024;
-	} catch (Exception e) { }
-	return 0;
+    public int freeSpace() {
+        try {
+            return rs.getSizeAvailable() / 1024;
+        } catch (Exception e) {
+        }
+        return 0;
     }
 
-    public void close(){
-	try {
-	    rs.closeRecordStore();
-	} catch (Exception e) { }
-	rs=null;
+    public void close() {
+        try {
+            rs.closeRecordStore();
+        } catch (Exception e) {
+        }
+        rs = null;
     }
 
     public static void store(Msg msg) {
-	try {
-	    ByteArrayOutputStream bout = new ByteArrayOutputStream();
-	    DataOutputStream dout = new DataOutputStream( bout );
-	    msg.serialize( dout );
-	      dout.close();
-              dout = null;
+        try {
+            ByteArrayOutputStream bout = new ByteArrayOutputStream();
+            DataOutputStream dout = new DataOutputStream(bout);
+            msg.serialize(dout);
+            dout.close();
+            dout = null;
 
-	    byte b[]=bout.toByteArray();
-              bout.close();
-              bout = null;
+            byte b[] = bout.toByteArray();
+            bout.close();
+            bout = null;
 
-	    RecordStore rs=RecordStore.openRecordStore(ARCHIVE, true);
-	    rs.addRecord(b, 0, b.length);
+            RecordStore rs = RecordStore.openRecordStore(ARCHIVE, true);
+            rs.addRecord(b, 0, b.length);
             rs.closeRecordStore();
             rs = null;
-	} catch (Exception e) {
+        } catch (Exception e) {
 //#ifdef DEBUG
 //#             e.printStackTrace();
 //#endif

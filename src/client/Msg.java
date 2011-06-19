@@ -77,7 +77,6 @@ public final class Msg implements VirtualElement {
     public Vector msgLines;
     private boolean isEven;
     private boolean smiles;
-    private boolean partialParse = false;
     
     public Msg(byte type, String from, String body) {
         this(type, from, null, body);
@@ -104,7 +103,6 @@ public final class Msg implements VirtualElement {
             }
         }
         this.smiles = true;
-        partialParse = collapsed;
     }
     
     public Msg(DataInputStream is) throws IOException {
@@ -405,11 +403,10 @@ public final class Msg implements VirtualElement {
     
     public void onSelect(VirtualList view) {
         collapsed = !collapsed;
-        if (partialParse) {
-            partialParse=false;
+
+        if (!collapsed) {
             parse();
         }
-        //updateHeight();
         view.redraw();
     }
 

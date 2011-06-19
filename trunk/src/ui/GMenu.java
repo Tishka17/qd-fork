@@ -87,9 +87,11 @@ public class GMenu extends CanvasEx {
    private int size;
    private static int x1,y1,x2,y2;
    
+//#ifdef GRADIENT
    private Gradient listBgnd;
    private Gradient menuBgnd;
-
+//#endif
+   
    public GMenu(MenuListener menuListener, Vector menuCommands) {
         gm.ml=menuListener;
 
@@ -108,11 +110,13 @@ public class GMenu extends CanvasEx {
        imgHeight = MenuIcons.getInstance().getHeight();
        imgWidth = MenuIcons.getInstance().getHeight();
        
+//#ifdef GRADIENT
        menuBgnd = new Gradient();
        menuBgnd.useAlphaChannel(true);
        
        listBgnd = new Gradient();
        listBgnd.useAlphaChannel(true);
+//#endif
    }
 
     public GMenu(MenuListener menuListener, ImageList il, Vector menuCommands,
@@ -236,11 +240,14 @@ public class GMenu extends CanvasEx {
        int mHfh = maxHeight*fh + 1;
        int w = maxwidth + imgWidth + 10;
        hitem=mHfh;
+       
+//#ifdef GRADIENT
        int bgnd_menu = ColorTheme.getARGB(false);
        if (bgnd_menu != -1) {
            listBgnd.update(0, 0, width, height, bgnd_menu, bgnd_menu, Gradient.CACHED_HORIZONTAL);
            listBgnd.paint(g);
        }
+//#endif
 
        switch(midlet.BombusQD.cf.graphicsMenuPosition){
            case 0:
@@ -264,13 +271,15 @@ public class GMenu extends CanvasEx {
            y2=y1+mHfh;
        }
        int alpha_menu=ColorTheme.getARGB(true);
+//#ifdef GRADIENT
         if (alpha_menu!=-1){
             menuBgnd.update(x1, y1, x2, y2, alpha_menu, alpha_menu, Gradient.CACHED_HORIZONTAL);
             menuBgnd.paint(g);
-        }else{
-          g.setColor(ColorTheme.getColor(ColorTheme.GRAPHICS_MENU_BGNG_ARGB));
-          //g.fillRoundRect(1 , 1 , w - 1, mHfh - 1,10,10);
-          g.fillRoundRect(gm.xcoodr+1 , gm.ycoodr+1, w - 1, mHfh - 1,10,10);//Tishka17
+        } else
+//#endif
+        {
+            g.setColor(ColorTheme.getColor(ColorTheme.GRAPHICS_MENU_BGNG_ARGB));
+            g.fillRoundRect(gm.xcoodr+1 , gm.ycoodr+1, w - 1, mHfh - 1,10,10);//Tishka17
         }
 
          g.setColor(0x000000);

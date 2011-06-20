@@ -102,7 +102,7 @@ public final class Msg implements VirtualElement {
                 collapsed = true;
             }
         }
-        this.smiles = true;
+        this.smiles = Config.getInstance().smiles;
     }
     
     public Msg(DataInputStream is) throws IOException {

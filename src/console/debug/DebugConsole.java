@@ -56,8 +56,6 @@
 //#         cmdEnableDisable = new Command(SR.get(SR.MS_ENABLE_DISABLE), 0x26);
 //#         cmdPurge = new Command(SR.get(SR.MS_CLEAR_LIST), 0x41);
 //# 
-//#         super.smiles = false;
-//# 
 //#         setMainBarItem(new MainBar(SR.get(SR.MS_DEBUG_MENU)));
 //#     }
 //# 

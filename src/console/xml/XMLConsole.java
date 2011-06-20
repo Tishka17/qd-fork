@@ -61,8 +61,6 @@
 //#         cmdEnableDisable = new Command(SR.get(SR.MS_ENABLE_DISABLE), 0x26);
 //#         cmdPurge = new Command(SR.get(SR.MS_CLEAR_LIST), 0x41);
 //# 
-//#         super.smiles = false;
-//# 
 //#         stanzas = XMLList.getInstance();
 //# 
 //#         setMainBarItem(new MainBar(SR.get(SR.MS_XML_CONSOLE)));

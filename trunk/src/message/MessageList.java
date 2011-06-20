@@ -130,17 +130,18 @@ public abstract class MessageList extends VirtualList implements MenuListener {
     }
 //#endif
 
-    protected void keyPressed(int keyCode) { // overriding this method to avoid autorepeat
 //#ifdef SMILES
-        if (keyCode=='*') {
-            try {
+    protected void keyPressed(int keyCode) { // overriding this method to avoid autorepeat
+        if (keyCode == '*') {
+            if (getItemCount() > 0) {
                 ((Msg)getFocusedObject()).toggleSmiles(this);
-            } catch (Exception e){}
-            return;
-        }
-//#endif
-       super.keyPressed(keyCode);
+                redraw();
+            }
+        } else {
+            super.keyPressed(keyCode);
+        }       
     }
+//#endif
 
     public int showGraphicsMenu() {
         commandState();

@@ -203,7 +203,7 @@ public class PrivacySelect extends VirtualList
     public void eventOk(){
         PrivacyList pl=(PrivacyList) getFocusedObject();
         if (pl!=null) {
-            if (pl.toString()!=null) {
+            if (pl.getName() != null) {
                 new PrivacyModifyList(pl).show();
             }
         }

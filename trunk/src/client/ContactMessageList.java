@@ -72,12 +72,6 @@ public final class ContactMessageList extends MessageList implements InputTextBo
         
         midlet.BombusQD.sd.roster.activeContact = contact;
 
-//#ifdef SMILES
-        smiles=midlet.BombusQD.cf.smiles;
-//#else
-//#         smiles=false;
-//#endif
-
         cursor=0;
         contact.setIncoming(0);
 //#ifdef FILE_TRANSFER

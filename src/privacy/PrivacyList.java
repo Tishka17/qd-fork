@@ -62,6 +62,9 @@ public class PrivacyList extends IconTextElement {
         return result.toString();
     }
     
+    public String getName() {
+        return text;
+    }    
     
     public void generateList(){
         int index=0;

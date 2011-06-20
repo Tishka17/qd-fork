@@ -525,6 +525,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
                 case KEY_STAR:
                     if (getItemCount() > 0) {
                         ((Msg)getFocusedObject()).toggleSmiles(this);
+                        redraw();
                     }
                     break;
     //#endif

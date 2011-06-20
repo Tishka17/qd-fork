@@ -53,6 +53,7 @@ import ui.keys.UserKeyExec;
 //#endif
 import java.util.Vector;
 import menu.Command;
+import midlet.BombusQD;
 
 public abstract class VirtualList extends CanvasEx {
 //#ifdef TOUCH
@@ -66,6 +67,12 @@ public abstract class VirtualList extends CanvasEx {
     public final static byte POINTER_PANEL=6;
     public final static byte POINTER_LONG=7;
 //#endif
+    
+    public final static int NO_BGND = 0;
+    public final static int JIMM_BGND = 1;
+    public final static int GRADIENT_BGND = 2;
+    public final static int BGND_FROM_JAR = 3;
+    public final static int BGND_FROM_FS = 4;
 
     protected void focusedItem(int index) {}
 
@@ -309,42 +316,54 @@ public abstract class VirtualList extends CanvasEx {
 
 //#ifdef BACK_IMAGE
     private static Image bgndImage = null;
-
     public static Image getImage() {
-	return bgndImage;
+        return bgndImage;
     }
 
     public static void createImage(boolean create) {
-           if(create) {
-               if (bgndImage != null) {
-                   return;
-               }
-           }
-           try {
-               switch (Config.backImgType) {
-                   case 0:
-                   case 2:
-                       bgndImage = null;
-                       break;
-                   case 1:
-                       bgndImage = Image.createImage("/images/back.png");
-                       break;
-                   case 3:
-                       bgndImage = Image.createImage("/images/bgnd.jpg");
-                       break;
-                   case 4:
-                       FileIO f = FileIO.createConnection(Config.backImgPath);
-                       bgndImage = Image.createImage(f.openInputStream());
-                       f.close();
-               }
-           } catch (Exception e) {
+        if (create) {
+            if (bgndImage != null) {
+                return;
+            }
+        }
+        try {
+            switch (Config.backImgType) {
+                case NO_BGND:
+                case GRADIENT_BGND:
+                    bgndImage = null;
+                    break;
+                case JIMM_BGND:
+                    Image image = Image.createImage("/images/back.png");
+                    int imgW = image.getWidth();
+                    int imgH = image.getHeight();
+                    
+                    int windowH = BombusQD.sd.canvas.getHeight();
+                    int windowW = BombusQD.sd.canvas.getWidth();
+                    
+                    bgndImage = Image.createImage(windowW, windowH);
+                    Graphics g = bgndImage.getGraphics();
+                    for (int x = 0; x < windowW; x += imgW) {
+                        for (int y = 0; y < windowH; y += imgH) {
+                            g.drawImage(image, x, y, Graphics.LEFT | Graphics.TOP);
+                        }
+                    }
+                    break;
+                case BGND_FROM_JAR:
+                    bgndImage = Image.createImage("/images/bgnd.jpg");
+                    break;
+                case BGND_FROM_FS:
+                    FileIO f = FileIO.createConnection(Config.backImgPath);
+                    bgndImage = Image.createImage(f.openInputStream());
+                    f.close();
+            }
+        } catch (Exception e) {
 //#ifdef DEBUG
 //#                 e.printStackTrace();
 //#endif
 //#ifdef DEBUG_CONSOLE
 //#               midlet.BombusQD.debug.add("VL -> createImage Exception: "+e.getMessage(),10);
 //#endif
-           }
+        }
     }
 //#endif
 
@@ -432,28 +451,23 @@ public abstract class VirtualList extends CanvasEx {
         g.fillRect(0, 0, width, height);
 
 //#ifdef BACK_IMAGE
-        if (Config.backImgType == 1) {
-            if (null != bgndImage) {
-                int imgW = bgndImage.getWidth();
-                int imgH = bgndImage.getHeight();
-                for (int xx = 0; xx < width; xx += imgW) {
-                    for (int yy = 0; yy < height; yy += imgH) {
-                        g.drawImage(bgndImage, xx, yy, Graphics.LEFT | Graphics.TOP);
-                    }
-                }
-            }
-        }
+        switch (Config.backImgType) {
 //#ifdef GRADIENT
-        else if (Config.backImgType == 2) {
-            listGradient.update(0, 0, width, height, ColorTheme.getColor(ColorTheme.GRADIENT_BGND_LEFT),
-                    ColorTheme.getColor(ColorTheme.GRADIENT_BGND_RIGHT), Gradient.CACHED_VERTICAL);
-            listGradient.paint(g);
-        }
+            case GRADIENT_BGND:
+                listGradient.update(0, 0, width, height, 
+                        ColorTheme.getColor(ColorTheme.GRADIENT_BGND_LEFT),
+                        ColorTheme.getColor(ColorTheme.GRADIENT_BGND_RIGHT), 
+                        Gradient.CACHED_VERTICAL);
+                listGradient.paint(g);
+                break;
 //#endif
-        else if (Config.backImgType == 3 || Config.backImgType == 4) {
-            if (null != bgndImage) {
-                g.drawImage(bgndImage, 0, 0, Graphics.LEFT | Graphics.TOP);
-            }
+            case JIMM_BGND:
+            case BGND_FROM_FS:
+            case BGND_FROM_JAR:
+                if (null != bgndImage) {
+                    g.drawImage(bgndImage, 0, 0, Graphics.LEFT | Graphics.TOP);
+                }
+                break;
         }
 //#endif
 
@@ -530,12 +544,6 @@ public abstract class VirtualList extends CanvasEx {
                 if (sel) {
                     drawCursor(g, 0, drawYpos, itemMaxWidth , lh);
                     baloon=drawYpos;
-                } else {
-//#ifdef BACK_IMAGE
-                    if (bgndImage==null && Config.backImgType != 2) {
-                        g.fillRect(0, drawYpos, itemMaxWidth, lh);
-                    }
-//#endif
                 }
                 g.translate(0, drawYpos);
                 g.setColor(el.getColor());
@@ -554,18 +562,6 @@ public abstract class VirtualList extends CanvasEx {
 //#             System.out.println("Exception Vlist 1 -> "+e.getMessage()+" -> "+e.toString());
 //#             e.printStackTrace();
 //#endif
-        }
-        int clrH=height-displayedBottom;
-
-        if ( clrH>0
-//#ifdef BACK_IMAGE
-                && (bgndImage==null && Config.backImgType!=2)
-//#endif
-                ) {
-            setAbsOrg(g, 0,displayedBottom);
-            g.setClip(0, 0, itemMaxWidth, clrH);
-            g.setColor(ColorTheme.getColor(ColorTheme.LIST_BGND));
-            g.fillRect(0, 0, itemMaxWidth, clrH);
         }
 
         if (scroll) {

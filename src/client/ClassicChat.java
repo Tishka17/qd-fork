@@ -98,45 +98,30 @@
 //#       }
 //# 
 //#ifdef GRADIENT
-//#    Gradient fon;
+//#    private Gradient fon = new Gradient();
 //#endif
 //#     protected void paint(Graphics g, int w, int h) {
 //#         g.setColor(0, 0, 0);
 //#         g.drawRect(0, 0, w - 1, h - 1);
 //#ifdef BACK_IMAGE
-//#         Image imgBgnd = VirtualList.getImage();
-//#         if (Config.backImgType == 1 && imgBgnd != null) {
-//#             int imgWidth = imgBgnd.getWidth();
-//#             int imgHeight = imgBgnd.getHeight();
-//#             for (int xx = 0; xx < width; xx += imgWidth) {
-//#                 for (int yy = 0; yy < height; yy += imgHeight) {
-//#                     g.drawImage(imgBgnd, xx, yy, Graphics.LEFT | Graphics.TOP);
-//#                 }
-//#             }
-//#         } else if (Config.backImgType == 2) {
+//#         switch (Config.backImgType) {
 //#ifdef GRADIENT
-//#             if (!Config.getInstance().usePhoneTheme) {
-//#                 fon = new Gradient();
-//#                 fon.update(1, 1, w - 1, h - 1,
-//#                         ColorTheme.getColor(ColorTheme.GRADIENT_BGND_LEFT), ColorTheme.getColor(ColorTheme.GRADIENT_BGND_RIGHT), Gradient.VERTICAL);
+//#             case VirtualList.GRADIENT_BGND:
+//#                 fon.update(0, 0, width, height, 
+//#                         ColorTheme.getColor(ColorTheme.GRADIENT_BGND_LEFT),
+//#                         ColorTheme.getColor(ColorTheme.GRADIENT_BGND_RIGHT), 
+//#                         Gradient.CACHED_VERTICAL);
 //#                 fon.paint(g);
-//#             } else 
+//#                 break;
 //#endif
-//#             {
-//#                 g.setClip(0, 0, w, h);
-//#             }
-//#         } else if ((Config.backImgType == 3 || Config.backImgType == 4) && imgBgnd != null) {
-//#             int imgWidth = imgBgnd.getWidth();
-//#             int imgHeight = imgBgnd.getHeight();
-//#             if (width <= imgWidth && height < imgHeight) {
-//#                 imgBgnd = VirtualList.resizeImage(imgBgnd, width, height);
-//#             }
-//#             g.drawImage(imgBgnd, 0, 0, Graphics.LEFT | Graphics.TOP);
-//#         } else {
-//#endif
-//#             g.setColor(ColorTheme.getColor(ColorTheme.LIST_BGND));
-//#             g.fillRect(0, 0, width, height);
-//#ifdef BACK_IMAGE
+//#             case VirtualList.JIMM_BGND:
+//#             case VirtualList.BGND_FROM_FS:
+//#             case VirtualList.BGND_FROM_JAR:
+//#                 Image imgBgnd = VirtualList.getImage();
+//#                 if (null != imgBgnd) {
+//#                     g.drawImage(imgBgnd, 0, 0, Graphics.LEFT | Graphics.TOP);
+//#                 }
+//#                 break;
 //#         }
 //#endif
 //# 

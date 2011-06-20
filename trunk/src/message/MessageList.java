@@ -45,18 +45,10 @@ import util.ClipBoard;
 import util.StringUtils;
 
 public abstract class MessageList extends VirtualList implements MenuListener {
-    protected boolean smiles;
-
     protected final Vector messages = new Vector(0);
 
     public MessageList() {
         super();
-
-//#ifdef SMILES
-        smiles=midlet.BombusQD.cf.smiles;
-//#else
-//#         smiles=false;
-//#endif
         enableListWrapping(false);
     }
     

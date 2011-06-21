@@ -41,7 +41,7 @@ import ui.controls.form.LinkString;
 import ui.controls.form.TextInput;
 
 public class TranslateSelect extends DefForm {
-    private static final int MAX_TEXT_LENGTH = 50;
+    private static final int MAX_TEXT_LENGTH = 1024;
 
     private TextInput input;
     private DropChoiceBox langFrom;
@@ -57,7 +57,7 @@ public class TranslateSelect extends DefForm {
         this.to = to;
         cf = Config.getInstance();
 
-	langs=new StringLoader().stringLoader("/lang/translate.txt",3);
+        langs=new StringLoader().stringLoader("/lang/translate.txt",3);
         if (text != null) {
             if (text.length() > MAX_TEXT_LENGTH) {
                 this.text = text.substring(0, MAX_TEXT_LENGTH);

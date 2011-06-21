@@ -29,6 +29,8 @@ import locale.SR;
 import midlet.BombusQD;
 import util.Time;
 import ui.controls.AlertBox;
+import alert.AlertCustomize;
+import client.Roster;
 import ui.EventNotify;
 //#ifdef LIGHT_CONTROL
 import light.CustomLight;
@@ -56,24 +58,36 @@ public class TaskElement {
     public final static int TASK_ACTION_REMINDER = 6;
 
     public final static int TASK_NOTIFY_OFF = 0;
+    public final static int TASK_NOTIFY_ON = 1;
     public final static int TASK_NOTIFY_VIBRO = 1;
     public final static int TASK_NOTIFY_LIGHT = 2;
     public final static int TASK_NOTIFY_SOUND = 3;
 
     public int Type= TASK_TYPE_DISABLED;
     public int Action = TASK_ACTION_QUIT;
-    public int Notify = TASK_NOTIFY_OFF;
+    public boolean Notify = false;
+    public boolean NotifyV = false;
+    public boolean NotifyL = false;
+    public boolean NotifyS = false;
     public long StartMS = 0;
     public long WaitMS = 0;
     public int Hour = 0;
     public int Minute = 0;
-    public int NotifyVal = 0;
+    public int NotifyDelay = 0;
     public boolean Once = true;
     public boolean isRunned = false;
     public String Name= "Имя по умолчанию";
 //    public String Name= SR.get(SR.MS_AUTOTASK_DEFAULTNAME);
     public String Text= "Текст по умолчанию";
 //    public String Name= SR.get(SR.MS_AUTOTASK_DEFAULTTEXT);
+
+    public int NotifyDelay( ){
+        return NotifyDelay;
+    }
+
+    public void NotifyDelay( int narg){
+        NotifyDelay= narg;
+    }
 
     public int Type( ){
         return Type;
@@ -83,21 +97,38 @@ public class TaskElement {
         Type= targ;
     }
 
-    public int Notify( ){
+    public boolean Notify( ){
         return Notify;
     }
 
-    public void Notify( int narg){
+    public void Notify( boolean narg){
         Notify= narg;
     }
 
-    public int NotifyVal( ){
-        return NotifyVal;
+    public boolean NotifyV( ){
+        return NotifyV;
     }
 
-    public void NotifyVal( int narg){
-        NotifyVal= narg;
+    public void NotifyV( boolean narg){
+        NotifyV= narg;
     }
+
+    public boolean NotifyL( ){
+        return NotifyL;
+    }
+
+    public void NotifyL( boolean narg){
+        NotifyL= narg;
+    }
+
+    public boolean NotifyS( ){
+        return NotifyS;
+    }
+
+    public void NotifyS( boolean narg){
+        NotifyS= narg;
+    }
+
     public String Name( ){
         return Name;
     }
@@ -167,7 +198,7 @@ public class TaskElement {
                 return false;
                 //break;
             case TASK_TYPE_TIMER:
-                if( (System.currentTimeMillis() -StartMS) >WaitMS -60000*NotifyVal){
+                if( (System.currentTimeMillis() -StartMS) >(WaitMS -60000*NotifyDelay)){
                     doNotify();
                 }
                 if( (System.currentTimeMillis() -StartMS) >WaitMS){
@@ -178,7 +209,7 @@ public class TaskElement {
                 }// if
                 break;
             case TASK_TYPE_TIME:
-                if( (Time.getHour()*60 +Time.getMin()) ==Hour*60 +Minute){
+                if( (Time.getHour()*60 +Time.getMin()) ==(Hour*60 +Minute -NotifyDelay)){
                     doNotify();
                 }
                 if( Time.getHour() ==Hour && Time.getMin() ==Minute){
@@ -196,21 +227,16 @@ public class TaskElement {
     }// doTask()
 
     public void doNotify( ){
-        switch( Notify){
-            case TASK_NOTIFY_OFF:
-                break;
-            case TASK_NOTIFY_VIBRO:
-                new EventNotify(null, null, -1, 500).startNotify();
-                break;
-            case TASK_NOTIFY_SOUND:
-                new EventNotify(null, null, 50, 0).startNotify();
-                break;
+        if( !Notify)
+            return;
 //#ifdef LIGHT_CONTROL
-            case TASK_NOTIFY_LIGHT:
-                CustomLight.startBlinking();
-                break;
+        if( NotifyL)
+            CustomLight.startBlinking();
 //#endif
-        }// switch
+        if( NotifyV)
+                Roster.playNotify( Roster.SOUND_ATTENTION);
+        else if( NotifyS)
+            Roster.playNotify( Roster.SOUND_MESSAGE);
     }// doNotify()
 
     public void doAction( ){
@@ -261,7 +287,7 @@ public class TaskElement {
             case TASK_ACTION_REMINDER:
                 caption = SR.get(SR.MS_DO_AUTOJOIN);
 //                caption= SR.get(SR.MS_AUTOTASK_REMINDER);
-                box= new AlertBox( Name, Text, AlertBox.BUTTONS_OK, 5);
+                box= new AlertBox( Name, Text, AlertBox.BUTTONS_OK, 0);
                 box.show();
                 //BombusQD.sd.roster.MUCsAutoJoin(SR.get(SR.MS_AUTOTASKS) + ": " + SR.get(SR.MS_DO_AUTOJOIN));
                 break;

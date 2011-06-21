@@ -33,16 +33,20 @@ import ui.controls.form.DefForm;
  * @author Mars  *
  * * * * * * * * */
 
-public class AutoTask extends DefForm implements Runnable {
+public class AutoTask implements Runnable{
+        //extends DefForm implements Runnable {
     
-    private static final int SLEEPTIME = 5000;
+    private static final int SLEEPTIME= 5000;
+    private static boolean flag= false;
 
     public AutoTask(){
-        super( null);
+        //super( null);
     }
 
     public void startTask(){
-        new Thread(this).start();
+        if( flag) return;
+        new Thread( this).start();
+        flag= true;
     }
 
     public void run(){

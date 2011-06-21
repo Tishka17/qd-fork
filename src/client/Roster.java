@@ -2700,28 +2700,28 @@ public final class Roster extends VirtualList
     private static int blockNotifyEvent=-111;
 
 
-    private final static int SOUND_FOR_ME=500;
-    private final static int SOUND_FOR_CONFERENCE=800;
-    private final static int SOUND_MESSAGE=1000;
-    private final static int SOUND_CONNECTED=777;
-    private final static int SOUND_FOR_VIP=100;
-    private final static int SOUND_COMPOSING=888;
-    private final static int SOUND_OUTGOING=999;
-    private final static int SOUND_ATTENTION=666;
+    public final static int SOUND_FOR_ME=500;
+    public final static int SOUND_FOR_CONFERENCE=800;
+    public final static int SOUND_MESSAGE=1000;
+    public final static int SOUND_CONNECTED=777;
+    public final static int SOUND_FOR_VIP=100;
+    public final static int SOUND_COMPOSING=888;
+    public final static int SOUND_OUTGOING=999;
+    public final static int SOUND_ATTENTION=666;
 
 
-    public void blockNotify(int event, long ms) {
+    public static void blockNotify(int event, long ms) {
         if (!notifyReady(-111)) return;
         blockNotifyEvent=event;
         notifyReadyTime=System.currentTimeMillis()+ms;
     }
 
-    public boolean notifyReady(int event) {
+    public static boolean notifyReady(int event) {
         if ((blockNotifyEvent==event || (blockNotifyEvent==-111 && event<=7)) && System.currentTimeMillis()<notifyReadyTime) return false;
         else return true;
     }
 
-    public void playNotify(int event) {
+    public static void playNotify(int event) {
         if(midlet.BombusQD.cf.currentAlertProfile==AlertProfile.NONE) return;
         if (notifyReady(event)==false) return;
         AlertCustomize ac=AlertCustomize.getInstance();
@@ -2780,12 +2780,11 @@ public final class Roster extends VirtualList
                 vibraLen=0;
                 //flashBackLight=false;
                 break;
-      case SOUND_ATTENTION://Attention Request
-    message=ac.soundAttention;
-    type=ac.soundAttentionType;
-    vibraLen=vibraLen*5;
-    break;
-
+            case SOUND_ATTENTION://Attention Request
+                message=ac.soundAttention;
+                type=ac.soundAttentionType;
+                vibraLen=vibraLen*5;
+                break;
             default:
                 message="";
                 type="none";

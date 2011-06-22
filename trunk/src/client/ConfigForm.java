@@ -45,7 +45,7 @@ import ui.keys.UserKeysList;
 //#ifdef HISTORY
 import history.HistoryConfigForm;
 //#endif
-
+import midlet.BombusQD;
 import ui.controls.form.SimpleString;
 import ui.controls.form.SpacerItem;
 import ui.controls.form.LinkString;
@@ -108,7 +108,7 @@ public class ConfigForm extends DefForm {
                     authMsg = SR.get(SR.MS_ADVANCED_MODE_DISABLED);
                 }
                 Config.getInstance().saveInt();
-                AlertBox box = new AlertBox(SR.get(SR.MS_INFO), authMsg, AlertBox.BUTTONS_OK, 10);
+                AlertBox box = new AlertBox(SR.get(SR.MS_INFO), authMsg, AlertBox.BUTTONS_OK);
                 box.setParentView(getParentView());
                 box.show();
             }
@@ -117,10 +117,6 @@ public class ConfigForm extends DefForm {
     
     private void addPluginBox(String label, int type) {
         addControl(new PluginBox(label, type));
-    }
-
-    public String touchRightCommand() {
-        return SR.get(SR.MS_BACK);
     }
 
     public String touchLeftCommand() {
@@ -193,7 +189,18 @@ public class ConfigForm extends DefForm {
         }
     }
 
-    public void destroyView(){
+    public void destroyView() {
+//#ifdef AUTOSTATUS
+        if (BombusQD.sd.roster.isLoggedIn()) {
+            if (!Config.module_autostatus 
+                    || Config.getInstance().autoAwayType == Config.AWAY_LOCK) {
+                AutoStatus.getInstance().stop();
+            } else {
+                AutoStatus.getInstance().start();       
+            }
+        }
+//#endif
+
         Config.getInstance().saveToStorage();
         super.destroyView();
     }

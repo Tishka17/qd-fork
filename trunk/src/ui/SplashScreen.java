@@ -27,6 +27,9 @@
 
 package ui;
 
+//#ifdef AUTOSTATUS
+import client.AutoStatus;
+//#endif
 import client.Config;
 import colors.ColorTheme;
 import font.FontCache;
@@ -171,12 +174,9 @@ public class SplashScreen extends CanvasEx {
             tc.stop();
         }
 //#ifdef AUTOSTATUS
-        if (BombusQD.sd.roster.autoAway && Config.autoAwayType == Config.AWAY_LOCK) {
-            BombusQD.sd.roster.restoreStatus();
-        }
+        AutoStatus.getInstance().appUnlocked();
 //#endif
         img = null;
-        //System.gc();
         super.destroyView();
     }
 

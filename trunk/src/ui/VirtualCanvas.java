@@ -23,6 +23,9 @@
 
 package ui;
 
+//#ifdef AUTOSTATUS
+import client.AutoStatus;
+//#endif
 import client.Config;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
@@ -107,7 +110,7 @@ public class VirtualCanvas extends Canvas {
         CustomLight.keyPressed();
 //#endif
 //#ifdef AUTOSTATUS
-        BombusQD.sd.roster.userActivity(Config.AWAY_IDLE);
+        AutoStatus.getInstance().userActivity(Config.AWAY_IDLE);
 //#endif
         canvas.keyPressed(code);
     }
@@ -125,7 +128,7 @@ public class VirtualCanvas extends Canvas {
         CustomLight.keyPressed();
 //#endif
 //#ifdef AUTOSTATUS
-        BombusQD.sd.roster.userActivity(Config.AWAY_IDLE);
+        AutoStatus.getInstance().userActivity(Config.AWAY_IDLE);
 //#endif
         canvas.pointerPressed(x, y);
     }

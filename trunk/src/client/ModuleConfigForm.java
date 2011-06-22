@@ -525,7 +525,6 @@ public class ModuleConfigForm extends DefForm {
 //#ifdef AUTOSTATUS
         } else if (type == PluginBox.AUTOSTATUS) {
             autoAwayType = new DropChoiceBox(SR.get(SR.MS_AWAY_TYPE));
-            autoAwayType.append(SR.get(SR.MS_DISABLED));
             autoAwayType.append(SR.get(SR.MS_AWAY_LOCK));
             autoAwayType.append(SR.get(SR.MS_MESSAGE_LOCK));
             autoAwayType.append(SR.get(SR.MS_IDLE));
@@ -746,14 +745,17 @@ public class ModuleConfigForm extends DefForm {
                     return;
                 }
             }
- //#ifdef AUTOSTATUS
-         } else if (type == PluginBox.AUTOSTATUS) {
+//#ifdef AUTOSTATUS
+        } else if (type == PluginBox.AUTOSTATUS) {
             config.autoAwayType = autoAwayType.getSelectedIndex();
             config.autoAwayDelay = Integer.parseInt(fieldAwayDelay.getValue());
             config.setAutoStatusMessage = awayStatus.getValue();
-            
-            // reset timer
-            BombusQD.sd.roster.userActivity(config.autoAwayType);
+
+            if (autoAwayType.getSelectedIndex() != Config.AWAY_LOCK) {
+                if (AutoStatus.getInstance().active()) {
+                    AutoStatus.getInstance().reset();
+                }
+            }
 //#endif
 //#ifdef CLASSIC_CHAT
 //#         } else if (type == PluginBox.CLASSIC_CHAT) {

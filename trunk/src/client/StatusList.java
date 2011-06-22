@@ -136,6 +136,6 @@ public class StatusList {
                 return status;
             }
         }                
-        return null;
+        return getStatus(Presence.PRESENCE_ONLINE);
     }
 }

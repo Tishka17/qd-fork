@@ -161,18 +161,11 @@ public final class Roster extends VirtualList
 
     public int myStatus=midlet.BombusQD.cf.loginstatus;
     private static String myMessage;
-    public static int oldStatus=0;
     private static int lastOnlineStatus;
 
     public boolean doReconnect=false;
 
     public boolean querysign=false;
-
-//#ifdef AUTOSTATUS
-    private AutoStatusTask autostatus;
-    public static boolean autoAway=false;
-    public static boolean autoXa=false;
-//#endif
 
 //#if SASL_XGOOGLETOKEN
     private String token;
@@ -1051,8 +1044,7 @@ public final class Roster extends VirtualList
             theStream=null;
             System.gc();
 //#ifdef AUTOSTATUS
-            autoAway=false;
-            autoXa=false;
+            AutoStatus.getInstance().stop();
 //#endif
 
 //#ifdef DEBUG_CONSOLE
@@ -1201,7 +1193,7 @@ public final class Roster extends VirtualList
 
     public void sendMessage(Contact to, String id,String body,String subject, String composingState) {
 //#ifdef AUTOSTATUS
-        userActivity(Config.AWAY_MESSAGE);
+        AutoStatus.getInstance().userActivity(Config.AWAY_MESSAGE);
 //#endif
 
         try {
@@ -1446,10 +1438,10 @@ public final class Roster extends VirtualList
             theStream.send( qr );
             qr=null;
         }
-        
 //#ifdef AUTOSTATUS
-        autostatus = new AutoStatusTask(true);
-        autostatus.setTimeEvent(Config.autoAwayDelay * 60 * 1000L);
+        if (Config.module_autostatus && Config.autoAwayType != Config.AWAY_LOCK) {
+            AutoStatus.getInstance().start();
+        }
 //#endif
     }
 
@@ -2851,7 +2843,7 @@ public final class Roster extends VirtualList
             askReconnect(e);
         } else {
 //#ifdef AUTOSTATUS
-             stopAutoStatusTask();
+             AutoStatus.getInstance().stop();
 //#endif
             setProgress(SR.get(SR.MS_DISCONNECTED), 0);
             try {
@@ -3137,17 +3129,7 @@ public final class Roster extends VirtualList
 
         if (keyCode==midlet.BombusQD.cf.keyLock) {
 //#ifdef AUTOSTATUS
-            if (Config.autoAwayType == Config.AWAY_LOCK) {
-                if (!autoAway) {
-                    autoAway = true;
-                    if (!Config.setAutoStatusMessage) {
-                        sendPresence(Presence.PRESENCE_AWAY, "Auto Status on KeyLock since %t");
-                    } else {
-                        ExtendedStatus es = StatusList.getInstance().getStatus(Presence.PRESENCE_XA);
-                        sendPresence(Presence.PRESENCE_AWAY, es.getMessage());
-                    }
-                }
-            }
+            AutoStatus.getInstance().appLocked();
 //#endif
             new SplashScreen(getMainBarItem()).show();
             return;
@@ -3331,7 +3313,7 @@ public final class Roster extends VirtualList
 
     public void quit() {
 //#ifdef AUTOSTATUS
-        stopAutoStatusTask();
+        AutoStatus.getInstance().stop();
 //#endif
         logoff(null);
 
@@ -3452,68 +3434,6 @@ public final class Roster extends VirtualList
     public void setMyJid(Jid myJid) {
         this.myJid = myJid;
     }
-
-//#ifdef AUTOSTATUS
-    public void userActivity(int awayType) {
-        if (autostatus == null || !Config.module_autostatus) {
-            return;
-        }
-
-        if (Config.autoAwayType == awayType) {
-            if (autoAway) {
-                restoreStatus();
-            }
-            autostatus.setTimeEvent(Config.autoAwayDelay * 60 * 1000L);
-        }
-    }
-
-    public void setAutoAway() {
-        if(!isLoggedIn() || !Config.module_autostatus || Config.autoAwayType == Config.AWAY_OFF) {
-            return;
-        }
-        if (!autoAway) {
-            oldStatus = myStatus;
-            if (myStatus == Presence.PRESENCE_ONLINE || myStatus == Presence.PRESENCE_CHAT) {
-                autoAway = true;
-                if (!Config.setAutoStatusMessage) {
-                    sendPresence(Presence.PRESENCE_AWAY, SR.get(SR.MS_AUTO_AWAY));
-                } else {
-                    ExtendedStatus es = StatusList.getInstance().getStatus(Presence.PRESENCE_AWAY);
-                    sendPresence(Presence.PRESENCE_AWAY, es.getMessage());
-                }
-            }
-        }
-    }
-
-    public void setAutoXa() {
-        if(!isLoggedIn() || !Config.module_autostatus || Config.autoAwayType == Config.AWAY_OFF) {
-            return;
-        }
-        if (autoAway && !autoXa) {
-            autoXa = true;
-            if (!Config.setAutoStatusMessage) {
-                sendPresence(Presence.PRESENCE_XA, SR.get(SR.MS_AUTO_XA));
-            } else {
-                ExtendedStatus es = StatusList.getInstance().getStatus(Presence.PRESENCE_XA);
-                sendPresence(Presence.PRESENCE_XA, es.getMessage());
-            }
-        }
-    }
-
-    public void restoreStatus() {
-        autoAway = false;
-        autoXa = false;
-
-        ExtendedStatus status = StatusList.getInstance().getStatus(oldStatus);
-        sendPresence(oldStatus, status.getMessage());
-    }
-    
-    private void stopAutoStatusTask() {
-        if (autostatus != null) {
-            autostatus.destroyTask();
-        }
-    }
-//#endif
 
     public void deleteGroup(Group deleteGroup) {
         Vector contacts = contactList.contacts;

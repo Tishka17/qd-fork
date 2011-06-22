@@ -112,10 +112,9 @@ public class Config {
     public static char keyVibra='#';
 
 //#ifdef AUTOSTATUS
-    public final static int AWAY_OFF = 0;
-    public final static int AWAY_LOCK = 1;
-    public final static int AWAY_MESSAGE = 2;
-    public final static int AWAY_IDLE = 3;
+    public final static int AWAY_LOCK = 0;
+    public final static int AWAY_MESSAGE = 1;
+    public final static int AWAY_IDLE = 2;
 
     public static int autoAwayType = 0;
     public static int autoAwayDelay = 5; //5 minutes

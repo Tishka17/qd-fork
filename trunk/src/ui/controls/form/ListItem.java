@@ -34,10 +34,7 @@ import colors.ColorTheme;
  *
  * @author ad
  */
-public class ListItem
-        extends IconTextElement {
-
-    private String text;
+public class ListItem extends IconTextElement {
     String name;
     public int transport;
 

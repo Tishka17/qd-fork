@@ -43,7 +43,6 @@ import ui.VirtualList;
 
 public final class MultiLine extends IconTextElement {
     private Vector lines = null;
-    private String text;
     private String caption;
     public boolean selectable = true;
     private Font font;

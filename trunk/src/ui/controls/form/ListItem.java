@@ -30,25 +30,28 @@ package ui.controls.form;
 import ui.IconTextElement;
 import images.RosterIcons;
 import colors.ColorTheme;
+
 /**
  *
  * @author ad
  */
+
 public class ListItem extends IconTextElement {
-    String name;
-    public int transport;
 
     public ListItem(String text, String name) {
-       super(text, RosterIcons.getInstance(),  RosterIcons.getInstance().getTransportIndex(name));
-       this.name=name;
-    }
-    public int getVWidth(){
-        return -1;
-    }
-    public ListItem(String text) {
-        super(null);
-        this.text=text;
+        super(text, RosterIcons.getInstance(), RosterIcons.getInstance().getTransportIndex(name));
     }
 
-    public int getColor(){ return ColorTheme.getColor(ColorTheme.DISCO_CMD); }
+    public int getVWidth() {
+        return -1;
+    }
+
+    public ListItem(String text) {
+        super(null);
+        this.text = text;
+    }
+
+    public int getColor() {
+        return ColorTheme.getColor(ColorTheme.DISCO_CMD);
+    }
 }

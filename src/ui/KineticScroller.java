@@ -11,7 +11,9 @@ package ui;
 //#ifdef TOUCH
 public class KineticScroller  extends Thread {
     private static final int update_delta = 20;
-    private static long inverse_acceleration = 20000;
+    private static final int min_dt = 50;
+    private static final int min_dy = 10;
+    private static long inverse_acceleration = 8000;
     private long velocity = 0;
     private int y0=0, y1=0;
     private long t0=0, t1=0;
@@ -40,13 +42,15 @@ public class KineticScroller  extends Thread {
     
     public void updatePostion() {
         long t = System.currentTimeMillis(); 
-        if ((t-t1) < 100 && y1!=y0)
+        if ((t-t1) < min_dt)
             return;
         
         y0 = y1;
         y1 = list.win_top;
         t0 = t1;
         t1 = t;
+        if (Math.abs(y1-y0)<min_dy) 
+            y1=y0;
     }
     
     public boolean startScroll() {
@@ -80,11 +84,10 @@ public class KineticScroller  extends Thread {
                 y<0 || 
                 y + list.getHeight() > list.getListHeight()) {
             stopscrolling();
-	    list.redraw();
+            list.redraw();
             return;
         }
         list.win_top = (int)y;
-        //list.stopRotator();
         list.redraw();
     }
     

@@ -301,8 +301,8 @@ public class SR {
      public final static short MS_PGS_REMAINED = 269; //progress bar remained
      public final static short MS_PGS_COMPLETE = 270; //progress bar complete
      public final static short MS_PGS_INK = 271; //progress bar font
-     public final static short MS_HEAP_TOTAL = 272; //Heap mon total
-     public final static short MS_HEAP_FREE = 273; //Heap mon free
+     public final static short MS_HEAP_TOTAL = 272; //Heap mon total (r328+: also group back gradient 1 color)
+     public final static short MS_HEAP_FREE = 273; //Heap mon free (r328+: also group back gradient 2 color)
      public final static short MS_CURSOR_BGND = 274; //Cursor background
      public final static short MS_CURSOR_OUTLINE = 275; //Cursor ink & outline
      public final static short MS_SCROLL_BRD = 276; //Scroll border
@@ -961,8 +961,8 @@ public class SR {
         "progress bar remained",
         "progress bar complete",
         "progress bar font",
-        "Heap mon total",
-        "Heap mon free",
+        "Group gradient 1 and Heap mon total",
+        "Group gradient 2 and Heap mon free",
         "Cursor background",
         "Cursor ink & outline",
         "Scroll border",

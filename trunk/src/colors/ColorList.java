@@ -58,7 +58,11 @@ public class ColorList extends DefForm {
         addColorControl(SR.get(SR.MS_CONTACT_XA), ColorTheme.CONTACT_XA);
         addColorControl(SR.get(SR.MS_CONTACT_DND), ColorTheme.CONTACT_DND);
         addColorControl(SR.get(SR.MS_CONTACT) + " J2J", ColorTheme.CONTACT_J2J);
+
         addColorControl(SR.get(SR.MS_GROUP_INK), ColorTheme.GROUP_INK);
+        addColorControl(SR.get(SR.MS_HEAP_TOTAL), ColorTheme.HEAP_TOTAL);
+        addColorControl(SR.get(SR.MS_HEAP_FREE), ColorTheme.HEAP_FREE);
+
         addColorControl(SR.get(SR.MS_BLK_INK), ColorTheme.BLK_INK);
         addColorControl(SR.get(SR.MS_BLK_BGND), ColorTheme.BLK_BGND);
         addColorControl(SR.get(SR.MS_MESSAGE_IN), ColorTheme.MESSAGE_IN);
@@ -73,11 +77,6 @@ public class ColorList extends DefForm {
         addColorControl(SR.get(SR.MS_PGS_COMPLETE), ColorTheme.PGS_COMPLETE_TOP);
         addColorControl(SR.get(SR.MS_PGS_COMPLETE) + " 2", ColorTheme.PGS_COMPLETE_BOTTOM);
         addColorControl(SR.get(SR.MS_PGS_INK), ColorTheme.PGS_INK);
-
-//#ifdef MEMORY_MONITOR
-//#         addColorControl(SR.get(SR.MS_HEAP_TOTAL), ColorTheme.HEAP_TOTAL);
-//#         addColorControl(SR.get(SR.MS_HEAP_FREE), ColorTheme.HEAP_FREE);
-//#endif
 
         addColorControl(SR.get(SR.MS_CURSOR_BGND), ColorTheme.CURSOR_BGND);
         addColorControl(SR.get(SR.MS_CURSOR_OUTLINE), ColorTheme.CURSOR_OUTLINE);

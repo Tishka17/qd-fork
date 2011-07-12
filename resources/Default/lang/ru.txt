@@ -233,8 +233,8 @@ message history	Шрифт истории сообщений
 progress bar remained	Осталось прогресса
 progress bar complete	Сделано прогресса
 progress bar font	Шрифт прогресса
-Heap mon total	Всего кучи
-Heap mon free	Свободно кучи
+Group gradient 1 and Heap mon total	Всего кучи
+Group gradient 2 and Heap mon free	Свободно кучи
 Cursor background	Фон курсора
 Cursor ink & outline	Цвет шрифта курсора и ободка
 Scroll border	Цвет ободка скролла

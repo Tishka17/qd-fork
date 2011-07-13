@@ -1,7 +1,8 @@
-/themes/Cyan17.txt	Cyan17
+﻿/themes/Cyan17.txt	Cyan17
 /themes/Gray.txt	Gray
 /themes/Warm_wind.txt	Теплый ветер
 /themes/Blue17.txt	Blue17
+/themes/Stormy.txt	Stormy
 /themes/green.txt	green
 /themes/Just_b&w.txt	Just_b&w
 /themes/Electro.txt	Electro

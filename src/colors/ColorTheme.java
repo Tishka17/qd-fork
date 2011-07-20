@@ -101,26 +101,49 @@ public class ColorTheme {
     public final static byte GRAPHICS_MENU_FONT = 51;
 
     private final static int[] defColors = {
+        // balloon ink, bg
         0x000000, 0xfcaaaa,
+        // list bg, bge, ink
         0xfdfcfc, 0xf7e1e1, 0x000000,
+        // msg s, hi
         0x470c49, 0x000000,
+        // disco
         0x000080,
+        // bar bg, bgb, ink
         0xff0000, 0x900000, 0xffffff,
+        // contact d, c, a, x, dnd, j2j
         0x000000, 0x000000, 0x000000, 0x000000, 0x000000, 0x000042,
+        // group ink
         0x000000,
+        // blk ink, bg
         0xffffff, 0x11b3a9,
+        // message i, o, p, a, h
         0x000000, 0xbd0d0d, 0x98999f, 0x98999f, 0x000000,
+        // is, os, ps
         0x048586, 0x067a81, 0x008387,
+        // pgs rem, ct, cb, ink
         0xffffff, 0xececec, 0xd4d4d4, 0x000000,
-        0xffffff, 0x6e25c8,
+        // heap t, f (group grad t, b)
+        //0xffffff, 0x6e25c8, OLD!!!
+        0xccd6e2, 0xaeb1bb,
+        // cursor bg, ol
         0xe9736d, 0x000000,
+        // scroll bord, bar, bg
         0x790e0e, 0xc41616, 0x7f7575,
+        // popup m/ink, m/bg, s/ink, s/bg
         0xffffff, 0x000000, 0xffffff, 0x000000,
+        // secong contact line ink
         0x000000,
+        // control item
         0x1ea5c5,
+        // bg grad left, right
         0xffffff, 0xc9ddff,
+        // cursor grad t, b
         0xffc2a5, 0xeba6b3,
-        0x000000, 0xf4f5c5, 0x000000
+        // transp argb
+        0x000000,
+        // gmenu bg argb, ink
+        0xf4f5c5, 0x000000
     };
 
     private static int[] colorsArray;

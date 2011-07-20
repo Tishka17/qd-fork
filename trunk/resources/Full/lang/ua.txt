@@ -233,8 +233,8 @@ message history	Шрифт історії повідомлень
 progress bar remained	Залишилось прогресу
 progress bar complete	Виконано прогресу
 progress bar font	Шрифт прогресу
-Group gradient 1 and Heap mon total	Всього хіпу
-Group gradient 2 and Heap mon free	Вільно хіпу
+Group gradient 1 and Heap mon total	Градієнт груп 1 і індикатор  хіпу (всього)
+Group gradient 2 and Heap mon free	Градієнт груп 2 і індикатор хіпу (вільно)
 Cursor background	Фон курсору
 Cursor ink & outline	Колір шрифту курсору і обідка
 Scroll border	Колір обідка скроллу

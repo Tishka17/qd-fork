@@ -34,7 +34,6 @@ import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
 import midlet.BombusQD;
 import ui.IconTextElement;
-import ui.VirtualCanvas;
 import ui.VirtualList;
 import util.StringUtils;
 

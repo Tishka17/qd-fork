@@ -52,9 +52,9 @@ public class SoftwareInfo implements JabberBlockListener {
             JabberDataBlock identity=query.getChildBlock("identity");
               Vector childs=query.getChildBlocks();
                StringBuffer softinfo = new StringBuffer();
-               softinfo.append(SR.get(SR.MS_NAME)).append(": ").append(identity.getAttribute("name")).append("\n");
-               softinfo.append(SR.get(SR.MS_CATEGORY)).append(": ").append(identity.getAttribute("category")).append("\n");
-               softinfo.append(SR.get(SR.MS_TYPE)).append(": ").append(identity.getAttribute("type")).append("\n");
+               softinfo.append(SR.get(SR.MS_NAME)).append(": ").append(identity.getAttribute("name")).append('\n');
+               softinfo.append(SR.get(SR.MS_CATEGORY)).append(": ").append(identity.getAttribute("category")).append('\n');
+               softinfo.append(SR.get(SR.MS_TYPE)).append(": ").append(identity.getAttribute("type")).append('\n');
                int k=0;
                if (childs!=null) {
                  for (Enumeration e=childs.elements(); e.hasMoreElements();) {

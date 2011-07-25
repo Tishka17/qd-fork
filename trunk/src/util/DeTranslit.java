@@ -27,14 +27,13 @@
 
 package util;
 
-import java.util.Vector;
-
 /**
  *
  * @author ad
  */
 
 //#ifdef DETRANSLIT
+//# import java.util.Vector;
 //# public class DeTranslit {
 //#     private static Vector translit[];
 //# 

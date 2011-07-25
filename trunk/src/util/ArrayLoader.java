@@ -27,9 +27,7 @@
 
 package util;
 import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.InputStream;
-import java.util.Enumeration;
 
 /*
 import javax.microedition.io.Connector;

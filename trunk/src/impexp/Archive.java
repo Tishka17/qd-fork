@@ -117,7 +117,7 @@ public class Archive {
     }
 
     private void exportArchive(String path) {
-        StringBuffer body = new StringBuffer();
+        StringBuffer body = new StringBuffer(28);
 
         for (int i = 0; i < archive.size(); ++i) {
             Msg m = archive.msg(i);

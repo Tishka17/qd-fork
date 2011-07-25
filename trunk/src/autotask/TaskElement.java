@@ -29,9 +29,7 @@ import locale.SR;
 import midlet.BombusQD;
 import util.Time;
 import ui.controls.AlertBox;
-import alert.AlertCustomize;
 import client.Roster;
-import ui.EventNotify;
 //#ifdef LIGHT_CONTROL
 import light.CustomLight;
 //#endif

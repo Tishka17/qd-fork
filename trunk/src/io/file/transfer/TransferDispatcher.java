@@ -37,7 +37,6 @@ import com.alsutton.jabber.datablocks.Message;
 import java.util.Enumeration;
 import java.util.Vector;
 import util.Strconv;
-import xmpp.XmppError;
 
 /**
  *

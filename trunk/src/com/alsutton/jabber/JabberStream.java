@@ -25,9 +25,6 @@
  */
 
 package com.alsutton.jabber;
-//import Account.Account;
-//import Client.Config;
-import client.Config;
 import client.StaticData;
 //#ifdef XML_CONSOLE
 //# import console.xml.XMLList;
@@ -90,10 +87,9 @@ public class JabberStream extends XmppParser implements Runnable {
     }
 
     public void initiateStream() throws IOException {
-        StringBuffer header=new StringBuffer("<stream:stream to='" ).append( server ).append( "' xmlns='jabber:client' xmlns:stream='http://etherx.jabber.org/streams'" );
-        header.append(" version='1.0'");
+        StringBuffer header=new StringBuffer("<stream:stream to='" ).append( server ).append( "' xmlns='jabber:client' xmlns:stream='http://etherx.jabber.org/streams' version='1.0'");
         if (SR.get(SR.MS_XMLLANG)!=null) {
-            header.append(" xml:lang='").append(SR.get(SR.MS_XMLLANG)).append("'");
+            header.append(" xml:lang='").append(SR.get(SR.MS_XMLLANG)).append('\'');
         }
         header.append( '>' );
         send(header.toString());

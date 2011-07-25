@@ -30,8 +30,6 @@
 package io.file.transfer;
 
 import io.file.FileIO;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
 import ui.controls.form.SimpleString;

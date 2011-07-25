@@ -31,12 +31,9 @@ package io.file.transfer;
 
 import images.camera.CameraImage;
 import images.camera.CameraImageListener;
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
-import midlet.BombusQD;
 import ui.controls.form.DefForm;
 import ui.controls.form.ImageItem;
 import ui.controls.form.LinkString;

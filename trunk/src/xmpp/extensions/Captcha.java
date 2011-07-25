@@ -12,7 +12,6 @@ package xmpp.extensions;
 import com.alsutton.jabber.JabberBlockListener;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.*;
-import javax.microedition.lcdui.Display;
 
 /**
  *

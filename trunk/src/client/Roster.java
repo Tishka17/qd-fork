@@ -106,11 +106,9 @@ import io.file.FileIO;
 import java.io.IOException;
 import java.io.OutputStream;
 //#endif
-import ui.GMenu;
 //#ifdef SERVICE_DISCOVERY
 import disco.ServiceDiscovery;
 //#endif
-import vcard.VCard;
 import conference.ConferenceForm;
 //#ifdef STATS
 import stats.Stats;
@@ -1968,7 +1966,7 @@ public final class Roster extends VirtualList
                 if(from.indexOf("juick@juick.com")>-1 || data.findNamespace("juick", JuickModule.NS_MESSAGE)!=null) {
                     m = juick.getMsg(m,data);
                     if(m==null) {
-                       m = new Msg(mType, from.trim(), subj, body.toString());
+                       m = new Msg(mType, from.trim(), subj, body);
                     } else {
                        c = getContact(m.getFrom(), (midlet.BombusQD.cf.notInListDropLevel!=DROP_MESSAGES_PRESENCES));
                     }
@@ -2137,8 +2135,7 @@ public final class Roster extends VirtualList
                         if (ti==Presence.PRESENCE_ERROR) {
                            StringBuffer sb = new StringBuffer(0);
                              sb.append(SR.get(SR.MS_ERROR_))
-                               .append('-')
-                               .append('>')
+                               .append("->")
                                .append(XmppError.findInStanza(pr).toString());
                              conferenceMessage = new Msg(Msg.ERROR, name, null, sb.toString());
                              if(!chatPres.startsWith("remote-server-not-found")) messageStore(room, conferenceMessage);
@@ -2462,7 +2459,7 @@ public final class Roster extends VirtualList
                      }
 //#endif
                      if (reason.length() != 0) {
-                         mucContactBuf.append(" (").append(reason).append(")");
+                         mucContactBuf.append(" (").append(reason).append(')');
                      }
 
                      testMeOffline(mc, (ConferenceGroup)mc.group , true);
@@ -3264,18 +3261,18 @@ public final class Roster extends VirtualList
 //#ifdef CLIENTS_ICONS
                 if (midlet.BombusQD.cf.showClientIcon) {
                     if (cntact.client != -1) {
-                        mess.append("\n")
+                        mess.append('\n')
                             .append(SR.get(SR.MS_USE))
                             .append(": ")
                             .append(cntact.clientName);
                         if (cntact.version != null) {
-                            mess.append(" ").append(cntact.version);
+                            mess.append(' ').append(cntact.version);
                         }
                     }
                 }
 //#endif
                 if (cntact.lang != null) {
-                    mess.append("\n")
+                    mess.append('\n')
                         .append(SR.get(SR.MS_LANGUAGE))
                         .append(": ")
                         .append(cntact.lang);

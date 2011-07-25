@@ -36,7 +36,6 @@ import javax.microedition.lcdui.Graphics;
 import ui.IconTextElement;
 import ui.VirtualCanvas;
 import ui.VirtualList;
-import ui.VirtualElement;
 
 /**
  *

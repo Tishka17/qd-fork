@@ -24,7 +24,6 @@
 package ui.controls.form;
 
 import java.util.Vector;
-import ui.IconTextElement;
 
 /**
  *

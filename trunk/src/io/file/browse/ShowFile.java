@@ -34,11 +34,9 @@ import javax.microedition.lcdui.Image;
 import javax.microedition.media.Manager;
 import javax.microedition.media.MediaException;
 import javax.microedition.media.Player;
-import ui.controls.AlertBox;
 import ui.controls.form.DefForm;
 import ui.controls.form.ImageItem;
 import ui.controls.form.MultiLine;
-import util.Strconv;
 
 /**
  *

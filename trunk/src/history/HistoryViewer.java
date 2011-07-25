@@ -207,7 +207,7 @@ public class HistoryViewer extends MessageList
         StringBuffer buf = new StringBuffer(path);
 
         buf.append(StringUtils.replaceBadChars(storeName));
-        buf.append("_");
+        buf.append('_');
         buf.append(Time.localDate());
         buf.append(".txt");
 

@@ -40,7 +40,6 @@ import ui.controls.AlertBox;
 //#if IMPORT_EXPORT && FILE_IO
 import impexp.ImportExportForm;
 //#endif
-import java.util.Vector;
 import ui.GMenu;
 import ui.GMenuConfig;
 

@@ -33,7 +33,6 @@ import com.alsutton.jabber.JabberStream;
 import com.alsutton.jabber.datablocks.Iq;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
-import ui.IconTextElement;
 import ui.controls.form.DefForm;
 import ui.controls.form.DropChoiceBox;
 import ui.controls.form.TextInput;

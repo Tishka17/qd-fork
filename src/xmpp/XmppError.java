@@ -10,7 +10,6 @@
 package xmpp;
 
 import com.alsutton.jabber.*;
-import java.util.Enumeration;
 import java.util.Vector;
  
 /**

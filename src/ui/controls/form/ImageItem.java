@@ -37,7 +37,6 @@ import javax.microedition.io.ContentConnection;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.String;
 
 /**
  *

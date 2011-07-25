@@ -33,7 +33,6 @@ import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
-import midlet.BombusQD;
 import ui.input.InputTextBox;
 
 /**

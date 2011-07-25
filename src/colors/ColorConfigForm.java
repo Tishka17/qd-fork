@@ -40,7 +40,6 @@ import ui.controls.form.LinkString;
 import ui.controls.form.SpacerItem;
 import ui.controls.form.SimpleString;
 import util.StringLoader;
-import ui.controls.AlertBox;
 import ui.controls.form.ColorThemeSelector;
 
 /**

@@ -245,8 +245,7 @@ public class ColorTheme {
     }
 
     public static String getSkin() {
-        StringBuffer body = new StringBuffer(0);
-        body.append("xmlSkin\t");
+        StringBuffer body = new StringBuffer("xmlSkin\t");
 //#ifdef DETRANSLIT
 //#        body.append(DeTranslit.translit(BombusQD.sd.account.getNickName()));
 //#else

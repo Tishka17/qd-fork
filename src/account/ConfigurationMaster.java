@@ -103,9 +103,9 @@ public final class ConfigurationMaster extends DefForm {
         }
         cap.append(" (");
         cap.append(currentPage);
-        cap.append("/");
+        cap.append('/');
         cap.append(PAGES_COUNT);
-        cap.append(")");
+        cap.append(')');
 
         setMainBarItem(new MainBar(cap.toString()));
 

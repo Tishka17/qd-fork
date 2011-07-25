@@ -27,8 +27,6 @@
 //#ifdef AUTOTASK
 package autotask;
 
-import ui.controls.form.DefForm;
-
 /* * * * * * * * *
  * @author Mars  *
  * * * * * * * * */

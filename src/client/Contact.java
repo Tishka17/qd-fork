@@ -311,7 +311,7 @@ public class Contact extends IconTextElement {
                     temp.append(m.getTime());
                     temp.append(')');
                     if (m.getSubject() != null) {
-                        temp.append("\n").append(m.getSubject());
+                        temp.append('\n').append(m.getSubject());
                     }
                     m.setSubject(temp.toString());
                 }

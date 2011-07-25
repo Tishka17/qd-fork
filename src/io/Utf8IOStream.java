@@ -222,16 +222,14 @@ public class Utf8IOStream {
                 String ratio=Long.toString((10*(bytesSent+bytesRecv)/(zo.getTotalOut()+z.getTotalIn())));
                 int dotpos=ratio.length()-1;
 
-                stats.append(' ')
-                     .append('(');
+                stats.append(" (");
                 if(0 == dotpos)
                     stats.append('0');
                 else
                     stats.append(ratio.substring(0, dotpos));
                 stats.append('.')
                  .append(ratio.substring(dotpos))
-                 .append('x')
-                 .append(')');
+                 .append("x)");
                 ratio=null;
             }else{
                return "";
@@ -266,16 +264,14 @@ public class Utf8IOStream {
         s.append(packed).append(read?'>':'<').append(unpacked);
         String ratio = Long.toString((10*unpacked)/packed);
         int dotpos=ratio.length()-1;
-        s.append(' ')
-         .append('(');
+        s.append(" (");
         if(0 == dotpos)
             s.append('0');
         else
             s.append(ratio.substring(0, dotpos));
         s.append('.')
          .append(ratio.substring(dotpos))
-         .append('x')
-         .append(')');
+         .append("x)");
     }
 
 
@@ -283,11 +279,11 @@ public class Utf8IOStream {
         stats = new StringBuffer(0);
         try {
             stats.append(((SocketConnection)connection).getLocalAddress())
-                 .append(":")
+                 .append(':')
                  .append(((SocketConnection)connection).getLocalPort())
                  .append(" -> ")
                  .append(((SocketConnection)connection).getAddress())
-                 .append(":")
+                 .append(':')
                  .append(((SocketConnection)connection).getPort());
         } catch (Exception ex) {
             stats.append("unknown");

@@ -69,12 +69,12 @@ public class ClientsIconsData {
         String lcaps = caps.toLowerCase();
         for (int i = 0; i < nodes.length; i++) {
             String client = nodes[i].toLowerCase();
-            if (client.indexOf(",") > -1) {
+            if (client.indexOf(',') > -1) {
                 boolean parse = true;
                 int pos = 0;
                 while (parse) {
                     if (pos > -1) {
-                        int endpos = client.indexOf(",", pos);
+                        int endpos = client.indexOf(',', pos);
                         String eqStr = (endpos < 0) ? client.substring(pos) : client.substring(pos, endpos);
                         if (lcaps.indexOf(eqStr) > -1) {
                             return i;

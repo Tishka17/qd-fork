@@ -34,7 +34,6 @@ import colors.ColorTheme;
 //import ui.Gradient;
 //#endif
 import ui.VirtualList;
-import client.Config;
 
 /**
  *

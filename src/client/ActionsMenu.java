@@ -448,7 +448,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                             if (realjid == null) {
                                 VCard.request(contact.bareJid, contact.getJid());
                             } else {
-                                VCard.request(realjid.substring(0, realjid.indexOf("/", realjid.indexOf("@"))), contact.getJid());
+                                VCard.request(realjid.substring(0, realjid.indexOf('/', realjid.indexOf('@'))), contact.getJid());
                             }
                         } else {
                             VCard.request(contact.bareJid, contact.getJid());

@@ -85,7 +85,7 @@ public class HistoryStorage {
                 buf.append("->");
                 break;
             case Msg.ERROR:
-                buf.append("!");
+                buf.append('!');
                 break;
             case Msg.SUBJECT:
                 if (m.getSubject() != null) {

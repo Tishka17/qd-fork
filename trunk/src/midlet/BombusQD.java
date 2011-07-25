@@ -132,7 +132,7 @@ public class BombusQD extends MIDlet implements Runnable {
             Account.loadAccount(cf.autoLogin, cf.accountIndex, -1);
 	    sd.roster.show();
 	} else {
-            AccountSelect select = new AccountSelect(false, 0);
+            AccountSelect select = new AccountSelect(0);
             select.setParentView(sd.roster);
 	    select.show();
 	}

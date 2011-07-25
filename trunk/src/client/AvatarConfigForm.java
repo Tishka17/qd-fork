@@ -202,7 +202,7 @@ public class AvatarConfigForm extends DefForm {
             b = f.fileRead();
 
             len = b.length;
-            if (c.hasPhoto == false) {
+            if (!c.hasPhoto) {
                 try {
                     photoImg = Image.createImage(b, 0, len);
                     c.setImageAvatar(photoImg);

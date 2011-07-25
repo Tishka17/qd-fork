@@ -126,9 +126,6 @@ public class AccountForm extends DefForm {
                     server = account.getServer();
                     port_box = account.getPort();
                     break;
-                case PROFILE_JABBER:
-                    server = "";
-                    break;
                 case PROFILE_YANDEX:
                     server = "ya.ru";
                     break;
@@ -146,6 +143,9 @@ public class AccountForm extends DefForm {
                 case PROFILE_VKONTAKTE:
                     server = "vk.com";
                     break;
+                default:
+                    server = "";
+                    break;
             }
         } else {
             password = generate();
@@ -161,10 +161,8 @@ public class AccountForm extends DefForm {
 
             uid.append('@');
             uid.append(server);
-            if (res.length() > 0) {
-                if (res.indexOf(info.Version.NAME) == -1) {
-                    uid.append('/').append(account.getResource());
-                }
+            if (res.length() > 0 && res.indexOf(info.Version.NAME) == -1) {
+                uid.append('/').append(account.getResource());
             }
         } else {
             uid.append('@').append(server);
@@ -198,26 +196,22 @@ public class AccountForm extends DefForm {
         }
 
         emailbox = new TextInput("E-mail", account.getEmail(), TextField.EMAILADDR);
-        if (midlet.BombusQD.cf.userAppLevel == 1) {
-            if (!createSimpleAddForm) {
-                addControl(emailbox);
-            }
+        if (midlet.BombusQD.cf.userAppLevel == 1 && !createSimpleAddForm) {
+            addControl(emailbox);
         }
 
 //#ifdef CLIPBOARD
-        if (!ClipBoard.isEmpty()) {
-            if (ClipBoard.getClipBoard().startsWith("!")) {
-                insertpass = new LinkString(SR.get(SR.MS_INSERT_NEW_PASSWORD))   {
-                    public void doAction() {
-                        passbox.setValue(ClipBoard.getClipBoard().substring(1));
-                        itemsList.removeElement(insertpass);
-                        ClipBoard.setClipBoard("");
-                    }
-                };
-                if (!createSimpleAddForm) {
-                    addControl(new SpacerItem(3));
-                    addControl(insertpass);
+        if (!ClipBoard.isEmpty() && ClipBoard.getClipBoard().startsWith("!")) {
+            insertpass = new LinkString(SR.get(SR.MS_INSERT_NEW_PASSWORD))   {
+                public void doAction() {
+                    passbox.setValue(ClipBoard.getClipBoard().substring(1));
+                    itemsList.removeElement(insertpass);
+                    ClipBoard.setClipBoard("");
                 }
+            };
+            if (!createSimpleAddForm) {
+                addControl(new SpacerItem(3));
+                addControl(insertpass);
             }
         }
 //#endif

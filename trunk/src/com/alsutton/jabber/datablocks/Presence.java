@@ -71,12 +71,6 @@ public class Presence extends JabberDataBlock {
         setAttribute("to",to);
         setAttribute("type",type);
     }
-    
-    public Presence(String to, String from,boolean check){
-        super(null,null);
-        setAttribute("from",from);
-        setAttribute("to",to);
-    }    
 
     public Presence(int status, int priority, String message, String nick) {
         super( null, null );

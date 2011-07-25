@@ -41,13 +41,12 @@ import xmpp.XmppError;
 public class AccountRegister implements JabberListener, Runnable {
     private static final long DELAY = 1000L;
 
-    private Displayable accountselect;
-    private Account raccount;
+    private final Displayable accountselect;
+    private final Account raccount;
     private JabberStream theStream;
-    private SplashScreen splash;
+    private final SplashScreen splash;
 
     public AccountRegister(Account account, Displayable accountselect) {
-        this.accountselect = accountselect;
         this.accountselect = accountselect;
         raccount = account;
 
@@ -78,11 +77,11 @@ public class AccountRegister implements JabberListener, Runnable {
     }
 
     public void connectionTerminated(Exception e) {
-        if (e != null) {
 //#ifdef DEBUG
+//#         if (e != null) {
 //#             e.printStackTrace();
+//#         }
 //#endif
-        }
     }
 
     public void beginConversation() {
@@ -101,7 +100,7 @@ public class AccountRegister implements JabberListener, Runnable {
         if (data instanceof Iq) {
             String type = data.getTypeAttribute();
             String mainbar;
-            if (type.equals("result")) {
+            if ("result".equals(type)) {
                 mainbar = SR.get(SR.MS_DONE);
                 splash.setParentView(accountselect);
             } else {

@@ -29,7 +29,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Hashtable;
 import java.util.Vector;
-import java.io.DataInputStream;
 
 public class StringLoader {
 
@@ -135,7 +134,6 @@ public class StringLoader {
 	InputStream in = this.getClass().getResourceAsStream(resource);
         if (in==null) return null;
 
-        int itemIndex = 0;
         int size = arrayLocale.length;
         //StringBuffer buf = new StringBuffer(0);
 	try {
@@ -146,7 +144,6 @@ public class StringLoader {
 
 		if (line.startsWith("//")) continue;
 
-                String cell=null;
                 try {
                     int indexTab=line.indexOf(0x09);
                     if (indexTab<=0) continue; // process next line
@@ -189,7 +186,6 @@ public class StringLoader {
 
 		if (line.startsWith("//")) continue; // skip all remarks
 
-                String cell=null;
                 try {
                     int indexTab=line.indexOf(0x09);
 
@@ -368,7 +364,6 @@ public class StringLoader {
 
         	if (line.startsWith("//")) continue; // skip all remarks
 
-                String cell=null;
                 try {
                     int indexTab=line.indexOf(0x09);
 

@@ -41,9 +41,9 @@ import ui.VirtualElement;
 import ui.VirtualList;
 
 public class AccountSelect extends VirtualList implements MenuListener {
-    private Vector accountList;
+    private final Vector accountList = new Vector(0);
 
-    private int activeAccount;
+    private final int activeAccount;
 
     private Command cmdLogin;
     private Command cmdConfigurationMaster;
@@ -69,7 +69,7 @@ public class AccountSelect extends VirtualList implements MenuListener {
 
     int status;
 
-    public AccountSelect(boolean enableQuit, int status) {
+    public AccountSelect(int status) {
         super();
 
         cmdConfigurationMaster = new Command(SR.get(SR.MS_CONFIGURATION_MASTER), 0x42);
@@ -107,9 +107,6 @@ public class AccountSelect extends VirtualList implements MenuListener {
                 break;
         }
         setMainBarItem(new MainBar(status == -1 ? SR.get(SR.MS_ACCOUNTS) : SR.get(SR.MS_CONNECT_TO) + str));
-
-        accountList = null;
-        accountList = new Vector(0);
 
         Account a;
 
@@ -182,62 +179,41 @@ public class AccountSelect extends VirtualList implements MenuListener {
     public void commandAction(Command c) {
         if (c == cmdServ1_reg) {
             new AccountForm("jabber.ru").show();
-        }
-        if (c == cmdServ2_reg) {
+        } else if (c == cmdServ2_reg) {
             new AccountForm("silper.cz").show();
-        }
-        if (c == cmdServ3_reg) {
+        } else if (c == cmdServ3_reg) {
             new AccountForm("jabbus.org").show();
-        }
-        if (c == cmdServ4_reg) {
+        } else if (c == cmdServ4_reg) {
             new AccountForm("mytlt.ru").show();
-        }
-        if (c == cmdServ5_reg) {
+        } else if (c == cmdServ5_reg) {
             new AccountForm("jabbim.com").show();
-        }
-        if (c == cmdServ6_reg) {
+        } else if (c == cmdServ6_reg) {
             new AccountForm("").show();
-        }
-
-        if (c == cmdJabber) {
+        } else if (c == cmdJabber) {
             new AccountForm(null, AccountForm.PROFILE_JABBER).show();
-        }
-        if (c == cmdYaru) {
+        } else if (c == cmdYaru) {
             new AccountForm(null, AccountForm.PROFILE_YANDEX).show();
-        }
-
-        if (c == cmdGTalk_SSL) {
+        } else if (c == cmdGTalk_SSL) {
             new AccountForm(null, AccountForm.PROFILE_GTALK_SSL).show();
-        }
-        if (c == cmdGTalk_HTTPS) {
+        } else if (c == cmdGTalk_HTTPS) {
             new AccountForm(null, AccountForm.PROFILE_GTALK_HTTPS).show();
-        }
-
-        if (c == cmdLj) {
+        } else if (c == cmdLj) {
             new AccountForm(null, AccountForm.PROFILE_LIVEJOURNAL).show();
-        }
-        if (c == cmdQip) {
+        } else if (c == cmdQip) {
             new AccountForm(null, AccountForm.PROFILE_QIP).show();
-        }
-        if (c == cmdVk) {
+        } else if (c == cmdVk) {
             new AccountForm(null, AccountForm.PROFILE_VKONTAKTE).show();
-        }
-        if (c == cmdConfigurationMaster) {
+        } else if (c == cmdConfigurationMaster) {
             new ConfigurationMaster().show();
-        }
-        if (c == cmdLogin) {
+        } else if (c == cmdLogin) {
             switchAccount(true);
-        }
-        if (c == cmdEdit) {
+        } else if (c == cmdEdit) {
             new AccountForm((Account)getFocusedObject(), -1).show();
-        }
-        if (c == cmdChangePass) {
+        } else if (c == cmdChangePass) {
             new ChangePasswordForm((Account)getFocusedObject()).show();
-        }
-        if (c == cmdRemoveAcc) {
+        } else if (c == cmdRemoveAcc) {
             new AccountRemoveForm((Account)getFocusedObject()).show();
-        }
-        if (c == cmdDel) {
+        } else if (c == cmdDel) {
             if (midlet.BombusQD.sd.roster != null) {
                 if (cursor == midlet.BombusQD.cf.accountIndex && midlet.BombusQD.sd.roster.isLoggedIn()) {
                     return;

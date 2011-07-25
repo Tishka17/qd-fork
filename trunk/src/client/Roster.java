@@ -143,7 +143,7 @@ public final class Roster extends VirtualList
     public final static byte INC_VIEWING=2;
 
     //#ifdef JUICK.COM
-    private JuickModule juick = JuickModule.jm();
+    private final JuickModule juick = JuickModule.jm();
     //#endif
 
 
@@ -399,7 +399,7 @@ public final class Roster extends VirtualList
     }
 
     public void cmdAccount() {
-        new AccountSelect(false, -1).show();
+        new AccountSelect(-1).show();
     }
 
     public void cmdStatus() {
@@ -622,7 +622,7 @@ public final class Roster extends VirtualList
          int hC;
          if (g instanceof ConferenceGroup) {
              ConferenceGroup cg = (ConferenceGroup) g;
-             if (cg.inRoom==false) {
+             if (!cg.inRoom) {
                 boolean removeGroup = true;
                 hC = hContacts.size() - 1;
 //#ifdef DEBUG_CONSOLE
@@ -659,11 +659,11 @@ public final class Roster extends VirtualList
                 setModified();
              }
         }
-        if (0 == g.getOnlines() && !(g instanceof ConferenceGroup)) {
-            if (g.type == Groups.TYPE_MUC) {
-                contactList.removeGroup(g);
-                setModified();
-             }
+        if (0 == g.getOnlines() 
+                && !(g instanceof ConferenceGroup) 
+                && g.type == Groups.TYPE_MUC) {
+            contactList.removeGroup(g);
+            setModified();
          }
          hContacts = null;
          g = null;
@@ -687,14 +687,12 @@ public final class Roster extends VirtualList
         String from=data.getAttribute("from");
         if (from!=null) {
             Jid fromJid=new Jid(from);
-            if (fromJid.hasResource())
-                if (!myJid.equals(fromJid, true)) return false;
+            if (fromJid.hasResource() && !myJid.equals(fromJid, true)) return false;
          }
         Vector cont=q.getChildBlocks();
         String group,bareJid;
-
+        Vector transports = new Vector(0);
         try {
-          transports = new Vector(0);
           if (cont!=null){
             int size=cont.size();
             int k;
@@ -727,8 +725,6 @@ public final class Roster extends VirtualList
         return true;
     }
 
-   private Vector transports = new Vector(0);
-
    public void connectTransport(){
             if(midlet.BombusQD.cf.isStatusFirst && firstStatus!=-1) {
                if (firstStatus==5) sendPresence(Presence.PRESENCE_INVISIBLE, null);
@@ -751,14 +747,12 @@ public final class Roster extends VirtualList
                 int f, i;
                 IconTextElement left, right;
                 int size = sortVector.size();
-                Contact c = null;
                 for (f = 1; f < size; f++) {
                         left=(IconTextElement)sortVector.elementAt(f);
                         right=(IconTextElement)sortVector.elementAt(f-1);
                         if ( left.compare(right) >=0 ) continue;
                         i = f-1;
                         while (i>=0){
-                           c = (Contact)sortVector.elementAt(i);
                            right=(IconTextElement)sortVector.elementAt(i);
                            if (right.compare(left) <0) break;
                            sortVector.setElementAt(right,i+1);
@@ -904,7 +898,6 @@ public final class Roster extends VirtualList
         Contact c = findContact(J, true);
         if (null != c) return c;
          c = findContact(J, false);
-         Group grp = null;
          if (c==null) {
             if (!createInNIL) {
                 J = null;
@@ -923,7 +916,7 @@ public final class Roster extends VirtualList
                 if(c.group.type == Groups.TYPE_SELF) {
                     c = new Contact(null, jid, Presence.PRESENCE_OFFLINE, null );
                     c.setGroup(contactList.groups.getGroup(Groups.TYPE_SELF));
-        c.origin = Contact.ORIGIN_CLONE;
+                    c.origin = Contact.ORIGIN_CLONE;
                     addContact(c,true);
                 } else {
                  c.jid = J;
@@ -1861,7 +1854,6 @@ public final class Roster extends VirtualList
                         JabberDataBlock invite=xmlns.getChildBlock("invite");
                         if (invite !=null) {
                             if (message.getTypeAttribute().equals("error")) {
-                                ConferenceGroup invConf=contactList.getConferenceGroup(from);
                                 body=XmppError.decodeStanzaError(message).toString(); /*"error: invites are forbidden"*/
                             } else {
                                 String room=from+'/'+midlet.BombusQD.sd.account.getNickName();

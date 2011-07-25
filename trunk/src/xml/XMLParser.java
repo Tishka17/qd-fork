@@ -266,7 +266,6 @@ public class XMLParser {
         int ipos=0;
         int opos=0;
         int lenn = sb.length();
-        char k;
 
         
        /* temp = new StringBuffer(0);

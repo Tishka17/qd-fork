@@ -45,7 +45,6 @@ import ui.input.InputTextBoxNotify;
  */
 
 public class TextInput extends IconTextElement implements InputTextBoxNotify {
-    protected String text;
     protected String caption;
 
     public String id;

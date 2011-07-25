@@ -324,7 +324,6 @@ public class ServiceDiscovery extends VirtualList implements MenuListener, Jabbe
             Vector cmds=new Vector(0);
             boolean showPartialResults=false;
             boolean loadItems=true;
-            boolean client=false;
             if (childs!=null) {
                 JabberDataBlock identity=query.getChildBlock("identity");
                 if (identity!=null) {
@@ -650,8 +649,6 @@ public class ServiceDiscovery extends VirtualList implements MenuListener, Jabbe
     }
     
     private static class DiscoCommand extends IconTextElement {
-        private String name;
-        private int icon;
         private int offs = 4;
         private boolean selectable = true;
 

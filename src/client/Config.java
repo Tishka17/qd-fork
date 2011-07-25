@@ -1067,7 +1067,7 @@ public class Config {
             } else if (platformName.startsWith("Jbed")) {
                 phoneManufacturer=JBED;
 //#ifdef FILE_IO
-                try { FileIO f=FileIO.createConnection(""); } catch (Exception ex) { }
+                try { FileIO.createConnection(""); } catch (Exception ex) { }
 //#endif
                 return;
               } else if (platformName.indexOf("Android") > 0) {

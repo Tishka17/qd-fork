@@ -131,7 +131,7 @@ public class StatusSelect extends VirtualList implements MenuListener {
         } else {
             BombusQD.cf.isStatusFirst = true;
             if (!BombusQD.sd.roster.isLoggedIn()) {
-                AccountSelect select = new AccountSelect(false, status);
+                AccountSelect select = new AccountSelect(status);
                 select.setParentView(BombusQD.sd.roster);
                 select.show();
             } else {

@@ -60,7 +60,6 @@ public final class SelectPEP extends DefForm implements VirtualElement, InputTex
     private final static byte CURSOR_VOFFSET=1;
 
     private int lineIndex;
-    private int imgCnt;
     private int xCnt;
     private int xLastCnt;
     private int xCursor;
@@ -195,7 +194,7 @@ public final class SelectPEP extends DefForm implements VirtualElement, InputTex
            pep.addElement(Activity.no_activity);
         }
 
-        imgCnt = pep.size();
+        int imgCnt = pep.size();
         realWidth = getWidth()-scrollbar.getScrollWidth();
         
         imgWidth = il.getWidth()+(CURSOR_HOFFSET*2);

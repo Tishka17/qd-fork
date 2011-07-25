@@ -13,7 +13,7 @@ public class KineticScroller  extends Thread {
     private static final int update_delta = 20;
     private static final int min_dt = 50;
     private static final int min_dy = 10;
-    private static long inverse_acceleration = 8000;
+    private static long inverse_acceleration = 4000;
     private long velocity = 0;
     private int y0=0, y1=0;
     private long t0=0, t1=0;
@@ -33,7 +33,7 @@ public class KineticScroller  extends Thread {
             instance = new KineticScroller();
         return instance;
     }
-    public void initPosition(VirtualList list) {
+    public void initPosition(final VirtualList list) {
         stopscrolling();
         y0=y1=list.win_top;
         t0=t1=System.currentTimeMillis();
@@ -41,7 +41,7 @@ public class KineticScroller  extends Thread {
     }
     
     public void updatePostion() {
-        long t = System.currentTimeMillis(); 
+        final long t = System.currentTimeMillis(); 
         if ((t-t1) < min_dt)
             return;
         
@@ -76,9 +76,9 @@ public class KineticScroller  extends Thread {
     
     private void update() {
         list.stickyWindow = false;
-        long t = System.currentTimeMillis();
-        long y = y1 + (y1 - y0) * (t - t1) / (t1 - t0) + (t - t1) * (t - t1) /2 / inverse_acceleration;
-        long new_velocity = velocity + (t - t1)* (t1 - t0) / inverse_acceleration;
+        final long t = System.currentTimeMillis();
+        final long y = y1 + (y1 - y0) * (t - t1) / (t1 - t0) + (t - t1) * (t - t1) /2 / inverse_acceleration;
+        final long new_velocity = velocity + (t - t1)* (t1 - t0) / inverse_acceleration;
         if ((velocity>=0 && new_velocity<=0) || 
                 (velocity<=0 && new_velocity>=0) || 
                 y<0 || 

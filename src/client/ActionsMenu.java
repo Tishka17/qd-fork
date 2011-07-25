@@ -600,11 +600,15 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                     }
                     break;
                 case MI_SEND_BUFFER: {
-                    String body = ClipBoard.getClipBoard();
-                    if (body == null && body.length() == 0) {
+                    String body;
+                    try {
+                        body = ClipBoard.getClipBoard();
+                        if (body == null && body.length() == 0) {
+                            return;
+                        }
+                    } catch (NullPointerException e) {
                         return;
                     }
-
                     String from = midlet.BombusQD.sd.account.toString();
                     String id = String.valueOf((int) System.currentTimeMillis());
 

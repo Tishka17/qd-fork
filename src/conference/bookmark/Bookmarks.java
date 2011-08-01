@@ -224,7 +224,7 @@ public final class Bookmarks extends VirtualList implements MenuListener {
             keyUp();
         } else if (c == cmdDwn) {
             move(+1);
-            keyDwn();
+            keyDown();
         }
         redraw();
     }

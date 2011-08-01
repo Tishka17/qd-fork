@@ -79,7 +79,7 @@ public class SplashScreen extends CanvasEx {
         this();
 
         this.status = status;
-        this.kHold = Config.keyLock;
+        this.kHold = VirtualCanvas.KEY_POUND;
 
         status.setElementAt(new Integer(RosterIcons.ICON_KEYBLOCK_INDEX),6);
 
@@ -162,10 +162,12 @@ public class SplashScreen extends CanvasEx {
         kHold = 0;
     }
 
-    protected void keyRepeated(int keyCode) {
-        if (kHold == 0 && keyCode == Config.keyLock) {
+    protected boolean keyLong(int keyCode) {
+        if (kHold == 0 && keyCode == VirtualCanvas.KEY_POUND) {
             destroyView();
+            return true;
         }
+        return super.keyLong(keyCode);
     }
 
     public void destroyView() {
@@ -181,6 +183,7 @@ public class SplashScreen extends CanvasEx {
     }
 
     public void getKeys() {
+        /*
         int pm=BombusQD.cf.phoneManufacturer;
         if (pm==Config.SIEMENS || pm==Config.SIEMENS2) {
              Config.SOFT_LEFT=-1;
@@ -234,7 +237,7 @@ public class SplashScreen extends CanvasEx {
                    }
                 } catch(Exception e){ }
             }
-        }
+        }*/
     }
 
     private class TimerTaskClock extends TimerTask {

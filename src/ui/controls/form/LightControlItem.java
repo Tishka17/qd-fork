@@ -68,11 +68,11 @@ public final class LightControlItem extends TrackItem {
 
     public boolean handleEvent(int keyCode) {
         switch (keyCode) {
-            case VirtualCanvas.LEFT:
+            case VirtualCanvas.NAVIKEY_LEFT:
             case VirtualCanvas.KEY_NUM4:
                 setIndex((index > 0) ? index - 1 : steps - 1);
                 return true;
-            case VirtualCanvas.RIGHT:
+            case VirtualCanvas.NAVIKEY_RIGHT:
             case VirtualCanvas.KEY_NUM6:
                 setIndex((index + 1) % steps);
                 return true;

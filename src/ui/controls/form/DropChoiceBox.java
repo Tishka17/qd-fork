@@ -175,13 +175,13 @@ public  class DropChoiceBox extends IconTextElement {
         }
 
         switch (keyCode) {
-            case VirtualCanvas.LEFT:
+            case VirtualCanvas.NAVIKEY_LEFT:
             case VirtualCanvas.KEY_NUM4:
                 if (--index < 0) {
                     index = 0;
                 }
                 return true;
-            case VirtualCanvas.RIGHT:
+            case VirtualCanvas.NAVIKEY_RIGHT:
             case VirtualCanvas.KEY_NUM6:
                 if (++index > items.size() - 1) {
                     index = items.size() - 1;

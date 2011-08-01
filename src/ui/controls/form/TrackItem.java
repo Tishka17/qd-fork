@@ -101,11 +101,11 @@ public class TrackItem extends IconTextElement {
 
     public boolean handleEvent(int keyCode) {
         switch (keyCode) {
-            case VirtualCanvas.LEFT:
+            case VirtualCanvas.NAVIKEY_LEFT:
             case VirtualCanvas.KEY_NUM4:
                 value = (value > 0) ? value - 1 : steps - 1;
                 return true;
-            case VirtualCanvas.RIGHT:
+            case VirtualCanvas.NAVIKEY_RIGHT:
             case VirtualCanvas.KEY_NUM6:
                 value = (value + 1) % steps;
                 return true;

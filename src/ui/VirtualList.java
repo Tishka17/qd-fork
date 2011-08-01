@@ -146,36 +146,6 @@ public abstract class VirtualList extends CanvasEx {
 //#endif
     }
 
-    public void userKeyPressed(int keyCode){}
-
-    public static final short SIEMENS_GREEN=-11;
-
-    public static final byte NOKIA_PEN=-50;
-
-    public static final byte MOTOE680_VOL_UP=-9;
-    public static final byte MOTOE680_VOL_DOWN=-8;
-    public static final byte MOTOE680_REALPLAYER=-6;
-    public static final byte MOTOE680_FMRADIO=-7;
-
-    public static final short MOTOROLA_FLIP=-200;
-
-    public static final byte SE_FLIPOPEN_JP6=-30;
-    public static final byte SE_FLIPCLOSE_JP6=-31;
-    public static final byte SE_GREEN=-10;
-
-    public static final byte SIEMENS_FLIPOPEN=-24;
-    public static final byte SIEMENS_FLIPCLOSE=-22;
-
-    public static final byte SIEMENS_VOLUP=-13;
-    public static final byte SIEMENS_VOLDOWN=-14;
-
-    public static final byte SIEMENS_CAMERA=-20;
-    public static final byte SIEMENS_MPLAYER=-21;
-
-    public static byte keyClear=-8;
-    public static short keyVolDown=0x1000;
-    public static short greenKeyCode=SIEMENS_GREEN;
-
 //#ifdef MEMORY_MONITOR
 //#     public static boolean memMonitor;
 //#endif
@@ -775,7 +745,7 @@ public abstract class VirtualList extends CanvasEx {
         setRotator();
     }
 
-    public void keyDwn() {
+    public void keyDown() {
         if (getItemCount()==0)
             return;
 	if (cursor==(getItemCount()-1)) {
@@ -1025,23 +995,6 @@ public abstract class VirtualList extends CanvasEx {
         } catch (Exception e) {}
     }
 
-    protected int kHold;
-
-    protected void keyRepeated(int keyCode){
-
-         if (keyCode==Config.SOFT_RIGHT || keyCode==')' || keyCode==Config.SOFT_LEFT || keyCode=='(' )
-             return;
-        key(keyCode);
-    }
-    protected void keyReleased(int keyCode) {
-        kHold=0;
-    }
-    protected void keyPressed(int keyCode) {
-
-        kHold=0;
-        key(keyCode);
-    }
-
     int old_win_top;
 
 //#ifdef TOUCH
@@ -1259,41 +1212,15 @@ public abstract class VirtualList extends CanvasEx {
 //#endif //TOUCH
 
     private boolean sendEvent(int keyCode) {
-        int code;
-        try {
-            switch (getGameAction(keyCode)) {
-                case FIRE:
-                    code = FIRE;
-                    break;
-                case UP:
-                    code = UP;
-                    break;
-                case DOWN:
-                    code = DOWN;
-                    break;
-                case LEFT:
-                    code = LEFT;
-                    break;
-                case RIGHT:
-                    code = RIGHT;
-                    break;
-                default:
-                    code = keyCode;
-                    break;
-            }
-        } catch (IllegalArgumentException e) {
-            code = keyCode;
-        }
-
 //#ifdef POPUPS
         if (getPopUp().size()>0) {
-            return popup.handleEvent(code);
+            return popup.handleEvent(keyCode);
         } else 
 //#endif
         {
             VirtualElement element = (VirtualElement)getFocusedObject();
             if (element != null) {
-                return element.handleEvent(code);
+                return element.handleEvent(keyCode);
             }
         }
         return false;
@@ -1365,9 +1292,9 @@ public abstract class VirtualList extends CanvasEx {
 
     public void touchMiddlePressed(){
     }
-
-    private void key(int keyCode) {
-     if(gm.itemGrMenu>0 && midlet.BombusQD.cf.graphicsMenu ) { //�������� ����
+    
+    protected void keyPressed(int keyCode) {
+     if(gm.itemGrMenu>0 && midlet.BombusQD.cf.graphicsMenu ) {
          if(null != menuItem) menuItem.keyPressed(keyCode);
          redraw();
      } else {         
@@ -1375,8 +1302,9 @@ public abstract class VirtualList extends CanvasEx {
             redraw();
             return;
         }
+     switch (keyCode) {
 //#ifdef POPUPS
-        if (keyCode==greenKeyCode) {
+        case VirtualCanvas.CALL_KEY: {
             if (getPopUp().getContact()!=null) {
 //#ifdef CLASSIC_CHAT
 //#                    if(midlet.BombusQD.cf.module_classicchat){
@@ -1400,39 +1328,37 @@ public abstract class VirtualList extends CanvasEx {
             }
         }
 //#endif
-        if (keyCode==Config.SOFT_LEFT || keyCode=='(') {
+        case VirtualCanvas.LEFT_SOFT: {
             gm.itemCursorIndex=0;
             gm.itemCursorIndexIn=0;
              touchLeftPressed();
             return;
         }
-         if (keyCode==Config.SOFT_RIGHT || keyCode==')') {
+        case VirtualCanvas.RIGHT_SOFT: {
             touchRightPressed();
             return;
-         }
-
-    switch (keyCode) {
+        }
         case 0:
             break;
-        case KEY_NUM1:
+        case VirtualCanvas.KEY_NUM1:
             moveCursorHome();
             break;
-        case KEY_NUM2:
+        case VirtualCanvas.KEY_NUM2:
             keyUp();
             break;
         case KEY_NUM4:
-            userKeyPressed(keyCode);
-            break;
+                pageLeft();
+                break;
         case KEY_NUM6:
-            userKeyPressed(keyCode);
-            break;
-        case KEY_NUM7:
+                pageRight();
+                break;
+        case VirtualCanvas.KEY_NUM7:
             moveCursorEnd();
             break;
-        case KEY_NUM8:
-            keyDwn();
+        case VirtualCanvas.KEY_NUM8:
+            keyDown();
             break;
-        case KEY_STAR:
+        case VirtualCanvas.KEY_STAR:
             if (!isServiceDiscoWindow) {
                 midlet.BombusQD.sd.roster.systemGC();
             }
@@ -1451,7 +1377,7 @@ public abstract class VirtualList extends CanvasEx {
 //#endif
             break;
 //#ifdef POPUPS
-        case KEY_POUND:
+        case VirtualCanvas.KEY_POUND:
             try {
                 String text = ((VirtualElement)getFocusedObject()).getTipString();
                 if (text != null) {
@@ -1462,41 +1388,33 @@ public abstract class VirtualList extends CanvasEx {
             break;
 //#endif
 
-        default:
-            try {
-                switch (getGameAction(keyCode)){
-                    case UP:
-                        keyUp();
-                        break;
-                    case DOWN:
-                        keyDwn();
-                        break;
-                    case LEFT:
-                        pageLeft();
-                        break;
-                    case RIGHT:
-                        pageRight();
-                        break;
-                    case FIRE:
-                        eventOk();
-                        break;
-                default:
-                    if (keyCode==keyClear) { keyClear(); break; }
-                    if (keyCode==keyVolDown) { moveCursorEnd(); break; }
-                    if (keyCode=='5') {  eventOk(); break; }
-                    if (keyCode==Config.KEY_BACK &&  canBack) { destroyView(); }
-                    if (keyCode==greenKeyCode) { keyGreen(); }
-
-                    userKeyPressed(keyCode);
-                }
-            } catch (Exception e) {
-//#ifdef DEBUG
-//#                 e.printStackTrace();
-//#endif
-            }
+        case VirtualCanvas.NAVIKEY_UP:
+            keyUp();
+            break;
+        case VirtualCanvas.NAVIKEY_DOWN:
+            keyDown();
+            break;
+        case VirtualCanvas.NAVIKEY_LEFT:
+            pageLeft();
+            break;
+        case VirtualCanvas.NAVIKEY_RIGHT:
+            pageRight();
+            break;
+        case VirtualCanvas.NAVIKEY_FIRE:
+        case VirtualCanvas.KEY_NUM5: 
+            eventOk();
+            break;
+        case VirtualCanvas.CLEAR_KEY: 
+            keyClear(); 
+        case VirtualCanvas.VOLMINUS_KEY: 
+            moveCursorEnd(); 
+            break;
+        case VirtualCanvas.CLOSE_KEY: 
+            if (canBack) { destroyView();}
+            break;
         }
         redraw();
-        }
+     }
     }
 
     public int getPrevSelectableRef(int curRef) {

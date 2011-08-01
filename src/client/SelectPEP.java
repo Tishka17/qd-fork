@@ -374,7 +374,7 @@ public final class SelectPEP extends DefForm implements VirtualElement, InputTex
         if (xCursor>0) xCursor--;
         else {
             if (cursor==0) {
-                keyDwn();
+                keyDown();
                 pageLeft();
                 return;
             }
@@ -391,12 +391,12 @@ public final class SelectPEP extends DefForm implements VirtualElement, InputTex
         } else {
             if (cursor==lines-1) return;
             xCursor=0;
-            keyDwn();
+            keyDown();
         }
     }
 
-    public void keyDwn(){
-        super.keyDwn();
+    public void keyDown(){
+        super.keyDown();
         if (cursor!=lines-1) return;
         if (xCursor >= xLastCnt) xCursor=xLastCnt-1;
     }

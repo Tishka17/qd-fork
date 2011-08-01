@@ -164,7 +164,6 @@ public final class ActiveContacts extends VirtualList implements MenuListener {
     }
 
     public void keyPressed(int keyCode) {
-        kHold = 0;
 //#ifdef POPUPS
         VirtualList.popup.next();
 //#endif

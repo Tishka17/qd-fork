@@ -26,6 +26,7 @@
 //#ifdef USER_KEYS
 package ui.keys;
 
+import javax.microedition.lcdui.Canvas;
 import locale.SR;
 import ui.controls.form.CheckBox;
 import ui.controls.form.DefForm;
@@ -85,6 +86,8 @@ public class UserKeyEdit extends DefForm {
         u.active=active.getValue();
         u.commandId=keyDesc.getSelectedIndex();
         u.key=keyCode.getSelectedIndex();
+        if (u.key==10) u.keyCode = Canvas.KEY_POUND; 
+        else u.keyCode = u.key + Canvas.KEY_NUM0;
 
         if (newKey) {
             keysList.commandsList.addElement(u);

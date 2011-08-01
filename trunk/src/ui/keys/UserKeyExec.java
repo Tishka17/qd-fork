@@ -87,7 +87,7 @@ public class UserKeyExec {
         int commandNum = -1;
          for (Enumeration commands=commandsList.elements(); commands.hasMoreElements(); ) {
             UserKey userKeyItem=(UserKey) commands.nextElement();
-            if (userKeyItem.key==key && userKeyItem.active) {
+            if (userKeyItem.keyCode==key && userKeyItem.active) {
                 commandNum=userKeyItem.commandId;
                 break;
             }
@@ -95,10 +95,10 @@ public class UserKeyExec {
         return commandNum;
     }
 
-    public void commandExecute(int command) { //return false if key not executed
+    public boolean commandExecute(int command) { //return false if key not executed
         int commandId=getCommandByKey(command);
 
-        if (commandId<1) return;
+        if (commandId<1) return false;
 
         boolean connected= ( sd.roster.isLoggedIn() );
 
@@ -172,6 +172,7 @@ public class UserKeyExec {
                 cf.saveToStorage();
                 break;
         }
+        return true;
     }
 }
 //#endif

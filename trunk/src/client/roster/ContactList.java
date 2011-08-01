@@ -168,10 +168,10 @@ public final class ContactList {
     public int getContactCount() {
         return groups.getRosterContacts();
     }
-    public final void updateUI() {
+    public void updateUI() {
         groups.update();
     }
-    public final Vector getVisibleTree(Vector vContacts) {
+    public Vector getVisibleTree(Vector vContacts) {
         return groups.getVisibleTree(vContacts);
     }
 }

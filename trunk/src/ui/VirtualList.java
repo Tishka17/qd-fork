@@ -48,9 +48,7 @@ import ui.controls.PopUp;
 import ui.controls.Balloon;
 import ui.controls.ScrollBar;
 import util.StringUtils;
-//#ifdef USER_KEYS
-import ui.keys.UserKeyExec;
-//#endif
+
 import java.util.Vector;
 import menu.Command;
 import midlet.BombusQD;
@@ -118,15 +116,7 @@ public abstract class VirtualList extends CanvasEx {
             case 6: paintTop=false; paintBottom=true;  reverse=true;  break;
         }
     }
-
-//#ifdef USER_KEYS
-    private static final int USER_OTHER_KEY_PRESSED = 1;
-    private static final int USER_STAR_KEY_PRESSED = 2;
-    private static final int USER_KEY_EXECUTED = 3;
-
-    private int additionKeyState = USER_OTHER_KEY_PRESSED;
-//#endif
-
+    
 //#ifdef POPUPS
     public static PopUp popup;
     public static PopUp getPopUp() {
@@ -1268,25 +1258,6 @@ public abstract class VirtualList extends CanvasEx {
 
 //#endif //TOUCH
 
-//#ifdef USER_KEYS
-    // TODO укоротить
-    private void additionKeyPressed(int keyCode) {
-        switch (keyCode) {
-            case KEY_NUM0: UserKeyExec.getInstance().commandExecute(0); break;
-            case KEY_NUM1: UserKeyExec.getInstance().commandExecute(1); break;
-            case KEY_NUM2: UserKeyExec.getInstance().commandExecute(2); break;
-            case KEY_NUM3: UserKeyExec.getInstance().commandExecute(3); break;
-            case KEY_NUM4: UserKeyExec.getInstance().commandExecute(4); break;
-            case KEY_NUM5: UserKeyExec.getInstance().commandExecute(5); break;
-            case KEY_NUM6: UserKeyExec.getInstance().commandExecute(6); break;
-            case KEY_NUM7: UserKeyExec.getInstance().commandExecute(7); break;
-            case KEY_NUM8: UserKeyExec.getInstance().commandExecute(8); break;
-            case KEY_NUM9: UserKeyExec.getInstance().commandExecute(9); break;
-            case KEY_POUND: UserKeyExec.getInstance().commandExecute(10); break;
-        }
-    }
-//#endif
-
     private boolean sendEvent(int keyCode) {
         int code;
         try {
@@ -1399,22 +1370,7 @@ public abstract class VirtualList extends CanvasEx {
      if(gm.itemGrMenu>0 && midlet.BombusQD.cf.graphicsMenu ) { //�������� ����
          if(null != menuItem) menuItem.keyPressed(keyCode);
          redraw();
-     } else {
-//#ifdef USER_KEYS
-        if (Config.userKeys) {
-            switch (additionKeyState) {
-                case USER_OTHER_KEY_PRESSED:
-                case USER_KEY_EXECUTED:
-                    additionKeyState=(keyCode==KEY_STAR)?USER_STAR_KEY_PRESSED:USER_OTHER_KEY_PRESSED;
-                    break;
-                case USER_STAR_KEY_PRESSED:
-                    additionKeyState=(keyCode!=KEY_STAR)?USER_KEY_EXECUTED:USER_STAR_KEY_PRESSED;
-                    additionKeyPressed(keyCode);
-                    break;
-            }
-        }
-//#endif
-         
+     } else {         
         if (sendEvent(keyCode)) {
             redraw();
             return;

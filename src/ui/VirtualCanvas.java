@@ -34,6 +34,9 @@ import javax.microedition.lcdui.Image;
 import light.CustomLight;
 //#endif
 import midlet.BombusQD;
+//#ifdef USER_KEYS
+import ui.keys.UserKeyExec;
+//#endif
 
 public class VirtualCanvas extends Canvas {
     private CanvasEx canvas;
@@ -105,7 +108,19 @@ public class VirtualCanvas extends Canvas {
         isPainting = false;
     }
 
+    
+    static long star_pressed_time = 0;
     protected void keyPressed(int code) {
+//#ifdef USER_KEYS
+        long time = System.currentTimeMillis();
+        if (code==KEY_STAR) {
+            star_pressed_time = time;
+        } else if (star_pressed_time!=0 && time-star_pressed_time<2000) {
+            star_pressed_time = 0;
+            if (UserKeyExec.getInstance().commandExecute(code))
+                return;
+        }
+//#endif
 //#ifdef LIGHT_CONTROL
         CustomLight.keyPressed();
 //#endif

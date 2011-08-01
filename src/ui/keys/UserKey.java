@@ -47,6 +47,7 @@ public class UserKey extends IconTextElement {
             
     public int    commandId = 0;
     public int    key       = -1;
+    public int    keyCode       = -1;
     public boolean active    = false;
 
     public UserKey() {
@@ -83,6 +84,7 @@ public class UserKey extends IconTextElement {
         try {
             u.commandId  = inputStream.readInt();
             u.key        = inputStream.readInt();
+            u.keyCode        = inputStream.readInt();
             u.active     = inputStream.readBoolean();
         } catch (IOException e) { /*e.printStackTrace();*/ }
             
@@ -93,6 +95,7 @@ public class UserKey extends IconTextElement {
         try {
             outputStream.writeInt(commandId);
             outputStream.writeInt(key);	    
+            outputStream.writeInt(keyCode);
 	    outputStream.writeBoolean(active);	    
         } catch (IOException e) { }
     }

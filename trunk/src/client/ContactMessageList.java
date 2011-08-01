@@ -529,57 +529,20 @@ public final class ContactMessageList extends MessageList implements InputTextBo
                     }
                     break;
     //#endif
-                default:
-                    super.keyPressed(keyCode);
-            }
-        } else {
-            super.keyPressed(keyCode);
-        }
-    }
-    
-    public void keyRepeated(int keyCode) {
-        if (keyCode == KEY_NUM0) {
-            clearReadedMessageList();
-        } else {
-            super.keyRepeated(keyCode);
-        }
-    }
-    
-    public void userKeyPressed(int keyCode) {
-     if(midlet.BombusQD.cf.find_text){//next rev
-          switch (keyCode) {
-              case KEY_NUM4: {
-                     if(found_count>0) found_count--;
-                      else {
-//#ifdef POPUPS
-                          VirtualList.setWobble(1, null, SR.get(SR.MS_END_SEARCH));
-//#endif
-                          clearResults();
-                      }
-                      int cursor_index = Integer.parseInt(vectorfound.elementAt(found_count).toString());
-                      moveCursorTo(cursor_index, true);
-                      redraw();
-               break;
-              }
-              case KEY_NUM6: {
-                      if(found_count<vectorfound.size()-1) found_count++;
-                      else {
-//#ifdef POPUPS
-                          VirtualList.setWobble(1, null, SR.get(SR.MS_END_SEARCH));
-//#endif
-                          clearResults();
-                      }
-                      int cursor_index = Integer.parseInt(vectorfound.elementAt(found_count).toString());
-                      moveCursorTo(cursor_index, true);
-                      redraw();
-              break;
-             }
-          }
-       }
-       else
-       {
-          switch (keyCode) {
             case KEY_NUM4:
+                if(midlet.BombusQD.cf.find_text) {
+                    if(found_count>0) found_count--;
+                      else {
+    //#ifdef POPUPS
+                          VirtualList.setWobble(1, null, SR.get(SR.MS_END_SEARCH));
+    //#endif
+                          clearResults();
+                      }
+                      int cursor_index = Integer.parseInt(vectorfound.elementAt(found_count).toString());
+                      moveCursorTo(cursor_index, true);
+                      redraw();
+                      break;
+                }
                 if (midlet.BombusQD.cf.useTabs)
                     midlet.BombusQD.sd.roster.searchActiveContact(contact, false);
                 else
@@ -597,6 +560,19 @@ public final class ContactMessageList extends MessageList implements InputTextBo
                     }
                   break;
             case KEY_NUM6:
+                if(midlet.BombusQD.cf.find_text){
+                    if(found_count<vectorfound.size()-1) found_count++;
+                    else {
+//#ifdef POPUPS
+                        VirtualList.setWobble(1, null, SR.get(SR.MS_END_SEARCH));
+//#endif
+                        clearResults();
+                    }
+                    int cursor_index = Integer.parseInt(vectorfound.elementAt(found_count).toString());
+                    moveCursorTo(cursor_index, true);
+                    redraw();
+                    break;
+                }
                 if (midlet.BombusQD.cf.useTabs)
                     midlet.BombusQD.sd.roster.searchActiveContact(contact, true);
                 else
@@ -612,8 +588,20 @@ public final class ContactMessageList extends MessageList implements InputTextBo
                     quoteMessage();
                 }
                 break;
+            default:
+                    super.keyPressed(keyCode);
             }
+        } else {
+            super.keyPressed(keyCode);
         }
+    }
+    
+    public boolean  keyLong(int keyCode) {
+        if (keyCode == KEY_NUM0) {
+            clearReadedMessageList();
+            return true;
+        }
+        return super.keyLong(keyCode);
     }
     
     public void newMessage() {

@@ -234,7 +234,7 @@ public class ColorSelector extends DefForm implements Runnable {
      }
 //#endif
 
-    protected void keyPressed(int key) {
+    public void keyPressed(int key) {
         switch (key) {
             case KEY_NUM2:
                 timer = 7;

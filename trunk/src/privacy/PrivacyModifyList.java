@@ -133,7 +133,7 @@ public class PrivacyModifyList extends VirtualList  implements  MenuListener, Ja
         }
 
         if (c==cmdUp) { move(-1); keyUp(); }
-        if (c==cmdDwn) { move(+1); keyDwn(); }
+        if (c==cmdDwn) { move(+1); keyDown(); }
         redraw();
     }
 

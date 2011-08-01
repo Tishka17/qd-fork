@@ -103,19 +103,7 @@ public class DefForm extends VirtualList {
 
     public void cmdOk() {}
 
-    public void userKeyPressed(int keyCode) {
-        switch (keyCode) {
-            case KEY_NUM4:
-                pageLeft();
-                break;
-            case KEY_NUM6:
-                pageRight();
-                break;
-        }
-    }
-
     public int showGraphicsMenu() {
-        //System.out.println("1");
         return GMenu.DEF_FORM;
     }
 

@@ -88,7 +88,6 @@ public class Menu extends VirtualList {
     }
      
     public void keyPressed(int keyCode) {
-        kHold = 0;
         if (Config.executeByNum && getItemCount() > 0) {
             switch (keyCode) {
                 case KEY_NUM0:
@@ -122,21 +121,19 @@ public class Menu extends VirtualList {
                     executeCommand(8);
                     return;
             }
+        } else {
+            switch (keyCode) {
+            case KEY_NUM4:
+                pageLeft();
+                break;
+            case KEY_NUM6:
+                pageRight();
+                break;
+            }
         }
         super.keyPressed(keyCode);
     }
-
-    public void userKeyPressed(int keyCode){
-     switch (keyCode) {
-        case KEY_NUM4:
-            pageLeft();
-            break;
-        case KEY_NUM6:
-            pageRight();
-            break;
-     }
-    }
-    
+   
     private void executeCommand(int index) {
         moveCursorTo(index);
         eventOk();

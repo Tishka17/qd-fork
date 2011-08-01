@@ -174,7 +174,7 @@ public class SmilePicker extends DefForm implements VirtualElement {
             xCursor--;
         else {
             if (cursor==0) {
-                keyDwn();
+                keyDown();
                 pageLeft();
                 return;
             }
@@ -190,11 +190,11 @@ public class SmilePicker extends DefForm implements VirtualElement {
         } else {
             if (cursor==lines-1) return;
             xCursor=0;
-            keyDwn();
+            keyDown();
         }
     }
-    public void keyDwn(){
-        super.keyDwn();
+    public void keyDown(){
+        super.keyDown();
         if (cursor!=lines-1)
             return;
         if (xCursor >= xLastCnt)

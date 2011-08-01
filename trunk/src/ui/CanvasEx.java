@@ -80,8 +80,9 @@ public abstract class CanvasEx extends Canvas {
     protected abstract void paint(Graphics g);
 
     protected void keyPressed(int code) {}
-    protected void keyRepeated(int code) {}
     protected void keyReleased(int code) {}
+    protected boolean keyLong(int keyCode){return false;}
+    
 
     protected void pointerPressed(int x, int y) {}
     protected void pointerDragged(int x, int y) {}

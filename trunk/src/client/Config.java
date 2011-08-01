@@ -67,10 +67,6 @@ public class Config {
     public static final int HISTORY_RMS = 0;
     public static final int HISTORY_FS = 1;
 
-    public static int KEY_BACK = -11;
-    public static int SOFT_LEFT = -6;
-    public static int SOFT_RIGHT = -7;
-
     public final static int SUBSCR_AUTO=0;
     public final static int SUBSCR_ASK=1;
     public final static int SUBSCR_DROP=2;
@@ -108,8 +104,6 @@ public class Config {
     public boolean ghostMotor = false;
     public boolean muc119=true;	// before muc 1.19 use muc#owner instead of muc#admin
 
-    public static char keyLock='*';
-    public static char keyVibra='#';
 
 //#ifdef AUTOSTATUS
     public final static int AWAY_LOCK = 0;
@@ -371,7 +365,6 @@ public class Config {
 	int gmtloc=TimeZone.getDefault().getRawOffset()/3600000;
 	gmtOffset=gmtloc;
 
-	short greenKeyCode=-1000;
         //prefetch images
         RosterIcons.getInstance();
         ActionsIcons.getInstance();
@@ -391,48 +384,17 @@ public class Config {
             case SONYE:
                 try { Thread.sleep(50); } catch (InterruptedException e){}
                 allowMinimize=true;
-                greenKeyCode=-10;
-                break;
-            case SONYE_M600:
-                KEY_BACK=-11;
-                break;
-            case WTK:
-                greenKeyCode=-10;
-                break;
             case NOKIA:
-                KEY_BACK=VirtualList.NOKIA_PEN;
-                greenKeyCode=-10;
                 allowMinimize=true;
                 nokiaReconnectHack=true;
                 break;
-            case SIEMENS:
-            case SIEMENS2:
-                keyLock='#';
-                keyVibra='*';
-                KEY_BACK=-4;
-                greenKeyCode=VirtualList.SIEMENS_GREEN;
-                break;
             case WINDOWS:
-                greenKeyCode=-5;
-                VirtualList.keyClear=8;
                 graphicsMenu = false;
                 break;
             case MOTO:
                 ghostMotor=true;
-                greenKeyCode=-10;
-                break;
-            case MOTOEZX:
-                VirtualList.keyVolDown=VirtualList.MOTOE680_VOL_DOWN;
-                KEY_BACK=VirtualList.MOTOE680_REALPLAYER;
-		greenKeyCode=-31;
-                break;
-            case MICROEMU:
-                Config.SOFT_LEFT = -82;
-                Config.SOFT_RIGHT = -8;
-                VirtualList.keyClear = -27;
                 break;
         }
-	VirtualList.greenKeyCode=greenKeyCode;
     }
 
 //#ifdef TOUCH

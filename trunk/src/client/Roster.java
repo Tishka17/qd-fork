@@ -3067,7 +3067,6 @@ public final class Roster extends VirtualList
 //#endif
 */
 
-
             case KEY_NUM0:
                 if (getItemCount()==0)
                      return;
@@ -3111,18 +3110,15 @@ public final class Roster extends VirtualList
         }
      }
 
-    protected void keyRepeated(int keyCode) {
-        super.keyRepeated(keyCode);
-        if (kHold==keyCode) return;
-        kHold=keyCode;
-
-        if (keyCode==midlet.BombusQD.cf.keyLock) {
+    protected boolean keyLong(int keyCode) {
+        if (keyCode==VirtualCanvas.KEY_STAR) {
 //#ifdef AUTOSTATUS
             AutoStatus.getInstance().appLocked();
 //#endif
             new SplashScreen(getMainBarItem()).show();
-            return;
-        } else if (keyCode==midlet.BombusQD.cf.keyVibra || keyCode==MOTOE680_FMRADIO /* TODO: redefine keyVibra*/) {
+            return true;
+            /* FIXME
+        } else if (keyCode==midlet.BombusQD.cf.keyVibra || keyCode==MOTOE680_FMRADIO ) {// TODO: redefine keyVibra/
             // swap profiles
             int profile=midlet.BombusQD.cf.currentAlertProfile;
             midlet.BombusQD.cf.currentAlertProfile=(profile==AlertProfile.VIBRA)?midlet.BombusQD.cf.lastProfile : AlertProfile.VIBRA;
@@ -3131,30 +3127,36 @@ public final class Roster extends VirtualList
             updateMainBar();
             redraw();
             return;
+            */
         } else if (keyCode==KEY_NUM0) {
             midlet.BombusQD.cf.showOfflineContacts=!midlet.BombusQD.cf.showOfflineContacts;
             sortRoster(null);
             setUpdateView();
             reEnumRoster();
-            return;
+            return true;
         }
 //#ifndef WMUC
         else if (keyCode==KEY_NUM1 && isLoggedIn()) {
             new Bookmarks().show();
+            return true;
         }
 //#endif
 
         else if (keyCode==KEY_NUM4) {
-              new ConfigForm().show();
+            new ConfigForm().show();
+            return true;
         }
         else if (keyCode==KEY_NUM6) {
             Config.fullscreen =! Config.fullscreen;
             BombusQD.sd.canvas.setFullScreenMode(Config.fullscreen);
             midlet.BombusQD.cf.saveToStorage();
+            return true;
         }
 //#ifdef SERVICE_DISCOVERY
-        else if (keyCode==KEY_NUM7 && isLoggedIn())
+        else if (keyCode==KEY_NUM7 && isLoggedIn()) {
             new ServiceDiscovery(null, null, false).show();
+            return true;
+        }
 //#endif
         else if (keyCode==KEY_NUM9) {
             if (midlet.BombusQD.cf.allowMinimize)
@@ -3167,7 +3169,10 @@ public final class Roster extends VirtualList
                  try {
                     BombusQD.getInstance().platformRequest("native:NAT_MAIN_MENU");
                  } catch (Exception e) { }
+            
+            return true;
         }
+        return super.keyLong(keyCode);
     }
 
 //#ifdef POPUPS

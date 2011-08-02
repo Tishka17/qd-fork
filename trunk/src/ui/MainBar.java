@@ -39,11 +39,7 @@ public class MainBar extends ComplexString{
     public MainBar(Object obj) {
         this(1, obj, null, false);
     }
-    
-    public MainBar(String str) {
-        this(1, str, null, false);
-    }    
-    
+   
     public MainBar(Object obj, boolean bold) {
         this(1, obj, null, bold);
     }

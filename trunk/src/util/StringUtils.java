@@ -87,14 +87,14 @@ public class StringUtils {
 //#   public static Font getFont() {
 //#         return FontCache.getFont(false, Config.msgFont);
 //#   }
-//#
+//# 
 //#   public static void addClassicChatMsg(String message, int availWidth,ClassicChat scrMsg) {
 //#         Vector lines=new Vector(0);
 //#         char[] valueChars = message.concat("   ").toCharArray();
 //#         int startPos = 0;
 //#         availWidth-=24;
 //#         int currentLineWidth = 0;
-//#
+//# 
 //#         for (int i = 0; i < valueChars.length; i++) {
 //#             char c = valueChars[i];
 //#             currentLineWidth += //MFont.isCheck()?MFont.getCharWidth(c):
@@ -226,12 +226,12 @@ public class StringUtils {
         src=stringReplace(src,"%t",Time.localTime());
                 Random rand = new Random();
                 String[] qd_offline_status = {
-                       "BombusQD.It's very simple",
-                       "I use BombusQD.And you?",
-                       "I'am happy user of BombusQD.Check it on http://bombusmod-qd.wen.ru/",
-                       "BombusQD.Check it on http://bombusmod-qd.wen.ru/",
-                       "Bombus,QD Bombus",
-                       "I'am happy user of BombusQD.You get it here http://bombusmod-qd.wen.ru/",
+                       "BombusQD. It's very simple",
+                       "I use BombusQD. And you?",
+                       "I'am happy user of BombusQD. Check it on http://bombusqd.hdd1.ru/",
+                       "BombusQD. Check it on http://bombusqd.hdd1.ru/",
+                       "Bombus, QD Bombus",
+                       "I'am happy user of BombusQD. You can get it on http://bombusqd.hdd1.ru/",
                        "Are you ready for BombusQD?"
                 };
                 int i = rand.nextInt(7);
@@ -271,13 +271,13 @@ public class StringUtils {
         // legacy codes
         switch (errCode) {
             case XmppError.NOT_AUTHORIZED:        return "Password required";
-            case XmppError.FORBIDDEN:             return "You are banned in this room";
+            case XmppError.FORBIDDEN:              return "You are banned in this room";
             case XmppError.ITEM_NOT_FOUND:        return "Room does not exists";
             case XmppError.NOT_ALLOWED:           return "You can't create room on this server";
-            case XmppError.NOT_ACCEPTABLE:        return "Reserved roomnick must be used";
-            case XmppError.REGISTRATION_REQUIRED: return "This room is members-only";
-            case XmppError.CONFLICT:              return "Nickname is already in use by another occupant";
-            case XmppError.SERVICE_UNAVAILABLE:   return "Maximum number of users has been reached in this room";
+            case XmppError.NOT_ACCEPTABLE:         return "Reserved roomnick must be used";
+            case XmppError.REGISTRATION_REQUIRED:   return "This room is members-only";
+            case XmppError.CONFLICT:               return "Nickname is already in use by another occupant";
+            case XmppError.SERVICE_UNAVAILABLE:     return "Maximum number of users has been reached in this room";
             default: return xe.getName();
         }
     }

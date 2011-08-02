@@ -150,7 +150,7 @@ public final class Roster extends VirtualList
     public JabberStream theStream = null;
     public int messageCount;
     int highliteMessageCount;
-    public Object transferIcon;
+    public Object eventIcon;
 
     public ContactList contactList = new ContactList();
     private Vector vContacts = new Vector(0);
@@ -176,6 +176,7 @@ public final class Roster extends VirtualList
     private int blState=Integer.MAX_VALUE;
 
     private BaseMessageEdit msgEditor;
+    public String rosterVersion=null;
 
     public Roster() { //init
         super();
@@ -426,7 +427,7 @@ public final class Roster extends VirtualList
     // establishing connection process
     public void run(){
         setQuerySign(true);
-  if (!doReconnect) {
+        if (!doReconnect) {
             resetRoster();
         }
         try {
@@ -462,6 +463,7 @@ public final class Roster extends VirtualList
 //#endif
         contactList.resetRoster();
         vContacts = new Vector(0); // just for displaying
+        rosterVersion = "";
         bookmarks = null;
         Jid myJid = new Jid(midlet.BombusQD.sd.account.getJid());
         setMyJid(myJid);
@@ -503,7 +505,7 @@ public final class Roster extends VirtualList
     }
 
     public Object getEventIcon() {
-        return transferIcon;
+        return eventIcon;
     }
 
     private void updateMainBar(){
@@ -545,7 +547,7 @@ public final class Roster extends VirtualList
 
 
     public void setEventIcon(Object icon){
-        transferIcon=icon;
+        eventIcon=icon;
         mainbar.setElementAt(icon, 7);
         redraw();
     }
@@ -686,7 +688,8 @@ public final class Roster extends VirtualList
         if (from!=null) {
             Jid fromJid=new Jid(from);
             if (fromJid.hasResource() && !myJid.equals(fromJid, true)) return false;
-         }
+        }
+        rosterVersion = q.getAttribute("ver");
         Vector cont=q.getChildBlocks();
         String group,bareJid;
         Vector transports = new Vector(0);
@@ -724,18 +727,18 @@ public final class Roster extends VirtualList
     }
 
    public void connectTransport(){
-            if(midlet.BombusQD.cf.isStatusFirst && firstStatus!=-1) {
-               if (firstStatus==5) sendPresence(Presence.PRESENCE_INVISIBLE, null);
-               else sendPresence(firstStatus, null);
+        if(midlet.BombusQD.cf.isStatusFirst && firstStatus!=-1) {
+           if (firstStatus==5) sendPresence(Presence.PRESENCE_INVISIBLE, null);
+           else sendPresence(firstStatus, null);
 
-               midlet.BombusQD.cf.isStatusFirst=false;
-               firstStatus=-1;
-             } else {
-                 if (midlet.BombusQD.cf.loginstatus==5) sendPresence(Presence.PRESENCE_INVISIBLE, null);
-                 else {
-                    sendPresence(midlet.BombusQD.cf.loginstatus, null);
-                 }
+           midlet.BombusQD.cf.isStatusFirst=false;
+           firstStatus=-1;
+         } else {
+             if (midlet.BombusQD.cf.loginstatus==5) sendPresence(Presence.PRESENCE_INVISIBLE, null);
+             else {
+                sendPresence(midlet.BombusQD.cf.loginstatus, null);
              }
+         }
    }
 
 
@@ -1424,7 +1427,7 @@ public final class Roster extends VirtualList
             //query bookmarks
             theStream.addBlockListener(new BookmarkQuery(BookmarkQuery.LOAD));
         } else {
-            JabberDataBlock qr=new IqQueryRoster();
+            JabberDataBlock qr=new IqQueryRoster(rosterVersion);
             setProgress(SR.get(SR.MS_ROSTER_REQUEST), 49);
             theStream.send( qr );
             qr=null;
@@ -1548,9 +1551,9 @@ public final class Roster extends VirtualList
                 if (id!=null) {
                     if (id.startsWith("nickvc")) {
                         if (type.equals("get") || type.equals("set")) return JabberBlockListener.BLOCK_REJECTED;
-      String matchedjid = id.substring(6, id.length());
-      if (!(from.equals(matchedjid) || from.equals(new Jid(matchedjid).getBareJid())))
-        return JabberBlockListener.BLOCK_REJECTED;
+                        String matchedjid = id.substring(6, id.length());
+                        if (!(from.equals(matchedjid) || from.equals(new Jid(matchedjid).getBareJid())))
+                            return JabberBlockListener.BLOCK_REJECTED;
 
                         VCard vc=new VCard(data);//.getNickName();
                         String nick=vc.getNickName();

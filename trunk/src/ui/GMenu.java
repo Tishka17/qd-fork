@@ -356,7 +356,7 @@ public class GMenu extends CanvasEx {
    protected void pointerReleased(int x, int y) {
        touchSelect(x,y);
        if (eventMenu==true) {
-           closeEvent();
+           closeEvent(gm.itemCursorIndexIn);
            return;
        }
        eventOk();
@@ -377,14 +377,10 @@ public class GMenu extends CanvasEx {
             gm.itemGrMenu=-1;
             gm.ml=null;
             gm.itemCursorIndex=0;
-            //return;
-         }
-         else
-         {
-            if(Config.executeByNum){
-                int itemsSize = gm.commandslist.length;
-                switch (keyCode)
-              {
+         } else if(Config.executeByNum){
+            int itemsSize = gm.commandslist.length;
+            switch (keyCode)
+            {
                 case KEY_NUM1: if(itemsSize > 0) {gm.itemCursorIndex=0; eventOk();} break;
                 case KEY_NUM2: if(itemsSize > 1) {gm.itemCursorIndex=1; eventOk();} break;
                 case KEY_NUM3: if(itemsSize > 2) {gm.itemCursorIndex=2; eventOk();} break;
@@ -400,40 +396,35 @@ public class GMenu extends CanvasEx {
                       if(gm.itemCursorIndex<0){
                         gm.itemCursorIndex=size;
                       }
-                     //startTimer(false);
                      break;
-                case VirtualCanvas.NAVIKEY_LEFT: break;
-                case VirtualCanvas.NAVIKEY_RIGHT: break;
                 case VirtualCanvas.NAVIKEY_DOWN:
                     gm.itemCursorIndex++;
                      if(gm.itemCursorIndex>size){
                         gm.itemCursorIndex=0;
                     }
-                    //startTimer(true);
                     break;
                 case VirtualCanvas.NAVIKEY_FIRE: eventOk(); break;
-              }
-            } else {
-              switch (keyCode)
-              {
+            }
+        } else {
+            switch (keyCode)
+            {
+                case VirtualCanvas.NAVIKEY_UP:
                 case KEY_NUM2:
                     gm.itemCursorIndex--;
                      if(gm.itemCursorIndex<0){
                         gm.itemCursorIndex=size;
                      }
-                     //startTimer(false);
-                     break;
+                     break;                 
+                case VirtualCanvas.NAVIKEY_DOWN:
                 case KEY_NUM8:
                      gm.itemCursorIndex++;
                      if(gm.itemCursorIndex>size){
                         gm.itemCursorIndex=0;
                      }
-                     //startTimer(true);
                      break;
                 case KEY_NUM5:
                     gm.itemCursorIndexIn=0;
                     eventOk();
-                    //startTimer(true);
                     break;
                 case KEY_NUM1:
                      gm.itemCursorIndex=0;
@@ -441,134 +432,98 @@ public class GMenu extends CanvasEx {
                 case KEY_NUM7:
                      gm.itemCursorIndex=size;
                     break;
-                case VirtualCanvas.NAVIKEY_UP:
-                     gm.itemCursorIndex--;
-                      if(gm.itemCursorIndex<0){
-                        gm.itemCursorIndex=size;
-                      }
-                     //startTimer(false);
-                     break;
-                case VirtualCanvas.NAVIKEY_LEFT: break;
-                case VirtualCanvas.NAVIKEY_RIGHT: break;
-                case VirtualCanvas.NAVIKEY_DOWN:
-                    gm.itemCursorIndex++;
-                     if(gm.itemCursorIndex>size){
-                        gm.itemCursorIndex=0;
-                    }
-                    //startTimer(true);
-                    break;
                 case VirtualCanvas.NAVIKEY_FIRE:
                     eventOk();
-                    //startTimer(true);
                     break;
-                }
-            }//midlet.BombusQD.cf.executeByNum end
-         }
+            }
+        }
      }
-    }
+   }
 
-   private void closeEvent(){
-     gm.inMenuSelected=true; gm.itemGrMenu=-1;
+   private void closeEvent(int i){
+       if (gm.commandslistIn.length<=i) {
+           return;
+       }
+       gm.itemCursorIndexIn=i;
+       gm.inMenuSelected=true; 
+       gm.itemGrMenu=-1;
    }
 
    public boolean sendEvent(int keyCode) {
-         if (keyCode==VirtualCanvas.LEFT_SOFT) {
-                     //gm.itemGrMenu=-1;
-                     closeEvent();
-                     return false;
-         }
-        else if (keyCode==VirtualCanvas.RIGHT_SOFT || keyCode==VirtualCanvas.CLOSE_KEY) {
-            gm.itemGrMenu=-1;
-            gm.ml=null;
-            return false;
-         }
-         else
-         {
-            if(Config.executeByNum){
-              switch (keyCode)
-              {
-                case KEY_NUM1: if(gm.commandslistIn.length>0) {gm.itemCursorIndexIn=0; closeEvent();} return false;
-                case KEY_NUM2: if(gm.commandslistIn.length>1) {gm.itemCursorIndexIn=1; closeEvent();} return false;
-                case KEY_NUM3: if(gm.commandslistIn.length>2) {gm.itemCursorIndexIn=2; closeEvent();} return false;
-                case KEY_NUM4: if(gm.commandslistIn.length>3) {gm.itemCursorIndexIn=3; closeEvent();} return false;
-                case KEY_NUM5: if(gm.commandslistIn.length>4) {gm.itemCursorIndexIn=4; closeEvent();} return false;
-                case KEY_NUM6: if(gm.commandslistIn.length>5) {gm.itemCursorIndexIn=5; closeEvent();} return false;
-                case KEY_NUM7: if(gm.commandslistIn.length>6) {gm.itemCursorIndexIn=6; closeEvent();} return false;
-                case KEY_NUM8: if(gm.commandslistIn.length>7) {gm.itemCursorIndexIn=7; closeEvent();} return false;
-                case KEY_NUM9: if(gm.commandslistIn.length>8) {gm.itemCursorIndexIn=8; closeEvent();} return false;
-                case KEY_NUM0: if(gm.commandslistIn.length>9) {gm.itemCursorIndexIn=9; closeEvent();} return false;
+       if (keyCode==VirtualCanvas.LEFT_SOFT) {
+           closeEvent(gm.itemCursorIndexIn);
+           return false;
+       } else if (keyCode==VirtualCanvas.RIGHT_SOFT || keyCode==VirtualCanvas.CLOSE_KEY) {
+           gm.itemGrMenu=-1;
+           gm.ml=null;
+           return false;
+       } else if(Config.executeByNum){
+          switch (keyCode)
+          {
+            case KEY_NUM1: closeEvent(0); return false;
+            case KEY_NUM2: closeEvent(1); return false;
+            case KEY_NUM3: closeEvent(2); return false;
+            case KEY_NUM4: closeEvent(3); return false;
+            case KEY_NUM5: closeEvent(4); return false;
+            case KEY_NUM6: closeEvent(5); return false;
+            case KEY_NUM7: closeEvent(6); return false;
+            case KEY_NUM8: closeEvent(7); return false;
+            case KEY_NUM9: closeEvent(8); return false;
+            case KEY_NUM0: closeEvent(9); return false;
 
-                case VirtualCanvas.NAVIKEY_UP:
-                     gm.itemCursorIndexIn--;
-                      if(gm.itemCursorIndexIn<0){
-                        gm.itemCursorIndexIn=size;
-                      }
-                     //startTimer(false);
-                     return true;
-                case VirtualCanvas.NAVIKEY_LEFT: gm.itemCursorIndexIn=0; break;
-                //case RIGHT: return true;
-                case VirtualCanvas.NAVIKEY_DOWN:
-                    gm.itemCursorIndexIn++;
-                     if(gm.itemCursorIndexIn>size){
-                        gm.itemCursorIndexIn=0;
-                    }
-                    //startTimer(true);
-                    return true;
-                case VirtualCanvas.NAVIKEY_FIRE: closeEvent();
-                    return false;
-
-              }
-            } else {
-              switch (keyCode) {
-                case KEY_NUM4: gm.itemCursorIndexIn=0;
-                      break;
-              //case KEY_NUM6:
-              //     return true;
-                case KEY_NUM2:
-                     gm.itemCursorIndexIn--;
-                     if(gm.itemCursorIndexIn<0){
-                        gm.itemCursorIndexIn=size;
-                     }
-                     //startTimer(false);
-                     return true;
-                case KEY_NUM8:
-                     gm.itemCursorIndexIn++;
-                     if(gm.itemCursorIndexIn>size){
-                        gm.itemCursorIndexIn=0;
-                     }
-                     //startTimer(true);
-                     return true;
-                case KEY_NUM5:
-                    closeEvent();
-                    return false;
-                case KEY_NUM1:
-                     gm.itemCursorIndexIn=0;
-                    return true;
-                case KEY_NUM7:
-                     gm.itemCursorIndexIn=size;
-                    return true;
-                case VirtualCanvas.NAVIKEY_UP:
-                     gm.itemCursorIndexIn--;
-                      if(gm.itemCursorIndexIn<0){
-                        gm.itemCursorIndexIn=size;
-                      }
-                     //startTimer(false);
-                     return true;
-                case VirtualCanvas.NAVIKEY_LEFT: gm.itemCursorIndexIn=0; 
-                     break;
-                //case RIGHT: return true;
-                case VirtualCanvas.NAVIKEY_DOWN:
-                    gm.itemCursorIndexIn++;
-                     if(gm.itemCursorIndexIn>size){
-                        gm.itemCursorIndexIn=0;
-                    }
-                    //startTimer(true);
-                    return true;
-                case VirtualCanvas.NAVIKEY_FIRE: gm.inMenuSelected=true; gm.itemGrMenu=-1;
-                    return false;
-              }
-            }//midlet.BombusQD.cf.executeByNum
-         }
+            case VirtualCanvas.NAVIKEY_UP:
+                gm.itemCursorIndexIn--;
+                if(gm.itemCursorIndexIn<0){
+                    gm.itemCursorIndexIn=size;
+                }
+                return true;
+            case VirtualCanvas.NAVIKEY_LEFT: 
+                gm.itemCursorIndexIn=0; 
+                break;
+            case VirtualCanvas.NAVIKEY_DOWN:
+                gm.itemCursorIndexIn++;
+                if(gm.itemCursorIndexIn>size){
+                    gm.itemCursorIndexIn=0;
+                }
+                return true;
+            case VirtualCanvas.NAVIKEY_FIRE: 
+                closeEvent(gm.itemCursorIndexIn);
+                return false;
+          }
+       } else {
+          switch (keyCode) {
+            case VirtualCanvas.NAVIKEY_LEFT: 
+            case KEY_NUM4: 
+                gm.itemCursorIndexIn=0;
+                break;
+          //case KEY_NUM6:
+          //     return true;
+            case VirtualCanvas.NAVIKEY_UP:
+            case KEY_NUM2:
+                gm.itemCursorIndexIn--;
+                if(gm.itemCursorIndexIn<0){
+                    gm.itemCursorIndexIn=size;
+                }
+                return true;
+            case VirtualCanvas.NAVIKEY_DOWN:
+            case KEY_NUM8:
+                gm.itemCursorIndexIn++;
+                if(gm.itemCursorIndexIn>size){
+                    gm.itemCursorIndexIn=0;
+                }
+                return true;
+            case VirtualCanvas.NAVIKEY_FIRE: 
+            case KEY_NUM5:
+                closeEvent(gm.itemCursorIndexIn);
+                return false;
+            case KEY_NUM1:
+                gm.itemCursorIndexIn=0;
+                return true;
+            case KEY_NUM7:
+                gm.itemCursorIndexIn=size;
+                return true;
+          }
+       }
        return false;
     }
 }

@@ -30,6 +30,7 @@ package colors;
 import font.FontCache;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
+import ui.VirtualCanvas;
 import ui.controls.form.DefForm;
 
 public class ColorSelector extends DefForm implements Runnable {
@@ -236,45 +237,29 @@ public class ColorSelector extends DefForm implements Runnable {
 
     public void keyPressed(int key) {
         switch (key) {
-            case KEY_NUM2:
+            case VirtualCanvas.NAVIKEY_UP:
+            case VirtualCanvas.KEY_NUM2:
                 timer = 7;
                 dy = 1;
                 movePoint();
                 return;
-            case KEY_NUM8:
+            case VirtualCanvas.NAVIKEY_DOWN:
+            case VirtualCanvas.KEY_NUM8:
                 timer = 7;
                 dy = -1;
                 movePoint();
                 return;
-            case KEY_NUM4:
+            case VirtualCanvas.NAVIKEY_LEFT:
+            case VirtualCanvas.KEY_NUM4:
                 moveCursorLeft();
                 return;
-            case KEY_NUM6:
+            case VirtualCanvas.NAVIKEY_RIGHT:
+            case VirtualCanvas.KEY_NUM6:
                 moveCursorRight();
                 return;
-            case KEY_NUM0:
+            case VirtualCanvas.KEY_NUM0:
                 destroyView();
                 break;
-            default:
-                switch (getGameAction(key)) {
-                    case UP:
-                        timer = 7;
-                        dy = 1;
-                        movePoint();
-                        return;
-                    case DOWN:
-                        timer = 7;
-                        dy = -1;
-                        movePoint();
-                        return;
-                    case LEFT:
-                        moveCursorLeft();
-                        return;
-                    case RIGHT:
-                        moveCursorRight();
-                        return;
-                }
-                redraw();
         }
         super.keyPressed(key);
     }

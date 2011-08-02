@@ -129,8 +129,10 @@ public class VirtualCanvas extends Canvas {
             star_pressed_time = pressed_time;
         } else if (star_pressed_time!=0 && pressed_time-star_pressed_time<2000) {
             star_pressed_time = 0;
-            if (UserKeyExec.getInstance().commandExecute(code))
+            if (UserKeyExec.getInstance().commandExecute(code)) {
+                pressed_time = 0;
                 return;
+            }
         }
 //#endif
 //#ifdef LIGHT_CONTROL
@@ -139,8 +141,10 @@ public class VirtualCanvas extends Canvas {
 //#ifdef AUTOSTATUS
         AutoStatus.getInstance().userActivity(Config.AWAY_IDLE);
 //#endif
-        if (canRepeatKey(code))
+        if (canRepeatKey(code)) {
             canvas.keyPressed(code);
+            pressed_time = 0;
+        }
     }
     protected void keyRepeated(int code) {
         code = getKey(code);
@@ -156,8 +160,9 @@ public class VirtualCanvas extends Canvas {
         code = getKey(code);
         if (canRepeatKey(code))
             canvas.keyReleased(code);
-        else if (kHold!=code)
+        else if (kHold!=code && pressed_time>0)
             canvas.keyPressed(code);
+        pressed_time = 0;
         kHold=0;
     }
 
@@ -180,7 +185,7 @@ public class VirtualCanvas extends Canvas {
     }
   
     
-    //распознавание известных кодов клавишь
+    //распознавание известных кодов клавиш
     //thanks to Vladimir Kryukov
     public static final int LEFT_SOFT  = 0x00100000;
     public static final int RIGHT_SOFT = 0x00100001;
@@ -199,12 +204,15 @@ public class VirtualCanvas extends Canvas {
     public static final int UNUSED_KEY    = 0x0010000F; 
     private int getKey(int code) {      
 //#ifdef ANDROID
-//#         if (false) { //TODO: if Android
+//#         if (BombusQD.cf.phoneManufacturer==Config.MICROEMU) { //if Android
 //#             if (-4 == code) {
 //#                 return CLOSE_KEY;
 //#             }
-//#             if (-84 == code) {
+//#             else if (-84 == code) {
 //#                 return CALL_KEY;
+//#             }
+//#             else if (-82 == code) {
+//#                 return LEFT_SOFT;
 //#             }
 //#         }
 //#endif      

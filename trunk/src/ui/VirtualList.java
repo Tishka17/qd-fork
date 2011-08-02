@@ -479,7 +479,6 @@ public abstract class VirtualList extends CanvasEx {
 
         int itemIndex=getElementIndexAt(win_top);
         int displayedIndex=0;
-        int displayedBottom=itemBorder[0];
 
         int baloon=-1;
         int itemYpos;
@@ -514,7 +513,7 @@ public abstract class VirtualList extends CanvasEx {
 		}
 
                 ++itemIndex;
-		displayedBottom=itemBorder[++displayedIndex]=itemBorder[0]+itemYpos+lh;
+                itemBorder[++displayedIndex]=itemBorder[0]+itemYpos+lh;
             }
             el = null;
         } catch (Exception e) {
@@ -1322,7 +1321,7 @@ public abstract class VirtualList extends CanvasEx {
 //#endif
                 popup.next();
                 return;
-            } else if (phoneManufacturer==Config.MOTO || phoneManufacturer==Config.NOKIA || phoneManufacturer==Config.NOKIA_9XXX) {
+            } else/* Зачем это тут: if (phoneManufacturer==Config.MOTO || phoneManufacturer==Config.NOKIA || phoneManufacturer==Config.NOKIA_9XXX)*/ {
                 keyGreen();
                 return;
             }
@@ -1331,27 +1330,27 @@ public abstract class VirtualList extends CanvasEx {
         case VirtualCanvas.LEFT_SOFT: {
             gm.itemCursorIndex=0;
             gm.itemCursorIndexIn=0;
-             touchLeftPressed();
+            touchLeftPressed();
             return;
         }
         case VirtualCanvas.RIGHT_SOFT: {
             touchRightPressed();
             return;
         }
-        case 0:
-            break;
         case VirtualCanvas.KEY_NUM1:
             moveCursorHome();
             break;
         case VirtualCanvas.KEY_NUM2:
             keyUp();
             break;
+        case VirtualCanvas.VOLPLUS_KEY: 
         case KEY_NUM4:
-                pageLeft();
-                break;
+            pageLeft();
+            break;
+        case VirtualCanvas.VOLMINUS_KEY: 
         case KEY_NUM6:
-                pageRight();
-                break;
+            pageRight();
+            break;
         case VirtualCanvas.KEY_NUM7:
             moveCursorEnd();
             break;
@@ -1405,16 +1404,15 @@ public abstract class VirtualList extends CanvasEx {
             eventOk();
             break;
         case VirtualCanvas.CLEAR_KEY: 
-            keyClear(); 
-        case VirtualCanvas.VOLMINUS_KEY: 
-            moveCursorEnd(); 
+            keyClear();
             break;
         case VirtualCanvas.CLOSE_KEY: 
-            if (canBack) { destroyView();}
+            if (canBack) 
+                destroyView();
             break;
         }
         redraw();
-     }
+      }
     }
 
     public int getPrevSelectableRef(int curRef) {

@@ -28,6 +28,7 @@
 
 package client;
 
+import javax.microedition.lcdui.Display;
 import alert.AlertProfile;
 import images.ActionsIcons;
 import images.RosterIcons;
@@ -241,7 +242,7 @@ public class Config {
 //#endif
 
     public static int scrollWidth = 5;
-    public static int minItemHeight = rosterFont * 3;
+    public static int minItemHeight = 3;
     public static int contactXOffset = 10;
 
     public boolean iconsLeft = true;
@@ -360,6 +361,7 @@ public class Config {
 
     private Config() {
         getPhoneManufacturer();
+        minItemHeight = BombusQD.display.getBestImageHeight(Display.LIST_ELEMENT);
         VirtualList.phoneManufacturer=phoneManufacturer;
 
 	int gmtloc=TimeZone.getDefault().getRawOffset()/3600000;

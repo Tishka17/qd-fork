@@ -30,7 +30,6 @@ package ui;
 //#ifdef AUTOSTATUS
 import client.AutoStatus;
 //#endif
-import client.Config;
 import colors.ColorTheme;
 import font.FontCache;
 import images.RosterIcons;
@@ -40,7 +39,6 @@ import java.util.TimerTask;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
-import midlet.BombusQD;
 import ui.controls.Progress;
 import util.Time;
 
@@ -163,7 +161,7 @@ public class SplashScreen extends CanvasEx {
     }
 
     protected boolean keyLong(int keyCode) {
-        if (kHold == 0 && keyCode == VirtualCanvas.KEY_POUND) {
+        if (kHold == 0 && keyCode == VirtualCanvas.KEY_STAR) {
             destroyView();
             return true;
         }
@@ -180,64 +178,6 @@ public class SplashScreen extends CanvasEx {
 //#endif
         img = null;
         super.destroyView();
-    }
-
-    public void getKeys() {
-        /*
-        int pm=BombusQD.cf.phoneManufacturer;
-        if (pm==Config.SIEMENS || pm==Config.SIEMENS2) {
-             Config.SOFT_LEFT=-1;
-             Config.SOFT_RIGHT=-4;
-             Config.KEY_BACK=-12;
-             return;
-        }
-        if (pm==Config.WINDOWS) {
-             Config.SOFT_LEFT=40;
-             Config.SOFT_RIGHT=41;
-             return;
-        }
-        if (pm==Config.NOKIA || pm==Config.SONYE || pm==Config.SAMSUNG) {
-            Config.SOFT_LEFT=-6;
-            Config.SOFT_RIGHT=-7;
-            return;
-        }
-        if (pm==Config.MOTOEZX) {
-            Config.SOFT_LEFT=-21;
-            Config.SOFT_RIGHT=-22;
-            return;
-        }
-        try {
-            //Set Motorola specific keycodes
-            Class.forName("com.motorola.phonebook.PhoneBookRecord");
-            if (getKeyName(-21).toUpperCase().indexOf("SOFT")>=0) {
-                Config.SOFT_LEFT=-21;
-                Config.SOFT_RIGHT=-22;
-            } else {
-                Config.SOFT_LEFT=21;
-                Config.SOFT_RIGHT=22;
-            }
-        } catch (ClassNotFoundException ignore2) {
-            try {
-                if (getKeyName(21).toUpperCase().indexOf("SOFT")>=0) {
-                    Config.SOFT_LEFT=21;
-                    Config.SOFT_RIGHT=22;
-                }
-                if (getKeyName(-6).toUpperCase().indexOf("SOFT")>=0) {
-                    Config.SOFT_LEFT=-6;
-                    Config.SOFT_RIGHT=-7;
-                }
-            } catch(Exception e) {}
-
-            for (int i=-210;i<127;i++) {//LG-?
-            //run thru all the keys
-                try {
-                   if (getKeyName(i).toUpperCase().indexOf("SOFT")>=0) {// Check for "SOFT" in name description
-                      if (getKeyName(i).indexOf("1")>=0) Config.SOFT_LEFT=i;// check for the 1st softkey
-                      if (getKeyName(i).indexOf("2")>=0) Config.SOFT_RIGHT=i;// check for 2nd softkey
-                   }
-                } catch(Exception e){ }
-            }
-        }*/
     }
 
     private class TimerTaskClock extends TimerTask {

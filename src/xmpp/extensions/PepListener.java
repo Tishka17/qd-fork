@@ -56,7 +56,6 @@ public class PepListener implements JabberBlockListener{
         if (!(data instanceof Message)) return BLOCK_REJECTED;
         //if (!data.getTypeAttribute().equals("headline")) return BLOCK_REJECTED;
         
-        boolean  tuneVaule=false;
         byte moodIndex=-1;        
 
         JabberDataBlock event=data.findNamespace("event", "http://jabber.org/protocol/pubsub#event");

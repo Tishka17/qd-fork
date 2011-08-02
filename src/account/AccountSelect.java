@@ -45,27 +45,27 @@ public class AccountSelect extends VirtualList implements MenuListener {
 
     private final int activeAccount;
 
-    private Command cmdLogin;
-    private Command cmdConfigurationMaster;
-    private Command cmdRegister;
-    private Command cmdServ1_reg = new Command("Jabber.ru", 0x86);
-    private Command cmdServ2_reg = new Command("Silper.cz", 0x86);
-    private Command cmdServ3_reg = new Command("Jabbus.org", 0x86);
-    private Command cmdServ4_reg = new Command("Mytlt.ru", 0x86);
-    private Command cmdServ5_reg = new Command("Jabbim.com", 0x86);
-    private Command cmdServ6_reg = new Command("Other", 0x86);
-    private Command cmdAdd;
-    private Command cmdJabber = new Command("Jabber", 0x90);
-    private Command cmdYaru = new Command("Yandex.ru", 0x91);
-    private Command cmdGTalk_SSL = new Command("Gtalk SSL", 0x92);
-    private Command cmdGTalk_HTTPS = new Command("Gtalk HTTPS", 0x92);
-    private Command cmdLj = new Command("LiveJournal", 0x93);
-    private Command cmdQip = new Command("QIP", 0x94);
-    private Command cmdVk = new Command("Вконтакте", 0x95);
-    private Command cmdEdit;
-    private Command cmdDel;
-    private Command cmdRemoveAcc;
-    private Command cmdChangePass;
+    private final Command cmdLogin;
+    private final Command cmdConfigurationMaster;
+    private final Command cmdRegister;
+    private final Command cmdServ1_reg = new Command("Jabber.ru", 0x86);
+    private final Command cmdServ2_reg = new Command("Silper.cz", 0x86);
+    private final Command cmdServ3_reg = new Command("Jabbus.org", 0x86);
+    private final Command cmdServ4_reg = new Command("Mytlt.ru", 0x86);
+    private final Command cmdServ5_reg = new Command("Jabbim.com", 0x86);
+    private final Command cmdServ6_reg = new Command("Other", 0x86);
+    private final Command cmdAdd;
+    private final Command cmdJabber = new Command("Jabber", 0x90);
+    private final Command cmdYaru = new Command("Yandex.ru", 0x91);
+    private final Command cmdGTalk_SSL = new Command("Gtalk SSL", 0x92);
+    private final Command cmdGTalk_HTTPS = new Command("Gtalk HTTPS", 0x92);
+    private final Command cmdLj = new Command("LiveJournal", 0x93);
+    private final Command cmdQip = new Command("QIP", 0x94);
+    private final Command cmdVk = new Command("Вконтакте", 0x95);
+    private final Command cmdEdit;
+    private final Command cmdDel;
+    private final Command cmdRemoveAcc;
+    private final Command cmdChangePass;
 
     int status;
 

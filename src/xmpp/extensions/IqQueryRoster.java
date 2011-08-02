@@ -43,9 +43,9 @@ public class IqQueryRoster extends Iq
    * @param _attributes The list of element attributes
    */
 
-  public IqQueryRoster() {
+  public IqQueryRoster(String ver) {
     super(null, Iq.TYPE_GET, "getros" );
-    addChildNs("query", "jabber:iq:roster" );
+    addChildNs("query", "jabber:iq:roster" ).setAttribute("ver", ver);
   }
   
   /** add to roster*/

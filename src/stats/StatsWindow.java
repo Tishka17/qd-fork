@@ -76,6 +76,11 @@ public class StatsWindow extends DefForm implements MenuListener {
 	     .append("\n")
              .append(midlet.BombusQD.sd.roster.theStream.getStreamStats())
              .append('\n');
+           if (midlet.BombusQD.sd.roster.rosterVersion!=null) {
+               sb.append("Roster Version: ")
+                  .append(midlet.BombusQD.sd.roster.rosterVersion)
+                  .append('\n');
+           }
         }
 
         if (midlet.BombusQD.sd.roster!=null && midlet.BombusQD.sd.roster.isLoggedIn()) {

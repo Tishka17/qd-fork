@@ -1409,11 +1409,6 @@ public final class Roster extends VirtualList
 //#endif
 
         playNotify(SOUND_CONNECTED);
-        if (doReconnect) {
-            querysign=doReconnect=false;
-            sendPresence(myStatus, null);
-            return;
-        }
 
         if (midlet.BombusQD.sd.account.isMucOnly()) {
             setProgress(SR.get(SR.MS_CONNECTED),100);
@@ -1426,11 +1421,17 @@ public final class Roster extends VirtualList
 
             //query bookmarks
             theStream.addBlockListener(new BookmarkQuery(BookmarkQuery.LOAD));
-        } else {
+        } else if (!doReconnect || rosterVersion!=null) { //запрашваем ростер при первом коннекте или если есть поддержка версий
             JabberDataBlock qr=new IqQueryRoster(rosterVersion);
             setProgress(SR.get(SR.MS_ROSTER_REQUEST), 49);
             theStream.send( qr );
             qr=null;
+        }
+                
+        if (doReconnect) {
+            querysign=doReconnect=false;
+            sendPresence(myStatus, null);
+            return;
         }
 //#ifdef AUTOSTATUS
         if (Config.module_autostatus && Config.autoAwayType != Config.AWAY_LOCK) {
@@ -3120,17 +3121,14 @@ public final class Roster extends VirtualList
 //#endif
             new SplashScreen(getMainBarItem()).show();
             return true;
-            /* FIXME
-        } else if (keyCode==midlet.BombusQD.cf.keyVibra || keyCode==MOTOE680_FMRADIO ) {// TODO: redefine keyVibra/
+        } else if (keyCode==VirtualCanvas.KEY_POUND) {//WTF  keyCode==MOTOE680_FMRADIO?
             // swap profiles
             int profile=midlet.BombusQD.cf.currentAlertProfile;
             midlet.BombusQD.cf.currentAlertProfile=(profile==AlertProfile.VIBRA)?midlet.BombusQD.cf.lastProfile : AlertProfile.VIBRA;
             midlet.BombusQD.cf.lastProfile=profile;
-
             updateMainBar();
             redraw();
-            return;
-            */
+            return true;
         } else if (keyCode==KEY_NUM0) {
             midlet.BombusQD.cf.showOfflineContacts=!midlet.BombusQD.cf.showOfflineContacts;
             sortRoster(null);

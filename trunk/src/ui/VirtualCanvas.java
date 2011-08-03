@@ -315,17 +315,18 @@ public class VirtualCanvas extends Canvas {
         if (code == -37) {
             return VOLMINUS_KEY;
         }
-        try {// getGameAction can raise exception
-            int action = getGameAction(code);
-            switch (action) {
-                case Canvas.RIGHT: return NAVIKEY_RIGHT;
-                case Canvas.LEFT:  return NAVIKEY_LEFT;
-                case Canvas.UP:    return NAVIKEY_UP;
-                case Canvas.DOWN:  return NAVIKEY_DOWN;
-                case Canvas.FIRE:  return NAVIKEY_FIRE;
+        if ((code<KEY_NUM0 || code>KEY_NUM9) && code!=KEY_POUND && code!=KEY_STAR)
+            try {// getGameAction can raise exception
+                int action = getGameAction(code);
+                switch (action) {
+                    case Canvas.RIGHT: return NAVIKEY_RIGHT;
+                    case Canvas.LEFT:  return NAVIKEY_LEFT;
+                    case Canvas.UP:    return NAVIKEY_UP;
+                    case Canvas.DOWN:  return NAVIKEY_DOWN;
+                    case Canvas.FIRE:  return NAVIKEY_FIRE;
+                }
+            } catch(Exception e) {
             }
-        } catch(Exception e) {
-        }
         return code;
     }
 }

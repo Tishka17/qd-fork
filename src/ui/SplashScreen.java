@@ -59,7 +59,6 @@ public class SplashScreen extends CanvasEx {
     private Font clockFont=FontCache.getFont(true,FontCache.LARGE);
 
     private Progress pb;
-    private int kHold;
 
     public SplashScreen() {
         super();
@@ -77,7 +76,6 @@ public class SplashScreen extends CanvasEx {
         this();
 
         this.status = status;
-        this.kHold = VirtualCanvas.KEY_POUND;
 
         status.setElementAt(new Integer(RosterIcons.ICON_KEYBLOCK_INDEX),6);
 
@@ -138,30 +136,22 @@ public class SplashScreen extends CanvasEx {
         */
     }
 
-    public void setProgress(int progress) {
-        pos=progress;
-        redraw();
-    }
-
     public void setFailed(){
         setProgress("Failed", 100);
     }
 
     public void setProgress(String caption, int progress){
         capt = caption;
-	setProgress(progress);
+        pos=progress;
+        redraw();
     }
 
     public int getProgress(){
         return pos;
     }
 
-    protected void keyPressed(int code) {
-        kHold = 0;
-    }
-
     protected boolean keyLong(int keyCode) {
-        if (kHold == 0 && keyCode == VirtualCanvas.KEY_STAR) {
+        if (keyCode == VirtualCanvas.KEY_STAR) {
             destroyView();
             return true;
         }

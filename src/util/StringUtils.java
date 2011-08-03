@@ -172,14 +172,6 @@ public class StringUtils {
     }
 
     public static Vector parseMessage(String value, int availWidth, Font font) {
-        StringBuffer out=new StringBuffer(value);
-        int vi = 0;
-        int size = out.length();
-        while (vi<size) {
-            if (out.charAt(vi)<0x03) out.deleteCharAt(vi);
-            else vi++;
-        }
-        value=out.toString();
         Vector lines=new Vector(0);
         char[] valueChars = value.toCharArray();
         int startPos = 0;
@@ -217,7 +209,6 @@ public class StringUtils {
         // last string
         lines.addElement( new String( valueChars, startPos, valueChars.length - startPos ) );
         valueChars=null;
-        out=null;
         return lines;
     }
 

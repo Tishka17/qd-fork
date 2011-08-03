@@ -29,12 +29,6 @@ package util;
 import java.io.DataInputStream;
 import java.io.InputStream;
 
-/*
-import javax.microedition.io.Connector;
-import javax.microedition.io.file.FileConnection;
-import javax.microedition.io.file.FileSystemRegistry;
-*/
-
 /**
  *
  * @author evgs

@@ -192,15 +192,21 @@ public class GMenu extends CanvasEx {
       if((gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_NEW_ACCOUNT))>-1 ||
         gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_SORT_TYPE))>-1)  &&
         gm.cmdfirstList.size()>0){
-          GMenuIn(gm.cmdfirstList); eventMenu=true; return;
+          GMenuIn(gm.cmdfirstList); 
+          eventMenu=true; 
+          return;
       }
       else if((gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_REGISTERING))>-1) &&
           gm.cmdsecondList.size()>0) {
-          GMenuIn(gm.cmdsecondList); eventMenu=true; return;
+          GMenuIn(gm.cmdsecondList); 
+          eventMenu=true; 
+          return;
       }
       else if (gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_SERVICE))>-1 &&
               gm.cmdThirdList.size()>0){
-          GMenuIn(gm.cmdThirdList); eventMenu=true; return;
+          GMenuIn(gm.cmdThirdList); 
+          eventMenu=true; 
+          return;
       } else{
           gm.itemGrMenu=-1;
       }

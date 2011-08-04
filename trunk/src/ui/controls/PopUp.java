@@ -129,20 +129,27 @@ public class PopUp {
     public boolean handleEvent(int keyCode) {
         if (scrollable>-1) {
             switch (keyCode) {
-                case VirtualCanvas.UP:
+                case VirtualCanvas.NAVIKEY_LEFT:
+                case VirtualCanvas.NAVIKEY_UP:
                 case VirtualCanvas.KEY_NUM2:
+                case VirtualCanvas.KEY_NUM4:
                     scrollUp();
                     return true;
-                case VirtualCanvas.DOWN:
+                case VirtualCanvas.NAVIKEY_RIGHT:
+                case VirtualCanvas.NAVIKEY_DOWN:
                 case VirtualCanvas.KEY_NUM8:
+                case VirtualCanvas.KEY_NUM6:
                     scrollDown();
                     return true;
             }
         }
-        //if (keyCode == VirtualCanvas.FIRE ||
-        //        keyCode ==  VirtualCanvas.KEY_NUM5) {
+        /* Закрывать попап только по следующим кнопкам?
+        if (keyCode == VirtualCanvas.NAVIKEY_FIRE ||
+                keyCode == VirtualCanvas.LEFT_SOFT || 
+                keyCode == VirtualCanvas.RIGHT_SOFT ||
+                keyCode == VirtualCanvas.KEY_STAR ||
+                keyCode ==  VirtualCanvas.KEY_NUM5)*/
             next();
-        //}
         // we always process event if we are on screen
         return true;
     }

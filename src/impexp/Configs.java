@@ -230,7 +230,9 @@ public class Configs {
 //#ifdef LIGHT_CONTROL
         writeBoolean(data, "lightControl", config.lightControl);
 //#endif
-
+//#ifdef JUICK.COM
+        writeBoolean(data, "juickImages", config.juickImages);
+//#endif
 //#ifdef HISTORY
         writeInt(data, "historyTypeIndex", Config.historyTypeIndex);
         writeUTF(data, "historyPath", Config.historyPath);
@@ -441,7 +443,9 @@ public class Configs {
 //#ifdef LIGHT_CONTROL
             config.lightControl = readBoolean(data, "lightControl", config.lightControl);
 //#endif
-
+//#ifdef JUICK.COM
+            config.juickImages = readBoolean(data,"juickImages", config.juickImages);
+//#endif 
             AlertCustomize ac = AlertCustomize.getInstance();
             ac.soundsMsgIndex = readInt(data, "soundsMsgIndex", ac.soundsMsgIndex);
             ac.soundOnlineIndex = readInt(data, "soundOnlineIndex", ac.soundOnlineIndex);

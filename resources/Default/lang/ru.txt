@@ -656,3 +656,4 @@ Use simple mode	Исп. простой режим
 Unlock adnvanced mode	Исп. расширенный режим
 Advanced mode is enabled	Расширенный режим включён
 Advanced Mode is disabled	Расширенный режим отключён
+Show images in juick	Показывать картинки в juick

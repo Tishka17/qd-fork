@@ -77,6 +77,7 @@ public final class Msg implements VirtualElement {
     public Vector msgLines;
     private boolean isEven;
     private boolean smiles;
+    public VirtualElement attachment=null;
     
     public Msg(byte type, String from, String body) {
         this(type, from, null, body);
@@ -286,10 +287,9 @@ public final class Msg implements VirtualElement {
         for (int i = 1; i < size; ++i) {
             height += ((ComplexString)msgLines.elementAt(i)).getVHeight();
         }
-        
-        /*if (height < 3) {
-            height = 3;
-        }*/
+        if (attachment!=null) {
+            height+=attachment.getVHeight();
+        }
         return height; 
     }
 
@@ -389,6 +389,9 @@ public final class Msg implements VirtualElement {
             if (collapsed) {
                 break;
             }
+        }
+        if (attachment!=null) {
+            attachment.drawItem(view, g, ofs, selected);
         }
 
         g.translate(xorg - g.getTranslateX(), yorg - g.getTranslateY());

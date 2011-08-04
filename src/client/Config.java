@@ -190,6 +190,9 @@ public class Config {
     public boolean rcvtune = true;
     public boolean rcvactivity = true;
 //#endif
+//#ifdef JUICK.COM
+    public boolean juickImages = false;
+//#endif
 
     public boolean queryExit = false;
     public int notInListDropLevel = Roster.ALLOW_ALL;
@@ -558,7 +561,10 @@ public class Config {
 //#ifdef CLIENTS_ICONS
             showClientIcon = inputStream.readBoolean();
 //#endif
-
+//#ifdef JUICK.COM
+            juickImages = inputStream.readBoolean();
+//#endif            
+            
             inputStream.close();
             inputStream = null;
         } catch (Exception e) {
@@ -688,6 +694,9 @@ public class Config {
 //#endif
 //#ifdef CLIENTS_ICONS
             outputStream.writeBoolean(showClientIcon);
+//#endif
+//#ifdef JUICK.COM
+            outputStream.writeBoolean(juickImages);
 //#endif
 	} catch (IOException e) {}
 	return NvStorage.writeFileRecord(outputStream, BOOL_STORAGE_NAME, 0, true);

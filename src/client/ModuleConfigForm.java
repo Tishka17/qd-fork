@@ -59,7 +59,9 @@ public class ModuleConfigForm extends DefForm {
     private CheckBox showClientIcon;
     private CheckBox iconsLeft;
 //#endif
-
+//#ifdef JUICK.COM
+    private CheckBox juickImages;
+//#endif
     private CheckBox ignore;
     private CheckBox autoFocus;
     private CheckBox showResources;
@@ -344,7 +346,11 @@ public class ModuleConfigForm extends DefForm {
 
             eventDelivery = new CheckBox(SR.get(SR.MS_DELIVERY), config.eventDelivery);
             addControl(eventDelivery);
-
+//#ifdef JUICK.COM
+                juickImages = new CheckBox(SR.get(SR.MS_JUICK_IMAGES), config.juickImages);
+                addControl(juickImages);
+//#endif
+                
             networkAnnotation = new CheckBox(SR.get(SR.MS_CONTACT_ANNOTATIONS), config.networkAnnotation);
             addControl(networkAnnotation);
 
@@ -656,6 +662,7 @@ public class ModuleConfigForm extends DefForm {
 
             config.eventComposing = eventComposing.getValue();
             config.eventDelivery = eventDelivery.getValue();
+            config.juickImages = juickImages.getValue();
             config.networkAnnotation = networkAnnotation.getValue();
 
             config.reconnectCount = reconnectCount.getIntValue();

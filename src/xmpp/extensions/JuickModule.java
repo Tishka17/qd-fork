@@ -16,6 +16,8 @@ import com.alsutton.jabber.datablocks.Message;
 import com.alsutton.jabber.datablocks.Iq;
 import java.util.Vector;
 import client.Contact;
+import midlet.BombusQD;
+import ui.controls.form.ImageItem;
 
 /**
  *
@@ -221,6 +223,10 @@ public class JuickModule{
 
                           m = new Msg(Msg.JUICK, BOTNAME, null, buf.toString() );
                             m.setId(message_id.toString());
+                            
+                          if (midlet.BombusQD.cf.juickImages && "jpg".equals(child.getAttribute("attach")) && rid==null) {
+                               m.attachment = new ImageItem("http://i.juick.com/ps/"+mid+".jpg");
+                          }
                           storeMessage(m);
                           buf = new StringBuffer(0);
                           message_id = new StringBuffer(0);
@@ -304,8 +310,12 @@ public class JuickModule{
 
                        if (replyto!=null)
                              sb.append(" (replyto /").append(replyto).append(")");
-                       if(photo)
+                       if(photo) {
                             sb.append("+photo");
+                       }
+                       if (midlet.BombusQD.cf.juickImages && "jpg".equals(juickNs.getAttribute("attach")) && rid==null) {
+                           m.attachment = new ImageItem("http://i.juick.com/ps/"+mid+".jpg");
+                       }
 
                        if(message.getUrl()!=null) sb.append('\n').append(message.getOOB());
                        m.setBody(sb.toString());

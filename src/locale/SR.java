@@ -686,6 +686,7 @@ public class SR {
      public final static short MS_USE_ADVANCED_MODE = 654; //Unlock adnvanced mode
      public final static short MS_ADVANCED_MODE_ENABLED = 655; //Advanced mode is enabled
      public final static short MS_ADVANCED_MODE_DISABLED = 656; //Advanced Mode is disabled
+     public final static short MS_JUICK_IMAGES = 657; //Enables/disable images in juick
 
      private static String[] localeItemsDefault = new String[0];
     private static String[] localeItems = {
@@ -1345,7 +1346,8 @@ public class SR {
         "Use simple mode",
         "Unlock adnvanced mode",
         "Advanced mode is enabled",
-        "Advanced Mode is disabled"
+        "Advanced Mode is disabled",
+        "Show images in juick"
    };
 
     private SR() { }

@@ -662,7 +662,9 @@ public class ModuleConfigForm extends DefForm {
 
             config.eventComposing = eventComposing.getValue();
             config.eventDelivery = eventDelivery.getValue();
+//#ifdef JUICK.COM            
             config.juickImages = juickImages.getValue();
+//#endif
             config.networkAnnotation = networkAnnotation.getValue();
 
             config.reconnectCount = reconnectCount.getIntValue();

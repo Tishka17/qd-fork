@@ -224,8 +224,10 @@ public class JuickModule{
                           m = new Msg(Msg.JUICK, BOTNAME, null, buf.toString() );
                             m.setId(message_id.toString());
                             
-                          if (midlet.BombusQD.cf.juickImages && "jpg".equals(child.getAttribute("attach")) && rid==null) {
-                               m.attachment = new ImageItem("http://i.juick.com/ps/"+mid+".jpg");
+                          if (midlet.BombusQD.cf.juickImages && "jpg".equals(child.getAttribute("attach"))) {
+                              String url = "http://i.juick.com/ps/"+mid;
+                              if (rid!=null) url+="-"+rid;
+                              m.attachment = new ImageItem(url+".jpg");
                           }
                           storeMessage(m);
                           buf = new StringBuffer(0);
@@ -314,7 +316,9 @@ public class JuickModule{
                             sb.append("+photo");
                        }
                        if (midlet.BombusQD.cf.juickImages && "jpg".equals(juickNs.getAttribute("attach")) && rid==null) {
-                           m.attachment = new ImageItem("http://i.juick.com/ps/"+mid+".jpg");
+                           String url = "http://i.juick.com/ps/"+mid;
+                           if (rid!=null) url+="-"+rid;
+                           m.attachment = new ImageItem(url+".jpg");
                        }
 
                        if(message.getUrl()!=null) sb.append('\n').append(message.getOOB());

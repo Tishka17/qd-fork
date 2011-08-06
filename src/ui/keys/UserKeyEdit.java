@@ -31,6 +31,7 @@ import locale.SR;
 import ui.controls.form.CheckBox;
 import ui.controls.form.DefForm;
 import ui.controls.form.DropChoiceBox;
+import ui.controls.form.KeyScanner;
 
 /**
  *
@@ -46,7 +47,8 @@ public class UserKeyEdit extends DefForm {
 
     private CheckBox active;
     private DropChoiceBox keyDesc;
-    private DropChoiceBox keyCode;
+    //private DropChoiceBox keyCode;
+    private KeyScanner keyCode;
 
     UserKey u;
     
@@ -72,11 +74,13 @@ public class UserKeyEdit extends DefForm {
         keyDesc.setSelectedIndex(u.commandId);
         itemsList.addElement(keyDesc);
 
-        keyCode=new DropChoiceBox(SR.get(SR.MS_KEY));
+/*        keyCode=new DropChoiceBox(SR.get(SR.MS_KEY));
         for (int i=0;i<u.KEYS_NAME.length;i++) {
             keyCode.append(u.KEYS_NAME[i]);
         }
         keyCode.setSelectedIndex((u.key<0)?0:u.key);
+*/
+        keyCode= new KeyScanner(SR.get(SR.MS_KEY));
         itemsList.addElement(keyCode);
         
         moveCursorTo(getNextSelectableRef(-1));
@@ -85,7 +89,8 @@ public class UserKeyEdit extends DefForm {
     public void cmdOk() {
         u.active=active.getValue();
         u.commandId=keyDesc.getSelectedIndex();
-        u.key=keyCode.getSelectedIndex();
+        u.key=keyCode.getKeyCode();
+        //u.key=keyCode.getSelectedIndex();
         if (u.key==10) u.keyCode = Canvas.KEY_POUND; 
         else u.keyCode = u.key + Canvas.KEY_NUM0;
 

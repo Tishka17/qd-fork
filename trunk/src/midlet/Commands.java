@@ -56,14 +56,12 @@ public class Commands {
 //#endif
     
 //#ifdef JUICK.COM
-    /*
     public static Command cmdJuickLastPopular ; //"", Command.SCREEN, 101);//#
     public static Command cmdJuickLastMsgs ; //"", Command.SCREEN, 102);//#+
     public static Command cmdJuickSubscribe ; //"", Command.SCREEN, 103);//S #
     public static Command cmdJuickUnsubscribe ; //"", Command.SCREEN, 104);//U #
     public static Command cmdJuickSendPM ; //"", Command.SCREEN, 105);//PM @nick msg
     public static Command cmdJuickUsersMsgs ; //"", Command.SCREEN, 106); //@nick+
-    */
 //#endif
 
     public static void initCommands() {
@@ -99,14 +97,12 @@ public class Commands {
 //#endif
 
 //#ifdef JUICK.COM
-    /*
-              cmdJuickLastPopular = new Command("", Command.SCREEN, 101);//#
-              cmdJuickLastMsgs = new Command("", Command.SCREEN, 102);//#+
-              cmdJuickSubscribe = new Command("", Command.SCREEN, 103);//S #
-              cmdJuickUnsubscribe = new Command("", Command.SCREEN, 104);//U #
-              cmdJuickSendPM = new Command("", Command.SCREEN, 105);//PM @nick msg
-              cmdJuickUsersMsgs = new Command("", Command.SCREEN, 106); //@nick+
-    */
+              cmdJuickLastPopular = new Command(" # ", 101);//#
+              cmdJuickLastMsgs = new Command(" #+ ", 102);//#+
+              cmdJuickSubscribe = new Command(" S# ", 103);//S #
+              cmdJuickUnsubscribe = new Command(" U# ", 104);//U #
+              cmdJuickSendPM = new Command(" PM @nick msg ", 105);//PM @nick msg
+              cmdJuickUsersMsgs = new Command(" @nick+ ", 106); //@nick+
 //#endif
     }
 }

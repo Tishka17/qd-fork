@@ -33,6 +33,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import locale.SR;
 import ui.IconTextElement;
+import ui.VirtualCanvas;
 
 /**
  *
@@ -60,7 +61,8 @@ public class UserKey extends IconTextElement {
     }
     
     public String toString(){
-        StringBuffer s=new StringBuffer("(* + ").append(KEYS_NAME[key]).append(") ").append(COMMANDS_DESC[commandId]);
+        //StringBuffer s=new StringBuffer("(* + ").append(KEYS_NAME[key]).append(") ").append(COMMANDS_DESC[commandId]);
+        StringBuffer s=new StringBuffer("* ").append(getKeyName(key)).append(" ").append(COMMANDS_DESC[commandId]);
         return s.toString();
     }
     
@@ -120,20 +122,30 @@ public class UserKey extends IconTextElement {
             SR.get(SR.MS_XML_CONSOLE), 
             SR.get(SR.MS_FULLSCREEN)
     };
-    
-    public static final String[] KEYS_NAME = {
-            "0",
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
-            "#"
-    };
+
+    public static String getKeyName( int keyCode){
+        String retval= "" +keyCode;
+        switch( keyCode){
+            case VirtualCanvas.NAVIKEY_FIRE: retval= "(Fire)"; break;
+            case VirtualCanvas.NAVIKEY_UP: retval= "(Up)"; break;
+            case VirtualCanvas.NAVIKEY_DOWN: retval= "(Down)"; break;
+            case VirtualCanvas.NAVIKEY_LEFT: retval= "(Left)"; break;
+            case VirtualCanvas.NAVIKEY_RIGHT: retval= "(Right)"; break;
+            case '#': retval= "(#)"; break;
+            case '*': retval= "(*)"; break;
+            case '0': retval = "(0)"; break;
+            case '1': retval= "(1)"; break;
+            case '2': retval= "(2)"; break;
+            case '3': retval= "(3)"; break;
+            case '4': retval= "(4)"; break;
+            case '5': retval= "(5)"; break;
+            case '6': retval= "(6)"; break;
+            case '7': retval= "(7)"; break;
+            case '8': retval= "(8)"; break;
+            case '9': retval= "(9)"; break;
+        }// switch
+        return retval;
+    }
 }
 //#endif
 

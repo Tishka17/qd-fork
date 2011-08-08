@@ -124,27 +124,35 @@ public class UserKey extends IconTextElement {
     };
 
     public static String getKeyName( int keyCode){
-        String retval= "" +keyCode;
         switch( keyCode){
-            case VirtualCanvas.NAVIKEY_FIRE: retval= "(Fire)"; break;
-            case VirtualCanvas.NAVIKEY_UP: retval= "(Up)"; break;
-            case VirtualCanvas.NAVIKEY_DOWN: retval= "(Down)"; break;
-            case VirtualCanvas.NAVIKEY_LEFT: retval= "(Left)"; break;
-            case VirtualCanvas.NAVIKEY_RIGHT: retval= "(Right)"; break;
-            case '#': retval= "(#)"; break;
-            case '*': retval= "(*)"; break;
-            case '0': retval = "(0)"; break;
-            case '1': retval= "(1)"; break;
-            case '2': retval= "(2)"; break;
-            case '3': retval= "(3)"; break;
-            case '4': retval= "(4)"; break;
-            case '5': retval= "(5)"; break;
-            case '6': retval= "(6)"; break;
-            case '7': retval= "(7)"; break;
-            case '8': retval= "(8)"; break;
-            case '9': retval= "(9)"; break;
+            case VirtualCanvas.RIGHT_SOFT: return "(Right Soft)"; 
+            case VirtualCanvas.LEFT_SOFT: return "(Left Soft)"; 
+            case VirtualCanvas.VOLMINUS_KEY: return "(Volume Minus)"; 
+            case VirtualCanvas.VOLPLUS_KEY: return "(Volume Plus)"; 
+            case VirtualCanvas.CLOSE_KEY: return "(Back/Close)"; 
+            case VirtualCanvas.CALL_KEY: return "(Green/Call)"; 
+            case VirtualCanvas.CAMERA_KEY: return "(Camera)"; 
+            case VirtualCanvas.CLEAR_KEY: return "(Clear)"; 
+            case VirtualCanvas.ABC_KEY: return "(Abc)";
+            case VirtualCanvas.NAVIKEY_FIRE: return "(Fire)";
+            case VirtualCanvas.NAVIKEY_UP: return "(Up)";
+            case VirtualCanvas.NAVIKEY_DOWN: return "(Down)";
+            case VirtualCanvas.NAVIKEY_LEFT: return "(Left)";
+            case VirtualCanvas.NAVIKEY_RIGHT: return "(Right)";
+            case '#': return "(#)";
+            case '*': return "(*)";
+            case '0': return "(0)";
+            case '1': return "(1)";
+            case '2': return "(2)";
+            case '3': return "(3)";
+            case '4': return "(4)";
+            case '5': return "(5)";
+            case '6': return "(6)";
+            case '7': return "(7)";
+            case '8': return "(8)";
+            case '9': return "(9)";
         }// switch
-        return retval;
+        return ""+keyCode;
     }
 }
 //#endif

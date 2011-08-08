@@ -100,14 +100,6 @@ public final class ColorVisualItem extends IconTextElement {
         return getFont().stringWidth(toString()) + 4 + itemHeight;
     }
 
-    public void onSelect(VirtualList view) {
-
-    }
-
-    public boolean isSelectable() {
-        return true;
-    }
-
     public String getTipString() {
         return ColorTheme.getColorString(color);
     }

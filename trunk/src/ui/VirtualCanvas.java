@@ -204,8 +204,7 @@ public class VirtualCanvas extends Canvas {
     public static final int UNUSED_KEY    = 0x0010000F; 
     private int getKey(int code) {      
 //#ifdef ANDROID
-//#         if (BombusQD.cf.phoneManufacturer==Config.MICROEMU) { //if Android
-//#             if (-4 == code) {
+//#             if (-8 == code) {
 //#                 return CLOSE_KEY;
 //#             }
 //#             else if (-84 == code) {
@@ -214,6 +213,17 @@ public class VirtualCanvas extends Canvas {
 //#             else if (-82 == code) {
 //#                 return LEFT_SOFT;
 //#             }
+//#             else if (127 == code) {
+//#                 return CLEAR_KEY;
+//#             }
+//#             else if (-24 == code) {
+//#                 return VOLPLUS_KEY;
+//#             }
+//#             else if (-25 == code) {
+//#                 return VOLMINUS_KEY;
+//#             }
+//#             else if (80 == code) {
+//#                 return CAMERA_KEY;
 //#         }
 //#endif      
         String strCode = null;

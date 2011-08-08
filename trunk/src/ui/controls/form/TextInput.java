@@ -189,8 +189,4 @@ public class TextInput extends IconTextElement implements InputTextBoxNotify {
             g.drawString(toString(), xOffset, y, Graphics.TOP | Graphics.LEFT);
         }
     }
-
-    public boolean isSelectable() {
-        return true;
-    }
 }

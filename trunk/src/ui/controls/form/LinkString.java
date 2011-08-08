@@ -56,25 +56,6 @@ public abstract class LinkString extends IconTextElement {
         return ColorTheme.getColor(ColorTheme.MSG_HIGHLIGHT);
     }
 
-    /*public void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {
-        //todo: отображение иконки
-        final int fontHeight = getFont().getHeight();
-
-        final int yOffset = (itemHeight - fontHeight) / 2;
-
-        g.setFont(getFont());
-        g.setColor(getColor());
-
-        final int lineOffset = yOffset + fontHeight - 1;
-        g.drawLine(getOffset(), lineOffset, getVWidth(), lineOffset);
-
-        g.drawString(text, getOffset() - ofs, yOffset, Graphics.TOP | Graphics.LEFT);
-    }*/
-
-    public boolean isSelectable() {
-        return true;
-    }
-
     public void onSelect(VirtualList view) {
         doAction();
     }

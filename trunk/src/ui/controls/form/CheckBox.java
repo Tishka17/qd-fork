@@ -143,8 +143,4 @@ public final class CheckBox extends IconTextElement {
     public void setValue( boolean value){
         isChecked= value;
     }
-
-    public boolean isSelectable() {
-        return true;
-    }
 }

@@ -1,6 +1,24 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * KeyScanner.java
+ * 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * You can also redistribute and/or modify this program under the
+ * terms of the Psi License, specified in the accompanied COPYING
+ * file, as published by the Psi Project; either dated January 1st,
+ * 2005, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
 package ui.controls.form;
@@ -9,15 +27,10 @@ package ui.controls.form;
 import client.Config;
 import colors.ColorTheme;
 import font.FontCache;
-import io.NvStorage;
-import java.io.DataInputStream;
-import java.io.EOFException;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import ui.IconTextElement;
 import ui.VirtualList;
-//import ui.keys.UserKeyExec;
-//import javax.microedition.lcdui.*;
 
 /**
  *
@@ -25,10 +38,6 @@ import ui.VirtualList;
  */
 public class KeyScanner extends IconTextElement{
     protected String caption;
-
-    public String text;
-    private int boxType;
-
     private Font font;
     private Font captionFont;
     private int fontHeight;
@@ -92,7 +101,7 @@ public class KeyScanner extends IconTextElement{
 
     public String toString() {
         return getValue();
-    } //Tishka17
+    }
 
     public void onSelect( VirtualList view){
         if( !selected){
@@ -106,6 +115,7 @@ public class KeyScanner extends IconTextElement{
             this.keyCode= keyCode;
             text= ui.keys.UserKey.getKeyName( keyCode);
             selected = false;
+            return true;
         }
         return false;
     }
@@ -162,10 +172,6 @@ public class KeyScanner extends IconTextElement{
             g.setFont(font);
             g.drawString(toString(), xOffset, y, Graphics.TOP | Graphics.LEFT);
         }
-    }
-
-    public boolean isSelectable() {
-        return true;
     }
 }
 //#endif

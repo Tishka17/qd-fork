@@ -150,8 +150,4 @@ public final class PluginBox extends IconTextElement {
         return isEnabled() ? 
                 RosterIcons.ICON_PLUGINBOX_CHECKED : RosterIcons.ICON_PLUGINBOX_UNCHECKED;
     }
-
-    public boolean isSelectable() {
-        return true;
-    }
 }

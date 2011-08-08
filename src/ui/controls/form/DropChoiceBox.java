@@ -190,8 +190,4 @@ public  class DropChoiceBox extends IconTextElement {
         }
         return false;
     }
-
-    public boolean isSelectable() {
-        return true;
-    }
 }

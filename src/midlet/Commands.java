@@ -54,7 +54,7 @@ public class Commands {
 //#ifdef HISTORY
     public static Command cmdHistory;
 //#endif
-    
+   /* 
 //#ifdef JUICK.COM
     public static Command cmdJuickLastPopular ; //"", Command.SCREEN, 101);//#
     public static Command cmdJuickLastMsgs ; //"", Command.SCREEN, 102);//#+
@@ -63,7 +63,7 @@ public class Commands {
     public static Command cmdJuickSendPM ; //"", Command.SCREEN, 105);//PM @nick msg
     public static Command cmdJuickUsersMsgs ; //"", Command.SCREEN, 106); //@nick+
 //#endif
-
+*/
     public static void initCommands() {
         cmdOk = new Command(SR.get(SR.MS_OK), 0x60);
         cmdSelect = new Command(SR.get(SR.MS_SELECT), 0x60);
@@ -96,6 +96,7 @@ public class Commands {
         cmdArch = new Command(SR.get(SR.MS_ADD_ARCHIVE), 0x64);
 //#endif
 
+        /* TODO: иконки, надписи, подменю
 //#ifdef JUICK.COM
               cmdJuickLastPopular = new Command(" # ", 101);//#
               cmdJuickLastMsgs = new Command(" #+ ", 102);//#+
@@ -104,5 +105,6 @@ public class Commands {
               cmdJuickSendPM = new Command(" PM @nick msg ", 105);//PM @nick msg
               cmdJuickUsersMsgs = new Command(" @nick+ ", 106); //@nick+
 //#endif
+         */
     }
 }

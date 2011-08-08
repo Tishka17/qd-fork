@@ -315,7 +315,7 @@ public class JuickModule{
                        if(photo) {
                             sb.append("+photo");
                        }
-                       if (midlet.BombusQD.cf.juickImages && "jpg".equals(juickNs.getAttribute("attach")) && rid==null) {
+                       if (midlet.BombusQD.cf.juickImages && "jpg".equals(juickNs.getAttribute("attach"))) {
                            String url = "http://i.juick.com/ps/"+mid;
                            if (rid!=null) url+="-"+rid;
                            m.attachment = new ImageItem(url+".jpg");

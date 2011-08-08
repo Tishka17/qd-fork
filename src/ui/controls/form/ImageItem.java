@@ -117,8 +117,6 @@ public class ImageItem
         }
         super.drawItem(view, g, ofs, sel);
     }
-
-    public boolean isSelectable() { return true; }
     
     public boolean handleEvent(int keyCode) {
          switch (keyCode) {

@@ -28,6 +28,7 @@
 //#ifdef GRADIENT
 package ui;
 import javax.microedition.lcdui.Graphics;
+import colors.ColorTheme;
 
 public class Gradient {
 	public final static int VERTICAL=0;
@@ -43,6 +44,9 @@ public class Gradient {
 	private int y1;
 	private int y2;
 
+	private int alphaS;
+	private int alphaE;
+
 	private int redS;
 	private int redE;
 
@@ -51,27 +55,27 @@ public class Gradient {
 
 	private int blueS;
 	private int blueE;
-    
-    private int alpha;
 
 	private int type;
 	private int[] points=null;
 
-    private boolean useAlpha = false;
     
 	public Gradient() {}
 
-	public void update(int x1, int y1, int x2, int y2, int STARTRGB, int ENDRGB, int type) {
-		int redS = STARTRGB >> 16 & 0xff;
-		int redE = ENDRGB >> 16 & 0xff;
-		int greenS = STARTRGB >> 8 & 0xff;
-		int greenE = ENDRGB >> 8 & 0xff;
-		int blueS = STARTRGB & 0xff;
-		int blueE = ENDRGB & 0xff;
+	public void update(int x1, int y1, int x2, int y2, int StartRGB, int EndRGB, int type) {
+                int alphaS = ColorTheme.getAlpha(StartRGB);
+                int alphaE = ColorTheme.getAlpha(EndRGB);
+		int redS = ColorTheme.getRed(StartRGB);
+		int redE = ColorTheme.getRed(EndRGB);
+		int greenS = ColorTheme.getGreen(StartRGB);
+		int greenE = ColorTheme.getGreen(EndRGB);
+		int blueS = ColorTheme.getBlue(StartRGB);
+		int blueE = ColorTheme.getBlue(EndRGB);
 		boolean changed = false;
 		if (points==null || 
 				this.x1!=x1 || this.x2!=x2 ||  
 				this.y1!=y1 || this.y2!=y2 || 
+                                this.alphaS!=alphaS || this.alphaE!=alphaE || 
 				this.redS!=redS || this.redE!=redE || 
 				this.greenS!=greenS ||this.greenE!=greenE ||
 				this.blueS!=blueS || this.blueE!=blueE|| this.type!=type) {
@@ -81,6 +85,8 @@ public class Gradient {
 		this.x2 = x2;
 		this.y1 = y1;
 		this.y2 = y2;
+                this.alphaS = alphaS;
+                this.alphaE = alphaE;
 		this.redE = redE;
 		this.redS = redS;
 		this.blueE = blueE;
@@ -88,8 +94,6 @@ public class Gradient {
 		this.greenE = greenE;
 		this.greenS = greenS;
 		this.type = type;
-        
-        this.alpha = STARTRGB >> 24 & 0xFF;
         
 		if ((type==MIXED_UP || type==MIXED_DOWN || type == CACHED_VERTICAL || type==CACHED_HORIZONTAL) && changed) {
 			makePoints();
@@ -107,20 +111,21 @@ public class Gradient {
 			case CACHED_VERTICAL:
 			case CACHED_HORIZONTAL:
 			case MIXED_UP:
-			case MIXED_DOWN:
-				g.drawRGB(points, 0, x2-x1, x1, y1 , x2-x1, y2-y1, useAlpha);
+			case MIXED_DOWN: {
+                        	int x = g.getTranslateX();
+                                int y = g.getTranslateY();
+                                g.translate(-x, -y);
+				g.drawRGB(points, 0, x2-x1, x+x1, y+y1 , x2-x1, y2-y1, (alphaS!=0 || alphaE!=0));
+                                g.translate(x, y);
 				break;
+                        }
 		}            
 	}
-    
-    public void useAlphaChannel(boolean alphaChannel) {
-        this.useAlpha = alphaChannel;
-    }
 
 	public void paintHRoundRect(Graphics g, int R) {//Makasi
 		int ds = 0;
 		for(int i2 = y1; i2 <= y2 - 1; ++i2) {
-			int ai[] = GradBackgr(redS, greenS, blueS, redE, greenE, blueE, i2, y1, y2 - 1);
+			int ai[] = GradBackgr(i2, y1, y2 - 1);
 			g.setColor(ai[0], ai[1], ai[2]);
 
 			ds = 0;
@@ -149,7 +154,7 @@ public class Gradient {
 
 	private void paintV(Graphics g) {
 		for(int i2 = x1; i2 <= x2 - 1; ++i2) {
-			int gCol[] = GradBackgr(redS, greenS, blueS, redE, greenE, blueE, i2, x1, x2 - 1);
+			int gCol[] = GradBackgr(i2, x1, x2 - 1);
 			g.setColor(gCol[0], gCol[1], gCol[2]);
 			g.drawLine(i2, y1, i2, y2);
 		}
@@ -157,7 +162,7 @@ public class Gradient {
 
 	private void paintH(Graphics g) {
 		for(int i2 = y1; i2 <= y2 - 1; ++i2) {
-			int ai[] = GradBackgr(redS, greenS, blueS, redE, greenE, blueE, i2, y1, y2 - 1);
+			int ai[] = GradBackgr(i2, y1, y2 - 1);
 			g.setColor(ai[0], ai[1], ai[2]);
 			g.drawLine(x1, i2, x2 - 1, i2);
 		}
@@ -166,17 +171,18 @@ public class Gradient {
 
 	public void paintWidth(Graphics g, int width) {
 		for(int i2 = y1; i2 <= y2 - 1; ++i2) {
-			int ai[] = GradBackgr(redS, greenS, blueS, redE, greenE, blueE, i2, y1, y2 - 1);
+			int ai[] = GradBackgr(i2, y1, y2 - 1);
 			g.setColor(ai[0], ai[1], ai[2]);
 			g.drawLine(x1, i2, width-1, i2);
 		}
 	}
 
-	private int[] GradBackgr(int rS, int gS, int bS, int rE, int gE, int bE, int l1, int i2, int j2) {
+	private int[] GradBackgr(int l1, int i2, int j2) {
 		return new int[] { 
-			(rE*(l1-i2)+rS*(j2-l1))/(j2-i2), 
-			(gE*(l1-i2)+gS*(j2-l1))/(j2-i2), 
-			(bE*(l1-i2)+bS*(j2-l1))/(j2-i2)
+			((redE*(l1-i2)+redS*(j2-l1))/(j2-i2)), 
+			((greenE*(l1-i2)+greenS*(j2-l1))/(j2-i2)), 
+			((blueE*(l1-i2)+blueS*(j2-l1))/(j2-i2)),
+                        ((alphaE*(l1-i2)+alphaS*(j2-l1))/(j2-i2))
 		};
 	}
 
@@ -186,7 +192,7 @@ public class Gradient {
 
 		points = new int[height*width];
 		if (type == MIXED_DOWN || type == MIXED_UP) {
-			int r,g,b,dist,diff,new_r,new_g,new_b,color = 0;
+			int a,r,g,b,dist,diff,new_a,new_r,new_g,new_b,color = 0;
 			int yS,yE,yD;
 
 			int width2 = width/2;
@@ -208,6 +214,7 @@ public class Gradient {
 				r = y * (redE - redS) / (height-1) + redS;
 				g = y * (greenE - greenS) / (height-1) + greenS;
 				b = y * (blueE - blueS) / (height-1) + blueS;
+                                a = y * (alphaE - alphaS) / (height-1) + alphaS;
 				for (int x = width; x > 0; x--)
 				{
 					dist = x-width2;
@@ -219,41 +226,38 @@ public class Gradient {
 					new_r = r+diff;
 					new_g = g+diff;
 					new_b = b+diff;
+                                        new_a = a+diff;
+					if (new_a < 0) new_a = 0;
+					if (new_a > 255) new_a = 255;
 					if (new_r < 0) new_r = 0;
 					if (new_r > 255) new_r = 255;
 					if (new_g < 0) new_g = 0;
 					if (new_g > 255) new_g = 255;
 					if (new_b < 0) new_b = 0;
 					if (new_b > 255) new_b = 255;
-					color = (new_r << 16) | (new_g << 8) | (new_b);
+                                        color = ColorTheme.getColor(new_a, new_r, new_g, new_b);
 					points[idx++] = color;
 				}
-            }
-        } else if (type == CACHED_VERTICAL) {
-            for (int i = 0; i < width; ++i) {
-                int ai[] = GradBackgr(redS, greenS, blueS, redE, greenE, blueE, i, x1, x2 - 1);
-                int color = (ai[0] << 16) | (ai[1] << 8) | (ai[2]);
-                if (useAlpha) {
-                    color |= alpha << 24;
-                }
+                        }
+                } else if (type == CACHED_VERTICAL) {
+                    for (int i = 0; i < width; ++i) {
+                        int ai[] = GradBackgr(i, x1, x2 - 1);
+                        int color = ColorTheme.getColor(ai[3], ai[0], ai[1], ai[2]);
 
-                for (int j = 0; j < height; ++j) {
-                    points[width * j + i] = color;
-                }
-            }
-        } else if (type == CACHED_HORIZONTAL) {
-            for (int j = 0; j < height; ++j) {               
-                int ai[] = GradBackgr(redS, greenS, blueS, redE, greenE, blueE, j, y1, y2 - 1);
-                int color = (ai[0] << 16) | (ai[1] << 8) | (ai[2]);
-                if (useAlpha) {
-                    color |= alpha << 24;
-                }
+                        for (int j = 0; j < height; ++j) {
+                            points[width * j + i] = color;
+                        }
+                    }
+                } else if (type == CACHED_HORIZONTAL) {
+                    for (int j = 0; j < height; ++j) {               
+                        int ai[] = GradBackgr(j+y1, y1, y2 - 1);
+                        int color = ColorTheme.getColor(ai[3], ai[0], ai[1], ai[2]);
 
-                for (int i = 0; i < width; ++i) {                   
-                    points[width * j + i] = color;
+                        for (int i = 0; i < width; ++i) {                   
+                            points[width * j + i] = color;
+                        }
+                    }
                 }
-            }
-        }
 	}
 }
 //#endif

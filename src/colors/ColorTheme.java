@@ -141,7 +141,7 @@ public class ColorTheme {
         // cursor grad t, b
         0xffc2a5, 0xeba6b3,
         // transp argb
-        0x000000,
+        0x01000000,
         // gmenu bg argb, ink
         0xf4f5c5, 0x000000
     };
@@ -334,23 +334,13 @@ public class ColorTheme {
     public static int getBlue(int color) {
         return (color & 0xFF);
     }
-
-    public static int getARGB(boolean isBgnd) {
-        int ccolor = getColor(isBgnd ? ColorTheme.GRAPHICS_MENU_BGNG_ARGB : ColorTheme.TRANSPARENCY_ARGB);
-        int red, green, blue, alpha;
-        alpha = isBgnd ? midlet.BombusQD.cf.gmenu_bgnd : midlet.BombusQD.cf.argb_bgnd;
-        if (alpha == 0) {
-            return -1;
-        }
-
-        long tmp;
-        red = getRed(ccolor);
-        green = getGreen(ccolor);
-        blue = getBlue(ccolor);
-        tmp = (alpha << 24) | (red << 16) | (green << 8) | blue;
-        return (int)tmp;
+    public static int getAlpha(int color) {
+        return ((color>>24) & 0xFF);
     }
 
+    public static int getColor(int a, int r, int g, int b){
+        return (a<<24) | (r<<16) | (g<<8) | b;
+    }
     public static String colorToString(int cRed, int cGreen, int cBlue, int cAlpha) {
         StringBuffer color = new StringBuffer("0x");
         color.append(expandHex(cRed)).append(expandHex(cGreen)).append(expandHex(cBlue)).append(expandHex(cAlpha));

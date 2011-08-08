@@ -95,7 +95,7 @@ public class ColorList extends DefForm {
         addColorControl(SR.get(SR.MS_GRADIENT_CURSOR_1), ColorTheme.GRADIENT_CURSOR_1);
         addColorControl(SR.get(SR.MS_GRADIENT_CURSOR_2), ColorTheme.GRADIENT_CURSOR_2);
 
-        //addColorControl(SR.get(SR.MS_TRANSPARENCY_ARGB), ColorTheme.TRANSPARENCY_ARGB));
+        addColorControl(SR.get(SR.MS_TRANSPARENCY_ARGB), ColorTheme.TRANSPARENCY_ARGB);
         addColorControl(SR.get(SR.MS_GRAPHICS_MENU_BGNG_ARGB), ColorTheme.GRAPHICS_MENU_BGNG_ARGB);
         addColorControl(SR.get(SR.MS_GRAPHICS_MENU_FONT), ColorTheme.GRAPHICS_MENU_FONT);
     }

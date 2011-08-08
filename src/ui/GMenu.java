@@ -112,10 +112,10 @@ public class GMenu extends CanvasEx {
        
 //#ifdef GRADIENT
        menuBgnd = new Gradient();
-       menuBgnd.useAlphaChannel(true);
+       //menuBgnd.useAlphaChannel(true);
        
        listBgnd = new Gradient();
-       listBgnd.useAlphaChannel(true);
+       //listBgnd.useAlphaChannel(true);
 //#endif
    }
 
@@ -248,7 +248,7 @@ public class GMenu extends CanvasEx {
        hitem=mHfh;
        
 //#ifdef GRADIENT
-       int bgnd_menu = ColorTheme.getARGB(false);
+       int bgnd_menu = ColorTheme.getColor(ColorTheme.TRANSPARENCY_ARGB);
        if (bgnd_menu != -1) {
            listBgnd.update(0, 0, width, height, bgnd_menu, bgnd_menu, Gradient.CACHED_HORIZONTAL);
            listBgnd.paint(g);
@@ -276,7 +276,7 @@ public class GMenu extends CanvasEx {
            x2=x1+w;
            y2=y1+mHfh;
        }
-       int alpha_menu=ColorTheme.getARGB(true);
+       int alpha_menu=ColorTheme.getColor(ColorTheme.GRAPHICS_MENU_BGNG_ARGB);
 //#ifdef GRADIENT
         if (alpha_menu!=-1){
             menuBgnd.update(x1, y1, x2, y2, alpha_menu, alpha_menu, Gradient.CACHED_HORIZONTAL);
@@ -301,8 +301,8 @@ public class GMenu extends CanvasEx {
             int yc = 1 + (itemCursorIndex*fh);
             fon=new Gradient();
             fon.update(0, yc, w+2, yc+fh, ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_1),
-                  ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_2), Gradient.HORIZONTAL);
-            fon.paintHRoundRect(g, 4);
+                  ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_2), Gradient.CACHED_HORIZONTAL);
+            fon.paint(g);
              g.setColor(ColorTheme.getColor(ColorTheme.CURSOR_OUTLINE));
              g.drawRoundRect(0, (itemCursorIndex*fh), w , fh+1, 8, 8);
             //fon.paint(g);

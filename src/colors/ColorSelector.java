@@ -32,6 +32,9 @@ import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import ui.VirtualCanvas;
 import ui.controls.form.DefForm;
+//#ifdef GRADIENT
+import ui.Gradient;
+//#endif
 
 public class ColorSelector extends DefForm implements Runnable {
     private Font font;
@@ -42,6 +45,9 @@ public class ColorSelector extends DefForm implements Runnable {
     int cpos;
     int alpha,red,green,blue;
     private boolean hasAlphaChannel = true;
+//#ifdef GRADIENT
+    private Gradient example = new Gradient();
+//#endif
 
     int dy;
     int timer;
@@ -80,14 +86,19 @@ public class ColorSelector extends DefForm implements Runnable {
 
         switch (item.getIndex()) {
             case ColorTheme.GRAPHICS_MENU_BGNG_ARGB:
-                alpha = midlet.BombusQD.cf.gmenu_bgnd;
-                break;
+            case ColorTheme.TRANSPARENCY_ARGB:
             case ColorTheme.POPUP_MESSAGE_BGND:
             case ColorTheme.POPUP_SYSTEM_BGND:
-                alpha = midlet.BombusQD.cf.popup_bgnd;
-                break;
             case ColorTheme.CURSOR_BGND:
-                alpha = midlet.BombusQD.cf.cursor_bgnd;
+            case ColorTheme.GRADIENT_CURSOR_1:
+            case ColorTheme.GRADIENT_CURSOR_2:
+            case ColorTheme.HEAP_FREE:
+            case ColorTheme.HEAP_TOTAL:
+            case ColorTheme.BAR_BGND:
+            case ColorTheme.BAR_BGND_BOTTOM:
+            case ColorTheme.BALLOON_BGND:
+            case ColorTheme.SCROLL_BGND:
+            case ColorTheme.SCROLL_BAR:
                 break;
             default:
                 hasAlphaChannel = false;
@@ -98,6 +109,7 @@ public class ColorSelector extends DefForm implements Runnable {
         red=ColorTheme.getRed(color);
         green=ColorTheme.getGreen(color);
         blue=ColorTheme.getBlue(color);
+        alpha=ColorTheme.getAlpha(color);
 
         cpos = 0;
 
@@ -123,15 +135,18 @@ public class ColorSelector extends DefForm implements Runnable {
 
         g.setColor(0x000000);
         g.drawRect(4, boxY - 1, boxW + 1, 81);
-        g.setColor(red, green, blue);
-        g.fillRect(5, boxY, boxW, 80);
-        //g.setColor(0x80000300);
+//#ifdef GRADIENT
+        example.update(4, boxY, 5+boxW, boxY+81, ColorTheme.getColor(alpha, red, green, blue), ColorTheme.getColor(alpha, red, green, blue), Gradient.CACHED_HORIZONTAL);
+        example.paint(g);
+//#else
+//#         g.setColor(red, green, blue);
+//#         g.fillRect(5, boxY, boxW, 80);
+//#endif        
 
         //draw red
         int pxred = (w * 3 / 7);
         int psred = (ph * red) / 255;
         g.setColor(0);
-        //g.setStrokeStyle(Graphics.SOLID);
         g.fillRect(pxred, py - ph, w / 10, ph);
         g.setColor(0xff1111);
         g.fillRect(pxred, py - psred, w / 10, psred);
@@ -145,7 +160,6 @@ public class ColorSelector extends DefForm implements Runnable {
         int pxgreen = (w * 4 / 7);
         int psgreen = (ph * green) / 255;
         g.setColor(0);
-        //g.setStrokeStyle(Graphics.SOLID);
         g.fillRect(pxgreen, py - ph, w / 10, ph);
         g.setColor(0x00ee00);
         g.fillRect(pxgreen, py - psgreen, w / 10, psgreen);
@@ -159,7 +173,6 @@ public class ColorSelector extends DefForm implements Runnable {
         int pxblue = (w * 5 / 7);
         int psblue = (ph * blue) / 255;
         g.setColor(0);
-        //g.setStrokeStyle(Graphics.SOLID);
         g.fillRect(pxblue, py - ph, w / 10, ph);
         g.setColor(0x3333ff);
         g.fillRect(pxblue, py - psblue, w / 10, psblue);
@@ -173,7 +186,6 @@ public class ColorSelector extends DefForm implements Runnable {
             int pxalpha = (w * 6 / 7);
             int pspxalpha = (ph * alpha) / 255;
             g.setColor(0);
-            //g.setStrokeStyle(Graphics.SOLID);
             g.fillRect(pxalpha, py - ph, w / 10, ph);
             g.setColor(0x666666);
             g.fillRect(pxalpha, py - pspxalpha, w / 10, pspxalpha);
@@ -191,15 +203,13 @@ public class ColorSelector extends DefForm implements Runnable {
             super.pointerPressed(x, y);
         }
 
-        int index = item.getIndex();
         if (x > 3 * w / 7 && x < (3 * w / 7 + w / 10)) {
             cpos = 0;
         } else if (x > (4 * w / 7) && x < (4 * w / 7 + w / 10)) {
             cpos = 1;
         } else if (x > (5 * w / 7) && x < (5 * w / 7 + w / 10)) {
             cpos = 2;
-        } else if ((index == 49 || index == 50 || index == 40 || index == 42 || index == 34)
-                && (x > (6 * w / 7) && x < (6 * w / 7 + w / 10))) {
+        } else if (hasAlphaChannel && (x > (6 * w / 7) && x < (6 * w / 7 + w / 10))) {
             cpos = 3;
         } else {
             return;
@@ -225,7 +235,7 @@ public class ColorSelector extends DefForm implements Runnable {
                     blue = (py - y) * 255 / ph;
                     break;
                 case 3:
-                    alpha = (py - y) * 255 / ph;
+                    if (hasAlphaChannel) alpha = (py - y) * 255 / ph;
                     break;
 
             }
@@ -331,9 +341,11 @@ public class ColorSelector extends DefForm implements Runnable {
                 if (blue<0) blue=255;
                 break;
             case 3:
-                alpha=dy+alpha;
-                if (alpha>255) alpha=0;
-                if (alpha<0) alpha=255;
+                if (hasAlphaChannel) {
+                    alpha=dy+alpha;
+                    if (alpha>255) alpha=0;
+                    if (alpha<0) alpha=255;
+                }
                 break;
         }
         redraw();
@@ -350,23 +362,8 @@ public class ColorSelector extends DefForm implements Runnable {
     }
 
     private void applyChanges() {
-        switch (item.getIndex()) {
-            case ColorTheme.GRAPHICS_MENU_BGNG_ARGB:
-                 midlet.BombusQD.cf.gmenu_bgnd = alpha;
-                break;
-            case ColorTheme.POPUP_MESSAGE_BGND:
-            case ColorTheme.POPUP_SYSTEM_BGND:
-                midlet.BombusQD.cf.popup_bgnd = alpha;
-                break;
-            case ColorTheme.CURSOR_BGND:
-                midlet.BombusQD.cf.cursor_bgnd = alpha;
-                break;
-        }
-
-        int finalColor = (red << 16) | (green << 8) | blue;
-
-        item.setColor(finalColor);
-        ColorTheme.setColor(item.getIndex(), finalColor);
+        item.setColor(ColorTheme.getColor(alpha, red, green, blue));
+        ColorTheme.setColor(item.getIndex(), item.getColor());
         ColorTheme.saveToStorage();
     }
 

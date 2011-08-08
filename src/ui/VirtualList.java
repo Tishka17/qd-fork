@@ -612,48 +612,14 @@ public abstract class VirtualList extends CanvasEx {
         getPopUp().paintCustom(g);
     }
 //#endif
-
-    private static int getARGB() {
-      int ccolor = ColorTheme.getColor(ColorTheme.CURSOR_BGND);
-      int red, green, blue;
-      long tmp;
-      int alpha = midlet.BombusQD.cf.cursor_bgnd;
-      red = ColorTheme.getRed(ccolor);
-      green = ColorTheme.getGreen(ccolor);
-      blue = ColorTheme.getBlue(ccolor);
-      tmp = (alpha << 24) | (red << 16) | (green << 8) | blue;
-      return (int)tmp;
-    }
-
-
-    private static int[] cursorBgnd;
-    private static int lastHeight = 0;
-    private static int lastWidth = 0;
-    private static int[] getCursorBgnd(int w, int h)
-    {
-      if(lastHeight == h && lastWidth == w) return cursorBgnd;
-         int alpha_ = getARGB();
-         cursorBgnd = null;
-         cursorBgnd = new int[w * h];
-         int lengntp = cursorBgnd.length;
-         for(int i = 0; i < lengntp; ++i) cursorBgnd[i] = alpha_;
-      lastHeight = h;
-      lastWidth = w;
-      return cursorBgnd;
-    }
-
+ 
      protected void drawCursor (Graphics g, int x0, int y0, int width, int height) { //Tishka17
-     if(midlet.BombusQD.cf.cursor_bgnd!=0) {
-            cursorBgnd = getCursorBgnd(width,height);
-            g.drawRGB(cursorBgnd, 0, width, x0 , y0 , width, height, true);
-      }
-     else
-     {
 //#ifdef GRADIENT
         if(midlet.BombusQD.cf.gradient_cursor){
              cursorGradient.update(x0, y0, width+x0, height+y0, ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_1),
-                  ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_2), Gradient.HORIZONTAL);
-             cursorGradient.paintHRoundRect(g, 4);
+                  ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_2), Gradient.CACHED_HORIZONTAL);
+             //cursorGradient.paintHRoundRect(g, 4);
+             cursorGradient.paint(g);
              g.setColor(ColorTheme.getColor(ColorTheme.CURSOR_OUTLINE));
              g.drawRoundRect(x0, y0, width-1, height-1, 8, 8);
              //fon.paint(g);
@@ -667,7 +633,6 @@ public abstract class VirtualList extends CanvasEx {
            g.setColor(cursorOutline);
            g.drawRoundRect(x0, y0, width-1, height-1, 8, 8);
          }
-     }
    }
 
 
@@ -835,26 +800,29 @@ public abstract class VirtualList extends CanvasEx {
 //#ifdef GRADIENT
          if (getMainBarBGnd()!=getMainBarBGndBottom()) {
             int c = midlet.BombusQD.cf.gradientBarLigth?1:-1;
-            MainBarBG.update(0, y, width, y+h,
+            MainBarBG.update(0, y, width, y+h+1,
                     transformColorLight(getMainBarBGnd(), c*midlet.BombusQD.cf.gradientBarLight1),
                     transformColorLight(getMainBarBGndBottom(), c*midlet.BombusQD.cf.gradientBarLight2), Gradient.MIXED_DOWN);
             MainBarBG.paint(g);
+            if (midlet.BombusQD.cf.shadowBar) {
+                int sh = (width <= height)?width:height;
+                MainBarShadow.update(0, y-sh, width, y, startGPRS, FIRE, y);
+                if (reverse) {
+                    sh = sh/50;
+                    MainBarShadow.update(0, y-sh, width, y, 10<<24, 200<<24, Gradient.CACHED_HORIZONTAL);
+                    MainBarShadow.paint(g);
+                }
+                else {
+                    sh = sh/40;
+                    MainBarShadow.update(0, y+h, width, y+h+sh, 200<<24, 10<<24, Gradient.CACHED_HORIZONTAL);
+                    MainBarShadow.paint(g);
+                }
+            }
          } else 
 //#endif
         {
             g.setColor(getMainBarBGnd());
             g.fillRect(0, y, width, h);
-        }
-        if (midlet.BombusQD.cf.shadowBar) {
-            int sh = (width <= height)?width:height;
-            if (reverse) {
-                sh = sh/50;
-                   drawShadow(g,0,y-sh,width,sh,200,10);
-            }
-            else {
-                sh = sh/40;
-                   drawShadow(g,0,y+h,width,sh,10,200);
-            }
         }
         setAbsOrg(g, 0, y);
         g.setColor(getMainBarRGB());
@@ -866,27 +834,30 @@ public abstract class VirtualList extends CanvasEx {
 //#ifdef GRADIENT
         if (getMainBarBGnd()!=getMainBarBGndBottom()) {//32,102
             int c = midlet.BombusQD.cf.gradientBarLigth?1:-1;
-            InfoBarBG.update(0, y, width, y+h,
+            InfoBarBG.update(0, y, width, y+h+1,
                     transformColorLight(getMainBarBGnd(), c*midlet.BombusQD.cf.gradientBarLight1),
                     transformColorLight(getMainBarBGndBottom(), c*midlet.BombusQD.cf.gradientBarLight2),
                     Gradient.MIXED_UP);
-            InfoBarBG.paint(g);
+            InfoBarBG.paint(g);            
+            if (midlet.BombusQD.cf.shadowBar) {
+                int sh = (width <= height)?width:height;
+                InfoBarShadow.update(0, y-sh, width, y, startGPRS, FIRE, y);
+                if (reverse) {
+                    sh = sh/40;
+                    InfoBarShadow.update(0, y+h, width, y+h+sh, 200<<24, 10<<24, Gradient.CACHED_HORIZONTAL);
+                    InfoBarShadow.paint(g);
+                }
+                else {
+                    sh = sh/50;
+                    InfoBarShadow.update(0, y-sh, width, y, 10<<24, 200<<24, Gradient.CACHED_HORIZONTAL);
+                    InfoBarShadow.paint(g);
+                }
+            }
         } else 
 //#endif
         {
             g.setColor(getMainBarBGnd());
             g.fillRect(0, y, width, h);
-        }
-        if (midlet.BombusQD.cf.shadowBar) {
-            int sh = (width <= height)?width:height;
-            if (!reverse) {
-                sh = sh/50;
-                   drawShadow(g,0,y-sh,width,sh,200,10);
-            }
-            else {
-                sh = sh/40;
-                   drawShadow(g,0,y+h,width,sh,10,200);
-            }
         }
         if(midlet.BombusQD.sd.roster!=null) {
             if (midlet.BombusQD.sd.roster.messageCount>0) {
@@ -903,36 +874,28 @@ public abstract class VirtualList extends CanvasEx {
         g.setColor(getMainBarRGB());
         infobar.drawItem(this, g,(phoneManufacturer==Config.NOKIA && reverse)?20:0,false);
     }
-    
-    private void drawShadow(final Graphics g, int ox, int oy, int width, int height, int op1, int op2) {
-        int []menuBarShadow = new int[width];
-        int alpha, color;
-        for (int y = 0; y < height; y++) {
-	    alpha = ((op2*(height-y)+op1*y)/height) & 255;
-            //color = (alpha << 24) | (0 << 16) | (0 << 8) | (0);
-            color = alpha << 24;
-            for (int x = 0; x < width; x++) {
-                menuBarShadow[x] = color;
-            }
-            g.drawRGB(menuBarShadow, 0, width, ox, oy+y, width, 1, true);
-        }
-    }
 
 //#ifdef GRADIENT
     private static Gradient InfoBarBG=new Gradient();
     private static Gradient MainBarBG=new Gradient();
+    private static Gradient InfoBarShadow=new Gradient();
+    private static Gradient MainBarShadow=new Gradient();
+    
     
    private static int transformColorLight(int color, int light) {
-		int r = (color & 0xFF) + light;
-		int g = ((color & 0xFF00) >> 8) + light;
-		int b = ((color & 0xFF0000) >> 16) + light;
+		int r = ColorTheme.getRed(color) + light;
+		int g = ColorTheme.getGreen(color) + light;
+		int b = ColorTheme.getBlue(color) + light;
+                int a = ColorTheme.getAlpha(color) + light;
 		if (r < 0) r = 0;
 		if (r > 255) r = 255;
 		if (g < 0) g = 0;
 		if (g > 255) g = 255;
 		if (b < 0) b = 0;
 		if (b > 255) b = 255;
-		return r | (g << 8) | (b << 16);
+                if (a < 0) a=0;
+                if (a > 255) a= 255;
+		return b | (g << 8) | (r << 16) | (a<<24);
    }
 //#endif
     

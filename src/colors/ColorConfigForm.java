@@ -34,11 +34,9 @@ import io.file.browse.BrowserListener;
 //#endif
 import java.util.Vector;
 import locale.SR;
-import ui.controls.form.TrackItem;
 import ui.controls.form.DefForm;
 import ui.controls.form.LinkString;
 import ui.controls.form.SpacerItem;
-import ui.controls.form.SimpleString;
 import util.StringLoader;
 import ui.controls.form.ColorThemeSelector;
 
@@ -58,11 +56,6 @@ public class ColorConfigForm extends DefForm
 //#endif
 
     private ColorThemeSelector skinFiles;
-
-    private TrackItem argb_bgnd;
-    private TrackItem gmenu_bgnd;
-    private TrackItem popup_bgnd;
-    private TrackItem cursor_bgnd;
 
     public ColorConfigForm() {
         super(SR.get(SR.MS_THEMES));
@@ -93,25 +86,6 @@ public class ColorConfigForm extends DefForm
 
         });
 //#endif
-
-        addControl(new SimpleString(SR.get(SR.MS_TRANSPARENT), true));
-        addControl(new SpacerItem(2));
-
-        addControl(new SimpleString(SR.get(SR.MS_BGND_MIDLET), true));
-        argb_bgnd = new TrackItem(midlet.BombusQD.cf.argb_bgnd/10, 25);
-        addControl(argb_bgnd);
-
-        addControl(new SimpleString(SR.get(SR.MS_GR_MENU), true));
-        gmenu_bgnd = new TrackItem(midlet.BombusQD.cf.gmenu_bgnd/10, 25);
-        addControl(gmenu_bgnd);
-
-        addControl(new SimpleString(SR.get(SR.MS_POPUPS), true));
-        popup_bgnd = new TrackItem(midlet.BombusQD.cf.popup_bgnd/10, 25);
-        addControl(popup_bgnd);
-
-        addControl(new SimpleString(SR.get(SR.MS_CURSOR_TR), true));
-        cursor_bgnd = new TrackItem(midlet.BombusQD.cf.cursor_bgnd/10, 25);
-        addControl(cursor_bgnd);
 
         addControl(new SpacerItem(5));
 
@@ -147,10 +121,6 @@ public class ColorConfigForm extends DefForm
     }
 
     public void cmdOk() {
-        midlet.BombusQD.cf.argb_bgnd = argb_bgnd.getValue() * 10;
-        midlet.BombusQD.cf.gmenu_bgnd = gmenu_bgnd.getValue() * 10;
-        midlet.BombusQD.cf.popup_bgnd = popup_bgnd.getValue() * 10;
-        midlet.BombusQD.cf.cursor_bgnd = cursor_bgnd.getValue() * 10;
         destroyView();
     }
 

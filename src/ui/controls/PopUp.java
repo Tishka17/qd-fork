@@ -36,6 +36,9 @@ import java.util.Vector;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import font.FontCache;
+//#ifdef GRADIENT
+import ui.Gradient;
+//#endif
 import ui.VirtualCanvas;
 import util.StringUtils;
 
@@ -56,7 +59,9 @@ public class PopUp {
     private int height;
 
     private Vector popUps;
-
+//#ifdef GRADIENT
+    private Gradient bg= new Gradient();
+//#endif
     private final static int  SCROLLABLE_NONE=-1;
     private final static int  SCROLLABLE_DOWN=0;
     private final static int  SCROLLABLE_BOTH=1;
@@ -246,18 +251,6 @@ public class PopUp {
         return COLOR_ALERT_BGND;
     }
 
-    private int getARGB() {
-      int ccolor = getColorBgnd();
-      int red, green, blue;
-      long tmp;
-      int alpha_ = midlet.BombusQD.cf.popup_bgnd;
-      red = ColorTheme.getRed(ccolor);
-      green = ColorTheme.getGreen(ccolor);
-      blue = ColorTheme.getBlue(ccolor);
-      tmp = (alpha_ << 24) | (red << 16) | (green << 8) | blue;
-      return (int)tmp;
-    }
-
     public void paintCustom(Graphics graph) {
 	if(size()<1)
 	    return;
@@ -281,24 +274,19 @@ public class PopUp {
             heightBorder=(height-popUpHeight)/2;
         }
 
-         if(midlet.BombusQD.cf.popup_bgnd!=0){
-          int alpha_=getARGB();
-          int[] pixelArray = new int[width * height];
-          int lengntp = pixelArray.length;
-          for(int i = 0; i < lengntp; i++){
-             pixelArray[i] = alpha_;
-          }
-           graph.drawRGB(pixelArray, 0, width, widthBorder, heightBorder, popUpWidth, popUpHeight, true);
-           pixelArray = null;
-           pixelArray = new int[0];
-           graph.drawRect(widthBorder,heightBorder,popUpWidth,popUpHeight);
-         }else{
+        int color=getColorBgnd();
+//#ifdef GRADIENT
+        if (ColorTheme.getAlpha(color)!=0) {
+          bg.update(widthBorder+1, heightBorder+1, widthBorder+popUpWidth, heightBorder+popUpHeight, color, color, Gradient.CACHED_HORIZONTAL);
+        } else 
+//#endif
+        {
           graph.setColor(getColorBgnd());
-          graph.fillRect(widthBorder+1,heightBorder+1,popUpWidth-1,popUpHeight-1);             //fill
-         }
-          graph.setColor(getColorInk());
-          graph.drawRect(widthBorder,heightBorder,popUpWidth,popUpHeight);                 //border
-          graph.setFont(font);
+          graph.fillRect(widthBorder+1, heightBorder+1, popUpWidth-1, popUpHeight-1);             //fill
+        }
+        graph.setColor(getColorInk());
+        graph.drawRect(widthBorder, heightBorder, popUpWidth, popUpHeight);                 //border
+        graph.setFont(font);
 
         switch (scrollable) {
             case SCROLLABLE_UP:

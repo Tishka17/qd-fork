@@ -100,7 +100,7 @@ public class Group extends IconTextElement {
         g.setFont(getFont());
         //#ifdef GRADIENT
         if (!sel) {
-            bg.update(0, 0, g.getClipWidth(), getVHeight(), ColorTheme.getColor(ColorTheme.HEAP_TOTAL), ColorTheme.getColor(ColorTheme.HEAP_FREE), Gradient.HORIZONTAL);
+            bg.update(0, 0, g.getClipWidth(), getVHeight(), ColorTheme.getColor(ColorTheme.HEAP_TOTAL), ColorTheme.getColor(ColorTheme.HEAP_FREE), Gradient.CACHED_HORIZONTAL);
             bg.paint(g);
         }
         //#endif

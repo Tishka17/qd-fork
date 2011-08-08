@@ -81,10 +81,6 @@ public class Configs {
 //#         writeInt(data, "classicChatHeight", config.classicChatHeight);
 //#         writeInt(data, "lineCount", config.lineCount);
 //#endif
-        writeInt(data, "argb_bgnd", config.argb_bgnd);
-        writeInt(data, "gmenu_bgnd", config.gmenu_bgnd);
-        writeInt(data, "popup_bgnd", config.popup_bgnd);
-        writeInt(data, "cursor_bgnd", config.cursor_bgnd);
 //#ifdef AVATARS
         writeInt(data, "maxAvatarWidth", config.maxAvatarWidth);
 //#endif
@@ -296,10 +292,6 @@ public class Configs {
 //#             config.classicChatHeight = readInt(data, "classicChatHeight", config.classicChatHeight);
 //#             config.lineCount = readInt(data, "lineCount", config.lineCount);
 //#endif
-            config.argb_bgnd = readInt(data, "argb_bgnd", config.argb_bgnd);
-            config.gmenu_bgnd = readInt(data, "gmenu_bgnd", config.gmenu_bgnd);
-            config.popup_bgnd = readInt(data, "popup_bgnd", config.popup_bgnd);
-            config.cursor_bgnd = readInt(data, "cursor_bgnd", config.cursor_bgnd);
 //#ifdef AVATARS
             config.maxAvatarWidth = readInt(data, "maxAvatarWidth", config.maxAvatarWidth);
 //#endif

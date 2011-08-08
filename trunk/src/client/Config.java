@@ -260,11 +260,6 @@ public class Config {
 
     public String langpair="ru==>en";
 
-    public int argb_bgnd = 0;
-    public int gmenu_bgnd = 0;
-    public int popup_bgnd = 0;
-    public int cursor_bgnd = 0;
-
 //#ifdef AVATARS
     public String msgAvatarPath = "";
     public static boolean auto_queryPhoto = false;
@@ -724,10 +719,6 @@ public class Config {
             reconnectCount=inputStream.readInt();
             reconnectTime=inputStream.readInt();
             scrollWidth=inputStream.readInt();
-            argb_bgnd=inputStream.readInt();
-            gmenu_bgnd=inputStream.readInt();
-            popup_bgnd=inputStream.readInt();
-            cursor_bgnd=inputStream.readInt();
             msgEditType=inputStream.readInt();
             graphicsMenuPosition=inputStream.readInt();
             gradientBarLight1=inputStream.readInt();
@@ -808,10 +799,6 @@ public class Config {
             outputStream.writeInt(reconnectCount);
             outputStream.writeInt(reconnectTime);
             outputStream.writeInt(scrollWidth);
-            outputStream.writeInt(argb_bgnd);
-            outputStream.writeInt(gmenu_bgnd);
-            outputStream.writeInt(popup_bgnd);
-            outputStream.writeInt(cursor_bgnd);
             outputStream.writeInt(msgEditType);
             outputStream.writeInt(graphicsMenuPosition);
             outputStream.writeInt(gradientBarLight1);

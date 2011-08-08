@@ -44,8 +44,14 @@ import ui.controls.form.PluginBox;
 import ui.controls.form.SimpleString;
 import ui.controls.form.SpacerItem;
 import ui.controls.form.TrackItem;
+import ui.controls.form.LinkString;
 import util.StringLoader;
 import xmpp.EntityCaps;
+import ui.controls.form.ColorThemeSelector;
+import colors.ColorTheme;
+//#ifdef COLOR_TUNE
+import colors.ColorList;
+//#endif
 
 public class ModuleConfigForm extends DefForm {
     private int type;
@@ -171,6 +177,8 @@ public class ModuleConfigForm extends DefForm {
 //#endif
     private NumberInput reconnectCount;
     private NumberInput reconnectTime;
+    
+    private ColorThemeSelector skinFiles;
 
     public ModuleConfigForm(String caption, int type) {
         super(caption);
@@ -379,6 +387,45 @@ public class ModuleConfigForm extends DefForm {
             // first control is not selectable
             moveCursorTo(1);
         } else if (type == PluginBox.APPEARANCE) {
+            
+            Vector[] files = new StringLoader().stringLoader("/themes/res.txt", 2);
+            if (files != null) {
+                int size = files[0].size();
+
+                if (size > 0) {
+                    skinFiles = new ColorThemeSelector(SR.get(SR.MS_THEMES));
+
+                    for (int i = 0; i < size; ++i) {
+                        String themeName = (String)files[1].elementAt(i);
+                        String themePath = (String)files[0].elementAt(i);
+
+                        skinFiles.append(themeName, themePath);
+                    }
+
+                    addControl(skinFiles);
+                }
+            }
+//#ifdef COLOR_TUNE
+            addControl(new LinkString(SR.get(SR.MS_EDIT_COLORS)) {
+                public void doAction() {
+                    new ColorList().show();
+                }
+
+            });
+            addControl(new LinkString(SR.get(SR.MS_INVERT)) {
+                public void doAction() {
+                    ColorTheme.invertSkin();
+                }
+
+            });
+            addControl(new LinkString(SR.get(SR.MS_CLEAR)) {
+                public void doAction() {
+                    ColorTheme.initColors();
+                    ColorTheme.saveToStorage();
+                }
+            });          
+            addControl(new SpacerItem(5));
+//#endif            
             panels = new DropChoiceBox(SR.get(SR.MS_PANELS));
             panels.append(SR.get(SR.MS_NO_BAR)+" : "+SR.get(SR.MS_NO_BAR));
             panels.append(SR.get(SR.MS_MAIN_BAR)+" : "+SR.get(SR.MS_NO_BAR));
@@ -681,6 +728,7 @@ public class ModuleConfigForm extends DefForm {
             }
             EntityCaps.initCaps();
          } else if(type == PluginBox.APPEARANCE) {
+            ColorTheme.saveToStorage();
             Config.panelsState = panels.getSelectedIndex();
             VirtualList.updatePanelsState();
 

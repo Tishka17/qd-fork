@@ -31,7 +31,6 @@ import alert.AlertCustomizeForm;
 //#ifdef AUTOTASK
 import autotask.AutoTaskForm;
 //#endif
-import colors.ColorConfigForm;
 import font.FontConfigForm;
 //#if FILE_IO && IMPORT_EXPORT 
 import impexp.ImportExportForm;
@@ -66,7 +65,6 @@ public class ConfigForm extends DefForm {
         addPluginBox(SR.get(SR.MS_netStr), PluginBox.NETWORK);
         addPluginBox(SR.get(SR.MS_APPLICATION), PluginBox.APPLICATION);
         addPluginBox(SR.get(SR.MS_APPEARANCE), PluginBox.APPEARANCE);
-        addPluginBox(SR.get(SR.MS_THEMES), PluginBox.COLOR_TUNE);
         addPluginBox(SR.get(SR.MS_FONTS), PluginBox.FONTS);
 //#if IMPORT_EXPORT && FILE_IO
         addPluginBox(SR.get(SR.MS_IMPORT_EXPORT), PluginBox.IMPORT_EXPORT);
@@ -145,9 +143,6 @@ public class ConfigForm extends DefForm {
             return;
         }        
         switch (box.getType()) {
-            case PluginBox.COLOR_TUNE:
-                new ColorConfigForm().show();
-                return;
 //#ifdef USER_KEYS
             case PluginBox.USERKEYS:
                 new UserKeysList().show();

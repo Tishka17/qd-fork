@@ -33,6 +33,8 @@ import io.file.browse.BrowserListener;
 import locale.SR;
 import menu.Menu;
 import menu.MenuItem;
+import colors.ColorTheme;
+import io.file.FileIO;
 
 /**
  *
@@ -49,9 +51,13 @@ public class ImportExportForm extends Menu implements BrowserListener {
     public static final int CONFIG_EXPORT = 4;
     public static final int CONFIG_IMPORT = 5;
 
+    public static final int THEME_EXPORT = 6;
+    public static final int THEME_IMPORT = 7;
+    
     public ImportExportForm() {
         super(SR.get(SR.MS_IMPORT_EXPORT));
 
+        
         addItem(SR.get(SR.MS_ACCOUNTS) + ": " + SR.get(SR.MS_LOAD_FROM_FILE), ACCOUNT_IMPORT);
         addItem(SR.get(SR.MS_ACCOUNTS) + ": " + SR.get(SR.MS_SAVE_TO_FILE), ACCOUNT_EXPORT);
 
@@ -62,6 +68,9 @@ public class ImportExportForm extends Menu implements BrowserListener {
 
         addItem(SR.get(SR.MS_OPTIONS) + ": " + SR.get(SR.MS_LOAD_FROM_FILE), CONFIG_IMPORT);
         addItem(SR.get(SR.MS_OPTIONS) + ": " + SR.get(SR.MS_SAVE_TO_FILE), CONFIG_EXPORT);
+        
+        addItem(SR.get(SR.MS_THEMES) + ": " + SR.get(SR.MS_LOAD_FROM_FILE), THEME_IMPORT);
+        addItem(SR.get(SR.MS_THEMES) + ": " + SR.get(SR.MS_SAVE_TO_FILE), THEME_EXPORT);
     }
 
     public void eventOk() {
@@ -71,11 +80,13 @@ public class ImportExportForm extends Menu implements BrowserListener {
             case ARCHIVE_IMPORT:
             case ACCOUNT_IMPORT:
             case CONFIG_IMPORT:
+            case THEME_IMPORT:
                 new Browser(null, this, false).show();
                 break;
             case ARCHIVE_EXPORT:
             case ACCOUNT_EXPORT:
             case CONFIG_EXPORT:
+            case THEME_EXPORT:
                 new Browser(null, this, true).show();
                 break;
         }
@@ -97,6 +108,13 @@ public class ImportExportForm extends Menu implements BrowserListener {
             case CONFIG_EXPORT:
             case CONFIG_IMPORT:
                 new Configs(path, mItem.index);
+                break;
+            case THEME_EXPORT:
+                FileIO file=FileIO.createConnection(path + "skin.txt");
+                file.fileWrite(ColorTheme.getSkin().getBytes());
+                break;
+            case THEME_IMPORT:
+                ColorTheme.loadSkin(path, 0, true);
                 break;
         }
 //#ifdef POPUPS

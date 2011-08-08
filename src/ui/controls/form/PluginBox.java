@@ -43,7 +43,6 @@ public final class PluginBox extends IconTextElement {
     public static final int TASKS = 6;
     public static final int CLASSIC_CHAT = 7;
     public static final int DEBUG = 8;
-    public static final int COLOR_TUNE = 9; 
     public static final int FONTS = 10;
     public static final int NOTIFY = 11;
     public static final int CONTACTS = 12;

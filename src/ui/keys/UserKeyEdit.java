@@ -32,6 +32,7 @@ import ui.controls.form.CheckBox;
 import ui.controls.form.DefForm;
 import ui.controls.form.DropChoiceBox;
 import ui.controls.form.KeyScanner;
+import ui.keys.UserKeyExec;
 
 /**
  *
@@ -53,12 +54,14 @@ public class UserKeyEdit extends DefForm {
     UserKey u;
     
     boolean newKey;
+    //public static boolean doEdit;
 
     public UserKeyEdit(UserKeysList keysList, UserKey u) {
 
         super((u==null)?SR.get(SR.MS_ADD_CUSTOM_KEY):(u.toString()));
         
 	this.keysList = keysList;
+        UserKeyExec.stopExecute( );
 	
 	newKey=(u==null);
 	if (newKey) u=new UserKey();
@@ -100,6 +103,7 @@ public class UserKeyEdit extends DefForm {
 
         keysList.rmsUpdate();
         keysList.commandState();
+        UserKeyExec.startExecute( );
         destroyView();
     }
 }

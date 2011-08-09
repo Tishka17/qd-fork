@@ -62,7 +62,7 @@ public class UserKey extends IconTextElement {
     
     public String toString(){
         //StringBuffer s=new StringBuffer("(* + ").append(KEYS_NAME[key]).append(") ").append(COMMANDS_DESC[commandId]);
-        StringBuffer s=new StringBuffer("* ").append(getKeyName(keyCode)).append(" ").append(COMMANDS_DESC[commandId]);
+        StringBuffer s=new StringBuffer("").append(getKeyName(keyCode)).append(" -> ").append(COMMANDS_DESC[commandId]);
         return s.toString();
     }
     
@@ -85,10 +85,7 @@ public class UserKey extends IconTextElement {
         UserKey u=new UserKey();
         try {
             u.commandId  = inputStream.readInt();
-            //u.keyCode        = inputStream.readInt();
-            // Indian code :) for save current storage structure
             u.keyCode        = inputStream.readInt();
-            //u.active     = inputStream.readBoolean();
         } catch (IOException e) { /*e.printStackTrace();*/ }
             
         return (u.keyCode==-1)?null:u;

@@ -192,6 +192,7 @@ public class Gradient {
 		int width = x2-x1;
 		int height = y2-y1;
 
+                points = null;
 		points = new int[height*width];
 		if (type == MIXED_DOWN || type == MIXED_UP) {
 			int a,r,g,b,dist,diff,new_a,new_r,new_g,new_b,color = 0;

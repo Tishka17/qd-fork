@@ -144,7 +144,6 @@ public class AccountForm extends DefForm {
                     server = "vk.com";
                     break;
                 default:
-                    server = "";
                     break;
             }
         } else {

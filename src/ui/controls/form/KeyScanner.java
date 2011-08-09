@@ -38,6 +38,8 @@ import ui.VirtualList;
  */
 public class KeyScanner extends IconTextElement{
     protected String caption;
+    public String text;
+    
     private Font font;
     private Font captionFont;
     private int fontHeight;
@@ -50,8 +52,10 @@ public class KeyScanner extends IconTextElement{
     public boolean selected;
     public int keyCode;
 
-    public KeyScanner(String caption) {
+    public KeyScanner( String caption){
         super( null);
+        this.keyCode = -1;
+        text= "press your key";
         if( caption ==null)
             this.caption= "";
         else
@@ -70,33 +74,22 @@ public class KeyScanner extends IconTextElement{
         itemHeight += captionFontHeight;
     }
 
-    public KeyScanner(int keyCode, String caption) {
+    public KeyScanner(String caption, int keyCode) {
         this( caption);
         this.keyCode = keyCode;
-        if( selected)
-            text= ui.keys.UserKey.getKeyName( keyCode);
-        else
-            text= "press your key";
+        text= ui.keys.UserKey.getKeyName( keyCode);
     }
 
-    public int getCaptionLength() {
-        if (caption == null) {
-            return 0;
-        }
-        if (caption.length() == 0) {
-            return 0;
-        }
+    public int getCaptionLength( ){
+        if( caption ==null) return 0;
+        if( caption.length() ==0) return 0;
         return captionFont.stringWidth(caption);
     }
 
-    public int getTextLength() {
-        if (text == null) {
-            return 0;
-        }
-        if (text.length() == 0) {
-            return 0;
-        }
-        return font.stringWidth(text);
+    public int getTextLength( ){
+        if( text ==null) return 0;
+        if( text.length() ==0) return 0;
+        return font.stringWidth( text);
     }
 
     public String toString() {
@@ -106,17 +99,19 @@ public class KeyScanner extends IconTextElement{
     public void onSelect( VirtualList view){
         if( !selected){
             selected= true;
+            //this.keyCode= -1;
             text= "press your key";
+            //return true;
         }
     }
 
     public boolean handleEvent( int keyCode){
         if( selected){
+            selected = false;
             this.keyCode= keyCode;
             text= ui.keys.UserKey.getKeyName( keyCode);
-            selected = false;
             return true;
-        }
+        }//ifel
         return false;
     }
 

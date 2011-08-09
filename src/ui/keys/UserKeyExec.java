@@ -85,13 +85,13 @@ public class UserKeyExec {
 
     private int getCommandByKey(int key) {
         int commandNum = -1;
-         for (Enumeration commands=commandsList.elements(); commands.hasMoreElements(); ) {
+        for (Enumeration commands=commandsList.elements(); commands.hasMoreElements(); ) {
             UserKey userKeyItem=(UserKey) commands.nextElement();
-            if (userKeyItem.keyCode==key && userKeyItem.active) {
+            if (userKeyItem.keyCode==key) {
                 commandNum=userKeyItem.commandId;
                 break;
             }
-         }
+        }
         return commandNum;
     }
 

@@ -45,7 +45,7 @@ public class UserKeyEdit extends DefForm {
 
     private final UserKeysList keysList;
 
-    private CheckBox active;
+    //private CheckBox active;
     private DropChoiceBox keyDesc;
     //private DropChoiceBox keyCode;
     private KeyScanner keyCode;
@@ -64,8 +64,8 @@ public class UserKeyEdit extends DefForm {
 	if (newKey) u=new UserKey();
 	this.u=u;
      
-        active=new CheckBox(SR.get(SR.MS_ENABLED), u.active);
-        itemsList.addElement(active);
+        //active=new CheckBox(SR.get(SR.MS_ENABLED), u.active);
+        //itemsList.addElement(active);
 
         keyDesc=new DropChoiceBox(SR.get(SR.MS_KEYS_ACTION));
         for (int i=0;i<u.COMMANDS_DESC.length;i++) {
@@ -80,19 +80,19 @@ public class UserKeyEdit extends DefForm {
         }
         keyCode.setSelectedIndex((u.key<0)?0:u.key);
 */
-        keyCode= new KeyScanner(SR.get(SR.MS_KEY));
+        keyCode= new KeyScanner(SR.get(SR.MS_KEY), u.keyCode);
         itemsList.addElement(keyCode);
         
         moveCursorTo(getNextSelectableRef(-1));
     }
     
     public void cmdOk() {
-        u.active=active.getValue();
+        //u.active=active.getValue();
         u.commandId=keyDesc.getSelectedIndex();
-        u.key=keyCode.getKeyCode();
+        u.keyCode=keyCode.getKeyCode();
         //u.key=keyCode.getSelectedIndex();
-        if (u.key==10) u.keyCode = Canvas.KEY_POUND; 
-        else u.keyCode = u.key + Canvas.KEY_NUM0;
+        //if (u.key==10) u.keyCode = Canvas.KEY_POUND;
+        //else u.keyCode = u.key + Canvas.KEY_NUM0;
 
         if (newKey) {
             keysList.commandsList.addElement(u);

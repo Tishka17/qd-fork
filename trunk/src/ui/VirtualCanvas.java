@@ -124,7 +124,7 @@ public class VirtualCanvas extends Canvas {
         kHold = 0;
         code = getKey(code);
 //#ifdef USER_KEYS
-        pressed_time = System.currentTimeMillis();
+        /*pressed_time = System.currentTimeMillis();
         if (code==KEY_STAR) {
             star_pressed_time = pressed_time;
         } else if (star_pressed_time!=0 && pressed_time-star_pressed_time<2000) {
@@ -134,6 +134,12 @@ public class VirtualCanvas extends Canvas {
                 return;
             }
         }
+         * отключено для реализации более совершеных хоткеев
+         */
+
+        if( UserKeyExec.getInstance().getCommandByKey( code))
+            // UserKeyExec succesfully processed this key
+            return;
 //#endif
 //#ifdef LIGHT_CONTROL
         CustomLight.keyPressed();
@@ -141,11 +147,15 @@ public class VirtualCanvas extends Canvas {
 //#ifdef AUTOSTATUS
         AutoStatus.getInstance().userActivity(Config.AWAY_IDLE);
 //#endif
-        if (canRepeatKey(code)) {
+        /*if (canRepeatKey(code)) {
             canvas.keyPressed(code);
             pressed_time = 0;
         }
+         * больше не нужно?
+         */
+        canvas.keyPressed( code);
     }
+
     protected void keyRepeated(int code) {
         code = getKey(code);
         if (canRepeatKey(code)) {
@@ -183,8 +193,7 @@ public class VirtualCanvas extends Canvas {
     protected void pointerReleased(int x, int y) {
         canvas.pointerReleased(x, y);
     }
-  
-    
+
     //распознавание известных кодов клавиш
     //thanks to Vladimir Kryukov
     public static final int LEFT_SOFT  = 0x00100000;
@@ -202,7 +211,8 @@ public class VirtualCanvas extends Canvas {
     public static final int NAVIKEY_DOWN  = 0x0010000C;
     public static final int NAVIKEY_FIRE  = 0x0010000D;
     public static final int UNUSED_KEY    = 0x0010000F; 
-    private int getKey(int code) {      
+
+    private int getKey(int code) {
 //#ifdef ANDROID
 //#             if (-8 == code) {
 //#                 return CLOSE_KEY;

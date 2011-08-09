@@ -52,6 +52,8 @@ import midlet.BombusQD;
 import ui.VirtualList;
 
 public class UserKeyExec {
+    public static boolean stopExec= false;
+
     private static Config cf;
     StaticData sd=StaticData.getInstance();
 
@@ -83,20 +85,32 @@ public class UserKeyExec {
         } while (u!=null);
     }
 
-    private int getCommandByKey(int key) {
-        int commandNum = -1;
+    public static void stopExecute( ){
+        stopExec= true;
+    }
+
+    public static void startExecute( ){
+        stopExec= false;
+    }
+
+    public boolean getCommandByKey( int key){
+        if( stopExec)
+            return false;
         for (Enumeration commands=commandsList.elements(); commands.hasMoreElements(); ) {
             UserKey userKeyItem=(UserKey) commands.nextElement();
             if (userKeyItem.keyCode==key) {
-                commandNum=userKeyItem.commandId;
-                break;
+                //commandNum=userKeyItem.commandId;
+                commandExecute( userKeyItem.commandId);
+                // обработали клавишу, прекратить ее
+                // дапьнейшее продвижение в VirtualCanvas
+                return true;
             }
         }
-        return commandNum;
+        return false;
     }
 
-    public boolean commandExecute(int command) { //return false if key not executed
-        int commandId=getCommandByKey(command);
+    private boolean commandExecute(int commandId) { //return false if key not executed
+        //int commandId=getCommandByKey(command);
 
         if (commandId<1) return false;
 

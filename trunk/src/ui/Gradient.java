@@ -100,7 +100,9 @@ public class Gradient {
 		}
 
 	}
-	public void paint(Graphics g) {            
+	public void paint(Graphics g) {
+                if (x2<=x1 || y2<= y1)
+                    return;
 		switch (type) {
 			case VERTICAL:
 				paintV(g); 

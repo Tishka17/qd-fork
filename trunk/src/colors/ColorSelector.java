@@ -362,8 +362,9 @@ public class ColorSelector extends DefForm implements Runnable {
     }
 
     private void applyChanges() {
-        item.setColor(ColorTheme.getColor(alpha, red, green, blue));
-        ColorTheme.setColor(item.getIndex(), item.getColor());
+        int color=ColorTheme.getColor(alpha, red, green, blue);
+        item.setColor(color);
+        ColorTheme.setColor(item.getIndex(), color);
         ColorTheme.saveToStorage();
     }
 

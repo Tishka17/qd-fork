@@ -249,7 +249,7 @@ public class GMenu extends CanvasEx {
        
 //#ifdef GRADIENT
        int bgnd_menu = ColorTheme.getColor(ColorTheme.TRANSPARENCY_ARGB);
-       if (bgnd_menu != -1) {
+       if ((bgnd_menu>>24) > 1) {
            listBgnd.update(0, 0, width, height, bgnd_menu, bgnd_menu, Gradient.CACHED_HORIZONTAL);
            listBgnd.paint(g);
        }
@@ -279,7 +279,7 @@ public class GMenu extends CanvasEx {
        int alpha_menu=ColorTheme.getColor(ColorTheme.GRAPHICS_MENU_BGNG_ARGB);
 //#ifdef GRADIENT
         if (alpha_menu!=-1){
-            menuBgnd.update(x1, y1, x2, y2, alpha_menu, alpha_menu, Gradient.CACHED_HORIZONTAL);
+            menuBgnd.update(x1, y1, x2+1, y2, alpha_menu, alpha_menu, Gradient.CACHED_HORIZONTAL);
             menuBgnd.paint(g);
         } else
 //#endif
@@ -331,9 +331,9 @@ public class GMenu extends CanvasEx {
            }
 	   ty=(fh-g.getFont().getHeight())>>1;
             if(Config.executeByNum && index < 10) {
-                g.drawString(((index < 9) ? index + 1 : 0) + "-" + drawCommands[index], x_start, fh*index + 1 + ty, g.LEFT|g.TOP);
+                g.drawString(((index < 9) ? index + 1 : 0) + "-" + drawCommands[index], x_start, fh*index + 1 + ty, Graphics.LEFT|Graphics.TOP);
            } else {
-                g.drawString(drawCommands[index], x_start, fh*index + 1 + ty, g.LEFT|g.TOP);
+                g.drawString(drawCommands[index], x_start, fh*index + 1 + ty, Graphics.LEFT|Graphics.TOP);
            }
         }
    }

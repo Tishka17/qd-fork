@@ -34,6 +34,7 @@ import io.file.FileIO;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Hashtable;
 import midlet.BombusQD;
 import util.StringLoader;
@@ -152,10 +153,7 @@ public class ColorTheme {
 
     public static void initColors() {
         colorsArray = new int[defColors.length];
-
-        for (int i = 0; i < defColors.length; ++i) {
-            colorsArray[i] = defColors[i];
-        }
+        System.arraycopy(defColors, 0, colorsArray, 0, defColors.length);
     }
 
     public static int size() {
@@ -196,9 +194,7 @@ public class ColorTheme {
     public static void invertSkin() {
         int size = colorsArray.length;
         for (int i = 0; i < size; ++i) {
-            if (colorsArray[i] != 0x010101) {
-                colorsArray[i] = 0xFFFFFF - colorsArray[i];
-            }
+            colorsArray[i] = (colorsArray[i] & 0xff000000) | ((~colorsArray[i]) & 0x00ffffff);//invert 3 bytes only, do not invert alpha
         }
         saveToStorage();
     }
@@ -253,7 +249,10 @@ public class ColorTheme {
 //#endif
         body.append("\r\n");
         for (int i = 0; i < size(); i++) {
-            body.append(items[i] + "\t" + getColorString(colorsArray[i]) + "\r\n");
+            body.append(items[i])
+                    .append('\t')
+                    .append(getColorString(colorsArray[i]))
+                    .append("\r\n");
         }
         return body.toString();
     }
@@ -283,15 +282,12 @@ public class ColorTheme {
 //#if FILE_IO
                 case 0: // from fs
                     FileIO f = FileIO.createConnection(skinFile);
-                    byte[] b = f.fileRead();
-                    if (b != null) {
-                        String str = new String(b, 0, b.length).toString().trim();
-                        skin = new StringLoader().hashtableLoaderFromString(str);
-                        str = null;
-                    } else {
+                    try {
+                        InputStream s=f.openInputStream();
+                        skin = new StringLoader().hashtableLoader(s);
+                    } catch (IOException e){
                         return defaultColor;
                     }
-                    b = null;
                     break;
 //#endif
                 case 1: // from jar
@@ -299,17 +295,14 @@ public class ColorTheme {
                     break;
                 case 2: // from message
                     skin = new StringLoader().hashtableLoaderFromString(skinFile);
+                    break;
             }
         }
         String value = (String)skin.get(key);
         if (null == value) {
             return defaultColor;
         }
-        return getColorInt(value);
-    }
-
-    public static int getColorInt(String color) {
-        return Integer.parseInt(color.substring(2), 16);
+        return Integer.parseInt(value.substring(2), 16);
     }
 
     public static String getColorString(int color) {
@@ -343,7 +336,7 @@ public class ColorTheme {
     }
     public static String colorToString(int cRed, int cGreen, int cBlue, int cAlpha) {
         StringBuffer color = new StringBuffer("0x");
-        color.append(expandHex(cRed)).append(expandHex(cGreen)).append(expandHex(cBlue)).append(expandHex(cAlpha));
+        color.append(expandHex(cAlpha)).append(expandHex(cRed)).append(expandHex(cGreen)).append(expandHex(cBlue));
         return color.toString();
     }
 

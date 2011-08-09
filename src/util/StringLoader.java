@@ -239,7 +239,7 @@ public class StringLoader {
 	try {
             boolean eol=false;
             while (true) {
-                int c = getUtfChar(source.substring(pos));
+                int c = source.charAt(pos);
                 pos++;
                 if (c<0) {
                     eol=true;
@@ -257,38 +257,13 @@ public class StringLoader {
                     buf.append((char) c);
                 }
             }
+        } catch (IndexOutOfBoundsException e) { 
+            return null;
         } catch (Exception e)	{  }
         afterEol+=pos;
 	return buf.toString();
     }
-
-    int getUtfChar(String source) throws IOException { //20334
-	try {
-            int chr = source.charAt(0);
-            if( chr == 0xff ) return -1; // end of stream
-
-            if (chr<0x80) return chr;
-            if (chr<0xc0) throw new IOException("Bad UTF-8 Encoding encountered");
-            int chr2= source.charAt(1) &0xff;
-            if (chr2==0xff) return -1;
-            if (chr2<0x80) throw new IOException("Bad UTF-8 Encoding encountered");
-
-            if (chr<0xe0) {
-                // cx, dx
-                return ((chr & 0x1f)<<6) | (chr2 &0x3f);
-            }
-            if (chr<0xf0) {
-                // cx, dx
-                int chr3= source.charAt(2) &0xff;
-                if (chr3==0xff) return -1;
-                if (chr3<0x80) throw new IOException("Bad UTF-8 Encoding encountered");
-                else return ((chr & 0x0f)<<12) | ((chr2 &0x3f) <<6) | (chr3 &0x3f);
-            }
-
-	} catch (Exception e)	{  }
-	return -1;
-    }
-
+    
     String readLine(InputStream inputstream) throws IOException {
 	buf = new StringBuffer(0);
 	try {

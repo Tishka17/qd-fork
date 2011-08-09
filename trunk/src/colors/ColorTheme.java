@@ -152,6 +152,7 @@ public class ColorTheme {
     private ColorTheme() {};
 
     public static void initColors() {
+        colorsArray = null;
         colorsArray = new int[defColors.length];
         System.arraycopy(defColors, 0, colorsArray, 0, defColors.length);
     }

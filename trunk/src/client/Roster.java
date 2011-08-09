@@ -1205,20 +1205,21 @@ public final class Roster extends VirtualList
                    int len = body.length()-1;
                    int newLen = 1;
                    int i = 0;
+                   //проверка, что введет только номер +
                    while(i<len){ i++;
                       for(int j=0;j<charLen;j++){
                         if(body.charAt(i)==chars.charAt(j)) newLen++;
                       }
                    }
-                  if(len==newLen){
-                    String postNum = body.substring(1,len);
-                    JabberDataBlock request = new Iq("juick@juick.com/Juick", Iq.TYPE_GET, (postNum.length()==0) ? "lastmsgs" :"cmts_"+postNum );
-                    JabberDataBlock query = request.addChildNs("query","http://juick.com/query#messages");
-                    query.setAttribute("mid", (body.equals("#+")) ? "" : postNum );
-                    theStream.send(request);
-                    playNotify(SOUND_OUTGOING);
-                    return;
-                  }
+                   if(len==newLen){
+                     String postNum = body.substring(1,len);
+                     JabberDataBlock request = new Iq("juick@juick.com/Juick", Iq.TYPE_GET, (postNum.length()==0) ? "lastmsgs" :"cmts_"+postNum );
+                     JabberDataBlock query = request.addChildNs("query","http://juick.com/query#messages");
+                     query.setAttribute("mid", (body.equals("#+")) ? "" : postNum );
+                     theStream.send(request);
+                     playNotify(SOUND_OUTGOING);
+                     return;
+                   }
                 }
              }
 //#endif

@@ -47,9 +47,7 @@ public class UserKey extends IconTextElement {
     public final static String storage="keys_db";
             
     public int    commandId = 0;
-    //public int    key       = -1;
-    public int    keyCode       = -1;
-    //public boolean active    = false;
+    public int    keyCode   = 0;
 
     public UserKey() {
         super(RosterIcons.getInstance());
@@ -61,8 +59,7 @@ public class UserKey extends IconTextElement {
     }
     
     public String toString(){
-        //StringBuffer s=new StringBuffer("(* + ").append(KEYS_NAME[key]).append(") ").append(COMMANDS_DESC[commandId]);
-        StringBuffer s=new StringBuffer("").append(getKeyName(keyCode)).append(" -> ").append(COMMANDS_DESC[commandId]);
+        StringBuffer s=new StringBuffer("(").append(getKeyName(keyCode)).append(") -> ").append(COMMANDS_DESC[commandId]);
         return s.toString();
     }
     
@@ -94,13 +91,9 @@ public class UserKey extends IconTextElement {
     public void saveToDataOutputStream(DataOutputStream outputStream){
         try {
             outputStream.writeInt(commandId);
-            //outputStream.writeInt(key);
             outputStream.writeInt(keyCode);
-            //outputStream.writeBoolean(active);
         } catch (IOException e) { }
     }
-
-    public int getImageIndex() {return 0;}
 
     public static final String[] COMMANDS_DESC = {
             SR.get(SR.MS_NO),
@@ -122,31 +115,30 @@ public class UserKey extends IconTextElement {
     };
 
     public static String getKeyName( int keyCode){
-        String retval= "" +keyCode +"=" +java.lang.Integer.toHexString( keyCode);
         switch( keyCode){
-            case VirtualCanvas.NAVIKEY_FIRE: retval= "Fire"; break;
-            case VirtualCanvas.NAVIKEY_UP: retval= "Up"; break;
-            case VirtualCanvas.NAVIKEY_DOWN: retval= "Down"; break;
-            case VirtualCanvas.NAVIKEY_LEFT: retval= "Left"; break;
-            case VirtualCanvas.NAVIKEY_RIGHT: retval= "Right"; break;
-            case VirtualCanvas.LEFT_SOFT: retval= "LSoft"; break;
-            case VirtualCanvas.RIGHT_SOFT: retval= "RSoft"; break;
-            case VirtualCanvas.CLEAR_KEY: retval= "Clear"; break;
-            case VirtualCanvas.CLOSE_KEY: retval= "Close"; break;
-            case VirtualCanvas.CALL_KEY: retval= "Call"; break;
-            case VirtualCanvas.CAMERA_KEY: retval= "Camera"; break;
-            case VirtualCanvas.ABC_KEY: retval= "ABC"; break;
-            case VirtualCanvas.VOLPLUS_KEY: retval= "VolUp"; break;
-            case VirtualCanvas.VOLMINUS_KEY: retval= "VolDown"; break;
-            case VirtualCanvas.UNUSED_KEY: retval= "Unused"; break;
+            case VirtualCanvas.NAVIKEY_FIRE: return "Fire";
+            case VirtualCanvas.NAVIKEY_UP: return "Up"; 
+            case VirtualCanvas.NAVIKEY_DOWN: return"Down";
+            case VirtualCanvas.NAVIKEY_LEFT: return"Left";
+            case VirtualCanvas.NAVIKEY_RIGHT: return"Right";
+            case VirtualCanvas.LEFT_SOFT: return"LSoft";
+            case VirtualCanvas.RIGHT_SOFT: return"RSoft";
+            case VirtualCanvas.CLEAR_KEY: return"Clear";
+            case VirtualCanvas.CLOSE_KEY: return"Close";
+            case VirtualCanvas.CALL_KEY: return"Call";
+            case VirtualCanvas.CAMERA_KEY: return"Camera";
+            case VirtualCanvas.ABC_KEY: return"ABC";
+            case VirtualCanvas.VOLPLUS_KEY: return"VolUp";
+            case VirtualCanvas.VOLMINUS_KEY: return"VolDown";
+            case VirtualCanvas.UNUSED_KEY: return"Unused";
         }// switch
         if( keyCode >0x20 && keyCode <0x7f)
-            retval= "" +(char)keyCode;
+            return ""+(char)keyCode;
         if( (keyCode&0xffff) >0xa020 && (keyCode&0xffff) <0xa07f)
-            retval= "" +(char)(keyCode&0x7f);
+            return ""+(char)(keyCode&0x7f);
         if( (keyCode&0xffff) ==0xa020)
-            retval= "Space";
-        return "(" +retval +")";
+            return "Space";
+        return "Key " + java.lang.Integer.toHexString(keyCode);
     }
 }
 //#endif

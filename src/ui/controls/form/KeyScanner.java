@@ -38,7 +38,6 @@ import ui.VirtualList;
  */
 public class KeyScanner extends IconTextElement{
     protected String caption;
-    public String text;
     
     private Font font;
     private Font captionFont;
@@ -54,8 +53,8 @@ public class KeyScanner extends IconTextElement{
 
     public KeyScanner( String caption){
         super( null);
-        this.keyCode = -1;
-        text= "press your key";
+        this.keyCode = 0;
+        text = "";
         if( caption ==null)
             this.caption= "";
         else
@@ -75,9 +74,9 @@ public class KeyScanner extends IconTextElement{
     }
 
     public KeyScanner(String caption, int keyCode) {
-        this( caption);
+        this(caption);
         this.keyCode = keyCode;
-        text= ui.keys.UserKey.getKeyName( keyCode);
+        if (keyCode!=0) text = "("+ui.keys.UserKey.getKeyName(keyCode)+")";
     }
 
     public int getCaptionLength( ){
@@ -99,17 +98,15 @@ public class KeyScanner extends IconTextElement{
     public void onSelect( VirtualList view){
         if( !selected){
             selected= true;
-            //this.keyCode= -1;
             text= "press your key";
-            //return true;
         }
     }
 
     public boolean handleEvent( int keyCode){
         if( selected){
             selected = false;
-            this.keyCode= keyCode;
-            text= ui.keys.UserKey.getKeyName( keyCode);
+            this.keyCode = keyCode;
+            text = "(" + ui.keys.UserKey.getKeyName(keyCode) +")";
             return true;
         }//ifel
         return false;

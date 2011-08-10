@@ -71,14 +71,21 @@ public class Gradient {
 		int greenE = ColorTheme.getGreen(EndRGB);
 		int blueS = ColorTheme.getBlue(StartRGB);
 		int blueE = ColorTheme.getBlue(EndRGB);
+                if (y1<0) 
+                    y1=0;
+                if (y2>midlet.BombusQD.getCurrentView().getHeight()) 
+                    y2=midlet.BombusQD.getCurrentView().getHeight();
 		boolean changed = false;
 		if (points==null || 
-				this.x1!=x1 || this.x2!=x2 ||  
-				this.y1!=y1 || this.y2!=y2 || 
+                                ((this.x2-this.x1) != (x2-x1)) ||
+                                ((this.y2-this.y1) != (y2-y1)) ||
+				/*this.x1!=x1 || this.x2!=x2 ||  
+				this.y1!=y1 || this.y2!=y2 || */
                                 this.alphaS!=alphaS || this.alphaE!=alphaE || 
 				this.redS!=redS || this.redE!=redE || 
 				this.greenS!=greenS ||this.greenE!=greenE ||
-				this.blueS!=blueS || this.blueE!=blueE|| this.type!=type) {
+				this.blueS!=blueS || this.blueE!=blueE || 
+                                this.type!=type) {
 			changed = true;
 		}
 		this.x1 = x1;
@@ -95,8 +102,14 @@ public class Gradient {
 		this.greenS = greenS;
 		this.type = type;
         
-		if ((type==MIXED_UP || type==MIXED_DOWN || type == CACHED_VERTICAL || type==CACHED_HORIZONTAL) && changed) {
+		if (changed) {
+//#ifdef DEBUG
+//#            System.out.println("makePoints("+(y2-y1)+", "+type+")");
+//#endif
+                    if (type==MIXED_UP || type==MIXED_DOWN || type == CACHED_VERTICAL || type==CACHED_HORIZONTAL)
 			makePoints();
+                    else 
+                        points = null;
 		}
 
 	}

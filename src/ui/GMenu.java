@@ -86,10 +86,11 @@ public class GMenu extends CanvasEx {
    private int fh;
    private int size;
    private static int x1,y1,x2,y2;
+   private static Gradient fon=new Gradient();
    
 //#ifdef GRADIENT
-   private Gradient listBgnd;
-   private Gradient menuBgnd;
+   static private Gradient listBgnd = new Gradient();
+   static private Gradient menuBgnd= new Gradient();
 //#endif
    
    public GMenu(MenuListener menuListener, Vector menuCommands) {
@@ -109,14 +110,6 @@ public class GMenu extends CanvasEx {
 
        imgHeight = MenuIcons.getInstance().getHeight();
        imgWidth = MenuIcons.getInstance().getHeight();
-       
-//#ifdef GRADIENT
-       menuBgnd = new Gradient();
-       //menuBgnd.useAlphaChannel(true);
-       
-       listBgnd = new Gradient();
-       //listBgnd.useAlphaChannel(true);
-//#endif
    }
 
     public GMenu(MenuListener menuListener, ImageList il, Vector menuCommands,
@@ -178,9 +171,6 @@ public class GMenu extends CanvasEx {
   }
 
    boolean eventMenu=false;
-//#ifdef GRADIENT
-   Gradient fon;
-//#endif
 
    private void eventOk(){
     try {
@@ -299,7 +289,6 @@ public class GMenu extends CanvasEx {
 //#ifdef GRADIENT
         if(midlet.BombusQD.cf.gradient_cursor){ //Tishka17
             int yc = 1 + (itemCursorIndex*fh);
-            fon=new Gradient();
             fon.update(0, yc, w+2, yc+fh, ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_1),
                   ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_2), Gradient.CACHED_HORIZONTAL);
             fon.paint(g);

@@ -108,7 +108,7 @@ public class UserKeyExec {
 //                waitCode= 0;
                 if( userKeyItem.mKey){
                     waitCode= userKeyItem.secCode;
-                    waitCode= userKeyItem.commandId;
+                    waitCmd= userKeyItem.commandId;
                     return true;
                 }
                 //commandNum=userKeyItem.commandId;

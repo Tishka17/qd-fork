@@ -46,8 +46,10 @@ public class UserKey extends IconTextElement {
     
     public final static String storage="keys_db";
             
-    public int    commandId = 0;
-    public int    keyCode   = 0;
+    public int commandId = 0;
+    public boolean mKey = false;
+    public int keyCode = 0;
+    public int secCode = 0;
 
     public UserKey() {
         super(RosterIcons.getInstance());
@@ -59,7 +61,10 @@ public class UserKey extends IconTextElement {
     }
     
     public String toString(){
-        StringBuffer s=new StringBuffer("(").append(getKeyName(keyCode)).append(") -> ").append(COMMANDS_DESC[commandId]);
+        StringBuffer s=new StringBuffer("(").append(getKeyName(keyCode)).append(")");
+        if( mKey) 
+            s.append("+(").append(getKeyName(secCode)).append(")");
+        s.append(" -> ").append(COMMANDS_DESC[commandId]);
         return s.toString();
     }
     
@@ -81,17 +86,21 @@ public class UserKey extends IconTextElement {
     public static UserKey createFromDataInputStream(DataInputStream inputStream){
         UserKey u=new UserKey();
         try {
-            u.commandId  = inputStream.readInt();
-            u.keyCode        = inputStream.readInt();
+            u.commandId = inputStream.readInt();
+            u.mKey = inputStream.readBoolean();
+            u.keyCode = inputStream.readInt();
+            u.secCode = inputStream.readInt();
         } catch (IOException e) { /*e.printStackTrace();*/ }
             
-        return (u.keyCode==-1)?null:u;
+        return (u.keyCode==0)?null:u;
     }
     
     public void saveToDataOutputStream(DataOutputStream outputStream){
         try {
             outputStream.writeInt(commandId);
+            outputStream.writeBoolean(mKey);
             outputStream.writeInt(keyCode);
+            outputStream.writeInt(secCode);
         } catch (IOException e) { }
     }
 

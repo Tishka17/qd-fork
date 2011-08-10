@@ -265,23 +265,7 @@ public class AutoTaskForm extends DefForm {
     }
 
     private void update(){
-
-        itemsList.removeElement(taskNumber);
-        itemsList.removeElement(autoTaskOnce);
-        itemsList.removeElement(taskType);
-        itemsList.removeElement(actionType);
-        //itemsList.removeElement(notify);
-        itemsList.removeElement(autoTaskText);
-        itemsList.removeElement(autoTaskDelay);
-        itemsList.removeElement(autoTaskNotify);
-        itemsList.removeElement(notifyVbox);
-        itemsList.removeElement(notifyLbox);
-        itemsList.removeElement(notifySbox);
-        itemsList.removeElement(notifyNbox);
-        itemsList.removeElement(autoTaskTimeDesc);
-        itemsList.removeElement(autoTaskHour);
-        itemsList.removeElement(autoTaskMin);
-        itemsList.removeElement(autoTaskName);
+        itemsList.removeAllElements();
 
         itemsList.addElement(taskNumber);
         itemsList.addElement(taskType);

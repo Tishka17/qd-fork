@@ -53,6 +53,8 @@ import ui.VirtualList;
 
 public class UserKeyExec {
     public static int noExecSem= 0;
+    public static int waitCode= 0;
+    public static int waitCmd= 0;
 
     private static Config cf;
     StaticData sd=StaticData.getInstance();
@@ -92,13 +94,23 @@ public class UserKeyExec {
     public static void startExecute( ){
         noExecSem--;
     }
-
     public boolean getCommandByKey( int key){
         if( noExecSem !=0)
             return false;
+        if (waitCode ==key) {
+            commandExecute( waitCmd);
+            return true;
+        }
+        waitCode= 0;
         for (Enumeration commands=commandsList.elements(); commands.hasMoreElements(); ) {
             UserKey userKeyItem=(UserKey) commands.nextElement();
             if (userKeyItem.keyCode==key) {
+//                waitCode= 0;
+                if( userKeyItem.mKey){
+                    waitCode= userKeyItem.secCode;
+                    waitCode= userKeyItem.commandId;
+                    return true;
+                }
                 //commandNum=userKeyItem.commandId;
                 commandExecute( userKeyItem.commandId);
                 // обработали клавишу, прекратить ее

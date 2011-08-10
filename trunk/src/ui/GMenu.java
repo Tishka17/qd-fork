@@ -360,101 +360,99 @@ public class GMenu extends CanvasEx {
 //#endif
 
 
-   public void keyPressed(int keyCode) {
-     if (eventMenu==true) {
-         eventMenu = sendEvent(keyCode);
-         return;
-     }else{
-         if (keyCode==VirtualCanvas.LEFT_SOFT) {
-            eventOk();
-         }
-         else if (keyCode==VirtualCanvas.RIGHT_SOFT || keyCode==VirtualCanvas.CLOSE_KEY) {//SE: 11-back,-8-�������
+    public void keyPressed(int keyCode) {
+        //ui.keys.UserKeyExec.stopExecute();
+        if (eventMenu==true) {
+            eventMenu = sendEvent(keyCode);
+            return;
+        }else{
+            if (keyCode==VirtualCanvas.LEFT_SOFT) {
+                eventOk();
+            } else if (keyCode==VirtualCanvas.RIGHT_SOFT || keyCode==VirtualCanvas.CLOSE_KEY) {//SE: 11-back,-8-�������
+                gm.itemGrMenu=-1;
+                gm.ml=null;
+                gm.itemCursorIndex=0;
+            } else if(Config.executeByNum){
+                int itemsSize = gm.commandslist.length;
+                switch( keyCode){
+                    case KEY_NUM1: if(itemsSize > 0) {gm.itemCursorIndex=0; eventOk();} break;
+                    case KEY_NUM2: if(itemsSize > 1) {gm.itemCursorIndex=1; eventOk();} break;
+                    case KEY_NUM3: if(itemsSize > 2) {gm.itemCursorIndex=2; eventOk();} break;
+                    case KEY_NUM4: if(itemsSize > 3) {gm.itemCursorIndex=3; eventOk();} break;
+                    case KEY_NUM5: if(itemsSize > 4) {gm.itemCursorIndex=4; eventOk();} break;
+                    case KEY_NUM6: if(itemsSize > 5) {gm.itemCursorIndex=5; eventOk();} break;
+                    case KEY_NUM7: if(itemsSize > 6) {gm.itemCursorIndex=6; eventOk();} break;
+                    case KEY_NUM8: if(itemsSize > 7) {gm.itemCursorIndex=7; eventOk();} break;
+                    case KEY_NUM9: if(itemsSize > 8) {gm.itemCursorIndex=8; eventOk();} break;
+                    case KEY_NUM0: if(itemsSize > 9) {gm.itemCursorIndex=9; eventOk();} break;
+                    case VirtualCanvas.NAVIKEY_UP:
+                        gm.itemCursorIndex--;
+                        if(gm.itemCursorIndex<0){
+                            gm.itemCursorIndex=size;
+                        }
+                        break;
+                    case VirtualCanvas.NAVIKEY_DOWN:
+                        gm.itemCursorIndex++;
+                        if(gm.itemCursorIndex>size){
+                            gm.itemCursorIndex=0;
+                        }
+                        break;
+                    case VirtualCanvas.NAVIKEY_FIRE: eventOk(); break;
+                }
+            } else {
+                switch (keyCode){
+                    case VirtualCanvas.NAVIKEY_UP:
+                    case KEY_NUM2:
+                        gm.itemCursorIndex--;
+                        if(gm.itemCursorIndex<0){
+                            gm.itemCursorIndex=size;
+                        }
+                        break;
+                    case VirtualCanvas.NAVIKEY_DOWN:
+                    case KEY_NUM8:
+                        gm.itemCursorIndex++;
+                        if(gm.itemCursorIndex>size){
+                            gm.itemCursorIndex=0;
+                        }
+                        break;
+                    case KEY_NUM5:
+                        gm.itemCursorIndexIn=0;
+                        eventOk();
+                        break;
+                    case KEY_NUM1:
+                        gm.itemCursorIndex=0;
+                        break;
+                    case KEY_NUM7:
+                        gm.itemCursorIndex=size;
+                        break;
+                    case VirtualCanvas.NAVIKEY_FIRE:
+                        eventOk();
+                        break;
+                }
+            }//elif
+        }//ifel
+        //ui.keys.UserKeyExec.startExecute();
+    }
+
+    private void closeEvent(int i){
+        if (gm.commandslistIn.length<=i)
+            return;
+        gm.itemCursorIndexIn=i;
+        gm.inMenuSelected=true;
+        gm.itemGrMenu=-1;
+    }
+
+    public boolean sendEvent(int keyCode) {
+        //ui.keys.UserKeyExec.stopExecute();
+        if (keyCode==VirtualCanvas.LEFT_SOFT) {
+            closeEvent(gm.itemCursorIndexIn);
+            return false;
+        } else if (keyCode==VirtualCanvas.RIGHT_SOFT || keyCode==VirtualCanvas.CLOSE_KEY) {
             gm.itemGrMenu=-1;
             gm.ml=null;
-            gm.itemCursorIndex=0;
-         } else if(Config.executeByNum){
-            int itemsSize = gm.commandslist.length;
-            switch (keyCode)
-            {
-                case KEY_NUM1: if(itemsSize > 0) {gm.itemCursorIndex=0; eventOk();} break;
-                case KEY_NUM2: if(itemsSize > 1) {gm.itemCursorIndex=1; eventOk();} break;
-                case KEY_NUM3: if(itemsSize > 2) {gm.itemCursorIndex=2; eventOk();} break;
-                case KEY_NUM4: if(itemsSize > 3) {gm.itemCursorIndex=3; eventOk();} break;
-                case KEY_NUM5: if(itemsSize > 4) {gm.itemCursorIndex=4; eventOk();} break;
-                case KEY_NUM6: if(itemsSize > 5) {gm.itemCursorIndex=5; eventOk();} break;
-                case KEY_NUM7: if(itemsSize > 6) {gm.itemCursorIndex=6; eventOk();} break;
-                case KEY_NUM8: if(itemsSize > 7) {gm.itemCursorIndex=7; eventOk();} break;
-                case KEY_NUM9: if(itemsSize > 8) {gm.itemCursorIndex=8; eventOk();} break;
-                case KEY_NUM0: if(itemsSize > 9) {gm.itemCursorIndex=9; eventOk();} break;
-                case VirtualCanvas.NAVIKEY_UP:
-                     gm.itemCursorIndex--;
-                      if(gm.itemCursorIndex<0){
-                        gm.itemCursorIndex=size;
-                      }
-                     break;
-                case VirtualCanvas.NAVIKEY_DOWN:
-                    gm.itemCursorIndex++;
-                     if(gm.itemCursorIndex>size){
-                        gm.itemCursorIndex=0;
-                    }
-                    break;
-                case VirtualCanvas.NAVIKEY_FIRE: eventOk(); break;
-            }
-        } else {
-            switch (keyCode)
-            {
-                case VirtualCanvas.NAVIKEY_UP:
-                case KEY_NUM2:
-                    gm.itemCursorIndex--;
-                     if(gm.itemCursorIndex<0){
-                        gm.itemCursorIndex=size;
-                     }
-                     break;                 
-                case VirtualCanvas.NAVIKEY_DOWN:
-                case KEY_NUM8:
-                     gm.itemCursorIndex++;
-                     if(gm.itemCursorIndex>size){
-                        gm.itemCursorIndex=0;
-                     }
-                     break;
-                case KEY_NUM5:
-                    gm.itemCursorIndexIn=0;
-                    eventOk();
-                    break;
-                case KEY_NUM1:
-                     gm.itemCursorIndex=0;
-                    break;
-                case KEY_NUM7:
-                     gm.itemCursorIndex=size;
-                    break;
-                case VirtualCanvas.NAVIKEY_FIRE:
-                    eventOk();
-                    break;
-            }
-        }
-     }
-   }
-
-   private void closeEvent(int i){
-       if (gm.commandslistIn.length<=i) {
-           return;
-       }
-       gm.itemCursorIndexIn=i;
-       gm.inMenuSelected=true; 
-       gm.itemGrMenu=-1;
-   }
-
-   public boolean sendEvent(int keyCode) {
-       if (keyCode==VirtualCanvas.LEFT_SOFT) {
-           closeEvent(gm.itemCursorIndexIn);
-           return false;
-       } else if (keyCode==VirtualCanvas.RIGHT_SOFT || keyCode==VirtualCanvas.CLOSE_KEY) {
-           gm.itemGrMenu=-1;
-           gm.ml=null;
-           return false;
-       } else if(Config.executeByNum){
-          switch (keyCode)
-          {
+            return false;
+        } else if(Config.executeByNum){
+            switch (keyCode){
             case KEY_NUM1: closeEvent(0); return false;
             case KEY_NUM2: closeEvent(1); return false;
             case KEY_NUM3: closeEvent(2); return false;
@@ -484,15 +482,15 @@ public class GMenu extends CanvasEx {
             case VirtualCanvas.NAVIKEY_FIRE: 
                 closeEvent(gm.itemCursorIndexIn);
                 return false;
-          }
-       } else {
-          switch (keyCode) {
+            }
+        } else {
+            switch (keyCode) {
             case VirtualCanvas.NAVIKEY_LEFT: 
             case KEY_NUM4: 
                 gm.itemCursorIndexIn=0;
                 break;
-          //case KEY_NUM6:
-          //     return true;
+            //case KEY_NUM6:
+            //     return true;
             case VirtualCanvas.NAVIKEY_UP:
             case KEY_NUM2:
                 gm.itemCursorIndexIn--;
@@ -517,8 +515,9 @@ public class GMenu extends CanvasEx {
             case KEY_NUM7:
                 gm.itemCursorIndexIn=size;
                 return true;
-          }
-       }
-       return false;
+            }
+        }//elif
+        //ui.keys.UserKeyExec.startExecute();
+        return false;
     }
 }

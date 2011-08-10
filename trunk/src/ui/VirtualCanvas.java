@@ -137,7 +137,7 @@ public class VirtualCanvas extends Canvas {
          * отключено для реализации более совершеных хоткеев
          */
 
-        if( UserKeyExec.getInstance().getCommandByKey( code))
+            if( UserKeyExec.getInstance().getCommandByKey( code))
             // UserKeyExec succesfully processed this key
             return;
 //#endif

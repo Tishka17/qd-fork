@@ -336,14 +336,21 @@ public class ColorTheme {
         return (a<<24) | (r<<16) | (g<<8) | b;
     }
     public static String colorToString(int cRed, int cGreen, int cBlue, int cAlpha) {
-        StringBuffer color = new StringBuffer("0x");
-        color.append(expandHex(cAlpha)).append(expandHex(cRed)).append(expandHex(cGreen)).append(expandHex(cBlue));
+        StringBuffer color = new StringBuffer(10);
+        color.append("0x")
+                .append(expandHex(cAlpha))
+                .append(expandHex(cRed))
+                .append(expandHex(cGreen))
+                .append(expandHex(cBlue));
         return color.toString();
     }
 
     public static String colorToString(int cRed, int cGreen, int cBlue) {
-        StringBuffer color = new StringBuffer("0x");
-        color.append(expandHex(cRed)).append(expandHex(cGreen)).append(expandHex(cBlue));
+        StringBuffer color = new StringBuffer(8);
+        color.append("0x")
+                .append(expandHex(cRed))
+                .append(expandHex(cGreen))
+                .append(expandHex(cBlue));
         return color.toString();
     }
 

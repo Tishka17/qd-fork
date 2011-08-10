@@ -806,7 +806,6 @@ public abstract class VirtualList extends CanvasEx {
             MainBarBG.paint(g);
             if (midlet.BombusQD.cf.shadowBar) {
                 int sh = (width <= height)?width:height;
-                MainBarShadow.update(0, y-sh, width, y, startGPRS, FIRE, y);
                 if (reverse) {
                     sh = sh/50;
                     MainBarShadow.update(0, y-sh, width, y, 10<<24, 200<<24, Gradient.CACHED_HORIZONTAL);
@@ -841,7 +840,6 @@ public abstract class VirtualList extends CanvasEx {
             InfoBarBG.paint(g);            
             if (midlet.BombusQD.cf.shadowBar) {
                 int sh = (width <= height)?width:height;
-                InfoBarShadow.update(0, y-sh, width, y, startGPRS, FIRE, y);
                 if (reverse) {
                     sh = sh/40;
                     InfoBarShadow.update(0, y+h, width, y+h+sh, 200<<24, 10<<24, Gradient.CACHED_HORIZONTAL);

@@ -351,10 +351,7 @@ public final class SelectPEP extends DefForm implements VirtualElement, InputTex
 
     public void drawCursor (Graphics g, int x0, int y0, int width, int height){ //Tishka17
          int x=xBorder+(xCursor*lineWidth);
-         g.setColor(getColorBGnd());
-         g.fillRect(0,y0,width, height);
          super.drawCursor(g, x+x0,y0,lineWidth, lineHeight);
-
          updateMainBar();
      }
 

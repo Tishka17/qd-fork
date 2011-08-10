@@ -86,11 +86,11 @@ public class GMenu extends CanvasEx {
    private int fh;
    private int size;
    private static int x1,y1,x2,y2;
-   private static Gradient fon=new Gradient();
    
 //#ifdef GRADIENT
+   static private Gradient cursor = new Gradient();
    static private Gradient listBgnd = new Gradient();
-   static private Gradient menuBgnd= new Gradient();
+   static private Gradient menuBgnd = new Gradient();
 //#endif
    
    public GMenu(MenuListener menuListener, Vector menuCommands) {
@@ -289,9 +289,9 @@ public class GMenu extends CanvasEx {
 //#ifdef GRADIENT
         if(midlet.BombusQD.cf.gradient_cursor){ //Tishka17
             int yc = 1 + (itemCursorIndex*fh);
-            fon.update(0, yc, w+2, yc+fh, ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_1),
+            cursor.update(0, yc, w+2, yc+fh, ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_1),
                   ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_2), Gradient.CACHED_HORIZONTAL);
-            fon.paint(g);
+            cursor.paint(g);
              g.setColor(ColorTheme.getColor(ColorTheme.CURSOR_OUTLINE));
              g.drawRoundRect(0, (itemCursorIndex*fh), w , fh+1, 8, 8);
             //fon.paint(g);

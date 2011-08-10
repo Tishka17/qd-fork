@@ -278,10 +278,11 @@ public class PopUp {
 //#ifdef GRADIENT
         if (ColorTheme.getAlpha(color)!=0) {
           bg.update(widthBorder+1, heightBorder+1, widthBorder+popUpWidth, heightBorder+popUpHeight, color, color, Gradient.CACHED_HORIZONTAL);
+          bg.paint(graph);
         } else 
 //#endif
         {
-          graph.setColor(getColorBgnd());
+          graph.setColor(color);
           graph.fillRect(widthBorder+1, heightBorder+1, popUpWidth-1, popUpHeight-1);             //fill
         }
         graph.setColor(getColorInk());

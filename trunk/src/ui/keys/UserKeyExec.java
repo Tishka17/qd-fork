@@ -52,7 +52,7 @@ import midlet.BombusQD;
 import ui.VirtualList;
 
 public class UserKeyExec {
-    public static boolean stopExec= false;
+    public static int noExecSem= 0;
 
     private static Config cf;
     StaticData sd=StaticData.getInstance();
@@ -86,15 +86,15 @@ public class UserKeyExec {
     }
 
     public static void stopExecute( ){
-        stopExec= true;
+        noExecSem++;
     }
 
     public static void startExecute( ){
-        stopExec= false;
+        noExecSem--;
     }
 
     public boolean getCommandByKey( int key){
-        if( stopExec)
+        if( noExecSem !=0)
             return false;
         for (Enumeration commands=commandsList.elements(); commands.hasMoreElements(); ) {
             UserKey userKeyItem=(UserKey) commands.nextElement();

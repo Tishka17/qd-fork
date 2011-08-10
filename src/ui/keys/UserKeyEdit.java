@@ -46,10 +46,11 @@ public class UserKeyEdit extends DefForm {
 
     private final UserKeysList keysList;
 
-    //private CheckBox active;
+    private CheckBox multiKey;
     private DropChoiceBox keyDesc;
     //private DropChoiceBox keyCode;
     private KeyScanner keyCode;
+    private KeyScanner secCode;
 
     UserKey u;
     
@@ -67,15 +68,11 @@ public class UserKeyEdit extends DefForm {
 	if (newKey) u=new UserKey();
 	this.u=u;
      
-        //active=new CheckBox(SR.get(SR.MS_ENABLED), u.active);
-        //itemsList.addElement(active);
-
         keyDesc=new DropChoiceBox(SR.get(SR.MS_KEYS_ACTION));
         for (int i=0;i<u.COMMANDS_DESC.length;i++) {
             keyDesc.append(u.COMMANDS_DESC[i]);
         }
         keyDesc.setSelectedIndex(u.commandId);
-        itemsList.addElement(keyDesc);
 
 /*        keyCode=new DropChoiceBox(SR.get(SR.MS_KEY));
         for (int i=0;i<u.KEYS_NAME.length;i++) {
@@ -83,16 +80,25 @@ public class UserKeyEdit extends DefForm {
         }
         keyCode.setSelectedIndex((u.key<0)?0:u.key);
 */
+
+        //multiKey= new CheckBox(SR.get(SR.MS_ENABLED), u.mKey);
+        multiKey= new CheckBox("is multikey", u.mKey);
         keyCode= new KeyScanner(SR.get(SR.MS_KEY), u.keyCode);
+        //secCode= new KeyScanner(SR.get(SR.MS_KEY), u.secCode);
+        secCode= new KeyScanner("second key", u.secCode);
+
+        itemsList.addElement(keyDesc);
+        itemsList.addElement(multiKey);
         itemsList.addElement(keyCode);
-        
+
         moveCursorTo(getNextSelectableRef(-1));
     }
     
     public void cmdOk() {
-        //u.active=active.getValue();
+        u.mKey=multiKey.getValue();
         u.commandId=keyDesc.getSelectedIndex();
         u.keyCode=keyCode.getKeyCode();
+        u.secCode=secCode.getKeyCode();
         //u.key=keyCode.getSelectedIndex();
         //if (u.key==10) u.keyCode = Canvas.KEY_POUND;
         //else u.keyCode = u.key + Canvas.KEY_NUM0;
@@ -105,6 +111,17 @@ public class UserKeyEdit extends DefForm {
         keysList.commandState();
         UserKeyExec.startExecute( );
         destroyView();
+    }
+
+    protected void beginPaint(){
+//        itemsList.removeAllElements();
+        update();
+    }
+
+    private void update(){
+        itemsList.removeElement(secCode);
+        if( multiKey.getValue())
+            itemsList.addElement(secCode);
     }
 }
 //#endif

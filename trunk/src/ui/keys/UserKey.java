@@ -116,22 +116,24 @@ public class UserKey extends IconTextElement {
     }
 
     public static final String[] COMMANDS_DESC = {
-            SR.get(SR.MS_NO),
-            SR.get(SR.MS_OPTIONS),
-            SR.get(SR.MS_CLEAN_ALL_MESSAGES),
-            SR.get(SR.MS_RECONNECT),
-            SR.get(SR.MS_STATS),
-            SR.get(SR.MS_STATUS),
-            SR.get(SR.MS_FILE_TRANSFERS),
-            SR.get(SR.MS_ARCHIVE),
-            SR.get(SR.MS_DISCO),
-            SR.get(SR.MS_PRIVACY_LISTS),
-            SR.get(SR.MS_CUSTOM_KEYS),
-            SR.get(SR.MS_CLEAR_POPUPS),
-            SR.get(SR.MS_APP_MINIMIZE),
-            SR.get(SR.MS_INVERT),
-            SR.get(SR.MS_XML_CONSOLE), 
-            SR.get(SR.MS_FULLSCREEN)
+            SR.get(SR.MS_NO)
+            ,SR.get(SR.MS_OPTIONS)
+            ,SR.get(SR.MS_CLEAN_ALL_MESSAGES)
+            ,SR.get(SR.MS_RECONNECT)
+            ,SR.get(SR.MS_STATS)
+            ,SR.get(SR.MS_STATUS)
+            ,SR.get(SR.MS_FILE_TRANSFERS)
+            ,SR.get(SR.MS_ARCHIVE)
+            ,SR.get(SR.MS_DISCO)
+            ,SR.get(SR.MS_PRIVACY_LISTS)
+            ,SR.get(SR.MS_CUSTOM_KEYS)
+            ,SR.get(SR.MS_CLEAR_POPUPS)
+            ,SR.get(SR.MS_APP_MINIMIZE)
+            ,SR.get(SR.MS_INVERT)
+            ,SR.get(SR.MS_FULLSCREEN)
+//#ifdef XML_CONSOLE
+//#             ,SR.get(SR.MS_XML_CONSOLE)
+//#endif
     };
 
     public static String getKeyName(int keyCode){

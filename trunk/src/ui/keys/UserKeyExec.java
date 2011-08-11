@@ -189,16 +189,16 @@ public class UserKeyExec {
             case 13:
                 ColorTheme.invertSkin();
                 break;
-//#ifdef XML_CONSOLE
-//#             case 14:
-//#                 new XMLConsole().show();
-//#                 break;
-//#endif
-            case 15:
+            case 14:
                 Config.fullscreen = !Config.fullscreen;
                 sd.canvas.setFullScreenMode(Config.fullscreen);
                 cf.saveToStorage();
                 break;
+//#ifdef XML_CONSOLE
+//#         case 15:
+//#         new XMLConsole().show();
+//#         break;
+//#endif
         }
         return true;
     }

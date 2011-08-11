@@ -207,11 +207,11 @@ public class ComplexString implements VirtualElement {
                         }
                         int iw = aniSmile ? imageList.getWidth(i) : imgWidth;
                         if (ralign) {
-                            w -= iw;
+                            w -= iw-5;
                         }
                         imageList.drawImage(g, i, w, imageYOfs);
                         if (!ralign) {
-                            w += iw;
+                            w += iw+5;
                         }
                     }
                     break;
@@ -253,7 +253,7 @@ public class ComplexString implements VirtualElement {
             } else if (elementData.elementAt(index) instanceof VirtualElement) {
                 int clipw = g.getClipWidth();
                 int cliph = g.getClipHeight();
-                ((VirtualElement)elementData.elementAt(index)).drawItem(view, g, 0, false);
+                ((VirtualElement)elementData.elementAt(index)).drawItem(view, g, offset-1, selected);
                 g.setClip(g.getTranslateX(), g.getTranslateY(), clipw, cliph);
 
             }

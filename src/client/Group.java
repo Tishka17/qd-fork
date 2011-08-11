@@ -109,7 +109,7 @@ public class Group extends IconTextElement {
         if (null != il) {
             if (getImageIndex() != -1) {
                 il.drawImage(g, getImageIndex(), xOffset , (itemHeight - imgHeight) / 2);
-                xOffset += imgHeight;
+                xOffset += imgHeight + 5;
             }
         }
 

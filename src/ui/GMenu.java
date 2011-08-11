@@ -234,7 +234,7 @@ public class GMenu extends CanvasEx {
        }
 
        int mHfh = maxHeight*fh + 1;
-       int w = maxwidth + imgWidth + 10;
+       int w = maxwidth + imgWidth + 10 + 5;
        hitem=mHfh;
        
 //#ifdef GRADIENT
@@ -310,6 +310,9 @@ public class GMenu extends CanvasEx {
         g.setColor(ColorTheme.getColor(ColorTheme.GRAPHICS_MENU_FONT));
 
         int x_start = 3 + imgWidth;//3
+        if(gm.itemGrMenu!=GMenu.DEF_FORM){
+            x_start += 5;
+        }
 	int ty;
         for (int index=0; index<=size; index++) {
            if(gm.itemGrMenu!=GMenu.DEF_FORM){

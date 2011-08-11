@@ -84,7 +84,7 @@ public final class CheckBox extends IconTextElement {
         int xOffset = getOffset();
         if (null != il) {
             il.drawImage(g, getImageIndex(), xOffset, (itemHeight - imgHeight) / 2);
-            xOffset += imgHeight;
+            xOffset += imgHeight + 5;
          }
 
         if ((tip != null && !isChecked) || (tip == null)) {

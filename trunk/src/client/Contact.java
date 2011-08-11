@@ -543,12 +543,15 @@ public class Contact extends IconTextElement {
             return;
         }
 
-        int offset=4;
+        int offset=0;//=4;
         int h=getVHeight();
         int xo=g.getClipX();
         int yo=g.getClipY();
 
         int xoffset = Config.contactXOffset;
+        if ((ofs == 16 || ofs == 19 || ofs < 0) && !sel) {
+            xoffset = ofs - 1;
+        }
 
         g.translate(xoffset, 0);
         w -= xoffset;
@@ -561,7 +564,7 @@ public class Contact extends IconTextElement {
         }
 //#endif
         if (imageIndex>-1) {
-            offset += imgHeight;
+            offset += imgHeight+6;
             il.drawImage(g, imageIndex, 2, imgH);
         }
 //#ifdef AVATARS
@@ -581,11 +584,11 @@ public class Contact extends IconTextElement {
         if (hasClientIcon() && midlet.BombusQD.cf.showClientIcon ) {
              int clientImgSize=ClientsIcons.getInstance().getWidth();
              if(midlet.BombusQD.cf.iconsLeft){
-                 offset+=clientImgSize;
+                 offset+=clientImgSize+1;
              }else{
-                 w-=clientImgSize;
+                 w-=clientImgSize+1;
              }
-             ClientsIcons.getInstance().drawImage(g, client, midlet.BombusQD.cf.iconsLeft?imgHeight+2
+             ClientsIcons.getInstance().drawImage(g, client, midlet.BombusQD.cf.iconsLeft?imgHeight+3
                      :w
                      , (h-clientImgSize) >> 1 );
              //client==index
@@ -595,7 +598,7 @@ public class Contact extends IconTextElement {
 //#ifdef PEP
         if (hasMood()) {
             int moodImgSize=MoodIcons.getInstance().getWidth();
-            w-=moodImgSize;
+            w-=moodImgSize+1;
             MoodIcons.getInstance().drawImage(g, pepMood, w, (h-moodImgSize) >> 1 );
             if (maxImgHeight<moodImgSize) maxImgHeight=moodImgSize;
         }
@@ -606,7 +609,7 @@ public class Contact extends IconTextElement {
         }
         if (hasActivity()) {
             int activitySize=ActivityIcons.getInstance().getWidth();
-            w-=activitySize;
+            w-=activitySize+1;
             ActivityIcons.getInstance().drawImage(g, activ, w, (h-activitySize) >> 1 );
             if (maxImgHeight<activitySize) maxImgHeight=activitySize;
         }
@@ -620,13 +623,13 @@ public class Contact extends IconTextElement {
         }
 //#endif
         if (getSecImageIndex()>-1) {
-            w -= imgHeight;
+            w -= imgHeight+1;
             il.drawImage(g, getSecImageIndex(), w,imgH);
         }
 
         int thisOfs=0;
 
-        g.setClip(offset, yo, w-offset, h);
+        g.setClip(offset, g.getClipY(), w-offset, g.getClipHeight());
         thisOfs=(getFirstLength()>w)?-ofs+offset:offset;
         if ((thisOfs+getFirstLength())<0) thisOfs=offset;
 
@@ -639,7 +642,7 @@ public class Contact extends IconTextElement {
         else {
             int y = (h - (fontHeight<<1)) >> 1 ;
             g.drawString(getFirstString(), thisOfs , y , Graphics.TOP|Graphics.LEFT);
-            thisOfs=(getSecondLength()>w)?-ofs+offset:offset;
+            thisOfs=(getSecondLength()>w)?-ofs+offset:offset+1;
             g.setColor(ColorTheme.getColor(ColorTheme.SECOND_LINE));
             g.drawString(getSecondString(),thisOfs , y + fontHeight , Graphics.TOP|Graphics.LEFT);
         }

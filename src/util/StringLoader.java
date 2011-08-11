@@ -234,6 +234,8 @@ public class StringLoader {
 
     private static StringBuffer buf;
     String readLine(String source) throws IOException {//multiple calls
+        if (source.length()==0)
+            return null;
 	buf = new StringBuffer(0);
         int pos=0;
 	try {
@@ -258,7 +260,7 @@ public class StringLoader {
                 }
             }
         } catch (IndexOutOfBoundsException e) { 
-            return null;
+            
         } catch (Exception e)	{  }
         afterEol+=pos;
 	return buf.toString();

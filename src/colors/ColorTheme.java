@@ -303,7 +303,11 @@ public class ColorTheme {
         if (null == value) {
             return defaultColor;
         }
-        return Integer.parseInt(value.substring(2), 16);
+        if (value.length()==10) {
+            return (Integer.parseInt(value.substring(2,4), 16)<<24) | Integer.parseInt(value.substring(4), 16);
+        } else {
+            return  Integer.parseInt(value.substring(2), 16);
+        }
     }
 
     public static String getColorString(int color) {

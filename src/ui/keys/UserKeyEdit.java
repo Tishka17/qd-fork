@@ -91,10 +91,13 @@ public class UserKeyEdit extends DefForm {
 
         keysList.rmsUpdate();
         keysList.commandState();
-        UserKeyExec.startExecute( );
         destroyView();
     }
-
+    
+    public void destroyView() {
+        UserKeyExec.startExecute();
+        super.destroyView();
+    }
     protected void beginPaint(){
         update();
     }

@@ -45,6 +45,9 @@ public interface VirtualElement {
     
     public boolean isSelectable();
     
-    public boolean handleEvent(int keyCode);
-    public boolean handleEvent(int x, int y); 
+    public boolean eventKeyPressed(int keyCode);
+    public boolean eventKeyLong(int keyCode);
+//#ifdef TOUCH
+    public boolean eventPointerPressed(int x, int y); 
+//#endif
 }

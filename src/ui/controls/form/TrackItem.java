@@ -99,7 +99,7 @@ public class TrackItem extends IconTextElement {
         value = (value + 1) % steps;
     }
 
-    public boolean handleEvent(int keyCode) {
+    public boolean eventKeyPressed(int keyCode) {
         switch (keyCode) {
             case VirtualCanvas.NAVIKEY_LEFT:
             case VirtualCanvas.KEY_NUM4:
@@ -112,13 +112,13 @@ public class TrackItem extends IconTextElement {
         }
         return false;
     }
-    
-    public boolean handleEvent(int x, int y) {
+//#ifdef TOUCH    
+    public boolean eventPointerPressed(int x, int y) {
         final int screenW = BombusQD.sd.canvas.getWidth() - Config.scrollWidth - getOffset();        
         value = (steps - 1) * x / screenW;
         return true;
     }
-
+//#endif
     public final Font getFont() {
         return FontCache.getFont(false, Config.getInstance().rosterFont);
     }

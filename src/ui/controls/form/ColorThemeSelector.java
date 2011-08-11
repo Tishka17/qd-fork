@@ -49,7 +49,7 @@ public class ColorThemeSelector extends DropChoiceBox {
         ColorTheme.loadSkin(themePath, 1, false);
     }
 
-    public boolean handleEvent(int keyCode) {
+    public boolean eventKeyPressed(int keyCode) {
         switch (keyCode) {
             case VirtualCanvas.NAVIKEY_LEFT:
             case VirtualCanvas.KEY_NUM4:

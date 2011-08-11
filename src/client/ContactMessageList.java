@@ -566,7 +566,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
         }
     }
     
-    public boolean  keyLong(int keyCode) {
+    public boolean keyLong(int keyCode) {
         switch (keyCode) {
             case VirtualCanvas.NAVIKEY_FIRE:
                 if (Config.createMessageByFive) {

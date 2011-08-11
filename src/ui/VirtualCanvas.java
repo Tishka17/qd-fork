@@ -108,9 +108,6 @@ public class VirtualCanvas extends Canvas {
         isPainting = false;
     }
 
-    
-    private static long star_pressed_time = 0; //Время нажати кнопки *
-    private static long pressed_time = 0; //Время нажатия клавиши
     private static int kHold = 0; //Клавиша, удержание которой сработало
     
     protected boolean canRepeatKey(int code) {
@@ -123,44 +120,42 @@ public class VirtualCanvas extends Canvas {
     protected void keyPressed(int code) {
         kHold = 0;
         code = getKey(code);
-//#ifdef USER_KEYS
-        /*pressed_time = System.currentTimeMillis();
-        if (code==KEY_STAR) {
-            star_pressed_time = pressed_time;
-        } else if (star_pressed_time!=0 && pressed_time-star_pressed_time<2000) {
-            star_pressed_time = 0;
-            if (UserKeyExec.getInstance().commandExecute(code)) {
-                pressed_time = 0;
-                return;
-            }
-        }
-         * отключено для реализации более совершеных хоткеев
-         */
-
-            if( UserKeyExec.getInstance().getCommandByKey( code))
-            // UserKeyExec succesfully processed this key
-            return;
-//#endif
 //#ifdef LIGHT_CONTROL
         CustomLight.keyPressed();
 //#endif
 //#ifdef AUTOSTATUS
         AutoStatus.getInstance().userActivity(Config.AWAY_IDLE);
 //#endif
-        /*if (canRepeatKey(code)) {
+        if (canRepeatKey(code)) {
+//#ifdef USER_KEYS
+            if( UserKeyExec.getInstance().getCommandByKey(code, false)) //is UserKeyExec succesfully processed this key
+                return;
+//#endif
             canvas.keyPressed(code);
-            pressed_time = 0;
         }
-         * больше не нужно?
-         */
-        canvas.keyPressed( code);
     }
 
     protected void keyRepeated(int code) {
         code = getKey(code);
+//#ifdef LIGHT_CONTROL
+        CustomLight.keyPressed();
+//#endif
+//#ifdef AUTOSTATUS
+        AutoStatus.getInstance().userActivity(Config.AWAY_IDLE);
+//#endif
         if (canRepeatKey(code)) {
+//#ifdef USER_KEYS
+            if( UserKeyExec.getInstance().getCommandByKey(code, false)) //is UserKeyExec succesfully processed this key
+                return;
+//#endif
             canvas.keyPressed(code);
         } else if (kHold!=code) {
+//#ifdef USER_KEYS
+            if( UserKeyExec.getInstance().getCommandByKey(code, true)) {//is UserKeyExec succesfully processed this long key
+                kHold = code;
+                return;
+            }
+//#endif
             if (canvas.keyLong(code))
                 kHold = code;
         }
@@ -168,11 +163,21 @@ public class VirtualCanvas extends Canvas {
 
     protected void keyReleased(int code) {
         code = getKey(code);
+//#ifdef LIGHT_CONTROL
+        CustomLight.keyPressed();
+//#endif
+//#ifdef AUTOSTATUS
+        AutoStatus.getInstance().userActivity(Config.AWAY_IDLE);
+//#endif
         if (canRepeatKey(code))
             canvas.keyReleased(code);
-        else if (kHold!=code && pressed_time>0)
+        else if (kHold!=code) {
+//#ifdef USER_KEYS
+            if( UserKeyExec.getInstance().getCommandByKey(code, false)) //is UserKeyExec succesfully processed this key
+                return;
+//#endif
             canvas.keyPressed(code);
-        pressed_time = 0;
+        }
         kHold=0;
     }
 

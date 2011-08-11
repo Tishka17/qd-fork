@@ -66,7 +66,7 @@ public final class LightControlItem extends TrackItem {
         g.drawString(Integer.toString(value), xOffset + pos, 1, Graphics.TOP|Graphics.LEFT);
     }
 
-    public boolean handleEvent(int keyCode) {
+    public boolean eventKeyPressed(int keyCode) {
         switch (keyCode) {
             case VirtualCanvas.NAVIKEY_LEFT:
             case VirtualCanvas.KEY_NUM4:
@@ -79,13 +79,13 @@ public final class LightControlItem extends TrackItem {
         }
         return false;
     }
-    
-    public boolean handleEvent(int x, int y) {
+//#ifdef TOUCH   
+    public boolean eventPointerPressed(int x, int y) {
         final int screenW = BombusQD.sd.canvas.getWidth() - Config.scrollWidth - getOffset();        
         setIndex((steps - 1) * x / screenW);
         return true;
     }
-
+//#endif
     private void calculateIndex() {
         for (int i = 0; i < lightValues.length; ++i) {
             int tmp = lightValues[i];

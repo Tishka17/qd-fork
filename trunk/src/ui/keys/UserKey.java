@@ -49,7 +49,9 @@ public class UserKey extends IconTextElement {
     public int commandId = 0;
     public boolean mKey = false;
     public int keyCode = 0;
+    public boolean keyLong = false;
     public int secCode = 0;
+    public boolean secLong = false;
 
     public UserKey() {
         super(RosterIcons.getInstance());
@@ -61,9 +63,14 @@ public class UserKey extends IconTextElement {
     }
     
     public String toString(){
-        StringBuffer s=new StringBuffer("(").append(getKeyName(keyCode)).append(")");
-        if( mKey) 
-            s.append("+(").append(getKeyName(secCode)).append(")");
+        StringBuffer s=new StringBuffer();
+        if (keyLong) s.append("Long ");
+        s.append('(').append(getKeyName(keyCode)).append(')');
+        if(mKey) {
+            s.append('+');
+            if (secLong) s.append("Long ");
+            s.append('(').append(getKeyName(secCode)).append(')');
+        }
         s.append(" -> ").append(COMMANDS_DESC[commandId]);
         return s.toString();
     }
@@ -90,6 +97,8 @@ public class UserKey extends IconTextElement {
             u.mKey = inputStream.readBoolean();
             u.keyCode = inputStream.readInt();
             u.secCode = inputStream.readInt();
+            u.keyLong = inputStream.readBoolean();
+            u.secLong = inputStream.readBoolean();
         } catch (IOException e) { /*e.printStackTrace();*/ }
             
         return (u.keyCode==0)?null:u;
@@ -101,6 +110,8 @@ public class UserKey extends IconTextElement {
             outputStream.writeBoolean(mKey);
             outputStream.writeInt(keyCode);
             outputStream.writeInt(secCode);
+            outputStream.writeBoolean(keyLong);
+            outputStream.writeBoolean(secLong);
         } catch (IOException e) { }
     }
 
@@ -123,7 +134,7 @@ public class UserKey extends IconTextElement {
             SR.get(SR.MS_FULLSCREEN)
     };
 
-    public static String getKeyName( int keyCode){
+    public static String getKeyName(int keyCode){
         switch( keyCode){
             case VirtualCanvas.NAVIKEY_FIRE: return "Fire";
             case VirtualCanvas.NAVIKEY_UP: return "Up"; 

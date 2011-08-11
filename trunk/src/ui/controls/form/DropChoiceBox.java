@@ -169,7 +169,7 @@ public  class DropChoiceBox extends IconTextElement {
         return itemHeight;
     }
 
-    public boolean handleEvent(int keyCode) {
+    public boolean eventKeyPressed(int keyCode) {
         if (items.size() < 1) {
             return false;
         }

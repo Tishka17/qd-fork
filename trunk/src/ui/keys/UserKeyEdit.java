@@ -26,13 +26,11 @@
 //#ifdef USER_KEYS
 package ui.keys;
 
-import javax.microedition.lcdui.Canvas;
 import locale.SR;
 import ui.controls.form.CheckBox;
 import ui.controls.form.DefForm;
 import ui.controls.form.DropChoiceBox;
 import ui.controls.form.KeyScanner;
-import ui.keys.UserKeyExec;
 
 /**
  *
@@ -40,22 +38,16 @@ import ui.keys.UserKeyExec;
  */
 
 public class UserKeyEdit extends DefForm {
-//#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_USER_KEYS");
-//#endif
-
     private final UserKeysList keysList;
 
     private CheckBox multiKey;
     private DropChoiceBox keyDesc;
-    //private DropChoiceBox keyCode;
     private KeyScanner keyCode;
     private KeyScanner secCode;
 
     UserKey u;
     
     boolean newKey;
-    //public static boolean doEdit;
 
     public UserKeyEdit(UserKeysList keysList, UserKey u) {
 
@@ -74,18 +66,9 @@ public class UserKeyEdit extends DefForm {
         }
         keyDesc.setSelectedIndex(u.commandId);
 
-/*        keyCode=new DropChoiceBox(SR.get(SR.MS_KEY));
-        for (int i=0;i<u.KEYS_NAME.length;i++) {
-            keyCode.append(u.KEYS_NAME[i]);
-        }
-        keyCode.setSelectedIndex((u.key<0)?0:u.key);
-*/
-
-        //multiKey= new CheckBox(SR.get(SR.MS_ENABLED), u.mKey);
         multiKey= new CheckBox("is multikey", u.mKey);
-        keyCode= new KeyScanner(SR.get(SR.MS_KEY), u.keyCode);
-        //secCode= new KeyScanner(SR.get(SR.MS_KEY), u.secCode);
-        secCode= new KeyScanner("second key", u.secCode);
+        keyCode= new KeyScanner(SR.get(SR.MS_KEY), u.keyCode, u.keyLong);
+        secCode= new KeyScanner("second key", u.secCode, u.secLong);
 
         itemsList.addElement(keyDesc);
         itemsList.addElement(multiKey);
@@ -95,13 +78,12 @@ public class UserKeyEdit extends DefForm {
     }
     
     public void cmdOk() {
-        u.mKey=multiKey.getValue();
-        u.commandId=keyDesc.getSelectedIndex();
-        u.keyCode=keyCode.getKeyCode();
-        u.secCode=secCode.getKeyCode();
-        //u.key=keyCode.getSelectedIndex();
-        //if (u.key==10) u.keyCode = Canvas.KEY_POUND;
-        //else u.keyCode = u.key + Canvas.KEY_NUM0;
+        u.mKey = multiKey.getValue();
+        u.commandId = keyDesc.getSelectedIndex();
+        u.keyCode = keyCode.getKeyCode();
+        u.keyLong = keyCode.isLong;
+        u.secCode = secCode.getKeyCode();
+        u.secLong = secCode.isLong;
 
         if (newKey) {
             keysList.commandsList.addElement(u);
@@ -114,7 +96,6 @@ public class UserKeyEdit extends DefForm {
     }
 
     protected void beginPaint(){
-//        itemsList.removeAllElements();
         update();
     }
 

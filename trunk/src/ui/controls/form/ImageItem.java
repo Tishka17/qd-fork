@@ -118,7 +118,7 @@ public class ImageItem
         super.drawItem(view, g, ofs, sel);
     }
     
-    public boolean handleEvent(int keyCode) {
+    public boolean eventKeyPressed(int keyCode) {
          switch (keyCode) {
             case VirtualList.KEY_NUM0:
                 try {

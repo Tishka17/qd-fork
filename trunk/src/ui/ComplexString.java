@@ -393,11 +393,16 @@ public class ComplexString implements VirtualElement {
         return true;
     }
 
-    public boolean handleEvent(int keyCode) {
+    public boolean eventKeyPressed(int keyCode) {
         return false;
     }
     
-    public boolean handleEvent(int x, int y) {
+    public boolean eventKeyLong(int keyCode) {
+        return false;
+    }
+//#ifdef TOUCH    
+    public boolean eventPointerPressed(int x, int y) {
         return false;
     } 
+//#endif
 }

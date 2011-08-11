@@ -71,23 +71,32 @@ public class Gradient {
 		int greenE = ColorTheme.getGreen(EndRGB);
 		int blueS = ColorTheme.getBlue(StartRGB);
 		int blueE = ColorTheme.getBlue(EndRGB);
-                if (y1<0) 
-                    y1=0;
-                if (y2>midlet.BombusQD.getCurrentView().getHeight()) 
-                    y2=midlet.BombusQD.getCurrentView().getHeight();
-		boolean changed = false;
-		if (points==null || 
-                                ((this.x2-this.x1) != (x2-x1)) ||
-                                ((this.y2-this.y1) != (y2-y1)) ||
-				/*this.x1!=x1 || this.x2!=x2 ||  
-				this.y1!=y1 || this.y2!=y2 || */
+                                
+                int width = this.x2-this.x1;
+                int height = this.y2-this.y1;
+		boolean changed = (points==null || 
+                                (width != (x2-x1)) ||
+                                (height != (y2-y1)) ||
                                 this.alphaS!=alphaS || this.alphaE!=alphaE || 
 				this.redS!=redS || this.redE!=redE || 
 				this.greenS!=greenS ||this.greenE!=greenE ||
 				this.blueS!=blueS || this.blueE!=blueE || 
-                                this.type!=type) {
-			changed = true;
-		}
+                                this.type!=type);
+                if (changed) {
+                    if (y1<0) 
+                        y1=0;
+                    if (y2>midlet.BombusQD.getCurrentView().getHeight()+1) 
+                        y2=midlet.BombusQD.getCurrentView().getHeight();
+                    changed = (points==null || 
+                                (width != (x2-x1)) ||
+                                (height != (y2-y1)) ||
+                                this.alphaS!=alphaS || this.alphaE!=alphaE || 
+				this.redS!=redS || this.redE!=redE || 
+				this.greenS!=greenS ||this.greenE!=greenE ||
+				this.blueS!=blueS || this.blueE!=blueE || 
+                                this.type!=type);
+                }
+
 		this.x1 = x1;
 		this.x2 = x2;
 		this.y1 = y1;
@@ -106,15 +115,25 @@ public class Gradient {
 //#ifdef DEBUG
 //#            System.out.println("makePoints("+(y2-y1)+", "+type+")");
 //#endif
-                    if (type==MIXED_UP || type==MIXED_DOWN || type == CACHED_VERTICAL || type==CACHED_HORIZONTAL)
-			makePoints();
-                    else 
+                    if (type==MIXED_UP || type==MIXED_DOWN || type == CACHED_VERTICAL || type==CACHED_HORIZONTAL) {
+                        if (width!=x2-x1 || height!=y2-y1 || points==null) {
+                            width = x2-x1;
+                            height = y2-y1;
+                            points = null;
+                            
+                            if (width<=0 || height<=0)
+                                return;
+                            points = new int[height*width];
+                        }
+			makePoints(width, height);
+                    } else {
                         points = null;
+                    }
 		}
 
 	}
 	public void paint(Graphics g) {
-                if (x2<=x1 || y2<= y1)
+                if (x2<=x1 || y2<= y1 || points==null)
                     return;
 		switch (type) {
 			case VERTICAL:
@@ -201,14 +220,7 @@ public class Gradient {
 		};
 	}
 
-	private void makePoints() {
-		int width = x2-x1;
-		int height = y2-y1;
-
-                points = null;
-		points = new int[height*width];
-                if (width<=0 || height<=0)
-                    return;
+	private void makePoints(int width, int height) {
 		if (type == MIXED_DOWN || type == MIXED_UP) {
 			int a,r,g,b,dist,diff,new_a,new_r,new_g,new_b,color = 0;
 			int yS,yE,yD;

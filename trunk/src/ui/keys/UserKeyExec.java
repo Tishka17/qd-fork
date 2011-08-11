@@ -52,12 +52,13 @@ import midlet.BombusQD;
 import ui.VirtualList;
 
 public class UserKeyExec {
-    public static int noExecSem= 0;
-    public static int waitCode= 0;
-    public static int waitCmd= 0;
+    public static int noExecSem = 0;
+    public static int waitCode = 0;
+    public static boolean waitLong = false;
+    public static int waitCmd = 0;
 
     private static Config cf;
-    StaticData sd=StaticData.getInstance();
+    StaticData sd = StaticData.getInstance();
 
     private static UserKeyExec instance;
     public static UserKeyExec getInstance(){
@@ -94,25 +95,24 @@ public class UserKeyExec {
     public static void startExecute( ){
         noExecSem--;
     }
-    public boolean getCommandByKey( int key){
+    public boolean getCommandByKey(int key, boolean isLong){
         if( noExecSem !=0)
             return false;
-        if (waitCode ==key) {
+        if (waitCode==key && waitLong==isLong) {
             commandExecute( waitCmd);
             return true;
         }
-        waitCode= 0;
+        waitCode = 0;
         for (Enumeration commands=commandsList.elements(); commands.hasMoreElements(); ) {
             UserKey userKeyItem=(UserKey) commands.nextElement();
-            if (userKeyItem.keyCode==key) {
-//                waitCode= 0;
+            if (userKeyItem.keyCode==key && userKeyItem.keyLong==isLong) {
                 if( userKeyItem.mKey){
-                    waitCode= userKeyItem.secCode;
-                    waitCmd= userKeyItem.commandId;
+                    waitCode = userKeyItem.secCode;
+                    waitLong = userKeyItem.secLong;
+                    waitCmd = userKeyItem.commandId;
                     return true;
                 }
-                //commandNum=userKeyItem.commandId;
-                commandExecute( userKeyItem.commandId);
+                commandExecute(userKeyItem.commandId);
                 // обработали клавишу, прекратить ее
                 // дапьнейшее продвижение в VirtualCanvas
                 return true;

@@ -800,7 +800,7 @@ public abstract class VirtualList extends CanvasEx {
 //#ifdef GRADIENT
          if (getMainBarBGnd()!=getMainBarBGndBottom()) {
             int c = midlet.BombusQD.cf.gradientBarLigth?1:-1;
-            MainBarBG.update(0, y, width, y+h+1,
+            MainBarBG.update(0, y, width, y+h,
                     transformColorLight(getMainBarBGnd(), c*midlet.BombusQD.cf.gradientBarLight1),
                     transformColorLight(getMainBarBGndBottom(), c*midlet.BombusQD.cf.gradientBarLight2), Gradient.MIXED_DOWN);
             MainBarBG.paint(g);
@@ -833,7 +833,7 @@ public abstract class VirtualList extends CanvasEx {
 //#ifdef GRADIENT
         if (getMainBarBGnd()!=getMainBarBGndBottom()) {//32,102
             int c = midlet.BombusQD.cf.gradientBarLigth?1:-1;
-            InfoBarBG.update(0, y, width, y+h+1,
+            InfoBarBG.update(0, y, width, y+h,
                     transformColorLight(getMainBarBGnd(), c*midlet.BombusQD.cf.gradientBarLight1),
                     transformColorLight(getMainBarBGndBottom(), c*midlet.BombusQD.cf.gradientBarLight2),
                     Gradient.MIXED_UP);
@@ -1157,7 +1157,7 @@ public abstract class VirtualList extends CanvasEx {
             } else {
                 if (pointer_state == POINTER_SECOND) {
                     VirtualElement element = (VirtualElement)getFocusedObject();
-                    if (element != null && !element.handleEvent(x, y)) {
+                    if (element != null && !element.eventPointerPressed(x, y)) {
                         eventOk();
                     }
                 }
@@ -1180,12 +1180,25 @@ public abstract class VirtualList extends CanvasEx {
         {
             VirtualElement element = (VirtualElement)getFocusedObject();
             if (element != null) {
-                return element.handleEvent(keyCode);
+                return element.eventKeyPressed(keyCode);
             }
         }
         return false;
     }
-
+    private boolean sendLongEvent(int keyCode) {
+//#ifdef POPUPS
+        if (getPopUp().size()>0) {
+            return popup.handleEvent(keyCode);
+        } else 
+//#endif
+        {
+            VirtualElement element = (VirtualElement)getFocusedObject();
+            if (element != null) {
+                return element.eventKeyLong(keyCode);
+            }
+        }
+        return false;    
+    }
     public Vector menuCommands=new Vector(0);
 
     public Vector cmdfirstList=new Vector(0);
@@ -1252,7 +1265,13 @@ public abstract class VirtualList extends CanvasEx {
 
     public void touchMiddlePressed(){
     }
-    
+     protected boolean keyLong(int keyCode) {
+         if (sendLongEvent(keyCode)) {
+            redraw();
+            return true;
+         }
+         return false;
+     }   
     protected void keyPressed(int keyCode) {
      if(gm.itemGrMenu>0 && midlet.BombusQD.cf.graphicsMenu ) {
          if(null != menuItem) menuItem.keyPressed(keyCode);
@@ -1261,7 +1280,7 @@ public abstract class VirtualList extends CanvasEx {
         if (sendEvent(keyCode)) {
             redraw();
             return;
-        }
+     }
      switch (keyCode) {
 //#ifdef POPUPS
         case VirtualCanvas.CALL_KEY: {

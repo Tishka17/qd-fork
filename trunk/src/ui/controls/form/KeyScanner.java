@@ -50,6 +50,7 @@ public class KeyScanner extends IconTextElement{
 
     public boolean selected;
     public int keyCode;
+    public boolean isLong;
 
     public KeyScanner( String caption){
         super( null);
@@ -73,10 +74,14 @@ public class KeyScanner extends IconTextElement{
         itemHeight += captionFontHeight;
     }
 
-    public KeyScanner(String caption, int keyCode) {
+    public KeyScanner(String caption, int keyCode, boolean isLong) {
         this(caption);
         this.keyCode = keyCode;
-        if (keyCode!=0) text = "("+ui.keys.UserKey.getKeyName(keyCode)+")";
+        this.isLong = isLong;
+        if (keyCode!=0) {
+            if (isLong) text = "Long ("+ui.keys.UserKey.getKeyName(keyCode)+")";
+            else  text = "("+ui.keys.UserKey.getKeyName(keyCode)+")";
+        }
     }
 
     public int getCaptionLength( ){
@@ -102,7 +107,7 @@ public class KeyScanner extends IconTextElement{
         }
     }
 
-    public boolean handleEvent( int keyCode){
+    public boolean eventKeyPressed(int keyCode){
         if( selected){
             selected = false;
             this.keyCode = keyCode;
@@ -111,7 +116,16 @@ public class KeyScanner extends IconTextElement{
         }//ifel
         return false;
     }
-
+    public boolean eventKeyLong(int keyCode){
+        if( selected){
+            selected = false;
+            this.keyCode = keyCode;
+            this.isLong = true;
+            text = "Long (" + ui.keys.UserKey.getKeyName(keyCode) +")";
+            return true;
+        }//ifel
+        return false;
+    }
     public int getKeyCode( ){
         return keyCode;
     }

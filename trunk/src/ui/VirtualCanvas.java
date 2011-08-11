@@ -109,6 +109,7 @@ public class VirtualCanvas extends Canvas {
     }
 
     private static int kHold = 0; //Клавиша, удержание которой сработало
+    private static long pressed_time=0;
     
     protected boolean canRepeatKey(int code) {
         return code==NAVIKEY_RIGHT || code==NAVIKEY_LEFT || code==NAVIKEY_UP
@@ -117,7 +118,9 @@ public class VirtualCanvas extends Canvas {
                 || code==VOLMINUS_KEY || code==VOLPLUS_KEY;
     }
     
+    
     protected void keyPressed(int code) {
+        pressed_time = System.currentTimeMillis();
         kHold = 0;
         code = getKey(code);
 //#ifdef LIGHT_CONTROL
@@ -127,9 +130,11 @@ public class VirtualCanvas extends Canvas {
         AutoStatus.getInstance().userActivity(Config.AWAY_IDLE);
 //#endif
         if (canRepeatKey(code)) {
+            pressed_time = 0;
 //#ifdef USER_KEYS
-            if( UserKeyExec.getInstance().getCommandByKey(code, false)) //is UserKeyExec succesfully processed this key
+            if( UserKeyExec.getInstance().getCommandByKey(code, false)) { //is UserKeyExec succesfully processed this key
                 return;
+            }
 //#endif
             canvas.keyPressed(code);
         }
@@ -145,19 +150,24 @@ public class VirtualCanvas extends Canvas {
 //#endif
         if (canRepeatKey(code)) {
 //#ifdef USER_KEYS
-            if( UserKeyExec.getInstance().getCommandByKey(code, false)) //is UserKeyExec succesfully processed this key
+            if( UserKeyExec.getInstance().getCommandByKey(code, false)) { //is UserKeyExec succesfully processed this key
+                pressed_time = 0;
                 return;
+            }
 //#endif
             canvas.keyPressed(code);
         } else if (kHold!=code) {
 //#ifdef USER_KEYS
             if( UserKeyExec.getInstance().getCommandByKey(code, true)) {//is UserKeyExec succesfully processed this long key
                 kHold = code;
+                pressed_time = 0;
                 return;
             }
 //#endif
-            if (canvas.keyLong(code))
+            if (canvas.keyLong(code)) {
+                pressed_time = 0;
                 kHold = code;
+            }
         }
     }
 
@@ -169,6 +179,9 @@ public class VirtualCanvas extends Canvas {
 //#ifdef AUTOSTATUS
         AutoStatus.getInstance().userActivity(Config.AWAY_IDLE);
 //#endif
+        //check if key was pressed in this Displayable and still need to be processed
+        if (pressed_time == 0)
+            return;
         if (canRepeatKey(code))
             canvas.keyReleased(code);
         else if (kHold!=code) {

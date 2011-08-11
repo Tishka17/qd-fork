@@ -191,6 +191,7 @@ public class VirtualCanvas extends Canvas {
 //#endif
             canvas.keyPressed(code);
         }
+        pressed_time = 0;
         kHold=0;
     }
 

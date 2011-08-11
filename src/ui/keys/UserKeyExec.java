@@ -96,7 +96,9 @@ public class UserKeyExec {
         noExecSem--;
     }
     public boolean getCommandByKey(int key, boolean isLong){
-        if( noExecSem >0)
+        if(noExecSem >0)
+            return false;
+        if (!Config.userKeys)
             return false;
         if (waitCode==key && waitLong==isLong) {
             commandExecute( waitCmd);

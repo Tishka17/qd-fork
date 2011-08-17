@@ -36,7 +36,7 @@ import ui.controls.form.DefForm;
 import ui.Gradient;
 //#endif
 
-public class ColorSelector extends DefForm implements Runnable {
+public class ColorSelector extends DefForm {
     private Font font;
     private int fontH;
 
@@ -49,8 +49,6 @@ public class ColorSelector extends DefForm implements Runnable {
     private Gradient example = new Gradient();
 //#endif
 
-    int dy;
-    int timer;
     boolean exit;
 
     private int py;
@@ -114,7 +112,6 @@ public class ColorSelector extends DefForm implements Runnable {
         cpos = 0;
 
         exit = false;
-        (new Thread(this)).start();
     }
 
     public void paint(Graphics g) {
@@ -217,12 +214,10 @@ public class ColorSelector extends DefForm implements Runnable {
 
         if ((y < py - ph) || (y > py)) {
             if (y < py - ph) {
-                dy = 1;
+                movePoint(1);
             } else {
-                dy = -1;
+                movePoint(-1);
             }
-            movePoint();
-            dy = 0;
         } else {
             switch (cpos) {
                 case 0:
@@ -249,15 +244,11 @@ public class ColorSelector extends DefForm implements Runnable {
         switch (key) {
             case VirtualCanvas.NAVIKEY_UP:
             case VirtualCanvas.KEY_NUM2:
-                timer = 7;
-                dy = 1;
-                movePoint();
+                movePoint(1);
                 return;
             case VirtualCanvas.NAVIKEY_DOWN:
             case VirtualCanvas.KEY_NUM8:
-                timer = 7;
-                dy = -1;
-                movePoint();
+                movePoint(-1);
                 return;
             case VirtualCanvas.NAVIKEY_LEFT:
             case VirtualCanvas.KEY_NUM4:
@@ -304,25 +295,7 @@ public class ColorSelector extends DefForm implements Runnable {
         redraw();
     }
 
-    protected void keyReleased(int key) {
-            dy = 0;
-            super.keyReleased(key);
-    }
-
-    public void run() {
-        while (!exit) {
-            try {
-                Thread.sleep(75);
-            } catch (Exception e) {
-            }
-            if (--timer > 0) {
-                continue;
-            }
-            movePoint();
-        }
-    }
-
-    private void movePoint() {
+    private void movePoint(int dy) {
         if (dy == 0) return;
         switch (cpos) {
             case 0:

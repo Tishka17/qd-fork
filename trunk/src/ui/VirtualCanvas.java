@@ -27,6 +27,10 @@ package ui;
 import client.AutoStatus;
 //#endif
 import client.Config;
+import javax.microedition.lcdui.CommandListener;
+import javax.microedition.lcdui.Command;
+import javax.microedition.lcdui.Displayable;
+
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
@@ -38,7 +42,7 @@ import midlet.BombusQD;
 import ui.keys.UserKeyExec;
 //#endif
 
-public class VirtualCanvas extends Canvas {
+public class VirtualCanvas extends Canvas  implements CommandListener {
     private CanvasEx canvas;
 
     private Image offscreen;
@@ -56,8 +60,25 @@ public class VirtualCanvas extends Canvas {
         if(!isDoubleBuffered()) {
             offscreen = Image.createImage(getWidth(), getHeight());
         }
+        /* probably for nokia if not full screen
+        addCommand(ok);
+        addCommand(cancel);
+        setCommandListener(this);*/
     }
 
+    /* private Command ok=new Command("Ok", Command.OK, 1); 
+    private Command cancel=new Command("Cancel", Command.CANCEL, 2); */
+    
+    public void commandAction(Command c, Displayable s) {
+      /*  if (c==ok) {
+            keyPressed(LEFT_SOFT);
+            keyReleased(LEFT_SOFT);
+        } else if (c==cancel) {
+            keyPressed(RIGHT_SOFT);
+            keyReleased(RIGHT_SOFT);
+        }*/
+    }
+    
     public void show(CanvasEx canvas) {
         this.canvas = canvas;
         if (isShown()) {
@@ -182,8 +203,6 @@ public class VirtualCanvas extends Canvas {
         //check if key was pressed in this Displayable and still need to be processed
         if (pressed_time == 0)
             return;
-        if (canRepeatKey(code))
-            canvas.keyReleased(code);
         else if (kHold!=code) {
 //#ifdef USER_KEYS
             if( UserKeyExec.getInstance().getCommandByKey(code, false)) //is UserKeyExec succesfully processed this key

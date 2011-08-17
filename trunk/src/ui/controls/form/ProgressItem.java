@@ -41,7 +41,7 @@ public final class ProgressItem implements VirtualElement {
 
     private int topColor;
 //#ifdef GRADIENT
-    private Gradient gr;
+    private Gradient gr=new Gradient();
     private int bottomColor;
 //#endif
 
@@ -70,11 +70,10 @@ public final class ProgressItem implements VirtualElement {
         if (filledWidth > 0) {
 //#ifdef GRADIENT
             if (topColor != bottomColor) {
-                gr = new Gradient();
                 gr.update(X_OFFSET, Y_OFFSET,
                         X_OFFSET + filledWidth,
                         Y_OFFSET + height,
-                        topColor, bottomColor, Gradient.HORIZONTAL);
+                        topColor, bottomColor, Gradient.CACHED_HORIZONTAL);
                 gr.paint(g);
             } else {
 //#endif

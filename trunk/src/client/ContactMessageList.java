@@ -51,6 +51,7 @@ import midlet.Commands;
 import ui.VirtualCanvas;
 import ui.controls.AlertBox;
 //#ifdef CLIPBOARD
+import ui.controls.form.SpacerItem;
 import util.ClipBoard;
 //#endif
 import ui.input.InputTextBox;
@@ -752,6 +753,18 @@ public final class ContactMessageList extends MessageList implements InputTextBo
     }
 
     public void destroyView(){
+        Msg m;
+        /*int size = getItemCount();
+        for (int i = 0; i < size; ++i) {
+            m = getMessage(i);
+            if ((null != m.getId()) && m.getId().equals("spacer")) {
+                messages.removeElement(m);
+                break;
+            }
+        }*/
+        m = (Msg)messages.lastElement();
+        if (m.attachment==null) m.attachment = new SpacerItem();
+        
         midlet.BombusQD.sd.roster.activeContact=null;
         midlet.BombusQD.sd.roster.reEnumRoster(); //to reset unread messages icon for this conference in roster
         midlet.BombusQD.sd.roster.show();

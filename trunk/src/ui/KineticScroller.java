@@ -71,6 +71,7 @@ public class KineticScroller  extends Thread {
         synchronized (this) {
             stopped = true;
             notify();
+            if (list!=null) list.redraw();
         }
     }
     
@@ -98,10 +99,13 @@ public class KineticScroller  extends Thread {
             } catch (InterruptedException ex) {
             }
             while (true) {
-                if (!stopped) update();
+                if (isScrolling()) update();
                 try {  wait(update_delta);  } catch (Exception e) { stopscrolling(); break; }
             }
         }
+    }
+    public boolean isScrolling() {
+        return !stopped;
     }
 }
 //#endif

@@ -615,7 +615,11 @@ public abstract class VirtualList extends CanvasEx {
  
      protected void drawCursor (Graphics g, int x0, int y0, int width, int height) { //Tishka17
 //#ifdef GRADIENT
-        if(midlet.BombusQD.cf.gradient_cursor){
+        if(midlet.BombusQD.cf.gradient_cursor 
+//#ifdef TOUCH
+                && !kinetic.isScrolling() && pointer_state==POINTER_NONE
+//#endif
+                ){
              cursorGradient.update(x0+1, y0+1, width+x0-1, height+y0-1, ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_1),
                   ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_2), Gradient.CACHED_HORIZONTAL);
              //cursorGradient.paintHRoundRect(g, 4);

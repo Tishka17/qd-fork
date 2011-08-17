@@ -51,7 +51,7 @@ public class Progress {
     private Font font;
 
 //#ifdef GRADIENT
-    private Gradient gr = null;
+    private Gradient gr = new Gradient();
     private int bottomColor;
 //#endif
     private int topColor;
@@ -66,8 +66,7 @@ public class Progress {
 //#ifdef GRADIENT
         this.bottomColor=ColorTheme.getColor(ColorTheme.PGS_COMPLETE_BOTTOM);
         if (topColor!=bottomColor) {
-            this.gr=new Gradient();
-            this.gr.update(x, y-height, x+width, y, topColor, bottomColor, Gradient.HORIZONTAL);
+            this.gr.update(x, y-height, x+width, y, topColor, bottomColor, Gradient.CACHED_HORIZONTAL);
         }
 //#endif
     }
@@ -77,7 +76,8 @@ public class Progress {
         g.fillRect(x, y, width, height);
 //#ifdef GRADIENT
         if (topColor!=bottomColor) {
-            gr.paintWidth(g, x+filled);
+            gr.update(x, y-height, x+filled, y, topColor, bottomColor, Gradient.CACHED_HORIZONTAL);
+            gr.paint(g);
         } else {
 //#endif
             g.setColor(topColor);

@@ -27,21 +27,37 @@
 package ui.controls.form;
 
 import ui.IconTextElement;
+import javax.microedition.lcdui.Graphics;
+import ui.VirtualList;
 
 /**
  *
  * @author ad
  */
 public class SpacerItem extends IconTextElement {
+    boolean lineMode;
     public SpacerItem(int height) {
         super(null);
         if (height != 0) {
             itemHeight = height;
         }
+        lineMode = true;
     }
-
+    public SpacerItem() {
+        super(null);
+        lineMode = true;
+        itemHeight = 7;
+    }
     public int getVWidth() {
         return -1;
+    }
+    public void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {
+        if (lineMode) {
+            g.setColor(0);
+            g.drawLine(0, 3, g.getClipWidth(), 3);
+            g.setColor(255,255,255);
+            g.drawLine(0, 4, g.getClipWidth(), 4);
+        }
     }
 
     public int getVHeight() {

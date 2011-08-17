@@ -41,6 +41,7 @@ import ui.ComplexString;
 import ui.VirtualElement;
 import ui.VirtualList;
 import util.Time;
+import ui.controls.form.SpacerItem;
 
 public final class Msg implements VirtualElement {
     // without signaling
@@ -468,7 +469,7 @@ public final class Msg implements VirtualElement {
 //#endif
 
     public boolean isSelectable() { 
-        return true; 
+        return !((body==null || body.length()==0) && (subject ==null || subject.length()==0) && (attachment==null || attachment instanceof SpacerItem)); 
     }
 
     public boolean eventKeyPressed(int keyCode) { 

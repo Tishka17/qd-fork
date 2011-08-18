@@ -909,8 +909,7 @@ public abstract class VirtualList extends CanvasEx {
 
     public void moveCursorEnd(){
         stickyWindow=true;
-        int count=getItemCount();
-        if (cursor>=0) cursor=(count==0)?0:count-1;
+        cursor=getPrevSelectableRef(getItemCount());
         setRotator();
     }
 

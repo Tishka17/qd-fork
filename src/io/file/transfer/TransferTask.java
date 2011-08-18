@@ -72,14 +72,14 @@ public class TransferTask
     boolean isBytes;
     byte[] bytes;
 
-    String jid;
+    public String jid;
     String id;
     String sid;
-    String fileName;
-    String description;
+    public String fileName;
+    public String description;
     String errMsg;
 
-    int fileSize;
+    public int fileSize;
     private int filePos;
     String filePath;
     private FileIO file;

@@ -85,30 +85,11 @@ public class SplashScreen extends CanvasEx {
         try { Thread.sleep(50); } catch (InterruptedException ex) { }
     }
 
-   /*
-    private Snow snow;
-    private int speed = 3;
-    public void createSnow(){
-        if(snow==null) {
-            snow = new Snow(display);
-            snow.changeSnowProcess(speed);
-        }
-    }
-    */
-
-    /*long s1;
-    long s2;*/
-
     public void paint(Graphics g) {
-        /*
-        if(snow != null) {
-            //s1 = System.currentTimeMillis();
-            snow.paint(g, width, height);
-        } else {
-         */
-           g.setColor(ColorTheme.getColor(ColorTheme.BLK_BGND));
-           g.fillRect(0,0, width, height);
-        //}
+
+        g.setColor(ColorTheme.getColor(ColorTheme.BLK_BGND));
+        g.fillRect(0,0, width, height);
+
 
         if(img!=null) g.drawImage(img, width/2, height/2, Graphics.VCENTER|Graphics.HCENTER);
 
@@ -128,12 +109,6 @@ public class SplashScreen extends CanvasEx {
             if (pb==null) pb=new Progress(0, height, width);
             pb.draw(g, filled, capt);
         }
-        /*
-        if(snow != null) {
-          s2 = System.currentTimeMillis();
-          g.drawString("FPS: " + Long.toString( 1000/(s2-s1) ) + " (" + speed + ")", width/2, height - 20, Graphics.BOTTOM | Graphics.HCENTER);
-        }
-        */
     }
 
     public void setFailed(){

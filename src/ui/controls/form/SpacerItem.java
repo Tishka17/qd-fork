@@ -41,7 +41,7 @@ public class SpacerItem extends IconTextElement {
         if (height != 0) {
             itemHeight = height;
         }
-        lineMode = true;
+        lineMode = false;
     }
     public SpacerItem() {
         super(null);

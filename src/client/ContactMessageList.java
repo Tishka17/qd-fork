@@ -210,11 +210,15 @@ public final class ContactMessageList extends MessageList implements InputTextBo
     }
 
     public VirtualElement getItemRef(int index) {
-        Msg mi = (Msg)messages.elementAt(index);
-        if (mi.isUnread()) {
-            readMessage(mi);
+        try {
+            Msg mi = (Msg)messages.elementAt(index);
+            if (mi.isUnread()) {
+                readMessage(mi);
+            }
+            return mi;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return null;
         }
-        return mi;
     }
     
     public int getMessageCount() {
@@ -762,6 +766,8 @@ public final class ContactMessageList extends MessageList implements InputTextBo
             m = getMessage(i);
             if ((null != m.getId()) && m.getId().equals("spacer")) {
                 messages.removeElement(m);
+                if (cursor>i)
+                    cursor--;
                 break;
             }
         }

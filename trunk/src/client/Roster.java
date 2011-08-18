@@ -59,6 +59,7 @@ import menu.MenuListener;
 import menu.Command;
 //#if FILE_IO && FILE_TRANSFER
 import io.file.transfer.TransferDispatcher;
+import io.file.transfer.TransferTask;
 //#endif
 import javax.microedition.lcdui.Displayable;
 import locale.SR;
@@ -211,6 +212,7 @@ public final class Roster extends VirtualList
             ActiveContacts form = new ActiveContacts(contacts, current);
             form.setParentView(this);
             form.show();
+            current.getMessageList().updateSeparator();
         }
     }
 
@@ -2551,11 +2553,13 @@ public final class Roster extends VirtualList
 //#endif
 
 //#ifdef FILE_TRANSFER
-    public void addFileQuery(String from, String message) {
+    public void addFileQuery(TransferTask task) {
         Contact c=null;
-        if(c==null) c=getContact(from, true);
+        if(c==null) c=getContact(task.jid, true);
         c.fileQuery=true;
-        messageStore(c, new Msg(Msg.SYSTEM, from, " "+SR.get(SR.MS_FILE), message));
+        Msg m = new Msg(Msg.SYSTEM, task.jid, SR.get(SR.MS_FILE), "");
+        m.attachment = task;
+        messageStore(c, m);
     }
 //#endif
 
@@ -3386,6 +3390,9 @@ public final class Roster extends VirtualList
         } else {
           showNext = (0 == pos) ? (Contact)aContacts.lastElement() : (Contact)aContacts.elementAt(pos - 1);
         }
+        
+        if (first!=showNext)
+            first.getMessageList().updateSeparator();
         showNext.getMessageList().show();
     }
 

@@ -76,7 +76,7 @@ public class Progress {
         g.fillRect(x, y, width, height);
 //#ifdef GRADIENT
         if (topColor!=bottomColor) {
-            gr.update(x, y-height, x+filled, y, topColor, bottomColor, Gradient.CACHED_HORIZONTAL);
+            gr.update(x, y, x+filled, y+height, topColor, bottomColor, Gradient.CACHED_HORIZONTAL);
             gr.paint(g);
         } else {
 //#endif

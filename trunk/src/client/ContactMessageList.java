@@ -239,7 +239,6 @@ public final class ContactMessageList extends MessageList implements InputTextBo
 //#ifdef TOUCH
     protected void touchMainPanelPressed(int x, int y) {
         int zoneWidth = width / 4;
-
         if (x > zoneWidth && x < width - zoneWidth) {
             BombusQD.sd.roster.showActiveContacts(contact);
         } else if (x < zoneWidth) {
@@ -752,19 +751,33 @@ public final class ContactMessageList extends MessageList implements InputTextBo
         resetLastUnreadMessage();
     }
 
-    public void destroyView(){
+    public void updateSeparator() {
+        if (messages.isEmpty()) {
+            return;
+        }
         Msg m;
-        /*int size = getItemCount();
-        for (int i = 0; i < size; ++i) {
+        //удаление старого разделителя
+        int size = getItemCount();
+        for (int i = size-1; i >=0; i--) {
             m = getMessage(i);
             if ((null != m.getId()) && m.getId().equals("spacer")) {
                 messages.removeElement(m);
                 break;
             }
-        }*/
-        m = (Msg)messages.lastElement();
+        }
+        if (messages.isEmpty()) {
+            return;
+        }
+        //добавление нового разделителя
+        m = new Msg(Msg.PRESENCE, null, "");
+        m.setId("spacer");
+        m.read();
+        messages.addElement(m);
         if (m.attachment==null) m.attachment = new SpacerItem();
-        
+    }
+    
+    public void destroyView(){
+        updateSeparator();
         midlet.BombusQD.sd.roster.activeContact=null;
         midlet.BombusQD.sd.roster.reEnumRoster(); //to reset unread messages icon for this conference in roster
         midlet.BombusQD.sd.roster.show();

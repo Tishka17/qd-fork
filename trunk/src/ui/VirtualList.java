@@ -1405,8 +1405,12 @@ public abstract class VirtualList extends CanvasEx {
             prevRef--;
             if (getItemRef(prevRef).isSelectable())
                 break;
-            if (prevRef==0 && wrapping)
-                prevRef=getItemCount();
+            if (prevRef==0 ) {
+                if (wrapping)
+                    prevRef=getItemCount();
+                else 
+                    return curRef;
+            }
         }
 
         return prevRef;
@@ -1417,8 +1421,12 @@ public abstract class VirtualList extends CanvasEx {
         boolean process=true;
         while (process) {
             nextRef++;
-            if (nextRef==getItemCount() && wrapping)
-                nextRef=0;
+            if (nextRef==getItemCount()) {
+                if (wrapping)
+                    nextRef=0;
+                else 
+                    return curRef;
+            }
             if (getItemRef(nextRef).isSelectable())
                 break;
         }

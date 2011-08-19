@@ -203,6 +203,7 @@ public class TransferDispatcher implements JabberBlockListener{
     void sendFile(TransferTask task) {
         synchronized (taskList){ taskList.addElement(task); }
         task.sendInit();
+        sd.roster.addFileQuery(task);
     }
 }
 //#endif

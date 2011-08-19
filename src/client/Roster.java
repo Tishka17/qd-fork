@@ -212,7 +212,8 @@ public final class Roster extends VirtualList
             ActiveContacts form = new ActiveContacts(contacts, current);
             form.setParentView(this);
             form.show();
-            current.getMessageList().updateSeparator();
+            if (current!=null && current.getMessageList()!=null) 
+                current.getMessageList().updateSeparator();
         }
     }
 
@@ -3391,7 +3392,7 @@ public final class Roster extends VirtualList
           showNext = (0 == pos) ? (Contact)aContacts.lastElement() : (Contact)aContacts.elementAt(pos - 1);
         }
         
-        if (first!=showNext)
+        if (first!=showNext && first!=null && first.getMessageList()!=null)
             first.getMessageList().updateSeparator();
         showNext.getMessageList().show();
     }

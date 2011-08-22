@@ -159,6 +159,19 @@ public final class ContactMessageList extends MessageList implements InputTextBo
 //#endif
 
         if (getItemCount() >0 ) {
+//#ifdef JUICK.COM
+         if (contact.getJid().indexOf("juick@juick.com") > -1) {
+            addCommand(Commands.cmdJuickMenu);
+
+            addInCommand(1, Commands.cmdJuickLastPopular);
+            addInCommand(1, Commands.cmdJuickLastMsgs);
+            addInCommand(1, Commands.cmdJuickSubscribe);
+            addInCommand(1, Commands.cmdJuickUnsubscribe);
+            addInCommand(1, Commands.cmdJuickSendPM);
+            addInCommand(1, Commands.cmdJuickUsersMsgs);
+         }
+//#endif
+
 //#ifndef WMUC
             if (contact instanceof MucContact && contact.origin==Contact.ORIGIN_GROUPCHAT
                     || contact.getJid().indexOf("juick@juick.com")>-1 ) {

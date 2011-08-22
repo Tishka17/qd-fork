@@ -687,6 +687,13 @@ public class SR {
      public final static short MS_ADVANCED_MODE_ENABLED = 655; //Advanced mode is enabled
      public final static short MS_ADVANCED_MODE_DISABLED = 656; //Advanced Mode is disabled
      public final static short MS_JUICK_IMAGES = 657; //Enables/disable images in juick
+    public final static short MS_JUICK_LP = 658; //Last mess. from you timeline on Juick
+    public final static short MS_JUICK_LM = 659; //Last mess. from main timeline
+    public final static short MS_JUICK_S = 660; //Subscribing to Juick user
+    public final static short MS_JUICK_U = 661; //Unsubscribing from juick user
+    public final static short MS_JUICK_SPM = 662; //Sending Private mess. to Juick user
+    public final static short MS_JUICK_UM = 663; //Show @User info & last messages
+    public final static short MS_JUICK_COMMANDS = 664; //Juick menu
 
      private static String[] localeItemsDefault = new String[0];
     private static String[] localeItems = {
@@ -1347,7 +1354,14 @@ public class SR {
         "Unlock adnvanced mode",
         "Advanced mode is enabled",
         "Advanced Mode is disabled",
-        "Show images in juick"
+        "Show images in juick",
+      "You last posts",
+      "Last posts from Juick.com",
+      "Subscribe to user",
+      "Unsubscribe from user",
+      "Send PM to user",
+      "Full user info",
+      "JUICK.COM"
    };
 
     private SR() { }

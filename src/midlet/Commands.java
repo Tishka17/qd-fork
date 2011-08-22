@@ -54,16 +54,17 @@ public class Commands {
 //#ifdef HISTORY
     public static Command cmdHistory;
 //#endif
-   /* 
+
 //#ifdef JUICK.COM
-    public static Command cmdJuickLastPopular ; //"", Command.SCREEN, 101);//#
-    public static Command cmdJuickLastMsgs ; //"", Command.SCREEN, 102);//#+
-    public static Command cmdJuickSubscribe ; //"", Command.SCREEN, 103);//S #
-    public static Command cmdJuickUnsubscribe ; //"", Command.SCREEN, 104);//U #
-    public static Command cmdJuickSendPM ; //"", Command.SCREEN, 105);//PM @nick msg
-    public static Command cmdJuickUsersMsgs ; //"", Command.SCREEN, 106); //@nick+
+    public static Command cmdJuickMenu;
+    public static Command cmdJuickLastPopular;
+    public static Command cmdJuickLastMsgs;
+    public static Command cmdJuickSubscribe;
+    public static Command cmdJuickUnsubscribe;
+    public static Command cmdJuickSendPM;
+    public static Command cmdJuickUsersMsgs;
 //#endif
-*/
+
     public static void initCommands() {
         cmdOk = new Command(SR.get(SR.MS_OK), 0x60);
         cmdSelect = new Command(SR.get(SR.MS_SELECT), 0x60);
@@ -96,15 +97,16 @@ public class Commands {
         cmdArch = new Command(SR.get(SR.MS_ADD_ARCHIVE), 0x64);
 //#endif
 
-        /* TODO: иконки, надписи, подменю
+        /* TODO: иконки, надписи, подменю */
 //#ifdef JUICK.COM
-              cmdJuickLastPopular = new Command(" # ", 101);//#
-              cmdJuickLastMsgs = new Command(" #+ ", 102);//#+
-              cmdJuickSubscribe = new Command(" S# ", 103);//S #
-              cmdJuickUnsubscribe = new Command(" U# ", 104);//U #
-              cmdJuickSendPM = new Command(" PM @nick msg ", 105);//PM @nick msg
-              cmdJuickUsersMsgs = new Command(" @nick+ ", 106); //@nick+
+            cmdJuickMenu = new Command(SR.get(SR.MS_JUICK_COMMANDS), 101); // hz cho tut dolgno byt'...
+            cmdJuickLastPopular = new Command(SR.get(SR.MS_JUICK_LP), 101);
+            cmdJuickLastMsgs = new Command(SR.get(SR.MS_JUICK_LM), 102);
+            cmdJuickSubscribe = new Command(SR.get(SR.MS_JUICK_S), 103);
+            cmdJuickUnsubscribe = new Command(SR.get(SR.MS_JUICK_U), 104);
+            cmdJuickSendPM = new Command(SR.get(SR.MS_JUICK_SPM), 105);
+            cmdJuickUsersMsgs = new Command(SR.get(SR.MS_JUICK_UM), 106);
 //#endif
-         */
+
     }
 }

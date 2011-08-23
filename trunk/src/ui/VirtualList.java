@@ -1216,7 +1216,7 @@ public abstract class VirtualList extends CanvasEx {
         if (menuCommands.indexOf(command)<0) menuCommands.addElement(command);
     }
 
-    public void addInCommand(int countMenu,Command command) {
+    public void addInCommand(int countMenu, Command command) {
         if(midlet.BombusQD.cf.graphicsMenu){
           if(countMenu==1){
             if (cmdfirstList.indexOf(command)<0)cmdfirstList.addElement(command);
@@ -1231,7 +1231,7 @@ public abstract class VirtualList extends CanvasEx {
         }
     }
 
-    public void removeInCommand(int countMenu,Command command) {
+    public void removeInCommand(int countMenu, Command command) {
        if(midlet.BombusQD.cf.graphicsMenu){
         if(countMenu==1){
           if (cmdfirstList.indexOf(command)<0)cmdfirstList.removeElement(command);

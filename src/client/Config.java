@@ -359,7 +359,6 @@ public class Config {
 
     private Config() {
         getPhoneManufacturer();
-        minItemHeight = BombusQD.display.getBestImageHeight(Display.LIST_ELEMENT);
         VirtualList.phoneManufacturer=phoneManufacturer;
 
 	int gmtloc=TimeZone.getDefault().getRawOffset()/3600000;

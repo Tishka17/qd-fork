@@ -99,13 +99,13 @@ public class Commands {
 
         /* TODO: иконки, надписи, подменю */
 //#ifdef JUICK.COM
-            cmdJuickMenu = new Command(SR.get(SR.MS_JUICK_COMMANDS), 101); // hz cho tut dolgno byt'...
-            cmdJuickLastPopular = new Command(SR.get(SR.MS_JUICK_LP), 101);
-            cmdJuickLastMsgs = new Command(SR.get(SR.MS_JUICK_LM), 102);
-            cmdJuickSubscribe = new Command(SR.get(SR.MS_JUICK_S), 103);
-            cmdJuickUnsubscribe = new Command(SR.get(SR.MS_JUICK_U), 104);
-            cmdJuickSendPM = new Command(SR.get(SR.MS_JUICK_SPM), 105);
-            cmdJuickUsersMsgs = new Command(SR.get(SR.MS_JUICK_UM), 106);
+            cmdJuickMenu = new Command(SR.get(SR.MS_JUICK_COMMANDS), 0x96); 
+            cmdJuickLastPopular = new Command(SR.get(SR.MS_JUICK_LP), 0x64);
+            cmdJuickLastMsgs = new Command(SR.get(SR.MS_JUICK_LM), 0x64);
+            cmdJuickSubscribe = new Command(SR.get(SR.MS_JUICK_S), 0x02);
+            cmdJuickUnsubscribe = new Command(SR.get(SR.MS_JUICK_U), 0x06);
+            cmdJuickSendPM = new Command(SR.get(SR.MS_JUICK_SPM), 0x14);
+            cmdJuickUsersMsgs = new Command(SR.get(SR.MS_JUICK_UM), 0x14);
 //#endif
 
     }

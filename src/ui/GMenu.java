@@ -162,6 +162,7 @@ public class GMenu extends CanvasEx {
               || gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_REGISTERING))>-1
               || gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_SERVICE))>-1
               || gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_SORT_TYPE))>-1
+              || gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_JUICK_COMMANDS))>-1
               ){
               drawAllItems(g,gm.menuCommandsIn,gm.commandslistIn,gm.itemCursorIndexIn);
            }
@@ -180,8 +181,8 @@ public class GMenu extends CanvasEx {
       }
 
       if((gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_NEW_ACCOUNT))>-1 ||
-        gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_SORT_TYPE))>-1) ||
-        gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_JUICK_COMMANDS))>-1 &&
+        gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_SORT_TYPE))>-1 ||
+        gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_JUICK_COMMANDS))>-1) &&
         gm.cmdfirstList.size()>0){
           GMenuIn(gm.cmdfirstList); 
           eventMenu=true; 

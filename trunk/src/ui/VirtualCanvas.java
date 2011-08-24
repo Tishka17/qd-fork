@@ -274,6 +274,21 @@ public class VirtualCanvas extends Canvas  implements CommandListener {
 //#                 return CAMERA_KEY;
 //#         }
 //#endif      
+        switch (code) {
+            // lat
+            case 'm': return KEY_NUM0;
+            case 'r': return KEY_NUM1;
+            case 't': return KEY_NUM2;
+            case 'y': return KEY_NUM3;
+            case 'f': return KEY_NUM4;
+            case 'g': return KEY_NUM5;
+            case 'h': return KEY_NUM6;
+            case 'v': return KEY_NUM7;
+            case 'b': return KEY_NUM8;
+            case 'n': return KEY_NUM9;
+            case 'j': return KEY_POUND;
+            case 'u': return KEY_STAR;
+        }
         String strCode = null;
         try {
             strCode = getKeyName(code);
@@ -386,19 +401,6 @@ public class VirtualCanvas extends Canvas  implements CommandListener {
             } catch(Exception e) {
             }
         switch (code) {
-            // lat
-            case 'm': return KEY_NUM0;
-            case 'r': return KEY_NUM1;
-            case 't': return KEY_NUM2;
-            case 'y': return KEY_NUM3;
-            case 'f': return KEY_NUM4;
-            case 'g': return KEY_NUM5;
-            case 'h': return KEY_NUM6;
-            case 'v': return KEY_NUM7;
-            case 'b': return KEY_NUM8;
-            case 'n': return KEY_NUM9;
-            case 'j': return KEY_POUND;
-            case 'u': return KEY_STAR;
             // rus
             case 1100: return KEY_NUM0;
             case 1082: return KEY_NUM1;

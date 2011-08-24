@@ -440,7 +440,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
 //#ifdef JUICK.COM
               }
 //#endif
-             if(contact.msgSuspended != null && check) {
+             if(contact.msgSuspended != null && !contact.msgSuspended.equals(text) && check) {
                final String msgText = text;
                AlertBox box = new AlertBox(msg.getFrom(), SR.get(SR.MS_MSGBUFFER_NOT_EMPTY), AlertBox.BUTTONS_YESNO) {
                     public void yes() { showMsgEdit(msgText); }
@@ -631,7 +631,8 @@ public final class ContactMessageList extends MessageList implements InputTextBo
                for(int i=0;i<size;i++){
                    c = (Contact)midlet.BombusQD.sd.roster.contactList.contacts.elementAt(i);
                    if (c instanceof MucContact){
-                       if(c.jid.getBareJid().equals(contact.jid.getBareJid()) && c.getNick().equals(msg.getFrom())) 
+                       if((c.origin==Contact.ORIGIN_GROUPCHAT && c.jid.getBareJid().equals(msg.getFrom())) 
+                               || (c.jid.getBareJid().equals(contact.jid.getBareJid()) && c.getName().equals(msg.getFrom()))) 
                            found = (c.status!=5);
                    }
                }

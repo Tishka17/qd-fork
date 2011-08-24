@@ -34,6 +34,7 @@ import ui.controls.form.DropChoiceBox;
 import ui.controls.form.MultiLine;
 import ui.controls.form.PasswordInput;
 import ui.controls.form.TextInput;
+import util.StringUtils;
 
 public class FormField {
     private String label;
@@ -115,9 +116,18 @@ public class FormField {
                        formItem =  listmulti;
                     }
                 }
-            }
-	    // text-single, text-private
-            else {
+            } else if (type.equals("jid-multi")) {
+                StringBuffer jids = new StringBuffer();
+                Vector values = field.getChildBlocks();
+                if (values != null) {
+                    int size = values.size();
+                    for (int i = 0; i < size; i++) {
+                        jids.append(((JabberDataBlock) values.elementAt(i)).getText().trim()).append('\n');
+                    }
+                }
+                formItem = new TextInput(label, jids.toString().trim(),TextField.ANY);
+            // text-single, text-private
+            } else {
                 if (body.length()>=200) {
                     body=body.substring(0,198);
                 }
@@ -160,11 +170,18 @@ public class FormField {
             if (type==null) {
                 j=new JabberDataBlock(null, name, ((TextInput)formItem).toString());
             } else {
-                // x:data
                 j=new JabberDataBlock("field", null, null);
                 j.setAttribute("var", name);
                 j.setAttribute("type", type);
-                j.addChild("value", ((TextInput)formItem).getValue());
+                String value = ((TextInput) formItem).getValue();
+                if (type.equals("jid-multi")) {
+                    Vector jids = StringUtils.split(value, '\n');
+                    for (int i = 0; i < jids.size(); i++) {
+                        j.addChild("value", (String)jids.elementAt(i));
+                    }
+                } else {
+                    j.addChild("value", ((TextInput)formItem).getValue());
+                }
             }
         }
 

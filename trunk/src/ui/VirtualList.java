@@ -804,7 +804,7 @@ public abstract class VirtualList extends CanvasEx {
 //#ifdef GRADIENT
          if (getMainBarBGnd()!=getMainBarBGndBottom()) {
             int c = midlet.BombusQD.cf.gradientBarLigth?1:-1;
-            MainBarBG.update(0, y, width, y+h,
+            MainBarBG.update(0, y, width, y+h+1,
                     transformColorLight(getMainBarBGnd(), c*midlet.BombusQD.cf.gradientBarLight1),
                     transformColorLight(getMainBarBGndBottom(), c*midlet.BombusQD.cf.gradientBarLight2), Gradient.MIXED_DOWN);
             MainBarBG.paint(g);

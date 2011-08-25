@@ -99,7 +99,7 @@ public class Group extends IconTextElement {
     public final void drawItem(VirtualList view, Graphics g, int ofs, boolean sel) {
         g.setFont(getFont());
         //#ifdef GRADIENT
-        if (!sel) {
+        if ( midlet.BombusQD.cf.gradient_cursor && !sel) {
             bg.update(0, 0, g.getClipWidth(), getVHeight(), ColorTheme.getColor(ColorTheme.HEAP_TOTAL), ColorTheme.getColor(ColorTheme.HEAP_FREE), Gradient.CACHED_HORIZONTAL);
             bg.paint(g);
         }

@@ -31,6 +31,9 @@ import ui.controls.form.CheckBox;
 import ui.controls.form.DefForm;
 import ui.controls.form.DropChoiceBox;
 import ui.controls.form.KeyScanner;
+//import ui.keys.UserActions;
+import ui.keys.UserActions.userAct;
+import java.util.Vector;
 
 /**
  *
@@ -46,6 +49,8 @@ public class UserKeyEdit extends DefForm {
     private KeyScanner secCode;
 
     UserKey u;
+
+    Vector actList;
     
     boolean newKey;
 
@@ -61,8 +66,11 @@ public class UserKeyEdit extends DefForm {
 	this.u=u;
      
         keyDesc=new DropChoiceBox(SR.get(SR.MS_KEYS_ACTION));
-        for (int i=0;i<u.COMMANDS_DESC.length;i++) {
-            keyDesc.append(u.COMMANDS_DESC[i]);
+        actList= null;
+        actList= UserActions.getActionsList( 1);
+
+        for (int i=0; i <actList.size(); i++) {
+            keyDesc.append( actList.elementAt( i));
         }
         keyDesc.setSelectedIndex(u.commandId);
 

@@ -71,7 +71,7 @@ public class UserKey extends IconTextElement {
             if (secLong) s.append("Long ");
             s.append('(').append(getKeyName(secCode)).append(')');
         }
-        s.append(" -> ").append(COMMANDS_DESC[commandId]);
+        s.append(" -> ").append( UserActions.getActionsList( 1).elementAt( commandId));
         return s.toString();
     }
     

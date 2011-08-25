@@ -50,7 +50,6 @@ public class UserKeysList extends VirtualList implements MenuListener {
     Command cmdEdit;
     Command cmdDel;
 
-    /** Creates a new instance of AccountPicker */
     public UserKeysList() {
         super();
         

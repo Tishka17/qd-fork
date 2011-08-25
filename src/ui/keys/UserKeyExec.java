@@ -50,6 +50,7 @@ import java.util.Vector;
 import locale.SR;
 import midlet.BombusQD;
 import ui.VirtualList;
+import ui.keys.UserActions;
 
 public class UserKeyExec {
     public static int noExecSem = 0;
@@ -57,14 +58,15 @@ public class UserKeyExec {
     public static boolean waitLong = false;
     public static int waitCmd = 0;
 
-    private static Config cf;
-    StaticData sd = StaticData.getInstance();
+//    private static Config cf;
+//    StaticData sd = StaticData.getInstance();
 
     private static UserKeyExec instance;
+
     public static UserKeyExec getInstance(){
 	if (instance==null) {
 	    instance=new UserKeyExec();
-            cf=Config.getInstance();
+            //cf=Config.getInstance();
             instance.initCommands();
 	}
 	return instance;
@@ -95,13 +97,17 @@ public class UserKeyExec {
     public static void startExecute( ){
         noExecSem--;
     }
+
     public boolean getCommandByKey(int key, boolean isLong){
         if(noExecSem >0)
             return false;
         if (!Config.userKeys)
             return false;
         if (waitCode==key && waitLong==isLong) {
-            commandExecute( waitCmd);
+            //commandExecute( waitCmd);
+            UserActions.doActionByExtIndex( 1, waitCmd);
+            // обработали клавишу, прекратить ее
+            // дапьнейшее продвижение в VirtualCanvas
             return true;
         }
         waitCode = 0;
@@ -114,7 +120,8 @@ public class UserKeyExec {
                     waitCmd = userKeyItem.commandId;
                     return true;
                 }
-                commandExecute(userKeyItem.commandId);
+                //commandExecute(userKeyItem.commandId);
+                UserActions.doActionByExtIndex( 1, userKeyItem.commandId);
                 // обработали клавишу, прекратить ее
                 // дапьнейшее продвижение в VirtualCanvas
                 return true;
@@ -123,7 +130,7 @@ public class UserKeyExec {
         return false;
     }
 
-    private boolean commandExecute(int commandId) { //return false if key not executed
+/*    private boolean commandExecute(int commandId) { //return false if key not executed
         //int commandId=getCommandByKey(command);
 
         if (commandId<1) return false;
@@ -202,5 +209,7 @@ public class UserKeyExec {
         }
         return true;
     }
+ *
+ */
 }
 //#endif

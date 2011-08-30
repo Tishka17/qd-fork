@@ -114,7 +114,7 @@ public class UserKey extends IconTextElement {
             outputStream.writeBoolean(secLong);
         } catch (IOException e) { }
     }
-
+ /*
     public static final String[] COMMANDS_DESC = {
             SR.get(SR.MS_NO)
             ,SR.get(SR.MS_OPTIONS)
@@ -135,6 +135,9 @@ public class UserKey extends IconTextElement {
 //#             ,SR.get(SR.MS_XML_CONSOLE)
 //#endif
     };
+
+  *
+  */
 
     public static String getKeyName(int keyCode){
         switch( keyCode){

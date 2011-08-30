@@ -25,6 +25,15 @@
 
 package autotask;
 
+import images.RosterIcons;
+import io.NvStorage;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import locale.SR;
+import ui.IconTextElement;
+import ui.VirtualCanvas;
+
 import locale.SR;
 import midlet.BombusQD;
 import util.Time;
@@ -39,7 +48,10 @@ import light.CustomLight;
  * @author Mars
  */
 
-public class TaskElement {
+public class TaskElement extends IconTextElement {
+
+    public final static String storage="atask_db";
+
     public final static int TASK_TYPE_DISABLED = 0;
     public final static int TASK_TYPE_TIME = 1;
     public final static int TASK_TYPE_TIMER = 2;
@@ -63,10 +75,10 @@ public class TaskElement {
 
     public int Type= TASK_TYPE_DISABLED;
     public int Action = TASK_ACTION_QUIT;
-    public boolean Notify = false;
-    public boolean NotifyV = false;
-    public boolean NotifyL = false;
-    public boolean NotifyS = false;
+    public int Notify = 0;
+    //public boolean NotifyV = false;
+    //public boolean NotifyL = false;
+    //public boolean NotifyS = false;
     public long StartMS = 0;
     public long WaitMS = 0;
     public int Hour = 0;
@@ -78,6 +90,76 @@ public class TaskElement {
 //    public String Name= SR.get(SR.MS_AUTOTASK_DEFAULTNAME);
     public String Text= "Текст по умолчанию";
 //    public String Name= SR.get(SR.MS_AUTOTASK_DEFAULTTEXT);
+
+    public TaskElement() {
+        super(RosterIcons.getInstance());
+    }
+
+    public static TaskElement loadTaskElement(int index){
+        TaskElement te=TaskElement.createFromStorage(index);
+        return te;
+    }
+
+    public String toString(){
+        //StringBuffer s=new StringBuffer();
+        return Name;
+    }
+
+    public static TaskElement createFromStorage(int index) {
+        TaskElement te=null;
+        DataInputStream is=NvStorage.ReadFileRecord(storage, 0);
+        if (is==null) return null;
+        try {
+            do {
+                if (is.available()==0) {te=null; break;}
+                te=createFromDataInputStream(is);
+                index--;
+            } while (index>-1);
+            is.close();
+        } catch (Exception e) { }
+        return te;
+    }
+
+    public static TaskElement createFromDataInputStream(DataInputStream inputStream){
+        TaskElement te=new TaskElement();
+        try {
+            te.Name = inputStream.readUTF();
+            te.Type = inputStream.readInt();
+            te.Action = inputStream.readInt();
+            te.Text = inputStream.readUTF();
+            te.Once = inputStream.readBoolean();
+            te.Notify = inputStream.readInt();
+            te.Hour = inputStream.readInt();
+            te.Minute = inputStream.readInt();
+            //te.NotifyL = inputStream.readBoolean();
+            //te.NotifyS = inputStream.readBoolean();
+            //te.NotifyV = inputStream.readBoolean();
+            te.NotifyDelay = inputStream.readInt();
+            te.StartMS = inputStream.readLong();
+            te.WaitMS = inputStream.readLong();
+        } catch (IOException e) { /*e.printStackTrace();*/ }
+
+        return te; //(te.Type ==TASK_TYPE_DISABLED)?null:te;
+    }
+
+    public void saveToDataOutputStream(DataOutputStream outputStream){
+        try {
+            outputStream.writeUTF( Name);
+            outputStream.writeInt( Type);
+            outputStream.writeInt( Action);
+            outputStream.writeUTF( Text);
+            outputStream.writeBoolean( Once);
+            outputStream.writeInt( Notify);
+            outputStream.writeInt( Hour);
+            outputStream.writeInt( Minute);
+            //te.NotifyL = outputStream.writeBoolean();
+            //te.NotifyS = outputStream.writeBoolean();
+            //te.NotifyV = outputStream.writeBoolean();
+            outputStream.writeInt( NotifyDelay);
+            outputStream.writeLong( StartMS);
+            outputStream.writeLong( WaitMS);
+        } catch (IOException e) { }
+    }
 
     public int NotifyDelay( ){
         return NotifyDelay;
@@ -96,35 +178,38 @@ public class TaskElement {
     }
 
     public boolean Notify( ){
-        return Notify;
+        return (Notify !=0);
     }
 
-    public void Notify( boolean narg){
-        Notify= narg;
+    public void Notify( boolean varg, boolean larg, boolean sarg){
+        Notify= 0;
+        Notify+= ((varg)?1:0);//<<0;
+        Notify+= ((larg)?1:0)<<1;
+        Notify+= ((sarg)?1:0)<<2;
     }
 
     public boolean NotifyV( ){
-        return NotifyV;
+        return (( Notify & 1) !=0);
     }
 
     public void NotifyV( boolean narg){
-        NotifyV= narg;
+        //NotifyV= narg;
     }
 
     public boolean NotifyL( ){
-        return NotifyL;
+        return (( Notify & 2) !=0);
     }
 
     public void NotifyL( boolean narg){
-        NotifyL= narg;
+        //NotifyL= narg;
     }
 
     public boolean NotifyS( ){
-        return NotifyS;
+        return (( Notify & 4) !=0);
     }
 
     public void NotifyS( boolean narg){
-        NotifyS= narg;
+        //NotifyS= narg;
     }
 
     public String Name( ){
@@ -225,15 +310,15 @@ public class TaskElement {
     }// doTask()
 
     public void doNotify( ){
-        if( !Notify)
+        if( !Notify())
             return;
 //#ifdef LIGHT_CONTROL
-        if( NotifyL)
+        if( NotifyL())
             CustomLight.startBlinking();
 //#endif
-        if( NotifyV)
+        if( NotifyV())
                 Roster.playNotify( Roster.SOUND_ATTENTION);
-        else if( NotifyS)
+        else if( NotifyS())
             Roster.playNotify( Roster.SOUND_MESSAGE);
     }// doNotify()
 

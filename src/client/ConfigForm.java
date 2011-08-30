@@ -29,7 +29,7 @@ package client;
 
 import alert.AlertCustomizeForm;
 //#ifdef AUTOTASK
-import autotask.AutoTaskForm;
+import autotask.TaskList;
 //#endif
 import font.FontConfigForm;
 //#if FILE_IO && IMPORT_EXPORT 
@@ -165,7 +165,7 @@ public class ConfigForm extends DefForm {
 //#endif
 //#ifdef AUTOTASK
             case PluginBox.TASKS:
-                new AutoTaskForm().show();
+                new TaskList().show();
                 return;
 //#endif
 //#ifdef DEBUG_CONSOLE

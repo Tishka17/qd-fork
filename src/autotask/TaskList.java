@@ -27,24 +27,121 @@ package autotask;
 
 import java.util.Vector;
 
-/**
- *
- * @author Mars
- */
+import io.NvStorage;
+import java.io.DataOutputStream;
+import java.util.Vector;
+import locale.SR;
+import ui.MainBar;
+import ui.VirtualElement;
+import ui.VirtualList;
+import menu.MenuListener;
+import menu.Command;
+import ui.GMenu;
+import ui.GMenuConfig;
+import autotask.TaskElement;
 
-public class TaskList{
+public class TaskList extends VirtualList implements MenuListener {
+//#ifdef PLUGINS
+//#     public static String plugin = new String("PLUGIN_USER_KEYS");
+//#endif
 
-    public static Vector taskList= new Vector(0);
+    public static Vector taskList;
+
+    Command cmdSave;
+    Command cmdAdd;
+    Command cmdEdit;
+    Command cmdDel;
+
+    public TaskList() {
+        super();
+
+        cmdSave=new Command(SR.get(SR.MS_SAVE), 0x44);
+        cmdAdd=new Command("Добавить задачу", 0x47);
+        cmdEdit=new Command(SR.get(SR.MS_EDIT),0x40);
+        cmdDel=new Command(SR.get(SR.MS_DELETE),0x41);
+
+        setMainBarItem(new MainBar("Планировщик"));
+
+        //commandsList=UserKeyExec.getInstance().commandsList;
+        if( taskList ==null) taskList= new Vector(0);
+    }
+
+    void commandState(){
+        menuCommands.removeAllElements();
+
+        addCommand(cmdSave);
+        addCommand(cmdAdd);
+        if (getItemCount() > 0) {
+            addCommand(cmdEdit);
+            addCommand(cmdDel);
+        }
+    }
+
+    public VirtualElement getItemRef(int Index) {
+        return (VirtualElement)taskList.elementAt(Index);
+    }
+
+    protected int getItemCount() {
+        return taskList.size();
+    }
+
+    public void commandAction(Command c){
+        if (c==cmdSave) {
+            //rmsUpdate();
+            destroyView();
+        }
+        if (c==cmdEdit)
+            new TaskEdit(this, (TaskElement)getFocusedObject()).show();
+        if (c==cmdAdd)
+            new TaskEdit(this, null).show();
+        if (c==cmdDel) {
+            taskList.removeElement(getFocusedObject());
+
+            rmsUpdate();
+            moveCursorHome();
+            redraw();
+        }
+    }
+
+    public void eventOk(){
+        new TaskEdit( this, (TaskElement)getFocusedObject()).show();
+    }
+
+    void rmsUpdate(){
+        DataOutputStream outputStream=NvStorage.CreateDataOutputStream();
+
+        for( int i=0; i<taskList.size(); i++) {
+            ((TaskElement)taskList.elementAt(i)).saveToDataOutputStream(outputStream);
+        }
+
+        NvStorage.writeFileRecord(outputStream, TaskElement.storage, 0, true);
+    }
+
+    public int showGraphicsMenu() {
+        commandState();
+        menuItem = new GMenu(this, menuCommands);
+        GMenuConfig.getInstance().itemGrMenu = GMenu.USERKEYSLIST;
+        return GMenu.USERKEYSLIST;
+    }
+
+    public static boolean checkTasks( ){
+        boolean hasWaitingTasks= false;
+        for( int ti= 0; ti <taskList.size(); ti++){
+            if( ((TaskElement)taskList.elementAt( ti)).doTask())
+                 hasWaitingTasks= true;
+        }// for ti
+        return hasWaitingTasks;
+    }// checkTasks()
+
+}
+
+/*public class TaskList{
+
+    //public static Vector taskList= new Vector(0);
 
     public static Vector TaskList(){
         if( taskList.size() ==0){
             taskList.addElement( new TaskElement());
-/*            ((TaskElement)taskList.elementAt( 0)).Name( "Task 0");
-            taskList.addElement( new TaskElement());
-            ((TaskElement)taskList.elementAt( 1)).Name( "Task 1");
-            taskList.addElement( new TaskElement());
-            ((TaskElement)taskList.elementAt( 2)).Name( "Task 2");
-*/
         }
         return taskList;
     }// TaskList()
@@ -62,12 +159,5 @@ public class TaskList{
         //taskList.removeElementAt( taskList.indexOf( taskList.lastElement()));
     }
 
-    public static boolean checkTasks( ){
-        boolean hasWaitingTasks= false;
-        for( int ti= 0; ti <taskList.size(); ti++){
-            if( ((TaskElement)taskList.elementAt( ti)).doTask())
-                 hasWaitingTasks= true;
-        }// for ti
-        return hasWaitingTasks;
-    }// checkTasks()
 }
+*/

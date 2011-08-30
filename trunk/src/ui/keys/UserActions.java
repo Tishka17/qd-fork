@@ -10,7 +10,7 @@ import client.ConfigForm;
 import client.StaticData;
 import colors.ColorTheme;
 //#ifdef XML_CONSOLE
-import console.xml.XMLConsole;
+//# import console.xml.XMLConsole;
 //#endif
 //#ifdef PRIVACY
 import privacy.PrivacySelect;
@@ -116,10 +116,10 @@ public class UserActions {
         ,new userAct( 13, 0, SR.get(SR.MS_INVERT))
         ,new userAct( 14, 1, SR.get(SR.MS_FULLSCREEN))
 //#ifdef XML_CONSOLE
-        ,new userAct( 15, 1, SR.get(SR.MS_XML_CONSOLE))
+//#         ,new userAct( 15, 1, SR.get(SR.MS_XML_CONSOLE))
 //#endif
         ,new userAct( 16, 0, SR.get(SR.MS_AUTOTASK_QUIT_CONFERENCES))
-        ,new userAct( 17, 0, "Quit QD")
+        ,new userAct( 17, 2, "Quit QD")
         ,new userAct( 18, 0, SR.get(SR.MS_LOGOFF))
         ,new userAct( 19, 0, SR.get(SR.MS_AUTOLOGIN))
         ,new userAct( 19, 0, SR.get(SR.MS_DO_AUTOJOIN))
@@ -193,9 +193,9 @@ public class UserActions {
                 cf.saveToStorage();
                 break;
 //#ifdef XML_CONSOLE
-             case 15:
-                 new XMLConsole().show();
-                 break;
+//#              case 15:
+//#                  new XMLConsole().show();
+//#                  break;
 //#endif
             case 16: // Leave MUCs
                 sd.roster.leaveAllMUCs();

@@ -27,6 +27,8 @@
 //#ifdef AUTOTASK
 package autotask;
 
+import java.util.Vector;
+
 /* * * * * * * * *
  * @author Mars  *
  * * * * * * * * */
@@ -37,8 +39,21 @@ public class AutoTask implements Runnable{
     private static final int SLEEPTIME= 5000;
     private static boolean flag= false;
 
+    //public static Vector taskList;
+
+    private static AutoTask instance;
+
     public AutoTask(){
         //super( null);
+    }
+
+    public static AutoTask getInstance(){
+	if (instance==null) {
+	    instance=new AutoTask();
+            //cf=Config.getInstance();
+            //instance.initCommands();
+	}
+	return instance;
     }
 
     public void startTask(){

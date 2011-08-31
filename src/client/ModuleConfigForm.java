@@ -46,11 +46,15 @@ import ui.controls.form.SpacerItem;
 import ui.controls.form.TrackItem;
 import ui.controls.form.LinkString;
 import util.StringLoader;
+import ui.IconTextElement;
 import xmpp.EntityCaps;
 import ui.controls.form.ColorThemeSelector;
 import colors.ColorTheme;
 //#ifdef COLOR_TUNE
 import colors.ColorList;
+import images.ActionsIcons;
+import images.MenuIcons;
+import images.RosterIcons;
 //#endif
 
 public class ModuleConfigForm extends DefForm {
@@ -189,17 +193,17 @@ public class ModuleConfigForm extends DefForm {
 
         if(type == PluginBox.CONTACTS) {
             subscr = new DropChoiceBox(SR.get(SR.MS_AUTH_NEW));
-            subscr.append(SR.get(SR.MS_SUBSCR_AUTO));
-            subscr.append(SR.get(SR.MS_SUBSCR_ASK));
-            subscr.append(SR.get(SR.MS_SUBSCR_DROP));
-            subscr.append(SR.get(SR.MS_SUBSCR_REJECT));
+            subscr.append(new IconTextElement(SR.get(SR.MS_SUBSCR_AUTO), ActionsIcons.getInstance(), ActionsIcons.ICON_SUBSCR));
+            subscr.append(new IconTextElement(SR.get(SR.MS_SUBSCR_ASK), ActionsIcons.getInstance(), ActionsIcons.ICON_RENAME));
+            subscr.append(new IconTextElement(SR.get(SR.MS_SUBSCR_DROP), ActionsIcons.getInstance(), ActionsIcons.ICON_DELETE));
+            subscr.append(new IconTextElement(SR.get(SR.MS_SUBSCR_REJECT), ActionsIcons.getInstance(), ActionsIcons.ICON_DELETE));
             subscr.setSelectedIndex(config.autoSubscribe);
             addControl(subscr);
 
             nil = new DropChoiceBox(SR.get(SR.MS_NOT_IN_LIST));
-            nil.append(SR.get(SR.MS_NIL_DROP_MP));
-            nil.append(SR.get(SR.MS_NIL_DROP_P));
-            nil.append(SR.get(SR.MS_NIL_ALLOW_ALL));
+            nil.append(new IconTextElement(SR.get(SR.MS_NIL_DROP_MP), ActionsIcons.getInstance(), ActionsIcons.ICON_DELETE));
+            nil.append(new IconTextElement(SR.get(SR.MS_NIL_DROP_P), RosterIcons.getInstance(), RosterIcons.ICON_MESSAGE_INDEX));
+            nil.append(new IconTextElement(SR.get(SR.MS_NIL_ALLOW_ALL), MenuIcons.getInstance(), MenuIcons.ICON_STATUS));
             nil.setSelectedIndex(config.notInListDropLevel);
             addControl(nil);
 
@@ -245,8 +249,8 @@ public class ModuleConfigForm extends DefForm {
             addControl(autoFocus);
         } else if (type == PluginBox.CHATS) {
             msgEditType = new DropChoiceBox(SR.get(SR.MS_MSG_EDIT_TYPE));
-            msgEditType.append(SR.get(SR.MS_MES_EDIT_OLD));
-            msgEditType.append(SR.get(SR.MS_MES_EDIT_ALT));
+            msgEditType.append(new IconTextElement(SR.get(SR.MS_MES_EDIT_OLD), ActionsIcons.getInstance(), ActionsIcons.ICON_RENAME));
+            msgEditType.append(new IconTextElement(SR.get(SR.MS_MES_EDIT_ALT), ActionsIcons.getInstance(), ActionsIcons.ICON_RENAME));
             msgEditType.setSelectedIndex(config.msgEditType);
             addControl(msgEditType);
 
@@ -260,8 +264,8 @@ public class ModuleConfigForm extends DefForm {
             addControl(new SpacerItem(3));
 
             textWrap = new DropChoiceBox(SR.get(SR.MS_TEXTWRAP));
-            textWrap.append(SR.get(SR.MS_TEXTWRAP_CHARACTER));
-            textWrap.append(SR.get(SR.MS_TEXTWRAP_WORD));
+            textWrap.append(new IconTextElement(SR.get(SR.MS_TEXTWRAP_CHARACTER), ActionsIcons.getInstance(), ActionsIcons.ICON_CONSOLE));
+            textWrap.append(new IconTextElement(SR.get(SR.MS_TEXTWRAP_WORD), ActionsIcons.getInstance(), ActionsIcons.ICON_CONSOLE));
 	    textWrap.setSelectedIndex(config.textWrap);
             addControl(textWrap);
 
@@ -272,7 +276,7 @@ public class ModuleConfigForm extends DefForm {
                 addControl(messageLimit);
             }
 
-            msglistLimit = new NumberInput(SR.get(SR.MS_MESSAGE_COUNT_LIMIT),config.msglistLimit, 10, 1000);
+            msglistLimit = new NumberInput(SR.get(SR.MS_MESSAGE_COUNT_LIMIT),config.msglistLimit, 5, 100000);
             addControl(msglistLimit);
 
             addControl(new SpacerItem(3));
@@ -451,21 +455,21 @@ public class ModuleConfigForm extends DefForm {
             addControl(gradientBarLight2);
 
             graphicsMenuPosition = new DropChoiceBox(SR.get(SR.MS_GRAPHICSMENU_POS));
-            graphicsMenuPosition.append(SR.get(SR.MS_GRMENU_CENTER));
-            graphicsMenuPosition.append(SR.get(SR.MS_GRMENU_LEFT));
-            graphicsMenuPosition.append(SR.get(SR.MS_GRMENU_RIGHT));
+            graphicsMenuPosition.append(new IconTextElement(SR.get(SR.MS_GRMENU_CENTER), RosterIcons.getInstance(), RosterIcons.ICON_ARROW_RIGHTLEFT));
+            graphicsMenuPosition.append(new IconTextElement(SR.get(SR.MS_GRMENU_LEFT), RosterIcons.getInstance(), RosterIcons.ICON_ARROW_LEFT));
+            graphicsMenuPosition.append(new IconTextElement(SR.get(SR.MS_GRMENU_RIGHT), RosterIcons.getInstance(), RosterIcons.ICON_ARROW_RIGHT));
             graphicsMenuPosition.setSelectedIndex(config.graphicsMenuPosition);
             addControl(graphicsMenuPosition);
 
 //#ifdef BACK_IMAGE
             addControl(new SpacerItem(3));
             backImgType = new DropChoiceBox(SR.get(SR.MS_TYPE_BACKGROUND));
-            backImgType.append(SR.get(SR.MS_BGND_NONE));
-            backImgType.append(SR.get(SR.MS_BGND_IMAGE));
-            backImgType.append(SR.get(SR.MS_BGND_GRADIENT));
-            backImgType.append(SR.get(SR.MS_MY_BGND_IMAGE));
+            backImgType.append(new IconTextElement(SR.get(SR.MS_BGND_NONE), ActionsIcons.getInstance(), ActionsIcons.ICON_SEND_COLORS));
+            backImgType.append(new IconTextElement(SR.get(SR.MS_BGND_IMAGE), ActionsIcons.getInstance(), ActionsIcons.ICON_VCARD));
+            backImgType.append(new IconTextElement(SR.get(SR.MS_BGND_GRADIENT), ActionsIcons.getInstance(), ActionsIcons.ICON_SEND_COLORS));
+            backImgType.append(new IconTextElement(SR.get(SR.MS_MY_BGND_IMAGE), ActionsIcons.getInstance(), ActionsIcons.ICON_VCARD));
 //#ifdef FILE_IO
-            backImgType.append(SR.get(SR.MS_BGND_FROM_FS));
+            backImgType.append(new IconTextElement(SR.get(SR.MS_BGND_FROM_FS), ActionsIcons.getInstance(), ActionsIcons.ICON_SEND_FILE));
             backImgType.setSelectedIndex(Config.backImgType);
 //#endif
             addControl(backImgType);
@@ -567,7 +571,7 @@ public class ModuleConfigForm extends DefForm {
                for (int i = 0; i < langs[0].size(); ++i) {
                    String label = (String)langs[2].elementAt(i);
                    String langCode = (String)langs[0].elementAt(i);
-                   langFiles.append(label);
+                   langFiles.append(new IconTextElement(label, ActionsIcons.getInstance(), ActionsIcons.ICON_INFO));
                    if (tempLang.equals(langCode))
                        langFiles.setSelectedIndex(i);
                }
@@ -578,9 +582,9 @@ public class ModuleConfigForm extends DefForm {
 //#ifdef AUTOSTATUS
         } else if (type == PluginBox.AUTOSTATUS) {
             autoAwayType = new DropChoiceBox(SR.get(SR.MS_AWAY_TYPE));
-            autoAwayType.append(SR.get(SR.MS_AWAY_LOCK));
-            autoAwayType.append(SR.get(SR.MS_MESSAGE_LOCK));
-            autoAwayType.append(SR.get(SR.MS_IDLE));
+            autoAwayType.append(new IconTextElement(SR.get(SR.MS_AWAY_LOCK), RosterIcons.getInstance(), RosterIcons.ICON_KEYBLOCK_INDEX));
+            autoAwayType.append(new IconTextElement(SR.get(SR.MS_MESSAGE_LOCK), RosterIcons.getInstance(), RosterIcons.ICON_MESSAGE_INDEX));
+            autoAwayType.append(new IconTextElement(SR.get(SR.MS_IDLE), ActionsIcons.getInstance(), ActionsIcons.ICON_IDLE));
             autoAwayType.setSelectedIndex(config.autoAwayType);
             addControl(autoAwayType);
 

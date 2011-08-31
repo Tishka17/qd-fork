@@ -72,12 +72,12 @@ public final class ContactEdit extends DefForm {
 
         tTranspList = new DropChoiceBox(SR.get(SR.MS_TRANSPORT));
         // Transport droplist
-        tTranspList.append(BombusQD.sd.account.getServer());
+        tTranspList.append(new Contact(BombusQD.sd.account.getServer(), BombusQD.sd.account.getServer(), 0, "both"));
         for (Enumeration e = BombusQD.sd.roster.getHContacts().elements(); e.hasMoreElements();) {
             Contact ct = (Contact)e.nextElement();
             Jid transpJid = ct.jid;
             if (transpJid.isTransport()) {
-                tTranspList.append(transpJid.getBareJid());
+                tTranspList.append(ct);
             }
         }
         tTranspList.append(SR.get(SR.MS_OTHER));

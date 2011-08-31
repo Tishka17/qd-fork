@@ -25,7 +25,9 @@ package ui.controls.form;
 
 import colors.ColorTheme;
 import java.util.Vector;
+import ui.IconTextElement;
 import ui.VirtualCanvas;
+import images.ActionsIcons;
 
 public class ColorThemeSelector extends DropChoiceBox {
     private Vector paths;
@@ -38,7 +40,7 @@ public class ColorThemeSelector extends DropChoiceBox {
 
     public void append(String name, String path) {
         paths.addElement(path);
-        super.append(name);
+        super.append(new IconTextElement(name, ActionsIcons.getInstance(), ActionsIcons.ICON_SEND_COLORS));
     }
 
     public void setSelectedIndex(int index) {

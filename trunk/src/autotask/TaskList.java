@@ -25,8 +25,6 @@
 
 package autotask;
 
-import java.util.Vector;
-
 import io.NvStorage;
 import java.io.DataOutputStream;
 import java.util.Vector;
@@ -62,8 +60,17 @@ public class TaskList extends VirtualList implements MenuListener {
 
         setMainBarItem(new MainBar("Планировщик"));
 
-        //commandsList=UserKeyExec.getInstance().commandsList;
         if( taskList ==null) taskList= new Vector(0);
+        int index=0;
+        TaskElement te= null;
+        do {
+            te=TaskElement.createFromStorage(index);
+            if (te!=null) {
+                taskList.addElement( te);
+                index++;
+             }
+        } while (te!=null);
+
     }
 
     void commandState(){
@@ -87,7 +94,7 @@ public class TaskList extends VirtualList implements MenuListener {
 
     public void commandAction(Command c){
         if (c==cmdSave) {
-            //rmsUpdate();
+            rmsUpdate();
             destroyView();
         }
         if (c==cmdEdit)
@@ -132,32 +139,4 @@ public class TaskList extends VirtualList implements MenuListener {
         }// for ti
         return hasWaitingTasks;
     }// checkTasks()
-
 }
-
-/*public class TaskList{
-
-    //public static Vector taskList= new Vector(0);
-
-    public static Vector TaskList(){
-        if( taskList.size() ==0){
-            taskList.addElement( new TaskElement());
-        }
-        return taskList;
-    }// TaskList()
-
-    public static void CreateTask( int taskIndex){
-        if( taskIndex >=0)
-            taskList.insertElementAt( new TaskElement(), taskIndex);
-            //taskList.addElement(new TaskElement());
-    }
-
-    public static void DeleteTask( int taskIndex){
-        if( taskList.size() <2)
-            return;
-        taskList.removeElementAt( taskIndex);
-        //taskList.removeElementAt( taskList.indexOf( taskList.lastElement()));
-    }
-
-}
-*/

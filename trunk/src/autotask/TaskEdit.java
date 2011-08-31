@@ -20,7 +20,6 @@ import images.MenuIcons;
 import images.ActionsIcons;
 import images.RosterIcons;
 import javax.microedition.lcdui.TextField;
-//import autotask.TaskList;
 
 /**
  *
@@ -37,7 +36,7 @@ public class TaskEdit extends DefForm {
     private SimpleString atNotifyDesc;
 
     private NumberInput atDelay;
-    private NumberInput atNotify;
+    private NumberInput atNotifyD;
     private NumberInput atMin;
     private NumberInput atHour;
     private TextInput atText;
@@ -62,7 +61,6 @@ public class TaskEdit extends DefForm {
         this.tl= tl;
 
 	this.te = te;
-        //UserKeyExec.stopExecute( );
 
 	newKey= ( te ==null);
 	if (newKey) te=new TaskElement();
@@ -97,15 +95,9 @@ public class TaskEdit extends DefForm {
         atHour=new NumberInput(SR.get(SR.MS_AUTOTASK_HOUR), te.Hour(), 0, 23);
         atMin=new NumberInput(SR.get(SR.MS_AUTOTASK_MIN), te.Minute(), 0, 59);
         atDelay=new NumberInput(SR.get(SR.MS_AUTOTASK_DELAY), te.Timer(), 1, 600);
-        atNotify=new NumberInput( "Упреждение (мин)", te.NotifyDelay(), 1, 15);
+        atNotifyD=new NumberInput( "Упреждение (мин)", te.NotifyD(), 1, 15);
 
         atText=new TextInput( "Напомнить: текст", te.Text(), TextField.ANY);
-
-        //itemsList.addElement( atType);
-        //itemsList.addElement( atAction);
-        //itemsList.addElement(keyCode);
-
-        //moveCursorTo(getNextSelectableRef(-1));
     }
 
     public void cmdOk() {
@@ -114,15 +106,11 @@ public class TaskEdit extends DefForm {
             te.Notify( atVbox.getValue(), atLbox.getValue(), atSbox.getValue());
             te.Hour = atHour.getIntValue();
             te.Minute = atMin.getIntValue();
-            //te.NotifyL = inputStream.readBoolean();
-            //te.NotifyS = inputStream.readBoolean();
-            //te.NotifyV = inputStream.readBoolean();
-            te.NotifyDelay = atNotify.getIntValue();
+            te.NotifyD = atNotifyD.getIntValue();
             te.Name = atName.getValue();
             te.Text = atText.getValue();
             te.Once = atOnce.getValue();
-            //te.StartMS = inputStream.readLong();
-            //te.WaitMS = inputStream.readLong();
+            te.setTimer( atDelay.getIntValue());
 
         if (newKey) {
             tl.taskList.addElement( te);
@@ -152,14 +140,13 @@ public class TaskEdit extends DefForm {
         switch( atType.getSelectedIndex()){
             case TaskElement.TASK_TYPE_TIME:
                 itemsList.addElement( atOnce);
-                //itemsList.addElement(actionType);
                 if( atAction.getSelectedIndex() !=TaskElement.TASK_ACTION_REMINDER){
                     itemsList.addElement( atNbox);
                     if( atNbox.getValue()){
                         itemsList.addElement( atVbox);
                         itemsList.addElement( atLbox);
                         itemsList.addElement( atSbox);
-                        itemsList.addElement( atNotify);
+                        itemsList.addElement( atNotifyD);
                     }// if
                 }
                 itemsList.addElement( atTimeDesc);
@@ -170,14 +157,13 @@ public class TaskEdit extends DefForm {
             break;
             case TaskElement.TASK_TYPE_TIMER:
                 itemsList.addElement( atOnce);
-                //itemsList.addElement( atType);
                 if( atAction.getSelectedIndex() !=TaskElement.TASK_ACTION_REMINDER){
                     itemsList.addElement( atNbox);
                     if( atNbox.getValue()){
                         itemsList.addElement( atVbox);
                         itemsList.addElement( atLbox);
                         itemsList.addElement( atSbox);
-                        itemsList.addElement(atNotify);
+                        itemsList.addElement( atNotifyD);
                     }// if
                 }
                 itemsList.addElement(atDelay);

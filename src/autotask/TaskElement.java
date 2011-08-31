@@ -83,7 +83,7 @@ public class TaskElement extends IconTextElement {
     public long WaitMS = 0;
     public int Hour = 0;
     public int Minute = 0;
-    public int NotifyDelay = 0;
+    public int NotifyD = 0;
     public boolean Once = true;
     public boolean isRunned = false;
     public String Name= "Имя по умолчанию";
@@ -134,7 +134,7 @@ public class TaskElement extends IconTextElement {
             //te.NotifyL = inputStream.readBoolean();
             //te.NotifyS = inputStream.readBoolean();
             //te.NotifyV = inputStream.readBoolean();
-            te.NotifyDelay = inputStream.readInt();
+            te.NotifyD = inputStream.readInt();
             te.StartMS = inputStream.readLong();
             te.WaitMS = inputStream.readLong();
         } catch (IOException e) { /*e.printStackTrace();*/ }
@@ -155,18 +155,18 @@ public class TaskElement extends IconTextElement {
             //te.NotifyL = outputStream.writeBoolean();
             //te.NotifyS = outputStream.writeBoolean();
             //te.NotifyV = outputStream.writeBoolean();
-            outputStream.writeInt( NotifyDelay);
+            outputStream.writeInt( NotifyD);
             outputStream.writeLong( StartMS);
             outputStream.writeLong( WaitMS);
         } catch (IOException e) { }
     }
 
-    public int NotifyDelay( ){
-        return NotifyDelay;
+    public int NotifyD( ){
+        return NotifyD;
     }
 
-    public void NotifyDelay( int narg){
-        NotifyDelay= narg;
+    public void NotifyD( int narg){
+        NotifyD= narg;
     }
 
     public int Type( ){
@@ -281,7 +281,7 @@ public class TaskElement extends IconTextElement {
                 return false;
                 //break;
             case TASK_TYPE_TIMER:
-                if( (System.currentTimeMillis() -StartMS) >(WaitMS -60000*NotifyDelay)){
+                if( (System.currentTimeMillis() -StartMS) >(WaitMS -60000*NotifyD)){
                     doNotify();
                 }
                 if( (System.currentTimeMillis() -StartMS) >WaitMS){
@@ -292,7 +292,7 @@ public class TaskElement extends IconTextElement {
                 }// if
                 break;
             case TASK_TYPE_TIME:
-                if( (Time.getHour()*60 +Time.getMin()) ==(Hour*60 +Minute -NotifyDelay)){
+                if( (Time.getHour()*60 +Time.getMin()) ==(Hour*60 +Minute -NotifyD)){
                     doNotify();
                 }
                 if( Time.getHour() ==Hour && Time.getMin() ==Minute){

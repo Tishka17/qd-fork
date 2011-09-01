@@ -50,8 +50,6 @@ public class AutoTask implements Runnable{
     public static AutoTask getInstance(){
 	if (instance==null) {
 	    instance=new AutoTask();
-            //cf=Config.getInstance();
-            //instance.initCommands();
 	}
 	return instance;
     }

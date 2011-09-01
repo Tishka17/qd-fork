@@ -50,7 +50,7 @@ public class UserKeyEdit extends DefForm {
 
     UserKey u;
 
-    Vector actList;
+    //Vector actList;
     
     boolean newKey;
 
@@ -66,12 +66,7 @@ public class UserKeyEdit extends DefForm {
 	this.u=u;
      
         keyDesc=new DropChoiceBox(SR.get(SR.MS_KEYS_ACTION));
-        actList= null;
-        actList= UserActions.getActionsList( 1);
-
-        for (int i=0; i <actList.size(); i++) {
-            keyDesc.append( actList.elementAt( i));
-        }
+            keyDesc.items= UserActions.getActionsList( UserActions.UA_KEYS);
         keyDesc.setSelectedIndex(u.commandId);
 
         multiKey= new CheckBox("is multikey", u.mKey);

@@ -40,8 +40,8 @@ import util.StringLoader;
 public class RosterIcons extends ImageList {
     private final static String ROSTER_ICONS_PATH = "/images/skin.png";
 
-    private final static int ICONS_IN_ROW = 8;
-    private final static int ICONS_IN_COL = 6;
+    private final static int ICONS_IN_ROW = 8; // 0x0X ???
+    private final static int ICONS_IN_COL = 6; // 0xX0 ???
 
     private Hashtable transports;
     private Vector transpSkins;
@@ -104,11 +104,20 @@ public class RosterIcons extends ImageList {
     public static final byte ICON_EXPANDED_INDEX = 0x23;
     public static final byte ICON_COLLAPSED_INDEX = 0x24;
     public static final byte ICON_MESSAGE_BUTTONS = 0x25;
+    public static final byte ICON_ARROW_RIGHTLEFT = 0x25;
+    public static final byte ICON_ARROW_RIGHT = 0x26;
+    public static final byte ICON_ARROW_LEFT = 0x27;
+
     public static final byte ICON_PROFILE_INDEX = 0x30;/*30..34*/
     public static final byte ICON_DELIVERED_INDEX = 0x35;
-    public static final byte ICON_PRIVACY_ALLOW = 0x36;
     public static final byte ICON_APPEARING_INDEX = 0x36;
+
+    public static final byte ICON_PRIVACY_ALLOW = 0x36;
     public static final byte ICON_PRIVACY_BLOCK = 0x37;
+    
+    public static final byte ICON_PLUGINBOX_CHECKED = 0x36;
+    public static final byte ICON_PLUGINBOX_UNCHECKED = 0x37;
+
     public static final byte ICON_GROUPCHAT_INDEX = 0x40;
     public static final byte ICON_GCJOIN_INDEX = 0x41;   
     public static final byte ICON_GCCOLLAPSED_INDEX = 0x42;
@@ -118,13 +127,6 @@ public class RosterIcons extends ImageList {
     public static final byte ICON_PRIVACY_PASSIVE = 0x47;
     public static final byte ICON_MODERATOR_INDEX = 0x50;
 
-    public static final byte ICON_PLUGINBOX_CHECKED = 0x36;
-    public static final byte ICON_PLUGINBOX_UNCHECKED = 0x37;
-
     public static final byte ICON_CHOICEBOX_UNCHECKED = 0x56;
     public static final byte ICON_CHOICEBOX_CHECKED = 0x57;
-
-    public static final byte ICON_ARROW_RIGHTLEFT = 0x25;
-    public static final byte ICON_ARROW_RIGHT = 0x26;
-    public static final byte ICON_ARROW_LEFT = 0x27;
 }

@@ -105,7 +105,7 @@ public class UserKeyExec {
             return false;
         if (waitCode==key && waitLong==isLong) {
             //commandExecute( waitCmd);
-            UserActions.doActionByExtIndex( 1, waitCmd);
+            UserActions.doActionByExtIndex( UserActions.UA_KEYS, waitCmd, null);
             // обработали клавишу, прекратить ее
             // дапьнейшее продвижение в VirtualCanvas
             return true;
@@ -121,7 +121,7 @@ public class UserKeyExec {
                     return true;
                 }
                 //commandExecute(userKeyItem.commandId);
-                UserActions.doActionByExtIndex( 1, userKeyItem.commandId);
+                UserActions.doActionByExtIndex( UserActions.UA_KEYS, userKeyItem.commandId, null);
                 // обработали клавишу, прекратить ее
                 // дапьнейшее продвижение в VirtualCanvas
                 return true;

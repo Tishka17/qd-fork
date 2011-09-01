@@ -50,7 +50,7 @@ public class TaskEdit extends DefForm {
 
     TaskElement te;
 
-    Vector actList;
+    //Vector actList;
 
     boolean newKey;
 
@@ -75,12 +75,7 @@ public class TaskEdit extends DefForm {
         atType.setSelectedIndex( te.Type);
 
         atAction= new DropChoiceBox( "Действие");
-        actList= null;
-        actList= UserActions.getActionsList( 2);
-
-        for (int i=0; i <actList.size(); i++) {
-            atAction.append( actList.elementAt( i));
-        }
+            atAction.items= UserActions.getActionsList( UserActions.UA_TASKS);
         atAction.setSelectedIndex( te.Action);
 
         atOnce= new CheckBox("Выполнить однажды", te.Once);
@@ -122,7 +117,7 @@ public class TaskEdit extends DefForm {
     }
 
     public void destroyView() {
-        //UserKeyExec.startExecute();
+        AutoTask.getInstance().startTask();
         super.destroyView();
     }
 

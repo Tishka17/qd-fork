@@ -37,11 +37,6 @@ import ui.VirtualCanvas;
 import locale.SR;
 import midlet.BombusQD;
 import util.Time;
-import ui.controls.AlertBox;
-import client.Roster;
-//#ifdef LIGHT_CONTROL
-import light.CustomLight;
-//#endif
 
 /**
  *
@@ -67,11 +62,9 @@ public class TaskElement extends IconTextElement {
     public final static int TASK_ACTION_CONFERENCE_JOIN = 5;
     public final static int TASK_ACTION_REMINDER = 6;
 
-    public final static int TASK_NOTIFY_OFF = 0;
-    public final static int TASK_NOTIFY_ON = 1;
     public final static int TASK_NOTIFY_VIBRO = 1;
     public final static int TASK_NOTIFY_LIGHT = 2;
-    public final static int TASK_NOTIFY_SOUND = 3;
+    public final static int TASK_NOTIFY_SOUND = 4;
 
     public int Type= TASK_TYPE_DISABLED;
     public int Action = TASK_ACTION_QUIT;
@@ -101,7 +94,6 @@ public class TaskElement extends IconTextElement {
     }
 
     public String toString(){
-        //StringBuffer s=new StringBuffer();
         return Name;
     }
 
@@ -131,15 +123,13 @@ public class TaskElement extends IconTextElement {
             te.Notify = inputStream.readInt();
             te.Hour = inputStream.readInt();
             te.Minute = inputStream.readInt();
-            //te.NotifyL = inputStream.readBoolean();
-            //te.NotifyS = inputStream.readBoolean();
-            //te.NotifyV = inputStream.readBoolean();
             te.NotifyD = inputStream.readInt();
             te.StartMS = inputStream.readLong();
             te.WaitMS = inputStream.readLong();
         } catch (IOException e) { /*e.printStackTrace();*/ }
 
         return te; //(te.Type ==TASK_TYPE_DISABLED)?null:te;
+        // тут что то надо починить...
     }
 
     public void saveToDataOutputStream(DataOutputStream outputStream){
@@ -152,9 +142,6 @@ public class TaskElement extends IconTextElement {
             outputStream.writeInt( Notify);
             outputStream.writeInt( Hour);
             outputStream.writeInt( Minute);
-            //te.NotifyL = outputStream.writeBoolean();
-            //te.NotifyS = outputStream.writeBoolean();
-            //te.NotifyV = outputStream.writeBoolean();
             outputStream.writeInt( NotifyD);
             outputStream.writeLong( StartMS);
             outputStream.writeLong( WaitMS);
@@ -189,27 +176,15 @@ public class TaskElement extends IconTextElement {
     }
 
     public boolean NotifyV( ){
-        return (( Notify & 1) !=0);
-    }
-
-    public void NotifyV( boolean narg){
-        //NotifyV= narg;
+        return (( Notify & TASK_NOTIFY_VIBRO) !=0);
     }
 
     public boolean NotifyL( ){
-        return (( Notify & 2) !=0);
-    }
-
-    public void NotifyL( boolean narg){
-        //NotifyL= narg;
+        return (( Notify & TASK_NOTIFY_LIGHT) !=0);
     }
 
     public boolean NotifyS( ){
-        return (( Notify & 4) !=0);
-    }
-
-    public void NotifyS( boolean narg){
-        //NotifyS= narg;
+        return (( Notify & TASK_NOTIFY_SOUND) !=0);
     }
 
     public String Name( ){
@@ -282,22 +257,22 @@ public class TaskElement extends IconTextElement {
                 //break;
             case TASK_TYPE_TIMER:
                 if( (System.currentTimeMillis() -StartMS) >(WaitMS -60000*NotifyD)){
-                    doNotify();
+                    TaskExec.doNotify( this);
                 }
                 if( (System.currentTimeMillis() -StartMS) >WaitMS){
                     StartMS= System.currentTimeMillis();
                     isRunned= false;
-                    doAction( );
+                    TaskExec.doAction( this);
                     return false;
                 }// if
                 break;
             case TASK_TYPE_TIME:
                 if( (Time.getHour()*60 +Time.getMin()) ==(Hour*60 +Minute -NotifyD)){
-                    doNotify();
+                    TaskExec.doNotify( this);
                 }
                 if( Time.getHour() ==Hour && Time.getMin() ==Minute){
                     isRunned= false;
-                    doAction( );
+                    TaskExec.doAction( this);
                     return false;
                 }// if
                 break;
@@ -309,71 +284,4 @@ public class TaskElement extends IconTextElement {
         return true;
     }// doTask()
 
-    public void doNotify( ){
-        if( !Notify())
-            return;
-//#ifdef LIGHT_CONTROL
-        if( NotifyL())
-            CustomLight.startBlinking();
-//#endif
-        if( NotifyV())
-                Roster.playNotify( Roster.SOUND_ATTENTION);
-        else if( NotifyS())
-            Roster.playNotify( Roster.SOUND_MESSAGE);
-    }// doNotify()
-
-    public void doAction( ){
-        String caption= "";
-        AlertBox box;
-        switch( Action){
-            case TASK_ACTION_QUIT:
-                caption = SR.get(SR.MS_AUTOTASK_QUIT_BOMBUSMOD);
-                box= new AlertBox(caption, Name, AlertBox.BUTTONS_OK, 5);
-                box.show();
-                BombusQD.getInstance().notifyDestroyed();
-                break;
-            case TASK_ACTION_CONFERENCE_QUIT:
-                caption = SR.get(SR.MS_AUTOTASK_QUIT_CONFERENCES);
-                box= new AlertBox(caption, Name, AlertBox.BUTTONS_OK, 5);
-                box.show();
-                BombusQD.sd.roster.leaveAllMUCs();//Tishka17
-                break;
-            case TASK_ACTION_LOGOFF:
-                caption = SR.get(SR.MS_AUTOTASK_LOGOFF);
-                box= new AlertBox(caption, Name, AlertBox.BUTTONS_OK, 5);
-                box.show();
-                BombusQD.sd.roster.logoff(SR.get(SR.MS_AUTOTASKS) + ": " + SR.get(SR.MS_LOGOFF));
-                break;
-           case TASK_ACTION_RECONNECT:
-                caption = SR.get(SR.MS_RECONNECT);
-                box= new AlertBox(caption, Name, AlertBox.BUTTONS_OK, 5);
-                box.show();
-                try{
-                    BombusQD.sd.roster.connectionTerminated(new Exception(SR.get(SR.MS_AUTOTASKS) + ": " + SR.get(SR.MS_RECONNECT)));
-                    Thread.sleep( 1000);
-                }catch( Exception e){ break;}
-                BombusQD.sd.roster.logon(SR.get(SR.MS_AUTOTASKS) + ": " + SR.get(SR.MS_AUTOLOGIN));
-                break;
-            case TASK_ACTION_LOGIN:
-                caption = SR.get(SR.MS_AUTOLOGIN);
-                box= new AlertBox(caption, Name, AlertBox.BUTTONS_OK, 5);
-                box.show();
-                BombusQD.sd.roster.logon(SR.get(SR.MS_AUTOTASKS) + ": " + SR.get(SR.MS_AUTOLOGIN));
-                break;
-            case TASK_ACTION_CONFERENCE_JOIN:
-                caption = SR.get(SR.MS_DO_AUTOJOIN);
-//                caption= SR.get(SR.MS_AUTOTASK_JOIN_CONFERENCES);
-                box= new AlertBox(caption, Name, AlertBox.BUTTONS_OK, 5);
-                box.show();
-                BombusQD.sd.roster.MUCsAutoJoin(SR.get(SR.MS_AUTOTASKS) + ": " + SR.get(SR.MS_DO_AUTOJOIN));
-                break;
-            case TASK_ACTION_REMINDER:
-                caption = SR.get(SR.MS_DO_AUTOJOIN);
-//                caption= SR.get(SR.MS_AUTOTASK_REMINDER);
-                box= new AlertBox( Name, Text, AlertBox.BUTTONS_OK, 0);
-                box.show();
-                //BombusQD.sd.roster.MUCsAutoJoin(SR.get(SR.MS_AUTOTASKS) + ": " + SR.get(SR.MS_DO_AUTOJOIN));
-                break;
-        }// switch
-    }// doAction()
 }

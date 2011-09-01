@@ -29,24 +29,39 @@ import java.util.Vector;
 import locale.SR;
 import midlet.BombusQD;
 import ui.VirtualList;
-
+import images.ImageList;
+import ui.IconTextElement;
+import images.MenuIcons;
+import images.ActionsIcons;
+import images.RosterIcons;
+import ui.controls.AlertBox;
 /**
  *
  * @author Mars
  */
 
 public class UserActions {
+    public static final int UA_ALL= -1;
+    public static final int UA_KEYS= 1;
+    public static final int UA_TASKS= 2;
 
     public static class userAct {
         int id; // Номер действия в кейсе actionExecute
-        int type; // флаг, определяющий, где может
-            // использоваться действие:
-            // 0 - везде, 1 - только в хоткеях,
-            // 2 - только в планировщике
-        String text; // Название действия
+        int type; // битовый флаг, определяющий,
+            // где может использоваться действие:
+            // UA_ALL - везде, UA_KEYS - только в хоткеях,
+            // UA_TASKS - только в планировщике
+        //String text; // Название действия
+        IconTextElement item; // Иконка действия
+        // (бред, но не знаю как это иначе назвать)
+
+        public userAct( int id, int type, String text, ImageList ilist, int index) {
+            this.id= id; this.type= type;
+            this.item= new IconTextElement(  text, ilist, index);
+        }
 
         public userAct( int id, int type, String text) {
-            this.id= id; this.text= text; this.type= type;
+            this( id, type, text, RosterIcons.getInstance(), RosterIcons.ICON_TRANSPARENT);
         }
     }
 
@@ -67,28 +82,29 @@ public class UserActions {
         actList= new Vector(0);
 
         for( int i=0; i <allActs.length; i++){
-            if( allActs[i].type ==0
-            || allActs[i].type ==type)
-                actList.addElement( allActs[i].text);
+            if( (allActs[i].type &type) !=0)
+                actList.addElement( allActs[i].item);
         }
         return actList;
     }
 
-    public static boolean doActionByExtIndex( int type, int eInd) {
+    public static boolean doActionByExtIndex( int type, int eInd, String text) {
         // Выполняем действие по внешнему индексу
         // в зависимости от типа списка
 
         for( int i=0; i <allActs.length; i++){
-            if( allActs[i].type ==0
-            || allActs[i].type ==type)
-                if( eInd-- ==0)
+            if( (allActs[i].type &type) !=0)
+                if( eInd-- ==0){
+                    if( (type & UA_TASKS) !=0 && text != null)
+                        new AlertBox( allActs[i].item.toString(), text, AlertBox.BUTTONS_OK, 0).show();
                     return ActionExecute( allActs[i].id, type);
+                }// if
         }
         return false;
     }
 
     public static final userAct allActs[]= {
-        new userAct( 0, 0, SR.get(SR.MS_NO))
+        new userAct( 0, -1, SR.get(SR.MS_NO), RosterIcons.getInstance(), RosterIcons.ICON_TRANSPARENT)
         ,new userAct( 1, 1, SR.get(SR.MS_OPTIONS))
         ,new userAct( 2, 1, SR.get(SR.MS_CLEAN_ALL_MESSAGES))
         ,new userAct( 3, 0, SR.get(SR.MS_RECONNECT))
@@ -112,17 +128,17 @@ public class UserActions {
 //#ifdef POPUPS
         ,new userAct( 11, 1, SR.get(SR.MS_CLEAR_POPUPS))
 //#endif
-        ,new userAct( 12, 0, SR.get(SR.MS_APP_MINIMIZE))
-        ,new userAct( 13, 0, SR.get(SR.MS_INVERT))
+        ,new userAct( 12, -1, SR.get(SR.MS_APP_MINIMIZE))
+        ,new userAct( 13, -1, SR.get(SR.MS_INVERT))
         ,new userAct( 14, 1, SR.get(SR.MS_FULLSCREEN))
 //#ifdef XML_CONSOLE
 //#         ,new userAct( 15, 1, SR.get(SR.MS_XML_CONSOLE))
 //#endif
-        ,new userAct( 16, 0, SR.get(SR.MS_AUTOTASK_QUIT_CONFERENCES))
-        ,new userAct( 17, 2, "Quit QD")
-        ,new userAct( 18, 0, SR.get(SR.MS_LOGOFF))
-        ,new userAct( 19, 0, SR.get(SR.MS_AUTOLOGIN))
-        ,new userAct( 19, 0, SR.get(SR.MS_DO_AUTOJOIN))
+        ,new userAct( 16, -1, SR.get(SR.MS_AUTOTASK_QUIT_CONFERENCES))
+        ,new userAct( 17, UA_TASKS, "Quit QD")
+        ,new userAct( 18, -1, SR.get(SR.MS_LOGOFF))
+        ,new userAct( 19, -1, SR.get(SR.MS_AUTOLOGIN))
+        ,new userAct( 19, -1, SR.get(SR.MS_DO_AUTOJOIN))
     };
 
     private static boolean ActionExecute(int actId, int type) {

@@ -60,17 +60,13 @@ public class TaskList extends VirtualList implements MenuListener {
 
         setMainBarItem(new MainBar("Планировщик"));
 
-        if( taskList ==null) taskList= new Vector(0);
-        int index=0;
-        TaskElement te= null;
-        do {
-            te=TaskElement.createFromStorage(index);
-            if (te!=null) {
+        if( taskList ==null){
+            taskList= new Vector(0);
+            int index=0;
+            TaskElement te;
+            while( (te=TaskElement.createFromStorage( index++)) !=null) 
                 taskList.addElement( te);
-                index++;
-             }
-        } while (te!=null);
-
+        }// if
     }
 
     void commandState(){
@@ -97,9 +93,12 @@ public class TaskList extends VirtualList implements MenuListener {
             rmsUpdate();
             destroyView();
         }
+        //TaskElement te= (TaskElement)getFocusedObject();
         if (c==cmdEdit)
-            new TaskEdit(this, (TaskElement)getFocusedObject()).show();
+            //if( te == null) taskList.addElement( new TaskElement());
+            new TaskEdit( this, (TaskElement)getFocusedObject()).show();
         if (c==cmdAdd)
+            //if( te == null) taskList.addElement( new TaskElement());
             new TaskEdit(this, null).show();
         if (c==cmdDel) {
             taskList.removeElement(getFocusedObject());

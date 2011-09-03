@@ -27,7 +27,8 @@ import javax.microedition.lcdui.TextField;
  */
 
 public class TaskEdit extends DefForm {
-    private final TaskList tl;
+    TaskList tl;
+    TaskElement te;
 
     private DropChoiceBox atType;
     private DropChoiceBox atAction;
@@ -46,24 +47,18 @@ public class TaskEdit extends DefForm {
     private CheckBox atVbox;
     private CheckBox atLbox;
     private CheckBox atSbox;
-    private boolean notifyFlag;
 
-    TaskElement te;
-
-    //Vector actList;
-
-    boolean newKey;
+    boolean newTask;
 
     public TaskEdit(TaskList tl, TaskElement te) {
 
         super((te==null)?"Add new task":(te.toString()));
 
         this.tl= tl;
+        //this.te = te;
 
-	this.te = te;
-
-	newKey= ( te ==null);
-	if (newKey) te=new TaskElement();
+	newTask= ( te ==null);
+	if( newTask) te=new TaskElement();
 	this.te= te;
 
         atName= new TextInput( "Имя задачи", te.Name(), TextField.ANY);
@@ -107,8 +102,8 @@ public class TaskEdit extends DefForm {
             te.Once = atOnce.getValue();
             te.setTimer( atDelay.getIntValue());
 
-        if (newKey) {
-            tl.taskList.addElement( te);
+        if (newTask) {
+            TaskList.taskList.addElement( te);
         }
 
         tl.rmsUpdate();

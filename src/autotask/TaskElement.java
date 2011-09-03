@@ -47,12 +47,10 @@ public class TaskElement extends IconTextElement {
 
     public final static String storage="atask_db";
 
+    //public final static int TASK_MARK_NEWTASK = -1;
     public final static int TASK_TYPE_DISABLED = 0;
     public final static int TASK_TYPE_TIME = 1;
     public final static int TASK_TYPE_TIMER = 2;
-    public final static int TASK_TYPE_CREATE = 3;
-    public final static int TASK_TYPE_DELETE = 4;
-    public final static int TASK_TYPE_RENAME = 5;
 
     public final static int TASK_ACTION_QUIT = 0;
     public final static int TASK_ACTION_CONFERENCE_QUIT = 1;
@@ -126,10 +124,11 @@ public class TaskElement extends IconTextElement {
             te.NotifyD = inputStream.readInt();
             te.StartMS = inputStream.readLong();
             te.WaitMS = inputStream.readLong();
-        } catch (IOException e) { /*e.printStackTrace();*/ }
-
+        } catch (IOException e) {
+            /*e.printStackTrace();*/
+            te= null;
+        }
         return te; //(te.Type ==TASK_TYPE_DISABLED)?null:te;
-        // тут что то надо починить...
     }
 
     public void saveToDataOutputStream(DataOutputStream outputStream){

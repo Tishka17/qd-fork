@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
+//#ifdef AUTOTASK
 package autotask;
 
 import ui.keys.UserActions;
@@ -29,9 +29,12 @@ public class TaskExec {
             CustomLight.startBlinking();
 //#endif
         if( te.NotifyV())
-            Roster.playNotify( Roster.SOUND_ATTENTION);
+            ;
+            //Roster.playNotify( Roster.SOUND_ATTENTION);
         else if( te.NotifyS())
-            Roster.playNotify( Roster.SOUND_MESSAGE);
+            ;
+            //Roster.playNotify( Roster.SOUND_MESSAGE);
+            // уведомления получаются бесконечные....
     }// doNotify()
 
     public static void doAction( TaskElement te){
@@ -39,3 +42,4 @@ public class TaskExec {
     }// doAction()
 
 }
+//#endif

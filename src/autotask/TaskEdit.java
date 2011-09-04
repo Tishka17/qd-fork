@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
+//#ifdef AUTOTASK
 package autotask;
 
 import locale.SR;
@@ -70,7 +70,11 @@ public class TaskEdit extends DefForm {
         atType.setSelectedIndex( te.Type);
 
         atAction= new DropChoiceBox( "Действие");
-            atAction.items= UserActions.getActionsList( UserActions.UA_TASKS);
+            //atAction.items= UserActions.getActionsList( UserActions.UA_TASKS);
+            // не правильно работает ???
+            Vector al= UserActions.getActionsList( UserActions.UA_TASKS);
+            for( int i=0; i <al.size(); i++)
+                atAction.append( al.elementAt( i));
         atAction.setSelectedIndex( te.Action);
 
         atOnce= new CheckBox("Выполнить однажды", te.Once);
@@ -102,6 +106,7 @@ public class TaskEdit extends DefForm {
             te.Once = atOnce.getValue();
             te.setTimer( atDelay.getIntValue());
 
+            te.isRunned= true;
         if (newTask) {
             TaskList.taskList.addElement( te);
         }
@@ -143,7 +148,8 @@ public class TaskEdit extends DefForm {
                 itemsList.addElement( atHour);
                 itemsList.addElement( atMin);
                 if( atAction.getSelectedIndex() ==TaskElement.TASK_ACTION_REMINDER)
-                    itemsList.addElement( atText);
+                    //itemsList.addElement( atText);
+                    // доделать напоминалку
             break;
             case TaskElement.TASK_TYPE_TIMER:
                 itemsList.addElement( atOnce);
@@ -158,8 +164,9 @@ public class TaskEdit extends DefForm {
                 }
                 itemsList.addElement(atDelay);
                 if( atAction.getSelectedIndex() ==TaskElement.TASK_ACTION_REMINDER)
-                    itemsList.addElement(atText);
+                    //itemsList.addElement(atText);
             break;
         }// switch
     }
 }
+//#endif

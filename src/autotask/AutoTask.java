@@ -67,6 +67,7 @@ public class AutoTask implements Runnable{
             }catch( Exception e){ 
                 break;
             }
+       flag= false;
     }// run()
 }
 //#endif

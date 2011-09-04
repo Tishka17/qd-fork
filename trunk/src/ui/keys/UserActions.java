@@ -135,10 +135,11 @@ public class UserActions {
 //#         ,new userAct( 15, 1, SR.get(SR.MS_XML_CONSOLE))
 //#endif
         ,new userAct( 16, -1, SR.get(SR.MS_AUTOTASK_QUIT_CONFERENCES))
-        ,new userAct( 17, UA_TASKS, "Quit QD")
+        ,new userAct( 17, UA_ALL, "Quit QD")
         ,new userAct( 18, -1, SR.get(SR.MS_LOGOFF))
         ,new userAct( 19, -1, SR.get(SR.MS_AUTOLOGIN))
-        ,new userAct( 19, -1, SR.get(SR.MS_DO_AUTOJOIN))
+        ,new userAct( 20, -1, SR.get(SR.MS_DO_AUTOJOIN))
+        ,new userAct( 21, UA_TASKS, "Напоминалка")
     };
 
     private static boolean ActionExecute(int actId, int type) {
@@ -226,6 +227,9 @@ public class UserActions {
                 sd.roster.logon( SR.get(SR.MS_AUTOLOGIN));
                 return true;
             case 20: //Join MUCs
+                sd.roster.MUCsAutoJoin( SR.get(SR.MS_DO_AUTOJOIN));
+                return true;
+            case 21: //Reminder
                 sd.roster.MUCsAutoJoin( SR.get(SR.MS_DO_AUTOJOIN));
                 return true;
         }

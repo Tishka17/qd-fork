@@ -23,6 +23,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+//#ifdef AUTOTASK
 package autotask;
 
 import images.RosterIcons;
@@ -47,17 +48,10 @@ public class TaskElement extends IconTextElement {
 
     public final static String storage="atask_db";
 
-    //public final static int TASK_MARK_NEWTASK = -1;
     public final static int TASK_TYPE_DISABLED = 0;
     public final static int TASK_TYPE_TIME = 1;
     public final static int TASK_TYPE_TIMER = 2;
 
-    public final static int TASK_ACTION_QUIT = 0;
-    public final static int TASK_ACTION_CONFERENCE_QUIT = 1;
-    public final static int TASK_ACTION_LOGOFF = 2;
-    public final static int TASK_ACTION_RECONNECT = 3;
-    public final static int TASK_ACTION_LOGIN = 4;
-    public final static int TASK_ACTION_CONFERENCE_JOIN = 5;
     public final static int TASK_ACTION_REMINDER = 6;
 
     public final static int TASK_NOTIFY_VIBRO = 1;
@@ -65,7 +59,7 @@ public class TaskElement extends IconTextElement {
     public final static int TASK_NOTIFY_SOUND = 4;
 
     public int Type= TASK_TYPE_DISABLED;
-    public int Action = TASK_ACTION_QUIT;
+    public int Action = 0;
     public int Notify = 0;
     //public boolean NotifyV = false;
     //public boolean NotifyL = false;
@@ -218,13 +212,15 @@ public class TaskElement extends IconTextElement {
         Once= oarg;
     }
 
-    public boolean isRunned( ){
+    /*public boolean isRunned( ){
         return isRunned;
     }
 
     public void setRunned( boolean rarg){
         isRunned= rarg;
     }
+     *
+     */
 
     public int Hour( ){
         return Hour;
@@ -282,5 +278,5 @@ public class TaskElement extends IconTextElement {
         }// if
         return true;
     }// doTask()
-
 }
+//#endif

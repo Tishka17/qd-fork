@@ -37,6 +37,7 @@ import javax.microedition.io.ContentConnection;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import ui.VirtualCanvas;
 
 /**
  *
@@ -120,7 +121,7 @@ public class ImageItem
     
     public boolean eventKeyPressed(int keyCode) {
          switch (keyCode) {
-            case VirtualList.KEY_NUM0:
+            case VirtualCanvas.KEY_NUM0:
                 try {
                     if (img.getWidth()>screenWidth) {
                         int newHeight=(img.getHeight() * (screenWidth * 100 / img.getWidth()))/100;

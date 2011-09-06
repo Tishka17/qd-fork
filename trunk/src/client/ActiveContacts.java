@@ -37,6 +37,7 @@ import midlet.BombusQD;
 import ui.GMenu;
 import ui.GMenuConfig;
 import ui.MainBar;
+import ui.VirtualCanvas;
 import ui.VirtualElement;
 import ui.VirtualList;
 
@@ -167,9 +168,9 @@ public final class ActiveContacts extends VirtualList implements MenuListener {
 //#ifdef POPUPS
         VirtualList.popup.next();
 //#endif
-        if (keyCode == KEY_NUM3) {
+        if (keyCode == VirtualCanvas.KEY_NUM3) {
             destroyView();
-        } else if (keyCode == KEY_NUM0) {
+        } else if (keyCode == VirtualCanvas.KEY_NUM0) {
             if (getItemCount() < 1) {
                 return;
             }

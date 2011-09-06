@@ -38,6 +38,7 @@ import ui.VirtualElement;
 import ui.VirtualList;
 import ui.GMenu;
 import ui.GMenuConfig;
+import ui.VirtualCanvas;
 
 /**
  *
@@ -154,7 +155,7 @@ public class TransferManager extends VirtualList implements MenuListener {
 
 //#ifdef POPUPS
     protected void keyPressed(int keyCode) {
-        if (keyCode==KEY_POUND) {
+        if (keyCode==VirtualCanvas.KEY_POUND) {
             cmdInfo();
         } else {
             super.keyPressed(keyCode);

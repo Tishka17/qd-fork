@@ -59,6 +59,7 @@ import light.CustomLight;
 //#ifdef CLIENTS_ICONS
 import images.ClientsIconsData;
 //#endif
+import ui.CanvasEx;
 import ui.VirtualCanvas;
 
 /** Entry point class
@@ -191,11 +192,18 @@ public class BombusQD extends MIDlet implements Runnable {
         return def;
     }
 
-    public static Displayable getCurrentView() {
+    public static Object getCurrentView() {
+        if (sd.canvas.isShown()) {
+            return sd.canvas.getCanvas();
+        }
         return display.getCurrent();
     }
 
-    public static void setCurrentView(Displayable d) {
-        display.setCurrent(d);
+    public static void setCurrentView(Object obj) {
+        if (obj instanceof ui.CanvasEx) {
+            sd.canvas.show((CanvasEx)obj);
+        } else if (obj instanceof Displayable) {
+            display.setCurrent((Displayable)obj);
+        }
     }
 }

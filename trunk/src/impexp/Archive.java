@@ -32,6 +32,7 @@ import client.Msg;
 import archive.MessageArchive;
 import java.util.Enumeration;
 import java.util.Vector;
+import util.StringUtils;
 import util.Time;
 
 /**
@@ -40,6 +41,8 @@ import util.Time;
  */
 
 public class Archive {
+    private static final String ARCHIVE_FILE = "archive.txt";
+
     private final static String START_ITEM = "<START_ITEM>";
     private final static String END_ITEM = "<END_ITEM>";
     private final static String START_DATE = "<START_DATE>";
@@ -133,7 +136,8 @@ public class Archive {
             body.append(END_ITEM).append("\r\n\r\n");
         }
 
-        IEUtils.writeFile(path + "archive_" + getDate() + ".txt", body.toString());
+        String fname = StringUtils.getFileName(path + ARCHIVE_FILE);
+        IEUtils.writeFile(fname, body.toString());
     }
 
     private String getDate() {

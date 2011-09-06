@@ -31,6 +31,7 @@ package impexp;
 import account.Account;
 import io.NvStorage;
 import java.io.DataOutputStream;
+import util.StringUtils;
 
 /**
  *
@@ -94,7 +95,8 @@ public class Accounts {
             }
         } while (a != null);
 
-        IEUtils.writeFile(path + ACCOUNTS_FILE, body.toString());
+        String fname = StringUtils.getFileName(path + ACCOUNTS_FILE);
+        IEUtils.writeFile(fname, body.toString());
     }
 
     private void importData(String path) {

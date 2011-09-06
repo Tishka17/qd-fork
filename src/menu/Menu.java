@@ -33,6 +33,7 @@ import images.ImageList;
 import java.util.Vector;
 import locale.SR;
 import ui.MainBar;
+import ui.VirtualCanvas;
 import ui.VirtualElement;
 import ui.VirtualList;
 
@@ -90,43 +91,43 @@ public class Menu extends VirtualList {
     public void keyPressed(int keyCode) {
         if (Config.executeByNum && getItemCount() > 0) {
             switch (keyCode) {
-                case KEY_NUM0:
+                case VirtualCanvas.KEY_NUM0:
                     executeCommand(9);
                     return;
-                case KEY_NUM1:
+                case VirtualCanvas.KEY_NUM1:
                     executeCommand(0);
                     return;
-                case KEY_NUM2:
+                case VirtualCanvas.KEY_NUM2:
                     executeCommand(1);
                     return;
-                case KEY_NUM3:
+                case VirtualCanvas.KEY_NUM3:
                     executeCommand(2);
                     return;
-                case KEY_NUM4:
+                case VirtualCanvas.KEY_NUM4:
                     executeCommand(3);
                     return;
-                case KEY_NUM5:
+                case VirtualCanvas.KEY_NUM5:
                     executeCommand(4);
                     return;
-                case KEY_NUM6:
+                case VirtualCanvas.KEY_NUM6:
                     executeCommand(5);
                     return;
-                case KEY_NUM7:
+                case VirtualCanvas.KEY_NUM7:
                     executeCommand(6);
                     return;
-                case KEY_NUM8:
+                case VirtualCanvas.KEY_NUM8:
                     executeCommand(7);
                     return;
-                case KEY_NUM9:
+                case VirtualCanvas.KEY_NUM9:
                     executeCommand(8);
                     return;
             }
         } else {
             switch (keyCode) {
-            case KEY_NUM4:
+            case VirtualCanvas.KEY_NUM4:
                 pageLeft();
                 break;
-            case KEY_NUM6:
+            case VirtualCanvas.KEY_NUM6:
                 pageRight();
                 break;
             }

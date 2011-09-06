@@ -1327,11 +1327,11 @@ public abstract class VirtualList extends CanvasEx {
             keyUp();
             break;
         case VirtualCanvas.VOLPLUS_KEY: 
-        case KEY_NUM4:
+        case VirtualCanvas.KEY_NUM4:
             pageLeft();
             break;
         case VirtualCanvas.VOLMINUS_KEY: 
-        case KEY_NUM6:
+        case VirtualCanvas.KEY_NUM6:
             pageRight();
             break;
         case VirtualCanvas.KEY_NUM7:

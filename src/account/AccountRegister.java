@@ -33,7 +33,6 @@ import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.JabberListener;
 import com.alsutton.jabber.JabberStream;
 import com.alsutton.jabber.datablocks.Iq;
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import ui.SplashScreen;
 import xmpp.XmppError;
@@ -41,12 +40,12 @@ import xmpp.XmppError;
 public class AccountRegister implements JabberListener, Runnable {
     private static final long DELAY = 1000L;
 
-    private final Displayable accountselect;
+    private final AccountSelect accountselect;
     private final Account raccount;
     private JabberStream theStream;
     private final SplashScreen splash;
 
-    public AccountRegister(Account account, Displayable accountselect) {
+    public AccountRegister(Account account, AccountSelect accountselect) {
         this.accountselect = accountselect;
         raccount = account;
 

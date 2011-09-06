@@ -47,6 +47,7 @@ import conference.affiliation.QuickPrivelegyEditForm;
 //#if SERVICE_DISCOVERY && ADHOC
 import disco.ServiceDiscovery;
 //#endif
+import history.HistoryViewer;
 import images.ActionsIcons;
 //#if FILE_IO && FILE_TRANSFER
 import io.file.transfer.TransferImage;
@@ -526,7 +527,8 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
 //#endif
 //#ifdef HISTORY
                 case MI_HISTORY: {
-                    BombusQD.sd.roster.showHistory(getParentView(), contact);
+                    //BombusQD.sd.roster.showHistory(getParentView(), contact);
+                    showForm(new HistoryViewer(contact));
                     return;
                 }
 //#endif

@@ -29,6 +29,7 @@
 package ui;
 import javax.microedition.lcdui.Graphics;
 import colors.ColorTheme;
+import midlet.BombusQD;
 
 public class Gradient {
 	public final static int VERTICAL=0;
@@ -85,8 +86,9 @@ public class Gradient {
                 if (changed) {
                     if (y1<0) 
                         y1=0;
-                    if (y2>midlet.BombusQD.getCurrentView().getHeight()+1) 
-                        y2=midlet.BombusQD.getCurrentView().getHeight();
+                    int dHeight = BombusQD.sd.canvas.getHeight();
+                    if (y2>dHeight+1)
+                        y2=dHeight;
                     changed = (points==null || 
                                 (width != (x2-x1)) ||
                                 (height != (y2-y1)) ||

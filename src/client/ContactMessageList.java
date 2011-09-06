@@ -288,7 +288,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
             return;
 //#ifdef HISTORY
         } else if (c == Commands.cmdHistory) {
-            BombusQD.sd.roster.showHistory(this, contact);
+            new history.HistoryViewer(contact).show();
 //#endif
 //#ifdef ARCHIVE
         } else if (c == Commands.cmdArch) {
@@ -491,14 +491,14 @@ public final class ContactMessageList extends MessageList implements InputTextBo
 //#endif
                 ) {
             switch (keyCode) {
-                case KEY_NUM5:
+                case VirtualCanvas.KEY_NUM5:
                     if (Config.createMessageByFive) {
                         answer();
                     } else {
                         super.eventOk();
                     }
                     break;
-                case KEY_POUND:
+                case VirtualCanvas.KEY_POUND:
                     if (Config.createMessageByFive) {
                         super.eventOk();// for message collapsing
                     } else {
@@ -506,14 +506,14 @@ public final class ContactMessageList extends MessageList implements InputTextBo
                     }
                     break;
 //#ifdef SMILES
-                case KEY_STAR:
+                case VirtualCanvas.KEY_STAR:
                     if (getItemCount() > 0) {
                         ((Msg)getFocusedObject()).toggleSmiles(this);
                         redraw();
                     }
                     break;
 //#endif
-            case KEY_NUM4:
+            case VirtualCanvas.KEY_NUM4:
                 if(midlet.BombusQD.cf.find_text) {
                     if(found_count>0) 
                         found_count--;
@@ -533,7 +533,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
                 else
                     super.pageLeft();
                 break;
-            case KEY_NUM0:
+            case VirtualCanvas.KEY_NUM0:
                 int size = midlet.BombusQD.sd.roster.contactList.contacts.size();
                 Contact c;
                 for(int i=0;i<size;i++){
@@ -544,7 +544,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
                       }
                 }
                 break;
-            case KEY_NUM6:
+            case VirtualCanvas.KEY_NUM6:
                 if(midlet.BombusQD.cf.find_text){
                     if(found_count<vectorfound.size()-1) found_count++;
                     else {
@@ -563,12 +563,12 @@ public final class ContactMessageList extends MessageList implements InputTextBo
                 else
                     super.pageRight();
                 break;
-            case KEY_NUM3:
+            case VirtualCanvas.KEY_NUM3:
                 try {
                     midlet.BombusQD.sd.roster.showActiveContacts(contact);
                 } catch (NullPointerException e){}
                 break;
-            case KEY_NUM9:
+            case VirtualCanvas.KEY_NUM9:
                 if (BombusQD.sd.roster.isLoggedIn()) {
                     quoteMessage();
                 }
@@ -591,14 +591,14 @@ public final class ContactMessageList extends MessageList implements InputTextBo
                     keyGreen();
                 }
                 return true;
-            case KEY_NUM5:
+            case VirtualCanvas.KEY_NUM5:
                 if (Config.createMessageByFive) {
                     super.eventOk();
                 } else {
                     answer();
                 }
                 return true;
-            case KEY_NUM0:
+            case VirtualCanvas.KEY_NUM0:
                 clearReadedMessageList();
                 return true;
             default:

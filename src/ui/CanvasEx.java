@@ -23,13 +23,11 @@
 
 package ui;
 
-import javax.microedition.lcdui.Canvas;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Graphics;
 import midlet.BombusQD;
 
-public abstract class CanvasEx extends Canvas {
-    private Displayable parentView;
+public abstract class CanvasEx {
+    private Object parentView;
 
     protected int width;
     protected int height;
@@ -41,40 +39,44 @@ public abstract class CanvasEx extends Canvas {
 
     public void show() {
         if (parentView == null) {
-            if (BombusQD.sd.canvas.isShown()) {
-                parentView = BombusQD.sd.canvas.getCanvas();
-            } else {
-                parentView = BombusQD.getCurrentView();
-            }
+            parentView = BombusQD.getCurrentView();
         }
         BombusQD.sd.canvas.show(this);
     }
 
     public void destroyView() {
         if (parentView != null) {
-            if (parentView instanceof CanvasEx) {
-                BombusQD.sd.canvas.show((CanvasEx)parentView);
-            } else {
-                BombusQD.setCurrentView(parentView);
-            }
+            BombusQD.setCurrentView(parentView);
         }
     }
 
-    public final Displayable getParentView() {
+    public final Object getParentView() {
         return parentView;
     }
 
-    public final void setParentView(Displayable d) {
+    public final void setParentView(Object d) {
         parentView = d;
     }
 
-    public boolean isShown() {
+    public final boolean isShown() {
         return BombusQD.sd.canvas.getCanvas() == this;
     }
 
-    public void redraw() {
+    public final void redraw() {
         if (!VirtualCanvas.isPainting || BombusQD.sd.canvas.getCanvas()!=this)
             BombusQD.sd.canvas.repaint();
+    }
+
+    public final void setTitle(String title) {
+        BombusQD.sd.canvas.setTitle(title);
+    }
+
+    public final int getHeight() {
+        return height;
+    }
+
+    public final int getWidth() {
+        return width;
     }
 
     protected abstract void paint(Graphics g);

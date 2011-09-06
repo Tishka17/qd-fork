@@ -380,16 +380,16 @@ public class GMenu extends CanvasEx {
             } else if(Config.executeByNum){
                 int itemsSize = gm.commandslist.length;
                 switch( keyCode){
-                    case KEY_NUM1: if(itemsSize > 0) {gm.itemCursorIndex=0; eventOk();} break;
-                    case KEY_NUM2: if(itemsSize > 1) {gm.itemCursorIndex=1; eventOk();} break;
-                    case KEY_NUM3: if(itemsSize > 2) {gm.itemCursorIndex=2; eventOk();} break;
-                    case KEY_NUM4: if(itemsSize > 3) {gm.itemCursorIndex=3; eventOk();} break;
-                    case KEY_NUM5: if(itemsSize > 4) {gm.itemCursorIndex=4; eventOk();} break;
-                    case KEY_NUM6: if(itemsSize > 5) {gm.itemCursorIndex=5; eventOk();} break;
-                    case KEY_NUM7: if(itemsSize > 6) {gm.itemCursorIndex=6; eventOk();} break;
-                    case KEY_NUM8: if(itemsSize > 7) {gm.itemCursorIndex=7; eventOk();} break;
-                    case KEY_NUM9: if(itemsSize > 8) {gm.itemCursorIndex=8; eventOk();} break;
-                    case KEY_NUM0: if(itemsSize > 9) {gm.itemCursorIndex=9; eventOk();} break;
+                    case VirtualCanvas.KEY_NUM1: if(itemsSize > 0) {gm.itemCursorIndex=0; eventOk();} break;
+                    case VirtualCanvas.KEY_NUM2: if(itemsSize > 1) {gm.itemCursorIndex=1; eventOk();} break;
+                    case VirtualCanvas.KEY_NUM3: if(itemsSize > 2) {gm.itemCursorIndex=2; eventOk();} break;
+                    case VirtualCanvas.KEY_NUM4: if(itemsSize > 3) {gm.itemCursorIndex=3; eventOk();} break;
+                    case VirtualCanvas.KEY_NUM5: if(itemsSize > 4) {gm.itemCursorIndex=4; eventOk();} break;
+                    case VirtualCanvas.KEY_NUM6: if(itemsSize > 5) {gm.itemCursorIndex=5; eventOk();} break;
+                    case VirtualCanvas.KEY_NUM7: if(itemsSize > 6) {gm.itemCursorIndex=6; eventOk();} break;
+                    case VirtualCanvas.KEY_NUM8: if(itemsSize > 7) {gm.itemCursorIndex=7; eventOk();} break;
+                    case VirtualCanvas.KEY_NUM9: if(itemsSize > 8) {gm.itemCursorIndex=8; eventOk();} break;
+                    case VirtualCanvas.KEY_NUM0: if(itemsSize > 9) {gm.itemCursorIndex=9; eventOk();} break;
                     case VirtualCanvas.NAVIKEY_UP:
                         gm.itemCursorIndex--;
                         if(gm.itemCursorIndex<0){
@@ -407,27 +407,27 @@ public class GMenu extends CanvasEx {
             } else {
                 switch (keyCode){
                     case VirtualCanvas.NAVIKEY_UP:
-                    case KEY_NUM2:
+                    case VirtualCanvas.KEY_NUM2:
                         gm.itemCursorIndex--;
                         if(gm.itemCursorIndex<0){
                             gm.itemCursorIndex=size;
                         }
                         break;
                     case VirtualCanvas.NAVIKEY_DOWN:
-                    case KEY_NUM8:
+                    case VirtualCanvas.KEY_NUM8:
                         gm.itemCursorIndex++;
                         if(gm.itemCursorIndex>size){
                             gm.itemCursorIndex=0;
                         }
                         break;
-                    case KEY_NUM5:
+                    case VirtualCanvas.KEY_NUM5:
                         gm.itemCursorIndexIn=0;
                         eventOk();
                         break;
-                    case KEY_NUM1:
+                    case VirtualCanvas.KEY_NUM1:
                         gm.itemCursorIndex=0;
                         break;
-                    case KEY_NUM7:
+                    case VirtualCanvas.KEY_NUM7:
                         gm.itemCursorIndex=size;
                         break;
                     case VirtualCanvas.NAVIKEY_FIRE:
@@ -458,16 +458,16 @@ public class GMenu extends CanvasEx {
             return false;
         } else if(Config.executeByNum){
             switch (keyCode){
-            case KEY_NUM1: closeEvent(0); return false;
-            case KEY_NUM2: closeEvent(1); return false;
-            case KEY_NUM3: closeEvent(2); return false;
-            case KEY_NUM4: closeEvent(3); return false;
-            case KEY_NUM5: closeEvent(4); return false;
-            case KEY_NUM6: closeEvent(5); return false;
-            case KEY_NUM7: closeEvent(6); return false;
-            case KEY_NUM8: closeEvent(7); return false;
-            case KEY_NUM9: closeEvent(8); return false;
-            case KEY_NUM0: closeEvent(9); return false;
+            case VirtualCanvas.KEY_NUM1: closeEvent(0); return false;
+            case VirtualCanvas.KEY_NUM2: closeEvent(1); return false;
+            case VirtualCanvas.KEY_NUM3: closeEvent(2); return false;
+            case VirtualCanvas.KEY_NUM4: closeEvent(3); return false;
+            case VirtualCanvas.KEY_NUM5: closeEvent(4); return false;
+            case VirtualCanvas.KEY_NUM6: closeEvent(5); return false;
+            case VirtualCanvas.KEY_NUM7: closeEvent(6); return false;
+            case VirtualCanvas.KEY_NUM8: closeEvent(7); return false;
+            case VirtualCanvas.KEY_NUM9: closeEvent(8); return false;
+            case VirtualCanvas.KEY_NUM0: closeEvent(9); return false;
 
             case VirtualCanvas.NAVIKEY_UP:
                 gm.itemCursorIndexIn--;
@@ -491,33 +491,33 @@ public class GMenu extends CanvasEx {
         } else {
             switch (keyCode) {
             case VirtualCanvas.NAVIKEY_LEFT: 
-            case KEY_NUM4: 
+            case VirtualCanvas.KEY_NUM4:
                 gm.itemCursorIndexIn=0;
                 break;
             //case KEY_NUM6:
             //     return true;
             case VirtualCanvas.NAVIKEY_UP:
-            case KEY_NUM2:
+            case VirtualCanvas.KEY_NUM2:
                 gm.itemCursorIndexIn--;
                 if(gm.itemCursorIndexIn<0){
                     gm.itemCursorIndexIn=size;
                 }
                 return true;
             case VirtualCanvas.NAVIKEY_DOWN:
-            case KEY_NUM8:
+            case VirtualCanvas.KEY_NUM8:
                 gm.itemCursorIndexIn++;
                 if(gm.itemCursorIndexIn>size){
                     gm.itemCursorIndexIn=0;
                 }
                 return true;
             case VirtualCanvas.NAVIKEY_FIRE: 
-            case KEY_NUM5:
+            case VirtualCanvas.KEY_NUM5:
                 closeEvent(gm.itemCursorIndexIn);
                 return false;
-            case KEY_NUM1:
+            case VirtualCanvas.KEY_NUM1:
                 gm.itemCursorIndexIn=0;
                 return true;
-            case KEY_NUM7:
+            case VirtualCanvas.KEY_NUM7:
                 gm.itemCursorIndexIn=size;
                 return true;
             }

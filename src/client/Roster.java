@@ -232,14 +232,6 @@ public final class Roster extends VirtualList
        }
     }
 
-//#ifdef HISTORY
-    public void showHistory(Displayable pView, Contact c) {
-        HistoryViewer form = new HistoryViewer(c);
-        form.setParentView(pView);
-        form.show();
-    }
-//#endif
-
     public void createMessageEdit(){
         if (Config.getInstance().msgEditType == 0) {
             msgEditor = new MessageEdit();
@@ -3032,7 +3024,7 @@ public final class Roster extends VirtualList
         }
         switch (keyCode) {
 //#ifdef POPUPS
-            case KEY_POUND:
+            case VirtualCanvas.KEY_POUND:
                 if (getItemCount()==0)
                     return;
                 Object focused = getFocusedObject();
@@ -3041,7 +3033,7 @@ public final class Roster extends VirtualList
                 }
                 return;
 //#endif
-            case KEY_NUM1:
+            case VirtualCanvas.KEY_NUM1:
                 if (midlet.BombusQD.cf.collapsedGroups) { //collapse all groups
                      int size = contactList.groups.groups.size();
                      for (int i=0; i<size; ++i) {
@@ -3052,10 +3044,10 @@ public final class Roster extends VirtualList
                     reEnumRoster();
                 }
                 break;
-            case KEY_NUM4:
+            case VirtualCanvas.KEY_NUM4:
                 super.pageLeft();
                 return;
-            case KEY_NUM6:
+            case VirtualCanvas.KEY_NUM6:
                 super.pageRight();
                 return;
 // что это?
@@ -3078,7 +3070,7 @@ public final class Roster extends VirtualList
 //#endif
 */
 
-            case KEY_NUM0:
+            case VirtualCanvas.KEY_NUM0:
                 if (getItemCount()==0)
                      return;
                 Vector contacts = contactList.contacts;
@@ -3099,10 +3091,10 @@ public final class Roster extends VirtualList
                 redraw();
                 break;
 
-            case KEY_NUM3:
+            case VirtualCanvas.KEY_NUM3:
                 showActiveContacts(null);
                 break;
-            case KEY_NUM9:
+            case VirtualCanvas.KEY_NUM9:
                 if (getItemCount()==0)
                     return;
                 int newpos2=searchGroup(1);
@@ -3111,7 +3103,7 @@ public final class Roster extends VirtualList
                     setRotator();
                 }
                 break;
-            case KEY_STAR:
+            case VirtualCanvas.KEY_STAR:
                 if (midlet.BombusQD.cf.ghostMotor) {
                     // backlight management
                     blState=(blState==1)? Integer.MAX_VALUE : 1;
@@ -3136,7 +3128,7 @@ public final class Roster extends VirtualList
             updateMainBar();
             redraw();
             return true;
-        } else if (keyCode==KEY_NUM0) {
+        } else if (keyCode==VirtualCanvas.KEY_NUM0) {
             midlet.BombusQD.cf.showOfflineContacts=!midlet.BombusQD.cf.showOfflineContacts;
             sortRoster(null);
             setUpdateView();
@@ -3144,29 +3136,29 @@ public final class Roster extends VirtualList
             return true;
         }
 //#ifndef WMUC
-        else if (keyCode==KEY_NUM1 && isLoggedIn()) {
+        else if (keyCode==VirtualCanvas.KEY_NUM1 && isLoggedIn()) {
             new Bookmarks().show();
             return true;
         }
 //#endif
 
-        else if (keyCode==KEY_NUM4) {
+        else if (keyCode==VirtualCanvas.KEY_NUM4) {
             new ConfigForm().show();
             return true;
         }
-        else if (keyCode==KEY_NUM6) {
+        else if (keyCode==VirtualCanvas.KEY_NUM6) {
             Config.fullscreen =! Config.fullscreen;
             BombusQD.sd.canvas.setFullScreenMode(Config.fullscreen);
             midlet.BombusQD.cf.saveToStorage();
             return true;
         }
 //#ifdef SERVICE_DISCOVERY
-        else if (keyCode==KEY_NUM7 && isLoggedIn()) {
+        else if (keyCode==VirtualCanvas.KEY_NUM7 && isLoggedIn()) {
             new ServiceDiscovery(null, null, false).show();
             return true;
         }
 //#endif
-        else if (keyCode==KEY_NUM9) {
+        else if (keyCode==VirtualCanvas.KEY_NUM9) {
             if (midlet.BombusQD.cf.allowMinimize)
                 BombusQD.hideApp();
             else if (phoneManufacturer==Config.SIEMENS2)//SIEMENS: MYMENU call. Possible Main Menu for capable phones

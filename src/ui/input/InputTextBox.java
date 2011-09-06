@@ -45,7 +45,7 @@ import util.ClipBoard;
 public class InputTextBox extends TextBox implements CommandListener {
     private static final int MAX_RECENT_ELEMENTS = 10;
 
-    protected Displayable parentView;
+    protected Object parentView;
 
     protected Command cmdOk;
     protected Command cmdCancel;
@@ -125,18 +125,13 @@ public class InputTextBox extends TextBox implements CommandListener {
         setCommandListener(this);
 
         if (parentView == null) {
-            parentView = BombusQD.sd.canvas.getCanvas();
+            parentView = BombusQD.getCurrentView();
         }
         BombusQD.setCurrentView(this);
     }
 
     public void destroyView() {
-        // FIXME: CanvasEx has the same code
-        if (parentView instanceof CanvasEx) {
-            BombusQD.sd.canvas.show((CanvasEx)parentView);
-        } else {
-            BombusQD.setCurrentView(parentView);
-        }
+        BombusQD.setCurrentView(parentView);
     }
 
     public void commandAction(Command c, Displayable d) {

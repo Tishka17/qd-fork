@@ -437,7 +437,7 @@ public class AccountForm extends DefForm {
             destroyView();
             account = null;
         } else {
-            new AccountRegister(account, getParentView());
+            new AccountRegister(account, (AccountSelect)getParentView());
         }
     }
 }

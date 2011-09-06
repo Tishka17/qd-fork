@@ -47,6 +47,7 @@ import ui.MainBar;
 import ui.controls.AlertBox;
 import ui.GMenu;
 import ui.GMenuConfig;
+import ui.VirtualCanvas;
 
 /**
  *
@@ -263,7 +264,7 @@ public final class Bookmarks extends VirtualList implements MenuListener {
 
     public void keyPressed(int keyCode) {
 //#ifdef SERVICE_DISCOVERY
-        if (keyCode == KEY_POUND) {
+        if (keyCode == VirtualCanvas.KEY_POUND) {
             new ServiceDiscovery(((BookmarkItem)getFocusedObject()).getJid() , null, false).show();
             return;
         }

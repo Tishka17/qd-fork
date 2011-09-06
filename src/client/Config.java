@@ -305,6 +305,8 @@ public class Config {
 //#ifdef HISTORY
     public static int historyTypeIndex = 0;
     public static String historyPath = "";
+    public boolean historyMUC = false;
+    public boolean historyMUCPrivate = true;
     public int loadLastMsgCount = 0;
 //#endif
 
@@ -557,8 +559,12 @@ public class Config {
 //#endif
 //#ifdef JUICK.COM
             juickImages = inputStream.readBoolean();
-//#endif            
-            
+//#endif 
+
+//#ifdef HISTORY
+            historyMUC = inputStream.readBoolean();
+            historyMUCPrivate = inputStream.readBoolean();
+ //#endif
             inputStream.close();
             inputStream = null;
         } catch (Exception e) {
@@ -691,6 +697,10 @@ public class Config {
 //#endif
 //#ifdef JUICK.COM
             outputStream.writeBoolean(juickImages);
+//#endif
+//#ifdef HISTORY
+            outputStream.writeBoolean(historyMUC);
+            outputStream.writeBoolean(historyMUCPrivate);
 //#endif
 	} catch (IOException e) {}
 	return NvStorage.writeFileRecord(outputStream, BOOL_STORAGE_NAME, 0, true);

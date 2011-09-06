@@ -52,10 +52,11 @@ import ui.controls.form.ColorThemeSelector;
 import colors.ColorTheme;
 //#ifdef COLOR_TUNE
 import colors.ColorList;
+//#endif
+
 import images.ActionsIcons;
 import images.MenuIcons;
 import images.RosterIcons;
-//#endif
 
 public class ModuleConfigForm extends DefForm {
     private int type;

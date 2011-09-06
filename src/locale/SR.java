@@ -694,6 +694,9 @@ public class SR {
     public final static short MS_JUICK_SPM = 662; //Sending Private mess. to Juick user
     public final static short MS_JUICK_UM = 663; //Show @User info & last messages
     public final static short MS_JUICK_COMMANDS = 664; //Juick menu
+    public final static short MS_MUC_HISTORY = 665; //Conference history
+    public final static short MS_MUC_PRIVATE_HISTORY = 666; //Conference Private history
+    public final static short MS_SHOW_LAST_HISTORY = 667; //Show last messages from history
 
      private static String[] localeItemsDefault = new String[0];
     private static String[] localeItems = {
@@ -1361,7 +1364,10 @@ public class SR {
       "Unsubscribe from user",
       "Send PM to user",
       "Full user info",
-      "JUICK.COM"
+      "JUICK.COM",
+      "Conference history",
+      "Conference private history",
+      "Show last messages from history"
    };
 
     private SR() { }

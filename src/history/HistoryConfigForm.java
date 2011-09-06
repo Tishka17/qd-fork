@@ -70,13 +70,13 @@ public class HistoryConfigForm extends DefForm {
         historyFolder = new PathSelector(SR.get(SR.MS_HISTORY_FOLDER), config.historyPath, PathSelector.TYPE_DIR);
         addControl(historyFolder);
 //#endif
-        historyMUC = new CheckBox("MUC history", config.historyMUC);
+        historyMUC = new CheckBox(SR.get(SR.MS_MUC_HISTORY), config.historyMUC);
         addControl(historyMUC);
-        historyMUCPrivate = new CheckBox("MUC Private history", config.historyMUCPrivate);
+        historyMUCPrivate = new CheckBox(SR.get(SR.MS_MUC_PRIVATE_HISTORY), config.historyMUCPrivate);
         addControl(historyMUCPrivate);
         addControl(new SpacerItem(5));
         
-        loadLastMsgCount = new NumberInput("Show last messages from history", config.loadLastMsgCount, 0, 50);
+        loadLastMsgCount = new NumberInput(SR.get(SR.MS_SHOW_LAST_HISTORY), config.loadLastMsgCount, 0, 50);
         addControl(loadLastMsgCount);
     }
 

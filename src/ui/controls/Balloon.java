@@ -32,12 +32,17 @@ import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import colors.ColorTheme;
 import font.FontCache;
+//#ifdef GRADIENT
+import ui.Gradient;
+//#endif
 
 public class Balloon {   
     public static int getHeight(){
         return FontCache.getFont(false, Config.baloonFont).getHeight() + 1;
     }
-    
+//#ifdef GRADIENT
+    private static Gradient bg= new Gradient();
+//#endif   
     public static void draw(Graphics g, String text) {
         Font f = FontCache.getFont(false, Config.baloonFont);
         
@@ -49,9 +54,17 @@ public class Balloon {
         if (y<0) y=0;
         y-=height-1;
         g.translate(0, y);
-
-        g.setColor(ColorTheme.getColor(ColorTheme.BALLOON_BGND));
-        g.fillRect(3, 1, width-2, height-2);
+        int color=ColorTheme.getColor(ColorTheme.BALLOON_BGND);
+//#ifdef GRADIENT
+        if (ColorTheme.getAlpha(color)!=0) {
+          bg.update(3, 1, width-2, height-2, color, color, Gradient.CACHED_HORIZONTAL);
+          bg.paint(g);
+        } else 
+//#endif
+        {
+            g.setColor(color);
+            g.fillRect(3, 1, width-2, height-2);
+        }
         
         
         g.setColor(ColorTheme.getColor(ColorTheme.BALLOON_INK));

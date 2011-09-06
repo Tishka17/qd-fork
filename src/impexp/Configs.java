@@ -31,6 +31,7 @@ import light.CustomLight;
 //#endif
 import midlet.BombusQD;
 import ui.VirtualList;
+import util.StringUtils;
 import xmpp.EntityCaps;
 
 public class Configs {
@@ -257,7 +258,8 @@ public class Configs {
 
         data.append("</config>\n");
 
-        IEUtils.writeFile(path + CONFIGS_FILE, data.toString());
+        String fname = StringUtils.getFileName(path + CONFIGS_FILE);
+        IEUtils.writeFile(fname, data.toString());
     }
 
     private void importData(String path) {

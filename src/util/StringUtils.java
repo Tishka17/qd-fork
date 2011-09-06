@@ -287,4 +287,22 @@ public class StringUtils {
         nodes.addElement(original);
         return nodes;
     }
+
+    public static String getFileName(String fname) {
+        if (null != fname) {
+            StringBuffer buf = new StringBuffer(fname);
+            int dotIdx = fname.lastIndexOf('.');
+            if (-1 == dotIdx) {
+                dotIdx = buf.length();
+            }
+
+            buf.insert(dotIdx, '_');
+            buf.insert(dotIdx + 1, Time.localDate());
+
+            System.out.println(buf);
+
+            return buf.toString();
+        }
+        return null;
+    }
 }

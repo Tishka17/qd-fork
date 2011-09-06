@@ -204,14 +204,8 @@ public class HistoryViewer extends MessageList
 
 //#ifdef FILE_IO
     public void BrowserFilePathNotify(String path) {
-        StringBuffer buf = new StringBuffer(path);
-
-        buf.append(StringUtils.replaceBadChars(storeName));
-        buf.append('_');
-        buf.append(Time.localDate());
-        buf.append(".txt");
-
-        HistoryExportTask task = new HistoryExportTask(messages, buf.toString());
+        String fname = StringUtils.getFileName(path);
+        HistoryExportTask task = new HistoryExportTask(messages, fname);
         task.start();
     }
 //#endif

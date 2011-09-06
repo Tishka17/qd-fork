@@ -60,7 +60,7 @@ public class PopUp {
 
     private Vector popUps;
 //#ifdef GRADIENT
-    private Gradient bg= new Gradient();
+    private static Gradient bg = new Gradient();
 //#endif
     private final static int  SCROLLABLE_NONE=-1;
     private final static int  SCROLLABLE_DOWN=0;

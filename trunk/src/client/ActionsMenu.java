@@ -193,15 +193,15 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                         }
                     }
                 }
+            }
 //#ifdef HISTORY
-                if (groupType != Groups.TYPE_TRANSP && !isMucContact) {
-                    if (Config.module_history) {
-                        if (Config.historyTypeIndex == Config.HISTORY_RMS) {
-                            addItem(SR.get(SR.MS_HISTORY_SHOW), MI_HISTORY, ActionsIcons.ICON_VERSION);
-                        }
-                    }
+            if (Config.module_history && contact.hasHistory()) {
+                if (Config.historyTypeIndex == Config.HISTORY_RMS) {
+                    addItem(SR.get(SR.MS_HISTORY_SHOW), MI_HISTORY, ActionsIcons.ICON_VERSION);
                 }
+            }
 //#endif
+            if (!isConference) {
                 addItem(SR.get(SR.MS_CLIENT_INFO), MI_VERSION, ActionsIcons.ICON_VERSION);
 //#if SERVICE_DISCOVERY && ADHOC
                 addItem(SR.get(SR.MS_COMMANDS), MI_COMMANDS, ActionsIcons.ICON_COMMAND);

@@ -156,7 +156,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
          addCommand(Commands.cmdActions);
 
 //#ifdef HISTORY
-        if (Config.module_history && !(isConference || isMucContact)) {
+        if (Config.module_history && contact.hasHistory()) {
             if (Config.historyTypeIndex == Config.HISTORY_RMS) {
                 addCommand(Commands.cmdHistory);
             }

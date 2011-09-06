@@ -232,6 +232,8 @@ public class Configs {
 //#ifdef HISTORY
         writeInt(data, "historyTypeIndex", Config.historyTypeIndex);
         writeUTF(data, "historyPath", Config.historyPath);
+        writeBoolean(data, "historyMUC", config.historyMUC);
+        writeBoolean(data, "historyMUCPrivate", config.historyMUCPrivate);
 //#endif
 
         AlertCustomize ac = AlertCustomize.getInstance();
@@ -460,6 +462,8 @@ public class Configs {
 //#ifdef HISTORY
             Config.historyTypeIndex = readInt(data, "historyTypeIndex", Config.historyTypeIndex);
             Config.historyPath = readUTF(data, "historyPath", Config.historyPath);
+            config.historyMUC = readBoolean(data, "historyMUC", config.historyMUC);
+            config.historyMUCPrivate = readBoolean(data, "historyMUCPrivate", config.historyMUCPrivate);
 //#endif
             EntityCaps.initCaps();
             BombusQD.sd.roster.updateBarsFont();

@@ -146,7 +146,6 @@ public final class ConferenceGroup extends Group{
             String nick = jid.substring(jid.indexOf('/') + 1);
             c = new MucContact(nick, jid);
             c.origin = Contact.ORIGIN_GC_MEMBER;
-            c.setNick(c.getNick());
             midlet.BombusQD.sd.roster.addContact(c);
         }
         c.setGroup(this);

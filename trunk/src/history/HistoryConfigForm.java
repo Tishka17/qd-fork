@@ -32,6 +32,7 @@ import client.Config;
 import locale.SR;
 import ui.controls.form.DefForm;
 import ui.controls.form.DropChoiceBox;
+import ui.controls.form.CheckBox;
 //#ifdef FILE_IO
 import ui.controls.form.NumberInput;
 import ui.controls.form.PathSelector;
@@ -45,6 +46,8 @@ import ui.controls.form.SpacerItem;
 
 public class HistoryConfigForm extends DefForm {
     private DropChoiceBox historyType;
+    private CheckBox historyMUC;
+    private CheckBox historyMUCPrivate;
     private NumberInput loadLastMsgCount;
 //#ifdef FILE_IO
     private PathSelector historyFolder;
@@ -67,7 +70,10 @@ public class HistoryConfigForm extends DefForm {
         historyFolder = new PathSelector(SR.get(SR.MS_HISTORY_FOLDER), config.historyPath, PathSelector.TYPE_DIR);
         addControl(historyFolder);
 //#endif
-        
+        historyMUC = new CheckBox("MUC history", config.historyMUC);
+        addControl(historyMUC);
+        historyMUCPrivate = new CheckBox("MUC Private history", config.historyMUCPrivate);
+        addControl(historyMUCPrivate);
         addControl(new SpacerItem(5));
         
         loadLastMsgCount = new NumberInput("Show last messages from history", config.loadLastMsgCount, 0, 50);
@@ -81,6 +87,8 @@ public class HistoryConfigForm extends DefForm {
 //#endif
         config.historyTypeIndex = historyType.getValue();
         config.loadLastMsgCount = loadLastMsgCount.getIntValue();
+        config.historyMUC = historyMUC.getValue();
+        config.historyMUCPrivate = historyMUCPrivate.getValue();
 
         destroyView();
     }

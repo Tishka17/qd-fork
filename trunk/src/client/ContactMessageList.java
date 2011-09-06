@@ -67,8 +67,9 @@ public final class ContactMessageList extends MessageList implements InputTextBo
     public int lastUnread;
 
     public ContactMessageList(Contact contact) {
-        System.out.println("Create MessageList for " + contact.getNickJid());
-        
+//#ifdef DEBUG
+//#         System.out.println("Create MessageList for " + contact.getNickJid());
+//#endif
         this.contact = contact;
         updateMainBar(contact);
         
@@ -898,9 +899,5 @@ public final class ContactMessageList extends MessageList implements InputTextBo
     
     public byte getUnreadMessageType() {
         return unreadType;
-    }
-    
-    public boolean isActiveChat() {
-        return (getMessageCount() > 0);
     }
 }

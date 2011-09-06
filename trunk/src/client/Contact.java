@@ -252,7 +252,7 @@ public class Contact extends IconTextElement {
         if(messageList == null) {
             return false;
         }
-        return getMessageList().isActiveChat();
+        return getMessageList().getMessageCount()>0;
     }
 
     public final void setGroup(Group g) {
@@ -321,24 +321,19 @@ public class Contact extends IconTextElement {
         }
         getMessageList().addMessage(m);
 //#ifdef HISTORY
-        if (group.type!=Groups.TYPE_TRANSP && group.type!=Groups.TYPE_SEARCH_RESULT) {
-          boolean allowLog = (origin < ORIGIN_GROUPCHAT);
-          if (origin != ORIGIN_GROUPCHAT && this instanceof MucContact) {
-              allowLog=false;
-          }
-          if(allowLog) {
+        if (group.type!=Groups.TYPE_TRANSP && 
+                group.type!=Groups.TYPE_SEARCH_RESULT &&
+                ((origin < ORIGIN_GROUPCHAT) || 
+                  (origin == ORIGIN_GROUPCHAT && midlet.BombusQD.cf.historyMUC) || 
+                  (origin == ORIGIN_GC_MEMBER && midlet.BombusQD.cf.historyMUCPrivate))) {
               getMessageList().storeMessage(m);
-          }
         }
 //#endif
     }
 
     public boolean getFontIndex(){
        if (midlet.BombusQD.cf.useBoldFont && status<5) return true;
-       if(messageList == null) {
-           return false;
-       }
-       return getMessageList().isActiveChat();
+       return active();
     }
 
     public final String getName(){

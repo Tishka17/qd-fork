@@ -2580,7 +2580,8 @@ public final class Roster extends VirtualList
           search=null;
           hContacts=null;
         }
-        if(active==false) return;
+        //В конфе всегда показывать презенсы если включены
+        if(active==false && c.origin!=Contact.ORIGIN_GROUPCHAT) return;
 
         c.addMessage(message);
 

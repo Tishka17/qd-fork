@@ -136,49 +136,47 @@ public final class ContactMessageList extends MessageList implements InputTextBo
             addCommand(Commands.cmdResume);
         }
 
-        try {
+        if (getItemCount() > 0) {
             Msg msg = getSelectedMessage();
-            if (msg.getType()==Msg.AUTH) {
+            if (msg.getType() == Msg.AUTH) {
                 addCommand(Commands.cmdSubscribe);
                 addCommand(Commands.cmdUnsubscribed);
             }
-        } catch (Exception e) {}
+        }
+
+        final boolean isConference = contact.origin == Contact.ORIGIN_GROUPCHAT;
+        final boolean isMucContact = contact instanceof MucContact;
+        final boolean isJuickContact = contact.getJid().indexOf("juick@juick.com") != -1;
 
         addCommand(Commands.cmdMessage);
-        if (contact.origin != Contact.ORIGIN_GROUPCHAT) {
-            addCommand(Commands.cmdActions);
+        if (isConference || isJuickContact) {
+            addCommand(Commands.cmdReply);
         }
+
+         addCommand(Commands.cmdActions);
 
 //#ifdef HISTORY
-        if (contact.origin != Contact.ORIGIN_GROUPCHAT) {
-            if (Config.module_history) {
-                if (Config.historyTypeIndex == Config.HISTORY_RMS) {
-                    addCommand(Commands.cmdHistory);
-                }
+        if (Config.module_history && !(isConference || isMucContact)) {
+            if (Config.historyTypeIndex == Config.HISTORY_RMS) {
+                addCommand(Commands.cmdHistory);
             }
         }
 //#endif
 
-        if (getItemCount() >0 ) {
+        if (getItemCount() > 0) {
 //#ifdef JUICK.COM
-         if (contact.getJid().indexOf("juick@juick.com") > -1) {
-            addCommand(Commands.cmdJuickMenu);
+            if (isJuickContact) {
+                addCommand(Commands.cmdJuickMenu);
 
-            addInCommand(1, Commands.cmdJuickLastPopular);
-            addInCommand(1, Commands.cmdJuickLastMsgs);
-            addInCommand(1, Commands.cmdJuickSubscribe);
-            addInCommand(1, Commands.cmdJuickUnsubscribe);
-            addInCommand(1, Commands.cmdJuickSendPM);
-            addInCommand(1, Commands.cmdJuickUsersMsgs);
-         }
-//#endif
-
-//#ifndef WMUC
-            if (contact instanceof MucContact && contact.origin==Contact.ORIGIN_GROUPCHAT
-                    || contact.getJid().indexOf("juick@juick.com")>-1 ) {
-                addCommand(Commands.cmdReply);
+                addInCommand(1, Commands.cmdJuickLastPopular);
+                addInCommand(1, Commands.cmdJuickLastMsgs);
+                addInCommand(1, Commands.cmdJuickSubscribe);
+                addInCommand(1, Commands.cmdJuickUnsubscribe);
+                addInCommand(1, Commands.cmdJuickSendPM);
+                addInCommand(1, Commands.cmdJuickUsersMsgs);
             }
 //#endif
+
             addCommand(Commands.cmdQuote);
             addCommand(Commands.cmdMyService);
 

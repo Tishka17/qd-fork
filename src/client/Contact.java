@@ -321,14 +321,18 @@ public class Contact extends IconTextElement {
         }
         getMessageList().addMessage(m);
 //#ifdef HISTORY
-        if (group.type!=Groups.TYPE_TRANSP && 
-                group.type!=Groups.TYPE_SEARCH_RESULT &&
-                ((origin < ORIGIN_GROUPCHAT) || 
-                  (origin == ORIGIN_GROUPCHAT && midlet.BombusQD.cf.historyMUC) || 
-                  (origin == ORIGIN_GC_MEMBER && midlet.BombusQD.cf.historyMUCPrivate))) {
+        if (hasHistory()) {
               getMessageList().storeMessage(m);
         }
 //#endif
+    }
+
+    public final boolean hasHistory() {
+        return group.type != Groups.TYPE_TRANSP
+                && group.type != Groups.TYPE_SEARCH_RESULT
+                && ((origin < ORIGIN_GROUPCHAT)
+                || (origin == ORIGIN_GROUPCHAT && Config.getInstance().historyMUC)
+                || (origin == ORIGIN_GC_MEMBER && Config.getInstance().historyMUCPrivate));
     }
 
     public boolean getFontIndex(){

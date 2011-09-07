@@ -531,12 +531,12 @@ public final class Roster extends VirtualList
 
     public String getHeaderString() {
         StringBuffer buf = new StringBuffer();
-        buf.append(" ");
+        buf.append(' ');
         if(0 < highliteMessageCount) {
             buf.append(highliteMessageCount).append('/');
         }
         buf.append(messageCount);
-        buf.append(" ");
+        buf.append(' ');
        return buf.toString();
     }
 
@@ -3532,7 +3532,6 @@ public final class Roster extends VirtualList
         }
         private boolean isModified = false;
         private boolean isUpdateView = false;
-        private StringBuffer counts = new StringBuffer(0);
 
         private void setModified() {
             isModified = true;
@@ -3574,7 +3573,7 @@ public final class Roster extends VirtualList
                   vContacts = new Vector(0);
                   vContacts = contactList.getVisibleTree(vContacts);
 
-                  counts = new StringBuffer(0);
+                  StringBuffer counts = new StringBuffer(0);
                   counts.append('(')
                         .append(contactList.getOnlineCount())
                         .append('/')

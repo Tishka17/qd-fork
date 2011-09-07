@@ -254,7 +254,7 @@ public final class Msg implements VirtualElement {
         StringBuffer buf = new StringBuffer();
         if (isMucMsg || isPresence() || !(Config.showNickNames && subject != null)) {
             if (Config.showTimeInMsgs) {
-                buf.append("[");
+                buf.append('[');
                 if ((Time.utcTimeMillis() - dateGmt) > 86400000) {
                     buf.append(getDayTime());
                 } else {

@@ -138,7 +138,7 @@ public class PrivacyItem extends IconTextElement {
     public String getTipString() {
         StringBuffer tip=new StringBuffer(0);
 
-        tip.append(SR.get(SR.MS_PRIVACY_IF)+" ").append(types_[type]);
+        tip.append(SR.get(SR.MS_PRIVACY_IF)).append(' ').append(types_[type]);
         if (type!=ITEM_ANY) {
             tip.append("==");
             if(value.indexOf("both")>-1) tip.append(SR.get(SR.MS_SUBSCR_BOTH));
@@ -148,17 +148,17 @@ public class PrivacyItem extends IconTextElement {
             else tip.append(value);
         }
         
-        tip.append("\n"+actions_[action]);
+        tip.append('\n').append(actions_[action]);
         tip.append(": ");         
         if (messageStz && presenceInStz && presenceOutStz && iqStz) {
-            tip.append("\n"+SR.get(SR.MS_PRIVACY_ALL_STANZAS)); 
+            tip.append('\n').append(SR.get(SR.MS_PRIVACY_ALL_STANZAS)); 
         } else if (!messageStz && !presenceInStz && !presenceOutStz && !iqStz) { 
-            tip.append("-");
+            tip.append('-');
         } else {
-            if (messageStz) { tip.append("\n[" + stanzas_[STANZA_MSG]); tip.append(']'); }
-            if (presenceInStz) { tip.append("\n[" + stanzas_[STANZA_PRESENCE_IN]); tip.append(']'); }
-            if (presenceOutStz) { tip.append("\n[" + stanzas_[STANZA_PRESENCE_OUT]); tip.append(']'); }
-            if (iqStz) { tip.append("\n[" + stanzas_[STANZA_IQ]); tip.append(']'); }
+            if (messageStz) { tip.append("\n[").append(stanzas_[STANZA_MSG]).append(']'); }
+            if (presenceInStz) { tip.append("\n[").append(stanzas_[STANZA_PRESENCE_IN]).append(']'); }
+            if (presenceOutStz) { tip.append("\n[").append(stanzas_[STANZA_PRESENCE_OUT]).append(']'); }
+            if (iqStz) { tip.append("\n[").append(stanzas_[STANZA_IQ]).append(']'); }
         }        
 
         return tip.toString();

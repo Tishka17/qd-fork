@@ -331,8 +331,11 @@ public class Contact extends IconTextElement {
         return group.type != Groups.TYPE_TRANSP
                 && group.type != Groups.TYPE_SEARCH_RESULT
                 && ((origin < ORIGIN_GROUPCHAT)
+//#ifdef HISTORY                
                 || (origin == ORIGIN_GROUPCHAT && Config.getInstance().historyMUC)
-                || (origin == ORIGIN_GC_MEMBER && Config.getInstance().historyMUCPrivate));
+                || (origin == ORIGIN_GC_MEMBER && Config.getInstance().historyMUCPrivate)
+//#endif
+                );
     }
 
     public boolean getFontIndex(){

@@ -1348,12 +1348,13 @@ public abstract class VirtualList extends CanvasEx {
             StringBuffer mem = new StringBuffer(0);
             mem.append(Time.getTimeWeekDay()).append("\nTraffic: ").append(getTraffic());
             if (midlet.BombusQD.cf.userAppLevel == 1) {
-                mem.append('\n');
-
                 long free = Runtime.getRuntime().freeMemory() >> 10;
                 long total = Runtime.getRuntime().totalMemory() >> 10;
                 long inUse = total - free;
-                mem.append("QD use: ").append(inUse).append("kb ").append('(').append((100 * inUse / total)).append("%)\n").append("Stanzas(in/out): ").append(StaticData.incPacketCount).append("/").append(StaticData.outPacketCount);
+                mem.append("\nQD use: ").append(inUse).
+                        append("kb  (").append((100 * inUse / total)).
+                        append("%)\nStanzas(in/out): ").append(StaticData.incPacketCount).
+                        append('/').append(StaticData.outPacketCount);
             }
             setWobble(1, null, mem.toString());
 //#endif

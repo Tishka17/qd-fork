@@ -47,7 +47,9 @@ import conference.affiliation.QuickPrivelegyEditForm;
 //#if SERVICE_DISCOVERY && ADHOC
 import disco.ServiceDiscovery;
 //#endif
+//#ifdef HISTORY
 import history.HistoryViewer;
+//#endif
 import images.ActionsIcons;
 //#if FILE_IO && FILE_TRANSFER
 import io.file.transfer.TransferImage;

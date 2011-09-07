@@ -42,11 +42,11 @@ public final class Version {
         
         buf.append(version);
         if (showLang) {
-            buf.append(" (").append(SR.get(SR.MS_IFACELANG)).append(")");
+            buf.append(" (").append(SR.get(SR.MS_IFACELANG)).append(')');
         }
         String build = BombusQD.getStrProperty("BombusQD-Build", "0");
         if (!build.equals("0")) {
-            buf.append(" [").append(build).append("]");
+            buf.append(" [").append(build).append(']');
         }
         return buf.toString();
     }

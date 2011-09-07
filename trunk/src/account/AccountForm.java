@@ -84,7 +84,7 @@ public class AccountForm extends DefForm {
     public static final byte PROFILE_GTALK_HTTPS = 6;
     public static final byte PROFILE_VKONTAKTE = 7;
 
-    private StringBuffer uid;
+    private String uid;
 
     public AccountForm(Account account, int type_profile) {
         this(account, type_profile, false, null);
@@ -150,23 +150,25 @@ public class AccountForm extends DefForm {
             password = generate();
         }
 
-        uid = new StringBuffer(0);
+        StringBuffer uidBuffer = new StringBuffer(0);
         if (register == false) {
             String res = account.getResource();
             String uname = account.getUserName();
             if (uname.length() > 0) {
-                uid.append(account.getUserName());
+                uidBuffer.append(account.getUserName());
             }
 
-            uid.append('@');
-            uid.append(server);
+            uidBuffer.append('@');
+            uidBuffer.append(server);
             if (res.length() > 0 && res.indexOf(info.Version.NAME) == -1) {
-                uid.append('/').append(account.getResource());
+                uidBuffer.append('/').append(account.getResource());
             }
         } else {
-            uid.append('@').append(server);
+            uidBuffer.append('@').append(server);
         }
-        fulljid = new TextInput(SR.get(SR.MS_USER_PROFILE) + "(JID)", uid.toString(), TextField.ANY);
+        uid=uidBuffer.toString();
+        uidBuffer=null;
+        fulljid = new TextInput(SR.get(SR.MS_USER_PROFILE) + "(JID)", uid, TextField.ANY);
         nickbox = new TextInput(SR.get(SR.MS_NICKNAME), account.getNick(), TextField.ANY);
         addControl(nickbox);
         addControl(fulljid);
@@ -230,7 +232,7 @@ public class AccountForm extends DefForm {
         if (null != nickbox) {
             String value = nickbox.getValue();
             if (0 != value.length()) {
-                String replace = uid.toString();
+                String replace = uid;
                 if (replace.indexOf(value) == -1) {
                     fulljid.setValue(value.concat(replace));
                 }

@@ -80,7 +80,7 @@ public class TransferImage extends DefForm implements CameraImageListener {
         try {
             itemsList.removeElement(photoItem);
             Image photoImg=Image.createImage(photo, 0, photo.length);
-            photoItem=new ImageItem(photoImg, String.valueOf(photo.length)+" bytes");
+            photoItem=new ImageItem(photoImg, photo.length+" bytes");
             itemsList.addElement(photoItem);
         } catch (Exception e) { }
     }

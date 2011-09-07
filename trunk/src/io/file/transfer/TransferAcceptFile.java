@@ -73,7 +73,7 @@ public class TransferAcceptFile extends DefForm {
 
         fileName=new TextInput(SR.get(SR.MS_FILE), name, TextField.ANY);
         addControl(fileName);
-        addControl(new SimpleString(SR.get(SR.MS_FILE_SIZE)+" "+String.valueOf(t.fileSize)+" bytes", true));
+        addControl(new SimpleString(SR.get(SR.MS_FILE_SIZE)+" "+t.fileSize+" bytes", true));
 
         selectFile=new PathSelector(SR.get(SR.MS_PATH), null, PathSelector.TYPE_DIR);
         addControl(selectFile);

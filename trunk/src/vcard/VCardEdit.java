@@ -186,7 +186,7 @@ public class VCardEdit extends DefForm implements MenuListener, Runnable
              nickDate.append(vcard.getNickName());
          } else nickDate.append(vcard.getJid());
 //#endif
-        nickDate.append("_").append(Time.dayLocalString(Time.utcTimeMillis()).trim());
+        nickDate.append('_').append(Time.dayLocalString(Time.utcTimeMillis()).trim());
         return nickDate.toString();
     }
 //#endif
@@ -213,7 +213,7 @@ public class VCardEdit extends DefForm implements MenuListener, Runnable
             } else {
                 try {
                     Image photoImg=Image.createImage(vcard.getPhoto(), 0,vcard.getPhoto().length);
-                    photoItem=new ImageItem(photoImg, String.valueOf(vcard.getPhoto().length)+" bytes");
+                    photoItem=new ImageItem(photoImg, vcard.getPhoto().length+" bytes");
                     itemsList.addElement(photoItem);
                 } catch (Exception e) {
                     itemsList.addElement(badFormat);

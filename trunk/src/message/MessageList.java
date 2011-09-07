@@ -121,10 +121,10 @@ public abstract class MessageList extends VirtualList implements MenuListener {
 
         if (msg.getSubject() != null) {
             buf.append(StringUtils.replaceNickTags(msg.getSubject()));
-            buf.append("\n");
+            buf.append('\n');
         }
         buf.append(StringUtils.replaceNickTags(msg.toString()));
-        buf.append("\n");
+        buf.append('\n');
 
         return buf.toString();
     }

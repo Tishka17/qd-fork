@@ -92,9 +92,9 @@ public class ImageItem
         
         StringBuffer im = new StringBuffer();
         if (text != null) {
-            im.append(text).append(" ");
+            im.append(text).append(' ');
         }
-        im.append(img.getWidth()).append("x").append(img.getHeight());
+        im.append(img.getWidth()).append('x').append(img.getHeight());
         
         return im.toString();            
     }

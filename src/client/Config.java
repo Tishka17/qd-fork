@@ -28,7 +28,6 @@
 
 package client;
 
-import javax.microedition.lcdui.Display;
 import alert.AlertProfile;
 import images.ActionsIcons;
 import images.RosterIcons;

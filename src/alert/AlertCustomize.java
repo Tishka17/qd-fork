@@ -34,41 +34,44 @@ import util.StringLoader;
 
 public class AlertCustomize {
     
+    private final static String toneSequence="tone sequence";
+    private final static String none="none";
+    
     public int soundsMsgIndex=1;
     public String messagesnd="";
-    public String messageSndType="tone sequence";
+    public String messageSndType=toneSequence;
     
     public int soundOnlineIndex=0;
     public String soundOnline="";
-    public String soundOnlineType="none";    
+    public String soundOnlineType=none;    
 
     public int soundOfflineIndex=0;
     public String soundOffline="";
-    public String soundOfflineType="none";
+    public String soundOfflineType=none;
     
     public int soundForYouIndex=1;
     public String soundForYou="";
-    public String soundForYouType="tone sequence";
+    public String soundForYouType=toneSequence;
     
     public int soundComposingIndex=0;
     public String soundComposing="";
-    public String soundComposingType="none";
+    public String soundComposingType=none;
     
     public int soundConferenceIndex=1;
     public String soundConference="";
-    public String soundConferenceType="tone sequence";
+    public String soundConferenceType=toneSequence;
     
     public int soundStartUpIndex=1;
     public String soundStartUp="";
-    public String soundStartUpType="tone sequence";
+    public String soundStartUpType=toneSequence;
     
     public int soundOutgoingIndex=1;
     public String soundOutgoing="";
-    public String soundOutgoingType="none";
+    public String soundOutgoingType=none;
     
     public int soundVIPIndex=1;
     public String soundVIP="";
-    public String soundVIPType="tone sequence";
+    public String soundVIPType=toneSequence;
     
     public boolean vibrateOnlyHighlited = true;
 
@@ -80,7 +83,7 @@ public class AlertCustomize {
     public boolean enableAttention=true;
     public int soundAttentionIndex=1;
     public String soundAttention="";
-    public String soundAttentionType="tone sequence";
+    public String soundAttentionType=toneSequence;
 
     private static int size=0;
     

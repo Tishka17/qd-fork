@@ -16,7 +16,6 @@ import com.alsutton.jabber.datablocks.Message;
 import com.alsutton.jabber.datablocks.Iq;
 import java.util.Vector;
 import client.Contact;
-import midlet.BombusQD;
 import ui.controls.form.ImageItem;
 
 /**
@@ -34,8 +33,6 @@ public class JuickModule{
     public final static String NS_MESSAGE = "http://juick.com/message";
     private final static String TAG_RECOMMENDATION = "Recommended by ";
 
-    private static StringBuffer buf = new StringBuffer(0);
-    private static StringBuffer message_id = new StringBuffer(0);
     private static Vector childBlocks = new Vector(0);
     private static Vector childTags = new Vector(0);
 
@@ -124,7 +121,7 @@ public class JuickModule{
     private String parseRecomendation(String body) {
        if(body.startsWith(TAG_RECOMMENDATION)) {
            int len = TAG_RECOMMENDATION.length();
-           int pos = body.indexOf(":");
+           int pos = body.indexOf(':');
            return body.substring(len,pos);
        }
        return "";
@@ -179,6 +176,8 @@ public class JuickModule{
 
                       childBlocks = query.getChildBlocks();
                       int size=childBlocks.size();
+                      StringBuffer buf=new StringBuffer(0);
+                      StringBuffer message_id=new StringBuffer(0);
                         for(int i=0;i<size;i++){
                            child = (JabberDataBlock)childBlocks.elementAt(i);
                            childTags = child.getChildBlocks();
@@ -190,13 +189,9 @@ public class JuickModule{
 
                            if (uname!=null) buf.append("<nick>@").append(uname).append("</nick>:");
                            if (replies!=null)
-                               buf.append('\n')
-                                  .append("<nick>")
-                                  .append("Replies ")
-                                  .append('(')
+                               buf.append("\n<nick>Replies (")
                                   .append(replies)
-                                  .append(')')
-                                  .append("</nick>");
+                                  .append(")</nick>");
 
                            int tagSize = childTags.size();
                            if(tagSize>0){
@@ -204,8 +199,7 @@ public class JuickModule{
                               //specially for "#+" type
                               tag = (JabberDataBlock)childTags.elementAt(k);
                                if (tag.getTagName().equals("tag"))
-                                    buf.append('\n')
-                                      .append("<nick>*")
+                                    buf.append("\n<nick>*")
                                       .append(tag.getText())
                                       .append("</nick>");
                                if (tag.getTagName().equals("body")) body = tag.getText();
@@ -216,7 +210,7 @@ public class JuickModule{
                           if (mid!=null){
                               buf.append('\n');
                               message_id.append('#').append(mid);
-                                 if(rid!=null) message_id.append('/').append("<nick>").append(rid).append("</nick>");
+                                 if(rid!=null) message_id.append("/<nick>").append(rid).append("</nick>");
                               message_id.append(' ');
                               buf.append(message_id.toString());
                           }
@@ -278,9 +272,7 @@ public class JuickModule{
                             String recomendation = parseRecomendation(body);
                             if(recomendation.length() > 0) {
                                 sb.append(recomendation)
-                                  .append(' ')
-                                  .append("recommends you:")
-                                  .append('\n');
+                                  .append(" recommends you:\n");
                                 recomendation = null;
                             }
                        }
@@ -294,24 +286,21 @@ public class JuickModule{
                        for(int i=0;i<size;i++){
                           child = (JabberDataBlock)childBlocks.elementAt(i);
                           if (child.getTagName().equals("tag"))
-                              sb.append('\n')
-                              .append("<nick>*")
+                              sb.append("\n<nick>*")
                               .append(child.getText())
                               .append("</nick>");
 
                           if (child.getTagName().equals("body")) bodyAnsw = child.getText();
                        }
                        sb.append('\n').append(bodyAnsw);
-                       sb.append('\n');
-                       sb.append('#').append(mid==null?"<nick>PM</nick>":mid);
+                       sb.append("\n#").append(mid==null?"<nick>PM</nick>":mid);
                        if(rid!=null)
-                            sb.append('/')
-                                 .append("<nick>")
+                            sb.append("/<nick>")
                                  .append(rid)
                                  .append("</nick>");
 
                        if (replyto!=null)
-                             sb.append(" (replyto /").append(replyto).append(")");
+                             sb.append(" (replyto /").append(replyto).append(')');
                        if(photo) {
                             sb.append("+photo");
                        }

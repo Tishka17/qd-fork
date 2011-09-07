@@ -75,7 +75,7 @@ public class GoogleTokenAuth {
                     + "&PersistentCookie=false&source=googletalk";
 
             //log.addMessage("Connecting to www.google.com");
-            HttpConnection c = (HttpConnection) Connector.open(firstUrl.toString());
+            HttpConnection c = (HttpConnection) Connector.open(firstUrl);
             InputStream is = c.openInputStream();
 
 

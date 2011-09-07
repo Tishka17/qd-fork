@@ -143,7 +143,7 @@ public class InfoWindow extends DefForm {
 
         StringBuffer memInfo = new StringBuffer();
 
-        memInfo.append(SR.get(SR.MS_FREE)).append(freemem).append("\n");
+        memInfo.append(SR.get(SR.MS_FREE)).append(freemem).append('\n');
         memInfo.append(SR.get(SR.MS_TOTAL)).append(totalmem);
 
         addControl(new MultiLine(SR.get(SR.MS_MEMORY), memInfo.toString()));

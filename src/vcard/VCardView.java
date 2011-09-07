@@ -178,7 +178,7 @@ public class VCardView extends DefForm implements MenuListener
                     addControl(photoTooLarge);
                 } else {
                     Image photoImg = Image.createImage(vcard.getPhoto(), 0, length);
-                    photoItem = new ImageItem(photoImg, "minimized, size: " + String.valueOf(length) + "b.");
+                    photoItem = new ImageItem(photoImg, "minimized, size: " + length + "b.");
                     if (length > 10240) {
                         photoItem.collapsed = true;
                     }

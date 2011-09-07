@@ -167,13 +167,13 @@ public class TransferManager extends VirtualList implements MenuListener {
             TransferTask t=(TransferTask) getFocusedObject();
             StringBuffer info=new StringBuffer();
             info.append(t.jid)
-                .append("\n")
+                .append('\n')
                 .append(t.fileName)
-                .append("\n")
+                .append('\n')
                 .append(t.fileSize)
                 .append(" bytes");
             if (!t.description.equals(""))
-                info.append("\n").append(t.description);
+                info.append('\n').append(t.description);
             if (t.isStarted() && t.started!=0)
                 info.append("\nStarted: ").append(Time.dateTimeLocalString(t.started));
             if (t.isStopped() && t.finished!=0)

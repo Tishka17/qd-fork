@@ -154,7 +154,10 @@ public final class CustomLight extends TimerTask {
     }
 
     private synchronized void setLight() {
-        setLight(getLightValue(state));
+        if( Config.oneLight)
+            setLight(getLightValue(IDLE));
+        else
+            setLight(getLightValue(state));
     }
 
     public void run() {

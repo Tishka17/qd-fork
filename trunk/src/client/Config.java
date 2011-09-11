@@ -311,6 +311,7 @@ public class Config {
 
 //#ifdef LIGHT_CONTROL
     public static boolean lightControl = false;
+    public static boolean oneLight = false;
 
     public static int lightKeyPressTime = 10;
     public static int lightMessageTime = 2;
@@ -505,6 +506,7 @@ public class Config {
 //#endif
 //#ifdef LIGHT_CONTROL
             lightControl = inputStream.readBoolean();
+            oneLight = inputStream.readBoolean();
 //#endif
 //#ifdef AVATARS
             auto_queryPhoto = inputStream.readBoolean();
@@ -643,6 +645,7 @@ public class Config {
 //#endif
 //#if LIGHT_CONTROL
             outputStream.writeBoolean(lightControl);
+            outputStream.writeBoolean(oneLight);
 //#endif
 //#ifdef AVATARS
             outputStream.writeBoolean(auto_queryPhoto);

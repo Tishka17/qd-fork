@@ -38,6 +38,7 @@ public class LightConfigForm extends DefForm {
     private static final int SPACE_HEIGHT = 5;
 
     private CheckBox config_enabled;
+    private CheckBox config_oneLight;
     private TrackItem lightIdle;
 
     private LightControlItem lightKeyPress;
@@ -62,69 +63,26 @@ public class LightConfigForm extends DefForm {
         super(SR.get(SR.L_CONFIG));
 
         config_enabled = new CheckBox(SR.get(SR.L_ENABLED), Config.lightControl);
-        addControl(config_enabled);
-
-        addControl(new SpacerItem(SPACE_HEIGHT));
-
-        addControl(new SimpleString(SR.get(SR.L_IDLE_VALUE), true));
+        config_oneLight= new CheckBox( "Одна яркость для всех случаев", Config.oneLight);
         lightIdle = new LightControlItem(Config.lightIdle);
-        addControl(lightIdle);
 
-        addControl(new SpacerItem(SPACE_HEIGHT));
-
-        addControl(new SimpleString(SR.get(SR.L_KEYPRESS_VALUE), true));
         lightKeyPress = new LightControlItem(Config.lightKeyPress);
-        addControl(lightKeyPress);
-
         lightKeyPressTime = new NumberInput(SR.get(SR.L_KEYPRESS_TIMEOUT), Config.lightKeyPressTime, 1, 600);
-        addControl(lightKeyPressTime);
-
-        addControl(new SpacerItem(SPACE_HEIGHT));
-
-        addControl(new SimpleString(SR.get(SR.L_MESSAGE_VALUE), true));
         lightMessage = new LightControlItem(Config.lightMessage);
-        addControl(lightMessage);
-
         lightMessageTime = new NumberInput(SR.get(SR.L_MESSAGE_TIMEOUT), Config.lightMessageTime, 1, 600);
-        addControl(lightMessageTime);
-
-        addControl(new SpacerItem(SPACE_HEIGHT));
-
-        addControl(new SimpleString(SR.get(SR.MS_PRESENCE_VALUE), true));
         lightPresence = new LightControlItem(Config.lightPresence);
-        addControl(lightPresence);
-
         lightPresenceTime = new NumberInput(SR.get(SR.MS_PRESENCE_TIMEOUT), Config.lightPresenceTime, 1, 600);
-        addControl(lightPresenceTime);
-
-        addControl(new SpacerItem(SPACE_HEIGHT));
-
-        addControl(new SimpleString(SR.get(SR.MS_CONNECT_VALUE), true));
         lightConnect = new LightControlItem(Config.lightConnect);
-        addControl(lightConnect);
-
         lightConnectTime = new NumberInput(SR.get(SR.MS_CONNECT_TIMEOUT), Config.lightConnectTime, 1, 600);
-        addControl(lightConnectTime);
-
-        addControl(new SpacerItem(SPACE_HEIGHT));
-
-        addControl(new SimpleString(SR.get(SR.MS_ERROR_VALUE), true));
         lightError = new LightControlItem(Config.lightError);
-        addControl(lightError);
-
         lightErrorTime = new NumberInput(SR.get(SR.MS_ERROR_TIMEOUT), Config.lightErrorTime, 1, 600);
-        addControl(lightErrorTime);
-
-        addControl(new SimpleString(SR.get(SR.MS_BLINK_VALUE), true));
         lightBlink = new LightControlItem(Config.lightBlink);
-        addControl(lightBlink);
-
         lightBlinkTime = new NumberInput(SR.get(SR.MS_BLINK_TIMEOUT), Config.lightBlinkTime, 1, 600);
-        addControl(lightBlinkTime);
     }
 
     public void cmdOk() {
         Config.lightControl = config_enabled.getValue();
+        Config.oneLight = config_oneLight.getValue();
 
         // light.light_idle=light.light_idle*5;//округление
         // r94m - переменный шаг подсветки by Mars
@@ -151,5 +109,47 @@ public class LightConfigForm extends DefForm {
         CustomLight.switchOn(Config.lightControl);
         destroyView();
     }
+
+    protected void beginPaint(){
+        update();
+    }
+
+    private void update(){
+        itemsList.removeAllElements();
+
+        addControl(config_enabled);
+        addControl(config_oneLight);
+        addControl(new SpacerItem(SPACE_HEIGHT));
+        addControl(new SimpleString(SR.get(SR.L_IDLE_VALUE), true));
+        addControl(lightIdle);
+
+        if( config_oneLight.getValue())
+            return;
+
+        addControl(new SpacerItem(SPACE_HEIGHT));
+        addControl(new SimpleString(SR.get(SR.L_KEYPRESS_VALUE), true));
+        addControl(lightKeyPress);
+        addControl(lightKeyPressTime);
+        addControl(new SpacerItem(SPACE_HEIGHT));
+        addControl(new SimpleString(SR.get(SR.L_MESSAGE_VALUE), true));
+        addControl(lightMessage);
+        addControl(lightMessageTime);
+        addControl(new SpacerItem(SPACE_HEIGHT));
+        addControl(new SimpleString(SR.get(SR.MS_PRESENCE_VALUE), true));
+        addControl(lightPresence);
+        addControl(lightPresenceTime);
+        addControl(new SpacerItem(SPACE_HEIGHT));
+        addControl(new SimpleString(SR.get(SR.MS_CONNECT_VALUE), true));
+        addControl(lightConnect);
+        addControl(lightConnectTime);
+        addControl(new SpacerItem(SPACE_HEIGHT));
+        addControl(new SimpleString(SR.get(SR.MS_ERROR_VALUE), true));
+        addControl(lightError);
+        addControl(lightErrorTime);
+        addControl(new SimpleString(SR.get(SR.MS_BLINK_VALUE), true));
+        addControl(lightBlink);
+        addControl(lightBlinkTime);
+    }
+
 }
 //#endif

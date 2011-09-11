@@ -94,12 +94,9 @@ public class TaskList extends VirtualList implements MenuListener {
             rmsUpdate();
             destroyView();
         }
-        //TaskElement te= (TaskElement)getFocusedObject();
         if (c==cmdEdit)
-            //if( te == null) taskList.addElement( new TaskElement());
             new TaskEdit( this, (TaskElement)getFocusedObject()).show();
         if (c==cmdAdd)
-            //if( te == null) taskList.addElement( new TaskElement());
             new TaskEdit(this, null).show();
         if (c==cmdDel) {
             taskList.removeElement(getFocusedObject());

@@ -31,12 +31,7 @@ import io.NvStorage;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import locale.SR;
 import ui.IconTextElement;
-import ui.VirtualCanvas;
-
-import locale.SR;
-import midlet.BombusQD;
 import util.Time;
 
 /**
@@ -61,16 +56,18 @@ public class TaskElement extends IconTextElement {
     public int Type= TASK_TYPE_DISABLED;
     public int Action = 0;
     public int Notify = 0;
-    //public boolean NotifyV = false;
-    //public boolean NotifyL = false;
-    //public boolean NotifyS = false;
     public long StartMS = 0;
     public long WaitMS = 0;
     public int Hour = 0;
     public int Minute = 0;
     public int NotifyD = 0;
     public boolean Once = true;
+
     public boolean isRunned = false;
+    // если ИСТИНА - задача запущена и ЖДЕТ исполнения
+    public boolean isNotified = false; 
+    // если ИСТИНА - задача ВЫПОЛНИЛА уведомление
+
     public String Name= "Имя по умолчанию";
 //    public String Name= SR.get(SR.MS_AUTOTASK_DEFAULTNAME);
     public String Text= "Текст по умолчанию";
@@ -86,7 +83,10 @@ public class TaskElement extends IconTextElement {
     }
 
     public String toString(){
-        return Name;
+        StringBuffer buf= new StringBuffer(0);
+        if( isRunned)
+            buf.append("~ ");
+        return buf.append( Name).toString();
     }
 
     public static TaskElement createFromStorage(int index) {
@@ -122,7 +122,7 @@ public class TaskElement extends IconTextElement {
             /*e.printStackTrace();*/
             te= null;
         }
-        return te; //(te.Type ==TASK_TYPE_DISABLED)?null:te;
+        return te;
     }
 
     public void saveToDataOutputStream(DataOutputStream outputStream){
@@ -139,22 +139,6 @@ public class TaskElement extends IconTextElement {
             outputStream.writeLong( StartMS);
             outputStream.writeLong( WaitMS);
         } catch (IOException e) { }
-    }
-
-    public int NotifyD( ){
-        return NotifyD;
-    }
-
-    public void NotifyD( int narg){
-        NotifyD= narg;
-    }
-
-    public int Type( ){
-        return Type;
-    }
-
-    public void Type( int targ){
-        Type= targ;
     }
 
     public boolean Notify( ){
@@ -180,56 +164,6 @@ public class TaskElement extends IconTextElement {
         return (( Notify & TASK_NOTIFY_SOUND) !=0);
     }
 
-    public String Name( ){
-        return Name;
-    }
-
-    public void Name( String narg){
-        Name= narg;
-    }
-
-    public String Text( ){
-        return Text;
-    }
-
-    public void Text( String sarg){
-        Text= sarg;
-    }
-
-    public int Action( ){
-        return Action;
-    }
-
-    public void Action( int aarg){
-        Action= aarg;
-    }
-
-    public boolean Once( ){
-        return Once;
-    }
-
-    public void Once( boolean oarg){
-        Once= oarg;
-    }
-
-    /*public boolean isRunned( ){
-        return isRunned;
-    }
-
-    public void setRunned( boolean rarg){
-        isRunned= rarg;
-    }
-     *
-     */
-
-    public int Hour( ){
-        return Hour;
-    }
-
-    public int Minute( ){
-        return Minute;
-    }
-
     public void setTime( int harg, int marg){
         Hour= harg;
         Minute= marg;
@@ -240,41 +174,48 @@ public class TaskElement extends IconTextElement {
     }
 
     public void setTimer( int marg){
-        StartMS= System.currentTimeMillis();
+        StartMS= (System.currentTimeMillis() /60000) *60000;
         WaitMS= marg *60000;
     }
 
     public boolean doTask( ){
+    // собственно проверка условий выполнения/уведомления задач
+    // вызывается из потока АвтоТаск.ран() через метод ТаскЛист.ЧекТаскс()
+    // ОДИН раз в минуту точно в ее начале... теоретически...
+    // возврат истины указывает АвтоТаск.ран(), что эта задача еще должна
+    // быть выполнена, и завершаться потоку рано...
         switch( Type){
             case TASK_TYPE_DISABLED:
                 isRunned= false;
                 return false;
                 //break;
             case TASK_TYPE_TIMER:
-                if( (System.currentTimeMillis() -StartMS) >(WaitMS -60000*NotifyD)){
-                    TaskExec.doNotify( this);
+                if( isRunned && (System.currentTimeMillis() -StartMS) >(WaitMS -60000*NotifyD)){
+                    //TaskExec.doNotify( this);
                 }
                 if( (System.currentTimeMillis() -StartMS) >WaitMS){
-                    StartMS= System.currentTimeMillis();
-                    isRunned= false;
+                    StartMS= (System.currentTimeMillis() /60000) *60000;
                     TaskExec.doAction( this);
-                    return false;
                 }// if
                 break;
             case TASK_TYPE_TIME:
-                if( (Time.getHour()*60 +Time.getMin()) ==(Hour*60 +Minute -NotifyD)){
+                if( isRunned && (Time.getHour()*60 +Time.getMin()) ==(Hour*60 +Minute -NotifyD)){
                     TaskExec.doNotify( this);
                 }
                 if( Time.getHour() ==Hour && Time.getMin() ==Minute){
-                    isRunned= false;
                     TaskExec.doAction( this);
-                    return false;
                 }// if
                 break;
         }// switch
         if( Once && !isRunned){
+        // если задача одноразовая и не ждет - отключаем ее
             Type= TASK_TYPE_DISABLED;
             return false;
+        }// if
+        if( !Once){
+        // если не одноразовая - поддерживаем ее в режиме ожидания
+            isNotified= false;
+            isRunned= true;
         }// if
         return true;
     }// doTask()

@@ -59,7 +59,11 @@ public class Time {
 
     public static String timeLocalString(long date){
         Calendar c=calDate(date);
+//#if DEBUG
+//#         return lz2(c.get(Calendar.HOUR_OF_DAY))+':'+lz2(c.get(Calendar.MINUTE))+':'+lz2(c.get(Calendar.SECOND));
+//#else
         return lz2(c.get(Calendar.HOUR_OF_DAY))+':'+lz2(c.get(Calendar.MINUTE));
+//#endif
      }
 
     public static String dateTimeLocalString(long date){
@@ -151,6 +155,9 @@ public class Time {
         return calDate(utcTimeMillis()).get(Calendar.MINUTE);
      }
 
+     public static int getSecond(){
+        return calDate(utcTimeMillis()).get(Calendar.SECOND);
+     }
 
     private final static int[] calFields=
     {Calendar.YEAR,         Calendar.MONTH,     Calendar.DATE,

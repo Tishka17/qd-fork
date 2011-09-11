@@ -13,7 +13,6 @@ import ui.controls.form.TextInput;
 import ui.controls.form.NumberInput;
 import ui.controls.form.SimpleString;
 import ui.keys.UserActions;
-import ui.keys.UserActions.userAct;
 import java.util.Vector;
 import ui.IconTextElement;
 import images.MenuIcons;
@@ -61,7 +60,7 @@ public class TaskEdit extends DefForm {
 	if( newTask) te=new TaskElement();
 	this.te= te;
 
-        atName= new TextInput( "Имя задачи", te.Name(), TextField.ANY);
+        atName= new TextInput( "Имя задачи", te.Name, TextField.ANY);
 
         atType= new DropChoiceBox( "Тип задания");
             atType.append(new IconTextElement(SR.get(SR.MS_DISABLED), RosterIcons.getInstance(), RosterIcons.ICON_PLUGINBOX_UNCHECKED));
@@ -72,8 +71,10 @@ public class TaskEdit extends DefForm {
         atAction= new DropChoiceBox( "Действие");
             //atAction.items= UserActions.getActionsList( UserActions.UA_TASKS);
             // не правильно работает ???
+            atAction.append( new IconTextElement( "Напоминалка", ActionsIcons.getInstance(), ActionsIcons.ICON_TIME));
+            // нулевой элемент в планировщике - напоминалка (обрабатываем отдельно)
             Vector al= UserActions.getActionsList( UserActions.UA_TASKS);
-            for( int i=0; i <al.size(); i++)
+            for( int i=1; i <al.size(); i++)
                 atAction.append( al.elementAt( i));
         atAction.setSelectedIndex( te.Action);
 
@@ -86,12 +87,12 @@ public class TaskEdit extends DefForm {
 
         atTimeDesc=new SimpleString(SR.get(SR.MS_AUTOTASK_TIME), true);
 
-        atHour=new NumberInput(SR.get(SR.MS_AUTOTASK_HOUR), te.Hour(), 0, 23);
-        atMin=new NumberInput(SR.get(SR.MS_AUTOTASK_MIN), te.Minute(), 0, 59);
+        atHour=new NumberInput(SR.get(SR.MS_AUTOTASK_HOUR), te.Hour, 0, 23);
+        atMin=new NumberInput(SR.get(SR.MS_AUTOTASK_MIN), te.Minute, 0, 59);
         atDelay=new NumberInput(SR.get(SR.MS_AUTOTASK_DELAY), te.Timer(), 1, 600);
-        atNotifyD=new NumberInput( "Упреждение (мин)", te.NotifyD(), 1, 15);
+        atNotifyD=new NumberInput( "Упреждение (мин)", te.NotifyD, 1, 15);
 
-        atText=new TextInput( "Напомнить: текст", te.Text(), TextField.ANY);
+        atText=new TextInput( "Текст уведомления", te.Text, TextField.ANY);
     }
 
     public void cmdOk() {
@@ -107,6 +108,7 @@ public class TaskEdit extends DefForm {
             te.setTimer( atDelay.getIntValue());
 
             te.isRunned= true;
+            te.isNotified= !atNbox.getValue();
         if (newTask) {
             TaskList.taskList.addElement( te);
         }
@@ -135,7 +137,7 @@ public class TaskEdit extends DefForm {
         switch( atType.getSelectedIndex()){
             case TaskElement.TASK_TYPE_TIME:
                 itemsList.addElement( atOnce);
-                if( atAction.getSelectedIndex() !=TaskElement.TASK_ACTION_REMINDER){
+                if( atAction.getSelectedIndex() !=0){
                     itemsList.addElement( atNbox);
                     if( atNbox.getValue()){
                         itemsList.addElement( atVbox);
@@ -147,13 +149,12 @@ public class TaskEdit extends DefForm {
                 itemsList.addElement( atTimeDesc);
                 itemsList.addElement( atHour);
                 itemsList.addElement( atMin);
-                if( atAction.getSelectedIndex() ==TaskElement.TASK_ACTION_REMINDER)
-                    //itemsList.addElement( atText);
-                    // доделать напоминалку
+                //if( atAction.getSelectedIndex() ==0)
+                itemsList.addElement( atText);
             break;
             case TaskElement.TASK_TYPE_TIMER:
                 itemsList.addElement( atOnce);
-                if( atAction.getSelectedIndex() !=TaskElement.TASK_ACTION_REMINDER){
+                if( atAction.getSelectedIndex() !=0){
                     itemsList.addElement( atNbox);
                     if( atNbox.getValue()){
                         itemsList.addElement( atVbox);
@@ -163,8 +164,8 @@ public class TaskEdit extends DefForm {
                     }// if
                 }
                 itemsList.addElement(atDelay);
-                if( atAction.getSelectedIndex() ==TaskElement.TASK_ACTION_REMINDER)
-                    //itemsList.addElement(atText);
+                //if( atAction.getSelectedIndex() ==0)
+                itemsList.addElement(atText);
             break;
         }// switch
     }

@@ -24,7 +24,6 @@ import io.file.transfer.TransferManager;
 //#ifdef STATS
 import stats.StatsWindow;
 //#endif
-import java.util.Enumeration;
 import java.util.Vector;
 import locale.SR;
 import midlet.BombusQD;
@@ -35,6 +34,10 @@ import images.MenuIcons;
 import images.ActionsIcons;
 import images.RosterIcons;
 import ui.controls.AlertBox;
+import com.alsutton.jabber.datablocks.Presence;
+import client.StatusList;
+import conference.bookmark.Bookmarks;
+
 /**
  *
  * @author Mars
@@ -42,8 +45,8 @@ import ui.controls.AlertBox;
 
 public class UserActions {
     public static final int UA_ALL= -1;
-    public static final int UA_KEYS= 1;
-    public static final int UA_TASKS= 2;
+    public static final int UA_KEYS= 0x01;
+    public static final int UA_TASKS= 0x02;
 
     public static class userAct {
         int id; // Номер действия в кейсе actionExecute
@@ -82,7 +85,7 @@ public class UserActions {
         actList= new Vector(0);
 
         for( int i=0; i <allActs.length; i++){
-            if( (allActs[i].type &type) !=0)
+            if( (allActs[i].type & type) !=0)
                 actList.addElement( allActs[i].item);
         }
         return actList;
@@ -95,8 +98,8 @@ public class UserActions {
         for( int i=0; i <allActs.length; i++){
             if( (allActs[i].type &type) !=0)
                 if( eInd-- ==0){
-                    if( (type & UA_TASKS) !=0 && text != null)
-                        new AlertBox( allActs[i].item.toString(), text, AlertBox.BUTTONS_OK, 0).show();
+                    //if( (type & UA_TASKS) !=0 && text != null)
+                        //snew AlertBox( allActs[i].item.toString(), text, AlertBox.BUTTONS_OK, 0).show();
                     return ActionExecute( allActs[i].id, type);
                 }// if
         }
@@ -107,7 +110,7 @@ public class UserActions {
         new userAct( 0, -1, SR.get(SR.MS_NO), RosterIcons.getInstance(), RosterIcons.ICON_TRANSPARENT)
         ,new userAct( 1, 1, SR.get(SR.MS_OPTIONS))
         ,new userAct( 2, 1, SR.get(SR.MS_CLEAN_ALL_MESSAGES))
-        ,new userAct( 3, 0, SR.get(SR.MS_RECONNECT))
+        ,new userAct( 3, UA_ALL, SR.get(SR.MS_RECONNECT))
 //#ifdef STATS
         ,new userAct( 4, 1, SR.get(SR.MS_STATS))
 //#endif
@@ -139,7 +142,71 @@ public class UserActions {
         ,new userAct( 18, -1, SR.get(SR.MS_LOGOFF))
         ,new userAct( 19, -1, SR.get(SR.MS_AUTOLOGIN))
         ,new userAct( 20, -1, SR.get(SR.MS_DO_AUTOJOIN))
-        ,new userAct( 21, UA_TASKS, "Напоминалка")
+        ,new userAct( 21, UA_KEYS, "Juick commands")
+        ,new userAct( 22, UA_ALL, "Status: online")
+        ,new userAct( 23, UA_ALL, "Status: offline")
+        ,new userAct( 24, UA_ALL, "Status: chat")
+        ,new userAct( 25, UA_ALL, "Status: away")
+        ,new userAct( 26, UA_ALL, "Status: dnd")
+        ,new userAct( 27, UA_ALL, "Status: invisible")
+        ,new userAct( 28, UA_KEYS, "Command: EventOk")
+        //,new userAct( 29, UA_KEYS, "Command: keyClear")
+        ,new userAct( 30, UA_KEYS, "Command: keyClose")
+        ,new userAct( 31, UA_KEYS, "Command: Bookmarks")
+        ,new userAct( 32, UA_KEYS, "Command: MyServices")
+        ,new userAct( 33, UA_KEYS, "Cursor: moveHome")
+        ,new userAct( 34, UA_KEYS, "Cursor: moveEnd")
+        ,new userAct( 35, UA_KEYS, "Cursor: pageLeft")
+        ,new userAct( 36, UA_KEYS, "Cursor: pageRight")
+
+        //,new userAct( 37, UA_KEYS, "Chats: next chat")
+        //,new userAct( 38, UA_KEYS, "Chats: clear chat")
+        //,new userAct( 39, UA_KEYS, "Room: kick current")
+        //,new userAct( 40, UA_KEYS, "Room: ban current")
+
+
+
+/*
+ *         cmds[22] = "Move cursor home";
+        cmds[23] = "Move cursor end";
+        cmds[24] = "Move cursor next";
+        cmds[25] = "Move cursor previous";
+        cmds[26] = "Move cursor left";
+        cmds[27] = "Move cursor right";
+        cmds[28] = "Go to previous window";
+        cmds[29] = "Delete current item";
+        cmds[30] = "[Chat] " + "Quote";
+        cmds[31] = "[Chat] " + "Active contacts";
+        cmds[32] = "[Roster] " + SR.MS_BOOKMARKS;
+        cmds[33] = "[Roster] Collapse all group";
+        cmds[34] = "Show info";
+        cmds[35] = "Action Ok";
+        cmds[36] = "Left_Soft std action";
+        cmds[37] = "Right_Soft stc action";
+        cmds[38] = "[Roster] " + "Show offline contacts";
+        cmds[39] = "[Roster] " + SR.MS_TOOLS;
+        cmds[40] = "[Roster] " + SR.MS_APP_MINIMIZE;
+        cmds[41] = "[Roster + ActiveContacts] " + "Focus to next unreaded";
+        cmds[42] = "[Roster] " + "Previous group";
+        cmds[43] = "[Roster] " + "Next group";
+        cmds[44] = "Block keyboard";
+        cmds[45] = "[Roster] " + "Vibra/Sound";
+        cmds[46] = "Moto backlight";
+        cmds[47] = "[Roster] " + "Active contacts";
+        cmds[48] = "[Chat] " + "Previous contact with messages";
+        cmds[49] = "[Chat] " + "Next contact with messages";
+        cmds[50] = "[Chat + XMLList + ActiveContacts] " + SR.MS_CLEAR_LIST;
+        cmds[51] = "[Chat] " + SR.MS_REPLY;
+        cmds[52] = "[Chat + Roster + ActiveContacts + XMLList + MessageUrl] " + SR.MS_RESUME;
+        cmds[53] = "["+SR.MS_ARCHIVE+"] " + SR.MS_PASTE_BODY;
+        cmds[54] = "["+SR.MS_PRIVACY_LISTS+"] " + "Add new item";
+        cmds[55] = "["+SR.MS_HISTORY+"] " + "Begin of file";
+        cmds[56] = "["+SR.MS_HISTORY+"] " + "End of file";
+        cmds[57] = "["+SR.MS_BOOKMARKS+"] " + SR.MS_DISCO_ROOM;
+        cmds[58] = "[Roster] " + "Kick from groupchat";
+        cmds[59] = "[Chat] " + "focus to next hightlited message";
+
+ */
     };
 
     private static boolean ActionExecute(int actId, int type) {
@@ -229,9 +296,81 @@ public class UserActions {
             case 20: //Join MUCs
                 sd.roster.MUCsAutoJoin( SR.get(SR.MS_DO_AUTOJOIN));
                 return true;
-            case 21: //Reminder
-                sd.roster.MUCsAutoJoin( SR.get(SR.MS_DO_AUTOJOIN));
+            case 21: //Juick
+                //sd.roster.MUCsAutoJoin( SR.get(SR.MS_DO_AUTOJOIN));
                 return true;
+            case 22:
+                BombusQD.sd.roster.sendPresence( Presence.PRESENCE_ONLINE,
+                        StatusList.getInstance().getStatus(Presence.PRESENCE_ONLINE).getMessage());
+                return true;
+            case 23:
+                BombusQD.sd.roster.sendPresence( Presence.PRESENCE_OFFLINE, SR.get(SR.MS_OFFLINE));
+                return true;
+            case 24:
+                BombusQD.sd.roster.sendPresence( Presence.PRESENCE_CHAT, SR.get(SR.MS_CHAT));
+                return true;
+            case 25:
+                BombusQD.sd.roster.sendPresence( Presence.PRESENCE_AWAY, SR.get(SR.MS_AWAY));
+                return true;
+            case 26:
+                BombusQD.sd.roster.sendPresence( Presence.PRESENCE_DND, SR.get(SR.MS_DND));
+                return true;
+            case 27:
+                BombusQD.sd.roster.sendPresence( Presence.PRESENCE_INVISIBLE, SR.get(SR.MS_INVISIBLE));
+                return true;
+            case 28:
+                sd.roster.eventOk();
+                return true;
+            case 29:
+                //client;
+                return true;
+            case 30:
+                sd.roster.destroyView();
+                return true;
+            case 31:
+                new Bookmarks().show();
+                return true;
+            case 32:
+                new ServiceDiscovery(null, null, false).show();
+                return true;
+            case 33:
+                sd.roster.moveCursorHome();
+                return true;
+            case 34:
+                sd.roster.moveCursorEnd();
+                return true;
+            case 35:
+                sd.roster.pageLeft();
+                return true;
+            case 36:
+                sd.roster.pageRight();
+                return true;
+            case 37:
+                return true;
+            case 38:
+                return true;
+            case 39:
+                //new QuickPrivelegyEditForm((MucContact)item, QuickPrivelegyEditForm.KICK,myNick).show();
+                return true;
+            case 40:
+                return true;
+/*            case 22:
+                return true;
+            case 22:
+                return true;
+            case 22:
+                return true;
+            case 22:
+                return true;
+            case 22:
+                return true;
+            case 22:
+                return true;
+            case 22:
+                return true;
+ *
+ */
+
         }
         return false;
     }

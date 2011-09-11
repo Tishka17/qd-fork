@@ -27,7 +27,7 @@
 //#ifdef AUTOTASK
 package autotask;
 
-import java.util.Vector;
+import util.Time;
 
 /* * * * * * * * *
  * @author Mars  *
@@ -36,7 +36,7 @@ import java.util.Vector;
 public class AutoTask implements Runnable{
         //extends DefForm implements Runnable {
     
-    private static final int SLEEPTIME= 5000;
+    private static final int SLEEPTIME= 1000;
     private static boolean flag= false;
 
     //public static Vector taskList;
@@ -61,13 +61,16 @@ public class AutoTask implements Runnable{
     }
 
     public void run(){
-        while( autotask.TaskList.checkTasks())
+        while( flag){
+            if( Time.getSecond() ==0)
+                autotask.TaskList.checkTasks();
             try{
                 Thread.sleep( SLEEPTIME);
-            }catch( Exception e){ 
+            }catch( Exception e){
+                flag= false;
                 break;
-            }
-       flag= false;
+            }// try
+        }// while
     }// run()
 }
 //#endif

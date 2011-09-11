@@ -38,6 +38,20 @@ public class JuickModule{
 
     public JuickModule() {
     }
+    public static JabberDataBlock LastMessages() {
+        JabberDataBlock requestLastMessages=new Iq(BOTNAME, Iq.TYPE_GET,"lastmsgs");
+	requestLastMessages.addChildNs("query",NS_MESSAGES);
+	midlet.BombusQD.sd.roster.theStream.send(requestLastMessages);
+	return requestLastMessages;
+    }
+    public static JabberDataBlock ShowMyFeed() {
+        JabberDataBlock requestMyFeed=new Iq(BOTNAME, Iq.TYPE_GET, "myfeed");
+        requestMyFeed.addChildNs("query", NS_MESSAGES).setAttribute("filter","myfeed");
+        midlet.BombusQD.sd.roster.theStream.send(requestMyFeed);
+        return requestMyFeed;
+    }
+/*    public Msg SendPrivateMsg
+    }*/
 
     public static JuickModule jm(){
         if (listener==null) { listener=new JuickModule(); }

@@ -61,7 +61,6 @@ import menu.Command;
 import io.file.transfer.TransferDispatcher;
 import io.file.transfer.TransferTask;
 //#endif
-import javax.microedition.lcdui.Displayable;
 import locale.SR;
 import login.LoginListener;
 //#ifdef NON_SASL_AUTH
@@ -131,6 +130,8 @@ import disco.ServerStatsForm;
 import history.HistoryViewer;
 //#endif
 
+import xmpp.extensions.RosterXListener;
+
 public final class Roster extends VirtualList
             implements JabberListener, MenuListener, Runnable, LoginListener {
     public final static int DROP_MESSAGES_PRESENCES = 0;
@@ -144,6 +145,8 @@ public final class Roster extends VirtualList
     //#ifdef JUICK.COM
     private final JuickModule juick = JuickModule.jm();
     //#endif
+
+    private final RosterXListener rosterx = new RosterXListener();
 
 
     public Contact activeContact = null;
@@ -953,8 +956,6 @@ public final class Roster extends VirtualList
          return clone;
       }
 
-
-
      public void addContact(Contact c, boolean ttt) {
         contactList.addContact(c, true);
         setModified();
@@ -1367,6 +1368,7 @@ public final class Roster extends VirtualList
         theStream.addBlockListener(new IqVersionReply());
         theStream.addBlockListener(new IqPing());
         theStream.addBlockListener(new EntityCaps());
+        theStream.addBlockListener(rosterx);
 
         theStream.startKeepAliveTask();
 

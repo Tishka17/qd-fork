@@ -32,6 +32,9 @@ import conference.MucContact;
 //#endif
 import javax.microedition.lcdui.TextField;
 import locale.SR;
+//#ifdef JUICK.COM
+import xmpp.extensions.JuickModule;
+//#endif
 import ui.MainBar;
 import java.util.Vector;
 import ui.VirtualElement;
@@ -152,17 +155,6 @@ public final class ContactMessageList extends MessageList implements InputTextBo
         if (isConference || isJuickContact) {
             addCommand(Commands.cmdReply);
         }
-
-         addCommand(Commands.cmdActions);
-
-//#ifdef HISTORY
-        if (Config.module_history && contact.hasHistory()) {
-            if (Config.historyTypeIndex == Config.HISTORY_RMS) {
-                addCommand(Commands.cmdHistory);
-            }
-        }
-//#endif
-
         if (getItemCount() > 0) {
 //#ifdef JUICK.COM
             if (isJuickContact) {
@@ -176,7 +168,19 @@ public final class ContactMessageList extends MessageList implements InputTextBo
                 addInCommand(1, Commands.cmdJuickUsersMsgs);
             }
 //#endif
+        }
 
+         addCommand(Commands.cmdActions);
+
+//#ifdef HISTORY
+        if (Config.module_history && contact.hasHistory()) {
+            if (Config.historyTypeIndex == Config.HISTORY_RMS) {
+                addCommand(Commands.cmdHistory);
+            }
+        }
+//#endif
+
+        if (getItemCount() > 0) {
             addCommand(Commands.cmdQuote);
             addCommand(Commands.cmdMyService);
 
@@ -312,7 +316,14 @@ public final class ContactMessageList extends MessageList implements InputTextBo
         if (!midlet.BombusQD.sd.roster.isLoggedIn()) {
             return;
         }
-
+//#ifdef JUICK.COM
+        if (c == Commands.cmdJuickLastMsgs){
+            JuickModule.LastMessages();
+        }
+        else if (c == Commands.cmdJuickLastPopular){
+        JuickModule.ShowMyFeed();
+        }
+//#endif
         if (c == Commands.cmdMessage) {
             newMessage();
 //#ifdef CLIPBOARD

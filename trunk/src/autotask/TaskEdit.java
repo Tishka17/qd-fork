@@ -89,7 +89,7 @@ public class TaskEdit extends DefForm {
 
         atHour=new NumberInput(SR.get(SR.MS_AUTOTASK_HOUR), te.Hour, 0, 23);
         atMin=new NumberInput(SR.get(SR.MS_AUTOTASK_MIN), te.Minute, 0, 59);
-        atDelay=new NumberInput(SR.get(SR.MS_AUTOTASK_DELAY), te.Timer(), 1, 600);
+        atDelay=new NumberInput(SR.get(SR.MS_AUTOTASK_DELAY), te.Timer, 1, 600);
         atNotifyD=new NumberInput( "Упреждение (мин)", te.NotifyD, 1, 15);
 
         atText=new TextInput( "Текст уведомления", te.Text, TextField.ANY);
@@ -107,7 +107,7 @@ public class TaskEdit extends DefForm {
             te.Once = atOnce.getValue();
             te.setTimer( atDelay.getIntValue());
 
-            te.isRunned= true;
+            te.isRunned= (atType.getSelectedIndex() !=TaskElement.TASK_TYPE_DISABLED);
             te.isNotified= !atNbox.getValue();
         if (newTask) {
             TaskList.taskList.addElement( te);
@@ -144,13 +144,14 @@ public class TaskEdit extends DefForm {
                         itemsList.addElement( atLbox);
                         itemsList.addElement( atSbox);
                         itemsList.addElement( atNotifyD);
+                        itemsList.addElement( atText);
                     }// if
                 }
                 itemsList.addElement( atTimeDesc);
                 itemsList.addElement( atHour);
                 itemsList.addElement( atMin);
-                //if( atAction.getSelectedIndex() ==0)
-                itemsList.addElement( atText);
+                if( atAction.getSelectedIndex() ==0)
+                    itemsList.addElement(atText);
             break;
             case TaskElement.TASK_TYPE_TIMER:
                 itemsList.addElement( atOnce);
@@ -161,11 +162,12 @@ public class TaskEdit extends DefForm {
                         itemsList.addElement( atLbox);
                         itemsList.addElement( atSbox);
                         itemsList.addElement( atNotifyD);
+                        itemsList.addElement(atText);
                     }// if
                 }
                 itemsList.addElement(atDelay);
-                //if( atAction.getSelectedIndex() ==0)
-                itemsList.addElement(atText);
+                if( atAction.getSelectedIndex() ==0)
+                    itemsList.addElement(atText);
             break;
         }// switch
     }

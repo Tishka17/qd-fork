@@ -56,17 +56,20 @@ public class TaskElement extends IconTextElement {
     public int Type= TASK_TYPE_DISABLED;
     public int Action = 0;
     public int Notify = 0;
-    public long StartMS = 0;
-    public long WaitMS = 0;
+    public int WaitMin = 0;
+        // обратный отсчет таймера в мин
+    public int Timer = 0;
+        // период таймера в мин
     public int Hour = 0;
     public int Minute = 0;
     public int NotifyD = 0;
+        // упреждение уведомления в мин
     public boolean Once = true;
 
     public boolean isRunned = false;
-    // если ИСТИНА - задача запущена и ЖДЕТ исполнения
+        // если ИСТИНА - задача запущена и ЖДЕТ исполнения
     public boolean isNotified = false; 
-    // если ИСТИНА - задача ВЫПОЛНИЛА уведомление
+        // если ИСТИНА - задача ВЫПОЛНИЛА уведомление
 
     public String Name= "Имя по умолчанию";
 //    public String Name= SR.get(SR.MS_AUTOTASK_DEFAULTNAME);
@@ -83,10 +86,8 @@ public class TaskElement extends IconTextElement {
     }
 
     public String toString(){
-        StringBuffer buf= new StringBuffer(0);
-        if( isRunned)
-            buf.append("~ ");
-        return buf.append( Name).toString();
+        if( isRunned) return "~ "+Name;
+        return Name;
     }
 
     public static TaskElement createFromStorage(int index) {
@@ -116,8 +117,8 @@ public class TaskElement extends IconTextElement {
             te.Hour = inputStream.readInt();
             te.Minute = inputStream.readInt();
             te.NotifyD = inputStream.readInt();
-            te.StartMS = inputStream.readLong();
-            te.WaitMS = inputStream.readLong();
+            te.WaitMin = inputStream.readInt();
+            te.Timer = inputStream.readInt();
         } catch (IOException e) {
             /*e.printStackTrace();*/
             te= null;
@@ -136,8 +137,8 @@ public class TaskElement extends IconTextElement {
             outputStream.writeInt( Hour);
             outputStream.writeInt( Minute);
             outputStream.writeInt( NotifyD);
-            outputStream.writeLong( StartMS);
-            outputStream.writeLong( WaitMS);
+            outputStream.writeInt( WaitMin);
+            outputStream.writeInt( Timer);
         } catch (IOException e) { }
     }
 
@@ -169,13 +170,9 @@ public class TaskElement extends IconTextElement {
         Minute= marg;
     }
 
-    public int Timer( ){
-        return (int)(WaitMS /60000);
-    }
-
     public void setTimer( int marg){
-        StartMS= (System.currentTimeMillis() /60000) *60000;
-        WaitMS= marg *60000;
+        Timer= marg;
+        WaitMin= Timer;
     }
 
     public boolean doTask( ){
@@ -190,12 +187,13 @@ public class TaskElement extends IconTextElement {
                 return false;
                 //break;
             case TASK_TYPE_TIMER:
-                if( isRunned && (System.currentTimeMillis() -StartMS) >(WaitMS -60000*NotifyD)){
-                    //TaskExec.doNotify( this);
+                WaitMin--;
+                if( isRunned && WaitMin ==NotifyD){
+                    TaskExec.doNotify( this);
                 }
-                if( (System.currentTimeMillis() -StartMS) >WaitMS){
-                    StartMS= (System.currentTimeMillis() /60000) *60000;
+                if( WaitMin ==0){
                     TaskExec.doAction( this);
+                    WaitMin= Timer;
                 }// if
                 break;
             case TASK_TYPE_TIME:

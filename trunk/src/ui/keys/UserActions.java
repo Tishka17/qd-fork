@@ -304,19 +304,24 @@ public class UserActions {
                         StatusList.getInstance().getStatus(Presence.PRESENCE_ONLINE).getMessage());
                 return true;
             case 23:
-                BombusQD.sd.roster.sendPresence( Presence.PRESENCE_OFFLINE, SR.get(SR.MS_OFFLINE));
+                BombusQD.sd.roster.sendPresence( Presence.PRESENCE_OFFLINE,
+                        StatusList.getInstance().getStatus(Presence.PRESENCE_OFFLINE).getMessage());
                 return true;
             case 24:
-                BombusQD.sd.roster.sendPresence( Presence.PRESENCE_CHAT, SR.get(SR.MS_CHAT));
+                BombusQD.sd.roster.sendPresence( Presence.PRESENCE_CHAT,
+                        StatusList.getInstance().getStatus(Presence.PRESENCE_CHAT).getMessage());
                 return true;
             case 25:
-                BombusQD.sd.roster.sendPresence( Presence.PRESENCE_AWAY, SR.get(SR.MS_AWAY));
+                BombusQD.sd.roster.sendPresence( Presence.PRESENCE_AWAY,
+                        StatusList.getInstance().getStatus(Presence.PRESENCE_AWAY).getMessage());
                 return true;
             case 26:
-                BombusQD.sd.roster.sendPresence( Presence.PRESENCE_DND, SR.get(SR.MS_DND));
+                BombusQD.sd.roster.sendPresence( Presence.PRESENCE_DND,
+                        StatusList.getInstance().getStatus(Presence.PRESENCE_DND).getMessage());
                 return true;
             case 27:
-                BombusQD.sd.roster.sendPresence( Presence.PRESENCE_INVISIBLE, SR.get(SR.MS_INVISIBLE));
+                BombusQD.sd.roster.sendPresence( Presence.PRESENCE_INVISIBLE,
+                        StatusList.getInstance().getStatus(Presence.PRESENCE_INVISIBLE).getMessage());
                 return true;
             case 28:
                 sd.roster.eventOk();

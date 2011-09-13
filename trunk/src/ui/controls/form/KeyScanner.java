@@ -44,10 +44,6 @@ public class KeyScanner extends IconTextElement{
     private int fontHeight;
     private int captionFontHeight;
 
-    private int colorItem;
-    private int colorBorder;
-    private int colorBGnd;
-
     public boolean selected;
     public int keyCode;
     public boolean isLong;
@@ -60,10 +56,6 @@ public class KeyScanner extends IconTextElement{
             this.caption= "";
         else
             this.caption= caption;
-
-        colorItem = ColorTheme.getColor(ColorTheme.CONTROL_ITEM);
-        colorBorder = ColorTheme.getColor(ColorTheme.CURSOR_OUTLINE);
-        colorBGnd = ColorTheme.getColor(ColorTheme.LIST_BGND);
 
         font = FontCache.getFont(false, Config.rosterFont);
         fontHeight = font.getHeight();
@@ -111,6 +103,7 @@ public class KeyScanner extends IconTextElement{
         if( selected){
             selected = false;
             this.keyCode = keyCode;
+            this.isLong = false;
             text = "(" + ui.keys.UserKey.getKeyName(keyCode) +")";
             return true;
         }//ifel
@@ -164,10 +157,14 @@ public class KeyScanner extends IconTextElement{
 
         if (text.length() == 0) {
             width = width - midlet.BombusQD.cf.scrollWidth - 5;
-            g.setColor(colorBGnd);
+            g.setColor(ColorTheme.getColor(ColorTheme.LIST_BGND));
             g.fillRect(5, y, width, height - 3);
 
-            g.setColor((sel) ? colorBorder : colorItem);
+            
+            if (sel)
+                g.setColor(ColorTheme.getColor(ColorTheme.CURSOR_OUTLINE));
+            else 
+                g.setColor(ColorTheme.getColor(ColorTheme.CONTROL_ITEM));
             g.drawRoundRect(5, y, width, height - 3, 8, 8); //Tishka17
         }
 

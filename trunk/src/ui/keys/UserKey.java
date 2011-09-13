@@ -31,7 +31,6 @@ import io.NvStorage;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import locale.SR;
 import ui.IconTextElement;
 import ui.VirtualCanvas;
 

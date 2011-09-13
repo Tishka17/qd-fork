@@ -27,46 +27,19 @@
 package ui.keys;
 
 import client.Config;
-import client.ConfigForm;
-import client.StaticData;
-import colors.ColorTheme;
-//#ifdef XML_CONSOLE
-//# import console.xml.XMLConsole;
-//#endif
-//#ifdef PRIVACY
-import privacy.PrivacySelect;
-//#endif
-//#ifdef SERVICE_DISCOVERY
-import disco.ServiceDiscovery;
-//#endif
-//#if FILE_IO && FILE_TRANSFER
-import io.file.transfer.TransferManager;
-//#endif
-//#ifdef STATS
-import stats.StatsWindow;
-//#endif
 import java.util.Enumeration;
 import java.util.Vector;
-import locale.SR;
-import midlet.BombusQD;
-import ui.VirtualList;
-import ui.keys.UserActions;
 
 public class UserKeyExec {
     public static int noExecSem = 0;
     public static int waitCode = 0;
     public static boolean waitLong = false;
-    public static int waitCmd = 0;
-
-//    private static Config cf;
-//    StaticData sd = StaticData.getInstance();
 
     private static UserKeyExec instance;
 
     public static UserKeyExec getInstance(){
 	if (instance==null) {
 	    instance=new UserKeyExec();
-            //cf=Config.getInstance();
             instance.initCommands();
 	}
 	return instance;
@@ -103,25 +76,26 @@ public class UserKeyExec {
             return false;
         if (!Config.userKeys)
             return false;
-        if (waitCode==key && waitLong==isLong) {
-            //commandExecute( waitCmd);
-            UserActions.doActionByExtIndex( UserActions.UA_KEYS, waitCmd, null);
-            // обработали клавишу, прекратить ее
-            // дапьнейшее продвижение в VirtualCanvas
-            return true;
-        }
-        waitCode = 0;
         for (Enumeration commands=commandsList.elements(); commands.hasMoreElements(); ) {
             UserKey userKeyItem=(UserKey) commands.nextElement();
-            if (userKeyItem.keyCode==key && userKeyItem.keyLong==isLong) {
-                if( userKeyItem.mKey){
-                    waitCode = userKeyItem.secCode;
-                    waitLong = userKeyItem.secLong;
-                    waitCmd = userKeyItem.commandId;
+            if (waitCode!=0) {
+                if (userKeyItem.mKey 
+                        && userKeyItem.keyCode==waitCode 
+                        && userKeyItem.keyLong==waitLong
+                        && userKeyItem.secCode==key 
+                        && userKeyItem.secLong==isLong) {
+                  UserActions.doActionByExtIndex( UserActions.UA_KEYS, userKeyItem.commandId, null);
+                  waitCode = 0;
+                  return true;
+                }  
+            } else if (userKeyItem.keyCode==key && userKeyItem.keyLong==isLong) {
+                if(userKeyItem.mKey){
+                    waitCode = key;
+                    waitLong = isLong;
                     return true;
                 }
-                //commandExecute(userKeyItem.commandId);
                 UserActions.doActionByExtIndex( UserActions.UA_KEYS, userKeyItem.commandId, null);
+                waitCode = 0;
                 // обработали клавишу, прекратить ее
                 // дапьнейшее продвижение в VirtualCanvas
                 return true;
@@ -129,87 +103,5 @@ public class UserKeyExec {
         }
         return false;
     }
-
-/*    private boolean commandExecute(int commandId) { //return false if key not executed
-        //int commandId=getCommandByKey(command);
-
-        if (commandId<1) return false;
-
-        boolean connected= ( sd.roster.isLoggedIn() );
-
-        switch (commandId) {
-            case 1:
-                new ConfigForm().show();
-                break;
-            case 2:
-                sd.roster.cmdCleanAllMessages();
-                break;
-            case 3:
-                sd.roster.connectionTerminated(new Exception(SR.get(SR.MS_SIMULATED_BREAK)));
-                break;
-//#ifdef STATS
-            case 4:
-                new StatsWindow().show();
-                break;
-//#endif
-            case 5:
-                sd.roster.cmdStatus();
-                break;
-//#if FILE_IO && FILE_TRANSFER
-            case 6:
-                new TransferManager().show();
-                break;
-//#endif
-//#ifdef ARCHIVE
-            case 7:
-                sd.roster.cmdArchive();
-                break;
-//#endif
-//#ifdef SERVICE_DISCOVERY
-            case 8:
-                if (connected) {
-                    new ServiceDiscovery(null, null, false).show();
-                }
-                break;
-//#endif
-//#ifdef PRIVACY
-            case 9:
-                if (connected) {
-                    new PrivacySelect().show();
-                }
-                break;
-//#endif
-            case 10:
-                new UserKeysList().show();
-                break;
-//#ifdef POPUPS
-            case 11:
-                VirtualList.getPopUp().clear();;
-
-                break;
-//#endif
-            case 12:
-                if (cf.allowMinimize) {
-                    BombusQD.hideApp();
-                }
-                break;
-            case 13:
-                ColorTheme.invertSkin();
-                break;
-            case 14:
-                Config.fullscreen = !Config.fullscreen;
-                sd.canvas.setFullScreenMode(Config.fullscreen);
-                cf.saveToStorage();
-                break;
-//#ifdef XML_CONSOLE
-//#         case 15:
-//#         new XMLConsole().show();
-//#         break;
-//#endif
-        }
-        return true;
-    }
- *
- */
 }
 //#endif

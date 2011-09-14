@@ -33,7 +33,7 @@ import ui.IconTextElement;
 import images.MenuIcons;
 import images.ActionsIcons;
 import images.RosterIcons;
-import ui.controls.AlertBox;
+import client.ContactMessageList;
 import com.alsutton.jabber.datablocks.Presence;
 import client.StatusList;
 import conference.bookmark.Bookmarks;
@@ -107,42 +107,42 @@ public class UserActions {
     }
 
     public static final userAct allActs[]= {
-        new userAct( 0, -1, SR.get(SR.MS_NO), RosterIcons.getInstance(), RosterIcons.ICON_TRANSPARENT)
-        ,new userAct( 1, 1, SR.get(SR.MS_OPTIONS))
-        ,new userAct( 2, 1, SR.get(SR.MS_CLEAN_ALL_MESSAGES))
+        new userAct( 0, UA_ALL, SR.get(SR.MS_NO), RosterIcons.getInstance(), RosterIcons.ICON_TRANSPARENT)
+        ,new userAct( 1, UA_KEYS, SR.get(SR.MS_OPTIONS))
+        ,new userAct( 2, UA_KEYS, SR.get(SR.MS_CLEAN_ALL_MESSAGES))
         ,new userAct( 3, UA_ALL, SR.get(SR.MS_RECONNECT))
 //#ifdef STATS
-        ,new userAct( 4, 1, SR.get(SR.MS_STATS))
+        ,new userAct( 4, UA_KEYS, SR.get(SR.MS_STATS))
 //#endif
-        ,new userAct( 5, 1, SR.get(SR.MS_STATUS))
+        ,new userAct( 5, UA_KEYS, SR.get(SR.MS_STATUS))
 //#if FILE_IO && FILE_TRANSFER
-        ,new userAct( 6, 1, SR.get(SR.MS_FILE_TRANSFERS))
+        ,new userAct( 6, UA_KEYS, SR.get(SR.MS_FILE_TRANSFERS))
 //#endif
 //#ifdef ARCHIVE
-        ,new userAct( 7, 1, SR.get(SR.MS_ARCHIVE))
+        ,new userAct( 7, UA_KEYS, SR.get(SR.MS_ARCHIVE))
 //#endif
 //#ifdef SERVICE_DISCOVERY
-        ,new userAct( 8, 1, SR.get(SR.MS_DISCO))
+        ,new userAct( 8, UA_KEYS, SR.get(SR.MS_DISCO))
 //#endif
 //#ifdef PRIVACY
-        ,new userAct( 9, 1, SR.get(SR.MS_PRIVACY_LISTS))
+        ,new userAct( 9, UA_KEYS, SR.get(SR.MS_PRIVACY_LISTS))
 //#endif
-        ,new userAct( 10, 1, SR.get(SR.MS_CUSTOM_KEYS))
+        ,new userAct( 10, UA_KEYS, SR.get(SR.MS_CUSTOM_KEYS))
 //#ifdef POPUPS
-        ,new userAct( 11, 1, SR.get(SR.MS_CLEAR_POPUPS))
+        ,new userAct( 11, UA_KEYS, SR.get(SR.MS_CLEAR_POPUPS))
 //#endif
-        ,new userAct( 12, -1, SR.get(SR.MS_APP_MINIMIZE))
-        ,new userAct( 13, -1, SR.get(SR.MS_INVERT))
-        ,new userAct( 14, 1, SR.get(SR.MS_FULLSCREEN))
+        ,new userAct( 12, UA_ALL, SR.get(SR.MS_APP_MINIMIZE))
+        ,new userAct( 13, UA_ALL, SR.get(SR.MS_INVERT))
+        ,new userAct( 14, UA_KEYS, SR.get(SR.MS_FULLSCREEN))
 //#ifdef XML_CONSOLE
-//#         ,new userAct( 15, 1, SR.get(SR.MS_XML_CONSOLE))
+//#         ,new userAct( 15, UA_KEYS, SR.get(SR.MS_XML_CONSOLE))
 //#endif
-        ,new userAct( 16, -1, SR.get(SR.MS_AUTOTASK_QUIT_CONFERENCES))
+        ,new userAct( 16, UA_ALL, SR.get(SR.MS_AUTOTASK_QUIT_CONFERENCES))
         ,new userAct( 17, UA_ALL, "Quit QD")
-        ,new userAct( 18, -1, SR.get(SR.MS_LOGOFF))
-        ,new userAct( 19, -1, SR.get(SR.MS_AUTOLOGIN))
-        ,new userAct( 20, -1, SR.get(SR.MS_DO_AUTOJOIN))
-        ,new userAct( 21, UA_KEYS, "Juick commands")
+        ,new userAct( 18, UA_ALL, SR.get(SR.MS_LOGOFF))
+        ,new userAct( 19, UA_ALL, SR.get(SR.MS_AUTOLOGIN))
+        ,new userAct( 20, UA_ALL, SR.get(SR.MS_DO_AUTOJOIN))
+        //,new userAct( 21, UA_KEYS, "Juick commands")
         ,new userAct( 22, UA_ALL, "Status: online")
         ,new userAct( 23, UA_ALL, "Status: offline")
         ,new userAct( 24, UA_ALL, "Status: chat")
@@ -150,19 +150,20 @@ public class UserActions {
         ,new userAct( 26, UA_ALL, "Status: dnd")
         ,new userAct( 27, UA_ALL, "Status: invisible")
         ,new userAct( 28, UA_KEYS, "Command: EventOk")
-        //,new userAct( 29, UA_KEYS, "Command: keyClear")
+        //,new userAct( 29, UA_KEYS, "Command: Answer")
         ,new userAct( 30, UA_KEYS, "Command: keyClose")
         ,new userAct( 31, UA_KEYS, "Command: Bookmarks")
-        ,new userAct( 32, UA_KEYS, "Command: MyServices")
+        //,new userAct( 32, UA_KEYS, "Command: MyServices")
         ,new userAct( 33, UA_KEYS, "Cursor: moveHome")
         ,new userAct( 34, UA_KEYS, "Cursor: moveEnd")
         ,new userAct( 35, UA_KEYS, "Cursor: pageLeft")
         ,new userAct( 36, UA_KEYS, "Cursor: pageRight")
 
-        //,new userAct( 37, UA_KEYS, "Chats: next chat")
-        //,new userAct( 38, UA_KEYS, "Chats: clear chat")
-        //,new userAct( 39, UA_KEYS, "Room: kick current")
-        //,new userAct( 40, UA_KEYS, "Room: ban current")
+        ,new userAct( 37, UA_KEYS, "Chats: left chat (tab)")
+        ,new userAct( 38, UA_KEYS, "Chats: right chat (tab)")
+        ,new userAct( 39, UA_KEYS, "Chats: clear chat")
+        //,new userAct( 40, UA_KEYS, "Room: kick current")
+        //,new userAct( 41, UA_KEYS, "Room: ban current")
 
 
 
@@ -336,7 +337,7 @@ public class UserActions {
                 new Bookmarks().show();
                 return true;
             case 32:
-                new ServiceDiscovery(null, null, false).show();
+                //answer();
                 return true;
             case 33:
                 sd.roster.moveCursorHome();
@@ -350,14 +351,19 @@ public class UserActions {
             case 36:
                 sd.roster.pageRight();
                 return true;
-            case 37:
+            case 37: //left chat
+                midlet.BombusQD.sd.roster.searchActiveContact( null, false);
                 return true;
-            case 38:
+            case 38: //right chat
+                midlet.BombusQD.sd.roster.searchActiveContact( null, true);
                 return true;
             case 39:
                 //new QuickPrivelegyEditForm((MucContact)item, QuickPrivelegyEditForm.KICK,myNick).show();
                 return true;
             case 40:
+                //new QuickPrivelegyEditForm((MucContact)item, QuickPrivelegyEditForm.KICK,myNick).show();
+                return true;
+            case 41:
                 return true;
 /*            case 22:
                 return true;

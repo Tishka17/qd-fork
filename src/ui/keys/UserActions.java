@@ -161,7 +161,8 @@ public class UserActions {
 
         ,new userAct( 37, UA_KEYS, "Chats: left chat (tab)")
         ,new userAct( 38, UA_KEYS, "Chats: right chat (tab)")
-        ,new userAct( 39, UA_KEYS, "Chats: clear chat")
+        ,new userAct( 39, UA_KEYS, "Chats: next chat")
+        ,new userAct( 40, UA_KEYS, "Chats: clear chat")
         //,new userAct( 40, UA_KEYS, "Room: kick current")
         //,new userAct( 41, UA_KEYS, "Room: ban current")
 
@@ -215,6 +216,7 @@ public class UserActions {
 
         Config cf= Config.getInstance();
         StaticData sd= StaticData.getInstance();
+        //ContactMessageList ct=ContactMessageList;
 
         switch (actId) {
             case 0: // nop
@@ -352,16 +354,17 @@ public class UserActions {
                 sd.roster.pageRight();
                 return true;
             case 37: //left chat
-                midlet.BombusQD.sd.roster.searchActiveContact( null, false);
+                sd.roster.searchActiveContact( null, false);
                 return true;
             case 38: //right chat
-                midlet.BombusQD.sd.roster.searchActiveContact( null, true);
+                sd.roster.searchActiveContact( null, true);
                 return true;
             case 39:
+                sd.roster.activeContact.getMessageList().switchChat();
                 //new QuickPrivelegyEditForm((MucContact)item, QuickPrivelegyEditForm.KICK,myNick).show();
                 return true;
             case 40:
-                //new QuickPrivelegyEditForm((MucContact)item, QuickPrivelegyEditForm.KICK,myNick).show();
+                sd.roster.activeContact.getMessageList().clearReadedMessageList();
                 return true;
             case 41:
                 return true;

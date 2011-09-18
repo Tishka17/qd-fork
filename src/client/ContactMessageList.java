@@ -592,7 +592,16 @@ public final class ContactMessageList extends MessageList implements InputTextBo
             super.keyPressed(keyCode);
         }
     }
-    
+
+    public void switchChat( ){
+        Vector contacts= midlet.BombusQD.sd.roster.contactList.contacts;
+        for( int i= 0; i < contacts.size(); i++){
+            if( ((Contact)contacts.elementAt( i)).getNewMessageCount() > 0){
+                ((Contact)contacts.elementAt( i)).getMessageList().show();
+            }
+        }
+    }// switchChat
+
     public boolean keyLong(int keyCode) {
         switch (keyCode) {
             case VirtualCanvas.NAVIKEY_FIRE:

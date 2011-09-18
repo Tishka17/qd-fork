@@ -698,6 +698,18 @@ public class SR {
     public final static short MS_MUC_PRIVATE_HISTORY = 666; //Conference Private history
     public final static short MS_SHOW_LAST_HISTORY = 667; //Show last messages from history
 
+    public final static short MS_SHED_NAME = 668; // Task name
+    public final static short MS_SHED_TYPE = 669; // Task type
+    public final static short MS_SHED_ACTION = 670; // Task action
+    public final static short MS_SHED_REMINDER = 671; // Reminder
+    public final static short MS_SHED_EONCE = 672; // Exec once
+    public final static short MS_SHED_NOTIFICATION = 673; // Notifocations
+    public final static short MS_SHED_VIBRA = 674; // Vibration
+    public final static short MS_SHED_LIGHT = 675; // Light
+    public final static short MS_SHED_SOUND = 676; // Sound
+    public final static short MS_SHED_PREEMPTION = 677; // Pre-emption
+    public final static short MS_SHED_TEXT = 678; // Notify text
+
      private static String[] localeItemsDefault = new String[0];
     private static String[] localeItems = {
         "en",  "en",
@@ -1367,7 +1379,19 @@ public class SR {
       "JUICK.COM",
       "Conference history",
       "Conference private history",
-      "Show last messages from history"
+      "Show last messages from history",
+
+        "Task name",
+        "Task type",
+        "Task action",
+        "Reminder",
+        "Execute once",
+        "Notifications",
+        "Vibration",
+        "Light",
+        "Sound",
+        "Pre-emption (min)",
+        "Notify text"
    };
 
     private SR() { }

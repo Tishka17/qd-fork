@@ -468,7 +468,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
     public void eventOk() {
         if (Config.createMessageByFive) {
 //#ifdef TOUCH
-            if (pointer_state!=POINTER_NONE) 
+            if (pointer_state!=POINTER_NONE)
                 answer();
             else
 //#endif
@@ -598,6 +598,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
         for( int i= 0; i < contacts.size(); i++){
             if( ((Contact)contacts.elementAt( i)).getNewMessageCount() > 0){
                 ((Contact)contacts.elementAt( i)).getMessageList().show();
+                return;
             }
         }
     }// switchChat

@@ -1896,7 +1896,7 @@ public final class Roster extends VirtualList
 //#ifdef CLASSIC_CHAT 
 //#                         if(Config.module_classicchat) {
 //#                             b.append(name.trim());
-//#                         } else 
+//#                         } else
 //#endif
                         {
                             b.append("<nick>");
@@ -3177,6 +3177,13 @@ public final class Roster extends VirtualList
         return super.keyLong(keyCode);
     }
 
+    public void ShowHideOffline( ){
+        midlet.BombusQD.cf.showOfflineContacts=!midlet.BombusQD.cf.showOfflineContacts;
+        sortRoster(null);
+        setUpdateView();
+        reEnumRoster();
+    }
+
 //#ifdef POPUPS
     public void showInfo(Contact contact) {
         try {
@@ -3456,7 +3463,7 @@ public final class Roster extends VirtualList
 //#ifdef TOUCH
     protected void touchMainPanelPressed(int x, int y) {
         int zoneWidth = width / 4;
-        
+
         if (x > width - zoneWidth) {
             cmdAlert();
         } else if (x < zoneWidth){

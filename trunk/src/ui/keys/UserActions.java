@@ -142,7 +142,7 @@ public class UserActions {
         ,new userAct( 18, UA_ALL, SR.get(SR.MS_LOGOFF))
         ,new userAct( 19, UA_ALL, SR.get(SR.MS_AUTOLOGIN))
         ,new userAct( 20, UA_ALL, SR.get(SR.MS_DO_AUTOJOIN))
-        //,new userAct( 21, UA_KEYS, "Juick commands")
+        ,new userAct( 21, UA_KEYS, "Show/Hide Offline contacts")
         ,new userAct( 22, UA_ALL, "Status: online")
         ,new userAct( 23, UA_ALL, "Status: offline")
         ,new userAct( 24, UA_ALL, "Status: chat")
@@ -299,8 +299,8 @@ public class UserActions {
             case 20: //Join MUCs
                 sd.roster.MUCsAutoJoin( SR.get(SR.MS_DO_AUTOJOIN));
                 return true;
-            case 21: //Juick
-                //sd.roster.MUCsAutoJoin( SR.get(SR.MS_DO_AUTOJOIN));
+            case 21: // Show/Hide Offline contacts;
+                sd.roster.ShowHideOffline();
                 return true;
             case 22:
                 BombusQD.sd.roster.sendPresence( Presence.PRESENCE_ONLINE,
@@ -360,11 +360,13 @@ public class UserActions {
                 sd.roster.searchActiveContact( null, true);
                 return true;
             case 39:
-                sd.roster.activeContact.getMessageList().switchChat();
+                if( sd.roster.isLoggedIn())
+                    sd.roster.activeContact.getMessageList().switchChat();
                 //new QuickPrivelegyEditForm((MucContact)item, QuickPrivelegyEditForm.KICK,myNick).show();
                 return true;
             case 40:
-                sd.roster.activeContact.getMessageList().clearReadedMessageList();
+                if( sd.roster.isLoggedIn())
+                    sd.roster.activeContact.getMessageList().clearReadedMessageList();
                 return true;
             case 41:
                 return true;

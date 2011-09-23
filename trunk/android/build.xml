@@ -97,8 +97,8 @@
         <loadproperties srcfile="../resources/.version">
             <filterchain>
                 <containsregex
-                    pattern="(^bombus.revision=)([0-9]+)(.*)?"
-                    replace="bombus.raw-revision=\2" />
+                    pattern="(^app.revision=)([0-9]+)(.*)?"
+                    replace="app.raw-revision=\2" />
             </filterchain>
         </loadproperties>
 
@@ -106,7 +106,7 @@
             byline="true"
             file="AndroidManifest.xml"
             match="(android:versionCode=.)([0-9]+)(.)"
-            replace="\1${bombus.raw-revision}\3" />
+            replace="\1${app.raw-revision}\3" />
     </target>
 
     <target name="my-release" depends="fix-android-manifest,release">

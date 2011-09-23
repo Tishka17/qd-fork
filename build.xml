@@ -41,9 +41,16 @@
 		<exec 
 			dir="src"
 			executable="svnversion" 
+			output="config/svnrev.properties"
 			outputproperty="app.revision">
 				<arg value="-n"/>
 		</exec>
+		<loadfile srcFile="config/svnrev.properties" property="app.svnrev" />
+		<copy file="resources/version.pattern" tofile="resources/.version" overwrite="true" />
+		<replace 
+			file="resources/.version" 
+			token="$WCREV$"
+			value="${app.svnrev}" />		
     </target>
 
     <!-- version patch in Sources -->

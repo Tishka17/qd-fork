@@ -43,6 +43,8 @@ import client.Config;
 import client.Msg;
 import util.Strconv;
 
+import io.file.InternalResource;
+
 public final class MessageParser {
     private final static byte URL=-2;
     private final static byte NOSMILE=-1;
@@ -146,7 +148,7 @@ public final class MessageParser {
             boolean strhaschars=false;
             boolean endline=false;
 
-            InputStream in=this.getClass().getResourceAsStream(res);
+            InputStream in=InternalResource.getResourceAsStream(res);
 
             boolean firstSmile=true;
 

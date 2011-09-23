@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Hashtable;
 import java.util.Vector;
+import io.file.InternalResource;
 
 public class StringLoader {
 
@@ -44,7 +45,7 @@ public class StringLoader {
 	}
 
 	afterEol=0;
-	InputStream in = this.getClass().getResourceAsStream(resource);
+	InputStream in = InternalResource.getResourceAsStream(resource);
         if (in==null) return null;
 	try {
 	    while (true) {
@@ -125,7 +126,7 @@ public class StringLoader {
 
    public String[] arrayLoader(String resource, String[] arrayLocale) {
 	afterEol=0;
-	InputStream in = this.getClass().getResourceAsStream(resource);
+	InputStream in = InternalResource.getResourceAsStream(resource);
         if (in==null) return null;
 
         int size = arrayLocale.length;
@@ -164,7 +165,7 @@ public class StringLoader {
 	Hashtable hash = new Hashtable(0);
 
 	afterEol=0;
-	InputStream in = this.getClass().getResourceAsStream(resource);
+	InputStream in =  InternalResource.getResourceAsStream(resource);
         if (in==null) return null;
 	try {
 	    while (true) {

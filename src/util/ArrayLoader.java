@@ -28,6 +28,7 @@
 package util;
 import java.io.DataInputStream;
 import java.io.InputStream;
+import io.file.InternalResource;
 
 /**
  *
@@ -40,7 +41,7 @@ public class ArrayLoader {
 	InputStream in = null;
         DataInputStream is = null;
         try {
-            in = new Object().getClass().getResourceAsStream(name);
+            in = InternalResource.getResourceAsStream(name);
             is = new DataInputStream(in);
             int len = is.readInt();
             arrayInt = new int[len];
@@ -63,7 +64,7 @@ public class ArrayLoader {
 	InputStream in = null;
         DataInputStream is = null;
         try {
-            in = new Object().getClass().getResourceAsStream(name);
+            in = InternalResource.getResourceAsStream(name);
             is = new DataInputStream(in);
             int len = is.readInt();
             arrayShort = new short[len];
@@ -85,7 +86,7 @@ public class ArrayLoader {
 	InputStream in = null;
         DataInputStream is = null;
         try {
-            in = new Object().getClass().getResourceAsStream(name);
+            in = InternalResource.getResourceAsStream(name);
             is = new DataInputStream(in);
             int len = is.readInt();
             arrayByte = new byte[len];

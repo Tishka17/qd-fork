@@ -431,6 +431,9 @@ public class Config {
 
         if (lang.equals("en")) return null;  //english
 	Vector files[]=new StringLoader().stringLoader("/lang/res.txt", 3);
+        if (files == null) {
+            return null; //english
+        }
         for (int i=0; i<files[0].size(); i++) {
             String langCode=(String) files[0].elementAt(i);
             if (lang.equals(langCode))

@@ -5,3 +5,4 @@ audio/midi	/sounds/chat.mid	chat.mid
 audio/midi	/sounds/tuk.mid	tuk.mid
 audio/midi	/sounds/message.mid	message.mid
 audio/midi	/sounds/online.mid	online.mid
+audio/mpeg	/sounds/klaxon1.mp3	klaxon1.mp3

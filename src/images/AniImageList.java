@@ -36,6 +36,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import javax.microedition.lcdui.*;
 import midlet.BombusQD;
+import io.file.InternalResource;
 
 /**
  *
@@ -69,7 +70,7 @@ public class AniImageList extends ImageList implements Runnable {
 
     public boolean load(String resName) {
         try {
-            InputStream is = getClass().getResourceAsStream(resName + "/animate.bin");
+            InputStream is = InternalResource.getResourceAsStream(resName + "/animate.bin");
             if (is == null) {
                 return false;
             }

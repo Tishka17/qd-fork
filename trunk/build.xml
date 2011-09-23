@@ -5,7 +5,37 @@
 <project name="" default="jar" basedir=".">
     <description>Builds, tests, and runs the project .</description>
     <import file="nbproject/build-impl.xml"/>
- 
+
+    <!-- release tasks -->
+    <target name="for-release-configs">
+        <antcall inheritrefs="false" inheritall="false" target="${target.to.call}">
+            <param name="config.active" value="full"/>
+        </antcall>
+        <antcall inheritrefs="false" inheritall="false" target="${target.to.call}">
+            <param name="config.active" value="small"/>
+        </antcall>
+    </target>
+    <target name="for-android-config" depends="init, clean, preprocess" >
+        <ant dir="android" target="clean" inheritAll="true" antfile="build.xml"></ant>
+        <ant dir="android" target="my-release" inheritAll="true" antfile="build.xml"></ant>
+    </target>
+
+    <target name="build-release" description="build releases">
+        <antcall inheritrefs="false" inheritall="false" target="for-release-configs">
+		    <param name="target.to.call" value="clean"/>
+	    </antcall>
+        <antcall inheritrefs="false" inheritall="false" target="for-release-configs">
+		    <param name="target.to.call" value="build"/>
+	    </antcall>
+    </target>
+
+    <target name="build-android" description="compile android project" >
+        <antcall inheritrefs="false" inheritall="false" target="for-android-config">
+            <param name="config.active" value="Android"/>
+        </antcall>
+    </target>
+
+	
     <!-- prepare version patch -->
     <target name="post-init">
 		<exec 

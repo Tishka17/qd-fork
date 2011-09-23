@@ -1731,7 +1731,7 @@ class TimerTaskRotate extends Thread{
        // }
     }
     
-    public static void stop() {
+    public static void stopping() {
         instance.scrollline = false;
         instance.balloon = -1;
         instance.scroll = 0;

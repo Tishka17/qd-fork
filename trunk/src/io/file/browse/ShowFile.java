@@ -29,11 +29,13 @@
 package io.file.browse;
 
 import io.file.FileIO;
+//#ifndef NOMMEDIA
 import java.io.IOException;
-import javax.microedition.lcdui.Image;
 import javax.microedition.media.Manager;
 import javax.microedition.media.MediaException;
 import javax.microedition.media.Player;
+//#endif
+import javax.microedition.lcdui.Image;
 import ui.controls.form.DefForm;
 import ui.controls.form.ImageItem;
 import ui.controls.form.MultiLine;
@@ -46,9 +48,9 @@ import ui.controls.form.MultiLine;
 public class ShowFile extends DefForm {   
     private int len;
     private byte[] b;
-
+//#ifndef NOMMEDIA
     private Player pl;
-
+//#endif
     public ShowFile(final String fileName, int type) {
         super(fileName);
 
@@ -60,9 +62,11 @@ public class ShowFile extends DefForm {
                 case Browser.IMAGE_FILE:
                     showImage();
                     break;
+//#ifndef NOMMEDIA
                 case Browser.SOUND_FILE:
                     playFile(fileName);
                     break;
+//#endif
             }
         }
     }
@@ -76,7 +80,7 @@ public class ShowFile extends DefForm {
             b = f.fileRead();
             len = b.length;
             f.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
             return false;
         }
         return true;
@@ -101,6 +105,7 @@ public class ShowFile extends DefForm {
         }        
     }
 
+//#ifndef NOMMEDIA
     private void playFile(String file) {
         try {
             pl = Manager.createPlayer("file://" + file);
@@ -118,7 +123,7 @@ public class ShowFile extends DefForm {
 
         addControl("Playing...");
     }
-    
+
     public void destroyView() {
         if (pl != null) {
             try {
@@ -128,5 +133,6 @@ public class ShowFile extends DefForm {
         }
         super.destroyView();
     }
-}
+//#endif
+} 
 //#endif

@@ -182,6 +182,8 @@ public class ModuleConfigForm extends DefForm {
 //#endif
     private NumberInput reconnectCount;
     private NumberInput reconnectTime;
+
+    private Vector langs[];
     
     private ColorThemeSelector skinFiles;
 
@@ -556,7 +558,7 @@ public class ModuleConfigForm extends DefForm {
             fieldGmt = new NumberInput(SR.get(SR.MS_GMT_OFFSET), config.gmtOffset, -12, 12);
             addControl(fieldGmt);
 
-            Vector langs[] = new StringLoader().stringLoader("/lang/res.txt", 3);
+            langs=new StringLoader().stringLoader("/lang/res.txt", 3);
             if (langs[0].size() > 1) {
                addControl(new SpacerItem(10));
 

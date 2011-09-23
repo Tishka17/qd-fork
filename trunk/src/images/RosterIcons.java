@@ -59,7 +59,9 @@ public class RosterIcons extends ImageList {
 	super(ROSTER_ICONS_PATH, ICONS_IN_COL, ICONS_IN_ROW);
 
         transports=new StringLoader().hashtableLoader("/images/transports.txt"); //new Hashtable();
+        if (transports !=null)
         transpSkins=new Vector(transports.size());
+        if (transports !=null)
         transports.put("conference", new Integer(ICON_GROUPCHAT_INDEX));
     }
     

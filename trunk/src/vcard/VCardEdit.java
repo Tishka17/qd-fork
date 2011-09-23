@@ -20,7 +20,9 @@ import io.file.browse.Browser;
 import io.file.browse.BrowserListener;
 //#endif
 import images.MenuIcons;
+//#ifndef Android
 import images.camera.*;
+//#endif
 import menu.Command;
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.TextField;
@@ -45,7 +47,9 @@ public class VCardEdit extends DefForm implements MenuListener, Runnable
 //#if (FILE_IO)
         , BrowserListener
 //#endif
+//#ifndef Android
         , CameraImageListener
+//#endif
 {
 
     Command cmdPublish;
@@ -130,10 +134,10 @@ public class VCardEdit extends DefForm implements MenuListener, Runnable
             new Browser(null, this, true).show();
         }
 //#endif
-
+//#ifndef Android
         if (c==cmdCamera)
             new CameraImage(this);
-
+//#endif
         if (c==cmdDelPhoto) {
             vcard.dropPhoto();
             setPhoto();
@@ -236,11 +240,13 @@ public class VCardEdit extends DefForm implements MenuListener, Runnable
         addCommand(cmdSavePhoto);
 //#endif
         String cameraAvailable = System.getProperty("supports.video.capture");
+//#ifndef Android
         if (cameraAvailable != null) {
             if (cameraAvailable.startsWith("true")) {
                 addCommand(cmdCamera);
             }
         }
+//#endif
         addCommand(cmdDelPhoto);
     }
 

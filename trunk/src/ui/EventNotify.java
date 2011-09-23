@@ -26,34 +26,49 @@
  */
 
 package ui;
+//#if !(Android)
 import javax.microedition.lcdui.*;
 import java.io.InputStream;
 import javax.microedition.media.Manager;
 import javax.microedition.media.Player;
 import javax.microedition.media.PlayerListener;
 import javax.microedition.media.control.VolumeControl;
+
+//#else
+//# import android.content.res.AssetFileDescriptor;
+//# import android.media.MediaPlayer;
+//# import org.bombusqd.BombusQDActivity;
+//#endif
+
+import io.file.InternalResource;
 import alert.AlertCustomize;
 import midlet.BombusQD;
-
 /**
  *
  * @author Eugene Stahov
  */
-public class EventNotify 
+public class EventNotify
+//#if !(Android)
         implements //Runnable,
         PlayerListener
+//#else
+//#             implements MediaPlayer.OnCompletionListener
+//#endif
 {
     
     private int vibraLength;
     private boolean toneSequence;
     private String soundName;
     private String soundType;
- 
+
+//#if !(Android)
     private static Player player;
+//#else
+//#         private static MediaPlayer player;
+//#endif
     
     private final static String tone="A6E6J6";
     private int sndVolume;
-    private InputStream is;
 
     //private boolean flashBackLight;
     
@@ -74,10 +89,10 @@ public class EventNotify
     
     public void startNotify (){
         release();
-        
+//#if !(Android)
         if (soundName!=null) {
             try {
-                this.is = getClass().getResourceAsStream(soundName);
+                InputStream is = InternalResource.getResourceAsStream(soundName);
                 player = Manager.createPlayer(is, soundType);
 
                 player.addPlayerListener(this);
@@ -87,15 +102,28 @@ public class EventNotify
                 try {
                     VolumeControl vol=(VolumeControl) player.getControl("VolumeControl");
                     vol.setLevel(sndVolume);
-                } catch (Exception e) {
-//#ifdef DEBUG
-//#                     e.printStackTrace();
-//#endif
-                }
+                } catch (Exception e) { /* e.printStackTrace(); */}
 
                 player.start();
             } catch (Exception e) { }
         }
+//#else
+//#         if (soundName != null) {
+//#             try {
+//#                 System.out.println("Sound: " + soundName);
+//#                 AssetFileDescriptor afd = BombusQDActivity.getInstance().getAssets().openFd(soundName.substring(1));
+//#                 player = new MediaPlayer();
+//#                 player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+//#                 player.prepare();
+//#                 player.setOnCompletionListener(this);
+//#                 player.start();
+//#             } catch (Exception e) {
+//#ifdef DEBUG
+//#                 e.printStackTrace();
+//#endif
+//#             }
+//#         }
+//#endif
 
         if (vibraLength>0) {
              int count = AlertCustomize.getInstance().vibraRepeatCount;
@@ -107,10 +135,11 @@ public class EventNotify
                 } catch (Exception e) {}
              }
         }
-
+//#if !(Android)
 	if (toneSequence) run();//new Thread(this).start();
+//#endif
     }
-    
+//#if !(Android)
     public void run(){
         try {
             int len = tone.length();
@@ -122,8 +151,9 @@ public class EventNotify
             }
         } catch (Exception e) { }
     }
-    
+//#endif
     public synchronized void release(){
+//#if !(Android)
         if (player!=null) {
 	    player.removePlayerListener(this);
 	    player.close();
@@ -135,10 +165,22 @@ public class EventNotify
                 is = null;
             }
         } catch (Exception e) {}
+//#else
+//#         if (player != null)
+//#             player.release();
+//#endif
     }
-    
+//#if !(Android)
     public void playerUpdate(Player player, String string, Object object) {
 	if (string.equals(PlayerListener.END_OF_MEDIA)||
                 string.equals(PlayerListener.ERROR)) { release(); }
     }
+//#else
+//#     @Override
+//#     public void onCompletion(MediaPlayer mp) {
+//#         // TODO Auto-generated method stub
+//#         mp.release();
+//#     }
+//# 
+//#endif
 }

@@ -52,7 +52,9 @@ import history.HistoryViewer;
 //#endif
 import images.ActionsIcons;
 //#if FILE_IO && FILE_TRANSFER
+//#ifndef Android
 import io.file.transfer.TransferImage;
+//#endif
 import io.file.transfer.TransferSendFile;
 //#endif
 import javax.microedition.lcdui.TextField;
@@ -639,9 +641,11 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                 case MI_SEND_FILE:
                     showForm(new TransferSendFile(contact.getJid()));
                     return;
+//#ifndef Android
                 case MI_SEND_PHOTO:
                     showForm(new TransferImage(contact.getJid()));
                     return;
+//#endif          
 //#endif
             }
             if (isMucContact) {

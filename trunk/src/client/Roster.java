@@ -262,6 +262,7 @@ public final class Roster extends VirtualList
     }
 
     public void setLight(boolean state) {
+//#ifndef Android
         if (phoneManufacturer==Config.SIEMENS || phoneManufacturer==Config.SIEMENS2) {
             try {
                 if (state) com.siemens.mp.game.Light.setLightOn();
@@ -270,6 +271,7 @@ public final class Roster extends VirtualList
             return;
         }
         if (!state) return;
+//#endif
     }
 
     public void initCommands() {

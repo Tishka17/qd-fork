@@ -157,14 +157,8 @@ public class EventNotify
         if (player!=null) {
 	    player.removePlayerListener(this);
 	    player.close();
-            player=null;
 	}
-        try {
-            if (is!=null) {
-                is.close();
-                is = null;
-            }
-        } catch (Exception e) {}
+            player=null;
 //#else
 //#         if (player != null)
 //#             player.release();

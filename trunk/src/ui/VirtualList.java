@@ -1520,7 +1520,7 @@ public abstract class VirtualList extends CanvasEx {
     }
     protected  void stopRotator(){
 //#if (USE_ROTATOR)
-        TimerTaskRotate.stop();
+        TimerTaskRotate.stopping();
  //#endif
     }
     

@@ -2,6 +2,8 @@ package org.bombusqd;
 
 import org.microemu.microedition.ImplementationInitialization;
 import java.util.Map;
+import android.content.Intent;
+import android.widget.Toast;
 
 /**
  * @author Totktonada
@@ -31,7 +33,8 @@ public class BombusQDInitialization implements ImplementationInitialization {
      * @see org.microemu.microedition.ImplementationInitialization#notifyMIDletDestroyed()
      */
     public void notifyMIDletDestroyed() {
-        BombusQDActivity.getInstance().finish();
+		Toast.makeText(BombusQDActivity.getInstance(), "Closing service...", Toast.LENGTH_LONG).show();
+		BombusQDActivity.getInstance().stopService(new Intent(BombusQDActivity.getInstance(), BombusQDService.class));
     }
 
 }

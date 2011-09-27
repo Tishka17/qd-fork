@@ -67,6 +67,7 @@ import android.view.MotionEvent;
 import android.view.SubMenu;
 import android.view.Window;
 import android.media.AudioManager;
+import android.widget.Toast;
 
 import org.microemu.android.MicroEmulatorActivity;
 import android.content.Intent;
@@ -149,12 +150,12 @@ public class BombusQDActivity extends MicroEmulatorActivity {
         common.initParams(params, null, AndroidDevice.class);
 
         System.setProperty("microedition.platform", "microemulator-android");
-        System.setProperty("microedition.locale", Locale.getDefault().toString());
         System.setProperty("device.model", android.os.Build.MODEL);
 		System.setProperty("device.id", android.os.Build.ID);
 		System.setProperty("device.fingerprint", android.os.Build.FINGERPRINT);		
 		System.setProperty("device.manufacturer", android.os.Build.MANUFACTURER);
         System.setProperty("device.software.version", android.os.Build.VERSION.RELEASE);
+        System.setProperty("microedition.locale", Locale.getDefault().toString());
 
 
         /* JSR-75 */
@@ -189,6 +190,8 @@ public class BombusQDActivity extends MicroEmulatorActivity {
     @Override
     protected void onPause() {
         super.onPause();
+		
+		System.out.println("onPause(); isFinishing() ==" + isFinishing());
 
         if (contentView != null) {
             if (contentView instanceof AndroidRepaintListener) {
@@ -197,6 +200,7 @@ public class BombusQDActivity extends MicroEmulatorActivity {
         }
 
         if (isFinishing()) {
+			Toast.makeText(this, "Stopping service...", Toast.LENGTH_LONG).show();
             Log.i(LOG_TAG, "onPause(); with isFinishing() == true.");
             Log.i(LOG_TAG, "Stopping service...");
             stopService(new Intent(this, BombusQDService.class));

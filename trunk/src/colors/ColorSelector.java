@@ -258,6 +258,13 @@ public class ColorSelector extends DefForm {
             case VirtualCanvas.KEY_NUM6:
                 moveCursorRight();
                 return;
+            case VirtualCanvas.KEY_NUM3:
+                movePoint(+16);
+                return;
+            case VirtualCanvas.KEY_NUM9:
+            case VirtualCanvas.KEY_NUM1:
+                movePoint(-16);
+                return;
             case VirtualCanvas.KEY_NUM0:
                 destroyView();
                 break;

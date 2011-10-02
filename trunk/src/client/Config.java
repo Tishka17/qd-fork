@@ -271,6 +271,7 @@ public class Config {
 
     public boolean nokiaReconnectHack = false;
     public static boolean showTimeInMsgs = false;
+    public static boolean showMsgSep= true;
     public boolean isStatusFirst = false;
 
     public int msgEditType = 0;
@@ -492,6 +493,7 @@ public class Config {
             useItalic=inputStream.readBoolean();
             showCollapsedPresences = inputStream.readBoolean();
             networkAnnotation = inputStream.readBoolean();
+            showMsgSep= inputStream.readBoolean();
 //#ifdef MEMORY_MONITOR
 //# 	    memMonitor=inputStream.readBoolean();
 //#endif
@@ -631,6 +633,7 @@ public class Config {
             outputStream.writeBoolean(useItalic);
             outputStream.writeBoolean(showCollapsedPresences);
             outputStream.writeBoolean(networkAnnotation);
+            outputStream.writeBoolean( showMsgSep);
 //#ifdef MEMORY_MONITOR
 //# 	    outputStream.writeBoolean(memMonitor);
 //#endif

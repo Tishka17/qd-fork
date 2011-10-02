@@ -96,6 +96,7 @@ public class ModuleConfigForm extends DefForm {
     private CheckBox useTabs;
     private CheckBox hideMessageIcon;
     private CheckBox swapSendAndSuspend;
+    private CheckBox showMsgSep;
 //#ifdef CLIPBOARD
     private CheckBox useClipBoard;
 //#endif
@@ -315,6 +316,9 @@ public class ModuleConfigForm extends DefForm {
 
             capsState = new CheckBox(SR.get(SR.MS_CAPS_STATE), config.capsState);
             addControl(capsState);
+
+            showMsgSep = new CheckBox( "Show messages separator", Config.showMsgSep);
+            addControl(showMsgSep);
 
 //#ifdef SMILES
             smiles = new CheckBox(SR.get(SR.MS_SMILES), config.smiles);
@@ -678,6 +682,7 @@ public class ModuleConfigForm extends DefForm {
 
             config.useTabs = useTabs.getValue();
             config.capsState = capsState.getValue();
+            Config.showMsgSep = showMsgSep.getValue();
 
 //#ifdef SMILES
             config.smiles=smiles.getValue();
@@ -761,6 +766,7 @@ public class ModuleConfigForm extends DefForm {
                 config.shadowBar = shadowBar.getValue();
             }
 
+            Config.showMsgSep = showMsgSep.getValue();
             Config.showTimeTraffic = showTimeAndTraffic.getValue();
 //#ifdef POPUPS
             config.popUps = popUps.getValue();

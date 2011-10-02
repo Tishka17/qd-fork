@@ -790,7 +790,8 @@ public final class ContactMessageList extends MessageList implements InputTextBo
     }
 
     public void updateSeparator() {
-        if (messages.isEmpty()) {
+        if (messages.isEmpty()
+        || !Config.showMsgSep) {
             return;
         }
         Msg m;

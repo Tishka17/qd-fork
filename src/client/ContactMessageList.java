@@ -53,8 +53,8 @@ import midlet.BombusQD;
 import midlet.Commands;
 import ui.VirtualCanvas;
 import ui.controls.AlertBox;
-//#ifdef CLIPBOARD
 import ui.controls.form.SpacerItem;
+//#ifdef CLIPBOARD
 import util.ClipBoard;
 //#endif
 import ui.input.InputTextBox;

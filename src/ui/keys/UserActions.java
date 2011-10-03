@@ -260,9 +260,11 @@ public class UserActions {
                     new PrivacySelect().show();
                 break;
 //#endif
+//#ifdef USER_KEYS                
             case 10:
                 new UserKeysList().show();
                 break;
+//#endif
 //#ifdef POPUPS
             case 11:
                 VirtualList.getPopUp().clear();;

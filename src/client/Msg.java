@@ -77,7 +77,9 @@ public final class Msg implements VirtualElement {
     
     public Vector msgLines;
     private boolean isEven;
+//#if SMILES
     private boolean smiles;
+//#endif
     public VirtualElement attachment=null;
     
     public Msg(byte type, String from, String body) {
@@ -104,7 +106,9 @@ public final class Msg implements VirtualElement {
                 collapsed = true;
             }
         }
+//#if SMILES        
         this.smiles = Config.getInstance().smiles;
+//#endif
     }
     
     public Msg(DataInputStream is) throws IOException {

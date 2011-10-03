@@ -38,8 +38,8 @@ import midlet.Commands;
 import ui.VirtualList;
 import ui.GMenu;
 import ui.GMenuConfig;
-//#ifdef CLIPBOARD
 import ui.VirtualElement;
+//#ifdef CLIPBOARD
 import util.ClipBoard;
 //#endif
 import util.StringUtils;

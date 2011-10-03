@@ -135,6 +135,9 @@ public class EntityCaps implements JabberBlockListener{
 //#ifndef WMUC
         features.addElement("http://jabber.org/protocol/muc");
 //#endif
+//#if ROSTERX
+//#         features.addElement("http://jabber.org/protocol/rosterx");
+//#endif        
 //#if FILE_IO && FILE_TRANSFER
         if (midlet.BombusQD.cf.fileTransfer) {
             features.addElement("http://jabber.org/protocol/si");

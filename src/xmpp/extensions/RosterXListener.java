@@ -21,22 +21,25 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-package xmpp.extensions;
 
+//#if ROSTERX
+
+package xmpp.extensions;
 
 import client.Contact;
 import client.Group;
 import client.Groups;
+import client.Msg;
 import client.StaticData;
 import com.alsutton.jabber.JabberBlockListener;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.Iq;
+import com.alsutton.jabber.datablocks.Message;
 import com.alsutton.jabber.datablocks.Presence;
 import java.util.Enumeration;
 import java.util.Vector;
 import ui.controls.form.DefForm;
 import ui.controls.form.MultiLine;
-import ui.controls.form.SimpleString;
 import ui.controls.form.SpacerItem;
 /**
  *
@@ -85,8 +88,12 @@ public class RosterXListener implements JabberBlockListener {
                 }
             }
         }
+        String body=null;
+        if (data instanceof Message) {
+            body=((Message)data).getBody();
+        }
         if (!addcontacts.isEmpty() || !modcontacts.isEmpty() || !delcontacts.isEmpty())
-            new RosterAddForm(sender, addcontacts, delcontacts, modcontacts);
+            new RosterAddForm(sender, body, addcontacts, delcontacts, modcontacts).show();
         return BLOCK_PROCESSED;
     }
 }
@@ -96,13 +103,14 @@ class RosterAddForm extends DefForm {
     Vector add;
     Vector del;
     Vector mod;
-    public RosterAddForm (String sender, Vector additems, Vector delitems, Vector moditems) {
+    public RosterAddForm (String sender, String body, Vector additems, Vector delitems, Vector moditems) {
         super(sender);
         add = additems;
         del = delitems;
         mod = moditems;
         Contact c;
-        itemsList.addElement(new SimpleString(sender+" wants to modify your roster", true));
+        if (body!=null) 
+            itemsList.addElement(new Msg(Msg.INCOMING, sender, body));
         itemsList.addElement(new SpacerItem(5));
         if (!add.isEmpty()) {
             itemsList.addElement(new MultiLine("Add contacts", "Add " + add.size() + " contacts to your roster?"));
@@ -144,3 +152,5 @@ class RosterAddForm extends DefForm {
         destroyView();
     }
 }
+
+//#endif

@@ -27,6 +27,7 @@ PEP_ACTIVITY - Информация о действии контакта
 PEP_TUNE - Информация о музыке, играющей у контакта
 POPUPS - Всплывающие окна
 PRIVACY - Списки приватности
+ROSTERX - Обмен ростером, XEP-0144: Roster Item Exchange
 RUNNING_MESSAGE - Бегущая строка в окне набора сообщения
 SASL_XGOOGLETOKEN - XGOOGLETOKEN-механизм авторизации
 SERVICE_DISCOVERY - Обзор сервисов

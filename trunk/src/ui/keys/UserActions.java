@@ -37,6 +37,10 @@ import client.ContactMessageList;
 import com.alsutton.jabber.datablocks.Presence;
 import client.StatusList;
 import conference.bookmark.Bookmarks;
+import conference.ConferenceGroup;
+import client.Contact;
+import conference.MucContact;
+import conference.affiliation.QuickPrivelegyEditForm;
 
 /**
  *
@@ -163,8 +167,8 @@ public class UserActions {
         ,new userAct( 38, UA_KEYS, "Chats: right chat (tab)")
         ,new userAct( 39, UA_KEYS, "Chats: next chat")
         ,new userAct( 40, UA_KEYS, "Chats: clear chat")
-        //,new userAct( 40, UA_KEYS, "Room: kick current")
-        //,new userAct( 41, UA_KEYS, "Room: ban current")
+        ,new userAct( 41, UA_KEYS, "Room: kick current")
+        ,new userAct( 42, UA_KEYS, "Room: ban current")
 
 
 
@@ -216,7 +220,7 @@ public class UserActions {
 
         Config cf= Config.getInstance();
         StaticData sd= StaticData.getInstance();
-        //ContactMessageList ct=ContactMessageList;
+        Contact ct;
 
         switch (actId) {
             case 0: // nop
@@ -370,11 +374,31 @@ public class UserActions {
                 if( sd.roster.isLoggedIn())
                     sd.roster.activeContact.getMessageList().clearReadedMessageList();
                 return true;
-            case 41:
+            case 41: // kick
+                if( sd.roster.getFocusedObject() instanceof Contact){
+                    ct= (Contact)sd.roster.getFocusedObject();
+                    if(ct instanceof MucContact && ct.origin ==Contact.ORIGIN_GROUPCHAT){
+                        MucContact self= ((ConferenceGroup)ct.group).selfContact;
+                        MucContact mc= (MucContact) ct;
+                        if( self.roleCode >=MucContact.ROLE_MODERATOR
+                        && mc.roleCode < self.roleCode)
+                            new QuickPrivelegyEditForm(mc, QuickPrivelegyEditForm.KICK, self.getNick()).show();
+                    }
+                }// if
+                return true;
+            case 42: // ban
+                if( sd.roster.getFocusedObject() instanceof Contact){
+                    ct= (Contact)sd.roster.getFocusedObject();
+                    if( ct instanceof MucContact && ct.origin ==Contact.ORIGIN_GROUPCHAT){
+                        MucContact self= ((ConferenceGroup)ct.group).selfContact;
+                        MucContact mc= (MucContact) ct;
+                        if( self.affiliationCode >= MucContact.AFFILIATION_ADMIN
+                        && mc.affiliationCode < self.affiliationCode)
+                            new QuickPrivelegyEditForm(mc, QuickPrivelegyEditForm.OUTCAST, self.getNick()).show();
+                    }
+                }// if
                 return true;
 /*            case 22:
-                return true;
-            case 22:
                 return true;
             case 22:
                 return true;

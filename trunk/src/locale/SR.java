@@ -709,6 +709,7 @@ public class SR {
     public final static short MS_SHED_SOUND = 676; // Sound
     public final static short MS_SHED_PREEMPTION = 677; // Pre-emption
     public final static short MS_SHED_TEXT = 678; // Notify text
+    public final static short MS_MESSAGES_SEPARATOR = 679; // Notify text
 
      private static String[] localeItemsDefault = new String[0];
     private static String[] localeItems = {
@@ -1391,7 +1392,9 @@ public class SR {
         "Light",
         "Sound",
         "Pre-emption (min)",
-        "Notify text"
+        "Notify text",
+        
+       "Show messages separator"
    };
 
     private SR() { }

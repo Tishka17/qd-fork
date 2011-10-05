@@ -91,6 +91,13 @@ public class RosterIcons extends ImageList {
     }
 
     public static final byte ICON_INVISIBLE_INDEX = 0x10;
+    public static final byte ICON_ONLINE_STATUS = 0x00;
+    public static final byte ICON_CHAT_STATUS = 0x01;
+    public static final byte ICON_AWAY_STATUS = 0x02;
+    public static final byte ICON_UNAVIALABLE_STATUS = 0x03;
+    public static final byte ICON_BUSY_STATUS = 0x04;
+    public static final byte ICON_OFFLINE_STATUS = 0x05;
+    public static final byte ICON_IDONTNOW_STATUS = 0x07;
     public static final byte ICON_ERROR_INDEX = 0x11;
     public static final byte ICON_TRASHCAN_INDEX = 0x12;
     public static final byte ICON_PROGRESS_INDEX = 0x13;

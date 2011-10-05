@@ -617,7 +617,7 @@ public abstract class VirtualList extends CanvasEx {
 //#ifdef GRADIENT
         if(midlet.BombusQD.cf.gradient_cursor 
 //#ifdef TOUCH
-                && !kinetic.isScrolling() && pointer_state==POINTER_NONE
+                && !kinetic.isScrolling() && pointer_state!=POINTER_DRAG && pointer_state!=POINTER_FIRST && pointer_state!=POINTER_LONG
 //#endif
                 ){
              cursorGradient.update(x0+1, y0+1, width+x0-1, height+y0-1, ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_1),
@@ -1541,7 +1541,7 @@ public abstract class VirtualList extends CanvasEx {
                          int nextCount = 0;
                          Contact c = null;
                          try {
-                          Vector newSort = new Vector(0);
+                            Vector newSort = new Vector(0);
                             for (f = 0; f < sortVector.size(); ++f) {
                               int cIndex = 0;
                               for (i = 0; i < sortVector.size(); ++i) {
@@ -1553,10 +1553,10 @@ public abstract class VirtualList extends CanvasEx {
                                     //c = find; //<-BIG_BARA_BUM!!!
                                  }
                               }
-                             c = (Contact)sortVector.elementAt(cIndex);
-                             sortVector.removeElement(c);
-                             newSort.insertElementAt(c,0);
-                             nextCount = f = 0;
+                              c = (Contact)sortVector.elementAt(cIndex);
+                              sortVector.removeElement(c);
+                              newSort.insertElementAt(c,0);
+                              nextCount = f = 0;
                             }
                             nextCount = newSort.size();
                             for (f = 0; f < nextCount; ++f) sortVector.insertElementAt(newSort.elementAt(f),0);

@@ -141,45 +141,51 @@ public final class AutoStatus {
         }
     }
     
-    private void setAutoAway(String msg) {
+    private void setAutoAway(String msg) { 
+        synchronized(this) {
 //#ifdef DEBUG
-//#         System.out.println("[AutoStatus] setAutoAway called");
+//#             System.out.println("[AutoStatus] setAutoAway called");
 //#endif
-        int status = BombusQD.sd.roster.myStatus;
-        if (status == Presence.PRESENCE_ONLINE || status == Presence.PRESENCE_CHAT) {
-            prevStatus = status;
-            isAwaySet = true;
-            if (!Config.setAutoStatusMessage) {
-                BombusQD.sd.roster.sendPresence(Presence.PRESENCE_AWAY, msg);
-            } else {
-                ExtendedStatus es = StatusList.getInstance().getStatus(Presence.PRESENCE_AWAY);
-                BombusQD.sd.roster.sendPresence(Presence.PRESENCE_AWAY, es.getMessage());
+            int status = BombusQD.sd.roster.myStatus;
+            if (status == Presence.PRESENCE_ONLINE || status == Presence.PRESENCE_CHAT) {
+                prevStatus = status;
+                isAwaySet = true;
+                if (!Config.setAutoStatusMessage) {
+                    BombusQD.sd.roster.sendPresence(Presence.PRESENCE_AWAY, msg);
+                } else {
+                    ExtendedStatus es = StatusList.getInstance().getStatus(Presence.PRESENCE_AWAY);
+                    BombusQD.sd.roster.sendPresence(Presence.PRESENCE_AWAY, es.getMessage());
+                }
             }
         }
     }
 
     private void setAutoXa(String msg) {
+        synchronized(this) {
 //#ifdef DEBUG
-//#         System.out.println("[AutoStatus] setAutoXa called");
+//#             System.out.println("[AutoStatus] setAutoXa called");
 //#endif
-        isXaSet = true;
-        if (!Config.setAutoStatusMessage) {
-            BombusQD.sd.roster.sendPresence(Presence.PRESENCE_XA, msg);
-        } else {
-            ExtendedStatus es = StatusList.getInstance().getStatus(Presence.PRESENCE_XA);
-            BombusQD.sd.roster.sendPresence(Presence.PRESENCE_XA, es.getMessage());
+            isXaSet = true;
+            if (!Config.setAutoStatusMessage) {
+                BombusQD.sd.roster.sendPresence(Presence.PRESENCE_XA, msg);
+            } else {
+                ExtendedStatus es = StatusList.getInstance().getStatus(Presence.PRESENCE_XA);
+                BombusQD.sd.roster.sendPresence(Presence.PRESENCE_XA, es.getMessage());
+            }
         }
     }
 
     private void restoreStatus() {
+        synchronized(this) {
 //#ifdef DEBUG
-//#         System.out.println("[AutoStatus] restoreStatus called");
+//#             System.out.println("[AutoStatus] restoreStatus called");
 //#endif
-        ExtendedStatus status = StatusList.getInstance().getStatus(prevStatus);
-        BombusQD.sd.roster.sendPresence(prevStatus, status.getMessage());
+            ExtendedStatus status = StatusList.getInstance().getStatus(prevStatus);
+            BombusQD.sd.roster.sendPresence(prevStatus, status.getMessage());
 
-        isAwaySet = false;
-        isXaSet = false;
+            isAwaySet = false;
+            isXaSet = false;
+        }
     }
 }
 //#endif

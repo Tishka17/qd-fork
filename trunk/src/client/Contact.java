@@ -28,9 +28,6 @@
 
 package client;
 
-//#ifndef WMUC
-import conference.MucContact;
-//#endif
 //#ifdef CLIENTS_ICONS
 import images.ClientsIcons;
 //#endif
@@ -604,7 +601,6 @@ public class Contact extends IconTextElement {
             MoodIcons.getInstance().drawImage(g, pepMood, w, (h-moodImgSize) >> 1 );
             if (maxImgHeight<moodImgSize) maxImgHeight=moodImgSize;
         }
-//#ifdef PEP
         if (pepTune) {
             w -= imgHeight;
             il.drawImage(g, RosterIcons.ICON_PROFILE_INDEX+1, w,imgH);
@@ -615,7 +611,6 @@ public class Contact extends IconTextElement {
             ActivityIcons.getInstance().drawImage(g, activ, w, (h-activitySize) >> 1 );
             if (maxImgHeight<activitySize) maxImgHeight=activitySize;
         }
-//#endif
 //#endif
 
 //#ifdef FILE_TRANSFER

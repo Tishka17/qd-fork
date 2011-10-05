@@ -317,7 +317,7 @@ public class ModuleConfigForm extends DefForm {
             capsState = new CheckBox(SR.get(SR.MS_CAPS_STATE), config.capsState);
             addControl(capsState);
 
-            showMsgSep = new CheckBox( "Show messages separator", Config.showMsgSep);
+            showMsgSep = new CheckBox( SR.get(SR.MS_MESSAGES_SEPARATOR), Config.showMsgSep);
             addControl(showMsgSep);
 
 //#ifdef SMILES
@@ -766,7 +766,6 @@ public class ModuleConfigForm extends DefForm {
                 config.shadowBar = shadowBar.getValue();
             }
 
-            Config.showMsgSep = showMsgSep.getValue();
             Config.showTimeTraffic = showTimeAndTraffic.getValue();
 //#ifdef POPUPS
             config.popUps = popUps.getValue();

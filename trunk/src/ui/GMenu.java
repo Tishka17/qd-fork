@@ -335,7 +335,7 @@ public class GMenu extends CanvasEx {
 
 //#ifdef TOUCH
    private void touchSelect(int x, int y) {
-       if (x<x1 || y<y1 || x> x2 || y>y2) {
+       if (x<=x1 || y<=y1 || x>=x2 || y>=y2) {
            gm.itemGrMenu=-1;
            gm.ml=null;
            return;

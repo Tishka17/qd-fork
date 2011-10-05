@@ -660,14 +660,15 @@ Show images in juick	Показывать картинки в juick
 Conference history	История конференций
 Conference private history	История приватов конференции
 Show last messages from history	Подгружать сообщения из истории
-Task name   Имя задачи
-Task type Тип задачи
+Task name	Имя задачи
+Task type	Тип задачи
 Task action Действие
-Reminder    Напоминалка
-Execute once    Выполнить однажды
-Notifications   Уведомления
-Vibration Вибрацией
-Light   Подсветкой
-Sound Гудком
-Pre-emption (min) Упреждение (vby)
-Notify text Напомнить текст
+Reminder	Напоминалка
+Execute once	Выполнить однажды
+Notifications	Уведомления
+Vibration	Вибрацией
+Light	Подсветкой
+Sound	Гудком
+Pre-emption (min)	Упреждение (мин)
+Notify text	Напомнить текст
+Show messages separator	Показывать разделитель сообщений

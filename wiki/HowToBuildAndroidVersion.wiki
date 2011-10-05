@@ -1,7 +1,7 @@
-#labels Deprecated
- = _EDITING_ Как собрать андроид версию =
+#labels Featured
+ = _EDITING_ Как собрать Android-версию =
 
-Требуемое програмное обеспечение:
+*Требуемое програмное обеспечение:*
  * Последняя ревизия BombusQD
  * Microemulator
  * Java SE JDK (http://java.sun.com/javase/)
@@ -11,12 +11,72 @@
  * Android SDK version 1.5 или новее (http://developer.android.com/)
  * Netbeans (http://www.netbeans.com/downloads/index.html)
  * ASM (http://asm.ow2.org/)
+А так же потребуется персональный ключ разработчика для подписи приложения
 
-Процесс сборки:
-1. Скачиваем репозиторий Microemulator 
 
-*svn co http://microemu.googlecode.com/svn/trunk/microemulator microemulator*
- 2. Собираем Microemulator используя Maven
-*cd microemulator*
-*mvn*
- 3. [ will be continued ]
+_*Процесс сборки:*_
+
+*1.* Установка Microemulator
+ * Скачиваем репозиторий Microemulator 
+{{{
+svn co http://microemu.googlecode.com/svn/trunk/microemulator microemulator
+}}}
+ * Собираем Microemulator используя Maven
+{{{
+cd microemulator
+mvn
+}}}
+
+*2.* В Netbeans'e добавляем проект BombusQD
+
+*3.* Открываем в исходниках _BombusQD_ папку _android_
+и создаем в ней копии файлов *{{{_build.cmd}}}* и *{{{_local.properties}}}*
+называя *{{{build.cmd}}}* и *{{{local.properties}}}* соответственно
+
+*4.* Редактируем файл *build.cmd* любым текстовым редактором,
+указывая в нем верные пути к JDK и Netbeans
+
+пример:
+{{{
+set JAVA_HOME=C:\Program Files\Java\jdk1.6.0_21\
+set ANT_EXEC="C:\Program Files\NetBeans 6.9.1\java\ant\bin\ant.bat"
+}}}
+*5.* Редактируем файл *local.properties* так же любым текстовым редактором
+
+пример:
+{{{
+sdk.dir=D:/Android/android-sdk-windows  ///путь к Android-sdk
+microemu.sources=D:/microemulator       ///путь к Microemulator
+key.store=D:/keys/key/mykey.keystore    ///путь к зранилищу ключей
+key.alias=cert                          ///имя хранилища
+}}}
+
+*6.* Возвращаем в корень исходников BombusQD. Для простоты сборки создаем в ней *Новый текстовый документ.txt*
+переновываем его в любой файл с расширением *.bat*, например *android.bat*
+Редактируем его с помощью любого текстового редактора и пишем следующее
+{{{
+call ant build-android
+pause
+}}}
+Теперь все готово для сборки фндроид версии, запускаемя наш bat-файл и наблюдаем за процессом компиляции, в конце компиляции будет запрашиваться пароль к ключу и к хранилищу ключей
+
+Чтобы постоянно его не вводить, создаем рядом с нашим созданным файлом текстовой файл, например *key.txt* и вписываем в него наши два пароля
+
+Например
+{{{
+pass
+pass
+}}}
+И сам файл *android.bat* редактируем следующим образом
+{{{
+call ant build-android < key.txt
+pause
+}}}
+*7.* Наши собранные apk файлы после компиляции будут располагаться в папке *android/bin/*
+{{{
+BombusQD-release.apk  ///наше подписанное приложени для установки в телефон
+BombusQD-unaligned.apk  ///подписано тестовым сертификатом
+BombusQD-unsigned.apk  ///без подписи
+}}}
+=Внимание=
+Собранное Вами приложение не установится поверх того, что выкладывалось для скачивания

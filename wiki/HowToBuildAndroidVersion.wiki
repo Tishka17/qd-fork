@@ -1,0 +1,22 @@
+#labels Deprecated
+ = _EDITING_ Как собрать андроид версию =
+
+Требуемое програмное обеспечение:
+ * Последняя ревизия BombusQD
+ * Microemulator
+ * Java SE JDK (http://java.sun.com/javase/)
+ * Subversion client (http://subversion.tigris.org)
+ * Maven (http://maven.apache.org/)
+ * Ant (http://ant.apache.org/)
+ * Android SDK version 1.5 или новее (http://developer.android.com/)
+ * Netbeans (http://www.netbeans.com/downloads/index.html)
+ * ASM (http://asm.ow2.org/)
+
+Процесс сборки:
+1. Скачиваем репозиторий Microemulator 
+
+*svn co http://microemu.googlecode.com/svn/trunk/microemulator microemulator*
+ 2. Собираем Microemulator используя Maven
+*cd microemulator*
+*mvn*
+ 3. [ will be continued ]

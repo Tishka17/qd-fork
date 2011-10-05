@@ -2200,7 +2200,7 @@ public final class Roster extends VirtualList
                     //System.out.println("FROM:"+from);
                     Msg m=new Msg( (ti==Presence.PRESENCE_AUTH ||
                          ti==Presence.PRESENCE_AUTH_ASK)?Msg.AUTH : Msg.PRESENCE, from, null, Prtext );
-                     if (ti==Presence.PRESENCE_AUTH_ASK) {
+                    if (ti==Presence.PRESENCE_AUTH_ASK) {
                         //processing subscriptions
                         if (midlet.BombusQD.cf.autoSubscribe==Config.SUBSCR_DROP)
                             return JabberBlockListener.BLOCK_REJECTED;
@@ -2255,7 +2255,7 @@ public final class Roster extends VirtualList
                         //sortContacts(c);
                         sortRoster(c);
                         m=null;
-                     }
+                    }
                     c.priority=priority;
                     if (ti>=0) c.setStatus(ti);
                     if (c.getNick()==null && c.status<=Presence.PRESENCE_DND) {

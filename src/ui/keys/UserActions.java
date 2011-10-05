@@ -112,41 +112,41 @@ public class UserActions {
 
     public static final userAct allActs[]= {
         new userAct( 0, UA_ALL, SR.get(SR.MS_NO), RosterIcons.getInstance(), RosterIcons.ICON_TRANSPARENT)
-        ,new userAct( 1, UA_KEYS, SR.get(SR.MS_OPTIONS))
-        ,new userAct( 2, UA_KEYS, SR.get(SR.MS_CLEAN_ALL_MESSAGES))
-        ,new userAct( 3, UA_ALL, SR.get(SR.MS_RECONNECT))
+        ,new userAct( 1, UA_KEYS, SR.get(SR.MS_OPTIONS), MenuIcons.getInstance(), MenuIcons.ICON_FONTS)
+        ,new userAct( 2, UA_KEYS, SR.get(SR.MS_CLEAN_ALL_MESSAGES), MenuIcons.getInstance(), MenuIcons.ICON_CLEAN_MESSAGES)
+        ,new userAct( 3, UA_ALL, SR.get(SR.MS_RECONNECT), MenuIcons.getInstance(), MenuIcons.ICON_RECONNECT)
 //#ifdef STATS
-        ,new userAct( 4, UA_KEYS, SR.get(SR.MS_STATS))
+        ,new userAct( 4, UA_KEYS, SR.get(SR.MS_STATS), MenuIcons.getInstance(), MenuIcons.ICON_CHECK_UPD)
 //#endif
-        ,new userAct( 5, UA_KEYS, SR.get(SR.MS_STATUS))
+        ,new userAct( 5, UA_KEYS, SR.get(SR.MS_STATUS), RosterIcons.getInstance(), RosterIcons.ICON_ONLINE_STATUS)
 //#if FILE_IO && FILE_TRANSFER
-        ,new userAct( 6, UA_KEYS, SR.get(SR.MS_FILE_TRANSFERS))
+        ,new userAct( 6, UA_KEYS, SR.get(SR.MS_FILE_TRANSFERS), ActionsIcons.getInstance(), ActionsIcons.ICON_SEND_FILE)
 //#endif
 //#ifdef ARCHIVE
-        ,new userAct( 7, UA_KEYS, SR.get(SR.MS_ARCHIVE))
+        ,new userAct( 7, UA_KEYS, SR.get(SR.MS_ARCHIVE), MenuIcons.getInstance(), MenuIcons.ICON_ARCHIVE)
 //#endif
 //#ifdef SERVICE_DISCOVERY
-        ,new userAct( 8, UA_KEYS, SR.get(SR.MS_DISCO))
+        ,new userAct( 8, UA_KEYS, SR.get(SR.MS_DISCO), MenuIcons.getInstance(), MenuIcons.ICON_DISCO)
 //#endif
 //#ifdef PRIVACY
-        ,new userAct( 9, UA_KEYS, SR.get(SR.MS_PRIVACY_LISTS))
+        ,new userAct( 9, UA_KEYS, SR.get(SR.MS_PRIVACY_LISTS), MenuIcons.getInstance(), MenuIcons.ICON_PRIVACY)
 //#endif
-        ,new userAct( 10, UA_KEYS, SR.get(SR.MS_CUSTOM_KEYS))
+        ,new userAct( 10, UA_KEYS, SR.get(SR.MS_CUSTOM_KEYS), MenuIcons.getInstance(), MenuIcons.ICON_OTHER_ACCOUNT)
 //#ifdef POPUPS
-        ,new userAct( 11, UA_KEYS, SR.get(SR.MS_CLEAR_POPUPS))
+        ,new userAct( 11, UA_KEYS, SR.get(SR.MS_CLEAR_POPUPS), ActionsIcons.getInstance(), ActionsIcons.ICON_DEVOICE)
 //#endif
-        ,new userAct( 12, UA_ALL, SR.get(SR.MS_APP_MINIMIZE))
-        ,new userAct( 13, UA_ALL, SR.get(SR.MS_INVERT))
-        ,new userAct( 14, UA_KEYS, SR.get(SR.MS_FULLSCREEN))
+        ,new userAct( 12, UA_ALL, SR.get(SR.MS_APP_MINIMIZE), ActionsIcons.getInstance(), ActionsIcons.ICON_NICK_RESOLVE)
+        ,new userAct( 13, UA_ALL, SR.get(SR.MS_INVERT), MenuIcons.getInstance(), MenuIcons.ICON_ITEM_ACTIONS)
+        ,new userAct( 14, UA_KEYS, SR.get(SR.MS_FULLSCREEN), MenuIcons.getInstance(), MenuIcons.ICON_GMAIL )
 //#ifdef XML_CONSOLE
 //#         ,new userAct( 15, UA_KEYS, SR.get(SR.MS_XML_CONSOLE))
 //#endif
-        ,new userAct( 16, UA_ALL, SR.get(SR.MS_AUTOTASK_QUIT_CONFERENCES))
-        ,new userAct( 17, UA_ALL, "Quit QD")
-        ,new userAct( 18, UA_ALL, SR.get(SR.MS_LOGOFF))
-        ,new userAct( 19, UA_ALL, SR.get(SR.MS_AUTOLOGIN))
-        ,new userAct( 20, UA_ALL, SR.get(SR.MS_DO_AUTOJOIN))
-        ,new userAct( 21, UA_KEYS, "Show/Hide Offline contacts")
+        ,new userAct( 16, UA_ALL, SR.get(SR.MS_AUTOTASK_QUIT_CONFERENCES), ActionsIcons.getInstance(), ActionsIcons.ICON_LEAVE)
+        ,new userAct( 17, UA_ALL, "Quit QD", MenuIcons.getInstance(), MenuIcons.ICON_QUIT)
+        ,new userAct( 18, UA_ALL, SR.get(SR.MS_LOGOFF), RosterIcons.getInstance(), RosterIcons.ICON_OFFLINE_STATUS)
+        ,new userAct( 19, UA_ALL, SR.get(SR.MS_AUTOLOGIN), MenuIcons.getInstance(), MenuIcons.ICON_OK)
+        ,new userAct( 20, UA_ALL, SR.get(SR.MS_DO_AUTOJOIN), RosterIcons.getInstance(), RosterIcons.ICON_GCCOLLAPSED_INDEX)
+        ,new userAct( 21, UA_KEYS, "Show/Hide Offline contacts", RosterIcons.getInstance(), RosterIcons.ICON_IDONTNOW_STATUS)
         ,new userAct( 22, UA_ALL, "Status: online")
         ,new userAct( 23, UA_ALL, "Status: offline")
         ,new userAct( 24, UA_ALL, "Status: chat")

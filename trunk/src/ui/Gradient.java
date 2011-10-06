@@ -38,6 +38,8 @@ public class Gradient {
 	public final static int MIXED_DOWN=3;
 	public final static int CACHED_VERTICAL = 4;
 	public final static int CACHED_HORIZONTAL = 5;
+	public final static int ROUND_HORIZONTAL = 6;
+
 
 	private int x1;
 	private int x2;
@@ -117,7 +119,7 @@ public class Gradient {
 //#ifdef DEBUG
 //#            System.out.println("makePoints("+(y2-y1)+", "+type+")");
 //#endif
-                    if (type==MIXED_UP || type==MIXED_DOWN || type == CACHED_VERTICAL || type==CACHED_HORIZONTAL) {
+                    if (type==MIXED_UP || type==MIXED_DOWN || type == CACHED_VERTICAL || type==CACHED_HORIZONTAL || type==ROUND_HORIZONTAL) {
                         if (width!=x2-x1 || height!=y2-y1 || points==null) {
                             width = x2-x1;
                             height = y2-y1;
@@ -127,7 +129,11 @@ public class Gradient {
                                 return;
                             points = new int[height*width];
                         }
-			makePoints(width, height);
+                        if (type==ROUND_HORIZONTAL) {
+                            makeRoundHGrad(width, height, 5);
+                        } else {
+                            makePoints(width, height);
+                        }
                     } else {
                         points = null;
                     }
@@ -146,6 +152,7 @@ public class Gradient {
 				break;
 			case CACHED_VERTICAL:
 			case CACHED_HORIZONTAL:
+			case ROUND_HORIZONTAL:
 			case MIXED_UP:
 			case MIXED_DOWN: {
                         	int x = g.getTranslateX();
@@ -157,6 +164,24 @@ public class Gradient {
                         }
 		}            
 	}
+
+        public void makeRoundHGrad(int width, int height, int R) {
+            int ds = 0;
+            for (int j = 0; j < height; ++j) {
+                int ai[] = GradBackgr(j+y1, y1, y2 - 1);
+                int color = ColorTheme.getColor(ai[3], ai[0], ai[1], ai[2]);
+                ds = 0;
+                if (R > j) ds = (int)(R-sqrt(2*j*R-j*j));
+                if (R > height - j - 1) ds = (int)(R-sqrt(2*(height-j-1)*R-(height-j-1)*(height-j-1)));
+                for (int i = 0; i < width; ++i) {
+                    if (i < ds || i > width-ds-1) {
+                        points[width * j + i] = 0;
+                    } else {
+                        points[width * j + i] = color;
+                    }
+                }
+            }
+        }
 
 	public void paintHRoundRect(Graphics g, int R) {//Makasi
 		int ds = 0;

@@ -621,7 +621,7 @@ public abstract class VirtualList extends CanvasEx {
 //#endif
                 ){
              cursorGradient.update(x0+1, y0+1, width+x0-1, height+y0-1, ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_1),
-                  ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_2), Gradient.CACHED_HORIZONTAL);
+                  ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_2), Gradient.CACHED_HORIZONTAL);//Gradient.ROUND_HORIZONTAL
              //cursorGradient.paintHRoundRect(g, 4);
              cursorGradient.paint(g);
              g.setColor(ColorTheme.getColor(ColorTheme.CURSOR_OUTLINE));

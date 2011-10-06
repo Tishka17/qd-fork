@@ -292,7 +292,7 @@ public class GMenu extends CanvasEx {
         if(midlet.BombusQD.cf.gradient_cursor){ //Tishka17
             int yc = 1 + (itemCursorIndex*fh);
             cursor.update(0, yc, w+2, yc+fh, ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_1),
-                  ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_2), Gradient.CACHED_HORIZONTAL);
+                  ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_2), Gradient.CACHED_HORIZONTAL);//Gradient.ROUND_HORIZONTAL
             cursor.paint(g);
              g.setColor(ColorTheme.getColor(ColorTheme.CURSOR_OUTLINE));
              g.drawRoundRect(0, (itemCursorIndex*fh), w , fh+1, 8, 8);

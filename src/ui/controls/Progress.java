@@ -66,7 +66,7 @@ public class Progress {
 //#ifdef GRADIENT
         this.bottomColor=ColorTheme.getColor(ColorTheme.PGS_COMPLETE_BOTTOM);
         if (topColor!=bottomColor) {
-            this.gr.update(x, y-height, x+width, y, topColor, bottomColor, Gradient.CACHED_HORIZONTAL);
+            this.gr.update(x, y-height, x+width, y, topColor, bottomColor, Gradient.CACHED_HORIZONTAL, 0);
         }
 //#endif
     }
@@ -76,7 +76,7 @@ public class Progress {
         g.fillRect(x, y, width, height);
 //#ifdef GRADIENT
         if (topColor!=bottomColor) {
-            gr.update(x, y, x+filled, y+height, topColor, bottomColor, Gradient.CACHED_HORIZONTAL);
+            gr.update(x, y, x+filled, y+height, topColor, bottomColor, Gradient.CACHED_HORIZONTAL, 0);
             gr.paint(g);
         } else {
 //#endif

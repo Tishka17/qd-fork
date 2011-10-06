@@ -417,7 +417,7 @@ public abstract class VirtualList extends CanvasEx {
                 listGradient.update(0, 0, width, height, 
                         ColorTheme.getColor(ColorTheme.GRADIENT_BGND_LEFT),
                         ColorTheme.getColor(ColorTheme.GRADIENT_BGND_RIGHT), 
-                        Gradient.CACHED_VERTICAL);
+                        Gradient.CACHED_VERTICAL, 0);
                 listGradient.paint(g);
                 break;
 //#endif
@@ -620,8 +620,8 @@ public abstract class VirtualList extends CanvasEx {
                 && !kinetic.isScrolling() && pointer_state!=POINTER_DRAG && pointer_state!=POINTER_FIRST && pointer_state!=POINTER_LONG
 //#endif
                 ){
-             cursorGradient.update(x0+1, y0+1, width+x0-1, height+y0-1, ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_1),
-                  ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_2), Gradient.CACHED_HORIZONTAL);//Gradient.ROUND_HORIZONTAL
+             cursorGradient.update(x0, y0, width+x0, height+y0, ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_1),
+                  ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_2), Gradient.CACHED_HORIZONTAL, 5);
              //cursorGradient.paintHRoundRect(g, 4);
              cursorGradient.paint(g);
              g.setColor(ColorTheme.getColor(ColorTheme.CURSOR_OUTLINE));
@@ -806,18 +806,18 @@ public abstract class VirtualList extends CanvasEx {
             int c = midlet.BombusQD.cf.gradientBarLigth?1:-1;
             MainBarBG.update(0, y, width, y+h+1,
                     transformColorLight(getMainBarBGnd(), c*midlet.BombusQD.cf.gradientBarLight1),
-                    transformColorLight(getMainBarBGndBottom(), c*midlet.BombusQD.cf.gradientBarLight2), Gradient.MIXED_DOWN);
+                    transformColorLight(getMainBarBGndBottom(), c*midlet.BombusQD.cf.gradientBarLight2), Gradient.MIXED_DOWN, 0);
             MainBarBG.paint(g);
             if (midlet.BombusQD.cf.shadowBar) {
                 int sh = (width <= height)?width:height;
                 if (reverse) {
                     sh = sh/50;
-                    MainBarShadow.update(0, y-sh, width, y, 10<<24, 200<<24, Gradient.CACHED_HORIZONTAL);
+                    MainBarShadow.update(0, y-sh, width, y, 10<<24, 200<<24, Gradient.CACHED_HORIZONTAL, 0);
                     MainBarShadow.paint(g);
                 }
                 else {
                     sh = sh/40;
-                    MainBarShadow.update(0, y+h, width, y+h+sh, 200<<24, 10<<24, Gradient.CACHED_HORIZONTAL);
+                    MainBarShadow.update(0, y+h, width, y+h+sh, 200<<24, 10<<24, Gradient.CACHED_HORIZONTAL, 0);
                     MainBarShadow.paint(g);
                 }
             }
@@ -840,18 +840,18 @@ public abstract class VirtualList extends CanvasEx {
             InfoBarBG.update(0, y, width, y+h,
                     transformColorLight(getMainBarBGnd(), c*midlet.BombusQD.cf.gradientBarLight1),
                     transformColorLight(getMainBarBGndBottom(), c*midlet.BombusQD.cf.gradientBarLight2),
-                    Gradient.MIXED_UP);
+                    Gradient.MIXED_UP, 0);
             InfoBarBG.paint(g);            
             if (midlet.BombusQD.cf.shadowBar) {
                 int sh = (width <= height)?width:height;
                 if (reverse) {
                     sh = sh/40;
-                    InfoBarShadow.update(0, y+h, width, y+h+sh, 200<<24, 10<<24, Gradient.CACHED_HORIZONTAL);
+                    InfoBarShadow.update(0, y+h, width, y+h+sh, 200<<24, 10<<24, Gradient.CACHED_HORIZONTAL, 0);
                     InfoBarShadow.paint(g);
                 }
                 else {
                     sh = sh/50;
-                    InfoBarShadow.update(0, y-sh, width, y, 10<<24, 200<<24, Gradient.CACHED_HORIZONTAL);
+                    InfoBarShadow.update(0, y-sh, width, y, 10<<24, 200<<24, Gradient.CACHED_HORIZONTAL, 0);
                     InfoBarShadow.paint(g);
                 }
             }

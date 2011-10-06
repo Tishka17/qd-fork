@@ -277,7 +277,7 @@ public class PopUp {
         int color=getColorBgnd();
 //#ifdef GRADIENT
         if (ColorTheme.getAlpha(color)!=0) {
-          bg.update(widthBorder+1, heightBorder+1, widthBorder+popUpWidth, heightBorder+popUpHeight, color, color, Gradient.CACHED_HORIZONTAL);
+          bg.update(widthBorder+1, heightBorder+1, widthBorder+popUpWidth, heightBorder+popUpHeight, color, color, Gradient.CACHED_HORIZONTAL, 0);
           bg.paint(graph);
         } else 
 //#endif

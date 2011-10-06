@@ -242,7 +242,7 @@ public class GMenu extends CanvasEx {
 //#ifdef GRADIENT
        int bgnd_menu = ColorTheme.getColor(ColorTheme.TRANSPARENCY_ARGB);
        if ((bgnd_menu>>24) > 1) {
-           listBgnd.update(0, 0, width, height, bgnd_menu, bgnd_menu, Gradient.CACHED_HORIZONTAL);
+           listBgnd.update(0, 0, width, height, bgnd_menu, bgnd_menu, Gradient.CACHED_HORIZONTAL, 0);
            listBgnd.paint(g);
        }
 //#endif
@@ -271,7 +271,7 @@ public class GMenu extends CanvasEx {
        int alpha_menu=ColorTheme.getColor(ColorTheme.GRAPHICS_MENU_BGNG_ARGB);
 //#ifdef GRADIENT
         if (alpha_menu!=-1){
-            menuBgnd.update(x1, y1, x2+1, y2, alpha_menu, alpha_menu, Gradient.CACHED_HORIZONTAL);
+            menuBgnd.update(x1, y1, x2+1, y2, alpha_menu, alpha_menu, Gradient.CACHED_HORIZONTAL, 0);
             menuBgnd.paint(g);
         } else
 //#endif
@@ -290,9 +290,9 @@ public class GMenu extends CanvasEx {
          g.setClip(0,0,w+1,mHfh+40);//?
 //#ifdef GRADIENT
         if(midlet.BombusQD.cf.gradient_cursor){ //Tishka17
-            int yc = 1 + (itemCursorIndex*fh);
-            cursor.update(0, yc, w+2, yc+fh, ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_1),
-                  ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_2), Gradient.CACHED_HORIZONTAL);//Gradient.ROUND_HORIZONTAL
+            int yc = (itemCursorIndex*fh);
+            cursor.update(0, yc, w, yc+fh+2, ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_1),
+                  ColorTheme.getColor(ColorTheme.GRADIENT_CURSOR_2), Gradient.CACHED_HORIZONTAL, 5);
             cursor.paint(g);
              g.setColor(ColorTheme.getColor(ColorTheme.CURSOR_OUTLINE));
              g.drawRoundRect(0, (itemCursorIndex*fh), w , fh+1, 8, 8);

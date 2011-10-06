@@ -73,7 +73,7 @@ public final class ProgressItem implements VirtualElement {
                 gr.update(X_OFFSET, Y_OFFSET,
                         X_OFFSET + filledWidth,
                         Y_OFFSET + height,
-                        topColor, bottomColor, Gradient.CACHED_HORIZONTAL);
+                        topColor, bottomColor, Gradient.CACHED_HORIZONTAL, 0);
                 gr.paint(g);
             } else {
 //#endif

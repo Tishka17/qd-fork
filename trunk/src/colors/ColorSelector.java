@@ -133,7 +133,7 @@ public class ColorSelector extends DefForm {
         g.setColor(0x000000);
         g.drawRect(4, boxY - 1, boxW + 1, 81);
 //#ifdef GRADIENT
-        example.update(4, boxY, 5+boxW, boxY+81, ColorTheme.getColor(alpha, red, green, blue), ColorTheme.getColor(alpha, red, green, blue), Gradient.CACHED_HORIZONTAL);
+        example.update(4, boxY, 5+boxW, boxY+81, ColorTheme.getColor(alpha, red, green, blue), ColorTheme.getColor(alpha, red, green, blue), Gradient.CACHED_HORIZONTAL, 0);
         example.paint(g);
 //#else
 //#         g.setColor(red, green, blue);

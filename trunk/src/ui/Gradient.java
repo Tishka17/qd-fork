@@ -38,7 +38,6 @@ public class Gradient {
 	public final static int MIXED_DOWN=3;
 	public final static int CACHED_VERTICAL = 4;
 	public final static int CACHED_HORIZONTAL = 5;
-	public final static int ROUND_HORIZONTAL = 6;
 
 
 	private int x1;
@@ -65,9 +64,11 @@ public class Gradient {
     
 	public Gradient() {}
 
-	public void update(int x1, int y1, int x2, int y2, int StartRGB, int EndRGB, int type) {
+	public void update(int x1, int y1, int x2, int y2, int StartRGB, int EndRGB, int type, int R) {
                 int alphaS = ColorTheme.getAlpha(StartRGB);
+                if (alphaS == 0) {alphaS = 0xff;}
                 int alphaE = ColorTheme.getAlpha(EndRGB);
+                if (alphaE == 0) {alphaE = 0xff;}
 		int redS = ColorTheme.getRed(StartRGB);
 		int redE = ColorTheme.getRed(EndRGB);
 		int greenS = ColorTheme.getGreen(StartRGB);
@@ -119,7 +120,7 @@ public class Gradient {
 //#ifdef DEBUG
 //#            System.out.println("makePoints("+(y2-y1)+", "+type+")");
 //#endif
-                    if (type==MIXED_UP || type==MIXED_DOWN || type == CACHED_VERTICAL || type==CACHED_HORIZONTAL || type==ROUND_HORIZONTAL) {
+                    if (type==MIXED_UP || type==MIXED_DOWN || type == CACHED_VERTICAL|| type == CACHED_HORIZONTAL) {
                         if (width!=x2-x1 || height!=y2-y1 || points==null) {
                             width = x2-x1;
                             height = y2-y1;
@@ -128,17 +129,12 @@ public class Gradient {
                             if (width<=0 || height<=0)
                                 return;
                             points = new int[height*width];
-                        }
-                        if (type==ROUND_HORIZONTAL) {
-                            makeRoundHGrad(width, height, 5);
+                            makePoints(width, height, R);
                         } else {
-                            makePoints(width, height);
+                            points = null;
                         }
-                    } else {
-                        points = null;
                     }
-		}
-
+                }
 	}
 	public void paint(Graphics g) {
                 if (x2<=x1 || y2<= y1 || points==null)
@@ -152,54 +148,16 @@ public class Gradient {
 				break;
 			case CACHED_VERTICAL:
 			case CACHED_HORIZONTAL:
-			case ROUND_HORIZONTAL:
 			case MIXED_UP:
 			case MIXED_DOWN: {
                         	int x = g.getTranslateX();
                                 int y = g.getTranslateY();
                                 g.translate(-x, -y);
-				g.drawRGB(points, 0, x2-x1, x+x1, y+y1 , x2-x1, y2-y1, (alphaS!=0 || alphaE!=0));
+				g.drawRGB(points, 0, x2-x1, x+x1, y+y1 , x2-x1, y2-y1, true);//(alphaS!=0 || alphaE!=0));
                                 g.translate(x, y);
 				break;
                         }
 		}            
-	}
-
-        public void makeRoundHGrad(int width, int height, int R) {
-            int ds = 0;
-            for (int j = 0; j < height; ++j) {
-                int ai[] = GradBackgr(j+y1, y1, y2 - 1);
-                int color = ColorTheme.getColor(ai[3], ai[0], ai[1], ai[2]);
-                ds = 0;
-                if (R > j) ds = (int)(R-sqrt(2*j*R-j*j));
-                if (R > height - j - 1) ds = (int)(R-sqrt(2*(height-j-1)*R-(height-j-1)*(height-j-1)));
-                for (int i = 0; i < width; ++i) {
-                    if (i < ds || i > width-ds-1) {
-                        points[width * j + i] = 0;
-                    } else {
-                        points[width * j + i] = color;
-                    }
-                }
-            }
-        }
-
-	public void paintHRoundRect(Graphics g, int R) {//Makasi
-		int ds = 0;
-		for(int i2 = y1; i2 <= y2 - 1; ++i2) {
-			int ai[] = GradBackgr(i2, y1, y2 - 1);
-			g.setColor(ai[0], ai[1], ai[2]);
-
-			ds = 0;
-			if ((R-i2+y1) > 0)
-				ds = (int)(R+1-sqrt((i2+1-y1)*2*R-(i2+1-y1)*(i2+1-y1)));
-			else if (R-y2+i2 > 0)
-				ds = (int)(R+1-sqrt((y2-i2)*2*R-(y2-i2)*(y2-1-i2)));
-
-			if (ds != 0)
-				g.drawLine(x1+ds, i2, x2-ds - 1, i2);
-			else
-				g.drawLine(x1, i2, x2 - 1, i2);
-		}
 	}
 
 	private int sqrt( int x ) {
@@ -247,7 +205,7 @@ public class Gradient {
 		};
 	}
 
-	private void makePoints(int width, int height) {
+	private void makePoints(int width, int height, int R) {
 		if (type == MIXED_DOWN || type == MIXED_UP) {
 			int a,r,g,b,dist,diff,new_a,new_r,new_g,new_b,color = 0;
 			int yS,yE,yD;
@@ -300,18 +258,30 @@ public class Gradient {
                     for (int i = 0; i < width; ++i) {
                         int ai[] = GradBackgr(i, x1, x2 - 1);
                         int color = ColorTheme.getColor(ai[3], ai[0], ai[1], ai[2]);
-
-                        for (int j = 0; j < height; ++j) {
-                            points[width * j + i] = color;
+                        int ds = 0;
+                        if (R > i) ds = (int)(R-sqrt(2*i*R-i*i));
+                        if (R > width - i - 1) ds = (int)(R-sqrt(2*(width-i-1)*R-(width-i-1)*(width-i-1)));
+                        for (int j = 0; j < width; ++j) {
+                            if (i < ds || i > height-ds-1) {
+                                points[width * j + i] = 0;
+                            } else {
+                                points[width * j + i] = color;
+                            }
                         }
                     }
                 } else if (type == CACHED_HORIZONTAL) {
                     for (int j = 0; j < height; ++j) {               
                         int ai[] = GradBackgr(j+y1, y1, y2 - 1);
                         int color = ColorTheme.getColor(ai[3], ai[0], ai[1], ai[2]);
-
-                        for (int i = 0; i < width; ++i) {                   
-                            points[width * j + i] = color;
+                        int ds = 0;
+                        if (R > j) ds = (int)(R-sqrt(2*j*R-j*j));
+                        if (R > height - j - 1) ds = (int)(R-sqrt(2*(height-j-1)*R-(height-j-1)*(height-j-1)));
+                        for (int i = 0; i < width; ++i) {
+                            if (i < ds || i > width-ds-1) {
+                                points[width * j + i] = 0;
+                            } else {
+                                points[width * j + i] = color;
+                            }
                         }
                     }
                 }

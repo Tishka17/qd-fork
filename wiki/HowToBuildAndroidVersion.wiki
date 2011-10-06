@@ -1,14 +1,14 @@
 #labels Featured
  = Как собрать Android-версию =
 
-*Требуемое програмное обеспечение:*
+*Требуемое программное обеспечение:*
  * Последняя ревизия BombusQD
  * Microemulator
  * Java SE JDK (http://java.sun.com/javase/)
  * Subversion client (http://subversion.tigris.org)
  * Maven (http://maven.apache.org/)
  * Ant (http://ant.apache.org/)
- * Android SDK version 1.5 или новее (http://developer.android.com/)
+ * Android SDK version с загруженым Android 1.6 api (http://developer.android.com/)
  * Netbeans (http://www.netbeans.com/downloads/index.html)
  * ASM (http://asm.ow2.org/)
 А так же потребуется персональный ключ разработчика для подписи приложения
@@ -47,18 +47,18 @@ set ANT_EXEC="C:\Program Files\NetBeans 6.9.1\java\ant\bin\ant.bat"
 {{{
 sdk.dir=D:/Android/android-sdk-windows  ///путь к Android-sdk
 microemu.sources=D:/microemulator       ///путь к Microemulator
-key.store=D:/keys/key/mykey.keystore    ///путь к зранилищу ключей
+key.store=D:/keys/key/mykey.keystore    ///путь к хранилищу ключей
 key.alias=cert                          ///имя хранилища
 }}}
 
 *6.* Возвращаем в корень исходников BombusQD. Для простоты сборки создаем в ней *Новый текстовый документ.txt*
-переновываем его в любой файл с расширением *.bat*, например *android.bat*
+переименовываем его в любой файл с расширением *.bat*, например *android.bat*
 Редактируем его с помощью любого текстового редактора и пишем следующее
 {{{
 call ant build-android
 pause
 }}}
-Теперь все готово для сборки фндроид версии, запускаемя наш bat-файл и наблюдаем за процессом компиляции, в конце компиляции будет запрашиваться пароль к ключу и к хранилищу ключей
+Теперь все готово для сборки андроид-версии, запускаем наш bat-файл и наблюдаем за процессом компиляции, в конце компиляции будет запрашиваться пароль к ключу и к хранилищу ключей
 
 Чтобы постоянно его не вводить, создаем рядом с нашим созданным файлом текстовой файл, например *key.txt* и вписываем в него наши два пароля
 
@@ -74,7 +74,7 @@ pause
 }}}
 *7.* Наши собранные apk файлы после компиляции будут располагаться в папке *android/bin/*
 {{{
-BombusQD-release.apk  ///наше подписанное приложени для установки в телефон
+BombusQD-release.apk  ///наше подписанное приложение для установки в телефон
 BombusQD-unaligned.apk  ///подписано тестовым сертификатом
 BombusQD-unsigned.apk  ///без подписи
 }}}

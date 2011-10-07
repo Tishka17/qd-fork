@@ -275,7 +275,7 @@ public final class Roster extends VirtualList
     }
 
     public void initCommands() {
-//#ifndef ANDROID
+//#ifndef Android
         createMessageEdit();
 //#endif
         StatusList.getInstance().reinit();
@@ -2611,7 +2611,7 @@ public final class Roster extends VirtualList
             focusToContact(c, false);
 
         if (message.isHighlite()) {
-            playNotify(SOUND_FOR_ME);
+            playNotify(SOUND_FOR_ME);		
 //#ifdef POPUPS
             if (showWobbler(c))
                 setWobbler(2, c, message.getBody(),null);
@@ -2926,7 +2926,7 @@ public final class Roster extends VirtualList
     }
 
     public void showMultiMsgEditor(Vector contacts) {
-//#ifdef ANDROID
+//#ifdef Android
 //#         createMessageEdit();
 //#endif
 //#ifdef RUNNING_MESSAGE
@@ -2936,7 +2936,7 @@ public final class Roster extends VirtualList
     }
 
     public void showMsgEditor(Contact c, String body) {
-//#ifdef ANDROID
+//#ifdef Android
 //#         createMessageEdit();
 //#endif
         
@@ -2944,7 +2944,7 @@ public final class Roster extends VirtualList
         msgEditor.setTicker(c.getNickJid());
 //#endif
         msgEditor.show(c, body);
-//#ifdef ANDROID
+//#ifdef Android
 //# msgEditor = null; 
 //#endif     
     }

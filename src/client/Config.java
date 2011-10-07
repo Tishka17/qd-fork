@@ -244,7 +244,7 @@ public class Config {
 //#endif
 
     public static int scrollWidth = 5;
-    public static int minItemHeight = 3;
+    public int minItemHeight = rosterFont*3;
     public static int contactXOffset = 10;
 
     public boolean iconsLeft = true;
@@ -395,6 +395,9 @@ public class Config {
                 break;
             case MOTO:
                 ghostMotor=true;
+                break;
+            case MICROEMU:
+                minItemHeight *=2;
                 break;
         }
     }
@@ -571,6 +574,7 @@ public class Config {
             historyMUC = inputStream.readBoolean();
             historyMUCPrivate = inputStream.readBoolean();
  //#endif
+            minItemHeight = inputStream.readInt();
             inputStream.close();
             inputStream = null;
         } catch (Exception e) {

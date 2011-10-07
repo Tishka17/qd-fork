@@ -71,7 +71,7 @@ public final class Msg implements VirtualElement {
     private String id;
     public boolean found;
     private boolean unread = false;
-    private boolean collapsed;
+    public boolean collapsed;
     private int color = -1;
     private boolean selected;
     
@@ -287,11 +287,12 @@ public final class Msg implements VirtualElement {
         if (!msgLines.isEmpty()) {
             height = ((ComplexString)msgLines.elementAt(0)).getVHeight();
             if (!isMucMsg && !Config.getInstance().hideMessageIcon && !isPresence() && !isMucMsg) {
-                height = Math.max(height, RosterIcons.getInstance().getHeight());
+                height = Math.max(RosterIcons.getInstance().getHeight(), Math.max(height, Config.getInstance().minItemHeight));
             }
             for (int i = 1; i < size; ++i) {
                 height += ((ComplexString)msgLines.elementAt(i)).getVHeight();
             }
+            return Math.max(height, Config.getInstance().minItemHeight);
         }
         if (attachment!=null) {
             height+=attachment.getVHeight();
@@ -359,8 +360,15 @@ public final class Msg implements VirtualElement {
         
         g.translate(2, 0);
 
-        if (!msgLines.isEmpty()) {
+        if (!msgLines.isEmpty()) {  
             int size = collapsed ? 1 : msgLines.size();
+            int messageHeight = 0;
+            for (int i = 0; i < size; i++) {
+            messageHeight += ((ComplexString) msgLines.elementAt(i)).getVHeight();
+        }
+        if (messageHeight < Config.getInstance().minItemHeight) {
+            g.translate(g.getTranslateX(), (Config.getInstance().minItemHeight - messageHeight) >> 1);
+        }
             for (int i = 0; i < size; ++i) {
                 ComplexString string = (ComplexString)msgLines.elementAt(i);
 
@@ -485,7 +493,7 @@ public final class Msg implements VirtualElement {
     
     public boolean eventKeyLong(int keyCode) {
         return false;
-    }    
+    }
 //#ifdef TOUCH      
     public boolean eventPointerPressed(int x, int y) {
         return false;

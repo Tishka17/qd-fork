@@ -130,8 +130,8 @@ public final class CheckBox extends IconTextElement {
         if (itemHeight < imgHeight) {
             itemHeight = imgHeight;
         }
-        if (itemHeight < Config.minItemHeight) {
-            itemHeight = Config.minItemHeight;
+        if (itemHeight < Config.getInstance().minItemHeight) {
+            itemHeight = Config.getInstance().minItemHeight;
         }
         return itemHeight;
     }

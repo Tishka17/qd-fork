@@ -108,7 +108,7 @@ public class SmilePicker extends DefForm implements VirtualElement {
     public VirtualElement getItemRef(int index){ lineIndex=index; return this;}
 
     public int getVWidth(){ return 0; }
-    public int getVHeight() { return lineHeight; }
+    public int getVHeight() { return Math.max(lineHeight, Config.getInstance().minItemHeight); }
     public int getColor(){ return ColorTheme.getColor(ColorTheme.LIST_INK); }
     public int getColorBGnd(){ return ColorTheme.getColor(ColorTheme.LIST_BGND); }
 

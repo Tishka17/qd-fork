@@ -60,7 +60,7 @@ public class Progress {
         this.x=x;
         this.width=width;
         this.font=FontCache.getFont(false, Config.barFont);
-        this.height = Math.max(font.getHeight() + 2, Config.minItemHeight);
+        this.height = Math.max(font.getHeight() + 2, Config.getInstance().minItemHeight);
         this.y=y-height;
         this.topColor=ColorTheme.getColor(ColorTheme.PGS_COMPLETE_TOP);
 //#ifdef GRADIENT

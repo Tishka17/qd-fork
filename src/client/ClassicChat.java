@@ -110,7 +110,7 @@
 //#                 fon.update(0, 0, width, height, 
 //#                         ColorTheme.getColor(ColorTheme.GRADIENT_BGND_LEFT),
 //#                         ColorTheme.getColor(ColorTheme.GRADIENT_BGND_RIGHT), 
-//#                         Gradient.CACHED_VERTICAL);
+//#                         Gradient.CACHED_VERTICAL, 0);
 //#                 fon.paint(g);
 //#                 break;
 //#endif

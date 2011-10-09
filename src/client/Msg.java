@@ -494,6 +494,14 @@ public final class Msg implements VirtualElement {
     public boolean eventKeyLong(int keyCode) {
         return false;
     }
+    public static String clearNick(StringBuffer msgBuffer) {
+        int i = 0;
+        while (i<msgBuffer.length()) {
+            if (msgBuffer.charAt(i)<0x03) msgBuffer.deleteCharAt(i);
+            else i++;
+        }
+        return msgBuffer.toString();
+    }
 //#ifdef TOUCH      
     public boolean eventPointerPressed(int x, int y) {
         return false;

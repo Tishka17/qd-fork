@@ -6,3 +6,12 @@ audio/midi	/sounds/tuk.mid	tuk.mid
 audio/midi	/sounds/message.mid	message.mid
 audio/midi	/sounds/online.mid	online.mid
 audio/mpeg	/sounds/klaxon1.mp3	klaxon1.mp3
+audio/mpeg	/sounds/auth_accepted.mp3	auth_accepted.mp3
+audio/mpeg	/sounds/auth_denied.mp3	auth_denied.mp3
+audio/mpeg	/sounds/auth_req.mp3	auth_req.mp3
+audio/mpeg	/sounds/contact_in.mp3	contact_in.mp3
+audio/mpeg	/sounds/contact_out.mp3	contact_out.mp3
+audio/mpeg	/sounds/inc_file.mp3	inc_file.mp3
+audio/mpeg	/sounds/inc_msg.mp3	inc_msg.mp3
+audio/mpeg	/sounds/out_msg.mp3	out_msg.mp3
+audio/mpeg	/sounds/transfer_rejected.mp3	transfer_rejected.mp3

@@ -129,6 +129,10 @@ import disco.ServerStatsForm;
 //#ifdef HISTORY
 import history.HistoryViewer;
 //#endif
+//#ifdef SYSTEM_NOTIFY
+//# import message.notification.Notification;
+//# import message.notification.Notificator;
+//#endif
 //#if ROSTERX
 import xmpp.extensions.RosterXListener;
 //#endif
@@ -2606,12 +2610,25 @@ public final class Roster extends VirtualList
 
   if (midlet.BombusQD.cf.popupFromMinimized && BombusQD.isMinimized())
       c.getMessageList().show();
+//#ifdef SYSTEM_NOTIFY
+//#             Notificator notify = Notification.getNotificator();
+//#endif
 
         if (midlet.BombusQD.cf.autoFocus && message.getType()!=Msg.PRESENCE && message.getType()!=Msg.OUTGOING)
             focusToContact(c, false);
 
         if (message.isHighlite()) {
-            playNotify(SOUND_FOR_ME);		
+            playNotify(SOUND_FOR_ME);
+//#ifdef SYSTEM_NOTIFY
+//#                     if (notify != null)
+//#                         notify.sendNotify(message.getFrom(), message.getBody());
+//#                     else
+//#endif
+//#ifdef SYSTEM_NOTIFY
+//#                 if (notify != null)
+//#                     notify.sendNotify(message.getFrom(), message.getBody());
+//#                 else
+//#endif
 //#ifdef POPUPS
             if (showWobbler(c))
                 setWobbler(2, c, message.getBody(),null);

@@ -157,7 +157,7 @@ public final class Roster extends VirtualList
     private Jid myJid;
     public JabberStream theStream = null;
     public int messageCount;
-    int highliteMessageCount;
+    public int highliteMessageCount;
     public Object eventIcon;
 
     public ContactList contactList = new ContactList();

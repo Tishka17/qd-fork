@@ -13,24 +13,28 @@ package message.notification;
 //# import org.bombusqd.BombusQDActivity;
 //# import org.bombusqd.R;
 //# import client.Msg;
-//#
-//#
+//# import client.Roster;
+//# 
+//# 
 //# public class AndroidNotification implements Notificator {
-//#
+//# 
 //#     private static final int NOTIFY_ID = 1;
-//#
-//#
+//# 
+//# 
 //#     public void sendNotify(final String title, final String text) {
 //#                 NotificationManager mNotificationManager = (NotificationManager) BombusQDActivity.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
 //#                 long when = System.currentTimeMillis();
-//#                 int icon = R.drawable.app_icon;
-//#                 android.app.Notification notification = new android.app.Notification(icon, title, when);
+//#                 int icon = R.drawable.chat;
+//#                 android.app.Notification notification = new android.app.Notification(icon, "Новых сообщений: "+midlet.BombusQD.sd.roster.highliteMessageCount, when);
 //#                 Intent notificationIntent = new Intent(BombusQDActivity.getInstance(), AndroidNotification.class);
 //#                 PendingIntent contentIntent = PendingIntent.getActivity(BombusQDActivity.getInstance(), 0, notificationIntent, 0);
-//#                 notification.setLatestEventInfo(BombusQDActivity.getInstance().getApplicationContext(), title, Msg.clearNick(new StringBuffer(text)), contentIntent);
+//#                 notification.setLatestEventInfo(BombusQDActivity.getInstance().getApplicationContext(), "У вас есть сообщения...", "Непрочитано сообщений: "+midlet.BombusQD.sd.roster.highliteMessageCount, contentIntent);
 //#                 notification.flags |= android.app.Notification.FLAG_AUTO_CANCEL;
-//#                 notification.defaults |= android.app.Notification.DEFAULT_LIGHTS;
-//#                 //notification.defaults |= android.app.Notification.DEFAULT_VIBRATE;
+//#                 notification.ledARGB = 0xffffa500;
+//#                 notification.ledOnMS = 300;
+//#                 notification.ledOffMS = 1000;
+//#                 notification.flags |= android.app.Notification.FLAG_SHOW_LIGHTS;
+//#                 notification.number=midlet.BombusQD.sd.roster.highliteMessageCount;
 //#                 mNotificationManager.notify(NOTIFY_ID, notification);
 //#     }
 //# }

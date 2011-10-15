@@ -26,7 +26,7 @@ package message.notification;
 //#                 long when = System.currentTimeMillis();
 //#                 int icon = R.drawable.chat;
 //#                 android.app.Notification notification = new android.app.Notification(icon, "Новых сообщений: "+midlet.BombusQD.sd.roster.highliteMessageCount, when);
-//#                 Intent notificationIntent = new Intent(BombusQDActivity.getInstance(), AndroidNotification.class);
+//#                 Intent notificationIntent = new Intent(BombusQDActivity.getInstance(), BombusQDActivity.class);
 //#                 PendingIntent contentIntent = PendingIntent.getActivity(BombusQDActivity.getInstance(), 0, notificationIntent, 0);
 //#                 notification.setLatestEventInfo(BombusQDActivity.getInstance().getApplicationContext(), "У вас есть сообщения...", "Непрочитано сообщений: "+midlet.BombusQD.sd.roster.highliteMessageCount, contentIntent);
 //#                 notification.flags |= android.app.Notification.FLAG_AUTO_CANCEL;

@@ -6,25 +6,17 @@
  * Microemulator
  * Java SE JDK (http://java.sun.com/javase/)
  * Subversion client (http://subversion.tigris.org)
- * Maven (http://maven.apache.org/)
  * Ant (http://ant.apache.org/)
  * Android SDK version с загруженым Android 1.6 api (http://developer.android.com/)
  * Netbeans (http://www.netbeans.com/downloads/index.html)
- * ASM (http://asm.ow2.org/)
 А так же потребуется персональный ключ разработчика для подписи приложения
 
 
 _*Процесс сборки:*_
 
-*1.* Установка Microemulator
- * Скачиваем репозиторий Microemulator 
+*1.* Скачиваем репозиторий Microemulator 
 {{{
 svn co http://microemu.googlecode.com/svn/trunk/microemulator microemulator
-}}}
- * Собираем Microemulator используя Maven
-{{{
-cd microemulator
-mvn
 }}}
 
 *2.* В Netbeans'e добавляем проект BombusQD

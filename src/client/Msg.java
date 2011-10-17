@@ -71,9 +71,10 @@ public final class Msg implements VirtualElement {
     private String id;
     public boolean found;
     private boolean unread = false;
-    public boolean collapsed;
+    private boolean collapsed;
     private int color = -1;
     private boolean selected;
+    private int verticalOffset = 0;
     
     public Vector msgLines;
     private boolean isEven;
@@ -287,15 +288,21 @@ public final class Msg implements VirtualElement {
         if (!msgLines.isEmpty()) {
             height = ((ComplexString)msgLines.elementAt(0)).getVHeight();
             if (!isMucMsg && !Config.getInstance().hideMessageIcon && !isPresence() && !isMucMsg) {
-                height = Math.max(RosterIcons.getInstance().getHeight(), Math.max(height, Config.getInstance().minItemHeight));
+                height = Math.max(height, RosterIcons.getInstance().getHeight());
             }
             for (int i = 1; i < size; ++i) {
                 height += ((ComplexString)msgLines.elementAt(i)).getVHeight();
             }
-            return Math.max(height, Config.getInstance().minItemHeight);
         }
         if (attachment!=null) {
             height+=attachment.getVHeight();
+        }
+        //FIXME: грязный хак для разделителя сообщений
+        if (!"separator".equals(id) && height<Config.getInstance().minItemHeight) {
+            verticalOffset = (Config.getInstance().minItemHeight - height)>>1;
+            height = Config.getInstance().minItemHeight;
+        } else {
+            verticalOffset = 0;
         }
         return height; 
     }
@@ -358,17 +365,10 @@ public final class Msg implements VirtualElement {
         int xorg = g.getTranslateX();
         int yorg = g.getTranslateY();
         
-        g.translate(2, 0);
+        g.translate(2, verticalOffset);
 
-        if (!msgLines.isEmpty()) {  
+        if (!msgLines.isEmpty()) {
             int size = collapsed ? 1 : msgLines.size();
-            int messageHeight = 0;
-            for (int i = 0; i < size; i++) {
-            messageHeight += ((ComplexString) msgLines.elementAt(i)).getVHeight();
-        }
-        if (messageHeight < Config.getInstance().minItemHeight) {
-            g.translate(g.getTranslateX(), (Config.getInstance().minItemHeight - messageHeight) >> 1);
-        }
             for (int i = 0; i < size; ++i) {
                 ComplexString string = (ComplexString)msgLines.elementAt(i);
 
@@ -493,8 +493,7 @@ public final class Msg implements VirtualElement {
     
     public boolean eventKeyLong(int keyCode) {
         return false;
-    }
-
+    }    
 //#ifdef TOUCH      
     public boolean eventPointerPressed(int x, int y) {
         return false;

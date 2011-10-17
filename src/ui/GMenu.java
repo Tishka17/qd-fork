@@ -153,23 +153,29 @@ public class GMenu extends CanvasEx {
       }
       gm.itemCursorIndexIn = 0;
       gm.itemCursorIndex = 0;
-    }
+   }
 
-  public void paintCustom(Graphics g, int itemGrMenu) {
-//long s1 = System.currentTimeMillis();
-          if(eventMenu){
+  
+   public void paintCustom(Graphics g, int itemGrMenu) {
+       if(eventMenu){
            if(gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_NEW_ACCOUNT))>-1
               || gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_REGISTERING))>-1
               || gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_SERVICE))>-1
               || gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_SORT_TYPE))>-1
               || gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_JUICK_COMMANDS))>-1
               ){
-              drawAllItems(g,gm.menuCommandsIn,gm.commandslistIn,gm.itemCursorIndexIn);
+               if (gm.itemCursorIndexIn>gm.menuCommandsIn.size()) {
+                   gm.itemCursorIndexIn = 0;
+               }
+               drawAllItems(g,gm.menuCommandsIn,gm.commandslistIn,gm.itemCursorIndexIn);
            }
-         }else{
-            drawAllItems(g,gm.menuCommands,gm.commandslist,gm.itemCursorIndex);
-         }
-  }
+       }else{
+           if (gm.itemCursorIndex>gm.menuCommands.size()) {
+               gm.itemCursorIndex = 0;
+           }
+           drawAllItems(g,gm.menuCommands,gm.commandslist,gm.itemCursorIndex);
+       }
+   }
 
    boolean eventMenu=false;
 

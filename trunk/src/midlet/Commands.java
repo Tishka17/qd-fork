@@ -66,6 +66,7 @@ public class Commands {
 //#endif
 
     public static void initCommands() {
+        //TODO: константы вместо чисел
         cmdOk = new Command(SR.get(SR.MS_OK), 0x60);
         cmdSelect = new Command(SR.get(SR.MS_SELECT), 0x60);
         cmdMessage = new Command(SR.get(SR.MS_NEW_MESSAGE), 0x81);
@@ -97,7 +98,6 @@ public class Commands {
         cmdArch = new Command(SR.get(SR.MS_ADD_ARCHIVE), 0x64);
 //#endif
 
-        /* TODO: иконки, надписи, подменю */
 //#ifdef JUICK.COM
             cmdJuickMenu = new Command(SR.get(SR.MS_JUICK_COMMANDS), 0x96); 
             cmdJuickLastPopular = new Command(SR.get(SR.MS_JUICK_LP), 0x64);

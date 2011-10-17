@@ -261,7 +261,7 @@ public class Gradient {
                         int ds = 0;
                         if (R > i) ds = (int)(R-sqrt(2*i*R-i*i));
                         if (R > width - i - 1) ds = (int)(R-sqrt(2*(width-i-1)*R-(width-i-1)*(width-i-1)));
-                        for (int j = 0; j < width; ++j) {
+                        for (int j = 0; j < height; ++j) {
                             if (i < ds || i > height-ds-1) {
                                 points[width * j + i] = 0;
                             } else {

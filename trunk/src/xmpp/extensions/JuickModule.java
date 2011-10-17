@@ -53,12 +53,79 @@ public class JuickModule{
 /*    public Msg SendPrivateMsg
     }*/
 
-    public static JuickModule jm(){
+    public static JuickModule instance(){
         if (listener==null) { listener=new JuickModule(); }
         return listener;
     }
 
-
+    private static class CheckException extends NumberFormatException{};
+    
+    public static JabberDataBlock constuctRequest(String body) {
+        String chars = "0123456789";
+        int charLen = chars.length();
+        int bodyLen = body.length();
+        int post = -1, comment = -1;
+        int mode = 0;//0 -запрос поста, 1 - запрос поста с комментами, 2 - ответ, 3 - просто новый пост
+        JabberDataBlock request = null;
+        //вытаскиваем номер поста и коммента и получаем тип запроса
+        if(body.startsWith("#")) {
+           int i = 1, j = 0, start = 0;
+           char c;
+           try {
+               //проверка, что введено
+               for (i=1; i<bodyLen; i++) {
+                   c = body.charAt(i);
+                   try {
+                       for(j=0;j<charLen;j++) {
+                           if(c==chars.charAt(j)) break;
+                       }
+                       if (j==charLen) throw new CheckException();
+                   } catch (CheckException e) {
+                       if (c=='/') {//разделитель коммента и поста
+                           if (post!=-1 || i+1==bodyLen) throw new CheckException();
+                           post = Integer.parseInt(body.substring(1, i));
+                           start = i+1;
+                       } else if (c=='+') {//запрос числа комментов
+                           //был номер коммента или есть ещё символы
+                           if (comment!=-1 || (i+1)!=bodyLen) throw new CheckException();
+                           post = Integer.parseInt(body.substring(1, i));
+                           mode = 1;
+                       } else if (c==' ') {//номер поста перед текстом
+                           comment = Integer.parseInt(body.substring(start, i));
+                           mode = 2;
+                       } else throw new CheckException();//хз что такое
+                   }
+               }
+               //сообщение не содержит больше символов
+               if (post==-1) post = Integer.parseInt(body.substring(1, i));
+               else if (mode==0) comment = Integer.parseInt(body.substring(start, i));
+           } catch (CheckException e){
+               mode = 3;
+           }
+        }
+        switch (mode){
+            case 0: {//запрос поста/коммента
+                request = new Iq("juick@juick.com/Juick", Iq.TYPE_GET, "lastmsgs"+post );
+                JabberDataBlock query = request.addChildNs("query","http://juick.com/query#messages");
+                if (post!=-1) query.setAttribute("mid", ""+post);
+                if (comment!=-1) query.setAttribute("rid", ""+comment);
+                break;
+            }
+            case 1: {//запрос поста с комментами
+                request = new Iq("juick@juick.com/Juick", Iq.TYPE_GET, "cmts_"+post);
+                JabberDataBlock query = request.addChildNs("query","http://juick.com/query#messages");
+                query.setAttribute("mid", ""+post);
+                break;
+            }
+            default: {//новый пост или овтет
+                request = new Message("juick@juick.com", body, null, false);
+                break;
+            }
+                        
+        }
+        return request;
+    }
+    
     private void storeMessage(Msg msg){
 //#ifdef DEBUG_CONSOLE
 //#       midlet.BombusQD.debug.add("STORE wait::",10);

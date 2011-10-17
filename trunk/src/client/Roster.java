@@ -147,7 +147,7 @@ public final class Roster extends VirtualList
     public final static byte INC_VIEWING=2;
 
     //#ifdef JUICK.COM
-    private final JuickModule juick = JuickModule.jm();
+    private final JuickModule juick = JuickModule.instance();
     //#endif
 //#if ROSTERX
     private final RosterXListener rosterx = new RosterXListener();
@@ -1199,53 +1199,35 @@ public final class Roster extends VirtualList
 //#           boolean groupchat=false;
 //#endif
 
+            JabberDataBlock message;
 //#ifdef JUICK.COM
              if(to.getJid().indexOf("juick@juick.com")>-1) { //Need fixes
-                String chars = "0123456789";
-                int charLen = chars.length();
-                if(body.startsWith("#") && body.endsWith("+")){//include #+
-                   int len = body.length()-1;
-                   int newLen = 1;
-                   int i = 0;
-                   //проверка, что введет только номер +
-                   while(i<len){ i++;
-                      for(int j=0;j<charLen;j++){
-                        if(body.charAt(i)==chars.charAt(j)) newLen++;
-                      }
-                   }
-                   if(len==newLen){
-                     String postNum = body.substring(1,len);
-                     JabberDataBlock request = new Iq("juick@juick.com/Juick", Iq.TYPE_GET, (postNum.length()==0) ? "lastmsgs" :"cmts_"+postNum );
-                     JabberDataBlock query = request.addChildNs("query","http://juick.com/query#messages");
-                     query.setAttribute("mid", (body.equals("#+")) ? "" : postNum );
-                     theStream.send(request);
-                     playNotify(SOUND_OUTGOING);
-                     return;
-                   }
-                }
-             }
+                message = JuickModule.constuctRequest(body);
+             } else {
 //#endif
-            Message message = new Message(
-                    to.getJid(),
-                    body,
-                    subject,
-                    groupchat
-            );
+                message = new Message(
+                        to.getJid(),
+                        body,
+                        subject,
+                        groupchat
+                );
 
-            message.setAttribute("id", id);
+                message.setAttribute("id", id);
 
-            if (groupchat && body==null && subject==null) return;
+                if (groupchat && body==null && subject==null) return;
 
-            if (composingState!=null)
-                message.addChildNs(composingState, "http://jabber.org/protocol/chatstates");
+                if (composingState!=null)
+                    message.addChildNs(composingState, "http://jabber.org/protocol/chatstates");
 
 
-            if (!groupchat)
-                if (body!=null) if (midlet.BombusQD.cf.eventDelivery)
-                    message.addChildNs("request", "urn:xmpp:receipts");
+                if (!groupchat)
+                    if (body!=null) if (midlet.BombusQD.cf.eventDelivery)
+                        message.addChildNs("request", "urn:xmpp:receipts");
 
-           theStream.send(message);
-
+//#ifdef JUICK.COM
+             }
+//#endif   
+            theStream.send(message);
 //#ifdef CLASSIC_CHAT
 //#             if (body != null) {
 //#                 if (Config.module_classicchat) {

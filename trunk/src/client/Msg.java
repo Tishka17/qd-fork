@@ -298,7 +298,7 @@ public final class Msg implements VirtualElement {
             height+=attachment.getVHeight();
         }
         //FIXME: грязный хак для разделителя сообщений
-        if (!"separator".equals(id) && height<Config.getInstance().minItemHeight) {
+        if (!("spacer".equals(id)) && height<Config.getInstance().minItemHeight) {
             verticalOffset = (Config.getInstance().minItemHeight - height)>>1;
             height = Config.getInstance().minItemHeight;
         } else {

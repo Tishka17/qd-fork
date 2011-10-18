@@ -275,8 +275,8 @@ public final class Roster extends VirtualList
             } catch( Exception e ) { }
             return;
         }
-        if (!state) return;
 //#endif
+        if (!state) return;
     }
 
     public void initCommands() {

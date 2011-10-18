@@ -99,7 +99,7 @@ public final class QuickPrivelegyEditForm extends DefForm {
         try {
             String rzn=reason.getValue();
             String Nick="";
-            if (rzn.startsWith("!")) {
+            if (rzn.charAt(0)=='!') {
                 rzn=rzn.substring(1);
             } else {
                 Nick=(myNick==null)?myNick:myNick+": ";

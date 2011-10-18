@@ -258,9 +258,8 @@ public final class Msg implements VirtualElement {
     public String toString() {
         StringBuffer buf = new StringBuffer();
         if (isMucMsg || isPresence() || !(Config.showNickNames && subject != null)) {
-            if (Config.showTimeInMsgs 
-            //&& null != getId()
-            && getId() != "spacer"
+            if (Config.showTimeInMsgs
+            && !("spacer".equals(getId()))
             ) {
                 buf.append('[');
                 if ((Time.utcTimeMillis() - dateGmt) > 86400000) {

@@ -37,7 +37,6 @@ import menu.MenuListener;
 import menu.Command;
 import ui.GMenu;
 import ui.GMenuConfig;
-import autotask.TaskElement;
 
 public class TaskList extends VirtualList implements MenuListener {
 //#ifdef PLUGINS

@@ -171,6 +171,7 @@ public final class Roster extends VirtualList
 
     public boolean doReconnect=false;
 
+    //отображается ли иконка прогресса в панели
     public boolean querysign=false;
 
 //#if SASL_XGOOGLETOKEN
@@ -814,7 +815,7 @@ public final class Roster extends VirtualList
             c.subscr=subscr;
             c.offline_type = status;
             c.ask_subscribe=ask;
-            if (querysign && midlet.BombusQD.cf.collapsedGroups) contact.group.collapsed = true;
+            //if (querysign && midlet.BombusQD.cf.collapsedGroups) contact.group.collapsed = true;
             return;
          }
         Vector hContacts = contactList.contacts;
@@ -838,7 +839,7 @@ public final class Roster extends VirtualList
                 c.subscr=subscr;
                 c.offline_type = status;
                 c.ask_subscribe=ask;
-                if (querysign && midlet.BombusQD.cf.collapsedGroups) contact.group.collapsed = true;
+                //if (querysign && midlet.BombusQD.cf.collapsedGroups) contact.group.collapsed = true;
                 group = null;
              }
          }

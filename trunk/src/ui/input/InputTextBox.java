@@ -37,7 +37,6 @@ import javax.microedition.lcdui.TextBox;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
 import midlet.BombusQD;
-import ui.CanvasEx;
 //#ifdef CLIPBOARD
 import util.ClipBoard;
 //#endif

@@ -1429,15 +1429,11 @@ public class SR {
         int size = localeItems.length;
         if (localeItemsDefault.length == 0) {
             localeItemsDefault = new String[localeItems.length];
-            for (int i = 0; i < size; ++i) {
-                localeItemsDefault[i] = localeItems[i];//en==const
-            }
+            System.arraycopy(localeItems, 0, localeItemsDefault, 0, size);
         }
 
         size = localeItemsDefault.length;
-        for (int i = 0; i < size; ++i) {
-            localeItems[i] = localeItemsDefault[i];
-        }
+        System.arraycopy(localeItemsDefault, 0, localeItems, 0, size);
         localeItems[0] = "en";
         localeItems[1] = "en";
     }

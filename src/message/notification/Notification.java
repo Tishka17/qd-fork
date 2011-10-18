@@ -5,7 +5,6 @@
 
 package message.notification;
 
-import client.Config;
 
 /**
  *

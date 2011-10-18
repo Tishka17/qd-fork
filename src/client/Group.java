@@ -59,6 +59,7 @@ public class Group extends IconTextElement {
         super(RosterIcons.getInstance());
         this.name = name;
         this.type = type;
+        this.collapsed = midlet.BombusQD.cf.collapsedGroups;
         sortKey = name.toLowerCase();
     }
 

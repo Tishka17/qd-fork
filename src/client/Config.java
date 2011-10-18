@@ -197,7 +197,7 @@ public class Config {
     public int notInListDropLevel = Roster.ALLOW_ALL;
     public static boolean showBalloons = false;
 
-    public int msglistLimit = 50;
+    public int msglistLimit = 100;
 
     public boolean useTabs = false;
     public boolean notifyBlink = true;

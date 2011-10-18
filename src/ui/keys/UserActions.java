@@ -128,6 +128,7 @@ public class UserActions {
 //#ifdef SERVICE_DISCOVERY
         ,new userAct( 8, UA_KEYS, SR.get(SR.MS_DISCO), MenuIcons.getInstance(), MenuIcons.ICON_DISCO)
 //#endif
+        ,new userAct( 31, UA_ALL, SR.get(SR.MS_BOOKMARKS), MenuIcons.getInstance(), MenuIcons.ICON_CONFERENCE)
 //#ifdef PRIVACY
         ,new userAct( 9, UA_KEYS, SR.get(SR.MS_PRIVACY_LISTS), MenuIcons.getInstance(), MenuIcons.ICON_PRIVACY)
 //#endif
@@ -142,7 +143,7 @@ public class UserActions {
 //#         ,new userAct( 15, UA_KEYS, SR.get(SR.MS_XML_CONSOLE))
 //#endif
         ,new userAct( 16, UA_ALL, SR.get(SR.MS_AUTOTASK_QUIT_CONFERENCES), ActionsIcons.getInstance(), ActionsIcons.ICON_LEAVE)
-        ,new userAct( 17, UA_ALL, "Quit QD", MenuIcons.getInstance(), MenuIcons.ICON_QUIT)
+        ,new userAct( 17, UA_ALL, SR.get(SR.MS_AUTOTASK_QUIT_BOMBUSMOD), MenuIcons.getInstance(), MenuIcons.ICON_QUIT)
         ,new userAct( 18, UA_ALL, SR.get(SR.MS_LOGOFF), RosterIcons.getInstance(), RosterIcons.ICON_OFFLINE_STATUS)
         ,new userAct( 19, UA_ALL, SR.get(SR.MS_AUTOLOGIN), MenuIcons.getInstance(), MenuIcons.ICON_OK)
         ,new userAct( 20, UA_ALL, SR.get(SR.MS_DO_AUTOJOIN), RosterIcons.getInstance(), RosterIcons.ICON_GCCOLLAPSED_INDEX)
@@ -156,7 +157,7 @@ public class UserActions {
         ,new userAct( 28, UA_KEYS, "Command: EventOk")
         //,new userAct( 29, UA_KEYS, "Command: Answer")
         ,new userAct( 30, UA_KEYS, "Command: keyClose")
-        ,new userAct( 31, UA_KEYS, "Command: Bookmarks")
+        //,new userAct( 31, UA_KEYS, "Command: Bookmarks")
         //,new userAct( 32, UA_KEYS, "Command: MyServices")
         ,new userAct( 33, UA_KEYS, "Cursor: moveHome")
         ,new userAct( 34, UA_KEYS, "Cursor: moveEnd")

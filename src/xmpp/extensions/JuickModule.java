@@ -68,7 +68,7 @@ public class JuickModule{
         int mode = 0;//0 -запрос поста, 1 - запрос поста с комментами, 2 - ответ, 3 - просто новый пост
         JabberDataBlock request = null;
         //вытаскиваем номер поста и коммента и получаем тип запроса
-        if(body.startsWith("#")) {
+        if(body.charAt(0)=='#') {
            int i = 1, j = 0, start = 0;
            char c;
            try {
@@ -300,9 +300,11 @@ public class JuickModule{
                             m.setId(message_id.toString());
                             
                           if (midlet.BombusQD.cf.juickImages && "jpg".equals(child.getAttribute("attach"))) {
-                              String url = "http://i.juick.com/ps/"+mid;
-                              if (rid!=null) url+="-"+rid;
-                              m.attachment = new ImageItem(url+".jpg");
+                              StringBuffer url = new StringBuffer("http://i.juick.com/ps/");
+                              url.append(mid);
+                              if (rid!=null) url.append('-').append(rid);
+                              url.append(".jpg");
+                              m.attachment = new ImageItem(url.toString());
                           }
                           storeMessage(m);
                           buf = new StringBuffer(0);
@@ -385,10 +387,12 @@ public class JuickModule{
                        if(photo) {
                             sb.append("+photo");
                        }
-                       if (midlet.BombusQD.cf.juickImages && "jpg".equals(juickNs.getAttribute("attach"))) {
-                           String url = "http://i.juick.com/ps/"+mid;
-                           if (rid!=null) url+="-"+rid;
-                           m.attachment = new ImageItem(url+".jpg");
+                       if (midlet.BombusQD.cf.juickImages && "jpg".equals(child.getAttribute("attach"))) {
+                            StringBuffer url = new StringBuffer("http://i.juick.com/ps/");
+                            url.append(mid);
+                            if (rid!=null) url.append('-').append(rid);
+                            url.append(".jpg");
+                            m.attachment = new ImageItem(url.toString());
                        }
 
                        if(message.getUrl()!=null) sb.append('\n').append(message.getOOB());

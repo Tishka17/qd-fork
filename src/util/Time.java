@@ -200,8 +200,8 @@ public class Time {
     }
 
     public static String secDiffToDate(int seconds){
-        String result ="";
-        int d = 0,h = 0,m = 0,s = 0;
+        StringBuffer result = new StringBuffer();
+        int d = 0,h = 0,m = 0;
         if (seconds>86400){
             d=(seconds/86400);
             seconds=seconds-(d*86400);
@@ -214,26 +214,24 @@ public class Time {
             m=(seconds/60);
             seconds=seconds-(m*60);
         }
-        s=seconds;
-
         if (d>0) {
-            result+= d + " " + goodWordForm (d,3);
+            result.append(d).append(" ").append(goodWordForm (d,3));
         }
         if (h>0) {
-            if (d>0) result+=", ";
-            result+= h + " " + goodWordForm (h, 2);
+            if (d>0) result.append(", ");
+            result.append(h).append(" ").append(goodWordForm (h, 2));
         }
         if (m>0) {
-            if ((d>0) || (h>0)) result+=", ";
-            result+= m + " " + goodWordForm (m, 1);
+            if ((d>0) || (h>0)) result.append(", ");
+            result.append(m).append(" ").append(goodWordForm (m, 1));
         }
-        if (s>0) {
-            if ((d>0) || (h>0) || (m>0))  result+=", ";
-            result+= s + " " + goodWordForm (s, 0);
+        if (seconds>0) {
+            if ((d>0) || (h>0) || (m>0))  result.append(", ");
+            result.append(seconds).append(" ").append(goodWordForm (seconds, 0));
         }
-        if (result.length() == 0 && s==0)
-            result=s + " " + goodWordForm (s, 0);
-        return result;
+        if (result.length() == 0 && seconds==0)
+            result.append(seconds).append(" ").append(goodWordForm (seconds, 0));
+        return result.toString();
     }
 
     public static String goodWordForm (int d, int field) {

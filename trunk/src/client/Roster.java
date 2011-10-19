@@ -130,7 +130,7 @@ import disco.ServerStatsForm;
 import history.HistoryViewer;
 //#endif
 //#ifdef SYSTEM_NOTIFY
-//# import message.notification.Notification;
+//# ///# import message.notification.Notification;
 //# import message.notification.Notificator;
 //#endif
 //#if ROSTERX
@@ -1360,6 +1360,9 @@ public final class Roster extends VirtualList
 //#if ROSTERX        
         theStream.addBlockListener(rosterx);
 //#endif
+//#ifdef JUICK.COM
+        theStream.addBlockListener(juick);
+//#endif
         theStream.startKeepAliveTask();
 
   theStream.loggedIn=true;
@@ -1529,14 +1532,6 @@ public final class Roster extends VirtualList
             String id = data.getAttribute("id");
 
             if( data instanceof Iq ) {
-//#ifdef JUICK.COM
-                if(from!=null){
-                  if(from.indexOf("juick@juick.com")>-1) {
-                    Msg m=new Msg(Msg.JUICK, "juick@juick.com/Juick", null, null);
-                    m = juick.getMsg(m,data);
-                  }
-                }
-//#endif
                 if (id!=null) {
                     if (id.startsWith("nickvc")) {
                         if (type.equals("get") || type.equals("set")) return JabberBlockListener.BLOCK_REJECTED;
@@ -1954,16 +1949,6 @@ public final class Roster extends VirtualList
                 Msg m=new Msg(mType, from, subj, body);
                 m.setMucChat(groupchat);
 
-//#ifdef JUICK.COM
-                if(from.indexOf("juick@juick.com")>-1 || data.findNamespace("juick", JuickModule.NS_MESSAGE)!=null) {
-                    m = juick.getMsg(m,data);
-                    if(m==null) {
-                       m = new Msg(mType, from.trim(), subj, body);
-                    } else {
-                       c = getContact(m.getFrom(), (midlet.BombusQD.cf.notInListDropLevel!=DROP_MESSAGES_PRESENCES));
-                    }
-                }
-//#endif
                 if (tStamp!=0) m.dateGmt=tStamp;
 //#ifndef WMUC
                 if (m.getBody().indexOf(SR.get(SR.MS_IS_INVITING_YOU))>-1) m.dateGmt=0;

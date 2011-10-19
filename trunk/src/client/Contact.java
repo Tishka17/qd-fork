@@ -43,7 +43,9 @@ import vcard.VCard;
 import ui.IconTextElement;
 import javax.microedition.lcdui.Image;
 import ui.VirtualList;
-
+//#ifdef JUICK.COM
+import xmpp.extensions.JuickModule;
+//#endif
 public class Contact extends IconTextElement {
     private static final int BLINK_COUNT = 10;
 
@@ -303,6 +305,11 @@ public class Contact extends IconTextElement {
                     m.setBody(temp.toString().trim());
                 } else if (Config.showNickNames) {
                     temp = new StringBuffer(0);
+//#ifdef JUICK.COM
+                    if (jid.getJid().equals(JuickModule.BOTNAME))
+                        temp.append((m.getType()==Msg.OUTGOING)?midlet.BombusQD.sd.account.getNickName():m.getFrom());
+                    else
+//#endif
                     temp.append((m.getType()==Msg.OUTGOING)?midlet.BombusQD.sd.account.getNickName():getName());
                     temp.append(" (");
                     temp.append(m.getTime());

@@ -42,5 +42,5 @@ public interface JabberBlockListener {
    */
 
   public int blockArrived(JabberDataBlock data);
-  void destroy();
+  public void destroy();
 }

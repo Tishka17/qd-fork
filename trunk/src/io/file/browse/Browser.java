@@ -165,7 +165,7 @@ public class Browser extends VirtualList implements MenuListener {
 
      private boolean chDir(String relativePath) {
         String focus="";
-         if (relativePath.charAt(0) == '/') {
+         if (relativePath.startsWith("/")) {
              path=relativePath;
          } else if (relativePath.startsWith("../")) {
             if (path.length()==0) return false;

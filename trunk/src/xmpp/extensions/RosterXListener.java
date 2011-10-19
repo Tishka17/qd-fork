@@ -47,9 +47,8 @@ import ui.controls.form.SpacerItem;
  */
 public class RosterXListener implements JabberBlockListener {
 
-    public RosterXListener() {};
-    public void destroy() {
-    }
+    public RosterXListener() {}
+    public void destroy() {}
 
     public int blockArrived(JabberDataBlock data) {
         if (data instanceof Presence)

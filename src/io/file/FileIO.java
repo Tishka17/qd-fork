@@ -53,6 +53,9 @@ public abstract class FileIO {
     protected String fileName;
 
     public static FileIO createConnection(String fileName) {
+//#if Android
+//#             return new FileJSR75(fileName);
+//#else
         if (fileSystemType==NOT_DETECTED) {
             fileSystemType=NONE;
             try {
@@ -82,6 +85,7 @@ public abstract class FileIO {
 //#endif     
         }
         return null;
+//#endif
     }
 
     public Vector fileList(boolean directoriesOnly) throws IOException{

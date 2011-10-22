@@ -1071,7 +1071,7 @@ public class Config {
             String id=System.getProperty("device.id");
             if (platformName.startsWith("microemu")) {
                 if (device != null) {
-                    platformName=device+"|Android OS "+firmware+"|build "+id;
+                    platformName=device+"/Android "+firmware+"/build: "+id;
                 }
             }
             if (platformName==null) platformName="Motorola";
@@ -1138,9 +1138,11 @@ public class Config {
                 }
             }
         }
+//#ifndef Android
          int index = platformName.lastIndexOf('/');
             if (index != -1) {
             platformName = platformName.substring(0, index);
       }
+//#endif
     }
 }

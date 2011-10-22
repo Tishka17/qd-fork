@@ -130,7 +130,7 @@ import disco.ServerStatsForm;
 import history.HistoryViewer;
 //#endif
 //#ifdef SYSTEM_NOTIFY
-//# ///# import message.notification.Notification;
+//# import message.notification.Notification;
 //# import message.notification.Notificator;
 //#endif
 //#if ROSTERX

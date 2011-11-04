@@ -49,7 +49,7 @@ import ui.input.InputTextBox;
 import ui.input.InputTextBoxNotify;
 //#ifdef FILE_IO
 import util.StringUtils;
-import util.Time;
+import ui.VirtualCanvas;
 //#endif
 
 public class HistoryViewer extends MessageList
@@ -66,6 +66,13 @@ public class HistoryViewer extends MessageList
 
     private Thread thread;
 
+    private static int HistBlkPos; // current history block (first message, from 1)
+    private static int HistBlkSize;
+    private int HistSize; 
+
+    private Command cmdPrevBlk;
+    private Command cmdNextBlk;
+
     private Command cmdFind;
     private Command cmdClear;
 //#ifdef FILE_IO
@@ -81,6 +88,9 @@ public class HistoryViewer extends MessageList
 
         this.storeName = storeName;
 
+        cmdPrevBlk= new Command( "View prev block", MenuIcons.ICON_SEARCH);
+        cmdNextBlk = new Command( "View next block", MenuIcons.ICON_CLEAR);
+
         cmdFind = new Command(SR.get(SR.MS_SEARCH), MenuIcons.ICON_SEARCH);
         cmdClear = new Command(SR.get(SR.MS_CLEAR), MenuIcons.ICON_CLEAR);
 //#ifdef FILE_IO
@@ -88,6 +98,8 @@ public class HistoryViewer extends MessageList
 //#endif
 
         setMainBarItem(new MainBar(SR.get(SR.MS_HISTORY)));
+        HistBlkPos= 1;
+        HistBlkSize= midlet.BombusQD.cf.confMessageCount;
     }
 
     public void show() {
@@ -107,19 +119,24 @@ public class HistoryViewer extends MessageList
     }
 
     public void run() {
+        ShowMessages();
+    }
+
+    private void ShowMessages(){
         try {
-            int size = store.getNumRecords();
-            for (int i = 1; i <= size; ++i) {
+            HistSize = store.getNumRecords();
+            Msg msg= null;
+            messages.removeAllElements();
+            for (int i = Math.max(1, HistBlkPos); i <= Math.min(HistSize, HistBlkPos +HistBlkSize); i++) {
                 try {
-                    Msg msg = HistoryStorage.readMessage(store, i);
+                    msg = HistoryStorage.readMessage(store, i);
                     if (msg != null) {
-                        messages.addElement(msg);
+                            messages.addElement(msg);
                     }
                 } catch (RecordStoreException ex) {}
             }
-            closeRecordStore();
         } catch (RecordStoreNotOpenException e) {}
-        setMainBarItem(new MainBar(SR.get(SR.MS_HISTORY) + " [" + messages.size() + "]"));
+        setMainBarItem(new MainBar(SR.get(SR.MS_HISTORY) +" from " +HistBlkPos + " to " +(HistBlkPos +HistBlkSize) +", total " +HistSize));
         redraw();
     }
 
@@ -155,6 +172,8 @@ public class HistoryViewer extends MessageList
         addCommand(cmdExport);
 //#endif
         addCommand(cmdClear);
+        addCommand(cmdPrevBlk);
+        addCommand(cmdNextBlk);
     }
 
     public int getItemCount() {
@@ -184,6 +203,18 @@ public class HistoryViewer extends MessageList
         } else if (c == cmdExport) {
             new Browser(null, this, true).show();
 //#endif
+        } else if (c == cmdPrevBlk) {
+            if( HistBlkPos >HistBlkSize)
+                HistBlkPos-= HistBlkSize;
+            else
+                HistBlkPos= 1;
+            ShowMessages();
+        } else if (c == cmdNextBlk) {
+            if( HistBlkPos +HistBlkSize <=HistSize)
+                HistBlkPos+= HistBlkSize;
+            else
+                HistBlkPos= HistSize- HistBlkSize;
+            ShowMessages();
         } else {
             super.commandAction(c);
         }
@@ -224,5 +255,18 @@ public class HistoryViewer extends MessageList
         GMenuConfig.getInstance().itemGrMenu = GMenu.MESSAGE_LIST;
         return GMenu.MESSAGE_LIST;
     }
+
+    public void keyPressed(int keyCode){
+        switch (keyCode) {
+            case VirtualCanvas.NAVIKEY_LEFT:
+            case VirtualCanvas.KEY_NUM4:
+                commandAction( cmdPrevBlk);
+                break;
+            case VirtualCanvas.NAVIKEY_RIGHT:
+            case VirtualCanvas.KEY_NUM6:
+                commandAction( cmdNextBlk);
+                break;
+        }// switch
+    }// keyPressed
 }
 //#endif

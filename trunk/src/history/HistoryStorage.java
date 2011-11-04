@@ -155,6 +155,13 @@ public class HistoryStorage {
         try {
               String rName = getRSName(c.bareJid);
               recordStore = RecordStore.openRecordStore(rName, true);
+
+              // autocleaning oldest messages
+              /*if( recordStore.getNumRecords() >30)
+                  recordStore.deleteRecord( 1);
+               * dont work as need :(
+               */
+
               baos = new ByteArrayOutputStream();
               das = new DataOutputStream(baos);
 

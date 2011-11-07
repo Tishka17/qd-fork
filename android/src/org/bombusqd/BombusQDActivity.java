@@ -68,7 +68,7 @@ import android.view.SubMenu;
 import android.view.Window;
 import android.media.AudioManager;
 import android.widget.Toast;
-
+import android.app.NotificationManager;
 import org.microemu.android.MicroEmulatorActivity;
 import android.content.Intent;
 import android.util.Log;
@@ -200,7 +200,9 @@ public class BombusQDActivity extends MicroEmulatorActivity {
         }
 
         if (isFinishing()) {
-			Toast.makeText(this, "Stopping service...", Toast.LENGTH_LONG).show();
+			NotificationManager mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+			mNM.cancelAll();
+			Toast.makeText(this, "Closing application", Toast.LENGTH_LONG).show();
             Log.i(LOG_TAG, "onPause(); with isFinishing() == true.");
             Log.i(LOG_TAG, "Stopping service...");
             stopService(new Intent(this, BombusQDService.class));
@@ -222,7 +224,8 @@ public class BombusQDActivity extends MicroEmulatorActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+		NotificationManager mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+		mNM.cancelAll();
         new Thread(new Runnable() {
 
             public void run()

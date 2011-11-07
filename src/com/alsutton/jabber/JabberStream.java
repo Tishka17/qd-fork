@@ -180,7 +180,7 @@ public class JabberStream extends XmppParser implements Runnable {
 
         try {
             int length=-1;
-            while (isConnected) {
+            while (isConnected && iostream!=null) {
                 length=iostream.read(cbuf);
                 if (0 == length) {
                     try {

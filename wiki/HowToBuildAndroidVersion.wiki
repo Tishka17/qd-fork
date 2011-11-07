@@ -7,7 +7,7 @@
  * Java SE JDK (http://java.sun.com/javase/)
  * Subversion client (http://subversion.tigris.org)
  * Ant (http://ant.apache.org/)
- * Android SDK version с загруженым Android 1.6 api (http://developer.android.com/)
+ * Android SDK 14 версии и выше с загруженым Android 1.6 api (http://developer.android.com/)
  * Netbeans (http://www.netbeans.com/downloads/index.html)
 А так же потребуется персональный ключ разработчика для подписи приложения
 

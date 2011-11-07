@@ -3307,7 +3307,13 @@ public final class Roster extends VirtualList
         AutoStatus.getInstance().stop();
 //#endif
         logoff(null);
-
+        try {
+            Thread.sleep(250L);
+        } catch (InterruptedException ex) {
+//#ifdef DEBUG
+//#             ex.printStackTrace();
+//#endif
+        }
         BombusQD.getInstance().notifyDestroyed();
     }
 

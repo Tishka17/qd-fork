@@ -34,7 +34,7 @@ public class BombusQDInitialization implements ImplementationInitialization {
      */
     public void notifyMIDletDestroyed() {
 		Toast.makeText(BombusQDActivity.getInstance(), "Closing service...", Toast.LENGTH_LONG).show();
-		BombusQDActivity.getInstance().stopService(new Intent(BombusQDActivity.getInstance(), BombusQDService.class));
+		BombusQDActivity.getInstance().stopService(new Intent(BombusQDActivity.getInstance(), BombusQDService.class)); //its temporarily
     }
 
 }

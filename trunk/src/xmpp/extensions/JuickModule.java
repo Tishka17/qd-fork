@@ -45,6 +45,7 @@ public class JuickModule implements JabberBlockListener {
     public final static String BOTNAME = "juick@juick.com/Juick";
     public final static String NS_MESSAGES = "http://juick.com/query#messages";
     public final static String NS_MESSAGE = "http://juick.com/message";
+    public final static String NS_GEOLOC = "http://jabber.org/protocol/geoloc";
     private final static String TAG_RECOMMENDATION = "Recommended by ";
 
     public JuickModule() {}
@@ -115,14 +116,14 @@ public class JuickModule implements JabberBlockListener {
         switch (mode){
             case 0: {//запрос поста/коммента
                 request = new Iq("juick@juick.com/Juick", Iq.TYPE_GET, "lastmsgs"+post );
-                JabberDataBlock query = request.addChildNs("query","http://juick.com/query#messages");
+                JabberDataBlock query = request.addChildNs("query", NS_MESSAGES);
                 if (post!=-1) query.setAttribute("mid", ""+post);
                 if (comment!=-1) query.setAttribute("rid", ""+comment);
                 break;
             }
             case 1: {//запрос поста с комментами
                 request = new Iq("juick@juick.com/Juick", Iq.TYPE_GET, "cmts_"+post);
-                JabberDataBlock query = request.addChildNs("query","http://juick.com/query#messages");
+                JabberDataBlock query = request.addChildNs("query", NS_MESSAGES);
                 query.setAttribute("mid", ""+post);
                 break;
             }
@@ -156,6 +157,8 @@ public class JuickModule implements JabberBlockListener {
         final String replies = child.getAttribute("replies");
         final String mid = child.getAttribute("mid");
         final String rid = child.getAttribute("rid");
+        final String replyto = child.getAttribute("replyto");
+        ImageItem attachment = null;
         StringBuffer buf = new StringBuffer();
         String body = null;
         StringBuffer id = new StringBuffer();
@@ -164,7 +167,7 @@ public class JuickModule implements JabberBlockListener {
             String msgbody = ((Message)stanza).getBody();
             if (msgbody!=null && msgbody.startsWith(TAG_RECOMMENDATION)) {
                 int x = msgbody.indexOf(':');
-                buf.append(msgbody.substring(0, x));
+                buf.append(msgbody.substring(0, x)).append('\n');
             } else {//TODO: make "Jubo recommends"
             }
         }
@@ -186,7 +189,27 @@ public class JuickModule implements JabberBlockListener {
         if (body!=null) {
             buf.append(body);
         }
-
+        if (midlet.BombusQD.cf.juickImages && "jpg".equals(child.getAttribute("attach"))) {
+            StringBuffer url = new StringBuffer("http://i.juick.com/ps/");
+            buf.append("\nhttp://i.juick.com/p/");
+            url.append(mid);
+            buf.append(mid);
+            if (rid!=null) {
+                url.append('-').append(rid);
+                buf.append('-').append(rid);
+            }
+            url.append(".jpg");
+            buf.append(".jpg");
+            attachment = new ImageItem(url.toString());
+        } else if ("mp4".equals(child.getAttribute("attach"))) {
+            buf.append("\nhttp://i.juick.com/video/");
+            buf.append(mid);
+            if (rid!=null) {
+                buf.append('-').append(rid);
+            }
+            buf.append(".mp4");
+        }
+        
         if (mid!=null){
             buf.append('\n');
             buf.append("<nick>");
@@ -196,20 +219,26 @@ public class JuickModule implements JabberBlockListener {
             }
             buf.append(id.toString());
             buf.append("</nick> ");
+            if (replyto!=null && !replyto.equals("0")) {
+                buf.append("(/").append(replyto).append(')');
+            }
         } else {
             buf.append("\n#<nick>PM</nick>");
+            id.append("PM @").append(uname);
         }
+        id.append(' ');
 
+        //непонятно, когда это будет работать
+        try {
+            JabberDataBlock geo = stanza.findNamespace("geoloc", NS_GEOLOC);
+            String tmp = geo.getChildBlock("description").getText();
+            buf.append("\nLocation: <nick>").append(tmp).append("</nick>");
+            tmp = geo.getChildBlock("uri").getText();
+            buf.append(' ').append(tmp);
+        } catch (NullPointerException e) {}
         m = new Msg(Msg.JUICK, (uname==null)?BOTNAME:uname, null, buf.toString());
         m.setId(id.toString());
-
-        if (midlet.BombusQD.cf.juickImages && "jpg".equals(child.getAttribute("attach"))) {
-            StringBuffer url = new StringBuffer("http://i.juick.com/ps/");
-            url.append(mid);
-            if (rid!=null) url.append('-').append(rid);
-            url.append(".jpg");
-            m.attachment = new ImageItem(url.toString());
-        }
+        m.attachment = attachment;
         storeMessage(m);
         buf = new StringBuffer(0);
         childTags = new Vector(0);

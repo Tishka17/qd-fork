@@ -63,8 +63,8 @@ public class UserActions {
         // (бред, но не знаю как это иначе назвать)
 
         public userAct( int id, int type, String text, ImageList ilist, int index) {
-            this.id= id; this.type= type;
-            this.item= new IconTextElement(  text, ilist, index);
+            this.id = id; this.type= type;
+            this.item = new IconTextElement( text, ilist, index);
         }
 
         public userAct( int id, int type, String text) {
@@ -75,7 +75,7 @@ public class UserActions {
     private static UserActions instance;
 
     public static UserActions getInstance() {
-        if (instance==null) instance=new UserActions();
+        if (instance==null) instance = new UserActions();
         return instance;
     }
 
@@ -140,7 +140,7 @@ public class UserActions {
         ,new userAct( 13, UA_ALL, SR.get(SR.MS_INVERT), MenuIcons.getInstance(), MenuIcons.ICON_ITEM_ACTIONS)
         ,new userAct( 14, UA_KEYS, SR.get(SR.MS_FULLSCREEN), MenuIcons.getInstance(), MenuIcons.ICON_GMAIL )
 //#ifdef XML_CONSOLE
-//#         ,new userAct( 15, UA_KEYS, SR.get(SR.MS_XML_CONSOLE))
+//#         ,new userAct( 15, UA_KEYS, SR.get(SR.MS_XML_CONSOLE), ActionsIcons.getInstance(), ActionsIcons.ICON_CONSOLE)
 //#endif
         ,new userAct( 16, UA_ALL, SR.get(SR.MS_AUTOTASK_QUIT_CONFERENCES), ActionsIcons.getInstance(), ActionsIcons.ICON_LEAVE)
         ,new userAct( 17, UA_ALL, SR.get(SR.MS_AUTOTASK_QUIT_BOMBUSMOD), MenuIcons.getInstance(), MenuIcons.ICON_QUIT)
@@ -148,12 +148,12 @@ public class UserActions {
         ,new userAct( 19, UA_ALL, SR.get(SR.MS_AUTOLOGIN), MenuIcons.getInstance(), MenuIcons.ICON_OK)
         ,new userAct( 20, UA_ALL, SR.get(SR.MS_DO_AUTOJOIN), RosterIcons.getInstance(), RosterIcons.ICON_GCCOLLAPSED_INDEX)
         ,new userAct( 21, UA_KEYS, "Show/Hide Offline contacts", RosterIcons.getInstance(), RosterIcons.ICON_IDONTNOW_STATUS)
-        ,new userAct( 22, UA_ALL, "Status: online")
-        ,new userAct( 23, UA_ALL, "Status: offline")
-        ,new userAct( 24, UA_ALL, "Status: chat")
-        ,new userAct( 25, UA_ALL, "Status: away")
-        ,new userAct( 26, UA_ALL, "Status: dnd")
-        ,new userAct( 27, UA_ALL, "Status: invisible")
+        ,new userAct( 22, UA_ALL, "Status: online", RosterIcons.getInstance(), RosterIcons.ICON_ONLINE_STATUS)
+        ,new userAct( 23, UA_ALL, "Status: offline", RosterIcons.getInstance(), RosterIcons.ICON_OFFLINE_STATUS)
+        ,new userAct( 24, UA_ALL, "Status: chat", RosterIcons.getInstance(), RosterIcons.ICON_CHAT_STATUS)
+        ,new userAct( 25, UA_ALL, "Status: away", RosterIcons.getInstance(), RosterIcons.ICON_AWAY_STATUS)
+        ,new userAct( 26, UA_ALL, "Status: dnd", RosterIcons.getInstance(), RosterIcons.ICON_BUSY_STATUS)
+        ,new userAct( 27, UA_ALL, "Status: invisible", RosterIcons.getInstance(), RosterIcons.ICON_INVISIBLE_INDEX)
         ,new userAct( 28, UA_KEYS, "Command: EventOk")
         //,new userAct( 29, UA_KEYS, "Command: Answer")
         ,new userAct( 30, UA_KEYS, "Command: keyClose")

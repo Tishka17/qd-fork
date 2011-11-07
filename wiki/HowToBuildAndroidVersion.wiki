@@ -3,7 +3,7 @@
 
 *Требуемое программное обеспечение:*
  * Последняя ревизия BombusQD
- * Microemulator
+ * Microemulator (рекомендуется ревизия 2511)
  * Java SE JDK (http://java.sun.com/javase/)
  * Subversion client (http://subversion.tigris.org)
  * Ant (http://ant.apache.org/)
@@ -16,7 +16,7 @@ _*Процесс сборки:*_
 
 *1.* Скачиваем репозиторий Microemulator 
 {{{
-svn co http://microemu.googlecode.com/svn/trunk/microemulator microemulator
+svn co http://microemu.googlecode.com/svn/trunk/microemulator microemulator -r 2511
 }}}
 
 *2.* В Netbeans'e добавляем проект BombusQD

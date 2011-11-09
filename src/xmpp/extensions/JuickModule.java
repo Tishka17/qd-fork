@@ -31,6 +31,7 @@ import java.util.Vector;
 import client.Contact;
 import ui.controls.form.ImageItem;
 import com.alsutton.jabber.JabberBlockListener;
+import util.Time;
 
 /**
  *
@@ -189,9 +190,10 @@ public class JuickModule implements JabberBlockListener {
         if (body!=null) {
             buf.append(body);
         }
+        //Вложения - фото и видео. Для фото показываем миниатюру
         if (midlet.BombusQD.cf.juickImages && "jpg".equals(child.getAttribute("attach"))) {
             StringBuffer url = new StringBuffer("http://i.juick.com/ps/");
-            buf.append("\nhttp://i.juick.com/p/");
+            buf.append("\nhttp://i.juick.com/photos-1024/");
             url.append(mid);
             buf.append(mid);
             if (rid!=null) {
@@ -209,6 +211,14 @@ public class JuickModule implements JabberBlockListener {
             }
             buf.append(".mp4");
         }
+        //не работает при запросе поста через iq
+        try {
+            JabberDataBlock geo = stanza.findNamespace("geoloc", NS_GEOLOC);
+            String tmp = geo.getChildBlock("description").getText();
+            buf.append("\nLocation: <nick>").append(tmp).append("</nick>");
+            tmp = geo.getChildBlock("uri").getText();
+            buf.append(' ').append(tmp);
+        } catch (NullPointerException e) {}
         
         if (mid!=null){
             buf.append('\n');
@@ -228,23 +238,20 @@ public class JuickModule implements JabberBlockListener {
         }
         id.append(' ');
 
-        //непонятно, когда это будет работать
-        try {
-            JabberDataBlock geo = stanza.findNamespace("geoloc", NS_GEOLOC);
-            String tmp = geo.getChildBlock("description").getText();
-            buf.append("\nLocation: <nick>").append(tmp).append("</nick>");
-            tmp = geo.getChildBlock("uri").getText();
-            buf.append(' ').append(tmp);
-        } catch (NullPointerException e) {}
         m = new Msg(Msg.JUICK, (uname==null)?BOTNAME:uname, null, buf.toString());
         m.setId(id.toString());
+        try {
+            String datetime = child.getAttribute("ts");
+            m.setDayTime(Time.dateJuickStringToLong(datetime));
+        } catch (NullPointerException e) {}
         m.attachment = attachment;
         storeMessage(m);
         buf = new StringBuffer(0);
         childTags = new Vector(0);
         return m;
     }
-
+    
+    
    public int blockArrived( JabberDataBlock data ) { 
        if (data instanceof Message) {
            JabberDataBlock juickNs = data.findNamespace("juick",NS_MESSAGE);

@@ -198,7 +198,19 @@ public class Time {
         } catch (Exception e) {}
         return c.getTime().getTime();
     }
-
+    public static long dateJuickStringToLong(String sdate){
+        int field=0;
+        try {
+            field=Integer.parseInt(sdate.substring(0, 4)); c.set(calFields[0], field); //year
+            field=Integer.parseInt(sdate.substring(5, 7)); c.set(calFields[1], field-1); //month
+            field=Integer.parseInt(sdate.substring(8, 10)); c.set(calFields[2], field); //date
+            field=Integer.parseInt(sdate.substring(11, 13)); c.set(calFields[3], field); //hour
+            field=Integer.parseInt(sdate.substring(14, 16)); c.set(calFields[4], field); //min
+            field=Integer.parseInt(sdate.substring(17, 19)); c.set(calFields[5], field); //sec
+        } catch (Exception e) {}
+        return c.getTime().getTime();
+    }
+    
     public static String secDiffToDate(int seconds){
         StringBuffer result = new StringBuffer();
         int d = 0,h = 0,m = 0;

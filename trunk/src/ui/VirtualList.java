@@ -379,11 +379,6 @@ public abstract class VirtualList extends CanvasEx {
 
     public static GMenu menuItem;
 
-    private void drawGraphicsMenu(final Graphics g) {
-        if(null == menuItem) return;
-        menuItem.paintCustom(g,gm.itemGrMenu);
-    }
-
     public void paint(Graphics g) {
         mHeight=0;
         iHeight=0;
@@ -572,8 +567,9 @@ public abstract class VirtualList extends CanvasEx {
         }
 
         if(gm.itemGrMenu>0 && midlet.BombusQD.cf.graphicsMenu){
-          //showBalloon=false;
-          drawGraphicsMenu(g);
+            //showBalloon=false;
+            if(null == menuItem) return;
+            menuItem.paint(g);
         }else{
 
 

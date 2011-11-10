@@ -133,10 +133,10 @@ public class Gradient {
                             if (width<=0 || height<=0)
                                 return;
                             points = new int[height*width];
-                            makePoints(width, height, R);
-                        } else {
-                            points = null;
                         }
+                        makePoints(width, height, R);
+                    } else {
+                        points = null;
                     }
                 }
 	}

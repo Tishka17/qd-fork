@@ -47,6 +47,7 @@ public class JuickModule implements JabberBlockListener {
     public final static String NS_MESSAGES = "http://juick.com/query#messages";
     public final static String NS_MESSAGE = "http://juick.com/message";
     public final static String NS_GEOLOC = "http://jabber.org/protocol/geoloc";
+    public final static String NS_SUBSCRIPTION = "http://juick.com/subscriptions";
     private final static String TAG_RECOMMENDATION = "Recommended by ";
 
     public JuickModule() {}
@@ -64,7 +65,44 @@ public class JuickModule implements JabberBlockListener {
         midlet.BombusQD.sd.roster.theStream.send(requestMyFeed);
         return requestMyFeed;
     }
-
+    /*
+    <iq to='juick@juick.com' id='id123' type='set'>
+        <subscriptions xmlns='http://juick.com/subscriptions#messages' action='subscribe' mid='123456'/>
+    </iq>
+     */
+    public static String getMid(String id) {
+        if (id!=null && id.startsWith("#")) {
+            int i = id.indexOf('/');
+            if (i==-1) { return id.substring(1);}
+            else {return id.substring(1,i);}
+        }
+        return null;
+    }
+    public static JabberDataBlock Subscribe(Msg m) {
+        String mid = getMid(m.getId());
+        if (mid==null) {
+            return null; 
+        }
+        JabberDataBlock request=new Iq(BOTNAME, Iq.TYPE_SET, "jsubs"+mid);
+        JabberDataBlock sub = request.addChildNs("subscriptions", NS_SUBSCRIPTION+"#messages");
+        sub.setAttribute("action", "subscribe");
+        sub.setAttribute("mid", mid);
+        midlet.BombusQD.sd.roster.theStream.send(request);
+        return request;  
+    }
+    public static JabberDataBlock Unsubscribe(Msg m) {
+        String mid = getMid(m.getId());
+        if (mid==null) {
+            return null; 
+        }
+        JabberDataBlock request=new Iq(BOTNAME, Iq.TYPE_SET, "junsubs"+mid);
+        JabberDataBlock sub = request.addChildNs("subscriptions", NS_SUBSCRIPTION+"#messages");
+        sub.setAttribute("action", "unsubscribe");
+        sub.setAttribute("mid", mid);
+        midlet.BombusQD.sd.roster.theStream.send(request);
+        return request;  
+    }
+    
     public static JuickModule instance(){
         if (listener==null) { listener=new JuickModule(); }
         return listener;

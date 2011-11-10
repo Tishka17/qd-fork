@@ -319,10 +319,13 @@ public final class ContactMessageList extends MessageList implements InputTextBo
 //#ifdef JUICK.COM
         if (c == Commands.cmdJuickLastMsgs){
             JuickModule.LastMessages();
-        }
-        else if (c == Commands.cmdJuickLastPopular){
-        JuickModule.ShowMyFeed();
-        }
+        } else if (c == Commands.cmdJuickLastPopular){
+            JuickModule.ShowMyFeed();
+        } else if (c == Commands.cmdJuickSubscribe) {
+            JuickModule.Subscribe(getMessage(cursor));
+        } else if (c == Commands.cmdJuickUnsubscribe) {
+            JuickModule.Unsubscribe(getMessage(cursor));
+        } 
 //#endif
         if (c == Commands.cmdMessage) {
             newMessage();

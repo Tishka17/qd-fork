@@ -40,12 +40,6 @@ import java.util.*;
 
 public class GMenu extends CanvasEx {
 
-   public GMenu() {};
-
-   public void paint(Graphics g){
-       paintCustom(g,gm.itemGrMenu);
-   }
-
    GMenuConfig gm = GMenuConfig.getInstance();
 
 
@@ -112,15 +106,36 @@ public class GMenu extends CanvasEx {
        imgWidth = MenuIcons.getInstance().getHeight();
    }
 
-    public GMenu(MenuListener menuListener, ImageList il, Vector menuCommands,
+   public GMenu(MenuListener menuListener, ImageList il, Vector menuCommands,
             Vector cmdfirstList, Vector cmdsecondList, Vector cmdThirdList) {
         this(menuListener, menuCommands);
 
         gm.cmdfirstList = cmdfirstList;
         gm.cmdsecondList = cmdsecondList;
         gm.cmdThirdList = cmdThirdList;
-    }
+   }
 
+   public void paint(Graphics g){
+       if(eventMenu){
+           if(gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_NEW_ACCOUNT))>-1
+              || gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_REGISTERING))>-1
+              || gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_SERVICE))>-1
+              || gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_SORT_TYPE))>-1
+              || gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_JUICK_COMMANDS))>-1
+              ){
+               if (gm.itemCursorIndexIn>gm.menuCommandsIn.size()) {
+                   gm.itemCursorIndexIn = 0;
+               }
+               drawAllItems(g,gm.menuCommandsIn,gm.commandslistIn,gm.itemCursorIndexIn);
+           }
+       }else{
+           if (gm.itemCursorIndex>gm.menuCommands.size()) {
+               gm.itemCursorIndex = 0;
+           }
+           drawAllItems(g,gm.menuCommands,gm.commandslist,gm.itemCursorIndex);
+       }
+   }
+   
    private boolean GMenuIn(Vector getList) {
          size = getList.size();
           gm.commandslistIn = new String[size];
@@ -153,28 +168,6 @@ public class GMenu extends CanvasEx {
       }
       gm.itemCursorIndexIn = 0;
       gm.itemCursorIndex = 0;
-   }
-
-  
-   public void paintCustom(Graphics g, int itemGrMenu) {
-       if(eventMenu){
-           if(gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_NEW_ACCOUNT))>-1
-              || gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_REGISTERING))>-1
-              || gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_SERVICE))>-1
-              || gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_SORT_TYPE))>-1
-              || gm.commandslist[gm.itemCursorIndex].indexOf(SR.get(SR.MS_JUICK_COMMANDS))>-1
-              ){
-               if (gm.itemCursorIndexIn>gm.menuCommandsIn.size()) {
-                   gm.itemCursorIndexIn = 0;
-               }
-               drawAllItems(g,gm.menuCommandsIn,gm.commandslistIn,gm.itemCursorIndexIn);
-           }
-       }else{
-           if (gm.itemCursorIndex>gm.menuCommands.size()) {
-               gm.itemCursorIndex = 0;
-           }
-           drawAllItems(g,gm.menuCommands,gm.commandslist,gm.itemCursorIndex);
-       }
    }
 
    boolean eventMenu=false;

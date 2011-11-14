@@ -143,7 +143,7 @@ public class TransferDispatcher implements JabberBlockListener{
                 }
             }
         }
-        if (data instanceof Message) {
+        if (data instanceof  Iq || data instanceof Message) {
             JabberDataBlock bdata=data.getChildBlock("data");
             if (bdata==null) return BLOCK_REJECTED;
             if (!bdata.isJabberNameSpace("http://jabber.org/protocol/ibb")) return BLOCK_REJECTED;
@@ -156,7 +156,11 @@ public class TransferDispatcher implements JabberBlockListener{
 //#endif
             repaintNotify();
             task.writeFile(b);
-
+            if (data instanceof Iq) {
+                JabberDataBlock done=new Iq(task.jid, Iq.TYPE_RESULT, data.getAttribute("id"));
+                send(done, true);
+            }
+            return BLOCK_PROCESSED;
         }
         return BLOCK_REJECTED;
     }

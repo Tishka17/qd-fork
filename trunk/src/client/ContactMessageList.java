@@ -48,6 +48,10 @@ import ui.GMenuConfig;
 //#ifdef HISTORY
 import history.HistoryStorage;
 //#endif
+//#ifdef FILE_TRANSFER
+import io.file.transfer.TransferAcceptFile;
+import io.file.transfer.TransferTask;
+//#endif
 import message.MessageList;
 import midlet.BombusQD;
 import midlet.Commands;
@@ -156,6 +160,17 @@ public final class ContactMessageList extends MessageList implements InputTextBo
             addCommand(Commands.cmdReply);
         }
         if (getItemCount() > 0) {
+            Msg msg = getSelectedMessage();
+//#if FILE_TRANSFER
+            if (msg.attachment!=null && msg.attachment instanceof TransferTask) {
+                TransferTask tt = (TransferTask)msg.attachment;
+                if (tt.isAcceptWaiting()) {
+                    addCommand(Commands.cmdFileAccept);
+                } else if (!tt.isStopped()) {
+                    addCommand(Commands.cmdFileDecline);
+                }
+            }
+//#endif
 //#ifdef JUICK.COM
             if (isJuickContact) {
                 addCommand(Commands.cmdJuickMenu);
@@ -316,6 +331,13 @@ public final class ContactMessageList extends MessageList implements InputTextBo
         if (!midlet.BombusQD.sd.roster.isLoggedIn()) {
             return;
         }
+//#ifdef FILE_TRANSFER
+        if (c == Commands.cmdFileAccept) {
+            new TransferAcceptFile((TransferTask)getSelectedMessage().attachment).show();
+        } else if (c==Commands.cmdFileDecline) {
+            ((TransferTask)getSelectedMessage().attachment).cancel();
+        }
+//#endif
 //#ifdef JUICK.COM
         if (c == Commands.cmdJuickLastMsgs){
             JuickModule.LastMessages();

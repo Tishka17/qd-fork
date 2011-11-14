@@ -244,7 +244,7 @@ public class TransferTask
         }
     }
 
-    boolean isAcceptWaiting() { return state==IN_ASK; }
+    public boolean isAcceptWaiting() { return state==IN_ASK; }
 
     void closeFile() {
         finished=System.currentTimeMillis();
@@ -354,7 +354,7 @@ public class TransferTask
         new Thread(this).start();
     }
 
-    boolean isStopped() {
+    public boolean isStopped() {
         return (state==COMPLETE || state==ERROR);
 
     }

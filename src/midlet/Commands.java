@@ -64,7 +64,10 @@ public class Commands {
     public static Command cmdJuickSendPM;
     public static Command cmdJuickUsersMsgs;
 //#endif
-
+//#if FILE_TRANSFER
+    public static Command cmdFileAccept;
+    public static Command cmdFileDecline;
+//#endif
     public static void initCommands() {
         //TODO: константы вместо чисел
         cmdOk = new Command(SR.get(SR.MS_OK), 0x60);
@@ -106,6 +109,10 @@ public class Commands {
             cmdJuickUnsubscribe = new Command(SR.get(SR.MS_JUICK_U), 0x06);
             cmdJuickSendPM = new Command(SR.get(SR.MS_JUICK_SPM), 0x14);
             cmdJuickUsersMsgs = new Command(SR.get(SR.MS_JUICK_UM), 0x14);
+//#endif
+//#if FILE_TRANSFER
+            cmdFileAccept = new Command(SR.get(SR.MS_ACCEPT_FILE), 0x43);
+            cmdFileDecline = new Command(SR.get(SR.MS_DECLINE), 0x41);
 //#endif
 
     }

@@ -57,6 +57,7 @@ import colors.ColorList;
 import images.ActionsIcons;
 import images.MenuIcons;
 import images.RosterIcons;
+import util.Time;
 
 public class ModuleConfigForm extends DefForm {
     private int type;
@@ -799,6 +800,7 @@ public class ModuleConfigForm extends DefForm {
 
             Config.executeByNum = executeByNum.getValue();
             config.gmtOffset = fieldGmt.getIntValue();
+            Time.setOffset(config.gmtOffset);
 
             Vector langs[] = new StringLoader().stringLoader("/lang/res.txt", 3);
             if (langs[0].size() > 1) {

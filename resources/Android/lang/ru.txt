@@ -657,6 +657,13 @@ Unlock adnvanced mode	Исп. расширенный режим
 Advanced mode is enabled	Расширенный режим включён
 Advanced Mode is disabled	Расширенный режим отключён
 Show images in juick	Показывать картинки в juick
+Your last posts	Последние посты вашей ленты
+Last posts from Juick.com	Последние посты общей ленты
+Subscribe to replies	Подписаться на ответы
+Unsubscribe from replies	Отписаться от ответов
+Send PM to user	Отправить личное сообщение
+Full user info	Инфо пользователя
+JUICK.COM	Меню Juick
 Conference history	История конференций
 Conference private history	История приватов конференции
 Show last messages from history	Подгружать сообщения из истории

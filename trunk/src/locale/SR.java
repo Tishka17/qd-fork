@@ -687,7 +687,7 @@ public class SR {
      public final static short MS_ADVANCED_MODE_ENABLED = 655; //Advanced mode is enabled
      public final static short MS_ADVANCED_MODE_DISABLED = 656; //Advanced Mode is disabled
      public final static short MS_JUICK_IMAGES = 657; //Enables/disable images in juick
-    public final static short MS_JUICK_LP = 658; //Last mess. from you timeline on Juick
+    public final static short MS_JUICK_LP = 658; //Last mess. from your timeline on Juick
     public final static short MS_JUICK_LM = 659; //Last mess. from main timeline
     public final static short MS_JUICK_S = 660; //Subscribing to Juick user
     public final static short MS_JUICK_U = 661; //Unsubscribing from juick user

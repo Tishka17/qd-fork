@@ -1371,7 +1371,7 @@ public class SR {
         "Advanced mode is enabled",
         "Advanced Mode is disabled",
         "Show images in juick",
-      "You last posts",
+      "Your last posts",
       "Last posts from Juick.com",
       "Subscribe to replies",
       "Unsubscribe from replies",

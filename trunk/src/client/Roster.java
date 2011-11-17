@@ -126,9 +126,6 @@ import light.CustomLight;
 import xmpp.extensions.JuickModule;
 //#endif
 import disco.ServerStatsForm;
-//#ifdef HISTORY
-import history.HistoryViewer;
-//#endif
 //#ifdef SYSTEM_NOTIFY
 //# import message.notification.Notification;
 //# import message.notification.Notificator;
@@ -136,6 +133,8 @@ import history.HistoryViewer;
 //#if ROSTERX
 import xmpp.extensions.RosterXListener;
 //#endif
+import stats.StatsWindow;
+
 public final class Roster extends VirtualList
             implements JabberListener, MenuListener, Runnable, LoginListener {
     public final static int DROP_MESSAGES_PRESENCES = 0;
@@ -3159,7 +3158,12 @@ public final class Roster extends VirtualList
                  try {
                     BombusQD.getInstance().platformRequest("native:NAT_MAIN_MENU");
                  } catch (Exception e) { }
-            
+            return true;
+        } else if (keyCode==VirtualCanvas.LEFT_SOFT) {
+            new Bookmarks(null).show();
+            return true;
+        } else if (keyCode==VirtualCanvas.RIGHT_SOFT) {
+            new StatsWindow().show();
             return true;
         }
         return super.keyLong(keyCode);

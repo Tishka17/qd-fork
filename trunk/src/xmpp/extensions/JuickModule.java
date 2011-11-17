@@ -156,14 +156,14 @@ public class JuickModule implements JabberBlockListener {
             case 0: {//запрос поста/коммента
                 request = new Iq("juick@juick.com/Juick", Iq.TYPE_GET, "lastmsgs"+post );
                 JabberDataBlock query = request.addChildNs("query", NS_MESSAGES);
-                if (post!=-1) query.setAttribute("mid", ""+post);
-                if (comment!=-1) query.setAttribute("rid", ""+comment);
+                if (post!=-1) query.setAttribute("mid", String.valueOf(post));
+                if (comment!=-1) query.setAttribute("rid", String.valueOf(comment));
                 break;
             }
             case 1: {//запрос поста с комментами
                 request = new Iq("juick@juick.com/Juick", Iq.TYPE_GET, "cmts_"+post);
                 JabberDataBlock query = request.addChildNs("query", NS_MESSAGES);
-                query.setAttribute("mid", ""+post);
+                query.setAttribute("mid", String.valueOf(post));
                 break;
             }
             default: {//новый пост или ответ

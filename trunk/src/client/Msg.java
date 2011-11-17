@@ -366,6 +366,7 @@ public final class Msg implements VirtualElement {
         
         g.translate(2, verticalOffset);
 
+        boolean showMessageIcon = !(Config.hideMessageIcon || isPresence() || isMucMsg);
         if (!msgLines.isEmpty()) {
             int size = collapsed ? 1 : msgLines.size();
             for (int i = 0; i < size; ++i) {
@@ -380,20 +381,18 @@ public final class Msg implements VirtualElement {
                 if (cy <= h && cy + g.getClipHeight() > 0) {
                     ofs = 0;
                     boolean cols = (collapsed && msgLines.size() > 1);
-                    if (!Config.hideMessageIcon) {
-                        if (i == 0 && !isPresence() && !isMucMsg) {
-                            h = Math.max(h, RosterIcons.getInstance().getHeight());
-                            if (delivered) {
-                                RosterIcons.getInstance().drawImage(g, RosterIcons.ICON_DELIVERED_INDEX, 0, 0);
-                            } else {
-                                RosterIcons.getInstance().drawImage(g, RosterIcons.ICON_MESSAGE_INDEX, 0, 0);
-                            }
-                            ofs += RosterIcons.getInstance().getWidth() + 4;
+                    if (showMessageIcon && i == 0) {
+                        h = Math.max(h, RosterIcons.getInstance().getHeight());
+                        if (delivered) {
+                            RosterIcons.getInstance().drawImage(g, RosterIcons.ICON_DELIVERED_INDEX, 0, 0);
+                        } else {
+                            RosterIcons.getInstance().drawImage(g, RosterIcons.ICON_MESSAGE_INDEX, 0, 0);
                         }
+                        ofs += RosterIcons.getInstance().getWidth() + 4;
                     }
                     if (cols) {
                         RosterIcons.getInstance().drawImage(g, RosterIcons.ICON_MSGCOLLAPSED_INDEX, 0, 0);
-                        if (Config.hideMessageIcon) {
+                        if (!showMessageIcon) {
                             g.translate(RosterIcons.getInstance().getWidth(), 0);
                         }
                     }

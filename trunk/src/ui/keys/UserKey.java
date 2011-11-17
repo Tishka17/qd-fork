@@ -133,9 +133,9 @@ public class UserKey extends IconTextElement {
             case VirtualCanvas.UNUSED_KEY: return"Unused";
         }// switch
         if( keyCode >0x20 && keyCode <0x7f)
-            return ""+(char)keyCode;
+            return String.valueOf((char)keyCode);
         if( (keyCode&0xffff) >0xa020 && (keyCode&0xffff) <0xa07f)
-            return ""+(char)(keyCode&0x7f);
+            return String.valueOf((char)(keyCode&0x7f));
         if( (keyCode&0xffff) ==0xa020)
             return "Space";
         return "Key " + java.lang.Integer.toHexString(keyCode);

@@ -75,6 +75,8 @@ public final class ActiveContacts extends VirtualList implements MenuListener {
 
         if (contacts.contains(current)) {
             focusToContact(current);
+        } else {
+            setParentView(BombusQD.sd.roster);
         }
         
         sortContacts(sortingType);
@@ -155,6 +157,7 @@ public final class ActiveContacts extends VirtualList implements MenuListener {
         }
         if (c == cmdClearAllMessages) {
             BombusQD.sd.roster.cmdCleanAllMessages();
+            setParentView(BombusQD.sd.roster);
         }
         if (c == cmdSortByStatus) {
             sortContacts(SORT_BY_STATUS);
@@ -214,6 +217,8 @@ public final class ActiveContacts extends VirtualList implements MenuListener {
 
     protected void keyClear() {
         Contact contact = (Contact) getFocusedObject();
+        if (contact.getMessageList()==this.getParentView()) 
+            setParentView(BombusQD.sd.roster);
 
         contact.purge();
         contacts.removeElementAt(cursor);

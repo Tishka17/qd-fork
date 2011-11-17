@@ -1,0 +1,85 @@
+﻿afraid	خائف
+amazed	مندهش
+amorous	غرامي
+angry	غاضب
+annoyed	ازعاج
+anxious	قلق
+aroused	أثار
+ashamed	الخجل
+bored	الملل
+brave	الشجاعة
+calm	الهدوء
+cautious	الحذر
+cold	البرد
+confident	الثقة
+confused	الحيرة
+contemplative	التأمل
+contented	قانع
+cranky	نزق
+crazy	مجنون
+creative	الأبداعية الخلاقة
+curious	الغريب
+dejected	مكتئب
+depressed	الاكتئاب
+disappointed	خيبة الأمل
+disgusted	مقرف
+dismayed	مستاء
+distracted	يصرف
+embarrassed	احراج
+envious	حسود
+excited	متحمس
+flirtatious	غزلي
+frustrated	أحبط
+grateful	ممتن
+grieving	الحزن
+grumpy	غاضب كثيرا
+guilty	مذنب
+happy	سعيد
+hopeful	الأمل
+hot	ساخنة
+humbled	بالتواضع
+humiliated	ذليلة مهانة
+hungry	جوعا
+hurt	يصب
+impressed	معجب
+in_awe	في رهبة
+in_love	في الحب
+indignant	ساخطا
+interested	اهتمام
+intoxicated	خمول
+invincible	لايقهر
+jealous	غيور
+lonely	وحيدا
+lost	خسر
+lucky	محظوظ
+mean	يعني
+moody	مزاج
+nervous	العصبي
+neutral	محايد
+offended	الاهانة
+outraged	غضب
+playful	لاعب محترف
+proud	فخور
+relaxed	الأسترخاء
+relieved	مرتاح
+remorseful	نادم
+restless	قلق لايهدأ
+sad	حزين
+sarcastic	ساخرة
+satisfied	راضية
+serious	خطير
+shocked	صدمة
+shy	خجول
+sick	المرض
+sleepy	نعسان
+spontaneous	عفوية تلقائية
+stressed	وشدد
+strong	قوي
+surprised	فاجأ
+thankful	شاكرين
+thirsty	عطشان
+tired	تعبت
+undefined	غير معروف
+weak	ضعيف
+worried	قلق
+-	<ليس في مزاج>

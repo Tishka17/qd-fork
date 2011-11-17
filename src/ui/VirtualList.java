@@ -494,7 +494,10 @@ public abstract class VirtualList extends CanvasEx {
                 setAbsOrg(g,0,0);
                 g.setClip(0, itemBorder[0], itemMaxWidth, winHeight);
                 g.setColor(el.getColorBGnd());
-                if (Config.backImgType==NO_BGND && el.getColorBGnd()!=ColorTheme.getColor(ColorTheme.LIST_BGND)) {
+//#ifdef BACK_IMAGE
+                if (Config.backImgType==NO_BGND && el.getColorBGnd()!=ColorTheme.getColor(ColorTheme.LIST_BGND)) 
+//#endif
+                {
                     g.fillRect(0, drawYpos, itemMaxWidth, lh);;
                 }
                 if (sel) {

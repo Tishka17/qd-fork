@@ -133,8 +133,9 @@ import disco.ServerStatsForm;
 //#if ROSTERX
 import xmpp.extensions.RosterXListener;
 //#endif
+//#if STATS
 import stats.StatsWindow;
-
+//#endif
 public final class Roster extends VirtualList
             implements JabberListener, MenuListener, Runnable, LoginListener {
     public final static int DROP_MESSAGES_PRESENCES = 0;
@@ -217,7 +218,6 @@ public final class Roster extends VirtualList
         }
         if (!contacts.isEmpty()) {
             ActiveContacts form = new ActiveContacts(contacts, current);
-            form.setParentView(this);
             form.show();
             if (current!=null && current.getMessageList()!=null) 
                 current.getMessageList().updateSeparator();
@@ -3162,9 +3162,11 @@ public final class Roster extends VirtualList
         } else if (keyCode==VirtualCanvas.LEFT_SOFT) {
             new Bookmarks(null).show();
             return true;
+//#if STATS
         } else if (keyCode==VirtualCanvas.RIGHT_SOFT) {
             new StatsWindow().show();
             return true;
+//#endif
         }
         return super.keyLong(keyCode);
     }

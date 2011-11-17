@@ -1,0 +1,21 @@
+﻿//vCard descriptions
+	FN	الاسم الكامل
+	NICKNAME	اللقب
+	BDAY	عيد الميلاد
+ADR	STREET	الشارع
+ADR	EXTADR	الشارع2
+ADR	LOCALITY	الموقع
+ADR	REGION	المنطقه
+ADR	PCODE	الرمز البريدي
+ADR	CTRY	المدينة
+	TZ	المنطقة الزمنية (GMT)
+TEL	HOME	رقم الهاتف الثابت (д)
+TEL	NUMBER	الرقم المحمول
+EMAIL	USERID	E-Mail
+	JABBERID	JID
+	TITLE	بعد ذلك
+	ROLE	المهام
+ORG	ORGNAME	الشبكة
+ORG	ORGUNIT	القسم
+	URL	الموقع
+	DESC	عن

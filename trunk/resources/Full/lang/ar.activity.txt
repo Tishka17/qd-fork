@@ -1,0 +1,79 @@
+﻿doing_chores	القيام بالأعمال المنزلية
+buying_groceries	شراء المنتوجات
+cleaning	التنظيف
+cooking	الطبخ
+doing_maintenance	القيام بالصيانة
+doing_the_dishes	العمل على الاطباق
+doing_the_laundry	العمل على مغسلة
+gardening	الحدائق
+running_an_errand	تشغيل مأمورية
+walking_the_dog	مشي الكلب
+drinking	الشرب
+having_a_beer	شرب البيرة
+having_coffee	شرب القهوة
+having_tea	شرب الشاي
+eating	الأكل
+having_a_snack	وجبة خفيفة
+having_breakfast	الفطور
+having_dinner	العشاء
+having_lunch	الغداء
+exercising	ممارسة التمارين
+cycling	ركوب الدراجات
+dancing	الرقص
+hiking	المشي لمسافات طويلة
+jogging	السفر الركض
+playing_sports	ممارسة الرياضة
+running	تشغيل
+skiing	التزحلق على الجليد
+swimming	السباحة
+working_out	العمل بها
+grooming	العناية الشخصية
+at_the_spa	في المنتجع الصحي للتدليك
+brushing_teeth	تنظيف الاسناني
+getting_a_haircut	الحصول على حلاقة
+shaving	حلق
+taking_a_bath	أخذ حمام
+taking_a_shower	يستحم
+having_appointment	بعد التعيين
+inactive	غير فعال
+day_off	يوم العطلة
+hanging_out	شنقا
+hiding	اختباء
+on_vacation	في اجازة
+praying	الصلاة
+scheduled_holiday	من المقرر عطلة
+sleeping	نائم
+thinking	تفكير
+relaxing	مريح
+fishing	صيد السمك
+gaming	الألعاب
+going_out	الخروج
+partying	الحفلات
+reading	قراءة
+rehearsing	التمرين
+shopping	التسوق
+smoking	التدخين
+socializing	التنشئة الاجتماعية
+sunbathing	تسفع
+watching_tv	مشاهدة التلفزيون
+watching_a_movie	مشاهدة الفيلم
+talking	الحديث
+in_real_life	في الحياة الحقيقية
+on_the_phone	على الهاتف
+on_video_phone	على الهاتف الفيديو
+traveling	السفر
+commuting	التنقل
+cycling	الدراجات
+driving	قيادة
+in_a_car	في سيارة
+on_a_bus	على الباص
+on_a_train	على متن القطار
+on_a_plane	على متن الطائرة
+on_a_trip	في رحلة
+walking	المشي
+working	العمل
+coding	الترميز
+in_a_meeting	في الاجتماع
+studying	دراسة
+writing	كتابة
+no activity	<لا نشاطات>

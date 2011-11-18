@@ -2,7 +2,7 @@
 // All rights reserved.
 
 // ask server to send us localized messages
-xmlLang	ru
+xmlLang	ar
 online	متصل
 chat	متوفر للدردشة
 away	بعيد
@@ -29,9 +29,9 @@ Connected	يتم تأسيس الاتصال
 Connect to 	اتصال مع 
 Alert Profile	الأصوات الشخصية
 Move Up	تحريك لأعلى
-Owners	مالك
+Owners	المالك
 Ok	موافق
-Minimize	تقليل
+Minimize	تصغير
 Room	الغرفة
 Messages	الرسالة
 Refresh	تحديث
@@ -44,7 +44,7 @@ Activate	تفعيل
 Affiliation	عدم تغعيل
 Accounts	الحسابات
 Delete list	حذف القائمة
-Account >	أشتراك >
+Account >	الحسابات >
 Select	اختيار
 Subject	الموضوع
 Quit	الخروج
@@ -86,7 +86,7 @@ Options	خيارات
 Delete	حذف
 Delete contact?	حذف جهة اتصال
 Authorize	قبول
-Nicknames	اللألقاب
+Nicknames	الألقاب
 to Archive	الى الأرشيف
 Back	عودة
 heap monitor	مراقبة الذاكرة(حجم)
@@ -103,7 +103,7 @@ New Message	رسالة جديدة
 Add	أضافة
 Logon	تسجيل الدخول
 at Host	المضيف
-join conferences 	انضمام للمؤتمر {اوتوماتيك{
+join conferences	انضمام للمؤتمرات
 Smiles	تفعيل/تعطيل الأبتسامات
 Contact >	الاتصال >
 offline contacts	الأسماء غير المتصلين
@@ -152,7 +152,7 @@ for all status types	لاجل جميع الحالات
 Paste Jid	لصق Jid
 Goto URL	الذهاب الى URL
 Yes	نعم
-Suspend	تعليق
+Suspend	رجوع
 Alert Profile >	الأصوات >
 My vCard	فيزيت كارت الخاصة بي
 transports	وسائل النقل
@@ -350,7 +350,7 @@ normal	عادي
 small	صغير
 large	كبير
 All signals	كل الأصوات
-Vibra	فات
+Vibra	اهتزاز
 No signals	لا أصوات
  (default)	 (الأفتراضية)
 Quit?	الخروج؟
@@ -489,8 +489,8 @@ Add Search Query	إضافة استعلام البحث
 Find Text	البحث عن النص
 End search!	نهاية البحث
 Turn OFF Message Icon	إيقاف رسالة أيقونة
-Autoloading vcard from server	صورة بدء التشغيل من المضيف
-Autoloading vcard from FS Phone	بدء تشغيل الهاتف مع صورةFS
+Autoloading vcard from server	بدء تحميل فيزيت كارت من المخدم
+Autoloading vcard from FS Phone	بدء تحميل فيزيت كارت من ملف نظام الهاتف
 Not found!	غير موجود
 Generate	توليد
 Delete all statuses	حذف جميع الحالات
@@ -514,9 +514,9 @@ Gradient cursor	مؤشر الانحدار
 Transparency bgnd(argb)	الشفافية الخلفية(ARGB)
 Graphics menu bgnd(argb)	خلفية القائمة رسومية(ARGB)
 Graphics menu font	خط القائمة الرسومات
-My Services	مخدماتي >
+My Services	الخدمات >
 Draw Rect Avatar	إطار صورة
-AutoSave In FS	للحفظ في FS
+AutoSave In FS	للحفظ في ملف النظام
 Avatar Folder	مجلد الشخصية
 Avatars	افاتار
 News	الأخبار
@@ -644,7 +644,7 @@ Show avatars, client icons, status message, extended statuses, contact's resourc
 Show only messages	أظهار الرسالة فقط
 Show time, presences (collapsed by default)	أظهار الوقت , والتواجد (انهارت افتراضيا(
 Show time, message icons, usernicks, presences (expanded by default)	ظهور الوقت,رسالة الرموز,الالقاب المستخدمة,التواجد )التوسيع افتراضيا(
-Hide panels, popups and baloons; simple cursor	Скрыть панели, النوافذ المنبثقة ونصائح ؛ المؤشر بسيطة
+Hide panels, popups and baloons; simple cursor	إخفاء لوحات, النوافذ المنبثقة ونصائح ؛ المؤشر بسيطة
 Show panels and popups; gradient cursor	تظهر لوحة والنوافذ المنبثقة ، المؤشر الانحدار
 Show panels, popups and baloons; show time and traffic on panel; gradient cursor	 تظهر لوحة ، النوافذ المنبثقة ونصائح ، والوقت وحركة المرور على لوحات ، المؤشر الانحدار
 Keep current settings	احتفاظ الإعدادات الحالية
@@ -657,6 +657,13 @@ Unlock adnvanced mode	فتح وضع متقدم
 Advanced mode is enabled	يتم تمكين وضع متقدم
 Advanced Mode is disabled	تم تعطيل وضع متقدم
 Show images in juick	أظهار الصور في juick
+our last posts	آخر المشاركات لحزمك
+Last posts from Juick.com	آخر المشاركات من Juick.com
+Subscribe to replies	الإشتراك في الردود
+Unsubscribe from replies	ألغاء الأشتراك في الردود
+Send PM to user	ارسال رسالة خاصة إلى المستخدم
+Full user info	معلومات المستخدم الكامل
+JUICK.COM	عرض Juick
 Conference history	تاريخ المؤتمر
 Conference private history	تاريخ المؤتمر خاصة
 Show last messages from history	عرض رسائل الماضي من التاريخ

@@ -657,7 +657,7 @@ Unlock adnvanced mode	فتح وضع متقدم
 Advanced mode is enabled	يتم تمكين وضع متقدم
 Advanced Mode is disabled	تم تعطيل وضع متقدم
 Show images in juick	أظهار الصور في juick
-our last posts	آخر المشاركات لحزمك
+Your last posts	آخر المشاركات لحزمك
 Last posts from Juick.com	آخر المشاركات من Juick.com
 Subscribe to replies	الإشتراك في الردود
 Unsubscribe from replies	ألغاء الأشتراك في الردود

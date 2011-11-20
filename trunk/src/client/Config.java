@@ -1067,11 +1067,17 @@ public class Config {
             if (sonyJava!=null) platformName=platformName+"/"+sonyJava;
 
             String device=System.getProperty("device.model");
+			String manufacturer=System.getProperty("device.manufacturer");
             String firmware=System.getProperty("device.software.version");
             String id=System.getProperty("device.id");
             if (platformName.startsWith("microemu")) {
                 if (device != null) {
-                    platformName=device+"/Android "+firmware+"/build: "+id;
+					if(device.trim().toLowerCase().startsWith(manufacturer.trim().toLowerCase())){
+						platformName=device+"/Android "+firmware+"/build: "+id;
+					}else{
+						platformName=manufacturer+" "+device+"/Android "+firmware+"/build: "+id;
+					}
+                    
                 }
             }
             if (platformName==null) platformName="Motorola";

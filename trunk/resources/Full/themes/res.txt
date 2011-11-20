@@ -4,6 +4,7 @@
 /themes/Blue17.txt	Blue17
 /themes/Stormy.txt	Stormy
 /themes/green.txt	green
+/themes/Xperia.txt	Xperia
 /themes/Just_b&w.txt	Just_b&w
 /themes/Electro.txt	Electro
 /themes/Dark only.txt	Dark only

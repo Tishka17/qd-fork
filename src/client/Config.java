@@ -1058,7 +1058,28 @@ public class Config {
             }
         }
     }
-
+//#if Android
+	public static final String compute(){
+		final String manufact = System.getProperty("device.manufacturer");
+		final String model = System.getProperty("device.model");
+		final String manufact_ = manufact.trim().toLowerCase();
+		final String model_ = model.trim().toLowerCase();
+		String result = "";
+		int total = manufact_.length();
+		if(total>model_.length()) total = model_.length();
+		int matches = 0;
+		for(int i=0; i<total; i++){
+			if(manufact_.charAt(i) == model_.charAt(i)) matches++;
+		}
+		final int percentage = matches*100/total;
+		if(percentage > 50){
+			result = model;
+		}else{
+			result = manufact+" "+model;
+		}
+		return result;
+	}
+//#endif
     public void platformName() {
         if (platformName==null) {
             platformName=System.getProperty("microedition.platform");
@@ -1067,17 +1088,11 @@ public class Config {
             if (sonyJava!=null) platformName=platformName+"/"+sonyJava;
 
             String device=System.getProperty("device.model");
-			String manufacturer=System.getProperty("device.manufacturer");
             String firmware=System.getProperty("device.software.version");
             String id=System.getProperty("device.id");
             if (platformName.startsWith("microemu")) {
                 if (device != null) {
-					if(device.trim().toLowerCase().startsWith(manufacturer.trim().toLowerCase())){
-						platformName=device+"/Android "+firmware+"/build: "+id;
-					}else{
-						platformName=manufacturer+" "+device+"/Android "+firmware+"/build: "+id;
-					}
-                    
+					platformName=compute()+"/Android "+firmware+"/build: "+id;
                 }
             }
             if (platformName==null) platformName="Motorola";

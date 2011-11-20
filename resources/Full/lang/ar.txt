@@ -39,7 +39,7 @@ Resolve Nicknames	تغيير اللقب
 Ban	حظر
 Leave Room	مغادرة الغرفة
 Password	كلمة السر
-Actions	الخيارات
+Actions	خيارات
 Activate	تفعيل
 Affiliation	عدم تغعيل
 Accounts	الحسابات
@@ -74,7 +74,7 @@ Discard Search	تجاهل البحت
 Search Results	نتائج البحث
 Members	الأعضاء
 Add Contact	أضافة جهة اتصال
-Subscription	اكتتاب
+Subscription	المشاركة
 Status	الحالة
 Join	انضمام
 Startup actions	بدء النشاطات
@@ -82,7 +82,7 @@ Server	المخدم
 Admins	المدراء
 Make Ignore-List	جعل قائمة-التجاهل
 General Group	المجموعة العام
-Options	خيارات
+Options	الخيارات
 Delete	حذف
 Delete contact?	حذف جهة اتصال
 Authorize	قبول
@@ -90,7 +90,7 @@ Nicknames	الألقاب
 to Archive	الى الأرشيف
 Back	عودة
 heap monitor	مراقبة الذاكرة(حجم)
-change softkeys	تغيير مفاتيح وظيقية
+change softkeys	تغيير مفاتيح وظيفية
 Message	رسالة
 <Other>	<أخرى>
 Active Contacts	اتصالات نشطة
@@ -116,7 +116,7 @@ Not-in-list	غير موجود في القائمة
 Commands	الأوامر
 Set default	الضبط الافتراضي
 Outcasts (Ban)	المحظورين (فصل)
-Set affiliation to	ضبط غير مغعل الى
+Set affiliation to	تغير المرتبة بالغرفة
 autologin	الدخول التلقائي
 Logoff	تسجيل الخروج
 Publish	Publish
@@ -130,7 +130,7 @@ Cancel	إلغاء
 Archive	الأرشيف
 Conference	المؤتمرات
 Sound	الاصوات
-Login failed	الخول فشل
+Login failed	فشل الدخول
 Browse	تصفح
 New Jid	جديد Jid
 plain-text password	كلمة السر نص-عادي
@@ -178,12 +178,12 @@ Reason	السبب
 Participants	المشتركين
 Abc	ABC
 room presences	غرفة الوجود
- is now known as 	  الان يدعى بأسم 
+ is now known as 	الان يدعى بأسم 
  was banned 	 تم فصله
  was kicked 	 تم طرده
  has been kicked because room became members-only	 قد تم طرد بسبب الغرفة للاعضاء فقط
- has left the channel	 غادر
- has joined the channel as 	 انضم 
+ has left the channel	 وقد غادر الغرفة
+ has joined the channel as 	وقد انضم للغرفة 
  and 	 و 
  is now 	 والان 
 error	خطأ
@@ -193,9 +193,9 @@ History folder	مجلد التاريخ
 Copy	نسخ
 Paste	لصق
 has set topic to	قد حدد الموضوع الى
-Seen	المشاهدة
+Seen	شاهدت
 Idle	الخمول
-View	مشاهدة
+View	عرض
 Stop	توقف
 File transfers	نقل الملفات
 Path	مسار
@@ -233,8 +233,8 @@ message history	رسائل التاريخ
 progress bar remained	تظليل شريط التقدم
 progress bar complete	شريط التقدم الشامل
 progress bar font	خط شريط التقدم
-Group gradient 1 and Heap mon total	مجموعة متدرجة )1) الكل
-Group gradient 2 and Heap mon free	مجموعة متدرجة 2 (الحر)
+Group gradient 1 and Heap mon total	مجموعة متدرجة (1) الكل
+Group gradient 2 and Heap mon free	مجموعة متدرجة (2) الحر
 Cursor background	المؤشر الخلفية
 Cursor ink & outline	المؤشر الحبر والمخطط التفصيلي
 Gradient cursor(1)	التدرج المؤشر 1
@@ -242,7 +242,7 @@ Gradient cursor(2)	التدرج المؤشر 2
 Scroll border	حدود الانتقال
 Scroll bar	شريط التمرير
 Scroll back	انتقل مرة اخرى
-other message incoming	اخر رسالة واردة(الوان الالقاب)
+other message incoming	اخر رسالة واردة (الوان الالقاب)
 other message outgoing	اخر رسالة صادرة
 other message presence	اخر رسالة وجود
 Popup font	الخط المنبثق
@@ -280,7 +280,7 @@ disabled	تعطيل
 keyblock	عند قفل الأزرار
 by message	في غيابي رسالة التلقائية
 AutoStatus	الحالة الالية
-AutoStatus time (min)	وقت الحالة الاوتو(دقيقة)
+AutoStatus time (min)	وقت الحالة التلقائي(دقيقة)
 Auto xa since %t	ايتوماتيك غير متوفر منذ %t
 Auto away since %t	ايتوماتيك بعيد منذ %t
 autofocus	أوتوفوكس في اتصال مع رسالة جديدة
@@ -326,10 +326,10 @@ ReTranslit	اعادة تسمية النقل
 Auto translit2Cyr	الحروف السيريلية الالية
 Check Updates	التأكد من التحديثات
 Show Resources	إظهار المصدر
-Collapsed groups	تقليل مجموعة بدء التشغيل
+Collapsed groups	تصغير مجموعة بدء التشغيل
 Send Buffer	ارسال العازلة
 Change nickname	تغيير اللقب
-Message collapse limit	التقليل من الرسالة, إذا كان أكثر من )الحروف(
+Message collapse limit	حد رسالة الفيضان
 Clear all chats	مسح جميع المحادثات
 Join marked (auto)	انضمام تلقائي
 Statistics	الأحصائيات
@@ -343,7 +343,7 @@ Delete All	حذف جميع الأرشيف
 show statuses	مشاهدة الحالات
 shared platform info	المزيد من المعلومات حول منصة الهاتف
 delivery events	الإخطار تسليم الرسالة
-drop all	إسقاط جميع
+drop all	إسقاط الجميع
 receive messages	تلقي الرسائل
 messages & presences	الرسائل والحالة
 normal	عادي
@@ -451,16 +451,16 @@ Unread messages	رسائل غير مقروءة
 vibrate only highlited	الاهتزاز فقط عند الاتصال بي
 Save to file	حفظ الى الملف
 Load from file	تحميل من ملف
-Show IQ requests	أظهار طلبات IQ
-Show clients icons	أظهار رموز النسخ
+Show IQ requests	أظهار طلبات الأسئلة
+Show clients icons	أظهار رموز البرامج
 Action	نشط
 Value	القيمة
 Quantity of attempts	كمية من المحاولات
-Delay before reconnect(sec.)	تأخير قبل إعادة(ثانية(
+Delay before reconnect(sec.)	تأخير قبل إعادة(ثانية)
 Menu	القائمة
 Previous	السابق
 Previous: 	السابق: 
-[End of vCard]	نهاية من الفيزيت كارت
+[End of vCard]	نهاية الفيزيت كارت
 [No vCard available]	لا تتوفر فيزيت كارت
 [No photo available]	لا تتوفر صور
 [Unsupported format]	تنسيق غير معتمد
@@ -510,14 +510,14 @@ Scroll speed(msec,10sec-max)	سرعة التمرير"مللي بالثانية"
 Show messages limit(1000-max)	حد رسالة الظهور 
 Users search	بحث المستخدمين
 Support	Online الدعم على الانترنت
-Gradient cursor	مؤشر الانحدار
+Gradient cursor	مؤشر الكتابة
 Transparency bgnd(argb)	الشفافية الخلفية(ARGB)
 Graphics menu bgnd(argb)	خلفية القائمة رسومية(ARGB)
 Graphics menu font	خط القائمة الرسومات
 My Services	الخدمات >
 Draw Rect Avatar	إطار صورة
 AutoSave In FS	للحفظ في ملف النظام
-Avatar Folder	مجلد الشخصية
+Avatar Folder	مجلد الصور
 Avatars	افاتار
 News	الأخبار
 Show time in messages	مشاهدة الوقت في الرسالة
@@ -546,7 +546,7 @@ Account deleted!	حذف الحساب!
 Insert New Password	أدخال كلمة السر الجديدة
 Contact is now offline.Continue?	الاسماء الان غير متصلة.استمرار؟
 clipboard NOT sended	ارسال الخطأ
-Collapse presences	تقليل رسائل الحالة
+Collapse presences	تصغير رسائل الحالة
 ANY	أي
 allow	سماح
 deny	حجب
@@ -573,13 +573,13 @@ Light control	تحكم الضوء
 Enable light control	تغعيل التحكم بالضوء
 Idle screen brightness	خمول سطوع الشاشة
 Keypress screen brightness	سطوع الشاشة بضغطة
-Keypress idle timeout	مهلة بعد الضغط )المدة(
+Keypress idle timeout	مهلة بعد الضغط (المدة)
 Message screen brightness	رسالة سطوع الشاشة
 Message idle timeout	رسالة مهلة الخمول
 Presence screen brightness	سطوع الشاشة الوجود
-Presence idle timeout	المهلة بعد تغيير الحالة )بالثانية(
+Presence idle timeout	المهلة بعد تغيير الحالة (بالثانية)
 Connect screen brightness	السطوع عند الاتصال
-Connect idle timeout	المهلة عند الاتصال)بالثانية(
+Connect idle timeout	المهلة عند الاتصال(بالثانية)
 Error screen brightness	سطوع الشاشة الخطأ
 Error idle timeout	الخطأ في مهلة الخمول
 Blink brightness	وميض سطوح
@@ -594,7 +594,7 @@ Graphisc Menu Screen Position	مركز قائمة رسومات الشاشة
 Message Buffer is not empty.Clear it?	مخزن الرسالة غير فارغة. تنظيف ذلك؟
 Create Multi Message	أنشاء رسالة متعددة الوسائط
 Sort Type	نوع الفرز
-OFF (default)	إيقاف (الأفتراضية(
+OFF (default)	أيقاف (الأفتراضية)
 By status	حسب الرسالة
 By Msgs count	الرسائل التي كتبها العد
 Type History	أكتب رسالة للتخزين
@@ -622,7 +622,7 @@ Attention sound	صوت الاهتمام
 Shadow bar	شريط الظل
 Copy topic	نسخ الموضوع
 Min item height	دقيقة. ارتفاع العناصر
-Send <-> Suspend	إرسال <-> تعليق
+Send <-> Suspend	إرسال <-> رجوع
 You're waking up	كنت أستيقظ
 Color scheme has been sent	وقد أرسل نظام الألوان
 Enable/Disable	تفعيل/تعطيل
@@ -638,15 +638,15 @@ Simple	بسيط
 Medium	متوسط
 Detailed	مفصل
 Next	التالي
-Show only contact's name and status	تظهر فقط على اسم جهة الاتصال ومكانتها
+Show only contact's name and status	تظهر فقط على اسم جهةالاتصال والحالة
 Show client icons and extended statuses	إظهار رموز البرامج وحالات تمديد
 Show avatars, client icons, status message, extended statuses, contact's resource	تظهر الآلهة,رموز البرامج,رسالة الحالة,تمديد الحالات,مورد الاتصالات
 Show only messages	أظهار الرسالة فقط
-Show time, presences (collapsed by default)	أظهار الوقت , والتواجد (انهارت افتراضيا(
-Show time, message icons, usernicks, presences (expanded by default)	ظهور الوقت,رسالة الرموز,الالقاب المستخدمة,التواجد )التوسيع افتراضيا(
+Show time, presences (collapsed by default)	أظهار الوقت , والتواجد (انهارت افتراضيا)
+Show time, message icons, usernicks, presences (expanded by default)	ظهور الوقت,رسالة الرموز,الالقاب المستخدمة,التواجد (التوسيع افتراضيا)
 Hide panels, popups and baloons; simple cursor	إخفاء لوحات, النوافذ المنبثقة ونصائح ؛ المؤشر بسيطة
-Show panels and popups; gradient cursor	تظهر لوحة والنوافذ المنبثقة ، المؤشر الانحدار
-Show panels, popups and baloons; show time and traffic on panel; gradient cursor	 تظهر لوحة ، النوافذ المنبثقة ونصائح ، والوقت وحركة المرور على لوحات ، المؤشر الانحدار
+Show panels and popups; gradient cursor	تظهر لوحة والنوافذ المنبثقة ، المؤشر الكتابة
+Show panels, popups and baloons; show time and traffic on panel; gradient cursor	 تظهر لوحة ، النوافذ المنبثقة ونصائح ، والوقت وعداد البيانات على لوحات ، المؤشر الكتابة
 Keep current settings	احتفاظ الإعدادات الحالية
 There are no active conferences	لا توجد مؤتمرات نشطة
 Account has been removed from server successfully	تمت إزالة الحساب من الخادم بنجاح
@@ -658,12 +658,12 @@ Advanced mode is enabled	يتم تمكين وضع متقدم
 Advanced Mode is disabled	تم تعطيل وضع متقدم
 Show images in juick	أظهار الصور في juick
 Your last posts	آخر المشاركات لحزمك
-Last posts from Juick.com	آخر المشاركات من Juick.com
-Subscribe to replies	الإشتراك في الردود
-Unsubscribe from replies	ألغاء الأشتراك في الردود
-Send PM to user	ارسال رسالة خاصة إلى المستخدم
-Full user info	معلومات المستخدم الكامل
-JUICK.COM	عرض Juick
+Last posts from Juick.com	أخر المشاركات من Juick.com
+Subscribe to replies	الأشتراك في الردود
+Unsubscribe from replies	إلغاء الأشتراك في الردود
+Send PM to user	أرسل رسالة خاصة الى المستخدم
+Full user info	المعلومات الكاملة للمستخدم
+JUICK.COM	عرض Juick.com
 Conference history	تاريخ المؤتمر
 Conference private history	تاريخ المؤتمر خاصة
 Show last messages from history	عرض رسائل الماضي من التاريخ

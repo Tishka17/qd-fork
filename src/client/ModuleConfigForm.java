@@ -76,7 +76,8 @@ public class ModuleConfigForm extends DefForm {
 //#endif
     private CheckBox ignore;
     private CheckBox autoFocus;
-    private CheckBox showResources;
+    private CheckBox showMsgsCount;
+    private CheckBox showResources;    
     private CheckBox useBoldFont;
     private CheckBox rosterStatus;
     private DropChoiceBox subscr;
@@ -231,7 +232,7 @@ public class ModuleConfigForm extends DefForm {
 
             if(config.userAppLevel == 1) {
                 showResources = new CheckBox(SR.get(SR.MS_SHOW_RESOURCES), config.showResources);
-                addControl(showResources);
+                addControl(showResources);                
 
 //#ifdef CLIENTS_ICONS
                 showClientIcon = new CheckBox(SR.get(SR.MS_SHOW_CLIENTS_ICONS), config.showClientIcon);
@@ -242,6 +243,9 @@ public class ModuleConfigForm extends DefForm {
 
                 ignore = new CheckBox(SR.get(SR.MS_IGNORE_LIST), config.ignore);
                 addControl(ignore);
+
+                showMsgsCount = new CheckBox(SR.get(SR.MS_SHOW_MSGS_COUNT), config.showMsgsCount);
+                addControl(showMsgsCount);
             }
 
             rosterStatus = new CheckBox(SR.get(SR.MS_SHOW_STATUSES), config.rosterStatus);
@@ -251,7 +255,7 @@ public class ModuleConfigForm extends DefForm {
             addControl(useBoldFont);
 
             autoFocus = new CheckBox(SR.get(SR.MS_AUTOFOCUS), config.autoFocus);
-            addControl(autoFocus);
+            addControl(autoFocus);            
         } else if (type == PluginBox.CHATS) {
             msgEditType = new DropChoiceBox(SR.get(SR.MS_MSG_EDIT_TYPE));
             msgEditType.append(new IconTextElement(SR.get(SR.MS_MES_EDIT_OLD), ActionsIcons.getInstance(), ActionsIcons.ICON_RENAME));
@@ -633,13 +637,14 @@ public class ModuleConfigForm extends DefForm {
             config.showTransports = showTransports.getValue();
 
             if (config.userAppLevel == 1) {
-                config.showResources = showResources.getValue();
+                config.showResources = showResources.getValue();                
 //#ifdef CLIENTS_ICONS
                 config.showClientIcon = showClientIcon.getValue();
                 config.iconsLeft = iconsLeft.getValue();
 //#endif
 
                 config.ignore = ignore.getValue();
+                config.showMsgsCount = showMsgsCount.getValue();
             }
 
             config.rosterStatus = rosterStatus.getValue();

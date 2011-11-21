@@ -710,6 +710,8 @@ public class SR {
     public final static short MS_SHED_PREEMPTION = 677; // Pre-emption
     public final static short MS_SHED_TEXT = 678; // Notify text
     public final static short MS_MESSAGES_SEPARATOR = 679; // Notify text
+    public final static short MS_JUICK_SOUND = 680; //Juick sound
+    public final static short MS_SHOW_MSGS_COUNT = 681; //Messages count
 
      private static String[] localeItemsDefault = new String[0];
     private static String[] localeItems = {
@@ -1394,7 +1396,9 @@ public class SR {
         "Pre-emption (min)",
         "Notify text",
         
-       "Show messages separator"
+       "Show messages separator",
+       "message Juick",
+       "Show messages count"
    };
 
     private SR() { }

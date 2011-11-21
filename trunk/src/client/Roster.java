@@ -2602,7 +2602,7 @@ public final class Roster extends VirtualList
 //#endif
             autorespond = true;
 
-        }else {
+        } else {
       //#ifdef JUICK.COM
             boolean incomingMsg = (message.getType()==Msg.INCOMING || message.getType()==Msg.JUICK);
       //#else
@@ -2625,10 +2625,16 @@ public final class Roster extends VirtualList
                 if (c.group.type==Groups.TYPE_VIP) {
                     playNotify(SOUND_FOR_VIP);
                     autorespond = true;
-                } else {
+                } else if (message.getType()!=Msg.JUICK) {
                     playNotify(SOUND_MESSAGE);
                     autorespond = true;
                 }
+//#ifdef JUICK.COM
+                if (message.getType()==Msg.JUICK) {
+                    playNotify(SOUND_JUICK);
+                    autorespond = false;
+                }
+//#endif
             }
 //#ifndef WMUC
             else playNotify(SOUND_FOR_CONFERENCE);
@@ -2675,6 +2681,9 @@ public final class Roster extends VirtualList
 
     public final static int SOUND_FOR_ME=500;
     public final static int SOUND_FOR_CONFERENCE=800;
+//#ifdef JUICK.COM
+    public final static int SOUND_JUICK=850;
+//#endif
     public final static int SOUND_MESSAGE=1000;
     public final static int SOUND_CONNECTED=777;
     public final static int SOUND_FOR_VIP=100;
@@ -2726,6 +2735,12 @@ public final class Roster extends VirtualList
                 message=ac.messagesnd;
                 type=ac.messageSndType;
                 break;
+//#ifdef JUICK.COM
+            case SOUND_JUICK: //juick message
+                message=ac.soundBlog;
+                type=ac.soundBlogType; 
+                break;
+//#endif
             case SOUND_FOR_CONFERENCE: //conference
                 message=ac.soundConference;
                 type=ac.soundConferenceType;

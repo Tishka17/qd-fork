@@ -179,6 +179,8 @@ public class Config {
     public boolean collapsedGroups = true;
     public boolean eventDelivery = true;
     public int messageLimit = 512;
+    
+    public boolean showMsgsCount = false;
 
 //#ifdef DETRANSLIT
 //#    public boolean autoDeTranslit=false;
@@ -575,6 +577,7 @@ public class Config {
             historyMUCPrivate = inputStream.readBoolean();
  //#endif
             minItemHeight = inputStream.readInt();
+            showMsgsCount = inputStream.readBoolean();
             inputStream.close();
             inputStream = null;
         } catch (Exception e) {
@@ -714,6 +717,7 @@ public class Config {
             outputStream.writeBoolean(historyMUC);
             outputStream.writeBoolean(historyMUCPrivate);
 //#endif
+            outputStream.writeBoolean(showMsgsCount);
 	} catch (IOException e) {}
 	return NvStorage.writeFileRecord(outputStream, BOOL_STORAGE_NAME, 0, true);
    }
@@ -1059,26 +1063,26 @@ public class Config {
         }
     }
 //#if Android
-	public static final String compute(){
-		final String manufact = System.getProperty("device.manufacturer");
-		final String model = System.getProperty("device.model");
-		final String manufact_ = manufact.trim().toLowerCase();
-		final String model_ = model.trim().toLowerCase();
-		String result = "";
-		int total = manufact_.length();
-		if(total>model_.length()) total = model_.length();
-		int matches = 0;
-		for(int i=0; i<total; i++){
-			if(manufact_.charAt(i) == model_.charAt(i)) matches++;
-		}
-		final int percentage = matches*100/total;
-		if(percentage > 50){
-			result = model;
-		}else{
-			result = manufact+" "+model;
-		}
-		return result;
-	}
+//# 	public static final String compute(){
+//# 		final String manufact = System.getProperty("device.manufacturer");
+//# 		final String model = System.getProperty("device.model");
+//# 		final String manufact_ = manufact.trim().toLowerCase();
+//# 		final String model_ = model.trim().toLowerCase();
+//# 		String result = "";
+//# 		int total = manufact_.length();
+//# 		if(total>model_.length()) total = model_.length();
+//# 		int matches = 0;
+//# 		for(int i=0; i<total; i++){
+//# 			if(manufact_.charAt(i) == model_.charAt(i)) matches++;
+//# 		}
+//# 		final int percentage = matches*100/total;
+//# 		if(percentage > 50){
+//# 			result = model;
+//# 		}else{
+//# 			result = manufact+" "+model;
+//# 		}
+//# 		return result;
+//# 	}
 //#endif
     public void platformName() {
         if (platformName==null) {
@@ -1090,11 +1094,13 @@ public class Config {
             String device=System.getProperty("device.model");
             String firmware=System.getProperty("device.software.version");
             String id=System.getProperty("device.id");
-            if (platformName.startsWith("microemu")) {
-                if (device != null) {
-					platformName=compute()+"/Android "+firmware+"/build: "+id;
-                }
-            }
+//#if ANDROID
+//#             if (platformName.startsWith("microemu")) {
+//#                 if (device != null) {
+//#                     platformName=compute()+"/Android "+firmware+"/build: "+id;
+//#                 }
+//#             }
+//#endif
             if (platformName==null) platformName="Motorola";
 
              if (platformName.startsWith("j2me")) {

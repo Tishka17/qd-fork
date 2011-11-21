@@ -729,13 +729,15 @@ public abstract class VirtualList extends CanvasEx {
         if (itemPageDown()) {
             return;
         }
-        stickyWindow=true;
+        int old_cursor = cursor;
         if (getItemRef(cursor+1).isSelectable()) {
             cursor++;
         } else {
             cursor=getNextSelectableRef(cursor);
         }
-        setRotator();
+        if (cursor!=old_cursor)
+            stickyWindow=true;
+            setRotator();
     }
 
     private void setAbsClip(final Graphics g, int w, int h) {

@@ -193,6 +193,7 @@ public class Configs {
         writeBoolean(data, "popUps", config.popUps);
 //#endif
         writeBoolean(data, "showResources", config.showResources);
+        writeBoolean(data, "showMsgsCount", config.showMsgsCount);
         writeBoolean(data, "enableVersionOs", config.enableVersionOs);
         writeBoolean(data, "eventDelivery", config.eventDelivery);
         writeBoolean(data, "rosterStatus", config.rosterStatus);
@@ -405,6 +406,7 @@ public class Configs {
             config.popUps = readBoolean(data, "popUps", config.popUps);
 //#endif
             config.showResources = readBoolean(data, "showResources", config.showResources);
+            config.showMsgsCount = readBoolean(data, "showMsgsCount", config.showMsgsCount);
             config.enableVersionOs = readBoolean(data, "enableVersionOs", config.enableVersionOs);
             config.eventDelivery = readBoolean(data, "eventDelivery", config.eventDelivery);
             config.rosterStatus = readBoolean(data, "rosterStatus", config.rosterStatus);

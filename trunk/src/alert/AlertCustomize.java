@@ -60,7 +60,11 @@ public class AlertCustomize {
     public int soundConferenceIndex=1;
     public String soundConference="";
     public String soundConferenceType=toneSequence;
-    
+//#ifdef JUICK.COM
+    public int soundBlogIndex=0;
+    public String soundBlog="";
+    public String soundBlogType="none";
+//#endif
     public int soundStartUpIndex=1;
     public String soundStartUp="";
     public String soundStartUpType=toneSequence;
@@ -118,6 +122,9 @@ public class AlertCustomize {
             soundForYouIndex=inputStream.readInt();
             soundComposingIndex=inputStream.readInt();
             soundConferenceIndex=inputStream.readInt();
+//#ifdef JUICK.COM
+            soundBlogIndex=inputStream.readInt();
+//#endif
 	    soundStartUpIndex=inputStream.readInt();
 	    soundOutgoingIndex=inputStream.readInt();
             soundVIPIndex=inputStream.readInt();
@@ -154,6 +161,9 @@ public class AlertCustomize {
 	    outputStream.writeInt(soundForYouIndex);
             outputStream.writeInt(soundComposingIndex);
             outputStream.writeInt(soundConferenceIndex);
+//#ifdef JUICK.COM
+            outputStream.writeInt(soundBlogIndex);
+//#endif
 	    outputStream.writeInt(soundStartUpIndex);
 	    outputStream.writeInt(soundOutgoingIndex);
             outputStream.writeInt(soundVIPIndex);
@@ -199,7 +209,11 @@ public class AlertCustomize {
         if (soundConferenceIndex>=size) soundOnlineIndex=0;
 	soundConferenceType=(String) files[0].elementAt(soundConferenceIndex);
 	soundConference=(String) files[1].elementAt(soundConferenceIndex);
-
+//#ifdef JUICK.COM
+        if (soundBlogIndex>=size) soundBlogIndex=0;
+        soundBlogType=(String) files[0].elementAt(soundBlogIndex);
+        soundBlog=(String) files[1].elementAt(soundBlogIndex);
+//#endif 
         if (soundStartUpIndex>=size) soundStartUpIndex=0;
 	soundStartUpType=(String) files[0].elementAt(soundStartUpIndex);
 	soundStartUp=(String) files[1].elementAt(soundStartUpIndex);

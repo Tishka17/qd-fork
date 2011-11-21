@@ -432,11 +432,21 @@ public class Contact extends IconTextElement {
         return getFont().stringWidth(getFirstString());
     }
 
+    private String msgsCount() {
+        if (midlet.BombusQD.cf.showMsgsCount) {
+            int nm = getNewMessageCount();
+            int nhm = getNewHighliteMsgsCount();
+            if (nm != 0) 
+               return " ["+((nhm == 0)?"":nhm+"/")+nm+"]";
+        }
+        return "";
+    }
+
     public String getFirstString() {
-        if (!midlet.BombusQD.cf.showResources) return (nick==null)?getJid():nick;
-        else if (origin > ORIGIN_GROUPCHAT) return nick;
-        else if (origin == ORIGIN_GROUPCHAT) return getJid();
-        return (nick==null)?getJid():nick+jid.getResource();
+        if (!midlet.BombusQD.cf.showResources) return (nick==null)?getJid():nick+msgsCount();
+        else if (origin > ORIGIN_GROUPCHAT) return nick+msgsCount();
+        else if (origin == ORIGIN_GROUPCHAT) return getJid()+msgsCount();
+        return (nick==null)?getJid():nick+jid.getResource()+msgsCount();
     }
 
     public String getSecondString() {

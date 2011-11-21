@@ -61,6 +61,9 @@ public class AlertCustomizeForm extends DefForm implements MenuListener {
     private DropChoiceBox ForYouFile;
     private DropChoiceBox ComposingFile;
     private DropChoiceBox ConferenceFile;
+//#ifdef JUICK.COM
+    private DropChoiceBox BlogFile;
+//#endif
     private DropChoiceBox StartUpFile;
     private DropChoiceBox OutgoingFile;
     private DropChoiceBox VIPFile;
@@ -127,7 +130,11 @@ public class AlertCustomizeForm extends DefForm implements MenuListener {
         ConferenceFile=new DropChoiceBox(SR.get(SR.MS_CONFERENCE_SOUND)); ConferenceFile.items=fileNames;
         ConferenceFile.setSelectedIndex(ac.soundConferenceIndex);
         addControl(ConferenceFile);
-
+//#ifdef JUICK.COM
+        BlogFile=new DropChoiceBox(SR.get(SR.MS_JUICK_SOUND)); BlogFile.items=fileNames;
+        BlogFile.setSelectedIndex(ac.soundBlogIndex);
+        addControl(BlogFile);
+//#endif
         StartUpFile=new DropChoiceBox(SR.get(SR.MS_STARTUP_SOUND)); StartUpFile.items=fileNames;
         StartUpFile.setSelectedIndex(ac.soundStartUpIndex);
         addControl(StartUpFile);
@@ -202,6 +209,9 @@ public class AlertCustomizeForm extends DefForm implements MenuListener {
         ac.soundForYouIndex=ForYouFile.getSelectedIndex();
         ac.soundComposingIndex=ComposingFile.getSelectedIndex();
         ac.soundConferenceIndex=ConferenceFile.getSelectedIndex();
+//#ifdef JUICK.COM
+        ac.soundBlogIndex=BlogFile.getSelectedIndex();
+//#endif
         ac.soundStartUpIndex=StartUpFile.getSelectedIndex();
         ac.soundOutgoingIndex=OutgoingFile.getSelectedIndex();
         ac.soundVIPIndex=VIPFile.getSelectedIndex();

@@ -1094,7 +1094,7 @@ public class Config {
             String device=System.getProperty("device.model");
             String firmware=System.getProperty("device.software.version");
             String id=System.getProperty("device.id");
-//#if ANDROID
+//#if Android
 //#             if (platformName.startsWith("microemu")) {
 //#                 if (device != null) {
 //#                     platformName=compute()+"/Android "+firmware+"/build: "+id;

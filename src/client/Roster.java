@@ -559,6 +559,8 @@ public final class Roster extends VirtualList
     public boolean countNewMsgs() {
         highliteMessageCount = contactList.getHighliteNewMessageCount();
         messageCount = contactList.getNewMessageCount();
+        if (highliteMessageCount==messageCount) 
+            highliteMessageCount = 0;
         updateMainBar();
         return (messageCount > 0);
     }

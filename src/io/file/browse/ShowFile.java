@@ -29,7 +29,7 @@
 package io.file.browse;
 
 import io.file.FileIO;
-//#ifndef NOMMEDIA
+//#ifdef MULTIMEDIA
 import java.io.IOException;
 import javax.microedition.media.Manager;
 import javax.microedition.media.MediaException;
@@ -48,7 +48,7 @@ import ui.controls.form.MultiLine;
 public class ShowFile extends DefForm {   
     private int len;
     private byte[] b;
-//#ifndef NOMMEDIA
+//#ifdef MULTIMEDIA
     private Player pl;
 //#endif
     public ShowFile(final String fileName, int type) {
@@ -62,7 +62,7 @@ public class ShowFile extends DefForm {
                 case Browser.IMAGE_FILE:
                     showImage();
                     break;
-//#ifndef NOMMEDIA
+//#ifdef MULTIMEDIA
                 case Browser.SOUND_FILE:
                     playFile(fileName);
                     break;
@@ -105,7 +105,7 @@ public class ShowFile extends DefForm {
         }        
     }
 
-//#ifndef NOMMEDIA
+//#ifdef MULTIMEDIA
     private void playFile(String file) {
         try {
             pl = Manager.createPlayer("file://" + file);
@@ -134,5 +134,5 @@ public class ShowFile extends DefForm {
         super.destroyView();
     }
 //#endif
-} 
+}
 //#endif

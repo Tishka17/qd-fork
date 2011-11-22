@@ -718,10 +718,8 @@ public abstract class VirtualList extends CanvasEx {
         if (getItemCount()==0)
             return;
 	if (cursor==(getItemCount()-1)) {
-            if (wrapping) {
+            if (wrapping && !itemPageDown()) {
                 moveCursorHome();
-            } else {
-                itemPageDown();
             }
             setRotator();
             return;

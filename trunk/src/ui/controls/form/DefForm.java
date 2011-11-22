@@ -50,7 +50,6 @@ public class DefForm extends VirtualList {
     }
 
     public void show() {
-        enableListWrapping(true);
         super.show();
     }
 

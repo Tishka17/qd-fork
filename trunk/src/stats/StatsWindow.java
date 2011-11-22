@@ -55,6 +55,7 @@ public class StatsWindow extends DefForm implements MenuListener {
 
     public StatsWindow() {
         super(SR.get(SR.MS_STATS));
+        enableListWrapping(false);
 
         cmdClear = new Command(SR.get(SR.MS_CLEAR), 0x33);
 

@@ -541,7 +541,7 @@ public final class Roster extends VirtualList
     public String getHeaderString() {
         StringBuffer buf = new StringBuffer();
         buf.append(' ');
-        if(0 < highliteMessageCount) {
+        if(0 < highliteMessageCount && highliteMessageCount!=messageCount) {
             buf.append(highliteMessageCount).append('/');
         }
         buf.append(messageCount);
@@ -559,8 +559,6 @@ public final class Roster extends VirtualList
     public boolean countNewMsgs() {
         highliteMessageCount = contactList.getHighliteNewMessageCount();
         messageCount = contactList.getNewMessageCount();
-        if (highliteMessageCount==messageCount) 
-            highliteMessageCount = 0;
         updateMainBar();
         return (messageCount > 0);
     }
@@ -2593,11 +2591,6 @@ public final class Roster extends VirtualList
 //#                         notify.sendNotify(message.getFrom(), message.getBody());
 //#                     else
 //#endif
-//#ifdef SYSTEM_NOTIFY
-//#                 if (notify != null)
-//#                     notify.sendNotify(message.getFrom(), message.getBody());
-//#                 else
-//#endif
 //#ifdef POPUPS
             if (showWobbler(c))
                 setWobbler(2, c, message.getBody(),null);
@@ -2614,6 +2607,11 @@ public final class Roster extends VirtualList
             if(!incomingMsg) return;
 
             if (groupchat==false) {
+//#ifdef SYSTEM_NOTIFY
+//#                     if (notify != null)
+//#                         notify.sendNotify(message.getFrom(), message.getBody());
+//#                     else
+//#endif
 //#ifdef POPUPS
 //#ifndef WMUC
                 if (!(c instanceof MucContact)) {

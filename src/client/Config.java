@@ -576,7 +576,7 @@ public class Config {
             historyMUC = inputStream.readBoolean();
             historyMUCPrivate = inputStream.readBoolean();
  //#endif
-            minItemHeight = inputStream.readInt();
+            //minItemHeight = inputStream.readInt();
             showMsgsCount = inputStream.readBoolean();
             inputStream.close();
             inputStream = null;

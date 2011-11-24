@@ -33,13 +33,17 @@ import com.jcraft.jzlib.ZInputStream;
 import com.jcraft.jzlib.ZOutputStream;
 //#endif
 //#ifdef TLS
-import bwmorg.bouncycastle.crypto.tls.TlsProtocolHandler;
-import bwmorg.bouncycastle.crypto.tls.AlwaysValidVerifyer;
+//# import bwmorg.bouncycastle.crypto.tls.TlsProtocolHandler;
+//# import bwmorg.bouncycastle.crypto.tls.AlwaysValidVerifyer;
 //#endif
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+//#if Android
+//# import java.net.Socket;
+//#else
 import javax.microedition.io.*;
+//#endif
 import util.Strconv;
 
 /**
@@ -48,7 +52,11 @@ import util.Strconv;
  */
 public class Utf8IOStream {
 
+//#if Android
+//#     private Socket connection;
+//#else    
     private StreamConnection connection;
+//#endif   
     private InputStream inpStream;
     private OutputStream outStream;
 
@@ -57,8 +65,8 @@ public class Utf8IOStream {
     private boolean isZlib = false;
 
 //#if TLS
-    private TlsProtocolHandler tls;
-    public boolean tlsExclusive = false;
+//#     private TlsProtocolHandler tls;
+//#     public boolean tlsExclusive = false;
  //#endif    
 
 //#if (ZLIB)
@@ -72,7 +80,23 @@ public class Utf8IOStream {
 //#endif
      }
 //#endif
-
+//#if Android
+//# /** Creates a new instance of Utf8IOStream */
+//#     public Utf8IOStream(Socket connection) throws IOException {
+//#         this.connection = connection;
+//#         try {
+//#             connection.setKeepAlive(true);
+//#             connection.setSoLinger(true, 300);            
+//#         } catch (Exception e) {
+//#             e.printStackTrace();
+//#         }
+//#         
+//#         inpStream = connection.getInputStream();
+//#         outStream = connection.getOutputStream();
+//#         
+//#         
+//#     }    
+//#else    
     /** Creates a new instance of Utf8IOStream */
     public Utf8IOStream(StreamConnection connection) throws IOException {
 	this.connection=connection;
@@ -86,7 +110,7 @@ public class Utf8IOStream {
 	outStream = connection.openOutputStream();
 
     }
-
+//#endif
 //#if (ZLIB)
     public long countPocketsSend=0;
 //#endif
@@ -119,8 +143,8 @@ public class Utf8IOStream {
 
     public int read(byte buf[]) throws IOException {
 //#ifdef TLS
-        if (tlsExclusive)
-            return 0;
+//#         if (tlsExclusive)
+//#             return 0;
 //#endif     
         avail=inpStream.available();
 
@@ -156,14 +180,14 @@ public class Utf8IOStream {
      }
 
 //#if TLS
-    public void setTls() throws IOException {
-        tlsExclusive=true;
-        tls=new TlsProtocolHandler(inpStream, outStream);
-        tls.connect(new AlwaysValidVerifyer());
-        inpStream=tls.getTlsInputStream();
-        outStream=tls.getTlsOuputStream();
-        tlsExclusive=false;
-    }
+//#     public void setTls() throws IOException {
+//#         tlsExclusive=true;
+//#         tls=new TlsProtocolHandler(inpStream, outStream);
+//#         tls.connect(new AlwaysValidVerifyer());
+//#         inpStream=tls.getTlsInputStream();
+//#         outStream=tls.getTlsOuputStream();
+//#         tlsExclusive=false;
+//#     }
 //#endif 
 
      private static final int TCP_SERVICEINFO_IN_PROCENT = 80;
@@ -278,6 +302,10 @@ public class Utf8IOStream {
     public String getConnectionData() {
         stats = new StringBuffer(0);
         try {
+//#if Android
+//#             stats.append(connection.getLocalAddress()).append(":").append(connection.getLocalPort());
+//#             stats.append("->").append(connection.getInetAddress()).append(":").append(connection.getPort());
+//#else
             stats.append(((SocketConnection)connection).getLocalAddress())
                  .append(':')
                  .append(((SocketConnection)connection).getLocalPort())
@@ -285,6 +313,7 @@ public class Utf8IOStream {
                  .append(((SocketConnection)connection).getAddress())
                  .append(':')
                  .append(((SocketConnection)connection).getPort());
+//#endif
         } catch (Exception ex) {
             stats.append("unknown");
         }
@@ -292,13 +321,21 @@ public class Utf8IOStream {
     }
 
     public long getBytes() {
-        return bytesSent+bytesRecv;
+        long startBytes=bytesSent+bytesRecv;
+        try {
+            if (inpStream instanceof ZInputStream) {
+                ZOutputStream zo = (ZOutputStream) outStream;
+                ZInputStream z = (ZInputStream) inpStream;
+                return zo.getTotalOut()+z.getTotalIn();
+            }
+            return startBytes;
+        } catch (Exception e) { }
+        return 0;
     }
 //#else
-//#      private StringBuffer stats = new StringBuffer(0);
-//#
+//# 
 //#      public String getStreamStats() {
-//#          stats = new StringBuffer(0);
+//#          StringBuffer stats=new StringBuffer();
 //#          try {
 //#              long sent=bytesSent;
 //#              long recv=bytesRecv;
@@ -309,18 +346,12 @@ public class Utf8IOStream {
 //#          }
 //#          return stats.toString();
 //#      }
-//#      public String getStreamStatsBar() {
-//# 	      return "";
-//#      }
-//#
+//# 
 //#      public long getBytes() {
 //#          try {
 //#              return bytesSent+bytesRecv;
 //#          } catch (Exception e) { }
 //#          return 0;
-//#      }
-//#      public String getConnectionData() {
-//# 	 return "";
 //#      }
 //#endif
 }

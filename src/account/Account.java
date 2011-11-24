@@ -37,6 +37,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import ui.IconTextElement;
+import io.DnsSrvResolver;
 import io.NvStorage;
 import client.StaticData;
 import com.alsutton.jabber.datablocks.Presence;
@@ -46,7 +47,7 @@ public class Account extends IconTextElement {
     private String password = "";
     private String server = "";
     private String email = "";
-    private String host = "";
+    private String hostAddr = "";
     private int port = 5222;
     private boolean active;
     private boolean useSSL;
@@ -157,7 +158,7 @@ public class Account extends IconTextElement {
             a.server = inputStream.readUTF();
             a.setIconElement();
             a.email = inputStream.readUTF();
-            a.host = inputStream.readUTF();
+            a.hostAddr = inputStream.readUTF();
             a.port = inputStream.readInt();
 
             a.nick = inputStream.readUTF();
@@ -184,8 +185,8 @@ public class Account extends IconTextElement {
     }
 
     public void saveToDataOutputStream(DataOutputStream outputStream) {
-        if (host == null) {
-            host = "";
+        if (hostAddr == null) {
+            hostAddr = "";
         }
         if (proxyHost == null) {
             proxyHost = "";
@@ -198,7 +199,7 @@ public class Account extends IconTextElement {
             outputStream.writeUTF(server);
             outputStream.writeUTF(email);
 
-            outputStream.writeUTF(host);
+            outputStream.writeUTF(hostAddr);
             outputStream.writeInt(port);
 
             outputStream.writeUTF(nick);
@@ -249,7 +250,7 @@ public class Account extends IconTextElement {
     }
 
     public String getHostAddr() {
-        return host;
+        return hostAddr;
     }
 
     public void setServer(String server) {
@@ -257,7 +258,7 @@ public class Account extends IconTextElement {
     }
 
     public void setHostAddr(String hostAddr) {
-        this.host = hostAddr;
+        this.hostAddr = hostAddr;
     }
 
     public int getPort() {
@@ -329,26 +330,51 @@ public class Account extends IconTextElement {
     }
 
     public JabberStream openJabberStream() throws java.io.IOException {
-        StringBuffer url = new StringBuffer();
-
-        if (host != null && !host.equals("")) {
-            url.append(host);
+        String proxy=null;
+        String host=this.server;
+        int tempPort=port;
+        
+        if (hostAddr!=null && hostAddr.length()>0) {
+                host=hostAddr;
         } else {
-            url.append(server);
+            DnsSrvResolver dns=new DnsSrvResolver();
+            int type = DnsSrvResolver.XMPP_TCP;
+//#if HTTPCONNECT || HTTPBIND || HTTPPOLL                    
+//#             if (enableProxy) {
+//#ifdef HTTPBIND
+//#                 type = DnsSrvResolver.XMPP_HTTPBIND;
+//#endif            
+//#ifdef HTTPPOLL
+//#                 type = DnsSrvResolver.XMPP_HTTPPOLL;
+//#endif            
+//#             }
+//#endif            
+            if (dns.getSrv(server, type)) {
+                host=dns.getHost();
+                tempPort=dns.getPort();
+//#if HTTPBIND || HTTPPOLL
+//#                 proxyHostAddr = host;
+//#endif                
+            }
         }
-        url.append(':').append(port);
+        StringBuffer url = new StringBuffer(host);
 
-        String proxy = null;
-        if (!isEnableProxy()) {
-            url.insert(0, (useSSL) ? "ssl://" : "socket://");
-        } else {
-//#if HTTPPOLL
-//#             proxy = getProxyHostAddr();
+//#if HTTPPOLL || HTTPCONNECT || HTTPBIND
+//#         if (!isEnableProxy()) {
+//# 	    url.insert(0, "socket://");
+//#         } else {
+//#if HTTPPOLL || HTTPBIND
+//#              proxy = proxyHostAddr;
 //#elif HTTPCONNECT
-//#             proxy = "socket://" + getProxyHostAddr() + ':' + getProxyPort();
+//#             proxy="socket://" + getProxyHostAddr() + ':' + getProxyPort();
 //#endif
-        }
-        return new JabberStream(getServer(), url.toString(), proxy);
+//#     }
+//#else
+//#if !(Android)        
+            url.insert(0, "socket://");
+//#endif            
+//#endif
+        return new JabberStream(getServer(), url.toString(), tempPort, proxy);
     }
 
     public boolean isEnableProxy() {

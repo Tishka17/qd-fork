@@ -33,8 +33,8 @@ public class BombusQDInitialization implements ImplementationInitialization {
      * @see org.microemu.microedition.ImplementationInitialization#notifyMIDletDestroyed()
      */
     public void notifyMIDletDestroyed() {
-		Toast.makeText(BombusQDActivity.getInstance(), "Closing service...", Toast.LENGTH_LONG).show();
-		BombusQDActivity.getInstance().stopService(new Intent(BombusQDActivity.getInstance(), BombusQDService.class)); //its temporarily
+		//BombusQDActivity.getInstance().stopService(new Intent(BombusQDActivity.getInstance(), BombusQDService.class)); //its temporarily
+		BombusQDActivity.getInstance().finish();
     }
 
 }

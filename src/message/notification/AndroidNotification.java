@@ -23,7 +23,7 @@ package message.notification;
 //# 
 //#     public void sendNotify(final String title, final String text) {
 //#                 NotificationManager mNotificationManager = (NotificationManager) BombusQDActivity.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
-//#                 long when = System.currentTimeMillis();
+//#                 long when = 0;
 //#                 int icon = R.drawable.chat;
 //#                 if (midlet.BombusQD.sd.roster.highliteMessageCount<1) {
 //#                     return;

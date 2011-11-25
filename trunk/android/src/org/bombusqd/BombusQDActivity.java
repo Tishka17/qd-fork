@@ -202,7 +202,6 @@ public class BombusQDActivity extends MicroEmulatorActivity {
         if (isFinishing()) {
 			NotificationManager mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 			mNM.cancelAll();
-			Toast.makeText(this, "Closing application", Toast.LENGTH_LONG).show();
             Log.i(LOG_TAG, "onPause(); with isFinishing() == true.");
             Log.i(LOG_TAG, "Stopping service...");
             stopService(new Intent(this, BombusQDService.class));

@@ -71,10 +71,10 @@ void invokeMethod(Method method, Object[] args) {
 
 
         //Foreground Service
-        Notification notification = new Notification(R.drawable.app_icon, getText(R.string.app_name), System.currentTimeMillis());
+        Notification notification = new Notification(R.drawable.app_icon, getText(R.string.app_name), 0);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, BombusQDActivity.class), 0);
 
-        notification.setLatestEventInfo(this, getText(R.string.app_name), "BombusQD is running", contentIntent);
+        notification.setLatestEventInfo(this, getText(R.string.app_name), "", contentIntent);
         startForegroundCompat(R.string.app_name, notification);
     }
 

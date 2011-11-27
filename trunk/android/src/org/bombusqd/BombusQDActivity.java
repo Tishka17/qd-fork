@@ -382,6 +382,8 @@ public class BombusQDActivity extends MicroEmulatorActivity {
         case KeyEvent.KEYCODE_VOLUME_DOWN:
         case KeyEvent.KEYCODE_VOLUME_UP:
         case KeyEvent.KEYCODE_HEADSETHOOK:
+		case KeyEvent.KEYCODE_MEDIA_NEXT:
+		case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
             return true;
         default:
             return false;

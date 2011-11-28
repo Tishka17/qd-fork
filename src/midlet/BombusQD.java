@@ -88,7 +88,9 @@ public class BombusQD extends MIDlet implements Runnable {
             showApp();
         } else {
             isRunning = true;
-
+//#if Android
+//#    util.ClipBoard.instance.init();
+//#endif 
             instance = this;
             display = Display.getDisplay(this);
 

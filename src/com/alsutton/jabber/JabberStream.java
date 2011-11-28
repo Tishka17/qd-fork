@@ -380,9 +380,9 @@ public class JabberStream extends XmppParser implements Runnable {
     }
 
 //#if TLS
-//#     public void setTls() throws IOException {
-//#         iostream.setTls();
-//#     }
+//#    public void setTls() throws IOException {
+//#        iostream.setTls();
+//#    }
 //#endif  
 
     public String getConnectionData() {

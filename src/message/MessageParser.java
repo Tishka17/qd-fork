@@ -349,11 +349,9 @@ public final class MessageParser {
                         s = new StringBuffer(0);
                     }
                     underline=true;
-
                 }
                 pos = smileStartPos;
             }
-
 
             int cw = f.charWidth(c);
             if (0x20 != c) {

@@ -26,30 +26,62 @@
 //#ifdef CLIPBOARD
 package util;
 
+
+//#if Android
+//# import android.text.ClipboardManager;
+//# import org.bombusqd.BombusQDActivity;
+//#endif
+
+
 public final class ClipBoard {
-    private static String clipBoard = "";
+    
+//#if Android
+//#   private static ClipboardManager manager;
+//#   public static final ClipBoard instance = new ClipBoard();
+//#else 
+    private static String clipBoard = "";    
+//#endif
+    
 
     private ClipBoard() {}
+    
+//#if Android
+//#    public void init() {
+//#        manager = (ClipboardManager)BombusQDActivity.getInstance().getApplicationContext().getSystemService(android.content.Context.CLIPBOARD_SERVICE);
+//#    }
+//#endif    
 
     public static String getClipBoard() {
+//#if Android
+//#   return manager.getText().toString();
+//#else
         return clipBoard;
+//#endif
     }
 
     public static void setClipBoard(String str) {
+//#if Android
+//#   manager.setText(str);
+//#else
         clipBoard = (str.length() > 4096) ? str.substring(0, 4095) : str;
+//#endif
     }
 
     public static void addToClipBoard(String str) {
-        String tmp = clipBoard;
+        String tmp = getClipBoard();
+        setClipBoard(tmp + "\n\n" + str);
 
-        clipBoard = tmp + "\n\n" + str;
     }
 
     public static boolean isEmpty() {
+//#if Android
+//#   return manager.hasText();
+//#else
         if (clipBoard != null && clipBoard.length() > 0) {
             return false;
         }
         return true;
+//#endif
     }
 }
 //#endif

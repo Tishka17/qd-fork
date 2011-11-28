@@ -353,5 +353,7 @@ public class Utf8IOStream {
 //#          } catch (Exception e) { }
 //#          return 0;
 //#      }
+//#      public String getStreamStatsBar() { return ""; }
+//#      public String getConnectionData() { return ""; }
 //#endif
 }

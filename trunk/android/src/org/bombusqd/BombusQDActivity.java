@@ -77,7 +77,7 @@ public class BombusQDActivity extends MicroEmulatorActivity {
 
     public static final String LOG_TAG = "BombusQDActivity";
 
-    protected Common common;
+    public Common common;
 
     private MIDlet midlet;
 
@@ -96,7 +96,7 @@ public class BombusQDActivity extends MicroEmulatorActivity {
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-	setVolumeControlStream(AudioManager.STREAM_MUSIC); 
+        setVolumeControlStream(AudioManager.STREAM_MUSIC); 
 
         Logger.removeAllAppenders();
         Logger.setLocationEnabled(false);
@@ -110,7 +110,9 @@ public class BombusQDActivity extends MicroEmulatorActivity {
             public void write(int oneByte) throws IOException {
                 if (((char) oneByte) == '\n') {
                     Logger.debug(line.toString());
-                    line.delete(0, line.length() - 1);
+                    if (line.length() > 0) {
+                        line.delete(0, line.length() - 1);
+                    }
                 } else {
                     line.append((char) oneByte);
                 }
@@ -126,7 +128,9 @@ public class BombusQDActivity extends MicroEmulatorActivity {
             public void write(int oneByte) throws IOException {
                 if (((char) oneByte) == '\n') {
                     Logger.debug(line.toString());
-                    line.delete(0, line.length() - 1);
+                    if (line.length() > 0) {
+                        line.delete(0, line.length() - 1);
+                    }
                 } else {
                     line.append((char) oneByte);
                 }
@@ -134,7 +138,7 @@ public class BombusQDActivity extends MicroEmulatorActivity {
 
         }));
 
-        java.util.List<String> params = new ArrayList();
+        java.util.List<String> params = new ArrayList<String>();
         params.add("--usesystemclassloader");
         params.add("--quit");
 
@@ -149,11 +153,12 @@ public class BombusQDActivity extends MicroEmulatorActivity {
         common.setDevice(new AndroidDevice(emulatorContext, this));
         common.initParams(params, null, AndroidDevice.class);
 
-        System.setProperty("microedition.platform", "microemulator-android");
+        System.setProperty("microedition.platform", "microemu-android");
+        System.setProperty("microedition.configuration", "CLDC-1.1");
+        System.setProperty("microedition.profiles", "MIDP-2.0");
         System.setProperty("device.model", android.os.Build.MODEL);
-		System.setProperty("device.id", android.os.Build.ID);
-		System.setProperty("device.fingerprint", android.os.Build.FINGERPRINT);		
-		System.setProperty("device.manufacturer", android.os.Build.MANUFACTURER);
+        System.setProperty("device.id", android.os.Build.ID);
+        System.setProperty("device.manufacturer", android.os.Build.MANUFACTURER);
         System.setProperty("device.software.version", android.os.Build.VERSION.RELEASE);
         System.setProperty("microedition.locale", Locale.getDefault().toString());
 
@@ -183,15 +188,15 @@ public class BombusQDActivity extends MicroEmulatorActivity {
 
         initializeExtensions();
 
-        common.getLauncher().setSuiteName(midletClassName);
+        common.setSuiteName(midletClassName);
         midlet = common.initMIDlet(false);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-		
-		System.out.println("onPause(); isFinishing() ==" + isFinishing());
+
+        System.out.println("onPause(); isFinishing() ==" + isFinishing());
 
         if (contentView != null) {
             if (contentView instanceof AndroidRepaintListener) {
@@ -200,8 +205,8 @@ public class BombusQDActivity extends MicroEmulatorActivity {
         }
 
         if (isFinishing()) {
-			NotificationManager mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-			mNM.cancelAll();
+            NotificationManager mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            mNM.cancelAll();
             Log.i(LOG_TAG, "onPause(); with isFinishing() == true.");
             Log.i(LOG_TAG, "Stopping service...");
             stopService(new Intent(this, BombusQDService.class));

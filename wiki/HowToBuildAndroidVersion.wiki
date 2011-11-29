@@ -6,7 +6,7 @@
  * Java SE JDK (http://java.sun.com/javase/)
  * Subversion client (http://subversion.tigris.org)
  * Ant (http://ant.apache.org/)
- * Android SDK 14 версии и выше с загруженым Android 1.6 api (http://developer.android.com/)
+ * Android SDK 14 версии и выше с загруженным Android 1.6 api (http://developer.android.com/)
  * Netbeans (http://www.netbeans.com/downloads/index.html)
 А так же потребуется персональный ключ разработчика для подписи приложения
 
@@ -62,7 +62,7 @@ pause
 *6.* Наши собранные apk файлы после компиляции будут располагаться в папке *android/bin/*
 {{{
 BombusQD-release.apk  ///наше подписанное приложение для установки в телефон
-BombusQD-unaligned.apk  ///подписано тестовым сертификатом
+BombusQD-unaligned.apk  ///подписано, но не выравнено
 BombusQD-unsigned.apk  ///без подписи
 }}}
 =Внимание=

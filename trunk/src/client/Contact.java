@@ -498,7 +498,9 @@ public class Contact extends IconTextElement {
 
     public int getVHeight(){
         fontHeight = getFont().getHeight();
-        if(midlet.BombusQD.cf.simpleContacts) return fontHeight;
+        if(midlet.BombusQD.cf.simpleContacts) {
+            return Math.max(Math.max(fontHeight, maxImgHeight), midlet.BombusQD.cf.minItemHeight);
+        }
         int itemVHeight=0;
         if (getSecondString()!=null)
         {
@@ -550,10 +552,11 @@ public class Contact extends IconTextElement {
         int imageIndex = getImageIndex();
         int w=g.getClipWidth();
         if(midlet.BombusQD.cf.simpleContacts) {
-            itemHeight = getFont().getHeight();
+            itemHeight = getVHeight();
+            int imgH = (itemHeight - imgHeight) >> 1;
             if (hasNewMsgs()) {
                w -= imgWidth;
-               il.drawImage(g, RosterIcons.ICON_MESSAGE_INDEX, w, 0);
+               il.drawImage(g, RosterIcons.ICON_MESSAGE_INDEX, w, imgH);
             }
             super.drawItem(view, g, ofs, sel);
             return;

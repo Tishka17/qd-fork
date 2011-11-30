@@ -195,7 +195,12 @@ public class Config {
     public boolean juickImages = false;
 //#endif
 
-    public boolean queryExit = false;
+//#ifdef Android
+//#     public boolean queryExit = true;
+//#else
+     public boolean queryExit = false;
+//#endif
+    
     public int notInListDropLevel = Roster.ALLOW_ALL;
     public static boolean showBalloons = false;
 
@@ -246,7 +251,7 @@ public class Config {
 //#endif
 
     public static int scrollWidth = 5;
-    public int minItemHeight = 16;
+    public int minItemHeight = 12;
     public static int contactXOffset = 10;
 
     public boolean iconsLeft = true;
@@ -398,9 +403,6 @@ public class Config {
             case MOTO:
                 ghostMotor=true;
                 break;
-            case MICROEMU:
-                minItemHeight *=2;
-                break;
         }
     }
 
@@ -409,13 +411,14 @@ public class Config {
         if (isTouchPhone) {
             graphicsMenuPosition = 1; //left
 
-            rosterFont = FontCache.LARGE;
-            baloonFont = FontCache.LARGE;
-            menuFont = FontCache.LARGE;
-            msgFont = FontCache.LARGE;
-            barFont = FontCache.LARGE;
+            rosterFont = FontCache.MEDIUM;
+            baloonFont = FontCache.MEDIUM;
+            menuFont = FontCache.MEDIUM;
+            msgFont = FontCache.MEDIUM;
+            barFont = FontCache.MEDIUM;
 
-            scrollWidth = 12;
+            scrollWidth = 8;
+            minItemHeight = 32;
 
             midlet.BombusQD.sd.roster.updateBarsFont();
             saveToStorage();

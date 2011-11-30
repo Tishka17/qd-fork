@@ -167,7 +167,7 @@ public class BombusQDActivity extends MicroEmulatorActivity {
 
 
         /* JSR-75 */
-        Map<String, String> properties = new HashMap();
+        Map<String, String> properties = new HashMap<String, String>();
         properties.put("fsRoot", "/");
         properties.put("fsSingle", "sdcard");
         common.registerImplementation("org.microemu.cldc.file.FileSystem", properties, false);

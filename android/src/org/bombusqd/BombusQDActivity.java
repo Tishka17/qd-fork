@@ -73,6 +73,9 @@ import org.microemu.android.MicroEmulatorActivity;
 import android.content.Intent;
 import android.util.Log;
 
+import midlet.BombusQD;
+import ui.VirtualCanvas;
+
 public class BombusQDActivity extends MicroEmulatorActivity {
 
     public static final String LOG_TAG = "BombusQDActivity";
@@ -192,6 +195,15 @@ public class BombusQDActivity extends MicroEmulatorActivity {
         midlet = common.initMIDlet(false);
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+		System.out.println("onNewIntent("+intent.getAction()+")");
+		if ("org.bombusqd.qd-notify".equals(intent.getAction())) {
+			BombusQD.sd.roster.show();
+			BombusQD.sd.roster.keyPressed(VirtualCanvas.KEY_NUM0);
+			BombusQD.sd.roster.eventOk();
+		}
+	}
     @Override
     protected void onPause() {
         super.onPause();

@@ -2101,7 +2101,6 @@ public final class Roster extends VirtualList
                          } else conferenceMessage = new Msg(Msg.PRESENCE, name, null, chatPres );
 
                         if(addPresenceMsg) {
-                            conferenceMessage.setColor(conferenceContact.getMainColor());
                             messageStore(room, conferenceMessage);
                         }
 

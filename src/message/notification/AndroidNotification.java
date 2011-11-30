@@ -30,6 +30,8 @@ package message.notification;
 //#                 }else{
 //#                 android.app.Notification notification = new android.app.Notification(icon, "Новых сообщений: "+midlet.BombusQD.sd.roster.highliteMessageCount, when);
 //#                 Intent notificationIntent = new Intent(BombusQDActivity.getInstance(), BombusQDActivity.class);
+//#                 notificationIntent.setAction("org.bombusqd.qd-notify");
+//#                 System.out.println("notificationIntent.getAction"+notificationIntent.getAction());
 //#                 PendingIntent contentIntent = PendingIntent.getActivity(BombusQDActivity.getInstance(), 0, notificationIntent, 0);
 //#                 notification.setLatestEventInfo(BombusQDActivity.getInstance().getApplicationContext(), "У вас есть сообщения...", "Непрочитано сообщений: "+midlet.BombusQD.sd.roster.highliteMessageCount, contentIntent);
 //#                 notification.flags |= android.app.Notification.FLAG_AUTO_CANCEL;

@@ -64,7 +64,7 @@
         <property name="asset.dir" value="assets" />
         <property name="asset.absolute.dir" location="../resources/Android" />
         <property name="source.dir" value="src" />
-        <property name="source.absolute.dir" location="${source.dir}:../build/android/preprocessed" />
+        <property name="source.absolute.dir" location="${source.dir}:../build/Android/preprocessed" />
 
 	    <!-- Directory for the third party java libraries -->
     <property name="jar.libs.dir" value="lib" />

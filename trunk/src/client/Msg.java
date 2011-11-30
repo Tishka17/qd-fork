@@ -72,7 +72,6 @@ public final class Msg implements VirtualElement {
     public boolean found;
     private boolean unread = false;
     private boolean collapsed;
-    private int color = -1;
     private boolean selected;
     private int verticalOffset = 0;
     
@@ -322,9 +321,6 @@ public final class Msg implements VirtualElement {
         if (selected || highlite) {
             return ColorTheme.getColor(ColorTheme.MSG_HIGHLIGHT);
         }
-        if (color > -1) {
-            return color;
-        }
 
         switch (type) {
             case INCOMING:
@@ -345,10 +341,6 @@ public final class Msg implements VirtualElement {
                 return ColorTheme.getColor(ColorTheme.MESSAGE_HISTORY);
         }
         return ColorTheme.getColor(ColorTheme.LIST_INK);
-    }
-    
-    public void setColor(int color) {
-        this.color = color;
     }
     
     public void parse() {

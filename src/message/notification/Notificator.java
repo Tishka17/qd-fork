@@ -4,7 +4,9 @@
  */
 
 package message.notification;
-
+//#if Android
+//# import android.app.NotificationManager;
+//#endif
 /**
  *
  * @author Vitaly
@@ -12,5 +14,8 @@ package message.notification;
 public interface Notificator {
 
     public void sendNotify(String title, String text);
+//#if Android
+//#     public NotificationManager getNotificationManager();
+//#endif
 
 }

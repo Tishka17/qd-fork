@@ -129,6 +129,7 @@ import disco.ServerStatsForm;
 //#ifdef SYSTEM_NOTIFY
 //# import message.notification.Notification;
 //# import message.notification.Notificator;
+//# import message.notification.AndroidNotification;
 //#endif
 //#if ROSTERX
 import xmpp.extensions.RosterXListener;
@@ -560,6 +561,10 @@ public final class Roster extends VirtualList
         highliteMessageCount = contactList.getHighliteNewMessageCount();
         messageCount = contactList.getNewMessageCount();
         updateMainBar();
+//#ifdef SYSTEM_NOTIFY     
+//#         Notification.getNotificator().getNotificationManager().cancel(AndroidNotification.NOTIFY_ID);
+//#         Notification.getNotificator().sendNotify("message", "count");
+//#endif
         return (messageCount > 0);
     }
 

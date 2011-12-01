@@ -18,9 +18,12 @@ package message.notification;
 //# 
 //# public class AndroidNotification implements Notificator {
 //# 
-//#     private static final int NOTIFY_ID = 1;
-//# 
-//# 
+//#     public static final int NOTIFY_ID = 1;
+//#     
+//#     public NotificationManager getNotificationManager(){
+//#         return (NotificationManager) BombusQDActivity.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
+//#     }
+//#     
 //#     public void sendNotify(final String title, final String text) {
 //#                 NotificationManager mNotificationManager = (NotificationManager) BombusQDActivity.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
 //#                 long when = 0;
@@ -28,13 +31,13 @@ package message.notification;
 //#                 if (midlet.BombusQD.sd.roster.highliteMessageCount<1) {
 //#                     return;
 //#                 }else{
-//#                 android.app.Notification notification = new android.app.Notification(icon, "Новых сообщений: "+midlet.BombusQD.sd.roster.highliteMessageCount, when);
+//#                 //android.app.Notification notification = new android.app.Notification(icon, "Новых сообщений: "+midlet.BombusQD.sd.roster.highliteMessageCount, when);
+//#                 android.app.Notification notification = new android.app.Notification(icon, null, when);
 //#                 Intent notificationIntent = new Intent(BombusQDActivity.getInstance(), BombusQDActivity.class);
 //#                 notificationIntent.setAction("org.bombusqd.qd-notify");
 //#                 System.out.println("notificationIntent.getAction"+notificationIntent.getAction());
 //#                 PendingIntent contentIntent = PendingIntent.getActivity(BombusQDActivity.getInstance(), 0, notificationIntent, 0);
 //#                 notification.setLatestEventInfo(BombusQDActivity.getInstance().getApplicationContext(), "У вас есть сообщения...", "Непрочитано сообщений: "+midlet.BombusQD.sd.roster.highliteMessageCount, contentIntent);
-//#                 notification.flags |= android.app.Notification.FLAG_AUTO_CANCEL;
 //#                 notification.ledARGB = 0xffffa500;
 //#                 notification.ledOnMS = 300;
 //#                 notification.ledOffMS = 1000;

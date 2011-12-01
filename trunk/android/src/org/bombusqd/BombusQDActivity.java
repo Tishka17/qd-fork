@@ -240,8 +240,6 @@ public class BombusQDActivity extends MicroEmulatorActivity {
     @Override
     protected void onResume() {
         super.onResume();
-		NotificationManager mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-		mNM.cancelAll();
         new Thread(new Runnable() {
 
             public void run()

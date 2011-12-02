@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">BombusQD</string>
+    <string name="notifyTitle">You have messages...</string>
+    <string name="notifyInfo">New messages:</string>
 </resources>

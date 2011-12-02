@@ -37,7 +37,7 @@ package message.notification;
 //#                 notificationIntent.setAction("org.bombusqd.qd-notify");
 //#                 System.out.println("notificationIntent.getAction"+notificationIntent.getAction());
 //#                 PendingIntent contentIntent = PendingIntent.getActivity(BombusQDActivity.getInstance(), 0, notificationIntent, 0);
-//#                 notification.setLatestEventInfo(BombusQDActivity.getInstance().getApplicationContext(), "У вас есть сообщения...", "Непрочитано сообщений: "+midlet.BombusQD.sd.roster.highliteMessageCount, contentIntent);
+//#                 notification.setLatestEventInfo(BombusQDActivity.getInstance().getApplicationContext(), (String) BombusQDActivity.getInstance().getApplicationContext().getText(R.string.notifyTitle),(String) BombusQDActivity.getInstance().getApplicationContext().getText(R.string.notifyInfo)+" "+midlet.BombusQD.sd.roster.highliteMessageCount, contentIntent);
 //#                 notification.ledARGB = 0xffffa500;
 //#                 notification.ledOnMS = 300;
 //#                 notification.ledOffMS = 1000;

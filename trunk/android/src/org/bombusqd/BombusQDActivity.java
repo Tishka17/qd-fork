@@ -161,7 +161,7 @@ public class BombusQDActivity extends MicroEmulatorActivity {
         System.setProperty("microedition.profiles", "MIDP-2.0");
         System.setProperty("device.model", android.os.Build.MODEL);
         System.setProperty("device.id", android.os.Build.ID);
-        System.setProperty("device.manufacturer", android.os.Build.MANUFACTURER);
+        System.setProperty("device.manufacturer", android.os.Build.BRAND);
         System.setProperty("device.software.version", android.os.Build.VERSION.RELEASE);
         System.setProperty("microedition.locale", Locale.getDefault().toString());
 

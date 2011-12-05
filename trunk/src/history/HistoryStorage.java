@@ -1,3 +1,4 @@
+//=<<<<<<< .mine
 /*
  * HistoryStorage.java
  *
@@ -35,6 +36,372 @@ import javax.microedition.rms.RecordStoreException;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 //#if FILE_IO
+import io.VirtualStore;
+import io.file.FileIO;
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.Vector;
+import javax.microedition.rms.InvalidRecordIDException;
+import javax.microedition.rms.RecordStoreNotOpenException;
+import util.StringUtils;
+//#endif
+
+//#ifdef DETRANSLIT
+//# import util.DeTranslit;
+//#endif
+
+/**
+ *
+ * @author aqent
+ */
+
+public class HistoryStorage {
+    public static final String STORAGE_PREFIX = "hist_";
+    private static final int MAX_RECORDNAME_LEN = 32;
+
+    private HistoryStorage() {}
+
+    public static String getRSName(String bareJid) {
+        String str = STORAGE_PREFIX;
+        switch(Config.historyTypeIndex) {
+            case Config.HISTORY_RMS:
+                str+= bareJid;
+                if (str.length() > MAX_RECORDNAME_LEN)
+                    str = str.substring(0, MAX_RECORDNAME_LEN);
+                break;
+//#ifdef FILE_IO
+            case Config.HISTORY_FS:
+                str= Config.historyPath +StringUtils.replaceBadChars(bareJid);// +".txt";
+                break;
+//#endif
+        }// switch
+        return str;
+    }// getRSName
+
+    public static void addText(Contact c, Msg message) {
+        if (!Config.module_history) return;
+
+        switch(Config.historyTypeIndex) {
+            case Config.HISTORY_RMS:
+                addRMSRecord(c, message);
+                break;
+//#ifdef FILE_IO
+            case Config.HISTORY_FS:
+                addVSRecord(c, message);
+                //addFSMessage(message, c.bareJid);
+                break;
+//#endif
+        }
+   }// addText
+
+    public static Msg readRMSMessage(RecordStore store, int id) {
+        byte buf[];
+
+        System.out.println(id + " Reading from RMS");
+
+        try {
+            buf = store.getRecord(id);
+        } catch ( RecordStoreException e) {
+//#ifdef DEBUG
+//#                         System.out.println(id + " record doesn't exist, skipping...");
+//#endif
+            return null;
+        }
+
+        ByteArrayInputStream bais = new ByteArrayInputStream(buf);
+        DataInputStream dis = new DataInputStream(bais);
+        try {
+            byte msgtype = dis.readByte();
+            String from = dis.readUTF();
+            long date = dis.readLong();
+            String text = dis.readUTF();
+
+            Msg msg = new Msg(msgtype, from, null, text);
+            msg.setDayTime(date);
+            return msg;
+        } catch (IOException e) {}
+
+        return null;
+    }// readRMSMessage
+
+    public static Msg readVSMessage(VirtualStore store, int id) {
+        byte buf[];
+
+        System.out.println(id + " Reading from VirtualStore");
+
+        try {
+            buf = store.getRecord(id);
+        } catch ( RecordStoreException e) {
+//#ifdef DEBUG
+//#                         System.out.println(id + " record doesn't exist, skipping...");
+//#endif
+            return null;
+        }
+
+        ByteArrayInputStream bais = new ByteArrayInputStream(buf);
+        DataInputStream dis = new DataInputStream(bais);
+        try {
+            byte msgtype = dis.readByte();
+            String from = dis.readUTF();
+            long date = dis.readLong();
+            String text = dis.readUTF();
+
+            Msg msg = new Msg(msgtype, from, null, text);
+            msg.setDayTime(date);
+            return msg;
+        } catch (IOException e) {}
+
+        return null;
+    }// readVSMessage
+
+//#if FILE_IO
+    public static byte[] msg2byte(Msg m) {
+        StringBuffer buf = new StringBuffer(0);
+        switch (m.getType()) {
+            case Msg.OUTGOING:
+                buf.append("->");
+                break;
+            case Msg.ERROR:
+                buf.append('!');
+                break;
+            case Msg.SUBJECT:
+                if (m.getSubject() != null) {
+                    buf.append('*').append(m.getSubject()).append("\r\n");
+                }
+                break;
+            default:
+                buf.append("<-");
+                break;
+        }
+        buf.append(" [").append(m.getDayTime()).append("] ");
+        buf.append(StringUtils.replaceNickTags(m.getBody())).append("\r\n");
+
+        byte[] arr;
+        try {
+            arr = buf.toString().getBytes("utf-8");
+        } catch (UnsupportedEncodingException e) {
+            arr = buf.toString().getBytes();
+        }
+        return arr;
+    }// msg2byte
+//#endif
+
+    private static void addVSRecord(Contact c, Msg message) {
+        ByteArrayOutputStream baos = null;
+        DataOutputStream das = null;
+        VirtualStore virtualStore= null;
+        try {
+            String rName = getRSName(c.bareJid);
+            virtualStore = new VirtualStore();
+            virtualStore.openVirtualStore(rName, true);
+
+              // autocleaning oldest messages
+              /*if( recordStore.getNumRecords() >30)
+                  recordStore.deleteRecord( 1);
+               * dont work as need :(
+               */
+
+              baos = new ByteArrayOutputStream();
+              das = new DataOutputStream(baos);
+
+              das.writeByte(message.getType());
+              das.writeUTF(message.getFrom());
+              das.writeLong(message.dateGmt);
+              das.writeUTF(message.getBody());
+
+            byte[] textData = baos.toByteArray();
+
+            virtualStore.addVirtualRecord(textData, 0, textData.length);
+
+         } catch (Exception ex) {
+//#ifdef DEBUG
+//#             ex.printStackTrace();
+//#endif
+         } finally {
+                try {
+                    if ( virtualStore != null) {
+                        virtualStore.closeVirtualStore();
+                        virtualStore = null;
+                    }
+                } catch (Exception e ) {
+//#ifdef DEBUG
+//#                     e.printStackTrace();
+//#endif
+                }
+              try{
+                  if (das != null) {
+                      das.close();
+                      das = null;
+                  }
+                  if (baos != null) {
+                      baos.close();
+                      baos = null;
+                  }
+              } catch (Exception e) {
+//#ifdef DEBUG
+//#                     e.printStackTrace();
+//#endif
+              }
+        }
+    }// addVSRecord
+
+    synchronized private static void addRMSRecord(Contact c, Msg message) {
+        RecordStore recordStore = null;
+        ByteArrayOutputStream baos = null;
+        DataOutputStream das = null;
+        try {
+              String rName = getRSName(c.bareJid);
+              recordStore = RecordStore.openRecordStore(rName, true);
+
+              // autocleaning oldest messages
+              /*if( recordStore.getNumRecords() >30)
+                  recordStore.deleteRecord( 1);
+               * dont work as need :(
+               */
+
+              baos = new ByteArrayOutputStream();
+              das = new DataOutputStream(baos);
+
+              das.writeByte(message.getType());
+              das.writeUTF(message.getFrom());
+              das.writeLong(message.dateGmt);
+              das.writeUTF(message.getBody());
+
+            byte[] textData = baos.toByteArray();
+
+            recordStore.addRecord(textData, 0, textData.length);
+
+         } catch (Exception ex) {
+//#ifdef DEBUG
+//#             ex.printStackTrace();
+//#endif
+         } finally {
+                try {
+                    if (recordStore != null) {
+                        recordStore.closeRecordStore();
+                        recordStore = null;
+                    }
+                } catch (RecordStoreException e ) {
+//#ifdef DEBUG
+//#                     e.printStackTrace();
+//#endif
+                }
+              try{
+                  if (das != null) {
+                      das.close();
+                      das = null;
+                  }
+                  if (baos != null) {
+                      baos.close();
+                      baos = null;
+                  }
+              } catch (Exception e) {
+//#ifdef DEBUG
+//#                     e.printStackTrace();
+//#endif
+              }
+        }
+    }// addRMSRecord
+
+    public static Vector getLastMessages(Contact contact, int count) {
+        RecordStore store = null;
+        VirtualStore vstore= null;
+        Vector vector = null;
+        int size;
+
+        if( Config.historyTypeIndex == Config.HISTORY_RMS){
+            try {
+                store = RecordStore.openRecordStore( getRSName(contact.bareJid), true);
+                vector = new Vector(count);
+                size = store.getNumRecords();
+
+                for (int i = size - count + 1; i <= size; ++i) {
+                    Msg msg = readRMSMessage( store, i);
+                    if (msg != null) {
+                        msg.setType(Msg.HISTORY);
+                        vector.addElement(msg);
+                    }
+                }// for
+            } catch (RecordStoreException e) {
+            } finally {
+                if (store != null) {
+                    try {
+                        store.closeRecordStore();
+                    } catch (RecordStoreException ex) {}
+                }
+            }// try
+        }else{
+            try {
+                vstore = new VirtualStore();
+                vstore.openVirtualStore( getRSName(contact.bareJid), true);
+                vector = new Vector(count);
+                size = vstore.getNumRecords();
+
+                for (int i = size -count +1; i <= size; i++) {
+                    System.out.println("Reading record " +i +" of " +size +" from VirtualStore");
+                    Msg msg= null;
+                    msg = readVSMessage( vstore, i);
+                    if (msg != null) {
+                        msg.setType(Msg.HISTORY);
+                        vector.addElement(msg);
+                    }
+                }// for
+            } catch ( RecordStoreException e) {
+            } finally {
+                if (vstore != null) {
+                    try {
+                        vstore.closeVirtualStore();
+                    } catch (RecordStoreException ex) {}
+                }
+            }// try
+        }//elif
+        return vector;
+    }
+}
+//#endif
+//======= оригинальный код для резерва
+/*
+ * HistoryStorage.java
+ *
+ * Copyright (c) 2009, Alexej Kotov (aqent), http://bombusmod-qd.wen.ru
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * You can also redistribute and/or modify this program under the
+ * terms of the Psi License, specified in the accompanied COPYING
+ * file, as published by the Psi Project; either dated January 1st,
+ * 2005, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ */
+
+/*
+//#ifdef HISTORY
+package history;
+
+import client.Config;
+import client.Contact;
+import client.Msg;
+import javax.microedition.rms.RecordStore;
+import javax.microedition.rms.RecordStoreException;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+//#if FILE_IO
 import io.file.FileIO;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
@@ -49,11 +416,6 @@ import util.StringUtils;
 //#ifdef DETRANSLIT
 //# import util.DeTranslit;
 //#endif
-
-/**
- *
- * @author aqent
- */
 
 public class HistoryStorage {
     public static final String STORAGE_PREFIX = "hist_";
@@ -157,10 +519,6 @@ public class HistoryStorage {
               recordStore = RecordStore.openRecordStore(rName, true);
 
               // autocleaning oldest messages
-              /*if( recordStore.getNumRecords() >30)
-                  recordStore.deleteRecord( 1);
-               * dont work as need :(
-               */
 
               baos = new ByteArrayOutputStream();
               das = new DataOutputStream(baos);
@@ -273,3 +631,5 @@ public class HistoryStorage {
     }
 }
 //#endif
+>>>>>>> .r472
+*/

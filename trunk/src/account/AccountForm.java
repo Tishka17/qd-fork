@@ -170,8 +170,8 @@ public class AccountForm extends DefForm {
         uidBuffer=null;
         fulljid = new TextInput(SR.get(SR.MS_USER_PROFILE) + "(JID)", uid, TextField.ANY);
         nickbox = new TextInput(SR.get(SR.MS_NICKNAME), account.getNick(), TextField.ANY);
-        addControl(nickbox);
         addControl(fulljid);
+        addControl(nickbox);
 
         if (register) {
             passbox = new TextInput(SR.get(SR.MS_PASSWORD), password, TextField.ANY);

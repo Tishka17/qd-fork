@@ -75,6 +75,7 @@ import android.util.Log;
 
 import midlet.BombusQD;
 import ui.VirtualCanvas;
+import util.ClipBoard;
 
 public class BombusQDActivity extends MicroEmulatorActivity {
 
@@ -165,7 +166,7 @@ public class BombusQDActivity extends MicroEmulatorActivity {
         System.setProperty("device.software.version", android.os.Build.VERSION.RELEASE);
         System.setProperty("microedition.locale", Locale.getDefault().toString());
 
-
+        util.ClipBoard.instance.init();
         /* JSR-75 */
         Map<String, String> properties = new HashMap<String, String>();
         properties.put("fsRoot", "/");

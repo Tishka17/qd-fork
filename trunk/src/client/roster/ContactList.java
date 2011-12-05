@@ -138,7 +138,29 @@ public final class ContactList {
         }
         return contact;
     }
-
+    
+    public Contact getFirstContactWithNewHighlite(Contact contact) {
+        if (contacts.isEmpty()) {
+            return null;
+        }
+        if (null == contact) {
+            contact = (Contact)contacts.firstElement();
+        }
+        for (int index = contacts.indexOf(contact) + 1; index < contacts.size(); ++index) {
+            Contact c = (Contact) contacts.elementAt(index);
+            if (c.getNewHighliteMsgsCount()>0 || (c.origin!=Contact.ORIGIN_GROUPCHAT && c.hasNewMsgs())) {
+                return c;
+            }
+        }
+        for (int index = 0; index < contacts.size(); ++index) {
+            Contact c = (Contact) contacts.elementAt(index);
+            if (c.getNewHighliteMsgsCount()>0 || (c.origin!=Contact.ORIGIN_GROUPCHAT && c.hasNewMsgs())) {
+                return c;
+            }
+        }
+        return contact;
+    }
+    
 
     public void addGroup(Group group) {
         groups.addGroup(group);

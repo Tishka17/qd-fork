@@ -75,7 +75,7 @@ public final class ClipBoard {
 
     public static boolean isEmpty() {
 //#if Android
-//#   return manager.hasText();
+//#   return !manager.hasText();
 //#else
         if (clipBoard != null && clipBoard.length() > 0) {
             return false;

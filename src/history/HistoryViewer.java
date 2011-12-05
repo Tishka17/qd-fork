@@ -24,6 +24,7 @@
 //#ifdef HISTORY
 package history;
 
+import client.Config;
 import client.Contact;
 import client.Msg;
 import images.MenuIcons;
@@ -50,6 +51,8 @@ import ui.input.InputTextBoxNotify;
 //#ifdef FILE_IO
 import util.StringUtils;
 import ui.VirtualCanvas;
+import io.VirtualStore;
+import java.io.IOException;
 //#endif
 
 public class HistoryViewer extends MessageList
@@ -63,6 +66,7 @@ public class HistoryViewer extends MessageList
 
     private RecordStore store;
     private String storeName;
+    private VirtualStore vstore;
 
     private Thread thread;
 
@@ -99,7 +103,7 @@ public class HistoryViewer extends MessageList
 
         setMainBarItem(new MainBar(SR.get(SR.MS_HISTORY)));
         HistBlkPos= 1;
-        HistBlkSize= midlet.BombusQD.cf.confMessageCount;
+        HistBlkSize= midlet.BombusQD.cf.loadLastMsgCount;
     }
 
     public void show() {
@@ -108,14 +112,23 @@ public class HistoryViewer extends MessageList
     }
 
     private void loadHistory() {
-        try {
-            this.store = RecordStore.openRecordStore(storeName, true);
+        if( Config.historyTypeIndex ==Config.HISTORY_RMS){
+            try {
+                this.store = RecordStore.openRecordStore(storeName, true);
+            } catch (RecordStoreException e) {
+                closeRecordStore();
+            }
+        } else{
+//#ifdef FILE_IO
+            try {
+                 this.vstore= new VirtualStore();
+                 this.vstore.openVirtualStore( storeName, true);
+            } catch (RecordStoreException o) { }
+//#endif
+        }// if
 
-            thread = new Thread(this);
-            thread.start();
-        } catch (RecordStoreException e) {
-            closeRecordStore();
-        }
+        thread = new Thread(this);
+        thread.start();
     }
 
     public void run() {
@@ -123,19 +136,38 @@ public class HistoryViewer extends MessageList
     }
 
     private void ShowMessages(){
-        try {
-            HistSize = store.getNumRecords();
-            Msg msg= null;
-            messages.removeAllElements();
-            for (int i = Math.max(1, HistBlkPos); i <= Math.min(HistSize, HistBlkPos +HistBlkSize); i++) {
-                try {
-                    msg = HistoryStorage.readMessage(store, i);
-                    if (msg != null) {
-                            messages.addElement(msg);
-                    }
-                } catch (RecordStoreException ex) {}
-            }
-        } catch (RecordStoreNotOpenException e) {}
+        if( Config.historyTypeIndex ==Config.HISTORY_RMS){
+            try {
+                HistSize = store.getNumRecords();
+                Msg msg= null;
+                messages.removeAllElements();
+                for (int i = Math.max(1, HistBlkPos); i <= Math.min(HistSize, HistBlkPos +HistBlkSize); i++) {
+                    //try {
+                        msg = HistoryStorage.readRMSMessage(store, i);
+                        if (msg != null) {
+                                messages.addElement(msg);
+                        }
+                    //} catch (RecordStoreException ex) {}
+                }
+            } catch (RecordStoreNotOpenException e) {}
+        }else{
+            try {
+                HistSize = vstore.getNumRecords();
+                System.out.println(HistSize + " total records from VirtualStore");
+                Msg msg= null;
+                messages.removeAllElements();
+                //HistBlkPos= 2;
+                for (int i = Math.max(1, HistBlkPos); i <= Math.min(HistSize, HistBlkPos +HistBlkSize); i++) {
+                    //try {
+                        System.out.println("Reading record " +i +" from VirtualStore");
+                        msg = HistoryStorage.readVSMessage(vstore, i);
+                        if (msg != null) {
+                                messages.addElement(msg);
+                        }
+                    //} catch (IOException io) {}
+                }
+            } catch (RecordStoreNotOpenException e) {}
+        }// ifel
         setMainBarItem(new MainBar(SR.get(SR.MS_HISTORY) +" from " +HistBlkPos + " to " +(HistBlkPos +HistBlkSize) +", total " +HistSize));
         redraw();
     }
@@ -152,7 +184,10 @@ public class HistoryViewer extends MessageList
 
     private boolean deleteHistory() {
         try {
-            RecordStore.deleteRecordStore(storeName);
+            if( Config.historyTypeIndex ==Config.HISTORY_RMS)
+                RecordStore.deleteRecordStore(storeName);
+            else
+                VirtualStore.deleteVirtualStore(storeName);
             return true;
         } catch (RecordStoreException e) {}
         return false;
@@ -160,7 +195,10 @@ public class HistoryViewer extends MessageList
 
     private void closeRecordStore() {
         try {
-            store.closeRecordStore();
+            if( Config.historyTypeIndex ==Config.HISTORY_RMS)
+                store.closeRecordStore();
+            else
+                vstore.closeVirtualStore();
         } catch (RecordStoreException e) {}
     }
 

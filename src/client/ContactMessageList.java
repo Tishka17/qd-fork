@@ -189,9 +189,9 @@ public final class ContactMessageList extends MessageList implements InputTextBo
 
 //#ifdef HISTORY
         if (Config.module_history && contact.hasHistory()) {
-            if (Config.historyTypeIndex == Config.HISTORY_RMS) {
+            //if (Config.historyTypeIndex == Config.HISTORY_RMS) {
                 addCommand(Commands.cmdHistory);
-            }
+            //}
         }
 //#endif
 

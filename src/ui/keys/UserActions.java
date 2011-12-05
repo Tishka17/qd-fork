@@ -128,7 +128,6 @@ public class UserActions {
 //#ifdef SERVICE_DISCOVERY
         ,new userAct( 8, UA_KEYS, SR.get(SR.MS_DISCO), MenuIcons.getInstance(), MenuIcons.ICON_DISCO)
 //#endif
-        ,new userAct( 31, UA_ALL, SR.get(SR.MS_BOOKMARKS), MenuIcons.getInstance(), MenuIcons.ICON_CONFERENCE)
 //#ifdef PRIVACY
         ,new userAct( 9, UA_KEYS, SR.get(SR.MS_PRIVACY_LISTS), MenuIcons.getInstance(), MenuIcons.ICON_PRIVACY)
 //#endif
@@ -155,10 +154,10 @@ public class UserActions {
         ,new userAct( 26, UA_ALL, "Status: dnd", RosterIcons.getInstance(), RosterIcons.ICON_BUSY_STATUS)
         ,new userAct( 27, UA_ALL, "Status: invisible", RosterIcons.getInstance(), RosterIcons.ICON_INVISIBLE_INDEX)
         ,new userAct( 28, UA_KEYS, "Command: EventOk")
-        //,new userAct( 29, UA_KEYS, "Command: Answer")
+        ,new userAct( 29, UA_KEYS, "Command: Alert Profile")
         ,new userAct( 30, UA_KEYS, "Command: keyClose")
-        //,new userAct( 31, UA_KEYS, "Command: Bookmarks")
-        //,new userAct( 32, UA_KEYS, "Command: MyServices")
+        ,new userAct( 31, UA_ALL, SR.get(SR.MS_BOOKMARKS), MenuIcons.getInstance(), MenuIcons.ICON_CONFERENCE)
+        ,new userAct( 32, UA_KEYS, "Restore from background")
         ,new userAct( 33, UA_KEYS, "Cursor: moveHome")
         ,new userAct( 34, UA_KEYS, "Cursor: moveEnd")
         ,new userAct( 35, UA_KEYS, "Cursor: pageLeft")
@@ -170,8 +169,6 @@ public class UserActions {
         ,new userAct( 40, UA_KEYS, "Chats: clear chat")
         ,new userAct( 41, UA_KEYS, "Room: kick current")
         ,new userAct( 42, UA_KEYS, "Room: ban current")
-
-
 
 /*
  *         cmds[22] = "Move cursor home";
@@ -337,7 +334,7 @@ public class UserActions {
                 sd.roster.eventOk();
                 return true;
             case 29:
-                //client;
+                new alert.AlertProfile().show();
                 return true;
             case 30:
                 sd.roster.destroyView();
@@ -346,7 +343,7 @@ public class UserActions {
                 new Bookmarks().show();
                 return true;
             case 32:
-                //answer();
+                BombusQD.sd.roster.contactList.getFirstContactWithNewHighlite(null).getMessageList().show();
                 return true;
             case 33:
                 sd.roster.moveCursorHome();

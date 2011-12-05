@@ -1,72 +1,49 @@
-:-)	:)	=)
-:-(	:(	=(
-:-D	:D
-O:-)	O:)	O+)	O=)	0:-)	0:)	0+)	0=)
-:-P	:P	:p	:-p	=P	=p	:-b	:b	+b	=b
-='(	:'(	:'-(	:"(	;-(	;(	='(	:-((	=((
-*JOKINGLY*	*jokingly*	:JOKINGLY:	:jokingly:
-;-)	;)	^_~	:wink:
-8-)	B-)	*COOLBOY*	:cool:	:yeah:
-%)	%-)	:-$	:$
-=-O	=O	=-o	=0
-:-[	:[	(e)	(E)	:')	:'-)	=')	;'>	:blush:
-*SCRATCH*	*SCRATCH HEAD*	*scratch head*	*scratch*	*Scratch*
-*IN LOVE*	*IN_LOVE*	*INLOVE*
-*DONT_KNOW*	*dont know*	*DONT KNOW*	*dont_know*	*dntknw*
->:o	>:O	>+O	>:o	>+o	>=O	>=o	:-@
-*ROFL*	*rofl*	:lol:	:LOL:	LOL	lol	*LOL*	*lol*
-*SLUNI*	*sluni*
-*CRAZY*	*crazy*	:crazy:
-*ROTTEN*	*rotten*
-*PARDON*	*pardon*
-:-|	:|	>_<	=|	*ERMM*	*ermm*
-*HAPPY*	*happy*	:happy:	^_^	<]
-*LINUXOID*	*HACKER*
-*WALL*	*wall*	*Wall*
-[:-}	[:}	*MUSIC*	*music*
-*LAZY*	*lazy*	*ASLEEP*	*SLEEPING*	*SLEEPY*	*asleep*	*sleeping*	*sleepy*
-*STOP*	*SHUT UP*	*SHUT_UP*	*shut up*	*shut_up*	*stop*
-*HI*	*hi*	*Hi*
-*BYE*	*Bye*	*bye*
-*HELP*	*help*	*Help*
-*BAN*	*ban*	*Ban*
-*HM*	*hm*	:HM:	:hm:	:-\	:-/	=/	=\	:\	:/
-O_o	o_O	O_0	o_0	0_O	0_o	O_O
-*SECRET*	*secret*
-*HISTERICS*
-*SORRY*	*sorry*
-*WACKO*	:wacko:	:WACKO:
-:-!	;-!	:!	;!	:-~	;-~
-*YAHOO*	*YAHOO!*
-*BOTAN*
-*CAN'T SEE*	*can't see*	:can't see:
-*ZAWTOROJ*	*zawtoroj*	:ZAWTOROJ:	:zawtoroj:	*HIDDEN*
-]:->	}:->	]:>	}:>	>:-]	>:]	(6)	*DIABLO*	*diablo*
-*BLONDINKO*	*blondinko*
-*WASSUP*	*NIGGA*	*SUP*	*MAMBA*	:MAMBA:	*wassup*	*sup*	*mamba*
-*SMOKING*	*SMOKE*	*smoking*	*smoke*
-*BENDER*	*bender*
-*ZOIDBERG*	*Zoidberg*	*zoidberg*
-*ROBOCOP*	*robocop*
-*CAT*	*cat*
-*ELK*
-*SVIN*	*svin*	*KABAN*	*svinjya*
-*THUMBS UP*	*THUMBS_UP*	*GOOD*	*GOOD*	*Good*
-*THUMBS DOWN*	*THUMBS_DOWN*	*BAD*	*BAD*	*Bad*
-*FEED*	*OBED*	*EAT*
-*ANGRY*	:angry:	*angry*
-*ASSASSIN*	*assassin*	*ninja*	:NINJA:	:ninja:	[:|]	*NINJA*
-*VAMPIRE*	*vampire*	*HORROR*	:VAMPIRE:	
-*SKULL*	*DEATH*	*death*	*skull*
-*FUCK OFF*	*FUCK_OFF*	*fuck*	*FUCK*	*FUCK YOU*	*FUCKOFF*
-\m/	*ROCK*	*PUNK*
+:-)	:)	=)	=))
+:-(	:(	=(	=((
+;-)	;)
+:-P	:P	:-p	:p
+8-)
+:-D	:D	=-D	=-d	:d	=d	:-d
+:-[	:[	=-[	=[
+O:-)
+=-O	=O	:-O	:O	=-o	=o	:-o	:o
+:-*	:*	=-*	=*	:-{}
+:'(	='(
+:-X	:X	:-x	:x
+>:o	>=o	>:O	>=O
+:-|	:|	=-|	=|
+:-\	=-\	=\	:-/	=-/	=/
+*JOKINGLY*	*jokingly*
+]:->	]:>	]=->	]=>
+[:-}	[:}	[=-}	[=}
+*KISSED*	*kissed*
+:-!	:!	=-!	=!
+*TIRED*	*tired*
+*STOP*	*stop*
+*KISSING*	*kissing*
+@}->--
+*THUMBS UP*	*thumbs up*
+*DRINK*	*drink*
+*IN LOVE*	*in love*
+@=
+*HELP*	*help*
+\m/	\M/
+%)
 *OK*	*ok*
-(_|_)	(_._)	*ASS*
-*BEER*	*beer*	:BEER:	:beer:	:drink:	*DRINK*	*drink*
-*BOMB*	*bomb*	*BOOM*
-@}->--	@}->-	@};-	(F)	(f)	*BOUQUET*
-:-*	*kisses*	*KISSES*	*kiss*	*KISS*	*KISSING*	={|}	:{}
-*HEART*	*GIVE HEART*	*give heart*	*heart*	:heart:
-+1	*+1*
-*CHMO*	*chmo*
-*bl*	:bl:
+*WASSUP*	*wassup*
+*SORRY*	*sorry*
+*BRAVO*	*bravo*
+*ROFL*	*rofl*	:lol:
+*PARDON*	*pardon*
+*NO*	*no*
+*CRAZY*	*crazy*
+*DONT KNOW*	*dont know*	*DONT_KNOW*	*dont_know*
+*DANCE*	*dance*
+*YAHOO*	*yahoo*
+*HI*	*hi*
+*BYE*	*bye*
+*YES*	*yes*
+;D
+*WALL*	*wall*
+*WRITE*	*write*
+*SCRATCH*	*scratch*

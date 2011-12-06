@@ -2,3 +2,4 @@ en	null	English
 ru	/lang/ru.txt	Русский
 ar	/lang/ar.txt	العربية
 ua	/lang/ua.txt	Українська
+pl	/lang/pl.txt	Polski

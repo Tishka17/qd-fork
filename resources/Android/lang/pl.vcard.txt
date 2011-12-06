@@ -1,0 +1,20 @@
+﻿//vCard descriptions
+	FN	Pełna nazwa
+	NICKNAME	Nick
+	GENDER	Płeć
+	BDAY	Urodziny
+ADR	LOCALITY	Miasto
+ADR	STREET	Ulica
+ADR	EXTADR	Osiedle
+ADR	REGION	Region
+ADR	CTRY	Kraj
+	TZ	Strefa czasowa (GMT)
+TEL	NUMBER	Nr telefonu
+EMAIL	USERID	E-Mail
+	JABBERID	JabberID
+	TITLE	Tytuł
+	ROLE	Rola
+ORG	ORGNAME	Organizacja
+ORG	ORGUNIT	Stanowisko
+	URL	Strona www
+	DESC	O mnie

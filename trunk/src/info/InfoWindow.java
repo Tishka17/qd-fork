@@ -118,12 +118,13 @@ public class InfoWindow extends DefForm {
         });
         addControl(new SpacerItem(6));
         addControl(new SimpleString("Special thanks", true));
-        addControl(new MultiLine("Patches:", "Vladimir Krukov (aspro), vinz@, radiance, _modi, Марс"));
+        addControl(new MultiLine("Patches:", "Vladimir Krukov (aspro), vinz@, radiance, Grebnev Yaroslav (modi), Марс, Ivan Kudryakov (Ivansuper)"));
         addControl(new MultiLine("Graphics:", "Xa, Makasi, fin, -dp-"));
         addControl(new MultiLine("Site managment:", "Makasi, BiLLy"));
+        addControl(new MultiLine("Android Market managment:", "Kirill Ashikhmin (BOOMik)"));
         addControl(new MultiLine("Actions icons:", "Rederick Asher"));
         addControl(new MultiLine("Themes:", "Lesli, Я2R and others"));
-        addControl(new MultiLine("Localization:", "balor (Українська), Samer top (العربية)"));
+        addControl(new MultiLine("Localization:", "balor (Українська), Samer top (العربية), czater (Polski)"));
         addControl(new MultiLine("Testing: ", "zaetz, balor, demon(Dmitry Krylov), magnit, Sniffy, NNn, DsXack, Gho$t, Artem, Tiesto and many others"));
         addControl(new MultiLine("Smiles:", "Copyright (c) Aiwan. Kolobok smiles"));
         addControl(new LinkString("http://www.kolobok.us") {

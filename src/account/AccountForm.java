@@ -171,7 +171,6 @@ public class AccountForm extends DefForm {
         fulljid = new TextInput(SR.get(SR.MS_USER_PROFILE) + "(JID)", uid, TextField.ANY);
         nickbox = new TextInput(SR.get(SR.MS_NICKNAME), account.getNick(), TextField.ANY);
         addControl(fulljid);
-        addControl(nickbox);
 
         if (register) {
             passbox = new TextInput(SR.get(SR.MS_PASSWORD), password, TextField.ANY);
@@ -179,6 +178,7 @@ public class AccountForm extends DefForm {
             passbox = new PasswordInput(SR.get(SR.MS_PASSWORD), password);
         }        
         addControl(passbox);
+        addControl(nickbox);
 
         createSimpleAddForm = (null == serverReg && newaccount);//true if add,false if edit
         if (register) {

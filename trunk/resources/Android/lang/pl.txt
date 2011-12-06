@@ -1,0 +1,730 @@
+﻿// Copyright (c) 2005-2008, Eugene Stahov (evgs), http://bombus-im.org
+// All rights reserved.
+xmlLang	PL
+online	Dostępny
+chat	Czat
+away	Oddalony
+xa	Zaraz wracam
+invisible	Niewidoczny
+dnd	Niedostępny
+offline	Wylogowany
+Jid	Jid
+Privacy Lists	Listy Prywatności
+Message font	Czcionka wiadomości
+Roster font	Czcionka kontaktów
+Paste Body	Wklej tekst
+Configure Room	Konfiguracja
+Paste Subject	Wklej temat
+Service Discovery	Przeglądarka Serwera
+User JID	JID użytkownika
+New list	Nowa lista
+Select (no login)	Wybierz (nie loguj)
+Privacy rule	Zasada prywatności
+use SSL	Szyfrowanie SSL
+Modify	Modyfikuj
+Update	Odśwież
+Account name	Nazwa konta
+GMT offset	Różnica w stosunku do (GMT+)
+Time settings (hours)	Ustawienia zegara (godziny)
+Connected	Połączono
+Connect to 	Łączę z 
+Alert Profile	Profil dźwięku
+Move Up	Przenieś w górę
+Owners	Właściciele
+Ok	ОК
+Minimize	Minimalizuj
+Room	Pokój
+Messages	Wiadomości
+Refresh	Odśwież
+Resolve Nicknames	Ustal pseudonimy 
+Action	Opcje
+Ban	Zablokuj
+Leave Room	Opuść pokój
+Password	Hasło
+Actions	Opcje
+Activate	Aktywuj
+Affiliation	Przynależność
+Accounts	Konta
+Delete list	Usuń listę
+Account >	Konta >
+Select	Wybierz
+Subject	Temat
+Quit	Zakończ
+Edit list	Dodaj do kontaktów
+Registering	Rejestracja
+Done	Wykonano
+Error: 	Błąd: 
+Browse	Przeglądaj 
+Save list	Zapisz listę 
+Keep-Alive period	Czas podtrzymania połączenia 
+<New Group>	<Nowa Grupa>
+Send	Wyślij 
+Priority	Priorytet 
+Failed	Brak uwierzytelnienia 
+Set Priority	Ustaw priorytet 
+Delete rule	Usuń zasadę 
+Ignore-List	Lista ignorowanych
+Roster request	Pobieranie kontaktów 
+Type	Typ 
+Name	Nazwa 
+User Profile	Profil Użytkownika
+fullscreen	Pełny ekran
+Add bookmark	Dodaj zakładkę 
+conferences only	Tylko konferencje 
+Client Version	Wersja klienta 
+Discard Search	Odrzuć wyszukiwanie 
+Search Results	Rezultaty wyszukiwania
+Members	Członkowie 
+Add Contact	Dodaj kontakt 
+Subscription	Autoryzacja 
+Status	Status
+Join	Wejdź 
+Startup actions	Akcje początkowe 
+Server	Serwer 
+Admins	Administratorzy 
+Make Ignore-List	Utwórz listę ignorowania 
+General Group	Generalna
+Options	Ustawienia
+Delete	Usuń 
+Delete contact?	Usunąć kontakt? 
+Authorize	Akceptuj 
+Nicknames	Pseudonimy 
+to Archive	Do Archiwum 
+Back	Wróć 
+heap monitor	Monitor pamięci 
+change softkeys	Zamień klawisze
+Message	Wiadomość
+<Other>	<Inny>
+history -	Historia
+Append	Dokończ 
+Active Contacts	Aktywne kontakty 
+Select nickname	Wybierz nick 
+Group	Grupa 
+Join conference	Dołącz do konferencji
+No	Nie 
+Re-Enter Room	Wejdź ponownie 
+New Message	Napisz 
+Add	Dodaj 
+Logon	Włącz 
+Stanzas	Szczegół
+at Host	na Serwerze
+join conferences	Automatyczne wejście do konferencji 
+Status	Status 
+Smiles	Emotikony 
+Contact >	Kontakt > 
+offline contacts	Rozłączone kontakty 
+Transport	Transport
+composing events	Informacja komponowania 
+Add Smile	Dodaj emotikonę 
+Nickname	Nick 
+Revoke Voice	Odbierz głos 
+Not-in-list	Spoza listy 
+Commands	Komendy 
+- (Sign)	- (Znak)
+Set default	Ustaw Domyślnie 
+Outcasts (Ban)	Zablokowani 
+Set affiliation to	Zmień przynależność na
+Register Account	Zarejestruj konto 
+autologin	Autologowanie 
+Logoff	Wyłącz
+Publish	Publikuj
+Remove subscription	Odbierz autoryzację 
+Set	Ustaw 
+Application	Aplikacja 
+Bookmarks	Zakładki
+Test sound	Test dźwięku 
+Startup	Początek 
+Edit rule	Edytuj zasadę 
+Cancel	Anuluj 
+Close	Zamknij 
+Archive	Archiwum
+Conference	Konferencje
+Sound	Dźwięk 
+Login failed	Nie uwierzytelniono 
+Browse	Przeglądaj
+New Jid	Nowy JID 
+plain-text password	Nieszyfrowane hasło 
+Paste Nickname	Wklej nick 
+Kick	Wyrzuć
+Remove readed	Usuń przeczytane
+Grant Voice	Daj głos
+Move Down	Przesuń w dół
+Quote	Edytuj
+Roster elements	Elementy rostera 
+popup from background	Maksymalizuj gdy nowa wiadomość 
+smiles	Emotikony 
+About	O programie 
+Resource	Zasób 
+Disconnected	Rozłączono 
+Edit	Edytuj 
+Host name/IP	Nazwa hostu/IP
+Add rule	Dodaj zasadę 
+for all status types	Dla wszystkich typów statusu 
+Paste Jid	Wklej JID 
+Goto URL	Idź do linku
+Clock offset	Różnica zegara
+Yes	Tak
+Suspend	Przerwij
+Alert Profile >	Profil dźwięku >
+My vCard	Moja Wizytówka
+transports	Transporty
+Add Profile	Dodaj profil>
+self-contact	własny kontakt
+vCard	Katalog publiczny 
+Set Subject	Ustaw temat
+Port	Port
+Resume Message	Dokończ
+Are You sure want to discard 	Jesteś pewny, że chcesz zmienić 
+ from OWNER to 	 z Właściciela na 
+Modify affiliation	Modyfikuj przynależność
+Clear	Wyczyść
+Connect	Połącz
+Unaffiliate	Odbierz przynależność
+Grant Moderator	Daj Moderatora
+Revoke Moderator	Odbierz Moderatora
+Grant Admin	Daj Administratora
+Grant Ownership	Daj Właściciela
+Visitors are not allowed to send messages to all occupants	Nowoprzybyli Wizytorzy nie posiadają zezwolenia na wysyłanie wiadomości do wszystkich uczestników czatu. 
+ is inviting You to 	 zaprasza Cię na: 
+Ask subscription	Zapytaj o autoryzację 
+Grant subscription	Daj autoryzację
+Invite to conference	Zaproś do konferencji 
+Reason	Powód 
+You have been invited to 	Zostałeś zaproszony do: 
+Participants	Uczestnicy 
+Abc	Аbc
+room presences	Uczestnicy pokoju
+ is now known as 	 zmienił(a) nick na 
+ was banned 	 został(a) zablokowany(a)
+ was kicked 	 został(a) wyrzucony(a)
+ has been kicked because room became members-only	 został(a) wyrzucony(a) ponieważ pokój jest tylko dla osób posiadających członkowstwo w pokoju
+ has left the channel	 opuścił(a) rozmowę
+ has joined the channel as 	 dołączył(a) do rozmowy jako 
+ and 	 i 
+ is now 	 jest teraz 
+error	błąd
+Select history folder	Wybierz folder historii 
+Sound volume	Głośność
+Language	Język 
+Save history	Zapisuj historię 
+Save presences	Zapisz obecność 
+Save conference history	Zapisz czat 
+Save conference presences	Zapisz obecność czata 
+convert to cp1251	Konwertuj do cp1251 
+History folder	Folder historii
+Copy	Kopiuj 
+Paste	Wklej 
+Save template	Do Notatek 
+Template	Notatki
+has set topic to	ustawił temat na:
+Seen	Aktywny
+Idle	Bezczynny
+Main menu	Menu
+Choose status	Wybierz Status 
+Add status	Dodaj Status 
+Remove status	Usuń Status 
+Address	Adres
+Make BackUp	Zapisz archiwum (BackUp)
+Import from BackUp	Importuj zapisane archiwum (BackUp)
+View	Podgląd 
+Stop	Zatrzymaj 
+File transfers	Transfer Plików
+Path	Przeglądaj 
+Accept file	Akceptuj plik
+File	Plik: 
+Save To	Zaapisz do
+Sender	Nadawca
+Rejected	Odrzucono
+Send file	Wyślij plik
+Can't open file	Nie można otworzyć pliku
+New	Nowa
+New Template	Nowa notatka
+Save photo	Zapisz zdjęcie
+balloon ink	Czcionka dymku 
+balloon background	Tło dymku 
+messagelist & roster background	Lista, Roster, Tło 
+messagelist & roster even lines	Kolejna wiadomość 
+messagelist & roster & common font	Czcionka kolumny 
+message subject	Czcionka tematu 
+message highlight	Czcionka wiadomości systemu 
+service discovery commands	Czcionka serwera 
+panels background	Tło paneli
+header font	Czcionka paneli
+contact default	Kontakt Dostępny 
+contact chat	Kontakt Czat 
+contact away	Kontakt Oddalony 
+contact extended away	Kontakt Zaraz wracam 
+contact do not disturb	Kontakt Niedostępny
+group color	Kolor grupy 
+keylock font	Kolor czcionki blokady klawiatury 
+keylock background	Tło blokady klawiatury 
+message incoming	Wiadomość przychodząca 
+message outgoing	Wiadomość wychodząca
+message presence	Wiadomość obecności 
+message auth	Wiadomość autoryzacji 
+message history	Wiadomość historii 
+progress bar remained	W trakcie początek 
+progress bar complete	W trakcie koniec 
+progress bar font	W trakcie czcionka
+Heap mon total	Monitor pamięci pełny
+Heap mon free	Monitor pamięci wolny
+Cursor background	Tło kursora
+Cursor ink & outline	Czcionka i ramka kursora
+Scroll border	Pasek obraz
+Scroll bar	Pasek baneru
+Scroll back	Pasek powrót
+other message incoming	Inna wiadomość przychodząca
+other message outgoing	Inna wiadomość wychodząca
+other message presence	Inna wiadomość statusu
+Popup font	Czcionka popUp
+Popup background	Tło popUp
+Popup system font	Czcionka system popUp
+Popup system background	Tło system popUp
+Contact status font	Czcionka kontaktu - status
+Control color	Kolor kontrolki
+Gradient_Background_left color	Gradient - lewy
+Gradient_Background_right color	Gradient - prawy
+Themes	Skórki
+Theme	Użyj skórki
+Sounds options	Ustawienia Dźwięku
+Time	Czas
+participant	uczestnik
+moderator	moderator
+visitor	wizytor
+none	bez przynależności
+member	member
+admin	admin
+owner	właściciel
+second's	sekund
+seconds	sekundy
+second	sekunda
+minute's	minut
+minutes	minuty
+minute	minuta
+hour's	godzin
+hours	godziny
+hour	godzina
+day's	dni
+days	dni
+day	dzień
+Minutes before away	Czas włączenia autostatusu (min)
+Automatic Away	Auto odejście
+disabled	Wyłączony
+keyblock	Blokada klawiatury
+by message	Od ostatniej wiadomosci
+AutoStatus	AutoStatus
+AutoStatus time (min)	AutoStatus czas (min)
+Auto xa since %t	AutoStatus Zaraz Wracam od %t
+Auto away since %t	AutoStatus oddalony od %t
+autofocus	Autopodświetlenie nowej wiadomości
+Grant Membership	Daj Członkowstwo
+Are You sure want to clear messagelist?	Czy jesteś pewien, aby usunąć listę wiadomości?
+Google token request	Pobieranie Google token
+Features	Szczegóły
+Show password	Pokaż hasło
+No client version available	[Funkcja wersji klienta i oprogramowania nie jest w tej chwili dostępna]
+Message limit	Limit wiadomości
+Opening stream	Otwieranie strumienia
+Using compression	Użycie kompresji danych
+Authenticating	Identyfikowanie użytkownika
+Resource binding	Uwierzytelnienie z serwera
+Initiating session	Inicjowanie sesji
+Text wrapping	Zawijanie tekstu
+by chars	Przez znaki
+by words	Przez słowa
+Info	Info
+Reply	Odpisz
+Send status	Wyślij status
+Are you sure want to BAN this person?	Czy napewno chcesz zablokować tą osobę?
+No reason	Bez powodu
+Recent	Poprzednie
+Shot	Strzał :D
+Select file	Wybierz plik
+Load Photo	Wybierz zdjęcie
+Clear Photo	Usuń zdjęcie
+Camera	Kamera
+Hide finished	Ukryj przesłane
+Transfer tasks	Przesłane pliki
+Are you sure want to delete this message?	Czy jesteś pewien, aby usunąć tą wiadomość?
+New conference	Nowa konferencja
+Root	Przegląd dysku
+Decline	Odrzuć
+Authorize new contacts	Autoryzuj nowe kontakty
+[auto-subscribe]	[Automatyczne autoryzowanie]
+Keep-Alive	Typ podtrzymania połaczenia
+ has been unaffiliated and kicked from members-only room	 został(a) bez przynależności i wyrzucona z pokoju (tylko dla memberów)
+Rename	Zmień nazwę
+Move	Przesuń
+Save	Zapisz
+Translit	Transliteruj
+ReTranslit	ReTransliteruj
+Auto translit2Cyr	AutoTransliteruj do Cyr
+Check Updates	Aktualizacja
+Show Resources	Pokaż zasób
+Collapsed groups	Zwijanie grup
+Send Buffer	Wyślij buffor
+Change nickname	Zmień nick
+Message collapse limit	AutoZwijanie wiadomości (po ilu znakach)
+No client info	Brak informacji na temat wersji klienta
+Clear all chats	Usuń wszystkie wiadomości
+Join marked (auto)	AutoWejście do konferencji
+Statistics	Statystyka
+Started: 	Uruchomiono: 
+Traffic stats: 	Statystyka: 
+All: 	Wszystko: 
+Current: 	Użyto: 
+Last Messages	Ostatnie wiadomości
+Edit/join	Edytuj/Wejdź
+Use this Color scheme	Użyj tego schematu 
+Delete All	Usuń wszystko
+History options	Opcje historii
+Filenames transliterate	Nazwa archiwum transliteracji
+Save chat	Zapisz konferencje
+show statuses	Pokaż statusy
+shared platform info	Pokaż informacje o platformie
+delivery events	Raporty dostarczenia
+drop all	Odrzuć wszystko
+receive messages	Odebrane wiadomości
+messages & presences	Wiadomości i statusy
+normal	normalna
+small	mała
+large	duża
+All signals	Wszystkie sygnały
+Vibra	Wibracja
+No signals	Bez sygnałów
+ (default)	 (domyślnie)
+Quit?	Zakończyć?
+Are you sure want to Quit?	Czy napewno chcesz zakończyć?
+exit confirmation	Potwierdzenie wyjścia
+show last appeared contacts	Pokaż ostatnio ukazany kontakt
+custom keys	Klawisze skrótu
+Add custom key	Dodaj klawisz skrótu
+keys action	Skrót do:
+enabled	Aktywuj
+key	Klawisz
+Reconnect	Zaloguj ponownie
+Sort list	Sortuj listę
+Turn on light	Włącz podświetlenie
+show time and traffic	Pokaż czas i dane
+Clear popups	Wyczyść popUps
+Chat history length	Ilość wiadomości w konferencji
+This user wants to subscribe to your presence	[Użytkownik prosi o autoryzacje]
+You are now authorized	[Zostałeś autoryzowany]
+Your authorization has been removed!	[Użytkownik odebrał autoryzacje]
+To: 	Do: 
+size:	Rozmiar:
+Sun	Nie
+Mon	Pon
+Tue	Wto
+Wed	Śro
+Thu	Czw
+Fri	Pią
+Sat	Sob
+Automatic subscription	Autoimatyczna autoryzacja
+Ask me	Zapytaj mnie
+Drop subscription	Odrzuć
+Deny subscription	Zabroń
+Search	Szukaj
+Register	Zarejestruj
+Check Google mail	Sprawdź GMail
+Blink	Miganie
+Notices options	Ustawienia dźwięku
+Message sound	Dźwięk wiadomości
+Online sound	Dźwięk dostępny
+Offline sound	Dźwięk wylogowany
+"Message for me" sound	Dźwięk "wiadomość do mnie"
+Composing sound	Dźwięk komponowania
+Conference sound	Dźwięk konferencji
+StartUP sound	Dźwięk przy uruchomieniu
+Outgoing sound	Dźwięk zw/oddalony
+Vip sound	Dźwięk dla VIP
+Copy JID	Kopiuj JID
+Ping request	Ping
+Online time	Dostępny
+Break connection	Wznów Połączenie
+autoScroll	AutoPrzewijanie
+emulate tabs	Przełączanie między kontaktami (klawisze 4-6)
+show balloons	Pokaż baloniki
+popUps	Wyskakujące okna
+AutoStatus Message	Wiadomość AutoStatus
+Memory:	Pamięć:
+Free: 	Wolna: 
+Total: 	Razem: 
+Session(s): 	Sesje: 
+Description	Opis
+User	Użytkownik
+Import/Export	Zapisz/Przywróć Ustawienia
+bold font for contacts	Pogrubienie czcionki kontaktów
+running message	Pokaż wiadomość (w trybie pisania)
+Show latest message in alt message edit	Pokaż ostatnią wiadomość w alternatywnym oknie
+Message Edit Type	Typ edytowania wiadomości
+Standart	Standard
+Alternative	Alternatywne
+Alternative with GUI panels	Alternatywna +info okienko
+Composing message to you	Pisze...
+compression	Kompresja
+New room created	Utworzono nowy pokój
+IRC-like conference nick-status	IRC-status (nick-status)
+user moods send/receive	Nastrój (wyślij/odbierz)
+Simulated break	Symulowane rozłączenie
+Build new version on constructor	Zbuduj nową wersje w konstruktorze
+Auto tasks	AutoZadanie
+Auto task type	Typ AutoZadania
+by timer 	po jakim czasie
+by time 	o jakiej godzinie
+Auto task action type	Akcja
+Quit BombusMod	Zamknij Bombus
+Quit conferences	Wyjdź z konferencji
+Disconnection	Rozłącz
+disabled	Nieaktywne
+Delay (min.)	Odliczanie (min.)
+Start time	Ustaw zegar
+Hour	Godz.
+Min	Min.
+Browse rooms	Przeglądaj pokoje
+Autorespond	AutoOdpowiedź
+Invert colors	Negatyw
+XML console	XML konsola
+Clipboard	Schowek
+User moods	Nastrój
+User activity	Aktywność
+Personal events not supported	Zdarzenia użytkownika nieaktywne 
+User tune	Muzyka
+user tune receive	Info o muzyce
+Bar font	Czcionka Paneli
+Popup & ballon font	Czcionka popUp i baloników
+Fonts options	Ustawienia Czcionki
+Load history	Ładuj historię
+Connect to	Połącz do 
+Send my color scheme	Wyślij mój schemat kolorów
+Unread messages	Nieprzeczytane wiadomości
+vibrate only highlited	Wibracja tylko z podświetleniem
+Extended settings	Więcej ustawień
+Save to file	Zapisz do pliku
+Load from file	Wczytaj z pliku
+Show IQ requests	Pokazuj prośby IQ
+Show clients icons	Pokazuj ikonki klientów
+Action	Akcja
+Value	Znaczenie
+Quantity of attempts	Ilość prób
+Delay before reconnect(sec.)	Czas do ponownego połączenia
+Menu	Menu
+Previous	Poprzednio
+Previous: 	Poporzednio: 
+[End of vCard]	[Koniec]
+[No vCard available]	[Brak wizytówki]
+[No photo available]	[Brak zdjęcia]
+[Unsupported format]	[Niewspierany format]
+[large photo was dropped]	[Odrzucono - za duże zdjęcie]
+Delete group?	Usunąc grupę?
+Panels	Panele
+[ ]	[ ]
+[main bar]	[Main]
+[info bar]	[Info]
+Flash backlight	Efekty podświetlania
+execute menu by numkey	Wykonaj polecenia menu numerami
+show nicknames	Pokaż nicki
+Send photo	Wyślij zdjęcie
+enable autorespond	Aktywuj AutoOdpowiedź
+File manager	Manager Plików
+remote control	Zdalne sterowanie
+
+//2008-10-21 aqent
+Saving cursor	Zapisz pozycję kursora
+Translate	Przetłumacz
+Destroy room	Usuń pokój
+Upload to server	Wyślij na serwer
+Import from server	Pobierz z serwera
+Clear Arhive	Wyczyść archiwum
+Stats users for	Statystyki użytkowników
+Contact Helper	Kontakt pomocy
+Change password	Zmień hasło
+Remove from server	Usuń z serwera
+New password	Nowe Hasło
+Send Evil Message	Wyślij alarm (!)
+BredoGEN On	BredoGEN On
+BredoGEN Off	BredoGEN Off
+deselect all	Odznacz wszystkie
+save selection to archive	Zapisz wybór do archiwum
+To Clipboard	Kopiuj
+Collapse All	Zwiń wszystko
+Add Search Query	Dodaj 
+Find Text	Znajdź
+End search!	Zakończono
+Send Mood in Msg	Wyślij nastrój we wiadomości
+Turn OFF Animation	Wyłącz animacje
+Turn OFF Message Icon	Wyłącz ikonę wiadomości
+PEP is now OFF	PubSub jest wyłączone
+Dynamic PEP	Dynamiczne PubSub
+Draw vcard image on contact	Pokaż avatary w kontaktach
+Autoloading vcard from server	AutoPobieranie wizytówek z serwera
+Autoloading vcard from FS Phone	AutoPobieranie wizytówek z systemu plików telefonu
+MyActivity	Моja Aktywność
+Update Moods+Actions+Music	Uaktualnij PubSub
+Stop Music	Zatrzymaj Muzykę
+Your text not found!	Nie znaleziono tekstu
+Send my Moods+Actions(PEP) to all contacts(YES-recommended)?	Wysłać nastrój i zdarzenia do wszystkich?
+Drawed font	Pisane czcionki
+Required field	Wymagane pole
+Generate	Generuj
+Contact Helper	Kontakt - pomoc
+Fill Required field(Full name,nickname and birthday)	Wypełnij wymagane pola (nick, urodziny)
+Translate	Przetłumacz
+Delete all statuses	Usuń wszystkie statusy
+Colored Bold String in chat(+many others strings)	Kolorowanie i pogrubianie wyrażenia w konferencji
+Autosave cursor position in chat	AutoZapis pozycji kursora w konferencji
+Messages,sended by me	Wiadomości wysłane przeze mnie
+Messages with /me	Wiadomości ode mnie
+All incoming messages	Wszystkie przychodzące wiadomości
+Background Jimm image	Obrazek tła z Jimm
+Background image	Obrazek tła
+Draw Bgnd of Scroll	Pokaż tło
+Scroll Options	Ustawienia rolki
+Scroll Width	Szerokość
+Type of Background	Typ tła
+Background Default	Domyślne tło
+Background Gradient	Gradiont tła
+Background image	Obrazek tła
+Max Avatar Width	Max. Szerokość Avataru
+Max Avatar Height	Мак. Wysokość Avataru
+ClientIcons Left	ikony klientów z lewej
+After Restart App	Po restarcie aplikacji
+Load skin.png from File	Wczytaj tło z pliku png
+Set Default skin.png	Ustaw domyślne tło png
+Error!Only 16x16 size support!	Błąd! Tylko rozmiar 16x16
+Classic Chat	Klasyczny czat
+Auto Scrolling	AutoPrzewijanie
+Background Phone theme	Tło motywu telefonu
+Auto Open Classic Chat	AutoOtwieranie klasycznego czatu
+Chat Height(max-320)	Wysokość czatu (max-320)
+Scroll speed(msec,10sec-max)	Szybkość przewijania (msec,max-10sec)
+Show messages limit(1000-max)	Pokaż limit wiadomości (max-1000)
+Users search	Znajdź Użytkownika
+Support	Pomoc Techniczna
+Gradient cursor	Gradient kursora
+Alternating chat colors	Alternatywne kolory konferencji
+Transparency bgnd(argb)	Przezroczystość tła(ARGB)
+Graphics menu bgnd(argb)	Graphics menu bgnd(argb)
+Graphics menu font	Graphics menu font
+Service>	Serwis>
+My Jabber>	Mój Jabber>
+(HIGH TRAFFIC!)	(Duży ruch!)
+Draw Rect Avatar	Ramka Avatara
+AutoSave In FS	AutoZapis Avatarów w FS
+Avatar Folder	Folder Avatarów
+Roster:Load all Avatars from FS	Roster: wczytaj Avatary z FS
+Muc:Load all Avatars from FS	Czat: wczytaj Avatary z FS
+Avatars	Аvatary
+News	Nowości
+Show Presence Time	Pokaż czas statusu
+Animation of Graphics Menu&Roster	Animowane Menu (zapewnia płynność przewijania)
+Edit colors	Edytuj kolory
+Transparent	Przezroczystość
+Background of midlet	Menu kontekstowe
+Graphics Menu	Menu graficzne
+Cursor	Kursor
+Bold	Pogrubione
+Italic	Pochylone
+User wants to play checkers with you	Użytkownik chce zagrać w warcaby
+Checkers:send invite	Warcaby: zaproś do gry
+Checkers:start game	Warcaby: start gry
+Checkers:stop game	Warcaby: stop gry
+Checkers:resume	Waraby: wznów grę
+Don't load conference contacts	Czat: nie wczytuj kontaktów
+Modules config	Ustawienia modułów
+Advanced Options	Opcje zaawansowane
+Contacts	Kontakty
+Chat	Okno rozmowy i wiadomości
+Network	Ustawienia sieci
+Interface	Interfejs
+Application	Aplikacja
+Hotkeys	Klawisze skrótów
+Autostatus	AutoStatus
+Classic Chat	Klasyczny czat
+Color Themes	Schemat kolorów
+Cashe	Cashe
+History	Historia konferecji
+Fonts	Czcionki
+Import/Export	Import/Export ustawień
+Notifications&Light Control	Dźwięki i powiadomienia
+Tasks	Zadania
+Avatars	Avatary
+Config	Ustawienia
+Use animated smiles	Animowane emotki
+Nokia Reconnect Hack	Nokia Reconnect Hack
+Debug Menu	Konsola Debug
+Please,edit this account to save new password!	Edytuj konto aby zapisać nowe hasło!!
+Account deleted!	Konto usunięte!
+Insert New Password	Wpisz nowe hasło
+Highlite Out Messages	Podkreśl wychodzące wiadomości
+Contact is now offline.Continue?	Kontakt wylogowany. Kontynuować?
+clipboard NOT sended	NIE wysłano zawartości schowka
+Collapse presences	Zwiń statusy
+ANY	Wszystko
+allow	Zezwól
+deny	Zabroń
+presence-in	Statusy przychodzące
+presence-out	Statusy wychodzące
+iq	Wersja / czas użytkownika
+if	Jeśli
+none	brak
+from	od
+to	do
+both	autoryzowany
+all stanzas	Wszystkie wątki
+Exit from ALL Rooms	Wyjdź ze wszystkich pokoi
+Create Annotation	Dodaj notatkę
+Remove Annotation	Usuń notatkę
+Contact Annotations	Kontakt - notes
+Note	Notatka
+Change transport	Zamień transport
+Test Vibration	Testuj wibracje
+Vibration Len	Długość wibracji
+Vibration Repeats	Liczba powtórzeń
+Vibration Repeats Interval	Odstęp między powtórzeniami
+Light control	Podświetlenie
+Enable light control	Włącz podświetlenie
+Idle screen brightness	Jasność po oddaleniu
+Keypress screen brightness	Jasność po naciśnięciu
+Keypress idle timeout	Czas oddalenia: po naciśnięciu(sek.)
+Message screen brightness	Jasność przy pisaniu
+Message idle timeout	Czas oddalenia: po ostatniej wiadomości (sek.) 
+Metacontacts	Metakontakty
+Use 5 key to create Message	Użyj 5 aby napisać wiadomość
+Use Light to draw panels	Kąt nachylenia światla na panelu
+MainBar Gradient Light #	Gradient panel
+Graphisc Menu Screen Position	Pozycja menu graficznego
+[center]	[środek]
+[Left:     ]	[z lewej:     ]
+[    :Right]	[    :z prawej]
+Message Buffer is not empty.Clear it?	Projekt zawiera wiadomości. Usunąć?
+Create Multi Message	Multi-wiadomość
+Sort Type	Sortowanie
+OFF (default)	Domyślnie
+By status	Po statusach
+By Msgs count	Po wiadomościach
+Auto-Load Transports after connect	Automatycznie uruchamiaj transporty po połączeniu
+Type History	Typ historii
+History in RMS	Historia w pamięci telefonu
+History in FS	Historia w systemie plików
+History on server	Historia na serwerze
+vCard: delete current	Wizytówka: skasuj obecną
+vCard: delete ALL	Wizytówka: skasuj wszyskie
+User Avatar: delete current	Avatar: skasuj obecny
+User Avatar: delete from ALL vcards	Avatar: skasuj wszystkie
+Success	Sukces
+Simple Contacts	Proste kontakty
+User App Level	Trudność aplikacji
+Started	n00b
+Confident	normal
+Experienced	pro
+Was added:	Dodano:
+Configuration Master	Kreator konfiguracji
+Please reinstall the program to avoid possible future problems	Proszę przeinstalować program aby uniknąć przyszłych problemów.
+IM Networks	Sieci IM
+Add server	Dodaj Serwer
+My servers	Moje serwery
+Menu font	Czcionka menu
+Show History	Pokaż historię
+Pubsub events	Status PubSub
+AppRun count: 	Licznik: 

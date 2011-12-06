@@ -1,0 +1,79 @@
+﻿doing_chores	porządkuje
+buying_groceries	jestem na zakupach
+cleaning	sprzątam ślicznie
+cooking	gotuję
+doing_maintenance	konserwuję to i owo
+doing_the_dishes	zmywam naczynka
+doing_the_laundry	piorę ciuszki
+gardening	tyram w ogrodzie
+running_an_errand	jestem kurierem?
+walking_the_dog	spacerek ze zwierzaczkiem
+drinking	piję sobie
+having_a_beer	żłopie piwko
+having_coffee	siorbie kawusie
+having_tea	siorbie herbatkę
+eating	wcinam ;]
+having_a_snack	zakąszam
+having_breakfast	wcinam śniadanko
+having_dinner	wcinam obiad
+having_lunch	lanczuję
+exercising	ćwiczę
+cycling	śmigam na rowerku
+dancing	tańcuje
+hiking	zwiedzam
+jogging	dżoging
+playing_sports	uprawiam sport
+running	biegam
+skiing	pomykam na nartach
+swimming	pływam
+working_out	robię coś
+grooming	uwodzę :)
+at_the_spa	jestem w spa
+brushing_teeth	szoruję ząbki
+getting_a_haircut	zaczesuję się
+shaving	golę się
+taking_a_bath	biorę kąpiel
+taking_a_shower	biorę prysznic
+having_appointment	jestem na spotkaniu
+inactive	jestem nieaktywny
+day_off	dzień wolny
+hanging_out	huśtam się
+hiding	kampuję
+on_vacation	na urlopie
+praying	modlę się
+scheduled_holiday	planuję wakacje
+sleeping	śpiocham
+thinking	rozmyślam
+relaxing	relaksuję się
+fishing	łowie grube ryby
+gaming	katuję gry
+going_out	wychodzę!
+partying	jestem a imprezie
+reading	czytam
+rehearsing	próbuję?
+shopping	kupuję
+smoking	jaram
+socializing	rozmawiam
+sunbathing	opalam się
+watching_tv	oglądam TV
+watching_a_movie	oglądam film
+talking	nawijam
+in_real_life	w realu
+on_the_phone	przez fona
+on_video_phone	w matrixie
+traveling	podrużuję
+commuting	przemieszczam się
+cycling	na rowerze
+driving	jeżdze
+in_a_car	samochodem
+on_a_bus	autobusem
+on_a_train	pociągiem
+on_a_plane	samolot
+on_a_trip	z wycieczką
+walking	chodzę
+working	pracuję
+coding	kodzę / haxuje
+in_a_meeting	na spotkaniu
+studying	uczę się
+writing	piszę
+no activity	<brak>

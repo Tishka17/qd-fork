@@ -29,7 +29,7 @@ package login;
 
 import account.Account;
 //#ifdef TLS
-import client.StaticData;
+//# import client.StaticData;
 //#endif
 import com.alsutton.jabber.JabberBlockListener;
 import com.alsutton.jabber.JabberDataBlock;
@@ -37,6 +37,7 @@ import com.alsutton.jabber.JabberStream;
 import com.alsutton.jabber.datablocks.Iq;
 import com.ssttr.crypto.MD5;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import locale.SR;
 import xmpp.XmppError;
 
@@ -78,14 +79,14 @@ public class SASLAuth implements JabberBlockListener{
         //System.out.println(data.toString());
         if (data.getTagName().equals("stream:features")) {
 //#if TLS
-            JabberDataBlock starttls=data.getChildBlock("starttls");
-            if (starttls!=null && starttls.isJabberNameSpace("urn:ietf:params:xml:ns:xmpp-tls")) {
-                JabberDataBlock askTls=new JabberDataBlock("starttls", null, null);
-                askTls.setNameSpace("urn:ietf:params:xml:ns:xmpp-tls");
-                stream.send(askTls);
-                StaticData.getInstance().roster.setProgress("TLS negotiation", 39);
-                return JabberBlockListener.BLOCK_PROCESSED;
-            }
+//#             JabberDataBlock starttls=data.getChildBlock("starttls");
+//#             if (starttls!=null && starttls.isJabberNameSpace("urn:ietf:params:xml:ns:xmpp-tls")) {
+//#                 JabberDataBlock askTls=new JabberDataBlock("starttls", null, null);
+//#                 askTls.setNameSpace("urn:ietf:params:xml:ns:xmpp-tls");
+//#                 stream.send(askTls);
+//#                 StaticData.getInstance().roster.setProgress("TLS negotiation", 39);
+//#                 return JabberBlockListener.BLOCK_PROCESSED;
+//#             }
 //#endif
 //#ifdef ZLIB
             JabberDataBlock compr=data.getChildBlock("compression");
@@ -109,7 +110,7 @@ public class SASLAuth implements JabberBlockListener{
                 auth.setNameSpace("urn:ietf:params:xml:ns:xmpp-sasl");
                 
                 // DIGEST-MD5 mechanism
-                if (mech.getChildBlockByText("DIGEST-MD5")!=null) {
+                if (mech.getChildBlockByText("DIGEST-MD5")!=null && !account.getPlainAuth()) {
                     auth.setAttribute("mechanism", "DIGEST-MD5");
                     
                     //System.out.println(auth.toString());
@@ -142,14 +143,25 @@ public class SASLAuth implements JabberBlockListener{
                     }
                     
                     auth.setAttribute("mechanism", "PLAIN");
-                    String plain=
-                            Strconv.unicodeToUTF(account.getBareJid())
-                            +(char)0x00
-                            +Strconv.unicodeToUTF(account.getUserName())
-                            +(char)0x00
-                            +Strconv.unicodeToUTF(account.getPassword());
-                    auth.setText(Strconv.toBase64(plain));
-                    
+
+                    try {
+                        byte []a = account.getBareJid().getBytes("utf-8");
+                        byte []b = account.getUserName().getBytes("utf-8");
+                        byte []c = account.getPassword().getBytes("utf-8");
+                        final byte[] result = new byte[a.length+1+b.length+1+c.length];
+                        int idx = 0;
+                        System.arraycopy(a, 0, result, 0, a.length);
+                        idx += a.length;
+                        result[idx] = 0x0;
+                        idx++;
+                        System.arraycopy(b, 0, result, idx, b.length);
+                        idx += b.length;
+                        result[idx] = 0x0;
+                        idx++;
+                        System.arraycopy(c, 0, result, idx, c.length);
+                        idx += c.length;
+                        auth.setText(Strconv.toBase64(result, idx));
+                    } catch (UnsupportedEncodingException e){}
                     stream.send(auth);
                     listener.loginMessage(SR.get(SR.MS_AUTH), 42);
                     return JabberBlockListener.BLOCK_PROCESSED;
@@ -199,8 +211,8 @@ public class SASLAuth implements JabberBlockListener{
                 String cnonce="123456789abcd";
                 
                 resp.setText(responseMd5Digest(
-                        Strconv.unicodeToUTF(account.getUserName()),
-                        Strconv.unicodeToUTF(account.getPassword()),
+                        account.getUserName(),
+                        account.getPassword(),
                         account.getServer(),
                         "xmpp/"+account.getServer(),
                         nonce,
@@ -214,19 +226,19 @@ public class SASLAuth implements JabberBlockListener{
             return JabberBlockListener.BLOCK_PROCESSED;
         }
 //#ifdef TLS
-        else if ( data.getTagName().equals("proceed")) {
-            try {
-                stream.setTls();
-                stream.initiateStream();
-            } catch (IOException ex) {
-                //ex.printStackTrace();
-                listener.loginFailed("TLS negotiation failed: " + ex.getMessage());
-            }
-            return JabberBlockListener.NO_MORE_BLOCKS;
-        }
-        else if ( data.getTagName().equals("failure") && data.isJabberNameSpace("urn:ietf:params:xml:ns:xmpp-tls")) {
-            listener.loginFailed("TLS failed");
-        }
+//#         else if ( data.getTagName().equals("proceed")) {
+//#             try {
+//#                 stream.setTls();
+//#                 stream.initiateStream();
+//#             } catch (IOException ex) {
+//#                 //ex.printStackTrace();
+//#                 listener.loginFailed("TLS negotiation failed: " + ex.getMessage());
+//#             }
+//#             return JabberBlockListener.NO_MORE_BLOCKS;
+//#         }
+//#         else if ( data.getTagName().equals("failure") && data.isJabberNameSpace("urn:ietf:params:xml:ns:xmpp-tls")) {
+//#             listener.loginFailed("TLS failed");
+//#         }
 //#endif
 //#if ZLIB
         else if ( data.getTagName().equals("compressed")) {
@@ -310,48 +322,65 @@ public class SASLAuth implements JabberBlockListener{
      * @return
      */
     private String responseMd5Digest(String user, String pass, String realm, String digestUri, String nonce, String cnonce) {
+        try {
+            MD5 hUserRealmPass=new MD5();
+            hUserRealmPass.init();
+            hUserRealmPass.update(user.getBytes("utf-8"));
+            hUserRealmPass.update((byte)':');
+            hUserRealmPass.update(realm.getBytes("utf-8"));
+            hUserRealmPass.update((byte)':');
+            hUserRealmPass.update(pass.getBytes("utf-8"));
+            hUserRealmPass.finish();
 
-        MD5 hUserRealmPass=new MD5();
-        hUserRealmPass.init();
-        hUserRealmPass.updateASCII(user);
-        hUserRealmPass.update((byte)':');
-        hUserRealmPass.updateASCII(realm);
-        hUserRealmPass.update((byte)':');
-        hUserRealmPass.updateASCII(pass);
-        hUserRealmPass.finish();
-        
-        MD5 hA1=new MD5();
-        hA1.init();
-        hA1.update(hUserRealmPass.getDigestBits());
-        hA1.update((byte)':');
-        hA1.updateASCII(nonce);
-        hA1.update((byte)':');
-        hA1.updateASCII(cnonce);
-        hA1.finish();
-        
-        MD5 hA2=new MD5();
-        hA2.init();
-        hA2.updateASCII("AUTHENTICATE:");
-        hA2.updateASCII(digestUri);
-        hA2.finish();
-        
-        MD5 hResp=new MD5();
-        hResp.init();
-        hResp.updateASCII(hA1.getDigestHex());
-        hResp.update((byte)':');
-        hResp.updateASCII(nonce);
-        hResp.updateASCII(":00000001:");
-        hResp.updateASCII(cnonce);
-        hResp.updateASCII(":auth:");
-        hResp.updateASCII(hA2.getDigestHex());
-        hResp.finish();
-        
-        String out = "username=\""+user+"\",realm=\""+realm+"\"," +
-                "nonce=\""+nonce+"\",nc=00000001,cnonce=\""+cnonce+"\"," +
-                "qop=auth,digest-uri=\""+digestUri+"\"," +
-                "response=\""+hResp.getDigestHex()+"\",charset=utf-8";
-        String resp = Strconv.toBase64(out);
-        //System.out.println(decodeBase64(resp));
-        return resp;
+            MD5 hA1=new MD5();
+            hA1.init();
+            hA1.update(hUserRealmPass.getDigestBits());
+            hA1.update((byte)':');
+            hA1.updateASCII(nonce);
+            hA1.update((byte)':');
+            hA1.updateASCII(cnonce);
+            hA1.finish();
+
+            MD5 hA2=new MD5();
+            hA2.init();
+            hA2.updateASCII("AUTHENTICATE:");
+            hA2.updateASCII(digestUri);
+            hA2.finish();
+
+            MD5 hResp=new MD5();
+            hResp.init();
+            hResp.updateASCII(hA1.getDigestHex());
+            hResp.update((byte)':');
+            hResp.updateASCII(nonce);
+            hResp.updateASCII(":00000001:");
+            hResp.updateASCII(cnonce);
+            hResp.updateASCII(":auth:");
+            hResp.updateASCII(hA2.getDigestHex());
+            hResp.finish();
+
+            String tmp1 = "username=\"";
+            String tmp2 = "\",realm=\"";
+            String tmp3 = "\"," +
+                    "nonce=\""+nonce+"\",nc=00000001,cnonce=\""+cnonce+"\"," +
+                    "qop=auth,digest-uri=\""+digestUri+"\"," +
+                    "response=\""+hResp.getDigestHex()+"\",charset=utf-8";
+            byte []a = user.getBytes("utf-8");
+            byte []b = realm.getBytes("utf-8");
+            final byte[] result = new byte[tmp1.length()+a.length+tmp2.length()+b.length+tmp3.length()];
+            int idx = 0;
+            System.arraycopy(tmp1.getBytes(), 0, result, 0, tmp1.length());
+            idx += tmp1.length();
+            System.arraycopy(a, 0, result, idx, a.length);
+            idx += a.length;
+            System.arraycopy(tmp2.getBytes(), 0, result, idx, tmp2.length());
+            idx += tmp2.length();
+            System.arraycopy(b, 0, result, idx, b.length);
+            idx += b.length;
+            System.arraycopy(tmp3.getBytes(), 0, result, idx, tmp3.length());
+            idx += tmp3.length();
+            return Strconv.toBase64(result, idx);
+        } catch (UnsupportedEncodingException e) {
+            return null;
+        }
     }
 }

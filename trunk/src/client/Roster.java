@@ -562,7 +562,7 @@ public final class Roster extends VirtualList
         messageCount = contactList.getNewMessageCount();
         updateMainBar();
 //#ifdef SYSTEM_NOTIFY     
-//#         Notification.getNotificator().getNotificationManager().cancel(AndroidNotification.NOTIFY_ID);
+//#         //Notification.getNotificator().getNotificationManager().cancel(AndroidNotification.NOTIFY_ID);
 //#         Notification.getNotificator().sendNotify("message", "count");
 //#endif
         return (messageCount > 0);

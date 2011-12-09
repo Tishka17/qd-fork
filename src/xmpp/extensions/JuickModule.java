@@ -229,7 +229,7 @@ public class JuickModule implements JabberBlockListener {
             buf.append(body);
         }
         //Вложения - фото и видео. Для фото показываем миниатюру
-        if (midlet.BombusQD.cf.juickImages && "jpg".equals(child.getAttribute("attach"))) {
+        if ("jpg".equals(child.getAttribute("attach"))) {
             StringBuffer url = new StringBuffer("http://i.juick.com/ps/");
             buf.append("\nhttp://i.juick.com/photos-1024/");
             url.append(mid);
@@ -240,7 +240,7 @@ public class JuickModule implements JabberBlockListener {
             }
             url.append(".jpg");
             buf.append(".jpg");
-            attachment = new ImageItem(url.toString());
+            if (midlet.BombusQD.cf.juickImages) attachment = new ImageItem(url.toString());
         } else if ("mp4".equals(child.getAttribute("attach"))) {
             buf.append("\nhttp://i.juick.com/video/");
             buf.append(mid);

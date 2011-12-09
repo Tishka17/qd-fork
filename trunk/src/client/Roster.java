@@ -130,6 +130,7 @@ import disco.ServerStatsForm;
 //# import message.notification.Notification;
 //# import message.notification.Notificator;
 //# import message.notification.AndroidNotification;
+//# import org.bombusqd.BombusQDActivity;
 //#endif
 //#if ROSTERX
 import xmpp.extensions.RosterXListener;
@@ -3342,7 +3343,11 @@ public final class Roster extends VirtualList
 //#             ex.printStackTrace();
 //#endif
         }
+//#if Android        
+//#         BombusQDActivity.getInstance().finish();
+//#else
         BombusQD.getInstance().notifyDestroyed();
+//#endif
     }
 
     public void cmdQuit() {

@@ -221,6 +221,7 @@ public class BombusQDActivity extends MicroEmulatorActivity {
             Log.i(LOG_TAG, "onPause(); with isFinishing() == true.");
             Log.i(LOG_TAG, "Stopping service...");
             stopService(new Intent(this, BombusQDService.class));
+            BombusQD.getInstance().notifyDestroyed();
             return;
         }
 

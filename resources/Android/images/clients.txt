@@ -19,7 +19,7 @@ apple.com/ichat/caps	iChatAgent
 dev.jabbim.cz/jabbim/caps	Jabbim
 bombus.pl	BombusMod (PL)
 chat.freize.org/caps	Freize Web Chat
-isida-bot.com Isida
+isida-bot.com	Isida
 jajc.jrudevels.org	JAJC
 java.util.Random	Bombus-Avalon
 smaper	Sm@per
@@ -38,7 +38,7 @@ movamessenger	movamessenger
 psi-dev.googlecode.com	Psi+
 agent.mail.ru	MailAgent
 barobin.com	Bayan
-simak.ru	Simak.ru
+www.android.com/gtalk/client/caps	Gtalk
 jeti.sf.net	JETI
 trillian.cc	Trillian
 wokjab.nedo.se	WokJab

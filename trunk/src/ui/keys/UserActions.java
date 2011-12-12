@@ -143,9 +143,9 @@ public class UserActions {
 //#endif
         ,new userAct( 16, UA_ALL, SR.get(SR.MS_AUTOTASK_QUIT_CONFERENCES), ActionsIcons.getInstance(), ActionsIcons.ICON_LEAVE)
         ,new userAct( 17, UA_ALL, SR.get(SR.MS_AUTOTASK_QUIT_BOMBUSMOD), MenuIcons.getInstance(), MenuIcons.ICON_QUIT)
-        ,new userAct( 18, UA_ALL, SR.get(SR.MS_LOGOFF), RosterIcons.getInstance(), RosterIcons.ICON_OFFLINE_STATUS)
-        ,new userAct( 19, UA_ALL, SR.get(SR.MS_AUTOLOGIN), MenuIcons.getInstance(), MenuIcons.ICON_OK)
-        ,new userAct( 20, UA_ALL, SR.get(SR.MS_DO_AUTOJOIN), RosterIcons.getInstance(), RosterIcons.ICON_GCCOLLAPSED_INDEX)
+            //TODO: no 18 
+        ,new userAct( 19, UA_ALL, SR.get(SR.MS_LOGIN), MenuIcons.getInstance(), MenuIcons.ICON_OK)
+        ,new userAct( 20, UA_ALL, SR.get(SR.MS_CONFERENCE)+": "+SR.get(SR.MS_DO_AUTOJOIN), RosterIcons.getInstance(), RosterIcons.ICON_GCCOLLAPSED_INDEX)
         ,new userAct( 21, UA_KEYS, "Show/Hide Offline contacts", RosterIcons.getInstance(), RosterIcons.ICON_IDONTNOW_STATUS)
         ,new userAct( 22, UA_ALL, "Status: online", RosterIcons.getInstance(), RosterIcons.ICON_ONLINE_STATUS)
         ,new userAct( 23, UA_ALL, "Status: offline", RosterIcons.getInstance(), RosterIcons.ICON_OFFLINE_STATUS)
@@ -156,7 +156,7 @@ public class UserActions {
         ,new userAct( 28, UA_KEYS, "Command: EventOk")
         ,new userAct( 29, UA_KEYS, "Command: Alert Profile")
         ,new userAct( 30, UA_KEYS, "Command: keyClose")
-        ,new userAct( 31, UA_ALL, SR.get(SR.MS_BOOKMARKS), MenuIcons.getInstance(), MenuIcons.ICON_CONFERENCE)
+        ,new userAct( 31, UA_KEYS, SR.get(SR.MS_BOOKMARKS), MenuIcons.getInstance(), MenuIcons.ICON_CONFERENCE)
         ,new userAct( 32, UA_KEYS, "Restore from background")
         ,new userAct( 33, UA_KEYS, "Cursor: moveHome")
         ,new userAct( 34, UA_KEYS, "Cursor: moveEnd")
@@ -294,9 +294,6 @@ public class UserActions {
             case 17: // Ouit QD
                 BombusQD.getInstance().notifyDestroyed();
                 break;
-            case 18: // LogOff
-                sd.roster.logoff( SR.get(SR.MS_LOGOFF));
-                return true;
             case 19: // LogOn
                 sd.roster.logon( SR.get(SR.MS_AUTOLOGIN));
                 return true;

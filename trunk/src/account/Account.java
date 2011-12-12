@@ -371,7 +371,7 @@ public class Account extends IconTextElement {
 //#     }
 //#else
 //#if !(Android)        
-            url.insert(0, "socket://");
+            url.insert(0, (useSSL)?"ssl://":"socket://");
 //#endif            
 //#endif
         return new JabberStream(getServer(), url.toString(), tempPort, proxy);

@@ -200,7 +200,11 @@ public class BombusQDActivity extends MicroEmulatorActivity {
     protected void onNewIntent(Intent intent) {
 		System.out.println("onNewIntent("+intent.getAction()+")");
 		if ("org.bombusqd.qd-notify".equals(intent.getAction())) {
-			BombusQD.sd.roster.contactList.getFirstContactWithNewHighlite(null).getMessageList().show();
+			Contact c=BombusQD.sd.roster.contactList.getFirstContactWithNewHighlite(null);
+			if (c!=null) {
+				c.getMessageList().show();
+				BombusQD.sd.roster.focusToContact(c, false);
+			}
 		}
 	}
     @Override

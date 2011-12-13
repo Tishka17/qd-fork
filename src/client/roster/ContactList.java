@@ -158,7 +158,10 @@ public final class ContactList {
                 return c;
             }
         }
-        return contact;
+        if (contact.getNewHighliteMsgsCount()>0 || (contact.origin!=Contact.ORIGIN_GROUPCHAT && contact.hasNewMsgs())) {
+            return contact;
+        }
+        return null;
     }
     
 

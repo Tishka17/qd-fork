@@ -137,6 +137,7 @@ public final class ActiveContacts extends VirtualList implements MenuListener {
 
     public void eventOk() {
         Contact contact = (Contact) getFocusedObject();
+        BombusQD.sd.roster.focusToContact(contact, false);
 //#ifdef CLASSIC_CHAT
 //#         if (Config.module_classicchat) {
 //#             new SimpleItemChat(contact);

@@ -2804,7 +2804,7 @@ public final class Roster extends VirtualList
         notify = null;
     }
 
-     private void focusToContact(final Contact c, boolean force) {
+     public void focusToContact(final Contact c, boolean force) {
         Group g = c.group;
          if (g.collapsed) {
             g.collapsed = false;

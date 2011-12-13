@@ -85,7 +85,16 @@ public class AndroidTextFieldUI extends LinearLayout implements TextFieldUI {
 
 					public void onTextChanged(CharSequence s, int start, int before, int count) {
 						if (s.toString().length() <= textField.getMaxSize()
-								&& InputMethod.validate(s.toString(), textField.getConstraints())) {			
+								&& InputMethod.validate(s.toString(), textField.getConstraints())) {
+							if (textField != null) {
+								AndroidFormUI.AndroidListView formList = (AndroidFormUI.AndroidListView) getParent();
+								if (formList != null) {
+									ItemStateListener listener = formList.getUI().getItemStateListener();
+									if (listener != null) {
+										listener.itemStateChanged(textField);
+									}
+								}
+							}
 						} else {
 							editView.setText(previousText);
 							editView.setSelection( start );
@@ -130,9 +139,6 @@ public class AndroidTextFieldUI extends LinearLayout implements TextFieldUI {
                 if ((constraints & TextField.PASSWORD) != 0) {
                     editView.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     editView.setTypeface(Typeface.MONOSPACE);
-                }
-                if ((constraints & TextField.INITIAL_CAPS_SENTENCE) != 0) {
-                    editView.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_FLAG_MULTI_LINE|InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
                 }
 			}
 		});

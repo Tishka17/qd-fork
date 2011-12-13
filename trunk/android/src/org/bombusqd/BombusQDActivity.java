@@ -73,6 +73,7 @@ import org.microemu.android.MicroEmulatorActivity;
 import android.content.Intent;
 import android.util.Log;
 
+import client.Contact;
 import midlet.BombusQD;
 import ui.VirtualCanvas;
 import util.ClipBoard;

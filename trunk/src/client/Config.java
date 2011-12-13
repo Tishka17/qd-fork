@@ -390,6 +390,7 @@ public class Config {
         System.gc();
 
         switch (phoneManufacturer) {
+//#ifndef Android
             case SONYE:
                 try { Thread.sleep(50); } catch (InterruptedException e){}
                 allowMinimize=true;
@@ -403,6 +404,7 @@ public class Config {
             case MOTO:
                 ghostMotor=true;
                 break;
+//#endif
         }
     }
 

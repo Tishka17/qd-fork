@@ -1081,7 +1081,7 @@ public class Config {
 //# 			if(manufact_.charAt(i) == model_.charAt(i)) matches++;
 //# 		}
 //# 		final int percentage = matches*100/total;
-//# 		if(percentage > 50){
+//# 		if(percentage > 20){
 //# 			result = model;
 //# 		}else{
 //# 			result = manufact+" "+model;

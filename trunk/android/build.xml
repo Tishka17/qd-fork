@@ -90,6 +90,11 @@
             file="AndroidManifest.xml"
             match="(android:versionCode=.)([0-9]+)(.)"
             replace="\1${app.raw-revision}\3" />
+        <replaceregexp
+            byline="true"
+            file="AndroidManifest.xml"
+            match="(android:versionName=.1.0.)([0-9]+)(.)"
+            replace="\1${app.raw-revision}\3" />
     </target>
 
     <target name="my-release" depends="fix-android-manifest,release">

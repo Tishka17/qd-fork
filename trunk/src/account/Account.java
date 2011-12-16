@@ -358,7 +358,7 @@ public class Account extends IconTextElement {
             }
         }
         StringBuffer url = new StringBuffer(host);
-
+//FIXME: HTTP      
 //#if HTTPPOLL || HTTPCONNECT || HTTPBIND
 //#         if (!isEnableProxy()) {
 //# 	    url.insert(0, "socket://");
@@ -368,13 +368,9 @@ public class Account extends IconTextElement {
 //#elif HTTPCONNECT
 //#             proxy="socket://" + getProxyHostAddr() + ':' + getProxyPort();
 //#endif
-//#     }
-//#else
-//#if !(Android)        
-            url.insert(0, (useSSL)?"ssl://":"socket://");
-//#endif            
+//#     }           
 //#endif
-        return new JabberStream(getServer(), url.toString(), tempPort, proxy);
+        return new JabberStream(getServer(), url.toString(), tempPort, proxy, useSSL);
     }
 
     public boolean isEnableProxy() {
@@ -418,9 +414,9 @@ public class Account extends IconTextElement {
     }
 
     public boolean useGoogleToken() {
-        if (useSSL) {
+        /*if (useSSL) {
             return false;
-        }
+        }*/
         return isGmail();
     }
 

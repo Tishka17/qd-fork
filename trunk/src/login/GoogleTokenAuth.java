@@ -30,11 +30,15 @@ package login;
 
 import account.Account;
 import java.io.InputStream;
-import javax.microedition.io.Connector;
-import javax.microedition.io.HttpConnection;
 import locale.SR;
 import util.Strconv;
-
+//#if Android
+//# import java.net.URL;
+//# import javax.net.ssl.HttpsURLConnection;
+//#else 
+import javax.microedition.io.Connector;
+import javax.microedition.io.HttpsConnection;
+//#endif
 /**
  *
  * @author root
@@ -72,12 +76,17 @@ public class GoogleTokenAuth {
             String firstUrl = "https://www.google.com:443/accounts/ClientAuth?Email="
                     + Strconv.unicodeToUTF(account.getUserName()) + "%40"+ account.getServer()
                     + "&Passwd=" + Strconv.unicodeToUTF(account.getPassword())
-                    + "&PersistentCookie=false&source=googletalk";
+                    + "&PersistentCookie=false&source=bombusqd";
 
             //log.addMessage("Connecting to www.google.com");
-            HttpConnection c = (HttpConnection) Connector.open(firstUrl);
+//#if Android
+//#            URL url = new URL(firstUrl);
+//#            HttpsURLConnection c = (HttpsURLConnection) url.openConnection();
+//#            InputStream is = c.getInputStream();
+//#else     
+            HttpsConnection c = (HttpsConnection) Connector.open(firstUrl);
             InputStream is = c.openInputStream();
-
+//#endif
 
             String sid = readLine(is);
             if(!sid.startsWith("SID=")) {
@@ -89,14 +98,21 @@ public class GoogleTokenAuth {
             String secondUrl = "https://www.google.com:443/accounts/IssueAuthToken?"
                     + sid + "&" + lsid + "&service=mail&Session=true";
             is.close();
+//#if Android
+//#            url = new URL(secondUrl);
+//#            c = (HttpsURLConnection) url.openConnection();
+//#            is = c.getInputStream();
+//#else
             c.close();
-            //log.addMessage("Next www.google.com connection");
-            c = (HttpConnection) Connector.open(secondUrl);
+            c = null;
+            c = (HttpsConnection) Connector.open(secondUrl);
             is = c.openInputStream();
-            //str = readLine(dis);
+//#endif
             String token = "\0"+Strconv.unicodeToUTF(account.getUserName())+"\0"+readLine(is);
             is.close();
+//#if !Android
             c.close();
+//#endif
             return Strconv.toBase64(token);
 
         } catch (javax.microedition.pki.CertificateException e) {

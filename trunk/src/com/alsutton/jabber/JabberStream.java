@@ -34,6 +34,9 @@ import java.io.*;
 import java.util.*;
 //#if Android
 //# import java.net.Socket;
+//# import javax.net.ssl.SSLSocketFactory;
+//# import javax.net.ssl.SSLContext;
+//# import javax.net.ssl.SSLSocket;
 //#else
 import javax.microedition.io.*;
 //#endif
@@ -73,16 +76,21 @@ public class JabberStream extends XmppParser implements Runnable {
      *
      */
 
-    public JabberStream( String server, String host,  int port, String proxy) throws IOException {
+    public JabberStream( String server, String host,  int port, String proxy, boolean  ssl) throws IOException {
         this.server=server;
 
-         if (proxy==null) {
+        if (proxy==null) {
 //#if Android
-//# 	    connection = new Socket(host, port);
-//#else                    
-            connection = (StreamConnection) Connector.open(host + ":" + port);
+//#         /* TODO: SSL on Android 
+//#         if (ssl) {
+//#            connection = SSLSocketFactory.getDefault().createSocket(host, port); 
+//#         } else */
+//#            connection = new Socket(host, port);
+//#else
+            System.out.println((ssl?"ssl://":"socket://")+host + ":" + port);
+            connection = (StreamConnection) Connector.open((ssl?"ssl://":"socket://")+host + ":" + port);
 //#endif  
-          } else {
+        } else {
 //#if HTTPCONNECT
 //#             connection = io.HttpProxyConnection.open(hostAddr, proxy);
 //#elif HTTPPOLL
@@ -90,12 +98,15 @@ public class JabberStream extends XmppParser implements Runnable {
 //#else
             throw new IllegalArgumentException ("no proxy supported");
 //#endif
-         }
-
+        }
+        if (connection == null) {
+            System.out.println("Null connection");
+            throw new IOException("null connection");
+        }
         iostream=new Utf8IOStream(connection);
         dispatcher = new JabberDataBlockDispatcher(this);
 
-        new Thread( this ). start();
+        new Thread(this).start();
     }
 
     public void initiateStream() throws IOException {

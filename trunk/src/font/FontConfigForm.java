@@ -80,9 +80,10 @@ public class FontConfigForm extends DefForm {
         menuFont.append(SR.get(SR.MS_FONTSIZE_LARGE));
         menuFont.setSelectedIndex(Config.menuFont / 8);
         addControl(menuFont);
-        
-        useItalic = new CheckBox('*' + SR.get(SR.MS_Italic), Config.useItalic);
+//#ifndef Android       
+        useItalic = new CheckBox('*' + SR.get(SR.MS_Italic), Config.useItalic);        //need fix for android
         addControl(useItalic);
+//#endif
     }
     
     public void cmdOk() {

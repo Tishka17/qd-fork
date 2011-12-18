@@ -243,9 +243,10 @@ public class ModuleConfigForm extends DefForm {
 
                 ignore = new CheckBox(SR.get(SR.MS_IGNORE_LIST), config.ignore);
                 addControl(ignore);
-
+//#ifndef Android
                 showMsgsCount = new CheckBox(SR.get(SR.MS_SHOW_MSGS_COUNT), config.showMsgsCount);
                 addControl(showMsgsCount);
+//#endif                
             }
 
             rosterStatus = new CheckBox(SR.get(SR.MS_SHOW_STATUSES), config.rosterStatus);
@@ -316,12 +317,15 @@ public class ModuleConfigForm extends DefForm {
                 addControl(showNickNames);
             }
 
+//#ifndef Android
             useTabs = new CheckBox(SR.get(SR.MS_EMULATE_TABS), config.useTabs);
             addControl(useTabs);
-
+//#endif
+//#ifndef Android
             capsState = new CheckBox(SR.get(SR.MS_CAPS_STATE), config.capsState);
             addControl(capsState);
-
+//#endif
+            
             showMsgSep = new CheckBox( SR.get(SR.MS_MESSAGES_SEPARATOR), Config.showMsgSep);
             addControl(showMsgSep);
 
@@ -342,9 +346,10 @@ public class ModuleConfigForm extends DefForm {
                 addControl(useClipBoard);
 //#endif
             }
-
+//#ifndef Android
             swapSendAndSuspend = new CheckBox(SR.get(SR.MS_SWAP_SEND_SUSPEND), Config.swapSendAndSuspend);
             addControl(swapSendAndSuspend);
+//#endif
         } else if (type == PluginBox.NETWORK) {
             if (config.userAppLevel == 1) {
 //#ifdef PEP
@@ -386,10 +391,10 @@ public class ModuleConfigForm extends DefForm {
 
             reconnectTime = new NumberInput(SR.get(SR.MS_RECONNECT_WAIT), config.reconnectTime, 1, 60 );
             addControl(reconnectTime);
-
+//#ifndef Android
             nokiaReconnectHack = new CheckBox(SR.get(SR.MS_NOKIA_RECONNECT_HACK), config.nokiaReconnectHack);
             addControl(nokiaReconnectHack);
-
+//#endif
             if (config.userAppLevel == 1) {
 //#if FILE_TRANSFER
                 fileTransfer = new CheckBox(SR.get(SR.MS_FILE_TRANSFERS), config.fileTransfer);
@@ -502,9 +507,11 @@ public class ModuleConfigForm extends DefForm {
             addControl(new SpacerItem(3));
 
             if(config.userAppLevel == 1) {
+//#ifndef Android
 //#ifdef MEMORY_MONITOR
 //#              memMon = new CheckBox(SR.get(SR.MS_HEAP_MONITOR), config.memMonitor);
 //#              addControl(memMon);
+//#endif
 //#endif
                 shadowBar = new CheckBox(SR.get(SR.MS_SHADOW_BAR), config.shadowBar);
                 addControl(shadowBar);
@@ -545,10 +552,10 @@ public class ModuleConfigForm extends DefForm {
                 queryExit = new CheckBox(SR.get(SR.MS_CONFIRM_EXIT), config.queryExit);
                 addControl(queryExit);
             }
-
+//#ifndef Android
             fullscr = new CheckBox(SR.get(SR.MS_FULLSCREEN), Config.fullscreen);
             addControl(fullscr);
-
+//#endif
             if (phoneManufacturer == Config.SONYE) {
                 oldSE = new CheckBox(SR.get(SR.MS_KEYS_FOR_OLD_SE), config.oldSE);
                 addControl(oldSE);
@@ -557,10 +564,10 @@ public class ModuleConfigForm extends DefForm {
                 popupFromMinimized = new CheckBox(SR.get(SR.MS_ENABLE_POPUP), config.popupFromMinimized);
                 addControl(popupFromMinimized);
             }
-
+//#ifndef Android
             executeByNum = new CheckBox(SR.get(SR.MS_EXECUTE_MENU_BY_NUMKEY), Config.executeByNum);
             addControl(executeByNum);
-
+//#endif
             addControl(new SpacerItem(10));
             addControl(new SimpleString(SR.get(SR.MS_TIME_SETTINGS), true));
 
@@ -594,7 +601,9 @@ public class ModuleConfigForm extends DefForm {
 //#ifdef AUTOSTATUS
         } else if (type == PluginBox.AUTOSTATUS) {
             autoAwayType = new DropChoiceBox(SR.get(SR.MS_AWAY_TYPE));
+//#ifndef Android
             autoAwayType.append(new IconTextElement(SR.get(SR.MS_AWAY_LOCK), RosterIcons.getInstance(), RosterIcons.ICON_KEYBLOCK_INDEX));
+//#endif
             autoAwayType.append(new IconTextElement(SR.get(SR.MS_MESSAGE_LOCK), RosterIcons.getInstance(), RosterIcons.ICON_MESSAGE_INDEX));
             autoAwayType.append(new IconTextElement(SR.get(SR.MS_IDLE), ActionsIcons.getInstance(), ActionsIcons.ICON_IDLE));
             autoAwayType.setSelectedIndex(config.autoAwayType);

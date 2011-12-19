@@ -57,12 +57,14 @@ public class Group extends IconTextElement {
 
     public Group(String name, byte type) {
         super(RosterIcons.getInstance());
-        this.name = name;
         this.type = type;
         this.collapsed = midlet.BombusQD.cf.collapsedGroups;
+        setName(name);
+    }
+    public void setName(String name) {
+        this.name = name;
         sortKey = name.toLowerCase();
     }
-
     public boolean addContact(Contact c) {
         if (!contacts.contains(c)) {
             contacts.addElement(c);

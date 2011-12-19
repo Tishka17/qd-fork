@@ -422,7 +422,6 @@ public class ModuleConfigForm extends DefForm {
 
                         skinFiles.append(themeName, themePath);
                     }
-
                     addControl(skinFiles);
                 }
             }
@@ -659,6 +658,7 @@ public class ModuleConfigForm extends DefForm {
             config.rosterStatus = rosterStatus.getValue();
             config.useBoldFont = useBoldFont.getValue();
             config.autoFocus = autoFocus.getValue();
+            BombusQD.sd.roster.reEnumRoster();
         } else if (type == PluginBox.CHATS) {
             boolean createMsgEdit = false;
 
@@ -827,9 +827,10 @@ public class ModuleConfigForm extends DefForm {
                     Commands.initCommands();
                     BombusQD.sd.roster.initCommands();
                     BombusQD.sd.roster.show();
-                    return;
                 }
             }
+            BombusQD.sd.roster.contactList.groups.updateNames();
+            BombusQD.sd.roster.reEnumRoster();
 //#ifdef AUTOSTATUS
         } else if (type == PluginBox.AUTOSTATUS) {
             config.autoAwayType = autoAwayType.getSelectedIndex();

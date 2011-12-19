@@ -64,15 +64,45 @@ public class Groups implements JabberBlockListener{
     private Group[] spetialGroup = new Group[11];
     public Groups(){
         groups=new Vector(0);
-        addGroup(SR.get(SR.MS_TRANSPORTS), TYPE_TRANSP);
-        addGroup(SR.get(SR.MS_SELF_CONTACT), TYPE_SELF);
-        addGroup(SR.get(SR.MS_SEARCH_RESULTS), TYPE_SEARCH_RESULT);
-        addGroup("Conferences", TYPE_CONFERENCE);
-        addGroup(SR.get(SR.MS_NOT_IN_LIST), TYPE_NOT_IN_LIST);
-        addGroup(SR.get(SR.MS_IGNORE_LIST), TYPE_IGNORE);
-        addGroup(SR.get(SR.MS_VISIBLE_GROUP), TYPE_VISIBLE);
-        addGroup(SR.get(SR.MS_VIP_GROUP), TYPE_VIP);
-        addGroup(Groups.COMMON_GROUP, TYPE_NO_GROUP);
+        addGroup(getName(TYPE_TRANSP), TYPE_TRANSP);
+        addGroup(getName(TYPE_SELF), TYPE_SELF);
+        addGroup(getName(TYPE_SEARCH_RESULT), TYPE_SEARCH_RESULT);
+        addGroup(getName(TYPE_CONFERENCE), TYPE_CONFERENCE);
+        addGroup(getName(TYPE_NOT_IN_LIST), TYPE_NOT_IN_LIST);
+        addGroup(getName(TYPE_IGNORE), TYPE_IGNORE);
+        addGroup(getName(TYPE_VISIBLE), TYPE_VISIBLE);
+        addGroup(getName(TYPE_VIP), TYPE_VIP);
+        addGroup(getName(TYPE_NO_GROUP), TYPE_NO_GROUP);
+    }
+    
+    public static String getName(byte type) {
+         switch (type) {
+            case TYPE_TRANSP:
+                return SR.get(SR.MS_TRANSPORTS);
+            case TYPE_SELF:
+                return SR.get(SR.MS_SELF_CONTACT);
+            case TYPE_SEARCH_RESULT:
+                return SR.get(SR.MS_SEARCH_RESULTS);
+            case TYPE_CONFERENCE:
+                return SR.get(SR.MS_CONFERENCE);//"Conferences";
+            case TYPE_NOT_IN_LIST:
+                return SR.get(SR.MS_NOT_IN_LIST);
+            case TYPE_IGNORE:
+                return SR.get(SR.MS_IGNORE_LIST);
+            case TYPE_VISIBLE:
+                return SR.get(SR.MS_VISIBLE_GROUP);
+            case TYPE_VIP:
+                return SR.get(SR.MS_VIP_GROUP);
+            default:
+                return SR.get(SR.MS_GENERAL);
+            }
+    }
+    public void updateNames() {
+        int i=0, n=groups.size();
+        for (i=0;i<n;i++) {
+            Group gr = (Group)groups.elementAt(i);
+            gr.setName(getName(gr.type));
+        }
     }
 
     public void destroy() {

@@ -40,7 +40,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import locale.SR;
 import xmpp.XmppError;
-
 import util.Strconv;
 
 /**
@@ -51,8 +50,7 @@ public class SASLAuth implements JabberBlockListener{
     
     private LoginListener listener;
     private Account account;
-    //private JabberStream stream;
-
+    
     /** Creates a new instance of SASLAuth */
     public SASLAuth(Account account, LoginListener listener) {
         this.listener=listener;

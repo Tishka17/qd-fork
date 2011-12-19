@@ -221,11 +221,11 @@ public class Gradient {
 
 			if (type==MIXED_UP) {
 				yS=height;
-				yE=1;
+				yE=0;
 				yD=-1;
 			} else {
 				yS=0;
-				yE=height-1;
+				yE=height;
 				yD=1;
 			}
 			for (int y = yS; y != yE; y+=yD)

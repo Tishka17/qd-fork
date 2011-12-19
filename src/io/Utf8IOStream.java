@@ -122,7 +122,6 @@ public class Utf8IOStream {
 	synchronized (outStream) {
             byte[] bytes = Strconv.stringToByteArray(data.toString());
 	    outStream.write(bytes);
-
 	    outStream.flush();
             bytes=null;
             bytes=new byte[0];
@@ -137,7 +136,6 @@ public class Utf8IOStream {
 //#endif
     }
 
-
     int avail=0;
     int lenbuf=0;
 
@@ -146,15 +144,7 @@ public class Utf8IOStream {
 //#         if (tlsExclusive)
 //#             return 0;
 //#endif     
-        avail=inpStream.available();
-
-        if (avail==0) return 0;
-
-        lenbuf=buf.length;
-
-        if (avail>lenbuf) avail=lenbuf;
-
-        avail=inpStream.read(buf, 0, avail);
+        avail=inpStream.read(buf, 0, lenbuf);
 //#if (XML_STREAM_DEBUG)
 //# 	System.out.println("<< "+new String(buf, 0, avail));
 //#endif

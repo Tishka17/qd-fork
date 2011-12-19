@@ -103,7 +103,7 @@ public class JabberStream extends XmppParser implements Runnable {
             System.out.println("Null connection");
             throw new IOException("null connection");
         }
-        iostream=new Utf8IOStream(connection);
+        iostream=new Utf8IOStream(connection, host, port);
         dispatcher = new JabberDataBlockDispatcher(this);
 
         new Thread(this).start();
@@ -390,7 +390,7 @@ public class JabberStream extends XmppParser implements Runnable {
         return iostream.getStreamStatsBar();
     }
 
-//#if TLS
+//#if TLS || Android
 //#    public void setTls() throws IOException {
 //#        iostream.setTls();
 //#    }

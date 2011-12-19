@@ -716,7 +716,7 @@ public final class Roster extends VirtualList
                    group=i.getChildBlockText("group");
                    bareJid=i.getAttribute("jid");
 
-                   if (group.length()==0) group=Groups.COMMON_GROUP;
+                   if (group.length()==0) group=Groups.getName(Groups.TYPE_NO_GROUP);
                    updateContact(i.getAttribute("name"), bareJid, group, i.getAttribute("subscription"), (null != i.getAttribute("ask")));
 
                    if(-1 == bareJid.indexOf('@')) transports.addElement(bareJid);

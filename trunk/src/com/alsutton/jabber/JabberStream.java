@@ -35,6 +35,7 @@ import java.util.*;
 //#if Android
 //# import java.net.Socket;
 //# import javax.net.ssl.SSLSocketFactory;
+//# import javax.net.ssl.HttpsURLConnection;
 //# import javax.net.ssl.SSLContext;
 //# import javax.net.ssl.SSLSocket;
 //#else
@@ -81,10 +82,9 @@ public class JabberStream extends XmppParser implements Runnable {
 
         if (proxy==null) {
 //#if Android
-//#         /* TODO: SSL on Android 
 //#         if (ssl) {
-//#            connection = SSLSocketFactory.getDefault().createSocket(host, port); 
-//#         } else */
+//#            connection = SSLSocketFactory.getDefault().createSocket(host, port);
+//#         } else 
 //#            connection = new Socket(host, port);
 //#else
             System.out.println((ssl?"ssl://":"socket://")+host + ":" + port);

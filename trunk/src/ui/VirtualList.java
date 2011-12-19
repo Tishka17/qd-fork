@@ -889,7 +889,7 @@ public abstract class VirtualList extends CanvasEx {
 		int r = ColorTheme.getRed(color) + light;
 		int g = ColorTheme.getGreen(color) + light;
 		int b = ColorTheme.getBlue(color) + light;
-                int a = ColorTheme.getAlpha(color) + light;
+                int a = ColorTheme.getAlpha(color);
 		if (r < 0) r = 0;
 		if (r > 255) r = 255;
 		if (g < 0) g = 0;

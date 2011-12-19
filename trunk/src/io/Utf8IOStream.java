@@ -41,6 +41,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 //#if Android
 //# import java.net.Socket;
+//# import javax.net.ssl.SSLSocketFactory;
+//# import javax.net.ssl.SSLSocket;
 //#else
 import javax.microedition.io.*;
 //#endif
@@ -64,7 +66,10 @@ public class Utf8IOStream {
     private static int bytesSent;
     private boolean isZlib = false;
 
-//#if TLS
+//#if Android
+//#    private SSLSocket tls;
+//#    public boolean tlsExclusive = false;
+//#elif TLS
 //#     private TlsProtocolHandler tls;
 //#     public boolean tlsExclusive = false;
  //#endif    
@@ -80,9 +85,13 @@ public class Utf8IOStream {
 //#endif
      }
 //#endif
+     private String host;
+     private int port; 
 //#if Android
 //# /** Creates a new instance of Utf8IOStream */
-//#     public Utf8IOStream(Socket connection) throws IOException {
+//#     public Utf8IOStream(Socket connection, String host, int port) throws IOException {
+//#         this.host = host;
+//#         this.port = port;
 //#         this.connection = connection;
 //#         try {
 //#             connection.setKeepAlive(true);
@@ -98,8 +107,11 @@ public class Utf8IOStream {
 //#     }    
 //#else    
     /** Creates a new instance of Utf8IOStream */
-    public Utf8IOStream(StreamConnection connection) throws IOException {
+   
+    public Utf8IOStream(StreamConnection connection, String host, int port) throws IOException {
 	this.connection=connection;
+        this.host = host;
+        this.port = port;
         try {
             SocketConnection sc=(SocketConnection)connection;
             sc.setSocketOption(SocketConnection.KEEPALIVE, 1);
@@ -137,14 +149,16 @@ public class Utf8IOStream {
     }
 
     int avail=0;
-    int lenbuf=0;
 
     public int read(byte buf[]) throws IOException {
-//#ifdef TLS
+//#if Android        
+//#        if (tlsExclusive)
+//#            return 0;
+//#elif TLS
 //#         if (tlsExclusive)
 //#             return 0;
 //#endif     
-        avail=inpStream.read(buf, 0, lenbuf);
+        avail=inpStream.read(buf, 0, buf.length);
 //#if (XML_STREAM_DEBUG)
 //# 	System.out.println("<< "+new String(buf, 0, avail));
 //#endif
@@ -169,7 +183,15 @@ public class Utf8IOStream {
         midlet.BombusQD.sd.updateTrafficOut();
      }
 
-//#if TLS
+//#if Android
+//#    public void setTls() throws IOException {
+//#        tlsExclusive=true;
+//#        tls=(SSLSocket)((SSLSocketFactory)SSLSocketFactory.getDefault()).createSocket(connection, host, port, true);
+//#        inpStream=tls.getInputStream();
+//#        outStream=tls.getOutputStream();
+//#        tlsExclusive=false;
+//#    }
+//#elif TLS
 //#     public void setTls() throws IOException {
 //#         tlsExclusive=true;
 //#         tls=new TlsProtocolHandler(inpStream, outStream);

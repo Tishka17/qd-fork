@@ -28,7 +28,7 @@
 package login;
 
 import account.Account;
-//#ifdef TLS
+//#if TLS || Android
 //# import client.StaticData;
 //#endif
 import com.alsutton.jabber.JabberBlockListener;
@@ -76,7 +76,7 @@ public class SASLAuth implements JabberBlockListener{
         JabberStream stream=midlet.BombusQD.sd.roster.theStream;
         //System.out.println(data.toString());
         if (data.getTagName().equals("stream:features")) {
-//#if TLS
+//#if TLS || Android
 //#             JabberDataBlock starttls=data.getChildBlock("starttls");
 //#             if (starttls!=null && starttls.isJabberNameSpace("urn:ietf:params:xml:ns:xmpp-tls")) {
 //#                 JabberDataBlock askTls=new JabberDataBlock("starttls", null, null);
@@ -223,7 +223,7 @@ public class SASLAuth implements JabberBlockListener{
             stream.send(resp);
             return JabberBlockListener.BLOCK_PROCESSED;
         }
-//#ifdef TLS
+//#if TLS || Android
 //#         else if ( data.getTagName().equals("proceed")) {
 //#             try {
 //#                 stream.setTls();

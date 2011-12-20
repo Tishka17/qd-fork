@@ -420,7 +420,16 @@ public class Config {
             barFont = FontCache.MEDIUM;
 
             scrollWidth = 8;
-            minItemHeight = 32;
+            
+            if ((BombusQD.sd.canvas.getHeight()<320) || (BombusQD.sd.canvas.getWidth()<320)) {
+                minItemHeight=16;
+            } else if ((BombusQD.sd.canvas.getHeight()>320 & BombusQD.sd.canvas.getHeight()<500) || (BombusQD.sd.canvas.getWidth()>320 & BombusQD.sd.canvas.getWidth()<500)) {
+                minItemHeight=34;     
+            } else if ((BombusQD.sd.canvas.getHeight()>501 & BombusQD.sd.canvas.getHeight()<800) || (BombusQD.sd.canvas.getWidth()>501 & BombusQD.sd.canvas.getWidth()<800)) {
+                minItemHeight=48;
+            } else if ((BombusQD.sd.canvas.getHeight()>801) || (BombusQD.sd.canvas.getWidth()>801)) {
+                minItemHeight=54;
+            }
 
             midlet.BombusQD.sd.roster.updateBarsFont();
             saveToStorage();

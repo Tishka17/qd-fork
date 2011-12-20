@@ -40,9 +40,10 @@ public class FontConfigForm extends DefForm {
     private DropChoiceBox barFont;
     private DropChoiceBox ballonFont;
     private DropChoiceBox menuFont;
-
+//#ifndef Android
     private CheckBox useItalic;
-
+//#endif
+    
     public FontConfigForm() {
         super(SR.get(SR.MS_FONTS));
 
@@ -93,8 +94,10 @@ public class FontConfigForm extends DefForm {
         Config.msgFont = msgFont.getValue() * 8;
         Config.barFont = barFont.getValue() * 8;
 
+//#ifndef Android
         Config.useItalic = useItalic.getValue();
-
+//#endif
+        
         BombusQD.sd.roster.updateBarsFont();
         //BombusQD.sd.roster.reEnumRoster();
 

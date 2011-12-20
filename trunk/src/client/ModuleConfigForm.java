@@ -75,7 +75,9 @@ public class ModuleConfigForm extends DefForm {
     private CheckBox juickImages;
 //#endif
     private CheckBox ignore;
+//#ifndef Android
     private CheckBox autoFocus;
+//#endif
     private CheckBox showMsgsCount;
     private CheckBox showResources;    
     private CheckBox useBoldFont;
@@ -94,10 +96,14 @@ public class ModuleConfigForm extends DefForm {
     private CheckBox showNickNames;
     private CheckBox showTimeInMsgs;
     private CheckBox autoScroll;
+//#ifndef Android
     private CheckBox capsState;
     private CheckBox useTabs;
+//#endif
     private CheckBox hideMessageIcon;
+//#ifndef Android
     private CheckBox swapSendAndSuspend;
+//#endif
     private CheckBox showMsgSep;
 //#ifdef CLIPBOARD
     private CheckBox useClipBoard;
@@ -134,8 +140,10 @@ public class ModuleConfigForm extends DefForm {
     private CheckBox cleanConfContacts;
     private CheckBox collapsedGroups;
     private CheckBox enableVersionOs;
+//#ifndef Android
     private CheckBox executeByNum;
     private CheckBox fullscr;
+//#endif
     private CheckBox oldSE;
     private CheckBox queryExit;
     private CheckBox popupFromMinimized;
@@ -148,8 +156,10 @@ public class ModuleConfigForm extends DefForm {
 //#ifdef POPUPS
     private CheckBox popUps;
 //#endif
+//#ifndef Android
 //#ifdef MEMORY_MONITOR
 //#     private CheckBox memMon;
+//#endif
 //#endif
     private CheckBox gradientBarLigth;
     private CheckBox shadowBar;
@@ -171,7 +181,9 @@ public class ModuleConfigForm extends DefForm {
     private CheckBox eventComposing;
     private CheckBox networkAnnotation;
     private CheckBox eventDelivery;
+//#ifndef Android
     private CheckBox nokiaReconnectHack;
+//#endif
 //#ifdef PEP
     private CheckBox sndrcvmood;
     private CheckBox rcvtune;
@@ -243,10 +255,10 @@ public class ModuleConfigForm extends DefForm {
 
                 ignore = new CheckBox(SR.get(SR.MS_IGNORE_LIST), config.ignore);
                 addControl(ignore);
-//#ifndef Android
+
                 showMsgsCount = new CheckBox(SR.get(SR.MS_SHOW_MSGS_COUNT), config.showMsgsCount);
                 addControl(showMsgsCount);
-//#endif                
+               
             }
 
             rosterStatus = new CheckBox(SR.get(SR.MS_SHOW_STATUSES), config.rosterStatus);
@@ -254,9 +266,10 @@ public class ModuleConfigForm extends DefForm {
 
             useBoldFont = new CheckBox(SR.get(SR.MS_BOLD_FONT), config.useBoldFont);
             addControl(useBoldFont);
-
+//#ifndef Android
             autoFocus = new CheckBox(SR.get(SR.MS_AUTOFOCUS), config.autoFocus);
-            addControl(autoFocus);            
+            addControl(autoFocus); 
+//#endif
         } else if (type == PluginBox.CHATS) {
             msgEditType = new DropChoiceBox(SR.get(SR.MS_MSG_EDIT_TYPE));
             msgEditType.append(new IconTextElement(SR.get(SR.MS_MES_EDIT_OLD), ActionsIcons.getInstance(), ActionsIcons.ICON_RENAME));
@@ -320,8 +333,7 @@ public class ModuleConfigForm extends DefForm {
 //#ifndef Android
             useTabs = new CheckBox(SR.get(SR.MS_EMULATE_TABS), config.useTabs);
             addControl(useTabs);
-//#endif
-//#ifndef Android
+
             capsState = new CheckBox(SR.get(SR.MS_CAPS_STATE), config.capsState);
             addControl(capsState);
 //#endif
@@ -657,7 +669,9 @@ public class ModuleConfigForm extends DefForm {
 
             config.rosterStatus = rosterStatus.getValue();
             config.useBoldFont = useBoldFont.getValue();
+//#ifndef Android
             config.autoFocus = autoFocus.getValue();
+//#endif
             BombusQD.sd.roster.reEnumRoster();
         } else if (type == PluginBox.CHATS) {
             boolean createMsgEdit = false;
@@ -695,8 +709,10 @@ public class ModuleConfigForm extends DefForm {
                 Config.autoScroll = autoScroll.getValue();
             }
 
+//#ifndef Android
             config.useTabs = useTabs.getValue();
             config.capsState = capsState.getValue();
+//#endif
             Config.showMsgSep = showMsgSep.getValue();
 
 //#ifdef SMILES
@@ -717,10 +733,12 @@ public class ModuleConfigForm extends DefForm {
                 Config.useClipBoard = useClipBoard.getValue();
 //#endif
             }
+//#ifndef Android
             if (Config.swapSendAndSuspend != swapSendAndSuspend.getValue()) {
                 createMsgEdit = true;
             }
             Config.swapSendAndSuspend = swapSendAndSuspend.getValue();
+//#endif
 
             if (createMsgEdit) {
                 BombusQD.sd.roster.createMessageEdit();
@@ -743,8 +761,10 @@ public class ModuleConfigForm extends DefForm {
 
             config.reconnectCount = reconnectCount.getIntValue();
             config.reconnectTime = reconnectTime.getIntValue();
+//#ifndef Android
             config.nokiaReconnectHack = nokiaReconnectHack.getValue();
-
+//#endif
+            
             if(config.userAppLevel == 1) {
 //#if FILE_IO && FILE_TRANSFER
                 config.fileTransfer = fileTransfer.getValue();
@@ -775,8 +795,10 @@ public class ModuleConfigForm extends DefForm {
             config.minItemHeight = minItemHeight.getIntValue();
 
             if(config.userAppLevel == 1) {
+//#ifndef Android
 //#ifdef MEMORY_MONITOR
 //#              config.memMonitor = VirtualList.memMonitor = memMon.getValue();
+//#endif
 //#endif
                 config.shadowBar = shadowBar.getValue();
             }
@@ -801,9 +823,10 @@ public class ModuleConfigForm extends DefForm {
                 config.enableVersionOs = enableVersionOs.getValue();
                 config.queryExit = queryExit.getValue();
             }
-
+//#ifndef Android
             Config.fullscreen = fullscr.getValue();
             BombusQD.sd.canvas.setFullScreenMode(Config.fullscreen);
+//#endif
 
             if (phoneManufacturer == Config.SONYE) {
                 config.oldSE = oldSE.getValue();
@@ -811,8 +834,9 @@ public class ModuleConfigForm extends DefForm {
             if (config.allowMinimize) {
                 config.popupFromMinimized = popupFromMinimized.getValue();
             }
-
+//#ifndef Android
             Config.executeByNum = executeByNum.getValue();
+//#endif
             config.gmtOffset = fieldGmt.getIntValue();
             Time.setOffset(config.gmtOffset);
 

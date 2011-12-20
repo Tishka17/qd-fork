@@ -679,3 +679,4 @@ Sound	Гудком
 Pre-emption (min)	Упреждение (мин)
 Notify text	Напомнить текст
 Show messages separator	Показывать разделитель сообщений
+Show messages count	Счетчик сообщений

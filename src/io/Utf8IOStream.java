@@ -171,10 +171,18 @@ public class Utf8IOStream {
 //#        if (tlsExclusive)
 //#            return 0;
 //#elif TLS
-//#         if (tlsExclusive)
-//#             return 0;
-//#endif     
-        avail=inpStream.read(buf, 0, buf.length);
+//#        if (tlsExclusive)
+//#            return 0;
+//#endif    
+//#if Android
+//#        avail=inpStream.read(buf, 0, buf.length);
+//#else
+        avail=inpStream.available();
+        if (avail==0) return 0;
+        int lenbuf=buf.length;
+        if (avail>lenbuf) avail=lenbuf;	
+        avail=inpStream.read(buf, 0, avail);
+//#endif
 //#if (XML_STREAM_DEBUG)
 //# 	System.out.println("<< "+new String(buf, 0, avail));
 //#endif

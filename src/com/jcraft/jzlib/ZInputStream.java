@@ -84,8 +84,18 @@ public class ZInputStream extends InputStream {
       z.avail_out=len;
       do {
           if((z.avail_in==0)&&(!nomoreinput)) { // if buffer is empty and more input is avaiable, refill it
-              z.next_in_index=0;            
-              z.avail_in=in.read(buf, 0, bufsize);//(bufsize<z.avail_out ? bufsize : z.avail_out));      
+              z.next_in_index=0;    
+//#if Android
+//#              z.avail_in=in.read(buf, 0, bufsize);
+//#else
+	      int avail=in.available();	
+	      if (avail==0) return 0;
+	      while (avail==0) {
+                  try { Thread.sleep(100); } catch (Exception e) { }
+                  avail=in.available();
+              }
+	      z.avail_in=in.read(buf, 0, (avail<bufsize)?avail:bufsize);
+//#endif
               if(z.avail_in==-1) {
                   z.avail_in=0;
                   nomoreinput=true;

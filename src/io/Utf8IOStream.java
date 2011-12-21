@@ -41,8 +41,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 //#if Android
 //# import java.net.Socket;
+//# import javax.net.ssl.TrustManager;
+//# import javax.net.ssl.X509TrustManager;
 //# import javax.net.ssl.SSLSocketFactory;
 //# import javax.net.ssl.SSLSocket;
+//# import javax.net.ssl.SSLContext;
 //#else
 import javax.microedition.io.*;
 //#endif
@@ -55,6 +58,19 @@ import util.Strconv;
 public class Utf8IOStream {
 
 //#if Android
+//# private TrustManager[] m_trustAllCerts = new TrustManager[] { 
+//#     new X509TrustManager() { 
+//#         public java.security.cert.X509Certificate[] getAcceptedIssuers() { 
+//#             return null;
+//#         } 
+//#         public void checkClientTrusted( 
+//#             java.security.cert.X509Certificate[] certs, String authType) {
+//#         } 
+//#         public void checkServerTrusted( 
+//#             java.security.cert.X509Certificate[] certs, String authType) {
+//#         }
+//#     } 
+//# };  
 //#     private Socket connection;
 //#else    
     private StreamConnection connection;
@@ -185,11 +201,16 @@ public class Utf8IOStream {
 
 //#if Android
 //#    public void setTls() throws IOException {
+//#      try {
+//#        SSLContext sc = SSLContext.getInstance("TLS"); 
+//#        sc.init(null, m_trustAllCerts, new java.security.SecureRandom());
+//#        SSLSocketFactory sslsocketfactory=(SSLSocketFactory) sc.getSocketFactory();
 //#        tlsExclusive=true;
-//#        tls=(SSLSocket)((SSLSocketFactory)SSLSocketFactory.getDefault()).createSocket(connection, host, port, true);
+//#        tls=(SSLSocket)(sslsocketfactory.createSocket(connection, host, port, true));
 //#        inpStream=tls.getInputStream();
 //#        outStream=tls.getOutputStream();
 //#        tlsExclusive=false;
+//#      } catch(Exception e) {}
 //#    }
 //#elif TLS
 //#     public void setTls() throws IOException {

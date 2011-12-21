@@ -48,6 +48,7 @@ import util.Strconv;
  */
 public class SASLAuth implements JabberBlockListener{
     
+
     private LoginListener listener;
     private Account account;
     

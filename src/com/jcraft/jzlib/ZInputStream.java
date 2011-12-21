@@ -67,10 +67,6 @@ public class ZInputStream extends InputStream {
     z.avail_in=0;
   }
 
-  /*public int available() throws IOException {
-    return inf.finished() ? 0 : 1;
-  }*/
-
   public int read() throws IOException {
     if(read(buf1, 0, 1)==-1)
       return(-1);
@@ -88,18 +84,8 @@ public class ZInputStream extends InputStream {
       z.avail_out=len;
       do {
           if((z.avail_in==0)&&(!nomoreinput)) { // if buffer is empty and more input is avaiable, refill it
-              z.next_in_index=0;
-              
-              int avail=in.available();
-
-              if (avail==0) return 0;
-              while (avail==0) {
-                  try { Thread.sleep(100); } catch (Exception e) { }
-                  avail=in.available();
-              }
-              
-              z.avail_in=in.read(buf, 0, (avail<bufsize)?avail:bufsize);//(bufsize<z.avail_out ? bufsize : z.avail_out));
-              
+              z.next_in_index=0;            
+              z.avail_in=in.read(buf, 0, bufsize);//(bufsize<z.avail_out ? bufsize : z.avail_out));      
               if(z.avail_in==-1) {
                   z.avail_in=0;
                   nomoreinput=true;
@@ -118,12 +104,6 @@ public class ZInputStream extends InputStream {
               return(-1);
       }
       while(z.avail_out==len&&err==JZlib.Z_OK);
-      //System.err.print("("+(len-z.avail_out)+")");
-     /*    for (int i=0; i<len-z.avail_out; i++) {
-             System.out.print((char) b[i]);
-         }
-        System.out.println();
-      */
       return(len-z.avail_out);
   }
 

@@ -65,6 +65,7 @@ public class ModuleConfigForm extends DefForm {
     // for contacts options
     private CheckBox simpleContacts;
     private CheckBox selfContact;
+    private CheckBox showGroups;
     private CheckBox showOfflineContacts;
     private CheckBox showTransports;
 //#ifdef CLIENTS_ICONS
@@ -75,9 +76,7 @@ public class ModuleConfigForm extends DefForm {
     private CheckBox juickImages;
 //#endif
     private CheckBox ignore;
-//#ifndef Android
     private CheckBox autoFocus;
-//#endif
     private CheckBox showMsgsCount;
     private CheckBox showResources;    
     private CheckBox useBoldFont;
@@ -156,10 +155,8 @@ public class ModuleConfigForm extends DefForm {
 //#ifdef POPUPS
     private CheckBox popUps;
 //#endif
-//#ifndef Android
 //#ifdef MEMORY_MONITOR
 //#     private CheckBox memMon;
-//#endif
 //#endif
     private CheckBox gradientBarLigth;
     private CheckBox shadowBar;
@@ -243,6 +240,8 @@ public class ModuleConfigForm extends DefForm {
             addControl(showTransports);
 
             if(config.userAppLevel == 1) {
+                showGroups = new CheckBox("Show Groups", config.showGroups);
+                addControl(showGroups);
                 showResources = new CheckBox(SR.get(SR.MS_SHOW_RESOURCES), config.showResources);
                 addControl(showResources);                
 
@@ -266,10 +265,8 @@ public class ModuleConfigForm extends DefForm {
 
             useBoldFont = new CheckBox(SR.get(SR.MS_BOLD_FONT), config.useBoldFont);
             addControl(useBoldFont);
-//#ifndef Android
             autoFocus = new CheckBox(SR.get(SR.MS_AUTOFOCUS), config.autoFocus);
-            addControl(autoFocus); 
-//#endif
+            addControl(autoFocus);
         } else if (type == PluginBox.CHATS) {
             msgEditType = new DropChoiceBox(SR.get(SR.MS_MSG_EDIT_TYPE));
             msgEditType.append(new IconTextElement(SR.get(SR.MS_MES_EDIT_OLD), ActionsIcons.getInstance(), ActionsIcons.ICON_RENAME));
@@ -518,11 +515,9 @@ public class ModuleConfigForm extends DefForm {
             addControl(new SpacerItem(3));
 
             if(config.userAppLevel == 1) {
-//#ifndef Android
 //#ifdef MEMORY_MONITOR
 //#              memMon = new CheckBox(SR.get(SR.MS_HEAP_MONITOR), config.memMonitor);
 //#              addControl(memMon);
-//#endif
 //#endif
                 shadowBar = new CheckBox(SR.get(SR.MS_SHADOW_BAR), config.shadowBar);
                 addControl(shadowBar);
@@ -651,6 +646,7 @@ public class ModuleConfigForm extends DefForm {
             if (config.userAppLevel == 1) {
                 config.simpleContacts = simpleContacts.getValue();
                 config.selfContact = selfContact.getValue();
+                config.showGroups = showGroups.getValue();
             }
 
             config.showOfflineContacts = showOfflineContacts.getValue();
@@ -669,9 +665,7 @@ public class ModuleConfigForm extends DefForm {
 
             config.rosterStatus = rosterStatus.getValue();
             config.useBoldFont = useBoldFont.getValue();
-//#ifndef Android
             config.autoFocus = autoFocus.getValue();
-//#endif
             BombusQD.sd.roster.reEnumRoster();
         } else if (type == PluginBox.CHATS) {
             boolean createMsgEdit = false;
@@ -795,10 +789,8 @@ public class ModuleConfigForm extends DefForm {
             config.minItemHeight = minItemHeight.getIntValue();
 
             if(config.userAppLevel == 1) {
-//#ifndef Android
 //#ifdef MEMORY_MONITOR
 //#              config.memMonitor = VirtualList.memMonitor = memMon.getValue();
-//#endif
 //#endif
                 config.shadowBar = shadowBar.getValue();
             }

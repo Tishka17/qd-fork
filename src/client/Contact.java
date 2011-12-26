@@ -567,7 +567,7 @@ public class Contact extends IconTextElement {
         int xo=g.getClipX();
         int yo=g.getClipY();
 
-        int xoffset = Config.contactXOffset;
+        int xoffset = midlet.BombusQD.cf.showGroups?Config.contactXOffset:0;
         if ((ofs == 16 || ofs == 19 || ofs < 0) && !sel) {
             xoffset = ofs - 1;
         }

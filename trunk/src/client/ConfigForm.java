@@ -45,6 +45,7 @@ import ui.keys.UserKeysList;
 import history.HistoryConfigForm;
 //#endif
 import midlet.BombusQD;
+import account.ConfigurationMaster;
 import ui.controls.form.SimpleString;
 import ui.controls.form.SpacerItem;
 import ui.controls.form.LinkString;
@@ -69,6 +70,8 @@ public class ConfigForm extends DefForm {
 //#if IMPORT_EXPORT && FILE_IO
         addPluginBox(SR.get(SR.MS_IMPORT_EXPORT), PluginBox.IMPORT_EXPORT);
 //#endif
+        addControl(new SpacerItem(6));
+        addControl(new SimpleString("Modules" + ":", true));
 //#ifdef AUTOSTATUS
         addPluginBox(SR.get(SR.MS_AUTOSTATUS), PluginBox.AUTOSTATUS);
 //#endif
@@ -110,6 +113,9 @@ public class ConfigForm extends DefForm {
                 box.setParentView(getParentView());
                 box.show();
             }
+        });
+        addControl(new LinkString(SR.get(SR.MS_CONFIGURATION_MASTER)) {
+            public void doAction() {new ConfigurationMaster().show();}
         });
     }
     

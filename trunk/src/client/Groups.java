@@ -93,15 +93,18 @@ public class Groups implements JabberBlockListener{
                 return SR.get(SR.MS_VISIBLE_GROUP);
             case TYPE_VIP:
                 return SR.get(SR.MS_VIP_GROUP);
-            default:
+            case TYPE_NO_GROUP:
                 return SR.get(SR.MS_GENERAL);
-            }
+         }
+         return null;
     }
     public void updateNames() {
         int i=0, n=groups.size();
         for (i=0;i<n;i++) {
             Group gr = (Group)groups.elementAt(i);
-            gr.setName(getName(gr.type));
+            String name = getName(gr.type);
+            if (name!=null) gr.setName(name);
+            System.out.println(gr.name+" "+gr.type);
         }
     }
 
@@ -242,9 +245,9 @@ public class Groups implements JabberBlockListener{
             if(0 == gr.onlines && !midlet.BombusQD.cf.showOfflineContacts) return;
         }
 
-        d.addElement(gr);
+        if (midlet.BombusQD.cf.showGroups) d.addElement(gr);
         Vector contacts = gr.visibleContacts;
-         if (!gr.collapsed) {
+         if (!gr.collapsed || !midlet.BombusQD.cf.showGroups) {
            int size = contacts.size();
            for(int i=0; i<size; ++i) d.addElement(contacts.elementAt(i));
         }

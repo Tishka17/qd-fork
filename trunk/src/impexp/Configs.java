@@ -256,6 +256,7 @@ public class Configs {
 
         writeBoolean(data, "vibrateOnlyHighlited", ac.vibrateOnlyHighlited);
         writeBoolean(data, "enableAttention", ac.enableAttention);
+        writeBoolean(data, "showGroups", config.showGroups);
 
         data.append("</config>\n");
 
@@ -469,6 +470,7 @@ public class Configs {
             config.historyMUC = readBoolean(data, "historyMUC", config.historyMUC);
             config.historyMUCPrivate = readBoolean(data, "historyMUCPrivate", config.historyMUCPrivate);
 //#endif
+            config.showGroups = readBoolean(data, "showGroups", config.showGroups);
             EntityCaps.initCaps();
             BombusQD.sd.roster.updateBarsFont();
             VirtualList.updatePanelsState();

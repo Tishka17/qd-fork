@@ -137,6 +137,7 @@ public class Config {
     public boolean showOfflineContacts=false;
     public boolean showTransports=true;
     public boolean selfContact=true;
+    public boolean showGroups=true;
     public boolean ignore=false;
     public boolean eventComposing=true;
     public boolean autoLogin=false;
@@ -421,15 +422,9 @@ public class Config {
 
             scrollWidth = 8;
             
-            if ((BombusQD.sd.canvas.getHeight()<320) || (BombusQD.sd.canvas.getWidth()<320)) {
-                minItemHeight=16;
-            } else if ((BombusQD.sd.canvas.getHeight()>320 & BombusQD.sd.canvas.getHeight()<500) || (BombusQD.sd.canvas.getWidth()>320 & BombusQD.sd.canvas.getWidth()<500)) {
-                minItemHeight=34;     
-            } else if ((BombusQD.sd.canvas.getHeight()>501 & BombusQD.sd.canvas.getHeight()<800) || (BombusQD.sd.canvas.getWidth()>501 & BombusQD.sd.canvas.getWidth()<800)) {
-                minItemHeight=48;
-            } else if ((BombusQD.sd.canvas.getHeight()>801) || (BombusQD.sd.canvas.getWidth()>801)) {
-                minItemHeight=54;
-            }
+            int h1 = BombusQD.sd.canvas.getHeight();
+            int h2 = BombusQD.sd.canvas.getWidth();
+            minItemHeight = ((h1<h2)?h2:h1)*40/480;
 
             midlet.BombusQD.sd.roster.updateBarsFont();
             saveToStorage();
@@ -592,6 +587,7 @@ public class Config {
  //#endif
             //minItemHeight = inputStream.readInt();
             showMsgsCount = inputStream.readBoolean();
+            showGroups = inputStream.readBoolean();
             inputStream.close();
             inputStream = null;
         } catch (Exception e) {
@@ -732,6 +728,7 @@ public class Config {
             outputStream.writeBoolean(historyMUCPrivate);
 //#endif
             outputStream.writeBoolean(showMsgsCount);
+            outputStream.writeBoolean(showGroups);
 	} catch (IOException e) {}
 	return NvStorage.writeFileRecord(outputStream, BOOL_STORAGE_NAME, 0, true);
    }

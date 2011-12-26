@@ -46,7 +46,6 @@ public class AccountSelect extends VirtualList implements MenuListener {
     private final int activeAccount;
 
     private final Command cmdLogin;
-    private final Command cmdConfigurationMaster;
     private final Command cmdRegister;
     private final Command cmdServ1_reg = new Command("Jabber.ru", 0x86);
     private final Command cmdServ2_reg = new Command("Silper.cz", 0x86);
@@ -71,8 +70,6 @@ public class AccountSelect extends VirtualList implements MenuListener {
 
     public AccountSelect(int status) {
         super();
-
-        cmdConfigurationMaster = new Command(SR.get(SR.MS_CONFIGURATION_MASTER), 0x42);
         cmdLogin = new Command(SR.get(SR.MS_SELLOGIN), 0x50);
         cmdRegister = new Command(SR.get(SR.MS_REGISTERING), 0x42);
         cmdAdd = new Command(SR.get(SR.MS_NEW_ACCOUNT), 0x42);
@@ -131,8 +128,6 @@ public class AccountSelect extends VirtualList implements MenuListener {
         cmdfirstList.removeAllElements();
         cmdsecondList.removeAllElements();
         cmdThirdList.removeAllElements();
-
-        addCommand(cmdConfigurationMaster);
 
         addCommand(cmdAdd);
         addInCommand(1, cmdJabber);
@@ -203,8 +198,6 @@ public class AccountSelect extends VirtualList implements MenuListener {
             new AccountForm(null, AccountForm.PROFILE_QIP).show();
         } else if (c == cmdVk) {
             new AccountForm(null, AccountForm.PROFILE_VKONTAKTE).show();
-        } else if (c == cmdConfigurationMaster) {
-            new ConfigurationMaster().show();
         } else if (c == cmdLogin) {
             switchAccount(true);
         } else if (c == cmdEdit) {

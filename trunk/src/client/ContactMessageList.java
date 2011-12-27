@@ -265,8 +265,8 @@ public final class ContactMessageList extends MessageList implements InputTextBo
     }
 
     public void deleteOldMessages() {
-        int endPos = getMessageCount() - midlet.BombusQD.cf.msglistLimit;
-        for (int i = 0; i <= endPos; ++i) {
+        int endPos = getMessageCount() - Config.getInstance().msglistLimit;
+        for (int i = 0; i < endPos; ++i) {
             messages.removeElementAt(0);
         }
     }
@@ -740,10 +740,6 @@ public final class ContactMessageList extends MessageList implements InputTextBo
     }
 
     public void addMessage(Msg msg) {
-        int msgCount = getItemCount();
-        if (msgCount >= midlet.BombusQD.cf.msglistLimit) {
-            deleteOldMessages();
-        }
         msg.setEven((messages.size() & 1) == 0);
         messages.addElement(msg);
         if(!msg.isPresence()) {
@@ -766,6 +762,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
             reEnumCounts();
         }
         forceScrolling();
+        deleteOldMessages();
         redraw();
     }
 

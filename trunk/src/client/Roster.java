@@ -754,34 +754,9 @@ public final class Roster extends VirtualList
          }
    }
 
-
-   private void sortContacts(Vector sortVector){
-        try {
-                if(sortVector == null) return;
-                int f, i;
-                IconTextElement left, right;
-                int size = sortVector.size();
-                for (f = 1; f < size; f++) {
-                        left=(IconTextElement)sortVector.elementAt(f);
-                        right=(IconTextElement)sortVector.elementAt(f-1);
-                        if ( left.compare(right) >=0 ) continue;
-                        i = f-1;
-                        while (i>=0){
-                           right=(IconTextElement)sortVector.elementAt(i);
-                           if (right.compare(left) <0) break;
-                           sortVector.setElementAt(right,i+1);
-                           i--;
-                        }
-                        sortVector.setElementAt(left,i+1);
-                }
-            reEnumRoster();
-        } catch (Exception e) {
-            //e.printStackTrace();
-        }
-    }
-
     private void sortGroup(Group g) {
-        sortContacts(g.getContacts());
+        sort(g.getContacts());
+        reEnumRoster();
     }
 
     private void sortRoster(Contact c) {
@@ -1594,7 +1569,7 @@ public final class Roster extends VirtualList
                          if (c != null) {
                              c.vcard = vcard;
                              if (BombusQD.sd.canvas.isShown()) {
-                                 if (c.getGroupType() == Groups.TYPE_SELF) {
+                                 if (c.bareJid.equals(BombusQD.sd.account.getBareJid())) {
                                      new VCardEdit(vcard).show();
                                  } else {
                                      new VCardView(c).show();

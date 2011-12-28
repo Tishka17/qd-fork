@@ -260,7 +260,18 @@ public class Groups implements JabberBlockListener{
         //Vector vContacts = new Vector(0);
         for (int i = 0; i < getCount(); i++) {
             Group g = (Group)groups.elementAt(i);
-            addToVector(vContacts, g);
+            if (g.type != TYPE_CONFERENCE) {
+                addToVector(vContacts, g);
+            }            
+        }
+        if (!Config.getInstance().showGroups) {
+            VirtualList.sort(vContacts);
+        }
+        for (int i = 0; i < getCount(); i++) {
+            Group g = (Group)groups.elementAt(i);
+            if (g.type == TYPE_CONFERENCE) {
+                addToVector(vContacts, g);
+            }
         }
         return vContacts;
     }

@@ -57,7 +57,7 @@ public class Balloon {
         int color=ColorTheme.getColor(ColorTheme.BALLOON_BGND);
 //#ifdef GRADIENT
         if (ColorTheme.getAlpha(color)!=0) {
-          bg.update(3, 1, width-2, height-2, color, color, Gradient.CACHED_HORIZONTAL, 0);
+          bg.update(3, 1, width+1, height, color, color, Gradient.CACHED_HORIZONTAL, 0);
           bg.paint(g);
         } else 
 //#endif

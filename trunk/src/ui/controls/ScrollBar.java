@@ -31,7 +31,7 @@ package ui.controls;
 import javax.microedition.lcdui.Graphics;
 import colors.ColorTheme;
 //#ifdef GRADIENT
-//import ui.Gradient;
+import ui.Gradient;
 //#endif
 import ui.VirtualList;
 
@@ -53,8 +53,8 @@ public class ScrollBar {
 
     private int drawHeight;
 //#ifdef GRADIENT
-    //private Gradient gr;
-    //private int prevDrawHeight;
+    private Gradient background=new Gradient();
+    private Gradient scroller=new Gradient();
 //#endif
 
 
@@ -158,9 +158,14 @@ public class ScrollBar {
 	scrollerX=drawWidth-scrollWidth;
 
 	g.translate(scrollerX, 0);
-         g.setColor(colorTop);
-	 g.fillRect(1, 0, scrollWidth-2, drawHeight-1);
-
+//#ifdef GRADIENT
+        System.out.println("drawHeight="+drawHeight);
+        background.update(1, 0, scrollWidth-1, drawHeight, colorTop, colorTop, Gradient.CACHED_HORIZONTAL, 0);
+        background.paint(g);
+//#else
+//#        g.setColor(colorTop);
+//#	   g.fillRect(1, 0, scrollWidth-2, drawHeight-1);
+//#endif
          g.setColor(colorBorder);
          g.drawLine(0, 0, 0, drawHeight-1);
          g.drawLine(scrollWidth-1, 0, scrollWidth-1, drawHeight-1);
@@ -170,10 +175,13 @@ public class ScrollBar {
 	scrollerSize=(drawHeight*windowSize)/size+minimumHeight;
 
 	scrollerPos=(drawHeight*position)/size;
-
-        g.setColor(colorBar);
-        g.fillRect(1, scrollerPos, scrollWidth-2, scrollerSize);
-
+//#ifdef GRADIENT
+        scroller.update(1, scrollerPos, scrollWidth, scrollerSize+scrollerPos, colorBar, colorBar, Gradient.CACHED_HORIZONTAL, 0);
+        scroller.paint(g);
+//#else
+//#        g.setColor(colorBar);
+//#        g.fillRect(1, scrollerPos, scrollWidth-2, scrollerSize);
+//#endif
         g.setColor(colorBorder);
         g.drawLine(0, scrollerPos, scrollWidth-1, scrollerPos);
         g.drawLine(0, scrollerPos+scrollerSize, scrollWidth-1, scrollerPos+scrollerSize);

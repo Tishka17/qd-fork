@@ -585,8 +585,8 @@ Error idle timeout	Таймаут при ошибке (сек.)
 Blink brightness	Яркость мигания
 Blink timeout	Интервал между миганиями (сек.)
 Use 5 key to create Message	Клавиша 5 для создания сообщения
-Use Light to draw panels	Светлый градиент панелей
-MainBar Gradient Light #	Градиент панелей #
+Vertical gradient on bars	Вертикальный градиент панелей
+Show groups	Показывать группы
 Graphisc Menu Screen Position	Позиция графического меню
 [center]	[По центру]
 [Left:     ]	[Слева:     ]

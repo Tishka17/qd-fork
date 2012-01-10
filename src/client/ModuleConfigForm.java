@@ -158,11 +158,9 @@ public class ModuleConfigForm extends DefForm {
 //#ifdef MEMORY_MONITOR
 //#     private CheckBox memMon;
 //#endif
-    private CheckBox gradientBarLigth;
+    private CheckBox gradientBarVertical;
     private CheckBox shadowBar;
     private CheckBox showTimeAndTraffic;
-    private TrackItem gradientBarLight1;
-    private TrackItem gradientBarLight2;
     private NumberInput scrollWidth;
     private NumberInput minItemHeight;
 //#ifdef BACK_IMAGE
@@ -239,9 +237,9 @@ public class ModuleConfigForm extends DefForm {
             showTransports = new CheckBox(SR.get(SR.MS_TRANSPORTS), config.showTransports);
             addControl(showTransports);
 
+            showGroups = new CheckBox(SR.get(SR.MS_SHOW_GROUPS), config.showGroups);
+            addControl(showGroups);
             if(config.userAppLevel == 1) {
-                showGroups = new CheckBox("Show Groups", config.showGroups);
-                addControl(showGroups);
                 showResources = new CheckBox(SR.get(SR.MS_SHOW_RESOURCES), config.showResources);
                 addControl(showResources);                
 
@@ -466,19 +464,10 @@ public class ModuleConfigForm extends DefForm {
             panels.setSelectedIndex(config.panelsState);
             addControl(panels);
 
-            gradientBarLigth = new CheckBox(SR.get(SR.MS_USE_LIGHT_TO_DRWPANELS), config.gradientBarLigth);
-            addControl(gradientBarLigth);
-
-            addControl(new SimpleString(SR.get(SR.MS_MAINBAR_GRADIENTLIGHT)+"1", true));
-
-            gradientBarLight1 = new TrackItem(config.gradientBarLight1/10, 20);
-            addControl(gradientBarLight1);
-
-            addControl(new SimpleString(SR.get(SR.MS_MAINBAR_GRADIENTLIGHT)+"2", true));
-
-            gradientBarLight2 = new TrackItem(config.gradientBarLight2/10, 20);
-            addControl(gradientBarLight2);
-
+            if(config.userAppLevel == 1) {
+                gradientBarVertical = new CheckBox(SR.get(SR.MS_PANELS_GRADIENT_VERTICAL), config.gradientBarVertical);
+                addControl(gradientBarVertical);
+            }
             graphicsMenuPosition = new DropChoiceBox(SR.get(SR.MS_GRAPHICSMENU_POS));
             graphicsMenuPosition.append(new IconTextElement(SR.get(SR.MS_GRMENU_CENTER), RosterIcons.getInstance(), RosterIcons.ICON_ARROW_RIGHTLEFT));
             graphicsMenuPosition.append(new IconTextElement(SR.get(SR.MS_GRMENU_LEFT), RosterIcons.getInstance(), RosterIcons.ICON_ARROW_LEFT));
@@ -773,9 +762,7 @@ public class ModuleConfigForm extends DefForm {
             Config.panelsState = panels.getSelectedIndex();
             VirtualList.updatePanelsState();
 
-            config.gradientBarLigth = gradientBarLigth.getValue();
-            config.gradientBarLight1=gradientBarLight1.getValue() * 10;
-            config.gradientBarLight2=gradientBarLight2.getValue() * 10;
+            config.gradientBarVertical = gradientBarVertical.getValue();
 
             config.graphicsMenuPosition = graphicsMenuPosition.getSelectedIndex();
 //#ifdef BACK_IMAGE

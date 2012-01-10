@@ -804,10 +804,8 @@ public abstract class VirtualList extends CanvasEx {
         int h=mainbar.getVHeight();
 //#ifdef GRADIENT
          if (getMainBarBGnd()!=getMainBarBGndBottom()) {
-            int c = midlet.BombusQD.cf.gradientBarLigth?1:-1;
-            MainBarBG.update(0, y, width, y+h+1,
-                    transformColorLight(getMainBarBGnd(), c*midlet.BombusQD.cf.gradientBarLight1),
-                    transformColorLight(getMainBarBGndBottom(), c*midlet.BombusQD.cf.gradientBarLight2), Gradient.MIXED_DOWN, 0);
+            MainBarBG.update(0, y, width, y+h+1, getMainBarBGnd(), getMainBarBGndBottom(), 
+                    midlet.BombusQD.cf.gradientBarVertical?Gradient.CACHED_HORIZONTAL:Gradient.MIXED_DOWN, 0);
             MainBarBG.paint(g);
             if (midlet.BombusQD.cf.shadowBar) {
                 int sh = (width <= height)?width:height;
@@ -836,12 +834,11 @@ public abstract class VirtualList extends CanvasEx {
     private void drawInfoPanel (final Graphics g, int y) {
         int h=infobar.getVHeight()+1;
 //#ifdef GRADIENT
-        if (getMainBarBGnd()!=getMainBarBGndBottom()) {//32,102
-            int c = midlet.BombusQD.cf.gradientBarLigth?1:-1;
+        if (getMainBarBGnd()!=getMainBarBGndBottom()) {
             InfoBarBG.update(0, y, width, y+h,
-                    transformColorLight(getMainBarBGnd(), c*midlet.BombusQD.cf.gradientBarLight1),
-                    transformColorLight(getMainBarBGndBottom(), c*midlet.BombusQD.cf.gradientBarLight2),
-                    Gradient.MIXED_UP, 0);
+                    getMainBarBGnd(),
+                    getMainBarBGndBottom(),
+                    midlet.BombusQD.cf.gradientBarVertical?Gradient.CACHED_HORIZONTAL:Gradient.MIXED_UP, 0);
             InfoBarBG.paint(g);            
             if (midlet.BombusQD.cf.shadowBar) {
                 int sh = (width <= height)?width:height;
@@ -883,23 +880,6 @@ public abstract class VirtualList extends CanvasEx {
     private static Gradient MainBarBG=new Gradient();
     private static Gradient InfoBarShadow=new Gradient();
     private static Gradient MainBarShadow=new Gradient();
-    
-    
-   private static int transformColorLight(int color, int light) {
-		int r = ColorTheme.getRed(color) + light;
-		int g = ColorTheme.getGreen(color) + light;
-		int b = ColorTheme.getBlue(color) + light;
-                int a = ColorTheme.getAlpha(color);
-		if (r < 0) r = 0;
-		if (r > 255) r = 255;
-		if (g < 0) g = 0;
-		if (g > 255) g = 255;
-		if (b < 0) b = 0;
-		if (b > 255) b = 255;
-                if (a < 0) a=0;
-                if (a > 255) a= 255;
-		return b | (g << 8) | (r << 16) | (a<<24);
-   }
 //#endif
     
     public void moveCursorHome(){

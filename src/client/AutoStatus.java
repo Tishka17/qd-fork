@@ -165,12 +165,14 @@ public final class AutoStatus {
 //#ifdef DEBUG
 //#             System.out.println("[AutoStatus] setAutoXa called");
 //#endif
-            isXaSet = true;
-            if (!Config.setAutoStatusMessage) {
-                BombusQD.sd.roster.sendPresence(Presence.PRESENCE_XA, msg);
-            } else {
-                ExtendedStatus es = StatusList.getInstance().getStatus(Presence.PRESENCE_XA);
-                BombusQD.sd.roster.sendPresence(Presence.PRESENCE_XA, es.getMessage());
+            if (isAwaySet) {
+                isXaSet = true;
+                if (!Config.setAutoStatusMessage) {
+                    BombusQD.sd.roster.sendPresence(Presence.PRESENCE_XA, msg);
+                } else {
+                    ExtendedStatus es = StatusList.getInstance().getStatus(Presence.PRESENCE_XA);
+                    BombusQD.sd.roster.sendPresence(Presence.PRESENCE_XA, es.getMessage());
+                }
             }
         }
     }

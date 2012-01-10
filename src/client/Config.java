@@ -298,10 +298,8 @@ public class Config {
     public int graphicsMenuPosition = 0;
 
     public static boolean createMessageByFive = true;
-    public boolean gradientBarLigth = false;
+    public boolean gradientBarVertical = false;
     public boolean shadowBar = true;
-    public int gradientBarLight1=120;
-    public int gradientBarLight2=5;
 
     public static boolean simpleContacts = false;
     public int userAppLevel = BombusQD.getIntProperty("Diff-Level", 0);
@@ -492,7 +490,7 @@ public class Config {
             showNickNames = inputStream.readBoolean();
             adhoc = inputStream.readBoolean();
             createMessageByFive = inputStream.readBoolean();
-            gradientBarLigth = inputStream.readBoolean();
+            gradientBarVertical = inputStream.readBoolean();
             shadowBar = inputStream.readBoolean();
             simpleContacts = inputStream.readBoolean();
             swapSendAndSuspend = inputStream.readBoolean();
@@ -635,7 +633,7 @@ public class Config {
             outputStream.writeBoolean(showNickNames);
             outputStream.writeBoolean(adhoc);
             outputStream.writeBoolean(createMessageByFive);
-            outputStream.writeBoolean(gradientBarLigth);
+            outputStream.writeBoolean(gradientBarVertical);
             outputStream.writeBoolean(shadowBar);
             outputStream.writeBoolean(simpleContacts);
             outputStream.writeBoolean(swapSendAndSuspend);
@@ -757,8 +755,8 @@ public class Config {
             scrollWidth=inputStream.readInt();
             msgEditType=inputStream.readInt();
             graphicsMenuPosition=inputStream.readInt();
-            gradientBarLight1=inputStream.readInt();
-            gradientBarLight2=inputStream.readInt();
+            inputStream.readInt();//gradientBarLight1
+            inputStream.readInt();//gradientBarLight2
             userAppLevel = inputStream.readInt();
             menuFont = inputStream.readInt();
             contactXOffset = inputStream.readInt();
@@ -837,8 +835,8 @@ public class Config {
             outputStream.writeInt(scrollWidth);
             outputStream.writeInt(msgEditType);
             outputStream.writeInt(graphicsMenuPosition);
-            outputStream.writeInt(gradientBarLight1);
-            outputStream.writeInt(gradientBarLight2);
+            outputStream.writeInt(120);//gradientBarLight1
+            outputStream.writeInt(5);//gradientBarLight2
             outputStream.writeInt(userAppLevel);
             outputStream.writeInt(menuFont);
             outputStream.writeInt(contactXOffset);

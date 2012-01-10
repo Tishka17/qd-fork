@@ -240,14 +240,14 @@ public class Groups implements JabberBlockListener{
         if (!gr.visible) return;
         if (0 == gr.getNContacts()) return;
 
-        int groupType = gr.type;
-        if( groupType == TYPE_NO_GROUP || groupType == TYPE_COMMON) {
+        if( gr.type == TYPE_NO_GROUP || gr.type == TYPE_COMMON) {
             if(0 == gr.onlines && !midlet.BombusQD.cf.showOfflineContacts) return;
         }
 
-        if (midlet.BombusQD.cf.showGroups) d.addElement(gr);
+        if (midlet.BombusQD.cf.showGroups || gr.type==Groups.TYPE_MUC) 
+            d.addElement(gr);
         Vector contacts = gr.visibleContacts;
-         if (!gr.collapsed || !midlet.BombusQD.cf.showGroups) {
+         if (!gr.collapsed || (!midlet.BombusQD.cf.showGroups && gr.type!=Groups.TYPE_MUC)) {
            int size = contacts.size();
            for(int i=0; i<size; ++i) d.addElement(contacts.elementAt(i));
         }
@@ -259,19 +259,10 @@ public class Groups implements JabberBlockListener{
     public final Vector getVisibleTree(Vector vContacts) {//reEnum
         //Vector vContacts = new Vector(0);
         for (int i = 0; i < getCount(); i++) {
-            Group g = (Group)groups.elementAt(i);
-            if (g.type != TYPE_CONFERENCE) {
-                addToVector(vContacts, g);
-            }            
+            addToVector(vContacts, (Group)groups.elementAt(i));          
         }
         if (!Config.getInstance().showGroups) {
             VirtualList.sort(vContacts);
-        }
-        for (int i = 0; i < getCount(); i++) {
-            Group g = (Group)groups.elementAt(i);
-            if (g.type == TYPE_CONFERENCE) {
-                addToVector(vContacts, g);
-            }
         }
         return vContacts;
     }

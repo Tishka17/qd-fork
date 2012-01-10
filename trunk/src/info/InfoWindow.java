@@ -83,7 +83,7 @@ public class InfoWindow extends DefForm {
         addControl(new SpacerItem(6));
 
         //TODO: real names
-        addControl(new MultiLine("Copyright (c) 2005-2011","Distributed under GPL v2 License"));
+        addControl(new MultiLine("Copyright (c) 2005-2012","Distributed under GPL v2 License"));
         addControl(new MultiLine("BombusQD",   
                 "Alexej Kotov(aqent),\n" +
                 "Andrey Tikhonov (Tishka17)\n" + 

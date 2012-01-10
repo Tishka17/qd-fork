@@ -1585,9 +1585,8 @@ public final class Roster extends VirtualList
 //#ifdef AVATARS
                     if (id.startsWith("avcard_get")) {
                         Thread.sleep(100);
-      String matchedjid = id.substring(10, id.length());
-
-      if (!from.equals(new Jid(matchedjid).getBareJid())) {
+                        String matchedjid = id.substring(10, id.length());                                   
+                        if (!from.equals(new Jid(matchedjid).getBareJid()) && !from.equals(matchedjid)) {
                             return JabberBlockListener.BLOCK_REJECTED;
                         }
                         VCard vc=new VCard(data);
@@ -2004,18 +2003,6 @@ public final class Roster extends VirtualList
 //#                 //midlet.BombusQD.debug.add("::PRESENCE "+data.toString(),10);
 //#endif
 
-//#ifdef AVATARS
-                if (ti != Presence.PRESENCE_OFFLINE) {
-                    if (Config.module_avatars && Config.auto_queryPhoto) {
-                        Contact c = getContact(from, true);
-                        if (c.hasPhoto == false && c.img_vcard == null) {
-                            JabberDataBlock req = new Iq(c.bareJid, Iq.TYPE_GET, "avcard_get" + c.getJid());
-                            req.addChildNs("vCard", "vcard-temp");
-                            theStream.send(req);
-                        }
-                    }
-                }
-//#endif
 //#ifndef WMUC
             JabberDataBlock xmuc=pr.findNamespace("x", "http://jabber.org/protocol/muc#user");
             if (xmuc==null) xmuc=pr.findNamespace("x", "http://jabber.org/protocol/muc"); //join errors
@@ -2124,15 +2111,14 @@ public final class Roster extends VirtualList
                         conferenceContact.priority=priority;
 
                         sortRoster(conferenceContact);
-                        conferenceMessage=null;
-                        conferenceContact=null;
-                        chatPres=null;
-
 //#if FILE_IO && AVATARS
                         if(Config.module_avatars && Config.autoload_FSPhoto) {
                             loadAvatar(from, true);
                         }
 //#endif
+                        conferenceMessage=null;
+                        conferenceContact=null;
+                        chatPres=null;
                     }
                     catch(OutOfMemoryError eom){ errorLog("error Roster::3"); } catch (Exception e) {
                         if(null != conferenceContact) {
@@ -2258,6 +2244,19 @@ public final class Roster extends VirtualList
                     }
                     c=null;
 //#ifndef WMUC
+                }
+//#endif
+
+//#ifdef AVATARS
+                if (ti != Presence.PRESENCE_OFFLINE && ti!=Presence.PRESENCE_ERROR && ti!=Presence.PRESENCE_UNKNOWN) {
+                    if (Config.module_avatars && Config.auto_queryPhoto) {
+                        Contact c = getContact(from, true);
+                        if (c.hasPhoto == false && c.img_vcard == null) {
+                            JabberDataBlock req = new Iq(c.bareJid, Iq.TYPE_GET, "avcard_get" + c.getJid());
+                            req.addChildNs("vCard", "vcard-temp");
+                            theStream.send(req);
+                        }
+                    }
                 }
 //#endif
                 pr=null;

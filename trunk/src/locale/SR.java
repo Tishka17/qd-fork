@@ -138,7 +138,7 @@ public class SR {
      public final static short MS_NEW_MESSAGE  = 106; //New Message
      public final static short MS_ADD  = 107; //Add
      public final static short MS_LOGIN  = 108; //Logon
-     public final static short MS_MAINBAR_GRADIENTLIGHT = 109; //MainBar Gradient Light #
+     public final static short MS_SHOW_GROUPS = 109; //Show groups in roster
      public final static short MS_AT_HOST  = 110; //at Host
      public final static short MS_AUTO_CONFERENCES  = 111; //join conferences
      public final static short MS_SORT_TYPE_STATUS = 112; //By status
@@ -157,7 +157,7 @@ public class SR {
      public final static short MS_SETDEFAULT  = 125; //Set default
      public final static short MS_BANNED  = 126; //Outcasts (Ban)
      public final static short MS_SET_AFFILIATION  = 127; //Set affiliation to
-     public final static short MS_USE_LIGHT_TO_DRWPANELS = 128; //Use Light to draw panels
+     public final static short MS_PANELS_GRADIENT_VERTICAL = 128; //Vertical gradient on panels
      public final static short MS_AUTOLOGIN  = 129; //autologin
      public final static short MS_LOGOFF  = 130; //Logoff
      public final static short MS_PUBLISH  = 131; //Publish
@@ -824,7 +824,7 @@ public class SR {
         "New Message",
         "Add",
         "Logon",
-        "MainBar Gradient Light #",
+        "Show groups",
         "at Host",
         "join conferences",
         "By status",
@@ -843,7 +843,7 @@ public class SR {
         "Set default",
         "Outcasts (Ban)",
         "Set affiliation to",
-        "Use Light to draw panels",
+        "Vertical gradient on bars",
         "autologin",
         "Logoff",
         "Publish",

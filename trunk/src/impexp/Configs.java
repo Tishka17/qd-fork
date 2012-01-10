@@ -87,8 +87,8 @@ public class Configs {
 //#endif
         writeInt(data, "msgEditType", config.msgEditType);
         writeInt(data, "graphicsMenuPosition", config.graphicsMenuPosition);
-        writeInt(data, "gradientBarLight1", config.gradientBarLight1);
-        writeInt(data, "gradientBarLight2", config.gradientBarLight2);
+        writeInt(data, "gradientBarLight1", 120); //config.gradientBarLight1
+        writeInt(data, "gradientBarLight2", 5);//config.gradientBarLight2
         writeInt(data, "userAppLevel", config.userAppLevel);
         writeInt(data, "menuFont", config.menuFont);
         writeInt(data, "contactXOffset", config.contactXOffset);
@@ -221,7 +221,7 @@ public class Configs {
         writeBoolean(data, "showNickNames", config.showNickNames);
         writeBoolean(data, "adhoc", config.adhoc);
         writeBoolean(data, "createMessageByFive", config.createMessageByFive);
-        writeBoolean(data, "gradientBarLigth", config.gradientBarLigth);
+        writeBoolean(data, "gradientBarMixed", config.gradientBarVertical);
         writeBoolean(data, "shadowBar", config.shadowBar);
         writeBoolean(data, "simpleContacts", config.simpleContacts);
         writeBoolean(data, "swapSendAndSuspend", config.swapSendAndSuspend);
@@ -303,8 +303,6 @@ public class Configs {
 //#endif
             config.msgEditType = readInt(data, "msgEditType", config.msgEditType);
             config.graphicsMenuPosition = readInt(data, "graphicsMenuPosition", config.graphicsMenuPosition);
-            config.gradientBarLight1 = readInt(data, "gradientBarLight1", config.gradientBarLight1);
-            config.gradientBarLight2 = readInt(data, "gradientBarLight2", config.gradientBarLight2);
             config.userAppLevel = readInt(data, "userAppLevel", config.userAppLevel);
             config.menuFont = readInt(data, "menuFont", config.menuFont);
             config.contactXOffset = readInt(data, "contactXOffset", config.contactXOffset);
@@ -435,7 +433,7 @@ public class Configs {
             config.showNickNames = readBoolean(data, "showNickNames", config.showNickNames);
             config.adhoc = readBoolean(data, "adhoc", config.adhoc);
             config.createMessageByFive = readBoolean(data, "createMessageByFive", config.createMessageByFive);
-            config.gradientBarLigth = readBoolean(data, "gradientBarLigth", config.gradientBarLigth);
+            config.gradientBarVertical = readBoolean(data, "gradientBarMixed", config.gradientBarVertical);
             config.shadowBar = readBoolean(data, "shadowBar", config.shadowBar);
             config.simpleContacts = readBoolean(data, "simpleContacts", config.simpleContacts);
             config.swapSendAndSuspend = readBoolean(data, "swapSendAndSuspend", config.swapSendAndSuspend);

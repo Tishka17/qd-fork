@@ -31,6 +31,7 @@ import io.NvStorage;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.Vector;
 import ui.IconTextElement;
 import ui.VirtualCanvas;
 
@@ -56,11 +57,6 @@ public class UserKey extends IconTextElement {
         super(RosterIcons.getInstance());
     }
     
-    public static UserKey loadUserKey(int index){
-        UserKey u=UserKey.createFromStorage(index);
-        return u;
-    }
-    
     public String toString(){
         StringBuffer s=new StringBuffer();
         if (keyLong) s.append("Long ");
@@ -73,21 +69,23 @@ public class UserKey extends IconTextElement {
         s.append(" -> ").append( UserActions.getActionsList( 1).elementAt( commandId));
         return s.toString();
     }
-    
-    public static UserKey createFromStorage(int index) {
-        UserKey u=null;
+        
+    public static Vector createListFromStorage() {
+        Vector list=new Vector(0);
         DataInputStream is=NvStorage.ReadFileRecord(storage, 0);
         if (is==null) return null;
         try {
             do {
-                if (is.available()==0) {u=null; break;}
-                u=createFromDataInputStream(is);
-                index--;
-            } while (index>-1);
+                if (is.available()==0) {
+                    break;
+                }
+                list.addElement(createFromDataInputStream(is));
+            } while (true);
             is.close();
-        } catch (Exception e) { }
-        return u;
-    }    
+        } catch (Exception e) {
+        }
+        return list;
+    } 
     
     public static UserKey createFromDataInputStream(DataInputStream inputStream){
         UserKey u=new UserKey();

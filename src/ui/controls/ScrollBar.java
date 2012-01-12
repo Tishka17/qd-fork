@@ -159,7 +159,6 @@ public class ScrollBar {
 
 	g.translate(scrollerX, 0);
 //#ifdef GRADIENT
-        System.out.println("drawHeight="+drawHeight);
         background.update(1, 0, scrollWidth-1, drawHeight, colorTop, colorTop, Gradient.CACHED_HORIZONTAL, 0);
         background.paint(g);
 //#else

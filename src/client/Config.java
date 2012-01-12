@@ -48,8 +48,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.TimeZone;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.Vector;
 
 /**
@@ -944,30 +942,11 @@ public class Config {
         return NvStorage.writeFileRecord(outputStream, UTF_STORAGE_NAME, 0, true);
     }
 
-    private Timer timer = null;
-
-    private class Saver extends TimerTask {
-        private int count = 0;
+    private class Saver implements Runnable {
         public void run() {
-            count++;
-            switch (count) {
-                case 1:
-                    break;
-                case 2:
-                    saveBoolean();
-                    break;
-                case 3:
-                    saveUTF();
-                    break;
-                case 4:
-                    saveInt();
-                    break;
-                case 5:
-                    timer.cancel();
-                    timer = null;
-                    count = 0;
-                    break;
-            }
+            saveBoolean();
+            saveUTF();
+            saveInt();
         }
     }
 
@@ -987,12 +966,7 @@ public class Config {
     }
 
     public void saveToStorage() {
-        if (timer == null) {
-            timer = new Timer();
-            timer.schedule(new Saver(), 10, 100);
-        } else {
-            timer.cancel();
-        }
+        new Thread(new Saver()).start();
     }
 
     public static String platformName;

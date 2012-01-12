@@ -83,11 +83,7 @@ public class AndroidFontManager implements FontManager
 	    		size = MicroEmulatorActivity.config.FONT_SIZE_LARGE;
 	    	}
 
-	    	// 	Once default font size is defined,
-	    	//	compute size relative to scaleDensity
-	    	//	to enable consistent font size ratio 
-			//	accross any device resolution/density
-	    	size *= metrics.scaledDensity;
+
 
 	    	result = new AndroidFont(Typeface.create(family, style), TypedValue.applyDimension(
                             TypedValue.COMPLEX_UNIT_SP,

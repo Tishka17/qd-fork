@@ -41,6 +41,7 @@ import io.DnsSrvResolver;
 import io.NvStorage;
 import client.StaticData;
 import com.alsutton.jabber.datablocks.Presence;
+import java.util.Vector;
 
 public class Account extends IconTextElement {
     private String username = "";
@@ -134,7 +135,24 @@ public class Account extends IconTextElement {
             return null;
         }
     }
-
+    public static Vector createListFromStorage() {
+        Vector list=new Vector(0);
+        DataInputStream is = NvStorage.ReadFileRecord("accnt_db", 0);
+        if (is == null) {
+            return list;
+        }
+        try {
+            do {
+                if (is.available() == 0) {
+                    break;
+                }
+                list.addElement(createFromDataInputStream(is));
+            } while (true);
+        } catch (Exception e) {
+        }
+        return list;
+    }
+    
     public void setIconElement() {
         if (server.indexOf("ya.ru") > -1) {
             imageindex = MenuIcons.ICON_YANDEX_ACCOUNT;

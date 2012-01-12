@@ -49,18 +49,7 @@ public class UserKeyExec {
 
     private void initCommands() {
         commandsList=null;
-        commandsList=new Vector(0);
-
-        UserKey u = null;
-
-        int index=0;
-        do {
-            u=UserKey.createFromStorage(index);
-            if (u!=null) {
-                commandsList.addElement(u);
-                index++;
-             }
-        } while (u!=null);
+        commandsList=UserKey.createListFromStorage();
     }
 
     public static void stopExecute( ){

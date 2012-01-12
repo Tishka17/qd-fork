@@ -41,7 +41,7 @@ import ui.VirtualElement;
 import ui.VirtualList;
 
 public class AccountSelect extends VirtualList implements MenuListener {
-    private final Vector accountList = new Vector(0);
+    private final Vector accountList;
 
     private final int activeAccount;
 
@@ -105,22 +105,14 @@ public class AccountSelect extends VirtualList implements MenuListener {
         }
         setMainBarItem(new MainBar(status == -1 ? SR.get(SR.MS_ACCOUNTS) : SR.get(SR.MS_CONNECT_TO) + str));
 
-        Account a;
-
-        int index = 0;
         activeAccount = midlet.BombusQD.cf.accountIndex;
-        do {
-            a = Account.createFromStorage(index);
-            if (a != null) {
-                a.setActive(activeAccount == index);
-                accountList.addElement(a);
-                index++;
-            }
-        } while (a != null);
-
-        if (!accountList.isEmpty()) {
+        accountList = Account.createListFromStorage();
+        try {
+            Account a;
+            a = (Account)accountList.elementAt(activeAccount);
+            a.setActive(true);
             moveCursorTo(activeAccount);
-        }
+        } catch (Exception e) {}
     }
 
     public void commandState() {

@@ -119,7 +119,10 @@ public class PopUp {
         if (scrollable==SCROLLABLE_DOWN || scrollable==SCROLLABLE_BOTH) {
             Vector lines=((PopUpElement)popUps.elementAt(0)).getMessage();
             if (lines.size()<1) return;
-            startLine++;
+            int dl=popUpHeight/getFontHeight();
+            startLine+=dl-1;
+            if (startLine>lines.size()-dl)
+                startLine = lines.size()-dl;
         }
     }
 
@@ -127,78 +130,49 @@ public class PopUp {
         if (scrollable==SCROLLABLE_UP || scrollable==SCROLLABLE_BOTH) {
             Vector lines=((PopUpElement)popUps.elementAt(0)).getMessage();
             if (lines.size()<1) return;
-            startLine--;
+            int dl=popUpHeight/getFontHeight();
+            startLine-=dl-1;
+            if (startLine<0)
+                startLine = 0;
         }
     }
 
     public boolean handleEvent(int keyCode) {
-        if (scrollable>-1) {
-            switch (keyCode) {
-                case VirtualCanvas.NAVIKEY_LEFT:
-                case VirtualCanvas.NAVIKEY_UP:
-                case VirtualCanvas.KEY_NUM2:
-                case VirtualCanvas.KEY_NUM4:
-                    scrollUp();
-                    return true;
-                case VirtualCanvas.NAVIKEY_RIGHT:
-                case VirtualCanvas.NAVIKEY_DOWN:
-                case VirtualCanvas.KEY_NUM8:
-                case VirtualCanvas.KEY_NUM6:
-                    scrollDown();
-                    return true;
-            }
+        switch (keyCode) {
+            case VirtualCanvas.NAVIKEY_LEFT:
+            case VirtualCanvas.NAVIKEY_UP:
+            case VirtualCanvas.KEY_NUM2:
+            case VirtualCanvas.KEY_NUM4:
+                scrollUp();
+                return true;
+            case VirtualCanvas.NAVIKEY_RIGHT:
+            case VirtualCanvas.NAVIKEY_DOWN:
+            case VirtualCanvas.KEY_NUM8:
+            case VirtualCanvas.KEY_NUM6:
+                scrollDown();
+                return true;
         }
-        /* Закрывать попап только по следующим кнопкам?
-        if (keyCode == VirtualCanvas.NAVIKEY_FIRE ||
-                keyCode == VirtualCanvas.LEFT_SOFT || 
-                keyCode == VirtualCanvas.RIGHT_SOFT ||
-                keyCode == VirtualCanvas.KEY_STAR ||
-                keyCode ==  VirtualCanvas.KEY_NUM5)*/
-            next();
+        next();
         // we always process event if we are on screen
         return true;
     }
     
     public boolean handleEvent(int x, int y) {
-        //int startX = widthBorder;
-        //int endX = widthBorder + popUpWidth;
-        
-        //int startY = heightBorder;
-        //int endY = heightBorder + popUpHeight;
-        
-        //if (x >= startX && x <= endX && y >= startY && y <= endY) {
+        int dy=Math.min(midlet.BombusQD.cf.minItemHeight, getFontHeight());
+        if (scrollable!=-1 && y<heightBorder+dy) {
+            scrollUp();
+        } else if (scrollable!=-1 && y>heightBorder+popUpHeight-dy) {
+            scrollDown();
+        } else {
             next();
-        //}
+        }
         // we always process event if we are on screen
         return true;
     }
 
     public void clear() {
-        /*if(size()>0)
-            popUps.removeAllElements();*/
-        // experimental
         popUps = null;
         popUps = new Vector(0);
-    }
-
-    private void drawAllStrings(Graphics g, int x, int y) {
-        Vector lines=((PopUpElement)popUps.elementAt(0)).getMessage();
-        if (lines.size()<1) return;
-
-        int fh=getFontHeight();
-
-        int pos=0;
-
-        int size=lines.size();
-        String line;
-        for(int i=0;i<size;i++){
-            if (pos>=startLine) {
-                line = (String)lines.elementAt(i);
-                if (line!=null && line.length()>0)  g.drawString(line, x, y, Graphics.TOP|Graphics.LEFT);
-                y += fh;
-            }
-            pos++;
-        }
     }
 
     private int getFontHeight() {
@@ -301,8 +275,23 @@ public class PopUp {
                 break;
         }
 
+        Vector lines=((PopUpElement)popUps.elementAt(0)).getMessage();
+        if (lines.size()<1) return;
 
-          drawAllStrings(graph, widthBorder+2, heightBorder+3);
+        int fh=getFontHeight();
+
+        int pos=0;
+        int y=heightBorder+3;
+        int size=lines.size();
+        String line;
+        for(int i=0;i<size;i++){
+            if (pos>=startLine) {
+                line = (String)lines.elementAt(i);
+                if (line!=null && line.length()>0)  graph.drawString(line, widthBorder+2, y, Graphics.TOP|Graphics.LEFT);
+                y += fh;
+            }
+            pos++;
+        }
     }
 
     private static class PopUpElement {

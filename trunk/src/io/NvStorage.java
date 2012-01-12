@@ -42,11 +42,9 @@ public class NvStorage {
      */
     
     static public DataInputStream ReadFileRecord(String name, int index){
-        DataInputStream istream=null;
-        
+        DataInputStream istream=null;     
         RecordStore recordStore=null;
-        try {
-            
+        try {           
             recordStore = RecordStore.openRecordStore(name, false);
             byte[] b=recordStore.getRecord(index+1);
             
@@ -60,13 +58,10 @@ public class NvStorage {
         } catch (Exception e) { }
         finally { 
             try { recordStore.closeRecordStore(); } catch (Exception e) {} }
-        
         return istream;
     }
 
-
     private static ByteArrayOutputStream baos;
-    private static RecordStore recordStore;
     
     /** Creates DataOutputStream based on ByteOutputStream  */
     static public DataOutputStream CreateDataOutputStream(){
@@ -80,35 +75,31 @@ public class NvStorage {
             String name, int index, 
             boolean rewrite)
     {
-        //ByteArrayOutputStream lbaos=baos;
-        //baos=null;
+        RecordStore recordStore;
         byte[] b=baos.toByteArray();
         int len = b.length;
         try {
-            if (rewrite) RecordStore.deleteRecordStore(name);
-        } catch (Exception e) {}
-
-        try {
             recordStore = RecordStore.openRecordStore(name, true);
-        } catch (Exception e) { return false;}
-        
+        } catch (Exception e) { 
+            return false;
+        }//689
         try {
             try {
                 recordStore.setRecord(index+1, b, 0, len);
-            } catch (InvalidRecordIDException e) { recordStore.addRecord(b, 0, len); }
-            recordStore.closeRecordStore();
+            } catch (InvalidRecordIDException e) { 
+                recordStore.addRecord(b, 0, len); 
+            }//554
+            recordStore.closeRecordStore();//3
             ostream.flush();
             ostream.close();
             ostream=null;
             recordStore=null;
-            
             baos.flush();
             baos.reset();
             baos=null;
-        } catch (Exception e) { 
-            //e.printStackTrace(); 
+        } catch (Exception e) {
             return false;
-        }
+        }//0
         return true;
     }
 }

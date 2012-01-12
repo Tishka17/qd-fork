@@ -762,7 +762,9 @@ public class ModuleConfigForm extends DefForm {
             Config.panelsState = panels.getSelectedIndex();
             VirtualList.updatePanelsState();
 
-            config.gradientBarVertical = gradientBarVertical.getValue();
+            if (config.userAppLevel == 1) {
+                config.gradientBarVertical = gradientBarVertical.getValue();
+            }
 
             config.graphicsMenuPosition = graphicsMenuPosition.getSelectedIndex();
 //#ifdef BACK_IMAGE

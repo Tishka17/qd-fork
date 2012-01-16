@@ -150,7 +150,6 @@ public class ModuleConfigForm extends DefForm {
     private NumberInput fieldGmt;
 
     // for interface config
-    private CheckBox gradient_cursor;
     private CheckBox showBaloons;
 //#ifdef POPUPS
     private CheckBox popUps;
@@ -158,8 +157,11 @@ public class ModuleConfigForm extends DefForm {
 //#ifdef MEMORY_MONITOR
 //#     private CheckBox memMon;
 //#endif
+//#ifdef GRADIENT
+    private CheckBox gradient_cursor;
     private CheckBox gradientBarVertical;
     private CheckBox shadowBar;
+//#endif
     private CheckBox showTimeAndTraffic;
     private NumberInput scrollWidth;
     private NumberInput minItemHeight;
@@ -464,10 +466,12 @@ public class ModuleConfigForm extends DefForm {
             panels.setSelectedIndex(config.panelsState);
             addControl(panels);
 
+//#ifdef GRADIENT
             if(config.userAppLevel == 1) {
                 gradientBarVertical = new CheckBox(SR.get(SR.MS_PANELS_GRADIENT_VERTICAL), config.gradientBarVertical);
                 addControl(gradientBarVertical);
             }
+//#endif
             graphicsMenuPosition = new DropChoiceBox(SR.get(SR.MS_GRAPHICSMENU_POS));
             graphicsMenuPosition.append(new IconTextElement(SR.get(SR.MS_GRMENU_CENTER), RosterIcons.getInstance(), RosterIcons.ICON_ARROW_RIGHTLEFT));
             graphicsMenuPosition.append(new IconTextElement(SR.get(SR.MS_GRMENU_LEFT), RosterIcons.getInstance(), RosterIcons.ICON_ARROW_LEFT));
@@ -508,8 +512,10 @@ public class ModuleConfigForm extends DefForm {
 //#              memMon = new CheckBox(SR.get(SR.MS_HEAP_MONITOR), config.memMonitor);
 //#              addControl(memMon);
 //#endif
+//#ifdef GRADIENT
                 shadowBar = new CheckBox(SR.get(SR.MS_SHADOW_BAR), config.shadowBar);
                 addControl(shadowBar);
+//#endif
             }
 
             showTimeAndTraffic = new CheckBox(SR.get(SR.MS_SHOW_TIME_TRAFFIC), Config.showTimeTraffic);
@@ -522,9 +528,10 @@ public class ModuleConfigForm extends DefForm {
 
             showBaloons = new CheckBox(SR.get(SR.MS_SHOW_BALLONS), config.showBalloons);
             addControl(showBaloons);
-
+//#ifdef GRADIENT
             gradient_cursor = new CheckBox(SR.get(SR.MS_GRADIENT_CURSOR), config.gradient_cursor);
             addControl(gradient_cursor);
+//#endif
         } else if (type == PluginBox.APPLICATION) {
             addControl(new SimpleString(SR.get(SR.MS_STARTUP_ACTIONS), true));
 
@@ -761,11 +768,11 @@ public class ModuleConfigForm extends DefForm {
             ColorTheme.saveToStorage();
             Config.panelsState = panels.getSelectedIndex();
             VirtualList.updatePanelsState();
-
+//#ifdef GRADIENT
             if (config.userAppLevel == 1) {
                 config.gradientBarVertical = gradientBarVertical.getValue();
             }
-
+//#endif
             config.graphicsMenuPosition = graphicsMenuPosition.getSelectedIndex();
 //#ifdef BACK_IMAGE
             Config.backImgType = backImgType.getSelectedIndex();
@@ -781,7 +788,9 @@ public class ModuleConfigForm extends DefForm {
 //#ifdef MEMORY_MONITOR
 //#              config.memMonitor = VirtualList.memMonitor = memMon.getValue();
 //#endif
+//#ifdef GRADIENT
                 config.shadowBar = shadowBar.getValue();
+//#endif
             }
 
             Config.showTimeTraffic = showTimeAndTraffic.getValue();
@@ -789,8 +798,9 @@ public class ModuleConfigForm extends DefForm {
             config.popUps = popUps.getValue();
 //#endif
             config.showBalloons = showBaloons.getValue();
+//#ifdef GRADIENT
             config.gradient_cursor = gradient_cursor.getValue();
-
+//#endif
 //#ifdef BACK_IMAGE
             VirtualList.createImage(false);
 //#endif

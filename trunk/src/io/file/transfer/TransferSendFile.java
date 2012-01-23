@@ -37,9 +37,6 @@ import ui.controls.form.SimpleString;
 import ui.controls.form.TextInput;
 
 public class TransferSendFile extends DefForm {
-//#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_FILE_TRANSFER");
-//#endif
     private String to;
 
     private PathSelector selectFile;

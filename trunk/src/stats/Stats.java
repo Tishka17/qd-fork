@@ -32,10 +32,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class Stats {
-//#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_STATS");
-//#endif
-
     private long latestTraffic=0;
     private long traffic=0;
     private int sessions=0;

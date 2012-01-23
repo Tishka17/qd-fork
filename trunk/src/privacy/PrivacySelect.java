@@ -54,9 +54,6 @@ import ui.input.InputTextBoxNotify;
 
 public class PrivacySelect extends VirtualList 
         implements MenuListener, JabberBlockListener, InputTextBoxNotify {
-//#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_PRIVACY");
-//#endif
     
     private Vector list=new Vector(0);
 

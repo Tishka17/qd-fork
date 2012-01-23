@@ -46,9 +46,6 @@ import ui.VirtualCanvas;
  */
 
 public class TransferManager extends VirtualList implements MenuListener {
-//#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_FILE_TRANSFER");
-//#endif
 
     private Vector taskList=new Vector(0);
 

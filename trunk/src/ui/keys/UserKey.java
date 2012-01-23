@@ -40,9 +40,6 @@ import ui.VirtualCanvas;
  * @author ad
  */
 public class UserKey extends IconTextElement {
-//#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_USER_KEYS");
-//#endif
     
     public final static String storage="keys_db";
             
@@ -73,7 +70,7 @@ public class UserKey extends IconTextElement {
     public static Vector createListFromStorage() {
         Vector list=new Vector(0);
         DataInputStream is=NvStorage.ReadFileRecord(storage, 0);
-        if (is==null) return null;
+        if (is==null) return list;
         try {
             do {
                 if (is.available()==0) {

@@ -45,9 +45,6 @@ import ui.controls.form.TextInput;
  * @author ad
  */
 public class TransferImage extends DefForm implements CameraImageListener {
-//#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_IMAGE_TRANSFER");
-//#endif
 
     private String to;
     private byte[] photo;

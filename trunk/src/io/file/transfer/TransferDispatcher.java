@@ -43,9 +43,6 @@ import util.Strconv;
  * @author Evg_S
  */
 public class TransferDispatcher implements JabberBlockListener{
-//#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_FILE_TRANSFER");
-//#endif
 
     /** Singleton */
     private static TransferDispatcher instance;

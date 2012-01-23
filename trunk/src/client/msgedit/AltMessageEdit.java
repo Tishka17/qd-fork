@@ -84,9 +84,6 @@ public final class AltMessageEdit extends BaseMessageEdit {
         form.addCommand(cmdSuspend);
         form.addCommand(cmdCancel);
 //#ifdef ARCHIVE
-//#ifdef PLUGINS
-//#         if (StaticData.getInstance().Archive)
-//#endif
         form.addCommand(cmdPaste);
 //#endif
         form.setCommandListener(this);

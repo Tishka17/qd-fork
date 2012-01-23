@@ -328,16 +328,6 @@ public class JabberStream extends XmppParser implements Runnable {
 
 //#ifdef XML_CONSOLE
 //#     public void addLog (String data, int type) {
-//#ifdef PLUGINS
-//#         if (canLog<1) {
-//#             if (StaticData.getInstance().Console) {
-//#                 canLog=1;
-//#             } else {
-//#                 canLog=-1;
-//#                 return;
-//#             }
-//#         }
-//#endif
 //#         XMLList.getInstance().add(data, type);
 //#    }
 //#endif

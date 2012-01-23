@@ -2166,9 +2166,6 @@ public final class Roster extends VirtualList
                         if (pr.getAttribute("ver")!=null) c.version=pr.getAttribute("ver");  // for bombusmod only
                         if (pr.getTypeIndex()!=Presence.PRESENCE_ERROR) {
 //#ifdef CLIENTS_ICONS
-//#ifdef PLUGINS
-//#                             if (midlet.BombusQD.cf.showClientIcon)
-//#endif
                                 if (pr.hasEntityCaps()) {
                                     if (pr.getEntityNode() != null) {
                                         ClientsIconsData.processData(c, pr.getEntityNode());
@@ -2879,9 +2876,6 @@ public final class Roster extends VirtualList
             } catch (Exception e) { }
         }
 //#ifdef STATS
-//#ifdef PLUGINS
-//#         if (midlet.BombusQD.sd.Stats)
-//#endif
             Stats.getInstance().saveToStorage(false,false);
 //#endif
       }

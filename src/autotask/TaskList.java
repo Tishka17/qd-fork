@@ -39,9 +39,6 @@ import ui.GMenu;
 import ui.GMenuConfig;
 
 public class TaskList extends VirtualList implements MenuListener {
-//#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_USER_KEYS");
-//#endif
 
     public static Vector taskList;
 

@@ -49,9 +49,6 @@ import ui.VirtualList;
  */
 
 public class PrivacyModifyList extends VirtualList  implements  MenuListener, JabberBlockListener {
-//#ifdef PLUGINS
-//#     public static String plugin = new String("PLUGIN_PRIVACY");
-//#endif
 
     private PrivacyList plist;
 

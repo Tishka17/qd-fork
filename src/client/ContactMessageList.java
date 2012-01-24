@@ -109,6 +109,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
     
     public void show() {
         BombusQD.sd.roster.activeContact = contact;
+        BombusQD.sd.roster.focusToContact(contact, true);
         contact.setIncoming(0);
 //#ifdef FILE_TRANSFER
         contact.fileQuery = false;
@@ -152,7 +153,6 @@ public final class ContactMessageList extends MessageList implements InputTextBo
         }
 
         final boolean isConference = contact.origin == Contact.ORIGIN_GROUPCHAT;
-        final boolean isMucContact = contact instanceof MucContact;
         final boolean isJuickContact = contact.getJid().indexOf("juick@juick.com") != -1;
 
         addCommand(Commands.cmdMessage);
@@ -189,9 +189,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
 
 //#ifdef HISTORY
         if (Config.module_history && contact.hasHistory()) {
-            //if (Config.historyTypeIndex == Config.HISTORY_RMS) {
-                addCommand(Commands.cmdHistory);
-            //}
+            addCommand(Commands.cmdHistory);
         }
 //#endif
 

@@ -33,9 +33,6 @@ import colors.ColorTheme;
 import font.FontCache;
 import javax.microedition.lcdui.*;
 import client.Config;
-//#ifdef CLASSIC_CHAT
-//# import client.SimpleItemChat;
-//#endif
 import client.StaticData;
 import client.Contact;
 //#ifdef FILE_IO
@@ -1155,7 +1152,7 @@ public abstract class VirtualList extends CanvasEx {
 
 //#endif //TOUCH
 
-    private boolean sendEvent(int keyCode) {
+    protected boolean sendEvent(int keyCode) {
 //#ifdef POPUPS
         if (getPopUp().size()>0) {
             return popup.handleEvent(keyCode);
@@ -1207,7 +1204,6 @@ public abstract class VirtualList extends CanvasEx {
             if (cmdThirdList.indexOf(command)<0) cmdThirdList.addElement(command);
           }
         }else{
-            //command.setIn();
             if (menuCommands.indexOf(command)<0) menuCommands.addElement(command);
         }
     }
@@ -1266,31 +1262,10 @@ public abstract class VirtualList extends CanvasEx {
             return;
      }
      switch (keyCode) {
-//#ifdef POPUPS
         case VirtualCanvas.CALL_KEY: {
-            if (getPopUp().getContact()!=null) {
-//#ifdef CLASSIC_CHAT
-//#                    if(midlet.BombusQD.cf.module_classicchat){
-//#                       new SimpleItemChat(sd.roster.getContact(popup.getContact(), false));
-//#                    } else {
-//#endif
-                       Contact c = sd.roster.getContact(popup.getContact(), false);
-                       if(c.getMessageCount() <= 0){
-                          midlet.BombusQD.sd.roster.showMsgEditor(c, c.msgSuspended);
-                          return;
-                       }
-                       c.getMessageList().show();
-//#ifdef CLASSIC_CHAT
-//#                    }
-//#endif
-                popup.next();
-                return;
-            } else/* Зачем это тут: if (phoneManufacturer==Config.MOTO || phoneManufacturer==Config.NOKIA || phoneManufacturer==Config.NOKIA_9XXX)*/ {
-                keyGreen();
-                return;
-            }
+            keyGreen();
+            return;
         }
-//#endif
         case VirtualCanvas.LEFT_SOFT: {
             gm.itemCursorIndex=0;
             gm.itemCursorIndexIn=0;
@@ -1324,7 +1299,7 @@ public abstract class VirtualList extends CanvasEx {
         case VirtualCanvas.KEY_STAR:
             if (!isServiceDiscoWindow) {
                 midlet.BombusQD.sd.roster.systemGC();
-            }
+            } 
 //#ifdef POPUPS
             StringBuffer mem = new StringBuffer(0);
             mem.append(Time.getTimeWeekDay()).append("\nTraffic: ").append(getTraffic());

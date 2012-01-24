@@ -169,9 +169,16 @@ public final class ActiveContacts extends VirtualList implements MenuListener {
     }
 
     public void keyPressed(int keyCode) {
-//#ifdef POPUPS
-        VirtualList.popup.next();
-//#endif
+        if(gm.itemGrMenu>0 && midlet.BombusQD.cf.graphicsMenu ) {
+            if(null != menuItem) menuItem.keyPressed(keyCode);
+            redraw();
+            return;
+        } else {         
+            if (sendEvent(keyCode)) {
+                redraw();
+                return;
+            }
+        }
         if (keyCode == VirtualCanvas.KEY_NUM3) {
             destroyView();
         } else if (keyCode == VirtualCanvas.KEY_NUM0) {

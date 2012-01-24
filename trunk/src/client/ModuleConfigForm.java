@@ -291,7 +291,7 @@ public class ModuleConfigForm extends DefForm {
             addControl(new SpacerItem(3));
 
             if(config.userAppLevel == 1) {
-                messageLimit = new NumberInput(SR.get(SR.MS_MESSAGE_COLLAPSE_LIMIT), config.messageLimit, 200, 1000);
+                messageLimit = new NumberInput(SR.get(SR.MS_MESSAGE_COLLAPSE_LIMIT), config.messageLimit, 100, 10000);
                 addControl(messageLimit);
             }
 

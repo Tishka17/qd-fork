@@ -30,6 +30,7 @@
 package ui.controls;
 
 import client.Config;
+import client.Contact;
 import colors.ColorTheme;
 import images.RosterIcons;
 import java.util.Vector;
@@ -39,6 +40,10 @@ import font.FontCache;
 //#ifdef GRADIENT
 import ui.Gradient;
 //#endif
+//#ifdef CLASSIC_CHAT
+//# import client.SimpleItemChat;
+//#endif
+import midlet.BombusQD;
 import ui.VirtualCanvas;
 import util.StringUtils;
 
@@ -150,7 +155,23 @@ public class PopUp {
             case VirtualCanvas.KEY_NUM8:
             case VirtualCanvas.KEY_NUM6:
                 scrollDown();
-                return true;
+                return true;        
+            case VirtualCanvas.CALL_KEY: {
+//#ifdef CLASSIC_CHAT
+//#                    if(midlet.BombusQD.cf.module_classicchat){
+//#                       new SimpleItemChat(BombusQD.sd.roster.getContact(getContact(), false));
+//#                    } else {
+//#endif
+                       Contact c = BombusQD.sd.roster.getContact(getContact(), false);
+                       if(c.getMessageCount() <= 0){
+                          midlet.BombusQD.sd.roster.showMsgEditor(c, c.msgSuspended);
+                       } else {
+                           c.getMessageList().show();
+                       }
+//#ifdef CLASSIC_CHAT
+//#                    }
+//#endif
+            }
         }
         next();
         // we always process event if we are on screen

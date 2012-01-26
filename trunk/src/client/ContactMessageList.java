@@ -265,6 +265,8 @@ public final class ContactMessageList extends MessageList implements InputTextBo
     public void deleteOldMessages() {
         int endPos = getMessageCount() - Config.getInstance().msglistLimit;
         for (int i = 0; i < endPos; ++i) {
+            Msg m = (Msg)messages.firstElement();
+            win_top-=m.getVHeight();
             messages.removeElementAt(0);
         }
     }

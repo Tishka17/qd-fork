@@ -75,8 +75,8 @@ public abstract class VirtualList extends CanvasEx {
 
     abstract protected VirtualElement getItemRef(int index);
 
-    protected int getMainBarBGnd() { return ColorTheme.getColor(ColorTheme.BAR_BGND);}
-    protected int getMainBarBGndBottom() { return ColorTheme.getColor(ColorTheme.BAR_BGND_BOTTOM);}
+    protected int getMainBarBGnd() { return midlet.BombusQD.cf.gradientBarVertical?ColorTheme.getColor(ColorTheme.BAR_BGND_BOTTOM):ColorTheme.getColor(ColorTheme.BAR_BGND);}
+    protected int getMainBarBGndBottom() { return  midlet.BombusQD.cf.gradientBarVertical?ColorTheme.getColor(ColorTheme.BAR_BGND):ColorTheme.getColor(ColorTheme.BAR_BGND_BOTTOM);}
 
     private static StaticData sd=StaticData.getInstance();
     public static GMenuConfig gm = GMenuConfig.getInstance();

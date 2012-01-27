@@ -349,10 +349,7 @@ public final class Msg implements VirtualElement {
     }
 
     public void drawItem(VirtualList view, Graphics g, int ofs, boolean selected) {
-        /*if (msgLines == null) {
-            parse();
-            return;
-        }***/
+
         int xorg = g.getTranslateX();
         int yorg = g.getTranslateY();
         

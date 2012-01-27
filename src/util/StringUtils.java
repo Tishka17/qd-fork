@@ -225,7 +225,7 @@ public class StringUtils {
                        "I'am happy user of BombusQD. You can get it on http://bombusqd.hdd1.ru/",
                        "Are you ready for BombusQD?"
                 };
-                int i = rand.nextInt(7);
+        int i = Math.abs(rand.nextInt()%qd_offline_status.length);
         src=stringReplace(src,"%qd",qd_offline_status[i]);
         return src;
     }

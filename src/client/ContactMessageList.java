@@ -751,8 +751,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
         }
         if(isShown() || msg.getType() == Msg.OUTGOING) {
             reEnumCounts();
-        }
-        forceScrolling();       
+        }     
         
         int endPos = getMessageCount() - Config.getInstance().msglistLimit;
         for (int i = 0; i < endPos; ++i) {
@@ -760,7 +759,8 @@ public final class ContactMessageList extends MessageList implements InputTextBo
             win_top-=m.getVHeight();
             messages.removeElementAt(0);
         }
-        cursor-=endPos;
+        if (endPos>0) cursor-=endPos;
+        forceScrolling();  
         
         redraw();
     }

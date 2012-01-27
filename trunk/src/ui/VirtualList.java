@@ -75,8 +75,8 @@ public abstract class VirtualList extends CanvasEx {
 
     abstract protected VirtualElement getItemRef(int index);
 
-    protected int getMainBarBGnd() { return midlet.BombusQD.cf.gradientBarVertical?ColorTheme.getColor(ColorTheme.BAR_BGND_BOTTOM):ColorTheme.getColor(ColorTheme.BAR_BGND);}
-    protected int getMainBarBGndBottom() { return  midlet.BombusQD.cf.gradientBarVertical?ColorTheme.getColor(ColorTheme.BAR_BGND):ColorTheme.getColor(ColorTheme.BAR_BGND_BOTTOM);}
+    protected int getPanelBackgroundTop() { return ColorTheme.getColor(ColorTheme.BAR_BGND);}
+    protected int getPanelBackgroundBottom() { return  ColorTheme.getColor(ColorTheme.BAR_BGND_BOTTOM);}
 
     private static StaticData sd=StaticData.getInstance();
     public static GMenuConfig gm = GMenuConfig.getInstance();
@@ -800,9 +800,14 @@ public abstract class VirtualList extends CanvasEx {
     private void drawMainPanel (final Graphics g, int y) {
         int h=mainbar.getVHeight();
 //#ifdef GRADIENT
-         if (getMainBarBGnd()!=getMainBarBGndBottom()) {
-            MainBarBG.update(0, y, width, y+h+1, getMainBarBGnd(), getMainBarBGndBottom(), 
-                    midlet.BombusQD.cf.gradientBarVertical?Gradient.CACHED_HORIZONTAL:Gradient.MIXED_DOWN, 0);
+         if (getPanelBackgroundTop()!=getPanelBackgroundBottom()) {
+            if (midlet.BombusQD.cf.gradientBarVertical) 
+                MainBarBG.update(0, y, width, y+h+1, getPanelBackgroundBottom(), getPanelBackgroundTop(), 
+                    Gradient.CACHED_HORIZONTAL, 0);
+            else
+                MainBarBG.update(0, y, width, y+h+1, getPanelBackgroundTop(), getPanelBackgroundBottom(), 
+                    Gradient.MIXED_DOWN, 0);
+            
             MainBarBG.paint(g);
             if (midlet.BombusQD.cf.shadowBar) {
                 int sh = (width <= height)?width:height;
@@ -820,7 +825,7 @@ public abstract class VirtualList extends CanvasEx {
          } else 
 //#endif
         {
-            g.setColor(getMainBarBGnd());
+            g.setColor(getPanelBackgroundTop());
             g.fillRect(0, y, width, h);
         }
         setAbsOrg(g, 0, y);
@@ -831,10 +836,10 @@ public abstract class VirtualList extends CanvasEx {
     private void drawInfoPanel (final Graphics g, int y) {
         int h=infobar.getVHeight()+1;
 //#ifdef GRADIENT
-        if (getMainBarBGnd()!=getMainBarBGndBottom()) {
+        if (getPanelBackgroundTop()!=getPanelBackgroundBottom()) {
             InfoBarBG.update(0, y, width, y+h,
-                    getMainBarBGnd(),
-                    getMainBarBGndBottom(),
+                    getPanelBackgroundTop(),
+                    getPanelBackgroundBottom(),
                     midlet.BombusQD.cf.gradientBarVertical?Gradient.CACHED_HORIZONTAL:Gradient.MIXED_UP, 0);
             InfoBarBG.paint(g);            
             if (midlet.BombusQD.cf.shadowBar) {
@@ -853,7 +858,7 @@ public abstract class VirtualList extends CanvasEx {
         } else 
 //#endif
         {
-            g.setColor(getMainBarBGnd());
+            g.setColor(getPanelBackgroundTop());
             g.fillRect(0, y, width, h);
         }
         if(midlet.BombusQD.sd.roster!=null) {
@@ -1153,6 +1158,10 @@ public abstract class VirtualList extends CanvasEx {
 //#endif //TOUCH
 
     protected boolean sendEvent(int keyCode) {
+        if(gm.itemGrMenu>0 && midlet.BombusQD.cf.graphicsMenu ) {
+            if(null != menuItem) menuItem.keyPressed(keyCode);
+            return true;
+        }
 //#ifdef POPUPS
         if (getPopUp().size()>0) {
             return popup.handleEvent(keyCode);
@@ -1252,12 +1261,8 @@ public abstract class VirtualList extends CanvasEx {
          }
          return false;
      }   
-    protected void keyPressed(int keyCode) {
-     if(gm.itemGrMenu>0 && midlet.BombusQD.cf.graphicsMenu ) {
-         if(null != menuItem) menuItem.keyPressed(keyCode);
-         redraw();
-     } else {         
-        if (sendEvent(keyCode)) {
+    protected void keyPressed(int keyCode) {        
+     if (sendEvent(keyCode)) {
             redraw();
             return;
      }
@@ -1352,7 +1357,6 @@ public abstract class VirtualList extends CanvasEx {
             break;
         }
         redraw();
-      }
     }
 
     public int getPrevSelectableRef(int curRef) {

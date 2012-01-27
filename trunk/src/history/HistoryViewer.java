@@ -280,9 +280,6 @@ public class HistoryViewer extends MessageList
 //#endif
 
     public void destroyView() {
-        if (thread.isAlive()) {
-            thread.interrupt();
-        }
         closeRecordStore();
         super.destroyView();
     }
@@ -294,16 +291,22 @@ public class HistoryViewer extends MessageList
         return GMenu.MESSAGE_LIST;
     }
 
-    public void keyPressed(int keyCode){
+    public void keyPressed(int keyCode){    
+        if (sendEvent(keyCode)) {
+            redraw();
+            return;
+        }
         switch (keyCode) {
             case VirtualCanvas.NAVIKEY_LEFT:
             case VirtualCanvas.KEY_NUM4:
-                commandAction( cmdPrevBlk);
+                commandAction(cmdPrevBlk);
                 break;
             case VirtualCanvas.NAVIKEY_RIGHT:
             case VirtualCanvas.KEY_NUM6:
-                commandAction( cmdNextBlk);
+                commandAction(cmdNextBlk);
                 break;
+            default: 
+                super.keyPressed(keyCode);
         }// switch
     }// keyPressed
 }

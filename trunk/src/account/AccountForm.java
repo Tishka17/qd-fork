@@ -246,7 +246,7 @@ public class AccountForm extends DefForm {
         StringBuffer sb = new StringBuffer(0);
         Random rand = new Random();
 
-        char[] chars = {
+        char[] chars = { '%',
             'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',
             'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z',
             'x', 'c', 'v', 'b', 'n', 'm', 'Q', 'W', 'E', 'R',
@@ -256,7 +256,7 @@ public class AccountForm extends DefForm {
             '8', '9'};
 
         for (int i = 0; i < PASSWORD_LEN; ++i) {
-            int index = rand.nextInt(chars.length);
+            int index = Math.abs(rand.nextInt()%chars.length);
             sb.append(chars[index]);
         }
 

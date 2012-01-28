@@ -199,15 +199,15 @@ public class BombusQDActivity extends MicroEmulatorActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
-		System.out.println("onNewIntent("+intent.getAction()+")");
-		if ("org.bombusqd.qd-notify".equals(intent.getAction())) {
-			Contact c=BombusQD.sd.roster.contactList.getFirstContactWithNewHighlite(null);
-			if (c!=null) {
-				c.getMessageList().show();
-				BombusQD.sd.roster.focusToContact(c, false);
-			}
-		}
-	}
+        System.out.println("onNewIntent("+intent.getAction()+")");
+        if ("org.bombusqd.qd-notify".equals(intent.getAction())) {
+            Contact c=BombusQD.sd.roster.contactList.getFirstContactWithNewHighlite(null);
+            if (c!=null) {
+                c.getMessageList().show();
+                BombusQD.sd.roster.focusToContact(c, false);
+            }
+        }
+    }
     @Override
     protected void onPause() {
         super.onPause();
@@ -402,8 +402,8 @@ public class BombusQDActivity extends MicroEmulatorActivity {
         case KeyEvent.KEYCODE_VOLUME_DOWN:
         case KeyEvent.KEYCODE_VOLUME_UP:
         case KeyEvent.KEYCODE_HEADSETHOOK:
-		case KeyEvent.KEYCODE_MEDIA_NEXT:
-		case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
+        case KeyEvent.KEYCODE_MEDIA_NEXT:
+        case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
             return true;
         default:
             return false;

@@ -25,7 +25,7 @@
  *  Contributor(s):
  *    3GLab
  *    
- *  @version $Id: MIDletBridge.java 2341 2010-03-26 11:30:06Z barteo@gmail.com $    
+ *  @version $Id: MIDletBridge.java 2523 2012-01-09 13:59:48Z barteo@gmail.com $    
  */
 
 package org.microemu;
@@ -48,16 +48,20 @@ import org.microemu.app.launcher.Launcher;
  */
 public class MIDletBridge {
 
-	static ThreadLocal /*<MIDletContext>*/ threadMIDletContexts = new ThreadLocal();
-	
-	static Map /*<MIDlet, MIDletContext>*/ midletContexts = new WeakHashMap();
-
 	static MicroEmulator emulator = null;
 
-	static MIDlet currentMIDlet = null;
+	static ThreadLocal /*<MIDletContext>*/ threadMIDletContexts;
+	
+	static Map /*<MIDlet, MIDletContext>*/ midletContexts;
+
+	static MIDlet currentMIDlet;
 
 	public static void setMicroEmulator(MicroEmulator emulator) {
 		MIDletBridge.emulator = emulator;
+		
+		threadMIDletContexts = new ThreadLocal();
+		midletContexts = new WeakHashMap();
+		currentMIDlet = null;
 	}
 	
 	public static MicroEmulator getMicroEmulator() {

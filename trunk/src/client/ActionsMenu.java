@@ -200,9 +200,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
             }
 //#ifdef HISTORY
             if (Config.module_history && contact.hasHistory()) {
-                if (Config.historyTypeIndex == Config.HISTORY_RMS) {
-                    addItem(SR.get(SR.MS_HISTORY_SHOW), MI_HISTORY, ActionsIcons.ICON_VERSION);
-                }
+                addItem(SR.get(SR.MS_HISTORY_SHOW), MI_HISTORY, ActionsIcons.ICON_VERSION);
             }
 //#endif
             if (!isConference) {

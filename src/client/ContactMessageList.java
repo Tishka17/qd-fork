@@ -108,8 +108,6 @@ public final class ContactMessageList extends MessageList implements InputTextBo
     }
     
     public void show() {
-        BombusQD.sd.roster.activeContact = contact;
-        BombusQD.sd.roster.focusToContact(contact, true);
         contact.setIncoming(0);
 //#ifdef FILE_TRANSFER
         contact.fileQuery = false;
@@ -760,6 +758,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
             messages.removeElementAt(0);
         }
         if (endPos>0) cursor-=endPos;
+        if (cursor<0) cursor = 0;
         forceScrolling();  
         
         redraw();
@@ -840,7 +839,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
     
     public void destroyView(){
         updateSeparator();
-        midlet.BombusQD.sd.roster.activeContact=null;
+        midlet.BombusQD.sd.roster.activeContact = contact;
         midlet.BombusQD.sd.roster.reEnumRoster(); //to reset unread messages icon for this conference in roster
         midlet.BombusQD.sd.roster.show();
     }

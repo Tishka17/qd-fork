@@ -44,7 +44,6 @@ import javax.microedition.io.Connector;
 //#else
 import javax.microedition.io.StreamConnection;
 //#endif
-import locale.SR;
 import util.Time;
 import util.StringUtils;
 

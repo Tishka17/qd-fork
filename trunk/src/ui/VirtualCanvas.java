@@ -86,6 +86,7 @@ public class VirtualCanvas extends Canvas  implements CommandListener {
             repaint();
         } else {
             BombusQD.setCurrentView(this);
+            repaint();
         }
     }
 

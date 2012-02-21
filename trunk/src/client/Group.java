@@ -149,6 +149,7 @@ public class Group extends IconTextElement {
         collapsed = !collapsed;
         midlet.BombusQD.sd.roster.setUpdateView();
         midlet.BombusQD.sd.roster.reEnumRoster();
+        
     }
 
     public void updateDynamicInfo() {

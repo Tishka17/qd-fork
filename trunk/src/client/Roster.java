@@ -2911,6 +2911,9 @@ public final class Roster extends VirtualList
     }
 
     public void showMsgEditor(Contact c, String body) {
+        if (!isLoggedIn()) {
+            return;
+        }
 //#ifdef Android
 //#         createMessageEdit();
 //#endif
@@ -2925,9 +2928,6 @@ public final class Roster extends VirtualList
     }
 
     protected void keyGreen() {
-        if (!isLoggedIn()) {
-            return;
-        }
         Object e = getFocusedObject();
         if (e instanceof Contact) {
             Contact c = (Contact)e;
@@ -3549,7 +3549,6 @@ public final class Roster extends VirtualList
         }
 
         public void update() {
-            if(theStream == null) return;
             try {
                 Object focused = (desiredFocus == null) ? getFocusedObject() : desiredFocus;
                 reinit(focused);

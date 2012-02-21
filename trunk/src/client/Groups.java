@@ -264,7 +264,7 @@ public class Groups implements JabberBlockListener{
         if (!Config.getInstance().showGroups) {
             VirtualList.sort(vContacts);
         }
+        System.out.print("vContacts length "+vContacts.size());
         return vContacts;
     }
  }
-

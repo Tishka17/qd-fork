@@ -759,6 +759,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
         }
         if (endPos>0) cursor-=endPos;
         if (cursor<0) cursor = 0;
+        if (win_top<0) win_top = 0;
         forceScrolling();  
         
         redraw();

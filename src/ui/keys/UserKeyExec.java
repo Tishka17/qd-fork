@@ -61,7 +61,7 @@ public class UserKeyExec {
     }
 
     public boolean getCommandByKey(int key, boolean isLong){
-        if(noExecSem >0)
+        if(noExecSem > 0)
             return false;
         if (!Config.userKeys)
             return false;
@@ -76,8 +76,9 @@ public class UserKeyExec {
                   UserActions.doActionByExtIndex( UserActions.UA_KEYS, userKeyItem.commandId, null);
                   waitCode = 0;
                   return true;
-                }  
-            } else if (userKeyItem.keyCode==key && userKeyItem.keyLong==isLong) {
+                } 
+            } 
+            if (userKeyItem.keyCode==key && userKeyItem.keyLong==isLong) {
                 if(userKeyItem.mKey){
                     waitCode = key;
                     waitLong = isLong;
@@ -90,6 +91,7 @@ public class UserKeyExec {
                 return true;
             }
         }
+        waitCode = 0;
         return false;
     }
 }

@@ -61,7 +61,12 @@ public class InfoWindow extends DefForm {
                 form.show();
             }
         });
-
+        addControl(new LinkString("RMS Manager") {
+            public void doAction() {
+                RMSManager form = new RMSManager();
+                form.show();
+            }
+        });
         if (midlet.BombusQD.sd.roster.isLoggedIn()) {
             addControl(new LinkString(SR.get(SR.MS_SUPPORT)) {
                 public void doAction() {

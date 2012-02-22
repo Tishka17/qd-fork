@@ -124,6 +124,9 @@ public class StatusSelect extends VirtualList implements MenuListener {
     }
 
     public void send() {
+//#if AUTOSTATUS
+        AutoStatus.getInstance().userActivity(Config.AWAY_MESSAGE);
+//#endif
         int status = getSel().getImageIndex();
         if (to != null) {
             BombusQD.sd.roster.sendDirectPresence(status, to, null);

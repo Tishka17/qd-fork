@@ -91,8 +91,8 @@ public class HistoryViewer extends MessageList
 
         this.storeName = storeName;
 
-        cmdPrevBlk= new Command( "View prev block", MenuIcons.ICON_SEARCH);
-        cmdNextBlk = new Command( "View next block", MenuIcons.ICON_CLEAR);
+        cmdPrevBlk= new Command("View prev block", MenuIcons.ICON_SEARCH);
+        cmdNextBlk = new Command("View next block", MenuIcons.ICON_CLEAR);
 
         cmdFind = new Command(SR.get(SR.MS_SEARCH), MenuIcons.ICON_SEARCH);
         cmdClear = new Command(SR.get(SR.MS_CLEAR), MenuIcons.ICON_CLEAR);
@@ -101,7 +101,7 @@ public class HistoryViewer extends MessageList
 //#endif
 
         setMainBarItem(new MainBar(SR.get(SR.MS_HISTORY)));
-        HistBlkPos = 1;
+        HistBlkPos = -1;
         HistBlkSize = 20;
     }
 
@@ -138,7 +138,8 @@ public class HistoryViewer extends MessageList
         if( Config.historyTypeIndex ==Config.HISTORY_RMS){
             try {
                 HistSize = store.getNumRecords();
-                Msg msg= null;
+                if (HistBlkPos<0) {HistBlkPos=lastPage();}
+                Msg msg = null;
                 messages.removeAllElements();
                 for (int i = Math.max(1, HistBlkPos); i <= Math.min(HistSize, HistBlkPos +HistBlkSize); i++) {
                         msg = HistoryStorage.readRMSMessage(store, i);
@@ -150,6 +151,7 @@ public class HistoryViewer extends MessageList
         }else{
             try {
                 HistSize = vstore.getNumRecords();
+                if (HistBlkPos<0) {HistBlkPos=lastPage();}
 //#if DEBUG
 //#                 System.out.println(HistSize + " total records from VirtualStore");
 //#endif
@@ -166,7 +168,8 @@ public class HistoryViewer extends MessageList
                 }
             } catch (RecordStoreNotOpenException e) {}
         }// ifel
-        setMainBarItem(new MainBar(SR.get(SR.MS_HISTORY) +" from " +HistBlkPos + " to " +(HistBlkPos +HistBlkSize) +", total " +HistSize));
+        int to=Math.min(HistBlkPos +HistBlkSize, HistSize);
+        setMainBarItem(new MainBar(SR.get(SR.MS_HISTORY) +" " +HistBlkPos + " - " + to +" (" +HistSize+")"));
         redraw();
     }
 
@@ -244,18 +247,27 @@ public class HistoryViewer extends MessageList
                 HistBlkPos-= HistBlkSize;
             else
                 HistBlkPos= 1;
+            cursor = 0;
             ShowMessages();
         } else if (c == cmdNextBlk) {
-            if( HistBlkPos +HistBlkSize <=HistSize)
-                HistBlkPos+= HistBlkSize;
-            else
-                HistBlkPos= HistSize- HistBlkSize;
+            if(HistBlkPos+HistBlkSize < HistSize)
+                HistBlkPos += HistBlkSize;
+            else 
+                HistBlkPos = lastPage();
+            cursor = 0;
             ShowMessages();
         } else {
             super.commandAction(c);
         }
     }
 
+    private int lastPage() {
+        int mod = HistSize%HistBlkSize;
+        if (mod==0) {
+            return HistSize-HistBlkPos+1;
+        } else 
+            return HistSize-mod+1;
+    }
     public void okNotify(String text) {
         if (text.length() > 0) {
             int index = findString(text);

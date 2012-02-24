@@ -48,6 +48,8 @@ public class HistoryConfigForm extends DefForm {
     private DropChoiceBox historyType;
     private CheckBox historyMUC;
     private CheckBox historyMUCPrivate;
+    private CheckBox historyPresence;
+    private CheckBox historyBlogs;
     private NumberInput loadLastMsgCount;
 //#ifdef FILE_IO
     private PathSelector historyFolder;
@@ -74,6 +76,10 @@ public class HistoryConfigForm extends DefForm {
         addControl(historyMUC);
         historyMUCPrivate = new CheckBox(SR.get(SR.MS_MUC_PRIVATE_HISTORY), config.historyMUCPrivate);
         addControl(historyMUCPrivate);
+        historyPresence = new CheckBox(SR.get(SR.MS_PRESENCE_HISTORY), config.historyPresence);
+        addControl(historyPresence);
+        historyBlogs = new CheckBox(SR.get(SR.MS_BLOGS_HISTORY), config.historyBlogs);
+        addControl(historyBlogs);
         addControl(new SpacerItem(5));
         
         loadLastMsgCount = new NumberInput(SR.get(SR.MS_SHOW_LAST_HISTORY), config.loadLastMsgCount, 0, 50);
@@ -89,6 +95,8 @@ public class HistoryConfigForm extends DefForm {
         config.loadLastMsgCount = loadLastMsgCount.getIntValue();
         config.historyMUC = historyMUC.getValue();
         config.historyMUCPrivate = historyMUCPrivate.getValue();
+        config.historyPresence = historyPresence.getValue();
+        config.historyBlogs = historyBlogs.getValue();
 
         destroyView();
     }

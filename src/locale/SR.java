@@ -712,6 +712,8 @@ public class SR {
     public final static short MS_MESSAGES_SEPARATOR = 679; // Notify text
     public final static short MS_JUICK_SOUND = 680; //Juick sound
     public final static short MS_SHOW_MSGS_COUNT = 681; //Messages count
+    public final static short MS_PRESENCE_HISTORY = 682; //Presences history
+    public final static short MS_BLOGS_HISTORY = 683; // Blogs history
 
      private static String[] localeItemsDefault = new String[0];
     private static String[] localeItems = {
@@ -1398,7 +1400,10 @@ public class SR {
         
        "Show messages separator",
        "message Juick",
-       "Show messages count"
+       "Show messages count",
+       
+       "Prenences history",
+       "Blogs history"
    };
 
     private SR() { }

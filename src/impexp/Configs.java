@@ -236,6 +236,8 @@ public class Configs {
         writeUTF(data, "historyPath", Config.historyPath);
         writeBoolean(data, "historyMUC", config.historyMUC);
         writeBoolean(data, "historyMUCPrivate", config.historyMUCPrivate);
+        writeBoolean(data, "historyPresence", config.historyPresence);
+        writeBoolean(data, "historyBlogs", config.historyBlogs);
 //#endif
 
         AlertCustomize ac = AlertCustomize.getInstance();
@@ -467,6 +469,8 @@ public class Configs {
             Config.historyPath = readUTF(data, "historyPath", Config.historyPath);
             config.historyMUC = readBoolean(data, "historyMUC", config.historyMUC);
             config.historyMUCPrivate = readBoolean(data, "historyMUCPrivate", config.historyMUCPrivate);
+            config.historyPresence = readBoolean(data, "historyPresence", config.historyPresence);
+            config.historyBlogs = readBoolean(data, "historyBlogs", config.historyBlogs);
 //#endif
             config.showGroups = readBoolean(data, "showGroups", config.showGroups);
             EntityCaps.initCaps();

@@ -39,6 +39,7 @@ import images.ActivityIcons;
 import images.RosterIcons;
 import colors.ColorTheme;
 import com.alsutton.jabber.datablocks.Presence;
+import com.sun.kvem.netmon.StreamAgent;
 import vcard.VCard;
 import ui.IconTextElement;
 import javax.microedition.lcdui.Image;
@@ -338,10 +339,20 @@ public class Contact extends IconTextElement {
 //#ifdef HISTORY                
                 || (origin == ORIGIN_GROUPCHAT && Config.getInstance().historyMUC)
                 || (origin == ORIGIN_GC_MEMBER && Config.getInstance().historyMUCPrivate)
+                || (isBlog() && Config.getInstance().historyBlogs)
 //#endif
                 );
     }
 
+    public boolean isBlog() {
+        String bj = jid.getBareJid();
+        if ("juick@juick.com".equals(bj) 
+                || "psto@psto.net".equals(bj)
+                || "lj_bot@livejournal.com".equals(bj)
+                || "jubo@nologin.ru".equals(bj))
+            return true;
+        return false;
+    }
     public boolean getFontIndex(){
        if (midlet.BombusQD.cf.useBoldFont && status<5) return true;
        return active();

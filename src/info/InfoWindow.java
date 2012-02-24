@@ -130,7 +130,7 @@ public class InfoWindow extends DefForm {
         addControl(new MultiLine("Actions icons:", "Rederick Asher"));
         addControl(new MultiLine("Themes:", "Lesli, Я2R and others"));
         addControl(new MultiLine("Localization:", "balor (Українська), Samer top (Arabic), czater (Polski)"));
-        addControl(new MultiLine("Testing: ", "zaetz, balor, demon(Dmitry Krylov), magnit, Sniffy, NNn, DsXack, Gho$t, Artem, Tiesto and many others"));
+        addControl(new MultiLine("Testing: ", "zaetz, balor, demon(Dmitry Krylov), magnit, Sniffy, NNn, DsXack, Gho$t, Artem, Tiesto, D|mka and many others"));
         addControl(new MultiLine("Smiles:", "Copyright (c) Aiwan. Kolobok smiles"));
         addControl(new LinkString("http://www.kolobok.us") {
             public void doAction() {

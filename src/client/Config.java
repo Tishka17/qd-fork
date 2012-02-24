@@ -311,6 +311,8 @@ public class Config {
     public static String historyPath = "";
     public boolean historyMUC = false;
     public boolean historyMUCPrivate = true;
+    public boolean historyPresence = false;
+    public boolean historyBlogs = true;
     public int loadLastMsgCount = 0;
 //#endif
 
@@ -584,6 +586,10 @@ public class Config {
             //minItemHeight = inputStream.readInt();
             showMsgsCount = inputStream.readBoolean();
             showGroups = inputStream.readBoolean();
+//#ifdef HISTORY
+            historyPresence = inputStream.readBoolean();
+            historyBlogs = inputStream.readBoolean();
+ //#endif
             inputStream.close();
             inputStream = null;
         } catch (Exception e) {
@@ -725,6 +731,10 @@ public class Config {
 //#endif
             outputStream.writeBoolean(showMsgsCount);
             outputStream.writeBoolean(showGroups);
+//#ifdef HISTORY
+            outputStream.writeBoolean(historyPresence);
+            outputStream.writeBoolean(historyBlogs);
+//#endif 
 	} catch (IOException e) {}
 	return NvStorage.writeFileRecord(outputStream, BOOL_STORAGE_NAME, 0, true);
    }

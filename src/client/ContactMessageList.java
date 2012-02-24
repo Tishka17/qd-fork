@@ -212,7 +212,6 @@ public final class ContactMessageList extends MessageList implements InputTextBo
                 addCommand(Commands.cmdCopy);
                 if (!ClipBoard.isEmpty()) {
                     addCommand(Commands.cmdCopyPlus);
-                    addCommand(Commands.cmdPaste);
                 }
             }
 //#endif
@@ -226,6 +225,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
 
 //#ifdef CLIPBOARD
         if (Config.useClipBoard && !ClipBoard.isEmpty()) {
+            addCommand(Commands.cmdPaste);
             addInCommand(3, Commands.cmdSendBuffer);
         }
 //#endif

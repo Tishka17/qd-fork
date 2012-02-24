@@ -4,7 +4,9 @@
  */
 
 package ui.keys;
-
+//#ifdef AUTOSTATUS
+import client.AutoStatus;
+//#endif
 import client.Config;
 import client.ConfigForm;
 import client.StaticData;
@@ -33,7 +35,6 @@ import ui.IconTextElement;
 import images.MenuIcons;
 import images.ActionsIcons;
 import images.RosterIcons;
-import client.ContactMessageList;
 import com.alsutton.jabber.datablocks.Presence;
 import client.StatusList;
 import conference.bookmark.Bookmarks;
@@ -41,6 +42,7 @@ import conference.ConferenceGroup;
 import client.Contact;
 import conference.MucContact;
 import conference.affiliation.QuickPrivelegyEditForm;
+import ui.SplashScreen;
 
 /**
  *
@@ -169,6 +171,8 @@ public class UserActions {
         ,new userAct( 40, UA_KEYS, "Chats: clear chat")
         ,new userAct( 41, UA_KEYS, "Room: kick current")
         ,new userAct( 42, UA_KEYS, "Room: ban current")
+        ,new userAct( 43, UA_KEYS, "Key lock")
+        ,new userAct( 44, UA_KEYS, "Key unlock")
 
 /*
  *         cmds[22] = "Move cursor home";
@@ -392,6 +396,16 @@ public class UserActions {
                             new QuickPrivelegyEditForm(mc, QuickPrivelegyEditForm.OUTCAST, self.getNick()).show();
                     }
                 }// if
+                return true;
+            case 43:
+//#ifdef AUTOSTATUS
+                AutoStatus.getInstance().appLocked();
+//#endif
+                new SplashScreen(BombusQD.sd.roster.getMainBarItem()).show();
+                return true;
+            case 44:
+                if (BombusQD.sd.canvas.getCanvas() instanceof SplashScreen)
+                    BombusQD.sd.canvas.getCanvas().destroyView();
                 return true;
 /*            case 22:
                 return true;

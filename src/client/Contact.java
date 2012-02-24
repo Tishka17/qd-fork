@@ -326,7 +326,7 @@ public class Contact extends IconTextElement {
         }
         getMessageList().addMessage(m);
 //#ifdef HISTORY
-        if (hasHistory()) {
+        if (hasHistory() && (!m.isPresence() || Config.getInstance().historyPresence)) {
               getMessageList().storeMessage(m);
         }
 //#endif
@@ -349,7 +349,8 @@ public class Contact extends IconTextElement {
         if ("juick@juick.com".equals(bj) 
                 || "psto@psto.net".equals(bj)
                 || "lj_bot@livejournal.com".equals(bj)
-                || "jubo@nologin.ru".equals(bj))
+                || "jubo@nologin.ru".equals(bj)
+                || "mblogi@mblogi.qip.ru".equals(bj))
             return true;
         return false;
     }

@@ -274,7 +274,10 @@ public class VirtualCanvas extends Canvas  implements CommandListener {
 //#             else if (80 == code) {
 //#                 return CAMERA_KEY;
 //#         }
-//#endif      
+//#endif    
+        if (code>=KEY_NUM0 && code<=KEY_NUM9 || code==KEY_STAR || code==KEY_POUND)
+            return code;
+        
         switch (code) {
             // lat
             case 'm': return KEY_NUM0;
@@ -289,7 +292,36 @@ public class VirtualCanvas extends Canvas  implements CommandListener {
             case 'n': return KEY_NUM9;
             case 'j': return KEY_POUND;
             case 'u': return KEY_STAR;
+        }        
+        
+        if ((code<KEY_NUM0 || code>KEY_NUM9) && code!=KEY_POUND && code!=KEY_STAR)
+            try {// getGameAction can raise exception
+                int action = getGameAction(code);
+                switch (action) {
+                    case Canvas.RIGHT: return NAVIKEY_RIGHT;
+                    case Canvas.LEFT:  return NAVIKEY_LEFT;
+                    case Canvas.UP:    return NAVIKEY_UP;
+                    case Canvas.DOWN:  return NAVIKEY_DOWN;
+                    case Canvas.FIRE:  return NAVIKEY_FIRE;
+                }
+            } catch(Exception e) {
+            }
+        switch (code) {
+            // rus
+            case 1100: return KEY_NUM0;
+            case 1082: return KEY_NUM1;
+            case 1077: return KEY_NUM2;
+            case 1085: return KEY_NUM3;
+            case 1072: return KEY_NUM4;
+            case 1087: return KEY_NUM5;
+            case 1088: return KEY_NUM6;
+            case 1084: return KEY_NUM7;
+            case 1080: return KEY_NUM8;
+            case 1090: return KEY_NUM9;
+            case 1086: return KEY_POUND;
+            case 1075: return KEY_STAR;
         }
+        
         String strCode = null;
         try {
             strCode = getKeyName(code);
@@ -388,33 +420,6 @@ public class VirtualCanvas extends Canvas  implements CommandListener {
         }
         if (code == -37) {
             return VOLMINUS_KEY;
-        }
-        if ((code<KEY_NUM0 || code>KEY_NUM9) && code!=KEY_POUND && code!=KEY_STAR)
-            try {// getGameAction can raise exception
-                int action = getGameAction(code);
-                switch (action) {
-                    case Canvas.RIGHT: return NAVIKEY_RIGHT;
-                    case Canvas.LEFT:  return NAVIKEY_LEFT;
-                    case Canvas.UP:    return NAVIKEY_UP;
-                    case Canvas.DOWN:  return NAVIKEY_DOWN;
-                    case Canvas.FIRE:  return NAVIKEY_FIRE;
-                }
-            } catch(Exception e) {
-            }
-        switch (code) {
-            // rus
-            case 1100: return KEY_NUM0;
-            case 1082: return KEY_NUM1;
-            case 1077: return KEY_NUM2;
-            case 1085: return KEY_NUM3;
-            case 1072: return KEY_NUM4;
-            case 1087: return KEY_NUM5;
-            case 1088: return KEY_NUM6;
-            case 1084: return KEY_NUM7;
-            case 1080: return KEY_NUM8;
-            case 1090: return KEY_NUM9;
-            case 1086: return KEY_POUND;
-            case 1075: return KEY_STAR;
         }
         return code;
     }

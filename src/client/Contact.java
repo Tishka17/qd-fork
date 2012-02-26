@@ -39,7 +39,6 @@ import images.ActivityIcons;
 import images.RosterIcons;
 import colors.ColorTheme;
 import com.alsutton.jabber.datablocks.Presence;
-import com.sun.kvem.netmon.StreamAgent;
 import vcard.VCard;
 import ui.IconTextElement;
 import javax.microedition.lcdui.Image;

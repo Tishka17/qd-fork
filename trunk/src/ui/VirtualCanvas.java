@@ -27,6 +27,7 @@ package ui;
 import client.AutoStatus;
 //#endif
 import client.Config;
+import java.util.Vector;
 import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.Displayable;
@@ -251,8 +252,12 @@ public class VirtualCanvas extends Canvas  implements CommandListener {
     public static final int NAVIKEY_FIRE  = 0x0010000D;
     public static final int UNUSED_KEY    = 0x0010000F; 
 
+    //кэширование клавиш для ускорения распознавания на SE
+    private Vector keyCodes=new Vector();
+    private Vector keys=new Vector();
     private int getKey(int code) {
-//#ifdef ANDROID
+        //эти коды постоянны и можно не кэшировать
+        //#ifdef ANDROID
 //#             if (-8 == code) {
 //#                 return CLOSE_KEY;
 //#             }
@@ -274,10 +279,9 @@ public class VirtualCanvas extends Canvas  implements CommandListener {
 //#             else if (80 == code) {
 //#                 return CAMERA_KEY;
 //#         }
-//#endif    
+//#endif      
         if (code>=KEY_NUM0 && code<=KEY_NUM9 || code==KEY_STAR || code==KEY_POUND)
             return code;
-        
         switch (code) {
             // lat
             case 'm': return KEY_NUM0;
@@ -294,18 +298,6 @@ public class VirtualCanvas extends Canvas  implements CommandListener {
             case 'u': return KEY_STAR;
         }        
         
-        if ((code<KEY_NUM0 || code>KEY_NUM9) && code!=KEY_POUND && code!=KEY_STAR)
-            try {// getGameAction can raise exception
-                int action = getGameAction(code);
-                switch (action) {
-                    case Canvas.RIGHT: return NAVIKEY_RIGHT;
-                    case Canvas.LEFT:  return NAVIKEY_LEFT;
-                    case Canvas.UP:    return NAVIKEY_UP;
-                    case Canvas.DOWN:  return NAVIKEY_DOWN;
-                    case Canvas.FIRE:  return NAVIKEY_FIRE;
-                }
-            } catch(Exception e) {
-            }
         switch (code) {
             // rus
             case 1100: return KEY_NUM0;
@@ -321,6 +313,20 @@ public class VirtualCanvas extends Canvas  implements CommandListener {
             case 1086: return KEY_POUND;
             case 1075: return KEY_STAR;
         }
+        //ищем клавиши в кэше
+        for (int i=0;i<keyCodes.size();i++) {
+            Integer c = (Integer)keyCodes.elementAt(i);
+            if (c.intValue()==code) 
+                return ((Integer)keys.elementAt(i)).intValue();
+        }
+        keyCodes.addElement(new Integer(code));
+        int key = getPhoneKey(code);
+        keys.addElement(new Integer(key));
+        return key;
+    }
+    
+    //распознавание кнопки по названию или game action, может быть медленно на некоторых телефонах
+    private int getPhoneKey(int code) {
         
         String strCode = null;
         try {
@@ -421,6 +427,18 @@ public class VirtualCanvas extends Canvas  implements CommandListener {
         if (code == -37) {
             return VOLMINUS_KEY;
         }
+        if ((code<KEY_NUM0 || code>KEY_NUM9) && code!=KEY_POUND && code!=KEY_STAR)
+            try {// getGameAction can raise exception
+                int action = getGameAction(code);
+                switch (action) {
+                    case Canvas.RIGHT: return NAVIKEY_RIGHT;
+                    case Canvas.LEFT:  return NAVIKEY_LEFT;
+                    case Canvas.UP:    return NAVIKEY_UP;
+                    case Canvas.DOWN:  return NAVIKEY_DOWN;
+                    case Canvas.FIRE:  return NAVIKEY_FIRE;
+                }
+            } catch(Exception e) {
+            }
         return code;
     }
 }

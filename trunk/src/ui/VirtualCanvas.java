@@ -56,32 +56,30 @@ public class VirtualCanvas extends Canvas  implements CommandListener {
         Config.isTouchPhone = hasPointerEvents();
 //#endif
 
-        setFullScreenMode(Config.fullscreen);
+        super.setFullScreenMode(Config.fullscreen);
+        updateCommands();
 
         if(!isDoubleBuffered()) {
             offscreen = Image.createImage(getWidth(), getHeight());
         }
-        /* probably for nokia if not full screen
-        addCommand(ok);
-        addCommand(cancel);
-        setCommandListener(this);*/
     }
 
-    /* private Command ok=new Command("Ok", Command.OK, 1); 
-    private Command cancel=new Command("Cancel", Command.CANCEL, 2); */
+    private Command ok=new Command("", Command.OK, 1); 
+    private Command cancel=new Command("", Command.BACK, 2);
     
     public void commandAction(Command c, Displayable s) {
-      /*  if (c==ok) {
-            keyPressed(LEFT_SOFT);
-            keyReleased(LEFT_SOFT);
+        if (c==ok) {
+            keyPressed(-6);
+            keyReleased(-6);
         } else if (c==cancel) {
-            keyPressed(RIGHT_SOFT);
-            keyReleased(RIGHT_SOFT);
-        }*/
+            keyPressed(-7);
+            keyReleased(-7);
+        }
     }
     
     public void show(CanvasEx canvas) {
         this.canvas = canvas;
+        updateCommands();
         if (isShown()) {
             this.canvas.showNotify();
             repaint();
@@ -90,7 +88,29 @@ public class VirtualCanvas extends Canvas  implements CommandListener {
             repaint();
         }
     }
-
+    
+    public void setFullScreenMode(boolean f) {
+        super.setFullScreenMode(f);
+        updateCommands();
+    }
+    
+    private void updateCommands() {
+        if (BombusQD.cf.phoneManufacturer==Config.NOKIA 
+                  ||BombusQD.cf.phoneManufacturer==Config.NOKIA_S40 
+                  || BombusQD.cf.phoneManufacturer==Config.NOKIA_5800
+                ) {
+            removeCommand(ok);
+            removeCommand(cancel);
+            if (!BombusQD.cf.fullscreen) {
+                System.out.println("addCommand");
+                addCommand(ok);
+                addCommand(cancel);
+                setCommandListener(this);
+            } else {
+                setCommandListener(null);
+            }
+        }
+    }
     public void showNotify() {
         setFullScreenMode(Config.fullscreen);
         

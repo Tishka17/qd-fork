@@ -102,6 +102,8 @@ public final class ContactMessageList extends MessageList implements InputTextBo
                 }
                 reEnumCounts();
             }
+            updateSeparator();
+            cursor = messages.size()-2;
             contact.historyLoaded();
         }
 //#endif
@@ -215,6 +217,15 @@ public final class ContactMessageList extends MessageList implements InputTextBo
                 }
             }
 //#endif
+        }
+//#ifdef CLIPBOARD
+        if (Config.useClipBoard && !ClipBoard.isEmpty()) {
+            addCommand(Commands.cmdPaste);
+            addInCommand(3, Commands.cmdSendBuffer);
+        }
+//#endif          
+        
+        if (getItemCount() > 0) {
             if (hasScheme()) {
                 addInCommand(3, Commands.cmdxmlSkin);
             }
@@ -222,13 +233,6 @@ public final class ContactMessageList extends MessageList implements InputTextBo
                 addCommand(Commands.cmdUrl);
             }
         }
-
-//#ifdef CLIPBOARD
-        if (Config.useClipBoard && !ClipBoard.isEmpty()) {
-            addCommand(Commands.cmdPaste);
-            addInCommand(3, Commands.cmdSendBuffer);
-        }
-//#endif
     }
 
     public void showNotify(){
@@ -398,6 +402,9 @@ public final class ContactMessageList extends MessageList implements InputTextBo
 
     public void clearReadedMessageList() {
         smartPurge(false);
+        if (getItemCount()>0 && "spacer".equals(getMessage(0).getId())) {
+            removeMessage(0);
+        }
         cursor=0;
         moveCursorHome();
         redraw();
@@ -803,7 +810,6 @@ public final class ContactMessageList extends MessageList implements InputTextBo
                 }
             }
         } catch (Exception e) { }
-
         if(getItemCount() == 0) {
           contact.clearVCard();
         }

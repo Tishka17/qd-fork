@@ -122,7 +122,13 @@
 //#             clearReadedMessageList();
 //#ifdef ARCHIVE
 //#         } else if (c == Commands.cmdArch) {
-//#             MessageArchive.store(util.StringUtils.replaceNickTags(getMessage(cursor)));
+//#             MessageArchive.store(util.StringUtils.replaceNickTags(stanzas.getMessage(cursor)));
+//#endif
+//#ifdef CLIPBOARD
+//#         } else if (c == Commands.cmdCopy) {
+//#             ClipBoard.setClipBoard(stanzas.getMessage(cursor).getBody());
+//#         } else if (c == Commands.cmdCopyPlus) {
+//#             ClipBoard.addToClipBoard(stanzas.getMessage(cursor).getBody());
 //#endif
 //#         } else {
 //#             super.commandAction(c);

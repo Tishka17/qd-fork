@@ -141,7 +141,9 @@ public final class AutoStatus {
         }
     }
     
-    private void setAutoAway(String msg) { 
+    private void setAutoAway(String msg) {
+        if (!BombusQD.sd.roster.isLoggedIn())
+            return; 
         synchronized(this) {
 //#ifdef DEBUG
 //#             System.out.println("[AutoStatus] setAutoAway called");
@@ -161,6 +163,8 @@ public final class AutoStatus {
     }
 
     private void setAutoXa(String msg) {
+        if (!BombusQD.sd.roster.isLoggedIn())
+            return;
         synchronized(this) {
 //#ifdef DEBUG
 //#             System.out.println("[AutoStatus] setAutoXa called");
@@ -178,6 +182,8 @@ public final class AutoStatus {
     }
 
     private void restoreStatus() {
+        if (!BombusQD.sd.roster.isLoggedIn())
+            return;
         synchronized(this) {
 //#ifdef DEBUG
 //#             System.out.println("[AutoStatus] restoreStatus called");

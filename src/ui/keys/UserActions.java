@@ -149,39 +149,35 @@ public class UserActions {
         ,new userAct( 19, UA_ALL, SR.get(SR.MS_LOGIN), MenuIcons.getInstance(), MenuIcons.ICON_OK)
         ,new userAct( 20, UA_ALL, SR.get(SR.MS_CONFERENCE)+": "+SR.get(SR.MS_DO_AUTOJOIN), RosterIcons.getInstance(), RosterIcons.ICON_GCCOLLAPSED_INDEX)
         ,new userAct( 21, UA_KEYS, "Show/Hide Offline contacts", RosterIcons.getInstance(), RosterIcons.ICON_IDONTNOW_STATUS)
-        ,new userAct( 22, UA_ALL, "Status: online", RosterIcons.getInstance(), RosterIcons.ICON_ONLINE_STATUS)
-        ,new userAct( 23, UA_ALL, "Status: offline", RosterIcons.getInstance(), RosterIcons.ICON_OFFLINE_STATUS)
-        ,new userAct( 24, UA_ALL, "Status: chat", RosterIcons.getInstance(), RosterIcons.ICON_CHAT_STATUS)
-        ,new userAct( 25, UA_ALL, "Status: away", RosterIcons.getInstance(), RosterIcons.ICON_AWAY_STATUS)
-        ,new userAct( 26, UA_ALL, "Status: dnd", RosterIcons.getInstance(), RosterIcons.ICON_BUSY_STATUS)
-        ,new userAct( 27, UA_ALL, "Status: invisible", RosterIcons.getInstance(), RosterIcons.ICON_INVISIBLE_INDEX)
-        ,new userAct( 28, UA_KEYS, "Command: EventOk")
-        ,new userAct( 29, UA_KEYS, "Command: Alert Profile")
-        ,new userAct( 30, UA_KEYS, "Command: keyClose")
+        ,new userAct( 22, UA_ALL, SR.get(SR.MS_STATUS)+": "+SR.get(SR.MS_ONLINE), RosterIcons.getInstance(), RosterIcons.ICON_ONLINE_STATUS)
+        ,new userAct( 23, UA_ALL, SR.get(SR.MS_STATUS)+": "+SR.get(SR.MS_OFFLINE), RosterIcons.getInstance(), RosterIcons.ICON_OFFLINE_STATUS)
+        ,new userAct( 24, UA_ALL, SR.get(SR.MS_STATUS)+": "+SR.get(SR.MS_CHAT), RosterIcons.getInstance(), RosterIcons.ICON_CHAT_STATUS)
+        ,new userAct( 25, UA_ALL, SR.get(SR.MS_STATUS)+": "+SR.get(SR.MS_AWAY), RosterIcons.getInstance(), RosterIcons.ICON_AWAY_STATUS)
+        ,new userAct( 26, UA_ALL, SR.get(SR.MS_STATUS)+": "+SR.get(SR.MS_DND), RosterIcons.getInstance(), RosterIcons.ICON_BUSY_STATUS)
+        ,new userAct( 27, UA_ALL, SR.get(SR.MS_STATUS)+": "+SR.get(SR.MS_INVISIBLE), RosterIcons.getInstance(), RosterIcons.ICON_INVISIBLE_INDEX)
+        ,new userAct( 28, UA_KEYS, SR.get(SR.MS_COMMANDS)+": EventOk")
+        ,new userAct( 29, UA_KEYS, SR.get(SR.MS_COMMANDS)+": "+SR.get(SR.MS_ALERT_PROFILE), MenuIcons.getInstance(), MenuIcons.ICON_NOTIFY)
+        ,new userAct( 30, UA_KEYS, SR.get(SR.MS_COMMANDS)+": "+SR.get(SR.MS_BACK))
         ,new userAct( 31, UA_KEYS, SR.get(SR.MS_BOOKMARKS), MenuIcons.getInstance(), MenuIcons.ICON_CONFERENCE)
         ,new userAct( 32, UA_KEYS, "Restore from background")
-        ,new userAct( 33, UA_KEYS, "Cursor: moveHome")
-        ,new userAct( 34, UA_KEYS, "Cursor: moveEnd")
-        ,new userAct( 35, UA_KEYS, "Cursor: pageLeft")
-        ,new userAct( 36, UA_KEYS, "Cursor: pageRight")
+        ,new userAct( 33, UA_KEYS, SR.get(SR.MS_CURSOR_TR)+": moveHome")
+        ,new userAct( 34, UA_KEYS, SR.get(SR.MS_CURSOR_TR)+": moveEnd")
+        ,new userAct( 35, UA_KEYS, SR.get(SR.MS_CURSOR_TR)+": pageLeft")
+        ,new userAct( 36, UA_KEYS, SR.get(SR.MS_CURSOR_TR)+": pageRight")
 
-        ,new userAct( 37, UA_KEYS, "Chats: left chat (tab)")
-        ,new userAct( 38, UA_KEYS, "Chats: right chat (tab)")
-        ,new userAct( 39, UA_KEYS, "Chats: next chat")
-        ,new userAct( 40, UA_KEYS, "Chats: clear chat")
-        ,new userAct( 41, UA_KEYS, "Room: kick current")
-        ,new userAct( 42, UA_KEYS, "Room: ban current")
-        ,new userAct( 43, UA_KEYS, "Key lock")
-        ,new userAct( 44, UA_KEYS, "Key unlock")
+        ,new userAct( 37, UA_KEYS, SR.get(SR.MS_CHATS)+": left chat (tab)")
+        ,new userAct( 38, UA_KEYS, SR.get(SR.MS_CHATS)+": right chat (tab)")
+        ,new userAct( 39, UA_KEYS, SR.get(SR.MS_CHATS)+": next chat")
+        ,new userAct( 40, UA_KEYS, SR.get(SR.MS_CHATS)+": "+SR.get(SR.MS_CLEAR), MenuIcons.getInstance(), MenuIcons.ICON_CLEAR)
+        ,new userAct( 41, UA_KEYS, SR.get(SR.MS_ROOM)+": "+SR.get(SR.MS_KICK), ActionsIcons.getInstance(), ActionsIcons.ICON_KICK)
+        ,new userAct( 42, UA_KEYS, SR.get(SR.MS_ROOM)+": "+SR.get(SR.MS_BAN), ActionsIcons.getInstance(), ActionsIcons.ICON_BAN)
+        ,new userAct( 43, UA_KEYS, "Key lock", RosterIcons.getInstance(), RosterIcons.ICON_KEYBLOCK_INDEX)
+        ,new userAct( 44, UA_KEYS, "Key unlock", RosterIcons.getInstance(), RosterIcons.ICON_KEYBLOCK_INDEX)
 
 /*
- *         cmds[22] = "Move cursor home";
-        cmds[23] = "Move cursor end";
+ *        
         cmds[24] = "Move cursor next";
         cmds[25] = "Move cursor previous";
-        cmds[26] = "Move cursor left";
-        cmds[27] = "Move cursor right";
-        cmds[28] = "Go to previous window";
         cmds[29] = "Delete current item";
         cmds[30] = "[Chat] " + "Quote";
         cmds[31] = "[Chat] " + "Active contacts";

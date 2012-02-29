@@ -901,8 +901,11 @@ public class Config {
             moodText = inputStream.readUTF();
             moodName = inputStream.readUTF();
             actText = inputStream.readUTF();
+            if ("".equals(actText)) actText = null;
             actDescr = inputStream.readUTF();
+            if ("".equals(actDescr)) actDescr = null;
             actCat = inputStream.readUTF();
+            if ("".equals(actCat)) actCat = null;
 //#ifdef AVATARS
             msgAvatarPath = inputStream.readUTF();
 //#endif
@@ -934,10 +937,13 @@ public class Config {
             outputStream.writeUTF(verHash);
             outputStream.writeUTF(resolvedHost);
             outputStream.writeUTF(moodText);
-            outputStream.writeUTF(moodName);
-            outputStream.writeUTF(actText);
-            outputStream.writeUTF(actDescr);
-            outputStream.writeUTF(actCat);
+            outputStream.writeUTF(moodName);       
+            if (actText==null) outputStream.writeUTF("");
+            else outputStream.writeUTF(actText);
+            if (actDescr==null) outputStream.writeUTF("");
+            else outputStream.writeUTF(actDescr);
+            if (actCat==null) outputStream.writeUTF("");
+            else outputStream.writeUTF(actCat);
 //#ifdef AVATARS
             outputStream.writeUTF(msgAvatarPath);
 //#endif

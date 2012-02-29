@@ -38,6 +38,7 @@ public class Gradient {
 	public final static int MIXED_DOWN=3;
 	public final static int CACHED_VERTICAL = 4;
 	public final static int CACHED_HORIZONTAL = 5;
+        public final static int SOLID = 6;
 
 
 	private int x1;
@@ -57,6 +58,8 @@ public class Gradient {
 
 	private int blueS;
 	private int blueE;
+        
+        private int R;
 
 	private int type;
 	private int[] points=null;
@@ -67,7 +70,7 @@ public class Gradient {
 	public void update(int x1, int y1, 
                            int x2, int y2, 
                            final int StartRGB, final int EndRGB, 
-                           final int type, 
+                           int type, 
                            final int R) {
                 int alphaS = ColorTheme.getAlpha(StartRGB);
                 if (alphaS == 0) {alphaS = 0xff;}
@@ -79,7 +82,8 @@ public class Gradient {
 		final int greenE = ColorTheme.getGreen(EndRGB);
 		final int blueS = ColorTheme.getBlue(StartRGB);
 		final int blueE = ColorTheme.getBlue(EndRGB);
-                                
+                if (StartRGB==EndRGB && (alphaS==0 || alphaS==255 )) type=SOLID;
+                
                 int width = this.x2-this.x1;
                 int height = this.y2-this.y1;
 		boolean changed = (points==null || 
@@ -89,6 +93,7 @@ public class Gradient {
 				this.redS!=redS || this.redE!=redE || 
 				this.greenS!=greenS ||this.greenE!=greenE ||
 				this.blueS!=blueS || this.blueE!=blueE || 
+                                this.R != R ||
                                 this.type!=type);
                 if (changed) {
                     if (y1<0) 
@@ -103,6 +108,7 @@ public class Gradient {
 				this.redS!=redS || this.redE!=redE || 
 				this.greenS!=greenS ||this.greenE!=greenE ||
 				this.blueS!=blueS || this.blueE!=blueE || 
+                                this.R!=R ||
                                 this.type!=type);
                 }
 
@@ -118,12 +124,10 @@ public class Gradient {
 		this.blueS = blueS;
 		this.greenE = greenE;
 		this.greenS = greenS;
+                this.R = R;
 		this.type = type;
         
 		if (changed) {
-//#ifdef DEBUG
-//#            System.out.println("makePoints("+(y2-y1)+", "+type+")");
-//#endif
                     if (type==MIXED_UP || type==MIXED_DOWN || type == CACHED_VERTICAL|| type == CACHED_HORIZONTAL) {
                         if (width!=x2-x1 || height!=y2-y1 || points==null) {
                             width = x2-x1;
@@ -141,9 +145,14 @@ public class Gradient {
                 }
 	}
 	public void paint(final Graphics g) {
-                if (x2<=x1 || y2<= y1 || points==null)
+                if (x2<=x1 || y2<= y1)
                     return;
 		switch (type) {
+                        case SOLID:
+                                g.setColor(redS, greenS, blueS);
+                                if (R>0) g.fillRoundRect(x1, y1, x2-x1, y2-y1, R, R);
+                                else g.fillRect(x1, y1, x2-x1, y2-y1);
+                                break;
 			case VERTICAL:
 				paintV(g); 
 				break;
@@ -157,7 +166,7 @@ public class Gradient {
                         	final int x = g.getTranslateX();
                                 final int y = g.getTranslateY();
                                 g.translate(-x, -y);
-				g.drawRGB(points, 0, x2-x1, x+x1, y+y1 , x2-x1, y2-y1, true);//(alphaS!=0 || alphaE!=0));
+				if (points!=null) g.drawRGB(points, 0, x2-x1, x+x1, y+y1 , x2-x1, y2-y1, true);//(alphaS!=0 || alphaE!=0));
                                 g.translate(x, y);
 				break;
                         }

@@ -73,9 +73,8 @@ public class Gradient {
                            int type, 
                            final int R) {
                 int alphaS = ColorTheme.getAlpha(StartRGB);
-                if (alphaS == 0) {alphaS = 0xff;}
                 int alphaE = ColorTheme.getAlpha(EndRGB);
-                if (alphaE == 0) {alphaE = 0xff;}
+                if (alphaS==alphaE && alphaS==0) alphaS=alphaE=255;
 		final int redS = ColorTheme.getRed(StartRGB);
 		final int redE = ColorTheme.getRed(EndRGB);
 		final int greenS = ColorTheme.getGreen(StartRGB);

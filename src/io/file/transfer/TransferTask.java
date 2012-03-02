@@ -42,6 +42,10 @@ import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
 import locale.SR;
 import colors.ColorTheme;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import javax.microedition.io.Connector;
+import javax.microedition.io.StreamConnection;
 import ui.IconTextElement;
 import util.Strconv;
 import xmpp.XmppError;
@@ -82,13 +86,17 @@ public class TransferTask
     private OutputStream os;
     private InputStream is;
 
-    private Vector methods;
+    private int method;
 
     long started;
     long finished;
+    
+    public static byte METHOD_IBB=0;
+    public static byte METHOD_ASPRO=1;
+    public static byte METHOD_AUTO=127;
 
     /** Creates TransferTask for incoming file */
-    public TransferTask(String jid, String id, String sid, String name, String description, int size, Vector methods) {
+    public TransferTask(String jid, String id, String sid, String name, String description, int size, int method) {
         super(RosterIcons.getInstance());
         state=IN_ASK;
         showEvent=true;
@@ -98,17 +106,17 @@ public class TransferTask
         this.fileName=name;
         this.description=description;
         this.fileSize=size;
-        this.methods=methods;
+        this.method=method;
     }
 
     /**
      * Sending constructor
      */
-    public TransferTask(String jid, String sid, String fileName, String description, boolean isBytes, byte[] bytes) {
+    public TransferTask(String jid, String sid, String fileName, String description, boolean isBytes, byte[] bytes, int method) {
         super(RosterIcons.getInstance());
         state=HANDSHAKE;
         sending=true;
-        //showEvent=true;
+        this.method=method;
         this.jid=jid;
         this.sid=sid;
         this.fileName=fileName.substring( fileName.lastIndexOf('/')+1 );
@@ -117,8 +125,6 @@ public class TransferTask
         this.isBytes=isBytes;
         this.bytes=bytes;
 
-        //this.fileSize=size;
-        //this.methods=methods;
         if (!isBytes) {
             try {
                 file=FileIO.createConnection(fileName);
@@ -265,6 +271,12 @@ public class TransferTask
     }
 
     void sendInit() {
+        
+        if (method==METHOD_ASPRO) {
+            startTransfer();
+            return;
+        }
+        
         started=System.currentTimeMillis();
         if (state==ERROR) return;
 
@@ -303,7 +315,95 @@ public class TransferTask
         TransferDispatcher.getInstance().send(iq, false);
     }
 
+    
+    private void runAspro() {
+        if (fileSize==0) {
+            state = ERROR;
+            errMsg = "Cannot send empty file";
+            return;
+        }
+        StreamConnection sc;
+        try {
+            sc = (StreamConnection) Connector.open("socket://files.jimm.net.ru:2000");
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            state = ERROR;
+            return;
+        }
+        state = PROGRESS;
+        try {        
+            DataInputStream dis = sc.openDataInputStream();
+            DataOutputStream dos = sc.openDataOutputStream();    
+            dos.writeByte(0);
+            dos.writeByte(0);
+            
+            byte []str=fileName.getBytes("utf-8");
+            int s=str.length;
+            dos.writeByte(s>>8);
+            dos.writeByte(s&255);
+            dos.write(str);            
+            str=description.getBytes("utf-8");
+            s=str.length;
+            dos.writeByte(s>>8);
+            dos.writeByte(s&255);
+            dos.write(str);
+            dos.writeByte(((fileSize & 0xFF000000) >> 24) & 0xFF);
+            dos.writeByte(((fileSize & 0x00FF0000) >> 16) & 0xFF);
+            dos.writeByte(((fileSize & 0x0000FF00) >> 8)  & 0xFF);
+            dos.writeByte(  fileSize & 0x000000FF);
+            dos.flush(); 
+            byte[] buffer = new byte[4*1024];
+            int counter = fileSize;
+            System.out.println("\nFileSize: "+fileSize);
+            System.out.println("Socket: "+sc.toString()+" "+sc.getClass());
+            while (counter > 0) {
+                int read = readFile(buffer);
+                dos.write(buffer, 0, read);
+                counter -= read;
+                if (counter != 0) dos.flush();
+            }
+            dos.flush();
+            int length = dis.read();
+            if (-1 == length) {
+                throw new IOException("Cannot read url");
+            }
+            dis.read(buffer, 0, length);
+            
+            
+            // Send info about file
+            StringBuffer messText = new StringBuffer();
+            
+            messText.append("File: ").append(fileName);
+            messText.append("\nSize: ")
+                    .append(String.valueOf(fileSize));
+            messText.append("\nLink: ");
+            for (int i=0;i<length;i++) messText.append((char)(buffer[i]&255));
+            messText.append("\nDescription: ").append(description);
+
+            System.out.println(messText.toString());
+            
+            JabberDataBlock mess=new Message(jid, messText.toString(), null, false);
+            TransferDispatcher.getInstance().send(mess, true);
+            state = COMPLETE;
+            
+        } catch (Exception e) {
+            state=ERROR;
+            errMsg = e.toString();
+            e.printStackTrace();
+        }
+        try {
+            sc.close();
+        } catch (IOException e){
+        }
+    }
+    
     public void run() {
+        if (method==METHOD_ASPRO) {
+            runAspro();
+            return;
+        }
+        
         byte buf[]=new byte[2048];
         int seq=0;
         try {

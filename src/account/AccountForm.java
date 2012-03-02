@@ -83,6 +83,7 @@ public class AccountForm extends DefForm {
     public static final byte PROFILE_QIP = 5;
     public static final byte PROFILE_GTALK_HTTPS = 6;
     public static final byte PROFILE_VKONTAKTE = 7;
+    public static final byte PROFILE_ODNOKLASSNIKI = 8;
 
     private String uid;
 
@@ -142,6 +143,9 @@ public class AccountForm extends DefForm {
                     break;
                 case PROFILE_VKONTAKTE:
                     server = "vk.com";
+                    break;
+                case PROFILE_ODNOKLASSNIKI:
+                    server = "odnoklassniki.ru";
                     break;
                 default:
                     break;
@@ -315,6 +319,12 @@ public class AccountForm extends DefForm {
                 break;
             case PROFILE_VKONTAKTE:
                 ip_box = "vkmessenger.com";
+                sslbox_ = false;
+                plainPwdbox_ = false;
+                compressionBox_ = true;
+                break;
+            case PROFILE_ODNOKLASSNIKI:
+                ip_box = "xmpp.odnoklassniki.ru";
                 sslbox_ = false;
                 plainPwdbox_ = false;
                 compressionBox_ = true;

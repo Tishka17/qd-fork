@@ -88,7 +88,7 @@ public class TransferDispatcher implements JabberBlockListener{
                             file.getAttribute("name"),
                             file.getChildBlockText("desc"),
                             Integer.parseInt(file.getAttribute("size")),
-                            null);
+                            TransferTask.METHOD_IBB);
 
                     synchronized (taskList){ taskList.addElement(task); }
 

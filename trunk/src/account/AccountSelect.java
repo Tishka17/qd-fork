@@ -61,6 +61,7 @@ public class AccountSelect extends VirtualList implements MenuListener {
     private final Command cmdLj = new Command("LiveJournal", 0x93);
     private final Command cmdQip = new Command("QIP", 0x94);
     private final Command cmdVk = new Command("Вконтакте", 0x95);
+    private final Command cmdOk = new Command("Одноклассники", 0x90);
     private final Command cmdEdit;
     private final Command cmdDel;
     private final Command cmdRemoveAcc;
@@ -129,6 +130,7 @@ public class AccountSelect extends VirtualList implements MenuListener {
         addInCommand(1, cmdLj);
         addInCommand(1, cmdQip);
         addInCommand(1, cmdVk);
+        addInCommand(1, cmdOk);
 
         addCommand(cmdRegister);
         addInCommand(2, cmdServ1_reg);
@@ -190,6 +192,8 @@ public class AccountSelect extends VirtualList implements MenuListener {
             new AccountForm(null, AccountForm.PROFILE_QIP).show();
         } else if (c == cmdVk) {
             new AccountForm(null, AccountForm.PROFILE_VKONTAKTE).show();
+        } else if (c == cmdOk) {
+            new AccountForm(null, AccountForm.PROFILE_ODNOKLASSNIKI).show();
         } else if (c == cmdLogin) {
             switchAccount(true);
         } else if (c == cmdEdit) {

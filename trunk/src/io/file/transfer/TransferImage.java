@@ -29,12 +29,15 @@
 //#ifdef FILE_TRANSFER
 package io.file.transfer;
 
+import images.ActionsIcons;
 import images.camera.CameraImage;
 import images.camera.CameraImageListener;
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
+import ui.IconTextElement;
 import ui.controls.form.DefForm;
+import ui.controls.form.DropChoiceBox;
 import ui.controls.form.ImageItem;
 import ui.controls.form.LinkString;
 import ui.controls.form.SimpleString;
@@ -52,6 +55,7 @@ public class TransferImage extends DefForm implements CameraImageListener {
     private ImageItem photoItem;
     private LinkString shot;
     private TextInput description;
+    private DropChoiceBox method;
 
     public TransferImage(String recipientJid) {
         super(SR.get(SR.MS_SEND_PHOTO));
@@ -64,7 +68,12 @@ public class TransferImage extends DefForm implements CameraImageListener {
 
         description = new TextInput(SR.get(SR.MS_DESCRIPTION), null, TextField.ANY);
         itemsList.addElement(description);
-
+        
+        method = new DropChoiceBox(SR.get(SR.MS_SEND_METHOD));
+        method.append(new IconTextElement("IBB (default)", ActionsIcons.getInstance(), ActionsIcons.ICON_SEND_FILE));
+        method.append(new IconTextElement("Jimm Aspro", ActionsIcons.getInstance(), ActionsIcons.ICON_SEND_FILE));
+        method.setSelectedIndex(TransferTask.METHOD_IBB);
+        addControl(method);
         moveCursorTo(1);
     }
 
@@ -84,7 +93,7 @@ public class TransferImage extends DefForm implements CameraImageListener {
 
     public void cmdOk() {
         try {
-            TransferTask task=new TransferTask(to, String.valueOf(System.currentTimeMillis()), "photo.png", description.getValue(), true, photo);
+            TransferTask task=new TransferTask(to, String.valueOf(System.currentTimeMillis()), "photo.png", description.getValue(), true, photo, method.index);
             TransferDispatcher.getInstance().sendFile(task);
             //switch to file transfer manager
             destroyView();

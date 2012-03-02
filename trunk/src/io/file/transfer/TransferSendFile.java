@@ -29,9 +29,12 @@
 //#ifdef FILE_TRANSFER
 package io.file.transfer;
 
+import images.ActionsIcons;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
+import ui.IconTextElement;
 import ui.controls.form.DefForm;
+import ui.controls.form.DropChoiceBox;
 import ui.controls.form.PathSelector;
 import ui.controls.form.SimpleString;
 import ui.controls.form.TextInput;
@@ -41,6 +44,7 @@ public class TransferSendFile extends DefForm {
 
     private PathSelector selectFile;
     private TextInput description;
+    private DropChoiceBox method;
 
     public TransferSendFile(String recipientJid) {
         super(SR.get(SR.MS_SEND_FILE));
@@ -53,6 +57,12 @@ public class TransferSendFile extends DefForm {
 
         description = new TextInput(SR.get(SR.MS_DESCRIPTION), null, TextField.ANY);
         addControl(description);
+        
+        method = new DropChoiceBox(SR.get(SR.MS_SEND_METHOD));
+        method.append(new IconTextElement("IBB (default)", ActionsIcons.getInstance(), ActionsIcons.ICON_SEND_FILE));
+        method.append(new IconTextElement("Jimm Aspro", ActionsIcons.getInstance(), ActionsIcons.ICON_SEND_FILE));
+        method.setSelectedIndex(TransferTask.METHOD_IBB);
+        addControl(method);
 
         moveCursorTo(1);
     }
@@ -63,7 +73,7 @@ public class TransferSendFile extends DefForm {
         }
 
         try {
-            TransferTask task=new TransferTask(to, String.valueOf(System.currentTimeMillis()), selectFile.getValue(), description.getValue(), false, null);
+            TransferTask task=new TransferTask(to, String.valueOf(System.currentTimeMillis()), selectFile.getValue(), description.getValue(), false, null, method.index);
             TransferDispatcher.getInstance().sendFile(task);
 
             TransferManager manager = new TransferManager();

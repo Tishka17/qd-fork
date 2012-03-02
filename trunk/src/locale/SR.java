@@ -714,6 +714,7 @@ public class SR {
     public final static short MS_SHOW_MSGS_COUNT = 681; //Messages count
     public final static short MS_PRESENCE_HISTORY = 682; //Presences history
     public final static short MS_BLOGS_HISTORY = 683; // Blogs history
+    public final static short MS_SEND_METHOD = 684; // Blogs history
 
      private static String[] localeItemsDefault = new String[0];
     private static String[] localeItems = {
@@ -1403,7 +1404,9 @@ public class SR {
        "Show messages count",
        
        "Prenences history",
-       "Blogs history"
+       "Blogs history",
+       
+       "Send Method"
    };
 
     private SR() { }

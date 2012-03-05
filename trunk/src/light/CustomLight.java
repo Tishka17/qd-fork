@@ -127,12 +127,8 @@ public final class CustomLight extends TimerTask {
 
     //changes mode
     private synchronized void setMode(final byte m) {
-        //not controlling light
-        if (!Config.lightControl) {
-            return;
-        }
-        //do not change light in system windows
-        if (isSystem()) {
+        //not controlling light or system window or minimized
+        if (!Config.lightControl || isSystem() || BombusQD.isMinimized()) {
             return;
         }
         if (m!=KEYPRESSED && m!=CONNECT && m!=IDLE && (state==IDLE || state==KEYPRESSED)) {
@@ -161,7 +157,7 @@ public final class CustomLight extends TimerTask {
     }
 
     public void run() {
-        if (!Config.lightControl) {
+        if (!Config.lightControl || isSystem() || BombusQD.isMinimized()) {
             return;
         }
         setLight();

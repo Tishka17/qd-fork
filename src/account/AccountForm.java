@@ -326,7 +326,7 @@ public class AccountForm extends DefForm {
             case PROFILE_ODNOKLASSNIKI:
                 ip_box = "xmpp.odnoklassniki.ru";
                 sslbox_ = false;
-                plainPwdbox_ = false;
+                plainPwdbox_ = true;
                 compressionBox_ = true;
                 break;
         }

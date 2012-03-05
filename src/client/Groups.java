@@ -256,15 +256,13 @@ public class Groups implements JabberBlockListener{
     }
 
 
-    public final Vector getVisibleTree(Vector vContacts) {//reEnum
-        //Vector vContacts = new Vector(0);
+    public final Vector getVisibleTree(Vector vContacts) {
         for (int i = 0; i < getCount(); i++) {
             addToVector(vContacts, (Group)groups.elementAt(i));          
         }
         if (!Config.getInstance().showGroups) {
             VirtualList.sort(vContacts);
         }
-        System.out.print("vContacts length "+vContacts.size());
         return vContacts;
     }
  }

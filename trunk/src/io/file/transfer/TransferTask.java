@@ -29,6 +29,7 @@
 //#ifdef FILE_TRANSFER
 package io.file.transfer;
 
+import client.Msg;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.Iq;
 import com.alsutton.jabber.datablocks.Message;
@@ -38,7 +39,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
 import locale.SR;
 import colors.ColorTheme;
@@ -46,6 +46,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import javax.microedition.io.Connector;
 import javax.microedition.io.StreamConnection;
+import midlet.BombusQD;
 import ui.IconTextElement;
 import util.Strconv;
 import xmpp.XmppError;
@@ -327,7 +328,9 @@ public class TransferTask
             sc = (StreamConnection) Connector.open("socket://files.jimm.net.ru:2000");
         }
         catch (IOException e) {
-            e.printStackTrace();
+//#if DEBUG
+//#             e.printStackTrace();
+//#endif
             state = ERROR;
             return;
         }
@@ -336,7 +339,7 @@ public class TransferTask
             DataInputStream dis = sc.openDataInputStream();
             DataOutputStream dos = sc.openDataOutputStream();    
             dos.writeByte(0);
-            dos.writeByte(0);
+            dos.writeByte(1);
             
             byte []str=fileName.getBytes("utf-8");
             int s=str.length;
@@ -348,6 +351,10 @@ public class TransferTask
             dos.writeByte(s>>8);
             dos.writeByte(s&255);
             dos.write(str);
+            s=str.length;
+            dos.writeByte(0);
+            dos.writeByte(8);
+            dos.write("bombusqd".getBytes());
             dos.writeByte(((fileSize & 0xFF000000) >> 24) & 0xFF);
             dos.writeByte(((fileSize & 0x00FF0000) >> 16) & 0xFF);
             dos.writeByte(((fileSize & 0x0000FF00) >> 8)  & 0xFF);
@@ -357,40 +364,51 @@ public class TransferTask
             int counter = fileSize;
             System.out.println("\nFileSize: "+fileSize);
             System.out.println("Socket: "+sc.toString()+" "+sc.getClass());
-            while (counter > 0) {
+            while (counter > 0 && state==PROGRESS) {
                 int read = readFile(buffer);
                 dos.write(buffer, 0, read);
                 counter -= read;
                 if (counter != 0) dos.flush();
             }
             dos.flush();
+
             int length = dis.read();
             if (-1 == length) {
-                throw new IOException("Cannot read url");
+                throw new IOException("Cannot get url");
             }
+            buffer[0]=0;
+            buffer[1]=(byte)(length&255);//we think than length is less than 127
             dis.read(buffer, 0, length);
-            
-            
+ 
             // Send info about file
             StringBuffer messText = new StringBuffer();
-            
-            messText.append("File: ").append(fileName);
-            messText.append("\nSize: ")
-                    .append(String.valueOf(fileSize));
-            messText.append("\nLink: ");
-            for (int i=0;i<length;i++) messText.append((char)(buffer[i]&255));
-            messText.append("\nDescription: ").append(description);
-
-            System.out.println(messText.toString());
-            
-            JabberDataBlock mess=new Message(jid, messText.toString(), null, false);
+            messText.append(SR.get(SR.MS_FILE))
+                    .append(": ")
+                    .append(fileName)
+                    .append('\n')
+                    .append(SR.get(SR.MS_FILE_SIZE))
+                    .append(": ")
+                    .append(String.valueOf(fileSize))
+                    .append("\nURL: ");
+            for (int i=0;i<length;i++) messText.append((char)buffer[i]);
+            messText.append('\n').append(SR.get(SR.MS_DESCRIPTION))
+                    .append(": ")
+                    .append(description);
+//#if DEBUG
+//#             System.out.println(messText.toString());
+//#endif        
+            String body = messText.toString();
+            JabberDataBlock mess=new Message(jid, body, null, false);
             TransferDispatcher.getInstance().send(mess, true);
+            BombusQD.sd.roster.getContact(jid, true).getMessageList().addMessage(new Msg(Msg.SYSTEM, null, body));
             state = COMPLETE;
             
         } catch (Exception e) {
             state=ERROR;
             errMsg = e.toString();
-            e.printStackTrace();
+//#if DEBUG
+//#             e.printStackTrace();
+//#endif
         }
         try {
             sc.close();

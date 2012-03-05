@@ -356,6 +356,7 @@ public abstract class VirtualList extends CanvasEx {
     }
 
     protected void showNotify() {
+        gm.itemGrMenu=-1;
 //#if (USE_ROTATOR)
         TimerTaskRotate.startRotate(-1, this);
 //#endif
@@ -960,13 +961,15 @@ public abstract class VirtualList extends CanvasEx {
                 redraw();
             }
             return;
-        } else if (getPopUp().size() > 0)  {
+        } 
+//#ifdef POPUPS
+        else if (getPopUp().size() > 0)  {
             if (popup.handleEvent(x, y)) {
                 redraw();
                 return;
             }
         }
-
+//#endif
         boolean on_panel = false;
         if (reverse) {
             if (mainbar!=null && paintBottom) {

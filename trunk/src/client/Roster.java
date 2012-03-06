@@ -503,10 +503,12 @@ public final class Roster extends VirtualList
     }
 
     public VirtualElement getItemRef(int Index){
+        if (getItemCount()==0) return null;
         return (VirtualElement) vContacts.elementAt(Index);
     }
 
     public int getItemCount(){
+        if (vContacts==null) return 0;
         return vContacts.size();
     }
 

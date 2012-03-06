@@ -132,6 +132,7 @@ public class JuickModule implements JabberBlockListener {
                         if (post!=-1 || i+1==bodyLen) throw new CheckException();
                         post = Integer.parseInt(body.substring(1, i));
                         start = i+1;
+                        mode = 3;//режим запроса ответа
                     } else if (c=='+') {//запрос числа комментов
                         //был номер коммента или есть ещё символы
                         if (comment!=-1 || (i+1)!=bodyLen) throw new CheckException();

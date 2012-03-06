@@ -154,6 +154,11 @@ public class Config {
     public static int barFont = FontCache.MEDIUM;
     public static boolean useItalic = false;
 
+    public static final byte KEYS_ONPRESS_NOLONG=0;
+    public static final byte KEYS_ONPRESS_LONG=1;
+    public static final byte KEYS_ONRELEASE=2;
+    public static byte keymode = KEYS_ONRELEASE;
+    
     public String lang;
     public boolean capsState=false;
     public int textWrap=1;

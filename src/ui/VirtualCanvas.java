@@ -172,7 +172,7 @@ public class VirtualCanvas extends Canvas  implements CommandListener {
 //#ifdef AUTOSTATUS
         AutoStatus.getInstance().userActivity(Config.AWAY_IDLE);
 //#endif
-        if (canRepeatKey(code)) {
+        if (canRepeatKey(code) || (BombusQD.cf.keymode<BombusQD.cf.KEYS_ONRELEASE)) {
             pressed_time = 0;
 //#ifdef USER_KEYS
             if( UserKeyExec.getInstance().getCommandByKey(code, false)) { //is UserKeyExec succesfully processed this key
@@ -199,7 +199,7 @@ public class VirtualCanvas extends Canvas  implements CommandListener {
             }
 //#endif
             canvas.keyPressed(code);
-        } else if (kHold!=code) {
+        } else if (kHold!=code && BombusQD.cf.keymode>BombusQD.cf.KEYS_ONPRESS_NOLONG) {
 //#ifdef USER_KEYS
             if( UserKeyExec.getInstance().getCommandByKey(code, true)) {//is UserKeyExec succesfully processed this long key
                 kHold = code;
@@ -215,17 +215,17 @@ public class VirtualCanvas extends Canvas  implements CommandListener {
     }
 
     protected void keyReleased(int code) {
-        code = getKey(code);
 //#ifdef LIGHT_CONTROL
         CustomLight.keyPressed();
 //#endif
 //#ifdef AUTOSTATUS
         AutoStatus.getInstance().userActivity(Config.AWAY_IDLE);
 //#endif
+        code = getKey(code);
         //check if key was pressed in this Displayable and still need to be processed
         if (pressed_time == 0)
             return;
-        else if (kHold!=code) {
+        else if (kHold!=code && BombusQD.cf.keymode==BombusQD.cf.KEYS_ONRELEASE) {
 //#ifdef USER_KEYS
             if( UserKeyExec.getInstance().getCommandByKey(code, false)) //is UserKeyExec succesfully processed this key
                 return;
@@ -272,9 +272,6 @@ public class VirtualCanvas extends Canvas  implements CommandListener {
     public static final int NAVIKEY_FIRE  = 0x0010000D;
     public static final int UNUSED_KEY    = 0x0010000F; 
 
-    //кэширование клавиш для ускорения распознавания на SE
-    private Vector keyCodes=new Vector();
-    private Vector keys=new Vector();
     private int getKey(int code) {
         //эти коды постоянны и можно не кэшировать
         //#ifdef ANDROID
@@ -333,21 +330,7 @@ public class VirtualCanvas extends Canvas  implements CommandListener {
             case 1086: return KEY_POUND;
             case 1075: return KEY_STAR;
         }
-        //ищем клавиши в кэше
-        for (int i=0;i<keyCodes.size();i++) {
-            Integer c = (Integer)keyCodes.elementAt(i);
-            if (c.intValue()==code) 
-                return ((Integer)keys.elementAt(i)).intValue();
-        }
-        keyCodes.addElement(new Integer(code));
-        int key = getPhoneKey(code);
-        keys.addElement(new Integer(key));
-        return key;
-    }
     
-    //распознавание кнопки по названию или game action, может быть медленно на некоторых телефонах
-    private int getPhoneKey(int code) {
-        
         String strCode = null;
         try {
             strCode = getKeyName(code);

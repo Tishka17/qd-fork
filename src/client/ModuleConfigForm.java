@@ -146,6 +146,7 @@ public class ModuleConfigForm extends DefForm {
     private CheckBox queryExit;
     private CheckBox popupFromMinimized;
     private DropChoiceBox langFiles;
+    private DropChoiceBox keyMode;
     private NumberInput fieldGmt;
 
     // for interface config
@@ -552,6 +553,13 @@ public class ModuleConfigForm extends DefForm {
 
                 queryExit = new CheckBox(SR.get(SR.MS_CONFIRM_EXIT), config.queryExit);
                 addControl(queryExit);
+                keyMode = new DropChoiceBox(SR.get(SR.MS_KEYMODE));
+                keyMode.append(new IconTextElement("press, (no long keys)", ActionsIcons.getInstance(), ActionsIcons.ICON_OFF));
+                keyMode.append(new IconTextElement("press, (long keys)", ActionsIcons.getInstance(), ActionsIcons.ICON_ON));
+                keyMode.append(new IconTextElement("release, (long keys)", ActionsIcons.getInstance(), ActionsIcons.ICON_ON));
+                keyMode.setSelectedIndex(config.keymode);
+                addControl(keyMode);
+                
             }
 //#ifndef Android
             fullscr = new CheckBox(SR.get(SR.MS_FULLSCREEN), Config.fullscreen);
@@ -812,6 +820,7 @@ public class ModuleConfigForm extends DefForm {
                 config.collapsedGroups = collapsedGroups.getValue();
                 config.enableVersionOs = enableVersionOs.getValue();
                 config.queryExit = queryExit.getValue();
+                config.keymode = (byte)keyMode.index;
             }
 //#ifndef Android
             Config.fullscreen = fullscr.getValue();

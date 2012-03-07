@@ -811,6 +811,7 @@ public class Config {
 //#ifdef HISTORY
             loadLastMsgCount = inputStream.readInt();
 //#endif
+            keymode = (byte)inputStream.readInt();
             
             inputStream.close();
             inputStream=null;
@@ -891,6 +892,7 @@ public class Config {
 //#ifdef HISTORY
             outputStream.writeInt(loadLastMsgCount);
 //#endif
+            outputStream.writeInt(keymode);
 
         } catch (IOException e) { }
         return NvStorage.writeFileRecord(outputStream, INT_STORAGE_NAME, 0, true);

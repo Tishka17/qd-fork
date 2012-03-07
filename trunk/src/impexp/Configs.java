@@ -233,13 +233,14 @@ public class Configs {
 //#endif
 //#ifdef HISTORY
         writeInt(data, "historyTypeIndex", Config.historyTypeIndex);
+        writeInt(data, "loadLastMsgCount", config.loadLastMsgCount);
         writeUTF(data, "historyPath", Config.historyPath);
         writeBoolean(data, "historyMUC", config.historyMUC);
         writeBoolean(data, "historyMUCPrivate", config.historyMUCPrivate);
         writeBoolean(data, "historyPresence", config.historyPresence);
         writeBoolean(data, "historyBlogs", config.historyBlogs);
 //#endif
-
+        
         AlertCustomize ac = AlertCustomize.getInstance();
         writeInt(data, "soundsMsgIndex", ac.soundsMsgIndex);
         writeInt(data, "soundOnlineIndex", ac.soundOnlineIndex);
@@ -259,7 +260,7 @@ public class Configs {
         writeBoolean(data, "vibrateOnlyHighlited", ac.vibrateOnlyHighlited);
         writeBoolean(data, "enableAttention", ac.enableAttention);
         writeBoolean(data, "showGroups", config.showGroups);
-
+        writeInt(data, "keymode", config.keymode);
         data.append("</config>\n");
 
         String fname = StringUtils.getFileName(path + CONFIGS_FILE);
@@ -466,6 +467,7 @@ public class Configs {
 
 //#ifdef HISTORY
             Config.historyTypeIndex = readInt(data, "historyTypeIndex", Config.historyTypeIndex);
+            config.loadLastMsgCount = readInt(data, "loadLastMsgCount", config.loadLastMsgCount);
             Config.historyPath = readUTF(data, "historyPath", Config.historyPath);
             config.historyMUC = readBoolean(data, "historyMUC", config.historyMUC);
             config.historyMUCPrivate = readBoolean(data, "historyMUCPrivate", config.historyMUCPrivate);
@@ -483,7 +485,7 @@ public class Configs {
 //#ifdef LIGHT_CONTROL
             CustomLight.switchOn(Config.lightControl);
 //#endif
-
+            config.keymode = (byte)readInt(data, "keymode", config.keymode);
             ac.saveToStorage();
             config.saveToStorage();
         }

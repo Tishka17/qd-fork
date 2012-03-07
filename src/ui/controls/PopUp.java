@@ -120,26 +120,30 @@ public class PopUp {
         }
     }
 
-    private void scrollDown() {
+    private boolean scrollDown() {
         if (scrollable==SCROLLABLE_DOWN || scrollable==SCROLLABLE_BOTH) {
             Vector lines=((PopUpElement)popUps.elementAt(0)).getMessage();
-            if (lines.size()<1) return;
+            if (lines.size()<1) return false;
             int dl=popUpHeight/getFontHeight();
             startLine+=dl-1;
             if (startLine>lines.size()-dl)
                 startLine = lines.size()-dl;
+            return true;
         }
+        return false;
     }
 
-    private void scrollUp() {
+    private boolean scrollUp() {
         if (scrollable==SCROLLABLE_UP || scrollable==SCROLLABLE_BOTH) {
             Vector lines=((PopUpElement)popUps.elementAt(0)).getMessage();
-            if (lines.size()<1) return;
+            if (lines.size()<1) return false;
             int dl=popUpHeight/getFontHeight();
             startLine-=dl-1;
             if (startLine<0)
                 startLine = 0;
+            return true;
         }
+        return false;
     }
 
     public boolean handleEvent(int keyCode) {
@@ -148,14 +152,14 @@ public class PopUp {
             case VirtualCanvas.NAVIKEY_UP:
             case VirtualCanvas.KEY_NUM2:
             case VirtualCanvas.KEY_NUM4:
-                scrollUp();
-                return true;
+                if (scrollUp()) return true;
+                break;
             case VirtualCanvas.NAVIKEY_RIGHT:
             case VirtualCanvas.NAVIKEY_DOWN:
             case VirtualCanvas.KEY_NUM8:
             case VirtualCanvas.KEY_NUM6:
-                scrollDown();
-                return true;        
+                if (scrollDown()) return true;        
+                break;
             case VirtualCanvas.CALL_KEY: {
 //#ifdef CLASSIC_CHAT
 //#                    if(midlet.BombusQD.cf.module_classicchat){

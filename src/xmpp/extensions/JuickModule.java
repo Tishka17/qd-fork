@@ -45,11 +45,13 @@ public class JuickModule implements JabberBlockListener {
 
     public final static String BOTNAME = "juick@juick.com/Juick";
     public final static String NS_MESSAGES = "http://juick.com/query#messages";
+    public final static String NS_USERS = "http://juick.com/query#users";
     public final static String NS_MESSAGE = "http://juick.com/message";
     public final static String NS_GEOLOC = "http://jabber.org/protocol/geoloc";
     public final static String NS_SUBSCRIPTION = "http://juick.com/subscriptions";
     private final static String TAG_RECOMMENDATION = "Recommended by ";
 
+    public static String selfnick;
     public JuickModule() {}
     public void destroy() {}
     
@@ -198,6 +200,8 @@ public class JuickModule implements JabberBlockListener {
         final String mid = child.getAttribute("mid");
         final String rid = child.getAttribute("rid");
         final String replyto = child.getAttribute("replyto");
+        boolean outgoing = false;
+        boolean highlight = false;
         ImageItem attachment = null;
         StringBuffer buf = new StringBuffer();
         String body = null;
@@ -205,14 +209,20 @@ public class JuickModule implements JabberBlockListener {
 
         if (stanza != null && stanza instanceof Message) {
             String msgbody = ((Message)stanza).getBody();
+            
+            if (msgbody!=null && msgbody.indexOf(selfnick)>=0)
+                highlight = true;
             if (msgbody!=null && msgbody.startsWith(TAG_RECOMMENDATION)) {
                 int x = msgbody.indexOf(':');
                 buf.append(msgbody.substring(0, x)).append('\n');
             } else {//TODO: make "Jubo recommends"
             }
         }
-        if (uname!=null && !midlet.BombusQD.cf.showNickNames) {
-            buf.append("<nick>@").append(uname).append("</nick>:\n");
+        if (uname!=null) {
+            if (uname.equals(selfnick))
+                outgoing = true;
+            if (!midlet.BombusQD.cf.showNickNames) 
+                buf.append("<nick>@").append(uname).append("</nick>:\n");
         }
         if (replies!=null) {
             buf.append("<nick>Replies (").append(replies).append(")</nick>\n");
@@ -227,6 +237,7 @@ public class JuickModule implements JabberBlockListener {
             if (tag.getTagName().equals("body")) body = tag.getText();
         }
         if (body!=null) {
+            highlight |= (body.indexOf(selfnick)>=0);
             buf.append(body);
         }
         //Вложения - фото и видео. Для фото показываем миниатюру
@@ -272,26 +283,49 @@ public class JuickModule implements JabberBlockListener {
                 buf.append("(/").append(replyto).append(')');
             }
         } else {
+            highlight = true;
             buf.append("\n#<nick>PM</nick>");
             id.append("PM @").append(uname);
         }
         id.append(' ');
 
         m = new Msg(Msg.JUICK, (uname==null)?BOTNAME:uname, null, buf.toString());
+        if (outgoing) m.setType(Msg.OUTGOING);
         m.setId(id.toString());
         try {
             String datetime = child.getAttribute("ts");
             m.setDayTime(Time.dateJuickStringToLong(datetime));
         } catch (NullPointerException e) {}
         m.attachment = attachment;
+        
+            System.out.println("Juick message highlite="+highlight);
+        if (highlight) m.highlite();
         storeMessage(m);
         buf = new StringBuffer(0);
         childTags = new Vector(0);
         return m;
     }
     
+    private void parseUser(JabberDataBlock query) {
+        if (query==null) return;
+        JabberDataBlock user = query.getChildBlock("user");
+        if (user==null) return;
+        selfnick = user.getAttribute("uname");
+//#ifdef DEBUG
+//#         System.out.println("selfnick = "+selfnick);
+//#endif
+    }
     
-   public int blockArrived( JabberDataBlock data ) { 
+    public static JabberDataBlock constructRequestSelfId() {
+        Iq iq = new Iq(BOTNAME, Iq.TYPE_GET, "juickgetselfid");
+        iq.addChildNs("query", NS_USERS);
+        return iq;
+    }
+    
+    public static void resetSelfNick() {
+        selfnick = null;
+    }
+    public int blockArrived( JabberDataBlock data ) { 
        if (data instanceof Message) {
            JabberDataBlock juickNs = data.findNamespace("juick",NS_MESSAGE);
            if (juickNs==null) {
@@ -302,6 +336,11 @@ public class JuickModule implements JabberBlockListener {
                return JabberBlockListener.BLOCK_PROCESSED;
            }
        } else if (data instanceof Iq) {
+           String id = data.getAttribute("id");
+           if ("juickgetselfid".equals(id)) {
+               parseUser(data.findNamespace("query",NS_USERS));
+               return JabberBlockListener.BLOCK_PROCESSED;
+           }
            JabberDataBlock query = data.findNamespace("query",NS_MESSAGES);           
            if (query==null) {
                return JabberBlockListener.BLOCK_REJECTED;   
@@ -313,7 +352,6 @@ public class JuickModule implements JabberBlockListener {
                m = parseJuickMessage((JabberDataBlock)childBlocks.elementAt(i), null);
            }
            //запрашиваем комменты, если был запрос поста с +
-           String id = data.getAttribute("id");
            if(id.startsWith("cmts_") && data.getAttribute("from").equals(BOTNAME) && m!=null) {
                id = id.substring(5);
                JabberDataBlock comments = new Iq(BOTNAME, Iq.TYPE_GET,"qd_comments_"+id);

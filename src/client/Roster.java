@@ -477,6 +477,9 @@ public final class Roster extends VirtualList
         if (null != selfContact) {
             setMyJid(myJid);
         }
+//#ifdef JUICK.COM
+        JuickModule.resetSelfNick();
+//#endif
     }
 
     public void systemGC() {
@@ -1403,7 +1406,12 @@ public final class Roster extends VirtualList
             theStream.send( qr );
             qr=null;
         }
-                
+        
+ //#ifdef JUICK.COM
+        if (!midlet.BombusQD.sd.account.isMucOnly() && JuickModule.selfnick==null) {
+                theStream.send(JuickModule.constructRequestSelfId());
+        }
+//#endif               
         if (doReconnect) {
             querysign=doReconnect=false;
             sendPresence(myStatus, null);
@@ -2722,7 +2730,7 @@ public final class Roster extends VirtualList
         if (message.getType()!=Msg.INCOMING)
             autorespond=false;
 
-        if (!c.autoresponded && autorespond) {
+        if (!c.autoresponded && !c.isBlog() && autorespond) {
             ExtendedStatus es = StatusList.getInstance().getStatus(myStatus);
             if (es.getAutoRespond()) {
                 Message autoMessage = new Message(

@@ -50,7 +50,7 @@ public final class ContactList {
         for (int i = contacts.size() - 1; 0 <= i; --i) {
             Contact c=(Contact)contacts.elementAt(i);
             //в обычных чатах все сообщения эквивалентны хайлайтам в конфе
-            if (c.origin == Contact.ORIGIN_GROUPCHAT) h += c.getNewHighliteMsgsCount();
+            if (c.origin == Contact.ORIGIN_GROUPCHAT || c.isBlog()) h += c.getNewHighliteMsgsCount();
             else h += c.getNewMessageCount();
         }
         return h;

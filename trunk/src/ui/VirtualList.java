@@ -232,7 +232,6 @@ public abstract class VirtualList extends CanvasEx {
 
     private int lastClickX;
     private int lastClickY;
-    //private int lastClickItem;
     private long lastClickTime;
 
     public void enableListWrapping(boolean wrap) { this.wrapping=wrap; }
@@ -1580,8 +1579,19 @@ public abstract class VirtualList extends CanvasEx {
 
 
     public void setInfo() {
-        getInfoBarItem().setElementAt((!Config.showTimeTraffic) ? touchLeftCommand() : Time.timeLocalString(Time.utcTimeMillis()), 1);
-        getInfoBarItem().setElementAt((!Config.showTimeTraffic) ? touchRightCommand() : getTraffic(), 3);
+        if (Config.showTimeTraffic) {
+            getInfoBarItem().setElementAt(Time.timeLocalString(Time.utcTimeMillis()), 1);
+            getInfoBarItem().setElementAt(getTraffic(), 3);
+        } else {
+            if(gm.itemGrMenu>0 && midlet.BombusQD.cf.graphicsMenu ) {
+                    getInfoBarItem().setElementAt(SR.get((reverse)?SR.MS_CANCEL:SR.MS_SELECT), 1);
+                    getInfoBarItem().setElementAt(SR.get((reverse)?SR.MS_SELECT:SR.MS_CANCEL), 3);
+
+            } else {
+                getInfoBarItem().setElementAt(touchLeftCommand(), 1);
+                getInfoBarItem().setElementAt(touchRightCommand(), 3);
+            }
+        }
     }
 
     public String getTraffic() {

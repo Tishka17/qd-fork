@@ -301,6 +301,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
 //#ifdef HISTORY
         } else if (c == Commands.cmdHistory) {
             new history.HistoryViewer(contact).show();
+            return;
 //#endif
 //#ifdef ARCHIVE
         } else if (c == Commands.cmdArch) {
@@ -309,6 +310,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
             } catch (Exception e) {/*no messages*/
 
             }
+            return;
 //#endif
         } else if (c == Commands.cmdSelect) {
             startSelection = true;
@@ -324,24 +326,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
         if (!midlet.BombusQD.sd.roster.isLoggedIn()) {
             return;
         }
-//#ifdef FILE_TRANSFER
-        if (c == Commands.cmdFileAccept) {
-            new TransferAcceptFile((TransferTask)getSelectedMessage().attachment).show();
-        } else if (c==Commands.cmdFileDecline) {
-            ((TransferTask)getSelectedMessage().attachment).cancel();
-        }
-//#endif
-//#ifdef JUICK.COM
-        if (c == Commands.cmdJuickLastMsgs){
-            JuickModule.LastMessages();
-        } else if (c == Commands.cmdJuickLastPopular){
-            JuickModule.ShowMyFeed();
-        } else if (c == Commands.cmdJuickSubscribe) {
-            JuickModule.Subscribe(getMessage(cursor));
-        } else if (c == Commands.cmdJuickUnsubscribe) {
-            JuickModule.Unsubscribe(getMessage(cursor));
-        } 
-//#endif
+
         if (c == Commands.cmdMessage) {
             newMessage();
 //#ifdef CLIPBOARD
@@ -385,6 +370,22 @@ public final class ContactMessageList extends MessageList implements InputTextBo
                 contact.addMessage(new Msg(Msg.OUTGOING, from, null, SR.get(SR.MS_CLIPBOARD_SENDERROR)));
             }
             redraw();
+//#endif
+//#ifdef FILE_TRANSFER
+        } else if (c == Commands.cmdFileAccept) {
+            new TransferAcceptFile((TransferTask)getSelectedMessage().attachment).show();
+        } else if (c==Commands.cmdFileDecline) {
+            ((TransferTask)getSelectedMessage().attachment).cancel();
+//#endif
+//#ifdef JUICK.COM
+        } else if (c == Commands.cmdJuickLastMsgs){
+            JuickModule.LastMessages();
+        } else if (c == Commands.cmdJuickLastPopular){
+            JuickModule.ShowMyFeed();
+        } else if (c == Commands.cmdJuickSubscribe) {
+            JuickModule.Subscribe(getMessage(cursor));
+        } else if (c == Commands.cmdJuickUnsubscribe) {
+            JuickModule.Unsubscribe(getMessage(cursor));
 //#endif
         } else {
             super.commandAction(c);
@@ -743,7 +744,7 @@ public final class ContactMessageList extends MessageList implements InputTextBo
                newMsgCnt = 0;
                newHighLitedMsgCnt = 0;
             }
-            if (msg.isHighlite()) {
+            if (msg.isHighlited()) {
                 newHighLitedMsgCnt++;
             }
             newMsgCnt++;

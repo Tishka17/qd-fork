@@ -2656,8 +2656,10 @@ public final class Roster extends VirtualList
                 setWobbler(2, c, message.getFrom()+"\n"+message.getBody(),null);
 //#endif
 
-  if (midlet.BombusQD.cf.popupFromMinimized && BombusQD.isMinimized())
-      c.getMessageList().show();
+        if ( ((c.origin != Contact.ORIGIN_GROUPCHAT && !c.isBlog()) || message.isHighlited())
+                && midlet.BombusQD.cf.popupFromMinimized 
+                && BombusQD.isMinimized())
+            c.getMessageList().show();
 //#ifdef SYSTEM_NOTIFY
 //#             Notificator notify = Notification.getNotificator();
 //#endif
@@ -2665,7 +2667,7 @@ public final class Roster extends VirtualList
         if (midlet.BombusQD.cf.autoFocus && message.getType()!=Msg.PRESENCE && message.getType()!=Msg.OUTGOING)
             focusToContact(c, false);
 
-        if (message.isHighlite()) {
+        if (message.isHighlited()) {
             playNotify(SOUND_FOR_ME);
 //#ifdef SYSTEM_NOTIFY
 //#                     if (notify != null)

@@ -175,7 +175,11 @@ public class BombusQD extends MIDlet implements Runnable {
     public static boolean isMinimized() {
         return minimized;
     }
-
+    
+    public static void setMinimized(boolean m) {
+        minimized=m;
+    }
+    
     public static BombusQD getInstance() {
         return instance;
     }
@@ -207,5 +211,6 @@ public class BombusQD extends MIDlet implements Runnable {
         } else if (obj instanceof Displayable) {
             display.setCurrent((Displayable)obj);
         }
+        minimized = false;
     }
 }

@@ -111,12 +111,13 @@ public class VirtualCanvas extends Canvas  implements CommandListener {
             }
         }
     }
+    
     public void showNotify() {
         setFullScreenMode(Config.fullscreen);
-        
+        BombusQD.setMinimized(false);
         canvas.showNotify();
     }
-
+     
     protected void sizeChanged(int w, int h) {
         canvas.sizeChanged(w, h);
 

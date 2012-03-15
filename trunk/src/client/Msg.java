@@ -58,7 +58,7 @@ public final class Msg implements VirtualElement {
     public final static byte SYSTEM = 15;
     public final static byte JUICK = 18;
 
-    private boolean highlite;
+    private boolean highlited;
     private byte type;
     private boolean isMucMsg;
 
@@ -216,12 +216,12 @@ public final class Msg implements VirtualElement {
         this.dateGmt = Time.dateStringToLong(date);
     }
     
-    public boolean isHighlite() {
-        return highlite;
+    public boolean isHighlited() {
+        return highlited;
     }
     
     public void highlite() {
-        highlite = true;
+        highlited = true;
     }
     
     public void found() {
@@ -229,7 +229,7 @@ public final class Msg implements VirtualElement {
     }
     
     public void reset() {
-        highlite = false;
+        highlited = false;
         found = false;
     }
 
@@ -318,7 +318,7 @@ public final class Msg implements VirtualElement {
     }
     
     public int getColor() {
-        if (selected || highlite) {
+        if (selected || highlited) {
             return ColorTheme.getColor(ColorTheme.MSG_HIGHLIGHT);
         }
 

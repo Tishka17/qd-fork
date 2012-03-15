@@ -345,11 +345,12 @@ public class Contact extends IconTextElement {
 
     public boolean isBlog() {
         String bj = jid.getBareJid();
-        if ("juick@juick.com".equals(bj) 
+        if (bj != null && ("juick@juick.com".equals(bj) 
                 || "psto@psto.net".equals(bj)
                 || "lj_bot@livejournal.com".equals(bj)
                 || "jubo@nologin.ru".equals(bj)
-                || "mblogi@mblogi.qip.ru".equals(bj))
+                || "mblogi@mblogi.qip.ru".equals(bj)
+                || bj.endsWith("@twitter.tweet.im")))
             return true;
         return false;
     }

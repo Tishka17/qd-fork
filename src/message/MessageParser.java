@@ -244,7 +244,7 @@ public final class MessageParser {
             if (!Config.hideMessageIcon)
                 w+=RosterIcons.getInstance().getWidth()+4;
         }
-        else if (!task.isHighlite() && !isSubj)
+        else if (!task.isHighlited() && !isSubj)
             w+=11;
         int wordWidth=0;
         int wordStartPos=0;
@@ -255,7 +255,7 @@ public final class MessageParser {
 //#endif
         lines.addElement(l);
 
-        Font f=getFont((task.isHighlite() || isSubj));
+        Font f=getFont((task.isHighlited() || isSubj));
         l.setFont(f);
 
         int color=ColorTheme.getColor(isSubj ? ColorTheme.MSG_SUBJ : ColorTheme.LIST_INK);

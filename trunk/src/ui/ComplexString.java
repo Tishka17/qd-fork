@@ -207,7 +207,7 @@ public class ComplexString implements VirtualElement {
                         }
                         int iw = aniSmile ? imageList.getWidth(i) : imgWidth;
                         if (ralign) {
-                            w -= iw-5;
+                            w -= iw;
                         }
                         imageList.drawImage(g, i, w, imageYOfs);
                         if (!ralign) {

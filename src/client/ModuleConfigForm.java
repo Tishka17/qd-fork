@@ -649,9 +649,9 @@ public class ModuleConfigForm extends DefForm {
             if (config.userAppLevel == 1) {
                 config.simpleContacts = simpleContacts.getValue();
                 config.selfContact = selfContact.getValue();
-                config.showGroups = showGroups.getValue();
             }
 
+            config.showGroups = showGroups.getValue();
             config.showOfflineContacts = showOfflineContacts.getValue();
             config.showTransports = showTransports.getValue();
 

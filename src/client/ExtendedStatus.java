@@ -33,6 +33,7 @@ import images.MoodIcons;
 import images.ActivityIcons;
 //#endif
 import ui.IconTextElement;
+import locale.SR;
 
 /**
  *
@@ -47,6 +48,7 @@ public class ExtendedStatus extends IconTextElement{
     private boolean autoRespond;
     private String autoRespondMessage = "";
     public boolean usermood;
+    private boolean isdefault = false;
     
     /** Creates a new instance of ExtendedStatus */
     public ExtendedStatus(int index, String name, String showName) {
@@ -78,11 +80,15 @@ public class ExtendedStatus extends IconTextElement{
             if (status.length()>0) {
                 state.append('"').append(status).append('"');
             }
+        if (isdefault) state.append(SR.get(SR.MS_IS_DEFAULT));
         return state.toString();
     }
     public String getScreenName() { return screenName; }
 
     public String getName() { return name; }
+    
+    public boolean  isDefault() { return isdefault; }
+    public void setDefault(boolean d) { isdefault = d; }
     
     public String getMessage() { return status; }
     public void setMessage(String s) { status=s; }

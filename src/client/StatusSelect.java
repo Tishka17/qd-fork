@@ -70,6 +70,9 @@ public class StatusSelect extends VirtualList implements MenuListener {
         }
 
         defp = BombusQD.cf.loginstatus;
+        try {
+            ((ExtendedStatus)statusList.elementAt(defp)).setDefault(true);
+        } catch (Exception e) {}
         moveCursorTo(defp);
     }
 
@@ -107,7 +110,9 @@ public class StatusSelect extends VirtualList implements MenuListener {
         }
 
         if (c==cmdDef) {
+            ((ExtendedStatus)statusList.elementAt(BombusQD.cf.loginstatus)).setDefault(false);
             BombusQD.cf.loginstatus=cursor;
+            ((ExtendedStatus)statusList.elementAt(BombusQD.cf.loginstatus)).setDefault(true);
             redraw();
             BombusQD.cf.saveToStorage();
         }

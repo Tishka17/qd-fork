@@ -26,6 +26,7 @@ package ui;
 
 import font.FontCache;
 import images.RosterIcons;
+import midlet.BombusQD;
 
 public class MainBar extends ComplexString{
 

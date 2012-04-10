@@ -906,7 +906,9 @@ public class Config {
             verHash = inputStream.readUTF();
             resolvedHost = inputStream.readUTF();
             moodText = inputStream.readUTF();
+            if ("".equals(moodText)) moodText = null;
             moodName = inputStream.readUTF();
+            if ("".equals(moodName)) moodName = null;
             actText = inputStream.readUTF();
             if ("".equals(actText)) actText = null;
             actDescr = inputStream.readUTF();
@@ -943,8 +945,11 @@ public class Config {
             outputStream.writeUTF(lang);
             outputStream.writeUTF(verHash);
             outputStream.writeUTF(resolvedHost);
-            outputStream.writeUTF(moodText);
-            outputStream.writeUTF(moodName);       
+            
+            if (moodText==null) outputStream.writeUTF("");
+            else outputStream.writeUTF(moodText);
+            if (moodName==null) outputStream.writeUTF("");
+            else outputStream.writeUTF(moodName);
             if (actText==null) outputStream.writeUTF("");
             else outputStream.writeUTF(actText);
             if (actDescr==null) outputStream.writeUTF("");

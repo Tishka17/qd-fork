@@ -1672,12 +1672,14 @@ class TimerTaskRotate extends Thread{
                 holdCount=0;
             }
 	    //#endif
+            boolean needDraw = instance.balloon();
 	    if (scroll==0) {
-		if (instance.scroll() || instance.balloon())
-		    try { attachedList.redraw(); } catch (Exception e) { instance=null; break; }
+                needDraw |= instance.scroll();
 	    } else {
 		scroll --;
 	    }
+            if (needDraw)
+                try { attachedList.redraw(); } catch (Exception e) { instance=null; break; }
         }
     }
 

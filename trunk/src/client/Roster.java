@@ -1733,7 +1733,7 @@ public final class Roster extends VirtualList
 
            if (id.equals("getros")) {
                if (from != null) {
-                   if (!from.equals(midlet.BombusQD.sd.account.getBareJid())) {
+                   if (!from.equals(midlet.BombusQD.sd.account.getBareJid()) && !from.equals(midlet.BombusQD.sd.account.getJid())) {
                        return JabberBlockListener.BLOCK_REJECTED;
                    }
                }

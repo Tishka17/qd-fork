@@ -79,7 +79,7 @@ public class SASLAuth implements JabberBlockListener{
         if (data.getTagName().equals("stream:features")) {
 //#if TLS || Android
 //#             JabberDataBlock starttls=data.getChildBlock("starttls");
-//#             if (starttls!=null && starttls.isJabberNameSpace("urn:ietf:params:xml:ns:xmpp-tls")) {
+//#             if (!account.useCompression() && starttls!=null && starttls.isJabberNameSpace("urn:ietf:params:xml:ns:xmpp-tls")) {
 //#                 JabberDataBlock askTls=new JabberDataBlock("starttls", null, null);
 //#                 askTls.setNameSpace("urn:ietf:params:xml:ns:xmpp-tls");
 //#                 stream.send(askTls);

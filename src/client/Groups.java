@@ -240,7 +240,7 @@ public class Groups implements JabberBlockListener{
         if (!gr.visible) return;
         if (0 == gr.getNContacts()) return;
 
-        if( gr.type == TYPE_NO_GROUP || gr.type == TYPE_COMMON) {
+        if (gr.type == TYPE_NO_GROUP || gr.type == TYPE_COMMON || gr.type==TYPE_IGNORE) {
             if(0 == gr.onlines && !midlet.BombusQD.cf.showOfflineContacts) return;
         }
 

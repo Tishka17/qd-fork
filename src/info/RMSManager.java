@@ -59,19 +59,19 @@ public class RMSManager extends DefForm {
         }
     }
        
-    public void cmdOk() { 
-        AlertBox box = new AlertBox(SR.get(SR.MS_DELETE_ASK), storeList[cursor].toString(), AlertBox.BUTTONS_YESNO) {
+    public void cmdOk() {
+        AlertBox box = new AlertBox(SR.get(SR.MS_DELETE), storeList[cursor].toString(), AlertBox.BUTTONS_YESNO) {
             public void yes() {
-                deleteRMS(cursor);
+                deleteRMS();
             }
         };
         box.show();
     }
        
-    public void deleteRMS(int n) {
+    public void deleteRMS() {
         try {
-            RecordStore.deleteRecordStore(storeList[n].toString());
-            itemsList.setElementAt(new MultiLine(storeList[n], "deleted"), n);
+            RecordStore.deleteRecordStore(storeList[cursor].toString());
+            itemsList.setElementAt(new MultiLine(storeList[cursor], "deleted"), cursor);
             redraw();
         } catch (RecordStoreException e) {
         }

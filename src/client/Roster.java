@@ -648,7 +648,7 @@ public final class Roster extends VirtualList
 //#endif
                 for (int index = hC; index >= 0; --index) {
                     Contact contact=(Contact)hContacts.elementAt(index);
-                    if (0 == contact.getNewMessageCount()) {
+                    if (!contact.active()) {
                         contact.destroy();
                         contactList.removeContact(contact);
                         setModified();
@@ -670,7 +670,7 @@ public final class Roster extends VirtualList
             Contact contact=(Contact)hContacts.elementAt(index);
             if ( contact.origin>Contact.ORIGIN_ROSTERRES
                     && (Presence.PRESENCE_OFFLINE <= contact.status)
-                    && !contact.hasNewMsgs()
+                    && !contact.active()
                     && contact.origin!=Contact.ORIGIN_GROUPCHAT) {
                 contact.destroy();
                 contactList.removeContact(contact);

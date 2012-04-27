@@ -500,7 +500,7 @@ public class ModuleConfigForm extends DefForm {
 
             addControl(new SpacerItem(3));
 
-            scrollWidth = new NumberInput(SR.get(SR.MS_SCROLL_WIDTH), config.scrollWidth, 3, 25);
+            scrollWidth = new NumberInput(SR.get(SR.MS_SCROLL_WIDTH), config.scrollWidth, 2, 45);
             addControl(scrollWidth);
 
             minItemHeight = new NumberInput(SR.get(SR.MS_MIN_ITEM_HEIGHT), config.minItemHeight, 0, 100);

@@ -163,6 +163,7 @@ public class Configs {
 //#endif
         writeBoolean(data, "showCollapsedPresences", config.showCollapsedPresences);
         writeBoolean(data, "networkAnnotation", config.networkAnnotation);
+        writeBoolean(data, "showMessageSeparator", config.showMsgSep);
         writeBoolean(data, "showOfflineContacts", config.showOfflineContacts);
         writeBoolean(data, "fullscreen", config.fullscreen);
 //#ifdef SMILES
@@ -378,6 +379,7 @@ public class Configs {
  //#endif
             config.showCollapsedPresences = readBoolean(data, "showCollapsedPresences", config.showCollapsedPresences);
             config.networkAnnotation = readBoolean(data, "networkAnnotation", config.networkAnnotation);
+            config.showMsgSep = readBoolean(data, "showMessageSeparator", config.showMsgSep);
             config.showOfflineContacts = readBoolean(data, "showOfflineContacts", config.showOfflineContacts);
             config.fullscreen = readBoolean(data, "fullscreen", config.fullscreen);
 //#ifdef SMILES

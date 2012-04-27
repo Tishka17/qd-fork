@@ -93,7 +93,7 @@ public class ScrollBar {
     public void setHasPointerEvents(boolean hasPointerEvents) {
         //this.hasPointerEvents = hasPointerEvents;
 	midlet.BombusQD.cf.scrollWidth=//���� �������� ���� ������ ������� ������ 4,��:
-            (midlet.BombusQD.cf.scrollWidth>3)? midlet.BombusQD.cf.scrollWidth:
+            (midlet.BombusQD.cf.scrollWidth>1)? midlet.BombusQD.cf.scrollWidth:
                 ( (hasPointerEvents)? WIDTH_SCROLL_2: 4 );
     }
 

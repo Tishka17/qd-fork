@@ -191,7 +191,7 @@ public final class ContactEdit extends DefForm {
                 StringBuffer jidBuf = new StringBuffer(jid);
                 at = jid.length();
                 jidBuf.setLength(at);
-                jidBuf.append('@').append((String)tTranspList.items.elementAt(tTranspList.getSelectedIndex()));
+                jidBuf.append('@').append(tTranspList.items.elementAt(tTranspList.getSelectedIndex()).toString());
                 jid = jidBuf.toString();
             }
             if (!new Jid(jid).getBareJid().equals(StaticData.getInstance().roster.selfContact().bareJid)) {

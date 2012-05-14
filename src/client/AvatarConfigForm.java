@@ -42,6 +42,131 @@ import ui.controls.form.PathSelector;
 import util.StringUtils;
 
 import ui.controls.form.SimpleString;
+//#ifdef FILE_IO  
+    class AvatarsUpdater implements Runnable {
+        
+        private static boolean inProgress = false;
+        private AvatarConfigForm form;
+        public AvatarsUpdater(AvatarConfigForm form) {
+            this.form = form;
+        }
+        public void run() {
+            if (inProgress) return;
+            
+            form.addControl(new SpacerItem(10));
+            SimpleString progress = new SimpleString("Please wait, loading...", false);
+            form.addControl(progress);
+            form.redraw();
+            inProgress = true;
+            long s1 = System.currentTimeMillis();
+            int loadingAvatars_roster = applyAvatars(true);
+            int loadingAvatars_muc = applyAvatars(false);
+            UpdateAvatarsOnline();
+
+            if (loadingAvatars_roster > -1 && loadingAvatars_muc > -1) {
+                long s2 = System.currentTimeMillis();
+                form.removeControl(progress);
+                form.addControl(new SimpleString("Update Success!", true));
+                form.addControl(new SimpleString("Time: " + Long.toString(s2 - s1) + " msec", true));
+                form.addControl(new SpacerItem(10));
+                form.redraw();
+            }
+            inProgress = false;
+        }
+        
+        public int applyAvatars(boolean isRoster) {
+            Contact c = null;
+            int countLoadedImages = 0;
+            try {
+                FileIO f = FileIO.createConnection(Config.getInstance().msgAvatarPath);
+                Vector e = f.fileList(false);
+                int size1 = e.size() - 1;
+                int size = midlet.BombusQD.sd.roster.contactList.contacts.size();
+
+                for (int i = 0; i < size1; i++) {
+                    for (int j = 0; j < size; j++) {
+                        c = (Contact)midlet.BombusQD.sd.roster.contactList.contacts.elementAt(j);
+                        if (isRoster) {
+                            String checkBareJid = StringUtils.replaceBadChars("roster_" + c.bareJid);
+                            String fsName = e.elementAt(i).toString();
+                            if (fsName.startsWith("roster") && fsName.indexOf(checkBareJid) > -1) {
+                                if (createContactImageFS(c, fsName)) {
+                                    countLoadedImages += 1;
+                                    checkBareJid = null;
+                                    fsName = null;
+                                    Thread.sleep(50);
+                                    break;
+                                }
+                            }
+                        } else {
+                            String checkNick = StringUtils.replaceBadChars("muc_" + c.getNick());
+                            String fsName = e.elementAt(i).toString();
+                            if (fsName.startsWith("muc") && fsName.indexOf(checkNick) > -1) {
+                                if (createContactImageFS(c, fsName)) {
+                                    countLoadedImages += 1;
+                                    checkNick = null;
+                                    fsName = null;
+                                    Thread.sleep(50);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                return countLoadedImages;
+            } catch (Exception e) {
+            }
+            return -1;
+        }
+
+        private boolean createContactImageFS(Contact c, String name) {
+            Image photoImg = null;
+            byte[] b;
+            int len = 0;
+
+            try {
+                FileIO f = FileIO.createConnection(Config.getInstance().msgAvatarPath + name);
+                b = f.fileRead();
+
+                len = b.length;
+                if (!c.hasPhoto) {
+                    try {
+                        photoImg = Image.createImage(b, 0, len);
+                        c.setImageAvatar(photoImg);
+                    } catch (OutOfMemoryError eom) {
+                        //StaticData.getInstance().roster.errorLog("createContactImage: OutOfMemoryError " + c.getJid());
+                    } catch (Exception e) {
+                        //StaticData.getInstance().roster.errorLog("createContactImage: Exception " + c.getJid());
+                    }
+                }
+                f.close();
+            } catch (Exception e) {
+            }
+            return true;
+        }
+
+        public void UpdateAvatarsOnline() {
+            Image photoImg = null;
+            int size = midlet.BombusQD.sd.roster.contactList.contacts.size();
+            Contact c = null;
+            for (int i = 0; i < size; i++) {
+                c = (Contact)midlet.BombusQD.sd.roster.contactList.contacts.elementAt(i);
+                if (c.hasPhoto) {
+                    try {
+                        photoImg = Image.createImage(c.vcard.getPhoto(), 0, c.vcard.getPhoto().length);
+                        c.setImageAvatar(photoImg);
+                    } catch (OutOfMemoryError eom) {
+                        //StaticData.getInstance().roster.errorLog("UpdateAvatars_menu: OutOfMemoryError "+c.getJid());
+                    } catch (Exception e) {
+                        //StaticData.getInstance().roster.errorLog("UpdateAvatars_menu: Exception load vcard "+c.getJid());
+                    }
+                }
+            }
+        }
+
+    }
+//#endif
+
 
 public class AvatarConfigForm extends DefForm {
     private NumberInput maxAvatarHeight;
@@ -93,25 +218,12 @@ public class AvatarConfigForm extends DefForm {
 
 //#ifdef FILE_IO
         if (config.userAppLevel == 1) {
+            final AvatarConfigForm form = this;
             addControl(new LinkString(SR.get(SR.MS_UPDATE)) {
-
                 public void doAction() {
                     config.maxAvatarHeight = maxAvatarHeight.getIntValue();
                     config.maxAvatarWidth = maxAvatarWidth.getIntValue();
-                    long s1 = System.currentTimeMillis();
-
-                    int loadingAvatars_roster = applyAvatars(true);
-                    int loadingAvatars_muc = applyAvatars(false);
-                    UpdateAvatarsOnline();
-
-                    if (loadingAvatars_roster > -1 && loadingAvatars_muc > -1) {
-                        long s2 = System.currentTimeMillis();
-                        addControl(new SpacerItem(10));
-                        addControl(new SimpleString("Update Success!", true));
-                        addControl(new SimpleString("Time: " + Long.toString(s2 - s1) + " msec", true));
-                        addControl(new SpacerItem(10));
-                        redraw();
-                    }
+                    new Thread(new AvatarsUpdater(form)).start();
                 }
 
             });
@@ -144,98 +256,6 @@ public class AvatarConfigForm extends DefForm {
 
         destroyView();
     }
-
-//#ifdef FILE_IO
-    public int applyAvatars(boolean isRoster) {
-        Contact c = null;
-        int countLoadedImages = 0;
-        try {
-            FileIO f = FileIO.createConnection(config.msgAvatarPath);
-            Vector e = f.fileList(false);
-            int size1 = e.size() - 1;
-            int size = midlet.BombusQD.sd.roster.contactList.contacts.size();
-
-            //StaticData.getInstance().roster.errorLog(e.toString());
-            for (int i = 0; i < size1; i++) {
-                for (int j = 0; j < size; j++) {
-                    c = (Contact)midlet.BombusQD.sd.roster.contactList.contacts.elementAt(j);
-                    if (isRoster) {
-                        String checkBareJid = StringUtils.replaceBadChars("roster_" + c.bareJid);
-                        String fsName = e.elementAt(i).toString();
-                        if (fsName.startsWith("roster") && fsName.indexOf(checkBareJid) > -1) {
-                            if (createContactImageFS(c, fsName)) {
-                                countLoadedImages += 1;
-                                checkBareJid = null;
-                                fsName = null;
-                                Thread.sleep(50);
-                                break;
-                            }
-                        }
-                    } else {
-                        String checkNick = StringUtils.replaceBadChars("muc_" + c.getNick());
-                        String fsName = e.elementAt(i).toString();
-                        if (fsName.startsWith("muc") && fsName.indexOf(checkNick) > -1) {
-                            if (createContactImageFS(c, fsName)) {
-                                countLoadedImages += 1;
-                                checkNick = null;
-                                fsName = null;
-                                Thread.sleep(50);
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            return countLoadedImages;
-        } catch (Exception e) {
-        }
-        return -1;
-    }
-
-    private boolean createContactImageFS(Contact c, String name) {
-        Image photoImg = null;
-        byte[] b;
-        int len = 0;
-
-        try {
-            FileIO f = FileIO.createConnection(config.msgAvatarPath + name);
-            b = f.fileRead();
-
-            len = b.length;
-            if (!c.hasPhoto) {
-                try {
-                    photoImg = Image.createImage(b, 0, len);
-                    c.setImageAvatar(photoImg);
-                } catch (OutOfMemoryError eom) {
-                    //StaticData.getInstance().roster.errorLog("createContactImage: OutOfMemoryError " + c.getJid());
-                } catch (Exception e) {
-                    //StaticData.getInstance().roster.errorLog("createContactImage: Exception " + c.getJid());
-                }
-            }
-            f.close();
-        } catch (Exception e) {
-        }
-        return true;
-    }
-
-    public void UpdateAvatarsOnline() {
-        Image photoImg = null;
-        int size = midlet.BombusQD.sd.roster.contactList.contacts.size();
-        Contact c = null;
-        for (int i = 0; i < size; i++) {
-            c = (Contact)midlet.BombusQD.sd.roster.contactList.contacts.elementAt(i);
-            if (c.hasPhoto) {
-                try {
-                    photoImg = Image.createImage(c.vcard.getPhoto(), 0, c.vcard.getPhoto().length);
-                    c.setImageAvatar(photoImg);
-                } catch (OutOfMemoryError eom) {
-                    //StaticData.getInstance().roster.errorLog("UpdateAvatars_menu: OutOfMemoryError "+c.getJid());
-                } catch (Exception e) {
-                    //StaticData.getInstance().roster.errorLog("UpdateAvatars_menu: Exception load vcard "+c.getJid());
-                }
-            }
-        }
-    }
-//#endif
 }
+
 //#endif

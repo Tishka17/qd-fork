@@ -31,6 +31,7 @@ import java.util.Vector;
 import client.Contact;
 import ui.controls.form.ImageItem;
 import com.alsutton.jabber.JabberBlockListener;
+import util.StringUtils;
 import util.Time;
 
 /**
@@ -210,7 +211,7 @@ public class JuickModule implements JabberBlockListener {
         if (stanza != null && stanza instanceof Message) {
             String msgbody = ((Message)stanza).getBody();
             
-            if (msgbody!=null && msgbody.indexOf(selfnick)>=0)
+            if (msgbody!=null && StringUtils.containsWord(msgbody, selfnick))
                 highlight = true;
             if (msgbody!=null && msgbody.startsWith(TAG_RECOMMENDATION)) {
                 int x = msgbody.indexOf(':');

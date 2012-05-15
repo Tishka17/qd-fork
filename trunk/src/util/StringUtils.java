@@ -8,7 +8,6 @@
  */
 
 package util;
-
 import conference.ConferenceGroup;
 import conference.MucContact;
 import com.alsutton.jabber.datablocks.Presence;
@@ -212,6 +211,34 @@ public class StringUtils {
         return lines;
     }
 
+    public static boolean containsWord(String str, String word) {
+        if (str==null) return false;
+        int start, end=0, length=str.length(), word_lengh=word.length();
+        if (word_lengh>length) return false;
+        final String separator=" `~!@#$%^&*()+=-'\"\\|/;:.>,<?[]{}\n\r\t№";
+        boolean good_start=false, good_end = false;
+        char symbol;
+        while (end<length) {
+            start = str.indexOf(word, end);
+            if (start<0) return false;
+            end = start + word_lengh;
+            if (start == 0) {
+                good_start = true;
+            } else {
+                symbol = str.charAt(start-1);
+                good_start = (separator.indexOf(symbol)>-1);
+            }
+            if (end == length) {
+                good_end = true;
+            } else {
+                symbol = str.charAt(end);
+                good_end = (separator.indexOf(symbol)>-1);
+            }
+            if (good_start && good_end) return true;
+        }
+        return false;
+    }
+    
     public static String toExtendedString(String src){
         src=stringReplace(src,"%dt",Time.dispLocalTime());
         src=stringReplace(src,"%t",Time.localTime());

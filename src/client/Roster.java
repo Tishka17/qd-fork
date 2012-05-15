@@ -2009,32 +2009,7 @@ public final class Roster extends VirtualList
                    }
                }
                // highliting messages with myNick substring
-               String myNick = mucGrp.selfContact.getNick();
-               String _myNick = " " + myNick;
-               if (body.indexOf(myNick) > -1) {
-                   if (body.indexOf(": all:") > -1) {
-                       highlite = true;
-                   } else if (body.indexOf("> " + myNick + ": ") > -1) {
-                       highlite = true;
-                   } else if (body.indexOf(_myNick + ",") > -1) {
-                       highlite = true;
-                   } else if (body.indexOf(": " + myNick + ": ") > -1) {
-                       highlite = true;
-                   } else if (body.indexOf(_myNick + " ") > -1) {
-                       highlite = true;
-                   } else if (body.indexOf(", " + myNick) > -1) {
-                       highlite = true;
-                   } else if (body.endsWith(_myNick)) {
-                       highlite = true;
-                   } else if (body.indexOf(_myNick + "?") > -1) {
-                       highlite = true;
-                   } else if (body.indexOf(_myNick + "!") > -1) {
-                       highlite = true;
-                   } else if (body.indexOf(_myNick + ".") > -1) {
-                       highlite = true;
-                   }
-               }
-               if (highlite) {
+               if (StringUtils.containsWord(body, mucGrp.selfContact.getNick())) {
                    m.highlite();
                }
            }
@@ -2055,6 +2030,7 @@ public final class Roster extends VirtualList
        m = null;
        return JabberBlockListener.BLOCK_PROCESSED;
    }
+   
    
    public int presenceArrived(Presence pr) {
        

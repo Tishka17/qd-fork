@@ -12,7 +12,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
 import android.util.Log;
-import org.bombusqd.scrobbler.Receiver;
+//import org.bombusqd.scrobbler.Receiver;
 
 public class BombusQDService extends Service {
     public static final String ACTION_FOREGROUND = "FOREGROUND";
@@ -79,7 +79,7 @@ void invokeMethod(Method method, Object[] args) {
         notification.setLatestEventInfo(this, getText(R.string.app_name), "", contentIntent);
         startForegroundCompat(R.string.app_name, notification);
         
-      //audio scrobbler
+/**      //audio scrobbler
         IntentFilter filter = new IntentFilter();
         //Google Android player
         filter.addAction("com.android.music.playstatechanged");
@@ -134,7 +134,7 @@ void invokeMethod(Method method, Object[] args) {
         filter.addAction("net.jjc1138.android.scrobbler.action.MUSIC_STATUS");
         Receiver receiver = new Receiver(this);
         this.registerReceiver(receiver, filter);
-      //scrobbling finished
+      //scrobbling finished */
     }
 
     @Override

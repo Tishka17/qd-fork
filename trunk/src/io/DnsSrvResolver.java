@@ -44,6 +44,8 @@ import javax.microedition.io.Connector;
 //#else
 import javax.microedition.io.StreamConnection;
 //#endif
+import javax.microedition.rms.RecordStore;
+import javax.microedition.rms.RecordStoreException;
 import util.Time;
 import util.StringUtils;
 
@@ -124,6 +126,15 @@ public class DnsSrvResolver {
         }
         NvStorage.writeFileRecord(outputStream, getSrvRecordName(), 0, true);
 
+    }
+    
+    public void clearCache() {
+        try {
+//#if DEBUG
+//#             System.out.println("Clear dns cache for "+getSrvRecordName());
+//#endif
+            RecordStore.deleteRecordStore(getSrvRecordName());
+        } catch (RecordStoreException e) {}
     }
     
     private boolean askInetSrv(int type) {

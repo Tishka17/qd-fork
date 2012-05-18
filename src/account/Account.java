@@ -351,11 +351,11 @@ public class Account extends IconTextElement {
         String proxy=null;
         String host=this.server;
         int tempPort=port;
+        DnsSrvResolver dns=new DnsSrvResolver();
         
         if (hostAddr!=null && hostAddr.length()>0) {
                 host=hostAddr;
         } else {
-            DnsSrvResolver dns=new DnsSrvResolver();
             int type = DnsSrvResolver.XMPP_TCP;
 //#if HTTPCONNECT || HTTPBIND || HTTPPOLL                    
 //#             if (enableProxy) {
@@ -388,7 +388,13 @@ public class Account extends IconTextElement {
 //#endif
 //#     }           
 //#endif
-        return new JabberStream(getServer(), url.toString(), tempPort, proxy, useSSL);
+        try {
+            JabberStream js = new JabberStream(getServer(), url.toString(), tempPort, proxy, useSSL);
+            return js;
+        } catch (IOException e) {
+            dns.clearCache();
+            throw e;
+        }
     }
 
     public boolean isEnableProxy() {

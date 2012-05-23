@@ -49,7 +49,7 @@ public class AccountForm extends DefForm {
     private TextInput passbox;
     private TextInput ipbox;
     private NumberInput portbox;
-    private TextInput nickbox;
+    private TextInput nickbox=null;
     private CheckBox sslbox;
     private CheckBox plainPwdbox;
     private CheckBox compressionBox;
@@ -173,7 +173,7 @@ public class AccountForm extends DefForm {
         uid=uidBuffer.toString();
         uidBuffer=null;
         fulljid = new TextInput(SR.get(SR.MS_USER_PROFILE) + "(JID)", uid, TextField.ANY);
-        nickbox = new TextInput(SR.get(SR.MS_NICKNAME), account.getNick(), TextField.ANY);
+        
         addControl(fulljid);
 
         if (register) {
@@ -182,16 +182,22 @@ public class AccountForm extends DefForm {
             passbox = new PasswordInput(SR.get(SR.MS_PASSWORD), password);
         }        
         addControl(passbox);
-        addControl(nickbox);
+       // 
 
         createSimpleAddForm = (null == serverReg && newaccount);//true if add,false if edit
+        if(createSimpleAddForm==false && register == false){
+            nickbox = new TextInput(SR.get(SR.MS_NICKNAME), account.getNick(), TextField.ANY);
+            addControl(nickbox);
+
+        }
+
         if (register) {
             addControl(new LinkString(SR.get(SR.MS_GENERATE) + " " + SR.get(SR.MS_PASSWORD))   {
                 public void doAction() {
                     passbox.setValue(generate());
                 }
             });
-
+            
             addControl(new SpacerItem(5));
         }
 
@@ -386,11 +392,14 @@ public class AccountForm extends DefForm {
     public void cmdOk() {
         String value = fulljid.getValue().trim();
         String pass = passbox.getValue();
-        String nick = nickbox.getValue();
+        
 
         int indexPr = value.indexOf('@') + 1;
         int indexRes = value.indexOf('/') + 1;
         int indexRes_ = value.indexOf('\"') + 1;
+
+        String nick = null == nickbox ? null :nickbox.getValue() ;
+
         if (indexPr < 1 || pass.length() == 0) {
             return;
         }

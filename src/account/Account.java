@@ -93,7 +93,7 @@ public class Account extends IconTextElement {
 
     public String toString() {
         StringBuffer buf = new StringBuffer();
-        if (nick.length() != 0) {
+        if (null != nick) {
             buf.append(nick);
         } else {
             buf.append(username).append('@').append(server);
@@ -180,6 +180,7 @@ public class Account extends IconTextElement {
             a.port = inputStream.readInt();
 
             a.nick = inputStream.readUTF();
+            if ("".equals(a.nick)) a.nick = null;
             a.resource = inputStream.readUTF();
 
             a.useSSL = inputStream.readBoolean();
@@ -220,7 +221,8 @@ public class Account extends IconTextElement {
             outputStream.writeUTF(hostAddr);
             outputStream.writeInt(port);
 
-            outputStream.writeUTF(nick);
+            if(null!=nick){outputStream.writeUTF(nick);}else outputStream.writeUTF("");
+
             outputStream.writeUTF(resource);
 
             outputStream.writeBoolean(useSSL);

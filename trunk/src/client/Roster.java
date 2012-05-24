@@ -2231,8 +2231,6 @@ public final class Roster extends VirtualList
                                c.version = pr.getEntityVer();
                            }
                        }
-                   } else if (c.jid.hasResource()) {
-                       ClientsIconsData.processData(c, c.getResource().substring(1));
                    }
 //#endif
                    JabberDataBlock j2j = pr.findNamespace("x", "j2j:history");

@@ -35,7 +35,7 @@ package message.notification;
 //#                 android.app.Notification notification = new android.app.Notification(icon, null, when);
 //#                 Intent notificationIntent = new Intent(BombusQDActivity.getInstance(), BombusQDActivity.class);
 //#                 notificationIntent.setAction("org.bombusqd.qd-notify");
-//#                 System.out.println("notificationIntent.getAction"+notificationIntent.getAction());
+//#                 //System.out.println("notificationIntent.getAction"+notificationIntent.getAction());
 //#                 PendingIntent contentIntent = PendingIntent.getActivity(BombusQDActivity.getInstance(), 0, notificationIntent, 0);
 //#                 notification.setLatestEventInfo(BombusQDActivity.getInstance().getApplicationContext(), (String) BombusQDActivity.getInstance().getApplicationContext().getText(R.string.notifyTitle),(String) BombusQDActivity.getInstance().getApplicationContext().getText(R.string.notifyInfo)+" "+midlet.BombusQD.sd.roster.highliteMessageCount, contentIntent);
 //#                 notification.ledARGB = 0xffffa500;

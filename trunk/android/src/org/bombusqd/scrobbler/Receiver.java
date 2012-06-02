@@ -10,6 +10,11 @@ import android.content.Intent;
 import android.widget.Toast;
 import org.bombusqd.BombusQDService;
 
+import com.alsutton.jabber.JabberDataBlock;
+import com.alsutton.jabber.datablocks.Iq;
+import client.StaticData;
+import client.Config;
+import mood.MoodPublishResult;
 /**
  *
  * @author modi & Ivansuper
@@ -27,10 +32,34 @@ import org.bombusqd.BombusQDService;
         /* Sony Ericsson player uses "ARTIST_NAME" and "TRACK_NAME" 
          * instead of "artist" and "track"
          * need fix for it */
-/**	if(artist == null && track == null) return;
-	if(artist == null) artist = "Unknown";
-	if(track == null) track = "Unknown";
-	String now_playing = artist+" - "+track;
-        Toast.makeText(arg0, "Now playing: "+now_playing, Toast.LENGTH_SHORT).show();
+/**        if (artist == null && track == null) {
+            return;
+        }
+        if (artist == null) {
+            artist = "Unknown";
+        }
+        if (track == null) {
+            track = "Unknown";
+        }
+        if (Config.getInstance().updatetune)
+            publishTune(artist, track);
+    }
+
+    protected void publishTune(String artist, String track) {
+        String sid = "publish-tune";
+        JabberDataBlock setActivity = new Iq(null, Iq.TYPE_SET, sid);
+        JabberDataBlock action = setActivity.addChildNs("pubsub", "http://jabber.org/protocol/pubsub").addChild("publish", null);
+        action.setAttribute("node", "http://jabber.org/protocol/tune");
+        JabberDataBlock item = action.addChild("item", null);
+        JabberDataBlock act = item.addChildNs("tune", "http://jabber.org/protocol/tune");
+        act.addChild("artist", artist);
+        act.addChild("title", track);        
+        
+        try {
+            StaticData.getInstance().theStream.addBlockListener(new PepPublishResult(sid));
+            StaticData.getInstance().theStream.send(setActivity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }*/

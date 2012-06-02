@@ -2,12 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="org.bombusqd"
       android:installLocation="auto"
-      android:versionCode="554"
-      android:versionName="1.0.554">
+      android:versionCode="556"
+      android:versionName="1.0.556">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <supports-screens android:smallScreens="true" android:normalScreens="true" android:largeScreens="true" android:anyDensity="true" />
     <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="4" />
 
@@ -21,11 +21,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-		<receiver android:enabled="false" android:name=".NetworkStateReceiver">
- 	        <intent-filter>
- 	            <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
- 	        </intent-filter>
-  	    </receiver>
         <service android:enabled="true" android:name="org.bombusqd.BombusQDService" />
     </application>
 </manifest> 

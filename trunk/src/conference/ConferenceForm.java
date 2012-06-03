@@ -202,7 +202,7 @@ public final class ConferenceForm extends DefForm implements MenuListener {
             try {
                 Config.defConference = room + "@" + host;
                  gchat.append('/').append(nick);
-                join(name, gchat.toString(),pass, msgLimit);
+                join(name, gchat.toString(), pass, nick);
                 midlet.BombusQD.sd.roster.show();
             } catch (Exception e) { }
         }
@@ -239,7 +239,11 @@ public final class ConferenceForm extends DefForm implements MenuListener {
         }
     }
 
-    public static void join(String name, String jid, String pass, int maxStanzas) {
+    public static void join(BookmarkItem bm) {
+        join(bm.getDesc(), bm.getJidNick(), bm.getPassword(), bm.getMyNick());
+    }
+
+    public static void join(String name, String jid, String pass, String nick) {
         ConferenceGroup grp=midlet.BombusQD.sd.roster.initMuc(jid, pass);
         grp.desc=name;
         JabberDataBlock x=new JabberDataBlock("x", null, null);
@@ -248,6 +252,7 @@ public final class ConferenceForm extends DefForm implements MenuListener {
             x.addChild("password", pass); // adding password to presence
         }
 
+        int maxStanzas = midlet.BombusQD.cf.confMessageCount;
         JabberDataBlock history=x.addChild("history", null);
         history.setAttribute("maxstanzas", Integer.toString(maxStanzas));
         history.setAttribute("maxchars","32768");
@@ -261,7 +266,7 @@ public final class ConferenceForm extends DefForm implements MenuListener {
         int status=midlet.BombusQD.sd.roster.myStatus;
         if (status==Presence.PRESENCE_INVISIBLE)
             status=Presence.PRESENCE_ONLINE;
-        midlet.BombusQD.sd.roster.sendDirectPresence(status, jid, x);
+        midlet.BombusQD.sd.roster.sendDirectPresence(status, jid, nick, x);
         grp.inRoom=true;
     }
 }

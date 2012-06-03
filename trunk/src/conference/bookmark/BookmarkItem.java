@@ -119,6 +119,10 @@ public final class BookmarkItem extends IconTextElement {
         return jid;
     }
 
+    public String getMyNick() {
+        return nick;
+    }
+
     public void setJid(String jid) {
         this.jid = jid;
     }

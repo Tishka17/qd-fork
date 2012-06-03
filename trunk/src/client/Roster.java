@@ -1045,7 +1045,7 @@ public final class Roster extends VirtualList
         reEnumRoster();
     }
 
-    public void sendDirectPresence(int status, String to, JabberDataBlock x) {
+    public void sendDirectPresence(int status, String to, String nick, JabberDataBlock x) {
         if (to==null) {
             sendPresence(status, null);
             return;
@@ -1053,7 +1053,10 @@ public final class Roster extends VirtualList
         ExtendedStatus es= StatusList.getInstance().getStatus(status);
         myMessage=es.getMessage();
         myMessage=StringUtils.toExtendedString(myMessage);
-        Presence presence = new Presence(status, es.getPriority(), myMessage, midlet.BombusQD.sd.account.getNick());
+        if (nick == null) {
+            nick = midlet.BombusQD.sd.account.getNick();
+        }
+        Presence presence = new Presence(status, es.getPriority(), myMessage, nick);
         presence.setTo(to);
         if (x!=null) presence.addChild(x);
         if (theStream!=null) {
@@ -1063,7 +1066,7 @@ public final class Roster extends VirtualList
     }
 
     public void sendDirectPresence(int status, Contact to, JabberDataBlock x) {
-        sendDirectPresence(status, (to==null)? null: to.getJid(), x);
+        sendDirectPresence(status, (to==null)? null: to.getJid(), null, x);
         if (to == null) return;
         if (to.jid.isTransport()) blockNotify(-111,10000);
 //#ifndef WMUC
@@ -1102,7 +1105,7 @@ public final class Roster extends VirtualList
         for (Enumeration e = midlet.BombusQD.sd.roster.bookmarks.elements(); e.hasMoreElements();) {
             BookmarkItem bm = (BookmarkItem)e.nextElement();
                 if (bm.isAutoJoin()) {
-                    ConferenceForm.join(bm.getDesc(), bm.getJidNick(), bm.getPassword(), midlet.BombusQD.cf.confMessageCount);
+                    ConferenceForm.join(bm);
                 }
         }
     }
@@ -1122,7 +1125,7 @@ public final class Roster extends VirtualList
 
             Contact myself=confGroup.selfContact;
             if (Presence.PRESENCE_OFFLINE <= c.status) {
-                ConferenceForm.join(confGroup.desc, myself.getJid(), confGroup.password, 20);
+                ConferenceForm.join(confGroup.desc, myself.getJid(), confGroup.password, myself.getNick());
                 continue;
             }
             Presence presence = new Presence(myStatus, myPriority, myMessage, null);

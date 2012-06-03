@@ -167,7 +167,7 @@ public final class Bookmarks extends VirtualList implements MenuListener {
           Object obj = getFocusedObject();
           if(null != obj){
               BookmarkItem join=(BookmarkItem)getFocusedObject();
-              ConferenceForm.join(join.getDesc(), join.getJidNick(), join.getPassword(), midlet.BombusQD.cf.confMessageCount);
+              ConferenceForm.join(join);
           }
        } catch (Exception e) { }
        midlet.BombusQD.sd.roster.show(); //N78 hardfix
@@ -214,7 +214,7 @@ public final class Bookmarks extends VirtualList implements MenuListener {
             for (Enumeration e = midlet.BombusQD.sd.roster.bookmarks.elements(); e.hasMoreElements();) {
                 BookmarkItem bm = (BookmarkItem)e.nextElement();
                 if (bm.isAutoJoin()) {
-                    ConferenceForm.join(bm.getDesc(), bm.getJidNick(), bm.getPassword(), midlet.BombusQD.cf.confMessageCount);
+                    ConferenceForm.join(bm);
                 }
             }
             midlet.BombusQD.sd.roster.show();

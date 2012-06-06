@@ -179,7 +179,6 @@ public class BombusQDActivity extends MicroEmulatorActivity {
 
         /* BombusQDInitialization and Service */
         common.registerImplementation("org.bombusqd.BombusQDInitialization", null, false);
-        startService(new Intent(this, BombusQDService.class));
 
         if (jadName != null) {
             try {
@@ -195,6 +194,7 @@ public class BombusQDActivity extends MicroEmulatorActivity {
 
         common.setSuiteName(midletClassName);
         midlet = common.initMIDlet(false);
+        startService(new Intent(this, BombusQDService.class));
     }
 
     @Override

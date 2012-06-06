@@ -37,6 +37,7 @@ public class BombusQDService extends Service {
     private Object[] mStopForegroundArgs = new Object[1];
 
 //    protected Receiver musicReceiver;
+    protected NetworkStateReceiver networkStateReceiver;
     
     void invokeMethod(Method method, Object[] args) {
     try {
@@ -136,14 +137,14 @@ public class BombusQDService extends Service {
         filter.addAction("com.adam.aslfms.notify.playstatechanged");
         //Scrobble Droid
         filter.addAction("net.jjc1138.android.scrobbler.action.MUSIC_STATUS");
-        musicReceiver = new Receiver(this);
+        musicReceiver = new Receiver();
         registerReceiver(musicReceiver, filter);
         //scrobbling finished
 */      //enable network state receiver
-        ComponentName networkStateReceiver = new ComponentName(this, NetworkStateReceiver.class);
-        PackageManager pm = getPackageManager();
-        pm.setComponentEnabledSetting(networkStateReceiver,
-                PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+        IntentFilter networkStateFilter = new IntentFilter();
+        networkStateFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        networkStateReceiver = new NetworkStateReceiver();
+        registerReceiver(networkStateReceiver, networkStateFilter); 
     }
 
     @Override
@@ -151,10 +152,7 @@ public class BombusQDService extends Service {
         Log.i(LOG_TAG, "onDestroy();");
         stopForegroundCompat(R.string.app_name);
         // disable network state receiver
-        ComponentName networkStateReceiver = new ComponentName(this, NetworkStateReceiver.class);
-        PackageManager pm = getPackageManager();
-        pm.setComponentEnabledSetting(networkStateReceiver,
-                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+        unregisterReceiver(networkStateReceiver);
         // unregister music receiver
 //        unregisterReceiver(musicReceiver);
      }

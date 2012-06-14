@@ -124,6 +124,7 @@ public class Contact extends IconTextElement {
     public String j2j;
     public String lang;
     public String version;
+    public String node;
 
 //#ifdef FILE_TRANSFER
     public boolean fileQuery;
@@ -160,6 +161,7 @@ public class Contact extends IconTextElement {
 //#endif
         if(null != version) version = null;
         if(null != lang) lang = null;
+        if(null != node) node = null;
 
         if(null != lastSendedMessage) lastSendedMessage = null;
     }

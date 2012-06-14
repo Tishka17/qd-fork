@@ -29,12 +29,14 @@
 //#ifdef FILE_TRANSFER
 package io.file.transfer;
 
+import client.Contact;
 import images.ActionsIcons;
 import images.camera.CameraImage;
 import images.camera.CameraImageListener;
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
+import midlet.BombusQD;
 import ui.IconTextElement;
 import ui.controls.form.DefForm;
 import ui.controls.form.DropChoiceBox;
@@ -42,6 +44,7 @@ import ui.controls.form.ImageItem;
 import ui.controls.form.LinkString;
 import ui.controls.form.SimpleString;
 import ui.controls.form.TextInput;
+import util.Time;
 
 /**
  *
@@ -60,6 +63,8 @@ public class TransferImage extends DefForm implements CameraImageListener {
     public TransferImage(String recipientJid) {
         super(SR.get(SR.MS_SEND_PHOTO));
         this.to=recipientJid;
+        
+        Contact c = BombusQD.sd.roster.getContact(recipientJid, true);
 
         itemsList.addElement(new SimpleString(recipientJid, false));
 
@@ -70,10 +75,15 @@ public class TransferImage extends DefForm implements CameraImageListener {
         itemsList.addElement(description);
         
         method = new DropChoiceBox(SR.get(SR.MS_SEND_METHOD));
-        method.append(new IconTextElement("IBB (default)", ActionsIcons.getInstance(), ActionsIcons.ICON_SEND_FILE));
-        method.append(new IconTextElement("Jimm Aspro", ActionsIcons.getInstance(), ActionsIcons.ICON_SEND_FILE));
-        method.setSelectedIndex(TransferTask.METHOD_IBB);
-        addControl(method);
+        method.append(new IconTextElement("IBB", ActionsIcons.getInstance(), ActionsIcons.ICON_SEND_FILE));
+        method.append(new IconTextElement("Jimm aspro", ActionsIcons.getInstance(), ActionsIcons.ICON_SEND_FILE));
+        if (c.origin != Contact.ORIGIN_GROUPCHAT) {
+            method.setSelectedIndex(TransferTask.METHOD_IBB);
+            addControl(method);
+        } else {
+            method.setSelectedIndex(TransferTask.METHOD_ASPRO);            
+        }
+        
         moveCursorTo(1);
     }
 
@@ -93,7 +103,7 @@ public class TransferImage extends DefForm implements CameraImageListener {
 
     public void cmdOk() {
         try {
-            TransferTask task=new TransferTask(to, String.valueOf(System.currentTimeMillis()), "photo.png", description.getValue(), true, photo, method.index);
+            TransferTask task=new TransferTask(to, String.valueOf(System.currentTimeMillis()), "photo_" + Time.localDate() + "_" + Time.photoTimeStamp() + ".png", description.getValue(), true, photo, method.index);
             TransferDispatcher.getInstance().sendFile(task);
             //switch to file transfer manager
             destroyView();

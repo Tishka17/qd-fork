@@ -715,7 +715,8 @@ public class SR {
     public final static short MS_PRESENCE_HISTORY = 682; //Presences history
     public final static short MS_BLOGS_HISTORY = 683; // Blogs history
     public final static short MS_SEND_METHOD = 684; // Blogs history
-    public final static short MS_KEYMODE = 684; // Key mode
+    public final static short MS_KEYMODE = 685; // Key mode
+    public final static short MS_COLLAPSE_GROUPS = 686; // Collapse all groups
 
      private static String[] localeItemsDefault = new String[0];
     private static String[] localeItems = {
@@ -1408,7 +1409,8 @@ public class SR {
        "Blogs history",
        
        "Send Method",
-       "Key mode"
+       "Key mode",
+       "Collapse all groups"
    };
 
     private SR() { }

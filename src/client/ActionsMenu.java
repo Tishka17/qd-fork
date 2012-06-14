@@ -135,6 +135,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
     private static final int MI_RENAME = 50;
     private static final int MI_COPY_TOPIC = 51;
     private static final int MI_RESOLVE_NICKS = 52;
+    private static final int MI_COLLAPSE = 53;
 
     private static int lastCursorPos = 0;
 
@@ -158,6 +159,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
 
             boolean isMucContact = (contact instanceof MucContact);
             boolean isConference = (contact.origin == Contact.ORIGIN_GROUPCHAT);
+            
 
             if (!isConference) {
                 if (groupType == Groups.TYPE_TRANSP) {
@@ -221,6 +223,17 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                 }
             }
 //#endif
+//#if FILE_IO && FILE_TRANSFER
+                if (midlet.BombusQD.cf.fileTransfer) {
+                        addItem(SR.get(SR.MS_SEND_FILE), MI_SEND_FILE, ActionsIcons.ICON_SEND_FILE);
+                        String cameraAvailable = System.getProperty("supports.video.capture");
+                        if (cameraAvailable != null) {
+                            if (cameraAvailable.startsWith("true")) {
+                                addItem(SR.get(SR.MS_SEND_PHOTO), MI_SEND_PHOTO, ActionsIcons.ICON_SEND_FILE);
+                            }
+                        }
+                }
+//#endif            
             if (!isConference) {
                 if (groupType != Groups.TYPE_SELF) {
                     addItem(SR.get(SR.MS_SEND_COLOR_SCHEME), MI_SEND_SCHEME, ActionsIcons.ICON_SEND_COLORS);
@@ -361,6 +374,17 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                         addItem(SR.get(SR.MS_BANNED), MI_BANLIST, ActionsIcons.ICON_OUTCASTS);
                     }
                 }
+//#if FILE_IO && FILE_TRANSFER
+                if (midlet.BombusQD.cf.fileTransfer) {
+                        addItem(SR.get(SR.MS_SEND_FILE), MI_SEND_FILE, ActionsIcons.ICON_SEND_FILE);
+                        String cameraAvailable = System.getProperty("supports.video.capture");
+                        if (cameraAvailable != null) {
+                            if (cameraAvailable.startsWith("true")) {
+                                addItem(SR.get(SR.MS_SEND_PHOTO), MI_SEND_PHOTO, ActionsIcons.ICON_SEND_FILE);
+                            }
+                        }
+                }
+//#endif
             } else {
 //#endif
                 if (group.type != Groups.TYPE_IGNORE
@@ -369,11 +393,12 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                         && group.type != Groups.TYPE_SELF
                         && group.type != Groups.TYPE_TRANSP) {
                     addItem(SR.get(SR.MS_RENAME), MI_RENAME, ActionsIcons.ICON_RENAME);
-                    addItem(SR.get(SR.MS_DELETE), MI_DELETE, ActionsIcons.ICON_DELETE);
+                    addItem(SR.get(SR.MS_DELETE), MI_DELETE, ActionsIcons.ICON_DELETE);                    
                 }
 //#ifndef WMUC
             }
 //#endif
+            addItem(SR.get(SR.MS_COLLAPSE_GROUPS), MI_COLLAPSE, ActionsIcons.ICON_MOVE);
         }
 
         moveCursorTo(lastCursorPos);
@@ -729,6 +754,16 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                     case MI_DELETE:
                         showForm(new ConferenceRemoveForm(roomjid));
                         return;
+//#if FILE_IO && FILE_TRANSFER
+                    case MI_SEND_FILE:
+                        showForm(new TransferSendFile(roomjid));
+                        return;
+//#ifndef Android
+                    case MI_SEND_PHOTO:
+                        showForm(new TransferImage(roomjid));
+                        return;
+//#endif          
+//#endif                        
                 }
             } else {
                 switch (mItem.index) {
@@ -744,6 +779,12 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                         showForm(box);
                         return;
                 }
+            }
+            switch (mItem.index) {
+                    case MI_COLLAPSE:
+                        BombusQD.sd.roster.collapseAllGroups();
+                        destroyView();
+                        return;
             }
         }
         destroyView();

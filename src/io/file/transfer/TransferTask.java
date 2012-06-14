@@ -30,6 +30,7 @@
 package io.file.transfer;
 
 import client.Msg;
+import client.Contact;
 import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.datablocks.Iq;
 import com.alsutton.jabber.datablocks.Message;
@@ -391,16 +392,19 @@ public class TransferTask
                     .append(String.valueOf(fileSize))
                     .append("\nURL: ");
             for (int i=0;i<length;i++) messText.append((char)buffer[i]);
-            messText.append('\n').append(SR.get(SR.MS_DESCRIPTION))
+            if (description.length() > 0) messText.append('\n').append(SR.get(SR.MS_DESCRIPTION))
                     .append(": ")
                     .append(description);
 //#if DEBUG
 //#             System.out.println(messText.toString());
 //#endif        
-            String body = messText.toString();
-            JabberDataBlock mess=new Message(jid, body, null, false);
+            String body = messText.toString();            
+            Contact c = BombusQD.sd.roster.getContact(jid, true);
+            JabberDataBlock mess = (c.origin == Contact.ORIGIN_GROUPCHAT) ? 
+                                       new Message(jid, body, null, true) : 
+                                       new Message(jid, body, null, false);
             TransferDispatcher.getInstance().send(mess, true);
-            BombusQD.sd.roster.getContact(jid, true).getMessageList().addMessage(new Msg(Msg.SYSTEM, null, body));
+            c.getMessageList().addMessage(new Msg(Msg.SYSTEM, null, body));
             state = COMPLETE;
             
         } catch (Exception e) {

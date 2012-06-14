@@ -70,6 +70,10 @@ public class Time {
         Calendar c=calDate(date);
         return lz2(c.get(Calendar.HOUR_OF_DAY))+':'+lz2(c.get(Calendar.MINUTE))+':'+lz2(c.get(Calendar.SECOND));
      }
+    
+    public static String photoTimeStamp(){
+        return lz2(c.get(Calendar.HOUR_OF_DAY))+'-'+lz2(c.get(Calendar.MINUTE))+'-'+lz2(c.get(Calendar.SECOND));
+     }
 
     private static Calendar calDate(long date){
         c.setTime(new Date(date+utcToLocalOffsetMillis));//memory leak

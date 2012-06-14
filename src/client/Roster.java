@@ -2103,6 +2103,9 @@ public final class Roster extends VirtualList
                        if (pr.getEntityVer() != null) {
                            conferenceContact.version = pr.getEntityVer();
                        }
+                       if (pr.getEntityNode() != null) {
+                           conferenceContact.node = pr.getEntityNode();
+                       }
                    }
                }
 //#endif
@@ -2232,6 +2235,9 @@ public final class Roster extends VirtualList
                            ClientsIconsData.processData(c, pr.getEntityNode());
                            if (pr.getEntityVer() != null) {
                                c.version = pr.getEntityVer();
+                           }
+                           if (pr.getEntityNode() != null) {
+                               c.node = pr.getEntityNode();
                            }
                        }
                    }
@@ -3096,13 +3102,7 @@ public final class Roster extends VirtualList
 //#endif
             case VirtualCanvas.KEY_NUM1:
                 if (midlet.BombusQD.cf.collapsedGroups) { //collapse all groups
-                     int size = contactList.groups.groups.size();
-                     for (int i=0; i<size; ++i) {
-                         Group grp=(Group)contactList.groups.groups.elementAt(i);
-                         grp.collapsed=true;
-                     }
-                    setModified();
-                    reEnumRoster();
+                     collapseAllGroups();
                 }
                 break;
             case VirtualCanvas.KEY_NUM4:
@@ -3348,6 +3348,12 @@ public final class Roster extends VirtualList
                         if (cntact.version != null) {
                             mess.append(' ').append(cntact.version);
                         }
+                    }
+                    if (cntact.node != null && midlet.BombusQD.cf.userAppLevel == 1) {
+                        mess.append('\n')
+                            .append("Caps")
+                            .append(": ")
+                            .append(cntact.node);
                     }
                 }
 //#endif
@@ -3676,4 +3682,15 @@ public final class Roster extends VirtualList
             }
         }
     }
+    
+        protected void collapseAllGroups() {
+            int size = contactList.groups.groups.size();
+                     for (int i=0; i<size; ++i) {
+                         Group grp=(Group)contactList.groups.groups.elementAt(i);
+                         grp.collapsed=true;
+                     }
+                    setModified();
+                    reEnumRoster();
+                    return;
+        }
 }

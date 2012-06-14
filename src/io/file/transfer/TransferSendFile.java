@@ -38,6 +38,8 @@ import ui.controls.form.DropChoiceBox;
 import ui.controls.form.PathSelector;
 import ui.controls.form.SimpleString;
 import ui.controls.form.TextInput;
+import client.Contact;
+import midlet.BombusQD;
 
 public class TransferSendFile extends DefForm {
     private String to;
@@ -49,6 +51,8 @@ public class TransferSendFile extends DefForm {
     public TransferSendFile(String recipientJid) {
         super(SR.get(SR.MS_SEND_FILE));
         this.to=recipientJid;
+        
+        Contact c = BombusQD.sd.roster.getContact(recipientJid, true);
 
         addControl(new SimpleString(recipientJid, true));
 
@@ -59,10 +63,14 @@ public class TransferSendFile extends DefForm {
         addControl(description);
         
         method = new DropChoiceBox(SR.get(SR.MS_SEND_METHOD));
-        method.append(new IconTextElement("IBB (default)", ActionsIcons.getInstance(), ActionsIcons.ICON_SEND_FILE));
-        method.append(new IconTextElement("Jimm Aspro", ActionsIcons.getInstance(), ActionsIcons.ICON_SEND_FILE));
-        method.setSelectedIndex(TransferTask.METHOD_IBB);
-        addControl(method);
+        method.append(new IconTextElement("IBB", ActionsIcons.getInstance(), ActionsIcons.ICON_SEND_FILE));
+        method.append(new IconTextElement("Jimm aspro", ActionsIcons.getInstance(), ActionsIcons.ICON_SEND_FILE));
+        if (c.origin != Contact.ORIGIN_GROUPCHAT) {
+            method.setSelectedIndex(TransferTask.METHOD_IBB);
+            addControl(method);
+        } else {
+            method.setSelectedIndex(TransferTask.METHOD_ASPRO);            
+        }
 
         moveCursorTo(1);
     }

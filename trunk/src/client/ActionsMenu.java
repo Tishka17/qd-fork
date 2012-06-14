@@ -224,7 +224,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
             }
 //#endif
 //#if FILE_IO && FILE_TRANSFER
-                if (midlet.BombusQD.cf.fileTransfer) {
+                if (midlet.BombusQD.cf.fileTransfer && isConference) {
                         addItem(SR.get(SR.MS_SEND_FILE), MI_SEND_FILE, ActionsIcons.ICON_SEND_FILE);
                         String cameraAvailable = System.getProperty("supports.video.capture");
                         if (cameraAvailable != null) {

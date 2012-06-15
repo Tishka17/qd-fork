@@ -55,6 +55,11 @@ import images.ActionsIcons;
 //#ifndef Android
 import io.file.transfer.TransferImage;
 //#endif
+//#ifdef Android
+import android.content.Intent;
+import android.app.Activity;
+import org.bombusqd.BombusQDActivity;
+//#endif
 import io.file.transfer.TransferSendFile;
 //#endif
 import javax.microedition.lcdui.TextField;
@@ -232,6 +237,9 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                                 addItem(SR.get(SR.MS_SEND_PHOTO), MI_SEND_PHOTO, ActionsIcons.ICON_SEND_FILE);
                             }
                         }
+                        //#ifdef Android
+                        addItem(SR.get(SR.MS_SEND_PHOTO), MI_SEND_PHOTO, ActionsIcons.ICON_SEND_FILE);
+                        //#endif
                 }
 //#endif            
             if (!isConference) {
@@ -337,6 +345,10 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                                 addItem(SR.get(SR.MS_SEND_PHOTO), MI_SEND_PHOTO, ActionsIcons.ICON_SEND_FILE);
                             }
                         }
+
+                        //#ifdef Android
+                        addItem(SR.get(SR.MS_SEND_PHOTO), MI_SEND_PHOTO, ActionsIcons.ICON_SEND_FILE);
+                        //#endif
                     }
                 }
 //#endif
@@ -383,6 +395,10 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                                 addItem(SR.get(SR.MS_SEND_PHOTO), MI_SEND_PHOTO, ActionsIcons.ICON_SEND_FILE);
                             }
                         }
+                        //#ifdef Android
+                        addItem(SR.get(SR.MS_SEND_PHOTO), MI_SEND_PHOTO, ActionsIcons.ICON_SEND_FILE);
+                        //#endif
+
                 }
 //#endif
             } else {
@@ -662,12 +678,21 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                 }
 //#if FILE_IO && FILE_TRANSFER
                 case MI_SEND_FILE:
-                    showForm(new TransferSendFile(contact.getJid()));
+                showForm(new TransferSendFile(contact.getJid()));
                     return;
-//#ifndef Android
+
                 case MI_SEND_PHOTO:
+                //#ifdef Android
+                    /*   Intent intent = new Intent();//создаёт намерение
+                    intent.setClass((Activity)BombusQDActivity.getInstance(), CameraActivity.class);//намерение запустить класс CameraActivity       
+                    ((Activity)BombusQDActivity.getInstance()).startActivityForResult(intent, ACTIVITY_SETTINGS_REQUEST);
+                      */
+                    Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    ((Activity)BombusQDActivity.getInstance()).startActivityForResult(intent, 0);
+                //#endif
+//#ifndef Android
                     showForm(new TransferImage(contact.getJid()));
-                    return;
+
 //#endif          
 //#endif
             }
@@ -758,10 +783,20 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                     case MI_SEND_FILE:
                         showForm(new TransferSendFile(roomjid));
                         return;
-//#ifndef Android
-                    case MI_SEND_PHOTO:
-                        showForm(new TransferImage(roomjid));
-                        return;
+                case MI_SEND_PHOTO:
+                //#ifdef Android
+                /*
+                        Intent intent = new Intent();//создаёт намерение
+                    intent.setClass((Activity)BombusQDActivity.getInstance(), CameraActivity.class);//намерение запустить класс CameraActivity       
+                    ((Activity)BombusQDActivity.getInstance()).startActivityForResult(intent, ACTIVITY_SETTINGS_REQUEST);
+                       
+                       */
+                Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                ((Activity)BombusQDActivity.getInstance()).startActivityForResult(intent, 0);
+                        //#endif
+                    //#ifndef Android
+                    showForm(new TransferImage(contact.getJid()));
+
 //#endif          
 //#endif                        
                 }

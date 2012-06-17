@@ -56,9 +56,9 @@ import images.ActionsIcons;
 import io.file.transfer.TransferImage;
 //#endif
 //#ifdef Android
-import android.content.Intent;
-import android.app.Activity;
-import org.bombusqd.BombusQDActivity;
+//# import android.content.Intent;
+//# import android.app.Activity;
+//# import org.bombusqd.BombusQDActivity;
 //#endif
 import io.file.transfer.TransferSendFile;
 //#endif
@@ -238,7 +238,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                             }
                         }
                         //#ifdef Android
-                        addItem(SR.get(SR.MS_SEND_PHOTO), MI_SEND_PHOTO, ActionsIcons.ICON_SEND_FILE);
+//#                         addItem(SR.get(SR.MS_SEND_PHOTO), MI_SEND_PHOTO, ActionsIcons.ICON_SEND_FILE);
                         //#endif
                 }
 //#endif            
@@ -347,7 +347,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                         }
 
                         //#ifdef Android
-                        addItem(SR.get(SR.MS_SEND_PHOTO), MI_SEND_PHOTO, ActionsIcons.ICON_SEND_FILE);
+//#                         addItem(SR.get(SR.MS_SEND_PHOTO), MI_SEND_PHOTO, ActionsIcons.ICON_SEND_FILE);
                         //#endif
                     }
                 }
@@ -396,7 +396,7 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                             }
                         }
                         //#ifdef Android
-                        addItem(SR.get(SR.MS_SEND_PHOTO), MI_SEND_PHOTO, ActionsIcons.ICON_SEND_FILE);
+//#                         addItem(SR.get(SR.MS_SEND_PHOTO), MI_SEND_PHOTO, ActionsIcons.ICON_SEND_FILE);
                         //#endif
 
                 }
@@ -683,12 +683,12 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
 
                 case MI_SEND_PHOTO:
                 //#ifdef Android
-                    /*   Intent intent = new Intent();//создаёт намерение
-                    intent.setClass((Activity)BombusQDActivity.getInstance(), CameraActivity.class);//намерение запустить класс CameraActivity       
-                    ((Activity)BombusQDActivity.getInstance()).startActivityForResult(intent, ACTIVITY_SETTINGS_REQUEST);
-                      */
-                    Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    ((Activity)BombusQDActivity.getInstance()).startActivityForResult(intent, 0);
+//#                     /*   Intent intent = new Intent();//создаёт намерение
+//#                     intent.setClass((Activity)BombusQDActivity.getInstance(), CameraActivity.class);//намерение запустить класс CameraActivity       
+//#                     ((Activity)BombusQDActivity.getInstance()).startActivityForResult(intent, ACTIVITY_SETTINGS_REQUEST);
+//#                       */
+//#                     Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+//#                     ((Activity)BombusQDActivity.getInstance()).startActivityForResult(intent, 0);
                 //#endif
 //#ifndef Android
                     showForm(new TransferImage(contact.getJid()));
@@ -785,17 +785,17 @@ public class ActionsMenu extends Menu implements InputTextBoxNotify {
                         return;
                 case MI_SEND_PHOTO:
                 //#ifdef Android
-                /*
-                        Intent intent = new Intent();//создаёт намерение
-                    intent.setClass((Activity)BombusQDActivity.getInstance(), CameraActivity.class);//намерение запустить класс CameraActivity       
-                    ((Activity)BombusQDActivity.getInstance()).startActivityForResult(intent, ACTIVITY_SETTINGS_REQUEST);
-                       
-                       */
-                Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                ((Activity)BombusQDActivity.getInstance()).startActivityForResult(intent, 0);
+//#                 /*
+//#                         Intent intent = new Intent();//создаёт намерение
+//#                     intent.setClass((Activity)BombusQDActivity.getInstance(), CameraActivity.class);//намерение запустить класс CameraActivity       
+//#                     ((Activity)BombusQDActivity.getInstance()).startActivityForResult(intent, ACTIVITY_SETTINGS_REQUEST);
+//#                        
+//#                        */
+//#                 Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+//#                 ((Activity)BombusQDActivity.getInstance()).startActivityForResult(intent, 0);
                         //#endif
                     //#ifndef Android
-                    showForm(new TransferImage(contact.getJid()));
+                    showForm(new TransferImage(roomjid));
 
 //#endif          
 //#endif                        

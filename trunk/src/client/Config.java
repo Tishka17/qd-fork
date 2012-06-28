@@ -409,6 +409,9 @@ public class Config {
                 ghostMotor=true;
                 break;
 //#endif
+                case MICROEMU:
+                     allowMinimize = true;
+                break;
         }
     }
 

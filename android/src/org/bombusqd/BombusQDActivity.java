@@ -26,16 +26,14 @@
 package org.bombusqd;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import java.util.logging.Level;
 import javax.microedition.lcdui.Command;
 import javax.microedition.midlet.MIDlet;
 import javax.microedition.midlet.MIDletStateChangeException;
@@ -57,7 +55,6 @@ import org.microemu.device.Device;
 import org.microemu.device.DeviceFactory;
 import org.microemu.device.ui.CommandUI;
 import org.microemu.log.Logger;
-import org.microemu.util.JadProperties;
 
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -67,11 +64,11 @@ import android.view.MotionEvent;
 import android.view.SubMenu;
 import android.view.Window;
 import android.media.AudioManager;
-import android.widget.Toast;
 import android.app.NotificationManager;
 import org.microemu.android.MicroEmulatorActivity;
 import android.content.Intent;
 import android.util.Log;
+import org.microemu.cldc.file.FileSystem;
 
 import client.Contact;
 import midlet.BombusQD;
@@ -142,22 +139,11 @@ public class BombusQDActivity extends MicroEmulatorActivity {
             }
 
         }));
-
-        java.util.List<String> params = new ArrayList<String>();
-        params.add("--usesystemclassloader");
-        params.add("--quit");
-
-        String midletClassName;
-        String jadName = null;
-
-        midletClassName = "midlet.BombusQD";
-        params.add(midletClassName);
-
+       
         common = new Common(emulatorContext);
         common.setRecordStoreManager(new AndroidRecordStoreManager(this));
         common.setDevice(new AndroidDevice(emulatorContext, this));
-        common.initParams(params, null, AndroidDevice.class);
-
+     
         System.setProperty("microedition.platform", "microemu-android");
         System.setProperty("microedition.configuration", "CLDC-1.1");
         System.setProperty("microedition.profiles", "MIDP-2.0");
@@ -172,30 +158,25 @@ public class BombusQDActivity extends MicroEmulatorActivity {
         Map<String, String> properties = new HashMap<String, String>();
         properties.put("fsRoot", "/");
         properties.put("fsSingle", "sdcard");
-        common.registerImplementation("org.microemu.cldc.file.FileSystem", properties, false);
+        FileSystem fs = new FileSystem();
+        fs.registerImplementation(properties);
+        common.extensions.add(fs);
         MIDletSystemProperties.setPermission("javax.microedition.io.Connector.file.read", 1);
         MIDletSystemProperties.setPermission("javax.microedition.io.Connector.file.write", 1);
         System.setProperty("fileconn.dir.photos", "file:///sdcard/");
 
         /* BombusQDInitialization and Service */
-        common.registerImplementation("org.bombusqd.BombusQDInitialization", null, false);
-
-        if (jadName != null) {
-            try {
-                InputStream is = getAssets().open(jadName);
-                common.jad = new JadProperties();
-                common.jad.read(is);
-            } catch (Exception e) {
-                Logger.error(e);
-            }
-        }
+        BombusQDInitialization init = new BombusQDInitialization();
+        init.registerImplementation(null);
+        common.extensions.add(init);        
 
         initializeExtensions();
 
-        common.setSuiteName(midletClassName);
+        common.setSuiteName("org.BombusQD");
         midlet = common.initMIDlet(false);
         startService(new Intent(this, BombusQDService.class));
     }
+
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -290,6 +271,7 @@ public class BombusQDActivity extends MicroEmulatorActivity {
 
     private boolean ignoreBackKeyUp = false;
 
+    @Override
     public void onBackPressed() {
         MIDletAccess ma = MIDletBridge.getMIDletAccess();
         if (ma == null) {
@@ -348,7 +330,14 @@ public class BombusQDActivity extends MicroEmulatorActivity {
 
             return true;
         }
-
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.ECLAIR
+                && keyCode == KeyEvent.KEYCODE_BACK
+                && event.getRepeatCount() == 0) {
+            // Take care of calling this method on earlier versions of 
+            // the platform where it doesn't exist. 
+            onBackPressed();
+            return true;
+        }
         return super.onKeyDown(keyCode, event);
     }
 
@@ -536,6 +525,13 @@ public class BombusQDActivity extends MicroEmulatorActivity {
         }
 
         return false;
+    }
+    
+    public void minimizeApp() {
+        Intent startMain = new Intent(Intent.ACTION_MAIN);
+        startMain.addCategory(Intent.CATEGORY_HOME);
+        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(startMain);
     }
 
 }

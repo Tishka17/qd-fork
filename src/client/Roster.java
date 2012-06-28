@@ -126,7 +126,7 @@ import light.CustomLight;
 import xmpp.extensions.JuickModule;
 //#endif
 import disco.ServerStatsForm;
-//#ifdef SYSTEM_NOTIFY
+//#ifdef Android
 //# import message.notification.Notification;
 //# import message.notification.Notificator;
 //# import message.notification.AndroidNotification;
@@ -138,6 +138,7 @@ import xmpp.extensions.RosterXListener;
 //#if STATS
 import stats.StatsWindow;
 //#endif
+
 public final class Roster extends VirtualList
             implements JabberListener, MenuListener, Runnable, LoginListener {
     public final static int DROP_MESSAGES_PRESENCES = 0;
@@ -400,6 +401,9 @@ public final class Roster extends VirtualList
     }
 
     public void cmdMinimize() {
+//#if Android
+//#         BombusQDActivity.getInstance().minimizeApp();
+//#endif
         BombusQD.hideApp();
     }
 

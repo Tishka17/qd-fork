@@ -37,8 +37,7 @@ public class BombusQDService extends Service {
     private Object[] mStopForegroundArgs = new Object[1];
 
 //    protected Receiver musicReceiver;
-    protected NetworkStateReceiver networkStateReceiver;
-    
+
     void invokeMethod(Method method, Object[] args) {
     try {
         method.invoke(this, args);
@@ -140,19 +139,13 @@ public class BombusQDService extends Service {
         musicReceiver = new Receiver();
         registerReceiver(musicReceiver, filter);
         //scrobbling finished
-*/      //enable network state receiver
-        IntentFilter networkStateFilter = new IntentFilter();
-        networkStateFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-        networkStateReceiver = new NetworkStateReceiver();
-        registerReceiver(networkStateReceiver, networkStateFilter); 
+*/      
     }
 
     @Override
     public void onDestroy() {
         Log.i(LOG_TAG, "onDestroy();");
         stopForegroundCompat(R.string.app_name);
-        // disable network state receiver
-        unregisterReceiver(networkStateReceiver);
         // unregister music receiver
 //        unregisterReceiver(musicReceiver);
      }

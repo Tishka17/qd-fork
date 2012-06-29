@@ -60,6 +60,7 @@ import org.microemu.device.ui.UIFactory;
 
 import android.content.Context;
 import android.os.Vibrator;
+import org.microemu.android.device.ui.*;
 
 public class AndroidDevice implements Device {
 
@@ -95,23 +96,23 @@ public class AndroidDevice implements Device {
 		}
 
         public FormUI createFormUI(Form form) {
-            throw new UnsupportedOperationException("Not supported yet.");
+            return new AndroidFormUI(activity, form);
         }
 
         public ImageStringItemUI createImageStringItemUI(Item item) {
-            throw new UnsupportedOperationException("Not supported yet.");
+            return new AndroidImageStringItemUI(activity, item);
         }
 
         public ListUI createListUI(List list) {
-            throw new UnsupportedOperationException("Not supported yet.");
+            return new AndroidListUI(activity, list);
         }
 
         public ChoiceGroupUI createChoiceGroupUI(ChoiceGroup choiceGroup, int choiceType) {
-            throw new UnsupportedOperationException("Not supported yet.");
+            return new AndroidChoiceGroupUI(activity, choiceGroup, choiceType);
         }
 
         public CustomItemUI createCustomItemUI(CustomItemAccess customItemAccess) {
-            throw new UnsupportedOperationException("Not supported yet.");
+            return new AndroidCustomItemUI(activity, customItemAccess);
         }
 
 	};

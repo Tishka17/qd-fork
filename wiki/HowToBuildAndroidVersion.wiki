@@ -6,7 +6,7 @@
  * Java SE JDK (http://java.sun.com/javase/)
  * Subversion client (http://subversion.tigris.org)
  * Ant (http://ant.apache.org/)
- * Android SDK 14 версии и выше с загруженным Android 1.6 api (http://developer.android.com/)
+ * Android SDK 20 версии и выше с загруженным Android 1.6 api (http://developer.android.com/)
  * Netbeans (http://www.netbeans.com/downloads/index.html)
 А так же потребуется персональный ключ разработчика для подписи приложения
 
@@ -36,6 +36,9 @@ set ANT_EXEC="C:\Program Files\NetBeans 7.0.1\java\ant\bin\ant.bat"
 sdk.dir=D:/Android/android-sdk-windows  ///путь к Android-sdk
 key.store=D:/keys/key/mykey.keystore    ///путь к хранилищу ключей
 key.alias=cert                          ///имя хранилища
+key.store.password=pass                 ///пароль от хранилища
+key.alias.password=pass                 ///пароль от ключа
+
 }}}
 
 *5.* Возвращаемся в корень исходников BombusQD. Для простоты сборки создаем в ней *Новый текстовый документ.txt*
@@ -45,20 +48,8 @@ key.alias=cert                          ///имя хранилища
 call ant build-android
 pause
 }}}
-Теперь все готово для сборки андроид-версии, запускаем наш bat-файл и наблюдаем за процессом компиляции, в конце компиляции будет запрашиваться пароль к ключу и к хранилищу ключей
+Теперь все готово для сборки андроид-версии, запускаем наш bat-файл и наблюдаем за процессом компиляции
 
-Чтобы постоянно его не вводить, создаем рядом с нашим созданным файлом текстовой файл, например *key.txt* и вписываем в него наши два пароля
-
-Например
-{{{
-pass
-pass
-}}}
-И сам файл *android.bat* редактируем следующим образом
-{{{
-call ant build-android < key.txt
-pause
-}}}
 *6.* Наши собранные apk файлы после компиляции будут располагаться в папке *android/bin/*
 {{{
 BombusQD-release.apk  ///наше подписанное приложение для установки в телефон

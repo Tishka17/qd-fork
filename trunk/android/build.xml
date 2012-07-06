@@ -66,7 +66,7 @@
         <property name="source.dir" value="src" />
         <property name="source.absolute.dir" location="${source.dir}:../build/Android/preprocessed" />
 
-	    <!-- Directory for the third party java libraries -->
+    <!-- Directory for the third party java libraries -->
     <property name="jar.libs.dir" value="lib" />
     <property name="jar.libs.absolute.dir" location="${jar.libs.dir}" />
     <!-- create a path with all the jar files, from the main project and the

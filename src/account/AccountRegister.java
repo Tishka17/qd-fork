@@ -33,8 +33,11 @@ import com.alsutton.jabber.JabberDataBlock;
 import com.alsutton.jabber.JabberListener;
 import com.alsutton.jabber.JabberStream;
 import com.alsutton.jabber.datablocks.Iq;
+import disco.DiscoForm;
 import locale.SR;
 import ui.SplashScreen;
+import ui.VirtualList;
+import ui.controls.PopUp;
 import xmpp.XmppError;
 
 public class AccountRegister implements JabberListener, Runnable {
@@ -85,11 +88,8 @@ public class AccountRegister implements JabberListener, Runnable {
 
     public void beginConversation() {
         splash.setProgress(SR.get(SR.MS_REGISTERING), 60);
-        Iq iqreg = new Iq(null, Iq.TYPE_SET, "regac");
+        Iq iqreg = new Iq(null, Iq.TYPE_GET, "reginit");
         JabberDataBlock qB = iqreg.addChildNs("query", "jabber:iq:register");
-        qB.addChild("username", raccount.getUserName());
-        qB.addChild("password", raccount.getPassword());
-        qB.addChild("email", raccount.getEmail());
         theStream.send(iqreg);
         iqreg = null;
         qB = null;
@@ -99,19 +99,35 @@ public class AccountRegister implements JabberListener, Runnable {
         if (data instanceof Iq) {
             String type = data.getTypeAttribute();
             String mainbar;
-            if ("result".equals(type)) {
-                mainbar = SR.get(SR.MS_DONE);
-                splash.setParentView(accountselect);
+            if ("result".equals(type)) {//done
+                if (data.getAttribute("id").startsWith("register")) {
+                    mainbar = SR.get(SR.MS_DONE);
+                    splash.setParentView(accountselect);
+                    theStream.close();
+                    accountselect.show();
+//#ifdef POPUPS
+                VirtualList.setWobble(3, null, mainbar);
+//#endif                    
+                } else {//form
+                    mainbar = "...";
+                    new DiscoForm(data, theStream, "register" + System.currentTimeMillis(), "query").show();//.fetchMediaElements(data.getChildBlock("query").getChildBlocks());
+                }
             } else {
                 mainbar = SR.get(SR.MS_ERROR_) + XmppError.findInStanza(data).toString();
-            }
-            theStream.close();
+                splash.setParentView(accountselect);
+                accountselect.show();
+                theStream.close();
 
+//#ifdef POPUPS
+                VirtualList.setWobble(3, null, mainbar);
+//#endif
+            }
+            
             splash.setProgress(mainbar, 100);
-            try {
+            /*try {
                 Thread.sleep(DELAY);
             } catch (InterruptedException ie) {}
-            splash.destroyView();
+            splash.destroyView();*/
         }
         return JabberBlockListener.BLOCK_PROCESSED;
     }

@@ -34,17 +34,19 @@ import ui.MainBar;
 import io.NvStorage;
 import java.io.DataOutputStream;
 import java.util.Vector;
+import javax.microedition.lcdui.TextField;
 import ui.controls.AlertBox;
 import ui.GMenu;
 import ui.GMenuConfig;
 import ui.VirtualElement;
 import ui.VirtualList;
+import ui.input.InputTextBox;
+import ui.input.InputTextBoxNotify;
 
-public class AccountSelect extends VirtualList implements MenuListener {
+public class AccountSelect extends VirtualList implements MenuListener, InputTextBoxNotify {
+
     private final Vector accountList;
-
     private final int activeAccount;
-
     private final Command cmdLogin;
     private final Command cmdRegister;
     private final Command cmdServ1_reg = new Command("Jabber.ru", 0x86);
@@ -66,7 +68,6 @@ public class AccountSelect extends VirtualList implements MenuListener {
     private final Command cmdDel;
     private final Command cmdRemoveAcc;
     private final Command cmdChangePass;
-
     int status;
 
     public AccountSelect(int status) {
@@ -110,10 +111,11 @@ public class AccountSelect extends VirtualList implements MenuListener {
         accountList = Account.createListFromStorage();
         try {
             Account a;
-            a = (Account)accountList.elementAt(activeAccount);
+            a = (Account) accountList.elementAt(activeAccount);
             a.setActive(true);
             moveCursorTo(activeAccount);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
     }
 
     public void commandState() {
@@ -165,19 +167,43 @@ public class AccountSelect extends VirtualList implements MenuListener {
         return accountList.size();
     }
 
+    public void okNotify(String text) {
+        Account acc = new Account();
+        acc.setServer(text);
+        new AccountRegister(acc, this);
+    }
+
     public void commandAction(Command c) {
         if (c == cmdServ1_reg) {
-            new AccountForm("jabber.ru").show();
+            Account acc = new Account();
+            acc.setServer("jabber.ru");
+            new AccountRegister(acc, this);
+            //new AccountForm("jabber.ru").show();
         } else if (c == cmdServ2_reg) {
-            new AccountForm("silper.cz").show();
+            Account acc = new Account();
+            acc.setServer("silper.cz");
+            new AccountRegister(acc, this);
+            //new AccountForm("silper.cz").show();
         } else if (c == cmdServ3_reg) {
-            new AccountForm("jabbus.org").show();
+            Account acc = new Account();
+            acc.setServer("jabbus.org");
+            new AccountRegister(acc, this);
+            //new AccountForm("jabbus.org").show();
         } else if (c == cmdServ4_reg) {
-            new AccountForm("mytlt.ru").show();
+            Account acc = new Account();
+            acc.setServer("mytlt.ru");
+            new AccountRegister(acc, this);
+            //new AccountForm("mytlt.ru").show();
         } else if (c == cmdServ5_reg) {
-            new AccountForm("jabbim.com").show();
+            Account acc = new Account();
+            acc.setServer("jabbim.com");
+            new AccountRegister(acc, this);
+            //new AccountForm("jabbim.com").show();
         } else if (c == cmdServ6_reg) {
-            new AccountForm("").show();
+            InputTextBox input = new InputTextBox(SR.get(SR.MS_SERVER), null, "server", 1000, TextField.ANY);
+            input.setNotifyListener(this);
+            input.show();
+            //new AccountForm("").show();
         } else if (c == cmdJabber) {
             new AccountForm(null, AccountForm.PROFILE_JABBER).show();
         } else if (c == cmdYaru) {
@@ -197,17 +223,17 @@ public class AccountSelect extends VirtualList implements MenuListener {
         } else if (c == cmdLogin) {
             switchAccount(true);
         } else if (c == cmdEdit) {
-            new AccountForm((Account)getFocusedObject(), -1).show();
+            new AccountForm((Account) getFocusedObject(), -1).show();
         } else if (c == cmdChangePass) {
-            new ChangePasswordForm((Account)getFocusedObject()).show();
+            new ChangePasswordForm((Account) getFocusedObject()).show();
         } else if (c == cmdRemoveAcc) {
-            new AccountRemoveForm((Account)getFocusedObject()).show();
+            new AccountRemoveForm((Account) getFocusedObject()).show();
         } else if (c == cmdDel) {
             if (midlet.BombusQD.sd.roster != null) {
                 if (cursor == midlet.BombusQD.cf.accountIndex && midlet.BombusQD.sd.roster.isLoggedIn()) {
                     return;
                 }
-                AlertBox box = new AlertBox(SR.get(SR.MS_DELETE), getFocusedObject().toString(), AlertBox.BUTTONS_YESNO)  {
+                AlertBox box = new AlertBox(SR.get(SR.MS_DELETE), getFocusedObject().toString(), AlertBox.BUTTONS_YESNO) {
                     public void yes() {
                         delAccount();
                     }
@@ -245,8 +271,9 @@ public class AccountSelect extends VirtualList implements MenuListener {
             switchAccount(true);
         }
     }
-    public void eventLongOk(){
-	showGraphicsMenu();
+
+    public void eventLongOk() {
+        showGraphicsMenu();
     }
 
     public void rmsUpdate() {

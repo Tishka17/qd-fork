@@ -58,17 +58,17 @@ public class FormField {
             label=field.getAttribute("label");
             if (label==null) label=name;
             body=field.getChildBlockText("value");
-	    hidden= type.equals("hidden");
-            if (type.equals("fixed")) {
+	    hidden= "hidden".equals(type);
+            if ("fixed".equals(type)) {
                 formItem = new MultiLine((label==null?"Label":label), body);
             }
-            else if (type.equals("boolean")) {
+            else if ("boolean".equals(type)) {
                 boolean set=false;
                 JabberDataBlock desc = field.getChildBlock("desc");
                 if (body.equals("1") || body.equals("true")) set=true;
                 formItem = new CheckBox( label + ( desc==null?"":"%"+desc.getText() ) ,set);
             }
-            else if (type.equals("list-single")) {
+            else if ("list-single".equals(type)) {
                 DropChoiceBox listsingle=new DropChoiceBox(label);
                 optionsList=null;
                 optionsList=new Vector(0);
@@ -94,7 +94,7 @@ public class FormField {
                     }
                 }
                 //[<instructions>Choose a username and password to register with this server</instructions>, <username/>, <password/>]
-            }else if (type.equals("list-multi")) {
+            }else if ("list-multi".equals("type")) {
                 DropChoiceBox listmulti=new DropChoiceBox(label);
                 optionsList=new Vector(0);
                 int size = field.getChildBlocks().size();
@@ -116,7 +116,7 @@ public class FormField {
                        formItem =  listmulti;
                     }
                 }
-            } else if (type.equals("jid-multi")) {
+            } else if ("jid-multi".equals(type)) {
                 StringBuffer jids = new StringBuffer();
                 Vector values = field.getChildBlocks();
                 if (values != null) {
@@ -131,7 +131,7 @@ public class FormField {
                 if (body.length()>=200) {
                     body=body.substring(0,198);
                 }
-                if (type.equals("text-private")) {
+                if ("text-private".equals(type)) {
                     formItem = new PasswordInput(label, body);
                 } else {
                     formItem = new TextInput(label, body, TextField.ANY);

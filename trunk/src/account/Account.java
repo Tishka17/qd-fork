@@ -93,7 +93,7 @@ public class Account extends IconTextElement {
 
     public String toString() {
         StringBuffer buf = new StringBuffer();
-        if (null != nick) {
+        if (null != nick && !"".equals(nick)) {
             buf.append(nick);
         } else {
             buf.append(username).append('@').append(server);

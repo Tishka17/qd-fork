@@ -110,7 +110,11 @@ public class AccountRegister implements JabberListener, Runnable {
 //#endif                    
                 } else {//form
                     mainbar = "...";
-                    new DiscoForm(data, theStream, "register" + System.currentTimeMillis(), "query").show();//.fetchMediaElements(data.getChildBlock("query").getChildBlocks());
+                    DiscoForm df = new DiscoForm(data, theStream, "register" + System.currentTimeMillis(), "query");
+                    df.fetchMediaElements(data.getChildBlock("query").getChildBlocks());
+                    df.setParentView(accountselect);
+                    df.show();
+                    //FIXME: закрытие стрима при отсоединении
                 }
             } else {
                 mainbar = SR.get(SR.MS_ERROR_) + XmppError.findInStanza(data).toString();

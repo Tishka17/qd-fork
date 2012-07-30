@@ -178,32 +178,26 @@ public class AccountSelect extends VirtualList implements MenuListener, InputTex
             Account acc = new Account();
             acc.setServer("jabber.ru");
             new AccountRegister(acc, this);
-            //new AccountForm("jabber.ru").show();
         } else if (c == cmdServ2_reg) {
             Account acc = new Account();
             acc.setServer("silper.cz");
             new AccountRegister(acc, this);
-            //new AccountForm("silper.cz").show();
         } else if (c == cmdServ3_reg) {
             Account acc = new Account();
             acc.setServer("jabbus.org");
             new AccountRegister(acc, this);
-            //new AccountForm("jabbus.org").show();
         } else if (c == cmdServ4_reg) {
             Account acc = new Account();
             acc.setServer("mytlt.ru");
             new AccountRegister(acc, this);
-            //new AccountForm("mytlt.ru").show();
         } else if (c == cmdServ5_reg) {
             Account acc = new Account();
             acc.setServer("jabbim.com");
             new AccountRegister(acc, this);
-            //new AccountForm("jabbim.com").show();
         } else if (c == cmdServ6_reg) {
             InputTextBox input = new InputTextBox(SR.get(SR.MS_SERVER), null, "server", 1000, TextField.ANY);
             input.setNotifyListener(this);
             input.show();
-            //new AccountForm("").show();
         } else if (c == cmdJabber) {
             new AccountForm(null, AccountForm.PROFILE_JABBER).show();
         } else if (c == cmdYaru) {

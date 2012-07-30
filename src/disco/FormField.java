@@ -27,10 +27,13 @@
 package disco;
 
 import com.alsutton.jabber.JabberDataBlock;
+import java.util.Enumeration;
 import java.util.Vector;
 import javax.microedition.lcdui.TextField;
+import ui.VirtualElement;
 import ui.controls.form.CheckBox;
 import ui.controls.form.DropChoiceBox;
+import ui.controls.form.ImageItem;
 import ui.controls.form.MultiLine;
 import ui.controls.form.PasswordInput;
 import ui.controls.form.TextInput;
@@ -46,6 +49,9 @@ public class FormField {
     public boolean instructions;
     private Vector optionsList;
     private boolean registered;
+    VirtualElement media;
+    String mediaUri;
+
 
     public FormField(JabberDataBlock field) {
         name=field.getTagName();
@@ -58,9 +64,9 @@ public class FormField {
             label=field.getAttribute("label");
             if (label==null) label=name;
             body=field.getChildBlockText("value");
-	    hidden= "hidden".equals(type);
+            hidden= "hidden".equals(type);
             if ("fixed".equals(type)) {
-                formItem = new MultiLine((label==null?"Label":label), body);
+                formItem = new MultiLine(label, body);
             }
             else if ("boolean".equals(type)) {
                 boolean set=false;
@@ -78,23 +84,21 @@ public class FormField {
                     JabberDataBlock option=(JabberDataBlock)field.getChildBlocks().elementAt(i);
                     if (option.getTagName().equals("option")) {
                         String value=option.getChildBlockText("value");
-                        String label=option.getAttribute("label");//������� �����
+                        String label=option.getAttribute("label");
 
-                        if (label==null) {//���
+                        if (label==null) {
                             label=value;
                             listsingle.append(value);
-                        }else {
+                        } else {
                             listsingle.append(label);
                         }
                         optionsList.addElement(value);
                         index++;
-                        //System.out.println("   add->"+label+"->"+value + " INDEX: "+index);
                         if (body.equals(value)) listsingle.setSelectedIndex(index);
                         formItem = listsingle;
                     }
                 }
-                //[<instructions>Choose a username and password to register with this server</instructions>, <username/>, <password/>]
-            }else if ("list-multi".equals("type")) {
+            } else if ("list-multi".equals("type")) {
                 DropChoiceBox listmulti=new DropChoiceBox(label);
                 optionsList=new Vector(0);
                 int size = field.getChildBlocks().size();
@@ -137,6 +141,9 @@ public class FormField {
                     formItem = new TextInput(label, body, TextField.ANY);
                 }
             }
+
+            media = extractMedia(field);
+
         } else {
             // not x-data
             if ( instructions=name.equals("instructions") )
@@ -148,7 +155,7 @@ public class FormField {
                 formItem =new MultiLine("Tittle", body);
 
             else if ( name.equals("registered") ) {
-		registered=true;
+                registered=true;
                 formItem =new CheckBox("Remove registration",false);
             }
             else{
@@ -207,5 +214,33 @@ public class FormField {
         }
         return j;
     }
+
+    private VirtualElement extractMedia(JabberDataBlock field) {
+        try {
+            JabberDataBlock m = field.findNamespace("media", "urn:xmpp:media-element");
+            if (m == null) {
+                return null;
+            }
+
+            for (Enumeration e = m.getChildBlocks().elements(); e.hasMoreElements();) {
+                JabberDataBlock u = (JabberDataBlock) e.nextElement();
+                if (u.getTagName().equals("uri")) {
+                    if (!u.getTypeAttribute().startsWith("image")) {
+                        continue;
+                    }
+                    mediaUri = u.getText();
+                    return new ImageItem(null, "[Loading Image]");
+                }
+            }
+
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
+
 }
+
+
+
 //#endif

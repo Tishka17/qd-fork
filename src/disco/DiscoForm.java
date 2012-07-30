@@ -104,14 +104,12 @@ public class DiscoForm extends DefForm {
                 }
             }       
         }
-
         if (childName.equals("command")) {
             if (query.getAttribute("status").equals("completed")) {
                 itemsList.addElement(new SimpleString("Complete.",true));
                 isExecutable = false;
             }
         }
-        
         fetchMediaElements(query.getChildBlocks());
     }
 
@@ -121,14 +119,14 @@ public class DiscoForm extends DefForm {
             destroyView();
         }
     }
-
+    
     public String touchLeftCommand() {
         if (!isExecutable) {
             return null;
         }
         return super.touchLeftCommand();
-    }
-
+    } 
+    
     private void sendForm(String id){
         JabberDataBlock req=new Iq(service, Iq.TYPE_SET, id);
         JabberDataBlock qry=req.addChildNs(childName, xmlns);
@@ -196,6 +194,18 @@ public class DiscoForm extends DefForm {
                 }
             }
         }
+    }
+    
+    public String getValue(String name) {
+        int len = fields.size();
+        FormField f;
+        for (int i=0;i<len;i++) {
+            f = (FormField)fields.elementAt(i);
+            if (name.equals(f.getName())) {
+                return f.getValue();
+            }
+        }
+        return null;
     }
 }
                  

@@ -25,7 +25,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-
 //#ifdef ADHOC
 package account;
 
@@ -39,10 +38,11 @@ import locale.SR;
 import ui.SplashScreen;
 import ui.VirtualList;
 import xmpp.XmppError;
+import ui.controls.AlertBox;
 
 public class AccountRegister implements JabberListener, Runnable {
-    private static final long DELAY = 1000L;
 
+    private static final long DELAY = 1000L;
     private final AccountSelect accountselect;
     private final Account raccount;
     private JabberStream theStream;
@@ -74,7 +74,8 @@ public class AccountRegister implements JabberListener, Runnable {
             splash.setFailed();
             try {
                 Thread.sleep(DELAY);
-            } catch (InterruptedException ie) {}
+            } catch (InterruptedException ie) {
+            }
             splash.destroyView();
         }
     }
@@ -106,32 +107,36 @@ public class AccountRegister implements JabberListener, Runnable {
                     splash.setParentView(accountselect);
                     theStream.close();
                     accountselect.show();
-//#ifdef POPUPS
-                VirtualList.setWobble(3, null, mainbar);
-//#endif                    
+                    raccount.setUserName(form.getValue("username"));
+                    raccount.setPassword(form.getValue("password"));
+                    accountselect.addAccount(raccount);
+                    accountselect.rmsUpdate();
+                    AlertBox ab = new AlertBox(SR.get(SR.MS_REGISTER), "Registrtion successfull. Would you like to login?", AlertBox.BUTTONS_YESNO) {
+                        public void cmdYes() {accountselect.switchAccount(true);}
+                    };
+                    ab.show();
                 } else {//form
-                    mainbar = "...";
-                    form = new DiscoForm(data, theStream, "register" + System.currentTimeMillis(), "query");
-                    form.setParentView(accountselect);
+                    mainbar = SR.get(SR.MS_REGISTERING);
+                    form = new DiscoForm(data, theStream, "register" + System.currentTimeMillis(), "query") {
+                        public void cmdCancel() { setParentView(accountselect); theStream.close(); super.cmdCancel(); }
+                    };
                     form.show();
-                    //FIXME: закрытие стрима при отсоединении
                 }
             } else {
                 mainbar = SR.get(SR.MS_ERROR_) + XmppError.findInStanza(data).toString();
                 splash.setParentView(accountselect);
-                accountselect.show();
                 theStream.close();
-
 //#ifdef POPUPS
                 VirtualList.setWobble(3, null, mainbar);
 //#endif
+                accountselect.show();
             }
-            
+
             splash.setProgress(mainbar, 100);
             /*try {
-                Thread.sleep(DELAY);
-            } catch (InterruptedException ie) {}
-            splash.destroyView();*/
+             Thread.sleep(DELAY);
+             } catch (InterruptedException ie) {}
+             splash.destroyView();*/
         }
         return JabberBlockListener.BLOCK_PROCESSED;
     }

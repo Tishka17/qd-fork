@@ -146,27 +146,31 @@ public class FormField {
 
         } else {
             // not x-data
-            if ( instructions=name.equals("instructions") )
-
+            if (instructions=name.equals("instructions")) {
                 formItem =new MultiLine("Instructions", body);
-
-            else if ( name.equals("title") )//jud.jabber.ru
-
+            } else if ( name.equals("title") ) {//jud.jabber.ru
                 formItem =new MultiLine("Tittle", body);
-
-            else if ( name.equals("registered") ) {
+            } else if ( name.equals("registered") ) {
                 registered=true;
                 formItem =new CheckBox("Remove registration",false);
-            }
-            else{
+            } else if (name.equals("password")) {
+               formItem = new PasswordInput(label, body);
+            } else {
                 formItem =new TextInput(label, body, TextField.ANY);
             }
         }
-        if (name!=null)
-        if ( name.equals("key") ) hidden=true;
+        if ("key".equals(name)) {
+            hidden=true;
+        } 
     }
 
-
+    public String getName() {
+        return name;
+    }
+    public String getValue() {
+        if (formItem instanceof TextInput) return ((TextInput)formItem).getValue();
+        else return null;
+    }
     public JabberDataBlock constructBlock(){
         if (formItem instanceof MultiLine) {
             return null;

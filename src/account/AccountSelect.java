@@ -163,6 +163,7 @@ public class AccountSelect extends VirtualList implements MenuListener
 
     public void addAccount(Account a) {
         accountList.addElement(a);
+        cursor = accountList.size()-1;
     }
 
     public VirtualElement getItemRef(int Index) {
@@ -256,7 +257,7 @@ public class AccountSelect extends VirtualList implements MenuListener
         redraw();
     }
 
-    private void switchAccount(boolean login) {
+    public void switchAccount(boolean login) {
         midlet.BombusQD.cf.accountIndex = cursor;
         midlet.BombusQD.cf.saveInt();
         Account.loadAccount(login, cursor, status);

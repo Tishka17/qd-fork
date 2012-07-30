@@ -26,6 +26,7 @@
  *
  */
 
+//#ifdef ADHOC
 package account;
 
 import com.alsutton.jabber.JabberBlockListener;
@@ -37,7 +38,6 @@ import disco.DiscoForm;
 import locale.SR;
 import ui.SplashScreen;
 import ui.VirtualList;
-import ui.controls.PopUp;
 import xmpp.XmppError;
 
 public class AccountRegister implements JabberListener, Runnable {
@@ -47,6 +47,7 @@ public class AccountRegister implements JabberListener, Runnable {
     private final Account raccount;
     private JabberStream theStream;
     private final SplashScreen splash;
+    private DiscoForm form;
 
     public AccountRegister(Account account, AccountSelect accountselect) {
         this.accountselect = accountselect;
@@ -110,10 +111,9 @@ public class AccountRegister implements JabberListener, Runnable {
 //#endif                    
                 } else {//form
                     mainbar = "...";
-                    DiscoForm df = new DiscoForm(data, theStream, "register" + System.currentTimeMillis(), "query");
-                    df.fetchMediaElements(data.getChildBlock("query").getChildBlocks());
-                    df.setParentView(accountselect);
-                    df.show();
+                    form = new DiscoForm(data, theStream, "register" + System.currentTimeMillis(), "query");
+                    form.setParentView(accountselect);
+                    form.show();
                     //FIXME: закрытие стрима при отсоединении
                 }
             } else {
@@ -136,3 +136,5 @@ public class AccountRegister implements JabberListener, Runnable {
         return JabberBlockListener.BLOCK_PROCESSED;
     }
 }
+
+//#endif

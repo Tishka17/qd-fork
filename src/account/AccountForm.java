@@ -25,31 +25,30 @@
  * along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package account;
 
 import java.util.Random;
 import javax.microedition.lcdui.TextField;
 import locale.SR;
-import ui.controls.form.CheckBox;
 import ui.controls.form.DropChoiceBox;
 import ui.controls.form.DefForm;
 import ui.controls.form.LinkString;
 import ui.controls.form.NumberInput;
 import ui.controls.form.TextInput;
-import ui.controls.form.PasswordInput;
 import ui.MainBar;
+import ui.controls.form.CheckBox;
 import ui.controls.form.SpacerItem;
 //#ifdef CLIPBOARD
 import util.ClipBoard;
 //#endif
 
 public class AccountForm extends DefForm {
+
     private TextInput fulljid;
     private TextInput passbox;
     private TextInput ipbox;
     private NumberInput portbox;
-    private TextInput nickbox=null;
+    private TextInput nickbox = null;
     private CheckBox sslbox;
     private CheckBox plainPwdbox;
     private CheckBox compressionBox;
@@ -69,13 +68,9 @@ public class AccountForm extends DefForm {
     private Account account;
     private boolean newaccount;
     private boolean showExtended;
-
     private LinkString insertpass;
     private int type_profile = -1;
-    boolean register = false;
     boolean createSimpleAddForm = false;
-    private String serverReg = "";
-
     public static final byte PROFILE_JABBER = 1;
     public static final byte PROFILE_YANDEX = 2;
     public static final byte PROFILE_GTALK_SSL = 3;
@@ -84,22 +79,12 @@ public class AccountForm extends DefForm {
     public static final byte PROFILE_GTALK_HTTPS = 6;
     public static final byte PROFILE_VKONTAKTE = 7;
     public static final byte PROFILE_ODNOKLASSNIKI = 8;
-
     private String uid;
 
+
     public AccountForm(Account account, int type_profile) {
-        this(account, type_profile, false, null);
-    }
-
-    public AccountForm(String regServer) {
-        this(null, 1, true, regServer);
-    }
-
-    public AccountForm(Account account, int type_profile, boolean register, String serverReg) {
         super(null);
         this.type_profile = type_profile;
-        this.register = register;
-        this.serverReg = serverReg;
 
         newaccount = (account == null);
         if (newaccount) {
@@ -107,21 +92,16 @@ public class AccountForm extends DefForm {
         }
         this.account = account;
 
-        if (register) {
-            setMainBarItem(new MainBar(SR.get(SR.MS_REGISTER)));
+        if (newaccount) {
+            setMainBarItem(new MainBar(SR.get(SR.MS_NEW_ACCOUNT)));
         } else {
-            if (newaccount) {
-                setMainBarItem(new MainBar(SR.get(SR.MS_NEW_ACCOUNT)));
-            } else {
-                setMainBarItem(new MainBar(this.account.toString()));
-            }
+            setMainBarItem(new MainBar(this.account.toString()));
         }
 
-        String server = register ? serverReg : "";
+        String server = "";
         String password = account.getPassword();
         int port_box = 5222;
 
-        if (!register) {
             switch (type_profile) {
                 case -1:
                     server = account.getServer();
@@ -150,12 +130,8 @@ public class AccountForm extends DefForm {
                 default:
                     break;
             }
-        } else {
-            password = generate();
-        }
 
         StringBuffer uidBuffer = new StringBuffer(0);
-        if (register == false) {
             String res = account.getResource();
             String uname = account.getUserName();
             if (uname.length() > 0) {
@@ -167,38 +143,20 @@ public class AccountForm extends DefForm {
             if (res.length() > 0 && res.indexOf(info.Version.NAME) == -1) {
                 uidBuffer.append('/').append(account.getResource());
             }
-        } else {
-            uidBuffer.append('@').append(server);
-        }
-        uid=uidBuffer.toString();
-        uidBuffer=null;
+        uid = uidBuffer.toString();
+        uidBuffer = null;
         fulljid = new TextInput(SR.get(SR.MS_USER_PROFILE) + "(JID)", uid, TextField.ANY);
-        
+
         addControl(fulljid);
 
-        if (register) {
-            passbox = new TextInput(SR.get(SR.MS_PASSWORD), password, TextField.ANY);
-        } else {
-            passbox = new PasswordInput(SR.get(SR.MS_PASSWORD), password);
-        }        
+        passbox = new TextInput(SR.get(SR.MS_PASSWORD), password, TextField.ANY);
         addControl(passbox);
-       // 
+        // 
 
-        createSimpleAddForm = (null == serverReg && newaccount);//true if add,false if edit
-        if(createSimpleAddForm==false && register == false){
+        createSimpleAddForm = newaccount;//true if add,false if edit
+        if (createSimpleAddForm == false) {
             nickbox = new TextInput(SR.get(SR.MS_NICKNAME), account.getNick(), TextField.ANY);
             addControl(nickbox);
-
-        }
-
-        if (register) {
-            addControl(new LinkString(SR.get(SR.MS_GENERATE) + " " + SR.get(SR.MS_PASSWORD))   {
-                public void doAction() {
-                    passbox.setValue(generate());
-                }
-            });
-            
-            addControl(new SpacerItem(5));
         }
 
         portbox = new NumberInput(SR.get(SR.MS_PORT), port_box, 0, 65535);
@@ -213,7 +171,7 @@ public class AccountForm extends DefForm {
 
 //#ifdef CLIPBOARD
         if (!ClipBoard.isEmpty() && ClipBoard.getClipBoard().startsWith("!")) {
-            insertpass = new LinkString(SR.get(SR.MS_INSERT_NEW_PASSWORD))   {
+            insertpass = new LinkString(SR.get(SR.MS_INSERT_NEW_PASSWORD)) {
                 public void doAction() {
                     passbox.setValue(ClipBoard.getClipBoard().substring(1));
                     itemsList.removeElement(insertpass);
@@ -227,18 +185,10 @@ public class AccountForm extends DefForm {
         }
 //#endif
 
-        if (!register) {
-            showExtended();
-        }
+        showExtended();
     }
 
     protected void beginPaint() {
-        if (null == serverReg) {
-            return;
-        }
-        if (!register || 0 == serverReg.length()) {
-            return;
-        }
         if (null != nickbox) {
             String value = nickbox.getValue();
             if (0 != value.length()) {
@@ -249,14 +199,13 @@ public class AccountForm extends DefForm {
             }
         }
     }
-
     private static final int PASSWORD_LEN = 9;
 
     private String generate() {
         StringBuffer sb = new StringBuffer(0);
         Random rand = new Random();
 
-        char[] chars = { '%',
+        char[] chars = {'%',
             'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',
             'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z',
             'x', 'c', 'v', 'b', 'n', 'm', 'Q', 'W', 'E', 'R',
@@ -266,7 +215,7 @@ public class AccountForm extends DefForm {
             '8', '9'};
 
         for (int i = 0; i < PASSWORD_LEN; ++i) {
-            int index = Math.abs(rand.nextInt()%chars.length);
+            int index = Math.abs(rand.nextInt() % chars.length);
             sb.append(chars[index]);
         }
 
@@ -291,7 +240,7 @@ public class AccountForm extends DefForm {
                 ip_box = "";
                 sslbox_ = false;
                 plainPwdbox_ = false;
-                compressionBox_ = !register;//true;
+                compressionBox_ = true;
                 break;
             case PROFILE_YANDEX:
                 ip_box = "xmpp.yandex.ru";
@@ -392,13 +341,13 @@ public class AccountForm extends DefForm {
     public void cmdOk() {
         String value = fulljid.getValue().trim();
         String pass = passbox.getValue();
-        
+
 
         int indexPr = value.indexOf('@') + 1;
         int indexRes = value.indexOf('/') + 1;
         int indexRes_ = value.indexOf('\"') + 1;
 
-        String nick = null == nickbox ? null :nickbox.getValue() ;
+        String nick = null == nickbox ? null : nickbox.getValue();
 
         if (indexPr < 1 || pass.length() == 0) {
             return;
@@ -449,16 +398,12 @@ public class AccountForm extends DefForm {
         }
 
         if (newaccount) {
-            ((AccountSelect)getParentView()).addAccount(account);
+            ((AccountSelect) getParentView()).addAccount(account);
             newaccount = false;
             newaccount = false;
         }
-        ((AccountSelect)getParentView()).rmsUpdate();
-        if (!register) {
-            destroyView();
-            account = null;
-        } else {
-            new AccountRegister(account, (AccountSelect)getParentView());
-        }
+        ((AccountSelect) getParentView()).rmsUpdate();
+        destroyView();
+        account = null;
     }
 }

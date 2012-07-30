@@ -43,18 +43,22 @@ import ui.VirtualList;
 import ui.input.InputTextBox;
 import ui.input.InputTextBoxNotify;
 
-public class AccountSelect extends VirtualList implements MenuListener, InputTextBoxNotify {
+public class AccountSelect extends VirtualList implements MenuListener
+//#ifdef ADHOC
+, InputTextBoxNotify 
+//#endif
+{
 
     private final Vector accountList;
     private final int activeAccount;
     private final Command cmdLogin;
+//#ifdef ADHOC    
     private final Command cmdRegister;
     private final Command cmdServ1_reg = new Command("Jabber.ru", 0x86);
-    private final Command cmdServ2_reg = new Command("Silper.cz", 0x86);
-    private final Command cmdServ3_reg = new Command("Jabbus.org", 0x86);
     private final Command cmdServ4_reg = new Command("Mytlt.ru", 0x86);
     private final Command cmdServ5_reg = new Command("Jabbim.com", 0x86);
     private final Command cmdServ6_reg = new Command("Other", 0x86);
+//#endif
     private final Command cmdAdd;
     private final Command cmdJabber = new Command("Jabber", 0x90);
     private final Command cmdYaru = new Command("Yandex.ru", 0x91);
@@ -73,7 +77,9 @@ public class AccountSelect extends VirtualList implements MenuListener, InputTex
     public AccountSelect(int status) {
         super();
         cmdLogin = new Command(SR.get(SR.MS_SELLOGIN), 0x50);
+//#ifdef ADHOC
         cmdRegister = new Command(SR.get(SR.MS_REGISTERING), 0x42);
+//#endif
         cmdAdd = new Command(SR.get(SR.MS_NEW_ACCOUNT), 0x42);
         cmdEdit = new Command(SR.get(SR.MS_EDIT), 0x40);
         cmdDel = new Command(SR.get(SR.MS_DELETE), 0x41);
@@ -133,13 +139,13 @@ public class AccountSelect extends VirtualList implements MenuListener, InputTex
         addInCommand(1, cmdQip);
         addInCommand(1, cmdVk);
         addInCommand(1, cmdOk);
-
+//#ifdef ADHOC
         addCommand(cmdRegister);
         addInCommand(2, cmdServ1_reg);
         addInCommand(2, cmdServ4_reg);
         addInCommand(2, cmdServ5_reg);
         addInCommand(2, cmdServ6_reg);
-
+//#endif
         if (!accountList.isEmpty()) {
             addCommand(cmdEdit);
             addCommand(cmdLogin);
@@ -166,25 +172,20 @@ public class AccountSelect extends VirtualList implements MenuListener, InputTex
     protected int getItemCount() {
         return accountList.size();
     }
-
+    
+//#ifdef ADHOC
     public void okNotify(String text) {
         Account acc = new Account();
         acc.setServer(text);
         new AccountRegister(acc, this);
     }
-
+//#endif
+    
     public void commandAction(Command c) {
+//#ifdef ADHOC
         if (c == cmdServ1_reg) {
             Account acc = new Account();
             acc.setServer("jabber.ru");
-            new AccountRegister(acc, this);
-        } else if (c == cmdServ2_reg) {
-            Account acc = new Account();
-            acc.setServer("silper.cz");
-            new AccountRegister(acc, this);
-        } else if (c == cmdServ3_reg) {
-            Account acc = new Account();
-            acc.setServer("jabbus.org");
             new AccountRegister(acc, this);
         } else if (c == cmdServ4_reg) {
             Account acc = new Account();
@@ -198,7 +199,9 @@ public class AccountSelect extends VirtualList implements MenuListener, InputTex
             InputTextBox input = new InputTextBox(SR.get(SR.MS_SERVER), null, "server", 1000, TextField.ANY);
             input.setNotifyListener(this);
             input.show();
-        } else if (c == cmdJabber) {
+        } else 
+//#endif    
+        if (c == cmdJabber) {
             new AccountForm(null, AccountForm.PROFILE_JABBER).show();
         } else if (c == cmdYaru) {
             new AccountForm(null, AccountForm.PROFILE_YANDEX).show();

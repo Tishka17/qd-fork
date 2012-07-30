@@ -111,6 +111,8 @@ public class DiscoForm extends DefForm {
                 isExecutable = false;
             }
         }
+        
+        fetchMediaElements(query.getChildBlocks());
     }
 
     public void cmdOk() {
@@ -157,8 +159,7 @@ public class DiscoForm extends DefForm {
                 cform.addChild(ch);
             }else{
             }
-        }        
-        //System.out.println("SEND: "+req.toString());
+        }
         //if (listener!=null) stream.addBlockListener(listener);
         stream.send(req);
         req = null;

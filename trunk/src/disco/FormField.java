@@ -229,7 +229,7 @@ public class FormField {
                         continue;
                     }
                     mediaUri = u.getText();
-                    return new ImageItem(null, "[Loading Image]");
+                    return new ImageItem(null, "[Image]");
                 }
             }
 

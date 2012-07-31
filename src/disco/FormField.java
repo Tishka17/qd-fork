@@ -49,6 +49,7 @@ public class FormField {
     public boolean instructions;
     private Vector optionsList;
     private boolean registered;
+    private boolean non_x_data;
     VirtualElement media;
     String mediaUri;
 
@@ -59,6 +60,7 @@ public class FormField {
         String body=field.getText();
 
         if (name.equals("field")) {
+            non_x_data = false;
             type=field.getTypeAttribute();
             name=field.getAttribute("var");
             label=field.getAttribute("label");
@@ -145,6 +147,7 @@ public class FormField {
             media = extractMedia(field);
 
         } else {
+            non_x_data = true;
             // not x-data
             if (instructions=name.equals("instructions")) {
                 formItem =new MultiLine("Instructions", body);
@@ -178,14 +181,15 @@ public class FormField {
         
         JabberDataBlock j = null;
         if (formItem instanceof TextInput) {
-            if (type==null) {
+            if (non_x_data) {
                 j=new JabberDataBlock(null, name, ((TextInput)formItem).toString());
             } else {
                 j=new JabberDataBlock("field", null, null);
                 j.setAttribute("var", name);
-                j.setAttribute("type", type);
+                if (type!=null)
+                    j.setAttribute("type", type);
                 String value = ((TextInput) formItem).getValue();
-                if (type.equals("jid-multi")) {
+                if ("jid-multi".equals(type)) {
                     Vector jids = StringUtils.split(value, '\n');
                     for (int i = 0; i < jids.size(); i++) {
                         j.addChild("value", (String)jids.elementAt(i));
@@ -206,10 +210,11 @@ public class FormField {
             //only x:data
                 j=new JabberDataBlock("field", null, null);
                 j.setAttribute("var", name);
-                j.setAttribute("type", type);
+                if (type!=null)
+                    j.setAttribute("type", type);
                 if (optionsList==null) {
                     j.addChild("value", ((CheckBox)formItem).getValue()==true?"1":"0");
-                } else if (type.equals("list-multi")) {
+                } else if ("jid-multi".equals(type)) {
                      j.addChild("value", (String)optionsList.elementAt(((DropChoiceBox)formItem).getSelectedIndex()));
                 } else  {
                     int index=((DropChoiceBox)formItem).getSelectedIndex();

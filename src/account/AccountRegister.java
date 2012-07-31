@@ -112,7 +112,7 @@ public class AccountRegister implements JabberListener, Runnable {
                     accountselect.addAccount(raccount);
                     accountselect.rmsUpdate();
                     AlertBox ab = new AlertBox(SR.get(SR.MS_REGISTER), "Registrtion successfull. Would you like to login?", AlertBox.BUTTONS_YESNO) {
-                        public void cmdYes() {accountselect.switchAccount(true);}
+                        public void yes() {accountselect.switchAccount(true);}
                     };
                     ab.show();
                 } else {//form

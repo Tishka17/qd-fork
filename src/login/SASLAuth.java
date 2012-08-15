@@ -47,13 +47,14 @@ import util.Strconv;
  * @author evgs
  */
 public class SASLAuth implements JabberBlockListener{
-    
 
     private LoginListener listener;
     private Account account;
+    private SASL_ScramSha1 scramSHA1;
     
     /** Creates a new instance of SASLAuth */
     public SASLAuth(Account account, LoginListener listener) {
+        
         this.listener=listener;
         this.account=account;
         JabberStream stream=midlet.BombusQD.sd.roster.theStream;
@@ -108,12 +109,17 @@ public class SASLAuth implements JabberBlockListener{
                 JabberDataBlock auth=new JabberDataBlock("auth", null,null);
                 auth.setNameSpace("urn:ietf:params:xml:ns:xmpp-sasl");
                 
+                if (mech.getChildBlockByText("SCRAM-SHA-1")!=null && !account.getPlainAuth()) {
+                    auth.setAttribute("mechanism", "SCRAM-SHA-1");
+                    scramSHA1 = new SASL_ScramSha1();
+                    auth.setText(util.Strconv.toBase64(scramSHA1.init(account.getBareJid(), account.getPassword())));
+                    stream.send(auth);
+                    listener.loginMessage(SR.get(SR.MS_AUTH), 42);
+                    return JabberBlockListener.BLOCK_PROCESSED;
+                }
                 // DIGEST-MD5 mechanism
                 if (mech.getChildBlockByText("DIGEST-MD5")!=null && !account.getPlainAuth()) {
                     auth.setAttribute("mechanism", "DIGEST-MD5");
-                    
-                    //System.out.println(auth.toString());
-                    
                     stream.send(auth);
                     listener.loginMessage(SR.get(SR.MS_AUTH), 42);
                     return JabberBlockListener.BLOCK_PROCESSED;
@@ -124,25 +130,18 @@ public class SASLAuth implements JabberBlockListener{
                 if (mech.getChildBlockByText("X-GOOGLE-TOKEN")!=null  && token!=null) {
                     auth.setAttribute("mechanism", "X-GOOGLE-TOKEN");
                     auth.setText(token);
-                    
-                    //System.out.println(auth.toString());
-                    
                     stream.send(auth);
                     listener.loginMessage(SR.get(SR.MS_AUTH), 42);
-                    return JabberBlockListener.BLOCK_PROCESSED;
-                    
+                    return JabberBlockListener.BLOCK_PROCESSED;    
                 }
 //#endif
 
                 if (mech.getChildBlockByText("PLAIN")!=null) {
-
                     if (!account.getPlainAuth()) {
                         listener.loginFailed("SASL: Plain auth required");
                         return JabberBlockListener.NO_MORE_BLOCKS;
                     }
-                    
                     auth.setAttribute("mechanism", "PLAIN");
-
                     try {
                         byte []a = account.getBareJid().getBytes("utf-8");
                         byte []b = account.getUserName().getBytes("utf-8");
@@ -197,26 +196,26 @@ public class SASLAuth implements JabberBlockListener{
             // first stream - step 2,3. reaction to challenges
             
             String challenge=decodeBase64(data.getText());
-            //System.out.println(challenge);
             
             JabberDataBlock resp=new JabberDataBlock("response", null, null);
             resp.setNameSpace("urn:ietf:params:xml:ns:xmpp-sasl");
-            
-            int nonceIndex=challenge.indexOf("nonce=");
-                // first stream - step 2. generating DIGEST-MD5 response due to challenge
-            if (nonceIndex>=0) {
-                nonceIndex+=7;
-                String nonce=challenge.substring(nonceIndex, challenge.indexOf('\"', nonceIndex));
-                String cnonce="123456789abcd";
-                
-                resp.setText(responseMd5Digest(
-                        account.getUserName(),
-                        account.getPassword(),
-                        account.getServer(),
-                        "xmpp/"+account.getServer(),
-                        nonce,
-                        cnonce ));
-                //System.out.println(resp.toString());
+            if (scramSHA1!=null) {
+                resp.setText(Strconv.toBase64(scramSHA1.response(challenge)));
+            } else {
+                int nonceIndex=challenge.indexOf("nonce=");
+                    // first stream - step 2. generating DIGEST-MD5 response due to challenge
+                if (nonceIndex>=0) {
+                    nonceIndex+=7;
+                    String nonce=challenge.substring(nonceIndex, challenge.indexOf('\"', nonceIndex));
+                    String cnonce="123456789abcd";
+                    resp.setText(responseMd5Digest(
+                            account.getUserName(),
+                            account.getPassword(),
+                            account.getServer(),
+                            "xmpp/"+account.getServer(),
+                            nonce,
+                            cnonce ));
+                }
             }
                 // first stream - step 3. sending second empty response due to second challenge
             //if (challenge.startsWith("rspauth")) {}
@@ -254,6 +253,11 @@ public class SASLAuth implements JabberBlockListener{
             // first stream - step 4a. not authorized
             listener.loginFailed( XmppError.decodeSaslError(data).toString() );
         } else if ( data.getTagName().equals("success")) {
+            if (scramSHA1!=null) {
+                if (!scramSHA1.success(new String(Strconv.fromBase64(data.getText())))) {
+                    listener.loginFailed("Server answer not valid");
+                }
+            }
             // first stream - step 4b. success.
             try {
                 stream.initiateStream();
@@ -284,7 +288,7 @@ public class SASLAuth implements JabberBlockListener{
         return JabberBlockListener.BLOCK_REJECTED;
     }
     
-    private String decodeBase64(String src)  {
+    public static String decodeBase64(String src)  {
         int len=0;
         int ibuf=1;
         StringBuffer out=new StringBuffer(0);

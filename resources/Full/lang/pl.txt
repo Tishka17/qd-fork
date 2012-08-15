@@ -31,7 +31,7 @@ Connect to 	Łączę z
 Alert Profile	Profil dźwięku
 Move Up	Przenieś w górę
 Owners	Właściciele
-Ok	ОК
+Ok	Ok
 Minimize	Minimalizuj
 Room	Pokój
 Messages	Wiadomości
@@ -108,14 +108,15 @@ Add	Dodaj
 Logon	Włącz 
 Stanzas	Szczegół
 at Host	na Serwerze
-join conferences	Automatyczne wejście do konferencji 
+join conferences	Automatyczne wejście do konferencji
+Delete contacts, who leave MUC	Wyczyść kontakty po wyjściu z konferencji
 Status	Status 
 Smiles	Emotikony 
 Contact >	Kontakt > 
 offline contacts	Rozłączone kontakty 
 Transport	Transport
 composing events	Informacja komponowania 
-Add Smile	Dodaj emotikonę 
+Add Smile	Dodaj emotkę 
 Nickname	Nick 
 Revoke Voice	Odbierz głos 
 Not-in-list	Spoza listy 
@@ -149,7 +150,7 @@ Kick	Wyrzuć
 Remove readed	Usuń przeczytane
 Grant Voice	Daj głos
 Move Down	Przesuń w dół
-Quote	Edytuj
+Quote	Cytuj
 Roster elements	Elementy rostera 
 popup from background	Maksymalizuj gdy nowa wiadomość 
 smiles	Emotikony 
@@ -163,13 +164,14 @@ for all status types	Dla wszystkich typów statusu
 Paste Jid	Wklej JID 
 Goto URL	Idź do linku
 Clock offset	Różnica zegara
+Contact's offset	Rozmiar przesunięcia listy kontaktów w prawo
 Yes	Tak
 Suspend	Przerwij
 Alert Profile >	Profil dźwięku >
 My vCard	Moja Wizytówka
 transports	Transporty
-Add Profile	Dodaj profil>
-self-contact	własny kontakt
+Add Profile	Dodaj profil
+self-contact	Własny kontakt
 vCard	Katalog publiczny 
 Set Subject	Ustaw temat
 Port	Port
@@ -214,21 +216,21 @@ convert to cp1251	Konwertuj do cp1251
 History folder	Folder historii
 Copy	Kopiuj 
 Paste	Wklej 
-Save template	Do Notatek 
+Save template	Do notatek 
 Template	Notatki
-has set topic to	ustawił temat na:
+has set topic to	ustawił temat na
 Seen	Aktywny
 Idle	Bezczynny
 Main menu	Menu
-Choose status	Wybierz Status 
-Add status	Dodaj Status 
-Remove status	Usuń Status 
+Choose status	Wybierz status 
+Add status	Dodaj status 
+Remove status	Usuń status 
 Address	Adres
 Make BackUp	Zapisz archiwum (BackUp)
 Import from BackUp	Importuj zapisane archiwum (BackUp)
 View	Podgląd 
 Stop	Zatrzymaj 
-File transfers	Transfer Plików
+File transfers	Transfer plików
 Path	Przeglądaj 
 Accept file	Akceptuj plik
 File	Plik: 
@@ -240,8 +242,8 @@ Can't open file	Nie można otworzyć pliku
 New	Nowa
 New Template	Nowa notatka
 Save photo	Zapisz zdjęcie
-balloon ink	Czcionka dymku 
-balloon background	Tło dymku 
+balloon ink	Czcionka chmurki 
+balloon background	Tło chmurki
 messagelist & roster background	Lista, Roster, Tło 
 messagelist & roster even lines	Kolejna wiadomość 
 messagelist & roster & common font	Czcionka kolumny 
@@ -255,7 +257,8 @@ contact chat	Kontakt Czat
 contact away	Kontakt Oddalony 
 contact extended away	Kontakt Zaraz wracam 
 contact do not disturb	Kontakt Niedostępny
-group color	Kolor grupy 
+group color	Kolor grupy
+Nick colors	Własny kolor nicków
 keylock font	Kolor czcionki blokady klawiatury 
 keylock background	Tło blokady klawiatury 
 message incoming	Wiadomość przychodząca 
@@ -263,23 +266,25 @@ message outgoing	Wiadomość wychodząca
 message presence	Wiadomość obecności 
 message auth	Wiadomość autoryzacji 
 message history	Wiadomość historii 
-progress bar remained	W trakcie początek 
-progress bar complete	W trakcie koniec 
-progress bar font	W trakcie czcionka
+progress bar remained	Pasek postępu: początek 
+progress bar complete	Pasek postępu: koniec 
+progress bar font	Pasek postępu: czcionka
+Group gradient 1 and Heap mon total	Gradient grup 1 i pamięć razem
+Group gradient 2 and Heap mon free	Gradient grup 2 i wolna pamięć
 Heap mon total	Monitor pamięci pełny
 Heap mon free	Monitor pamięci wolny
 Cursor background	Tło kursora
 Cursor ink & outline	Czcionka i ramka kursora
-Scroll border	Pasek obraz
-Scroll bar	Pasek baneru
-Scroll back	Pasek powrót
+Scroll border	Scroll: obramowanie
+Scroll bar	Scroll: kolor
+Scroll back	Scroll: tło
 other message incoming	Inna wiadomość przychodząca
 other message outgoing	Inna wiadomość wychodząca
 other message presence	Inna wiadomość statusu
-Popup font	Czcionka popUp
-Popup background	Tło popUp
-Popup system font	Czcionka system popUp
-Popup system background	Tło system popUp
+Popup font	Czcionka popup
+Popup background	Tło popup
+Popup system font	Czcionka system popup
+Popup system background	Tło system popup
 Contact status font	Czcionka kontaktu - status
 Control color	Kolor kontrolki
 Gradient_Background_left color	Gradient - lewy
@@ -311,11 +316,13 @@ Minutes before away	Czas włączenia autostatusu (min)
 Automatic Away	Auto odejście
 disabled	Wyłączony
 keyblock	Blokada klawiatury
+Unlock keyboard	Odblokuj klawiaturę
 by message	Od ostatniej wiadomosci
 AutoStatus	AutoStatus
 AutoStatus time (min)	AutoStatus czas (min)
-Auto xa since %t	AutoStatus Zaraz Wracam od %t
+Auto xa since %t	AutoStatus zaraz wracam od %t
 Auto away since %t	AutoStatus oddalony od %t
+Auto Status on KeyLock since	AutoStatus z powodu blokady klawiatury od
 autofocus	Autopodświetlenie nowej wiadomości
 Grant Membership	Daj Członkowstwo
 Are You sure want to clear messagelist?	Czy jesteś pewien, aby usunąć listę wiadomości?
@@ -332,13 +339,27 @@ Initiating session	Inicjowanie sesji
 Text wrapping	Zawijanie tekstu
 by chars	Przez znaki
 by words	Przez słowa
+Loading	Wczytywanie
+Warning!	Uwaga!
+Gateway	Transport
+will be replaced by one from the list of online gateways for all JIDs in your roster (please logoff old gateway to avoid damaging contact list of your guest IM account)	zostanie zastąpiony przez nowy transport dla wszystkich adresów JID (proszę wylogować stare trasporty, aby uniknąć problemów w przyszłości).
+Date	Data
+Message edit	Edycja wiadomości
+Current version	Moja wersja
+Last version	Wersja na serwerze
+is multikey	Dwa klawisze
+second key	Drugi klawisz
+pageLeft	w lewo
+pageRight	w prawo
+Restore from background	Przywróć z tła
 Info	Info
 Reply	Odpisz
 Send status	Wyślij status
 Are you sure want to BAN this person?	Czy napewno chcesz zablokować tą osobę?
 No reason	Bez powodu
+Next	następny
 Recent	Poprzednie
-Shot	Strzał :D
+Shot	Zrób zdjęcie
 Select file	Wybierz plik
 Load Photo	Wybierz zdjęcie
 Clear Photo	Usuń zdjęcie
@@ -362,9 +383,11 @@ Auto translit2Cyr	AutoTransliteruj do Cyr
 Check Updates	Aktualizacja
 Show Resources	Pokaż zasób
 Collapsed groups	Zwijanie grup
+Collapse all groups	Zwijanie wszystkich grup
+Show groups	Pokaż grupy
 Send Buffer	Wyślij buffor
 Change nickname	Zmień nick
-Message collapse limit	AutoZwijanie wiadomości (po ilu znakach)
+Message collapse limit	Auto zwijanie wiadomości (po ilu znakach)
 No client info	Brak informacji na temat wersji klienta
 Clear all chats	Usuń wszystkie wiadomości
 Join marked (auto)	AutoWejście do konferencji
@@ -396,6 +419,14 @@ No signals	Bez sygnałów
 Quit?	Zakończyć?
 Are you sure want to Quit?	Czy napewno chcesz zakończyć?
 exit confirmation	Potwierdzenie wyjścia
+Key mode	Tryb klawiszy
+press, (no long keys)	krótkie naciśnięcie
+press, (long keys)	długie naciśnięcie
+release, (long keys)	długie zwolnienie
+press your key	wciśnij swój klawisz
+Reconnecting	Wznawianie połączenia
+Shadow in font	Cień czcionek
+Upload music from your player	Scrobbluj muzykę ze swojego odtwarzacza
 show last appeared contacts	Pokaż ostatnio ukazany kontakt
 custom keys	Klawisze skrótu
 Add custom key	Dodaj klawisz skrótu
@@ -406,7 +437,7 @@ Reconnect	Zaloguj ponownie
 Sort list	Sortuj listę
 Turn on light	Włącz podświetlenie
 show time and traffic	Pokaż czas i dane
-Clear popups	Wyczyść popUps
+Clear popups	Wyczyść popups
 Chat history length	Ilość wiadomości w konferencji
 This user wants to subscribe to your presence	[Użytkownik prosi o autoryzacje]
 You are now authorized	[Zostałeś autoryzowany]
@@ -420,7 +451,7 @@ Wed	Śro
 Thu	Czw
 Fri	Pią
 Sat	Sob
-Automatic subscription	Autoimatyczna autoryzacja
+Automatic subscription	Automatyczna autoryzacja
 Ask me	Zapytaj mnie
 Drop subscription	Odrzuć
 Deny subscription	Zabroń
@@ -442,23 +473,27 @@ Copy JID	Kopiuj JID
 Ping request	Ping
 Online time	Dostępny
 Break connection	Wznów Połączenie
-autoScroll	AutoPrzewijanie
+autoScroll	Auto przewijanie
+Show time in messages	Czas w wiadomościach
+Show messages separator	Separator oddzielajacy przeczytane wiadomości
 emulate tabs	Przełączanie między kontaktami (klawisze 4-6)
-show balloons	Pokaż baloniki
+show balloons	Pokaż chmurki
 popUps	Wyskakujące okna
-AutoStatus Message	Wiadomość AutoStatus
+AutoStatus Message	Użyj własnego statusu
+Enable classic chat	Włącz klasyczny czat
 Memory:	Pamięć:
 Free: 	Wolna: 
 Total: 	Razem: 
 Session(s): 	Sesje: 
 Description	Opis
 User	Użytkownik
-Import/Export	Zapisz/Przywróć Ustawienia
+Import/Export	Import/Eksport
 bold font for contacts	Pogrubienie czcionki kontaktów
 running message	Pokaż wiadomość (w trybie pisania)
 Show latest message in alt message edit	Pokaż ostatnią wiadomość w alternatywnym oknie
 Message Edit Type	Typ edytowania wiadomości
-Standart	Standard
+tone sequence	standardowy
+Standart	Standardowe
 Alternative	Alternatywne
 Alternative with GUI panels	Alternatywna +info okienko
 Composing message to you	Pisze...
@@ -468,12 +503,22 @@ IRC-like conference nick-status	IRC-status (nick-status)
 user moods send/receive	Nastrój (wyślij/odbierz)
 Simulated break	Symulowane rozłączenie
 Build new version on constructor	Zbuduj nową wersje w konstruktorze
-Auto tasks	AutoZadanie
-Auto task type	Typ AutoZadania
+Auto tasks	Autozadanie
+Auto task type	Typ Autozadania
 by timer 	po jakim czasie
 by time 	o jakiej godzinie
+Task name	Nazwa zadania
+Task type	Typ zadania
+Task action	Akcja
+Reminder	Przypomnienie
+Execute once	Wykonaj raz
+Notifications	Powiadomienia
+Vibration	Wibracje
+Light	Podświetlenie
+Pre-emption (min)	Wyprzedzenie (min)
+Notify text	Tekst przypomnienia
 Auto task action type	Akcja
-Quit BombusMod	Zamknij Bombus
+Quit BombusKlub	Zamknij BombusKlub
 Quit conferences	Wyjdź z konferencji
 Disconnection	Rozłącz
 disabled	Nieaktywne
@@ -483,7 +528,7 @@ Hour	Godz.
 Min	Min.
 Browse rooms	Przeglądaj pokoje
 Autorespond	AutoOdpowiedź
-Invert colors	Negatyw
+Invert colors	Odwróć kolory
 XML console	XML konsola
 Clipboard	Schowek
 User moods	Nastrój
@@ -491,8 +536,13 @@ User activity	Aktywność
 Personal events not supported	Zdarzenia użytkownika nieaktywne 
 User tune	Muzyka
 user tune receive	Info o muzyce
+Attention sound	Dźwięk budzenia
+Enable attention requests	Zezwól na budzenie
+Request attention	Spróbuj obudzić
+Wake Up!!!	Obudź się wreszcie!!!
+Attention!	Pobudka!
 Bar font	Czcionka Paneli
-Popup & ballon font	Czcionka popUp i baloników
+Popup & ballon font	Czcionka popup i chmurek
 Fonts options	Ustawienia Czcionki
 Load history	Ładuj historię
 Connect to	Połącz do 
@@ -503,6 +553,7 @@ Extended settings	Więcej ustawień
 Save to file	Zapisz do pliku
 Load from file	Wczytaj z pliku
 Show IQ requests	Pokazuj prośby IQ
+Vibrate on hold touch	Wibruj przy przytrzymaniu palca na ekranie
 Show clients icons	Pokazuj ikonki klientów
 Action	Akcja
 Value	Znaczenie
@@ -523,7 +574,7 @@ Panels	Panele
 [info bar]	[Info]
 Flash backlight	Efekty podświetlania
 execute menu by numkey	Wykonaj polecenia menu numerami
-show nicknames	Pokaż nicki
+show nicknames	Widok nicków w wiadomościach
 Send photo	Wyślij zdjęcie
 enable autorespond	Aktywuj AutoOdpowiedź
 File manager	Manager Plików
@@ -553,12 +604,16 @@ Find Text	Znajdź
 End search!	Zakończono
 Send Mood in Msg	Wyślij nastrój we wiadomości
 Turn OFF Animation	Wyłącz animacje
-Turn OFF Message Icon	Wyłącz ikonę wiadomości
+Turn OFF Message Icon	Wyłącz ikonkę dostarczania wiadomości
+Send <-> Suspend	Zamień "Wyślij" z "Przerwij" 
+Min item height	Minimalna wysokość elementów
+You're waking up	Próba budzenia
+Color scheme has been sent	Schemat kolorów został wysłany
 PEP is now OFF	PubSub jest wyłączone
 Dynamic PEP	Dynamiczne PubSub
 Draw vcard image on contact	Pokaż avatary w kontaktach
-Autoloading vcard from server	AutoPobieranie wizytówek z serwera
-Autoloading vcard from FS Phone	AutoPobieranie wizytówek z systemu plików telefonu
+Autoloading vcard from server	Autopobieranie wizytówek z serwera
+Autoloading vcard from FS Phone	Autopobieranie wizytówek z systemu plików telefonu
 MyActivity	Моja Aktywność
 Update Moods+Actions+Music	Uaktualnij PubSub
 Stop Music	Zatrzymaj Muzykę
@@ -567,6 +622,20 @@ Send my Moods+Actions(PEP) to all contacts(YES-recommended)?	Wysłać nastrój i
 Drawed font	Pisane czcionki
 Required field	Wymagane pole
 Generate	Generuj
+Hide panels, popups and baloons; simple cursor	Ukryj panele, okienka i chmurki; domyślny kursor
+Show panels and popups; gradient cursor	Pokaż panele i okienka; gradient kursora
+Show panels, popups and baloons; show time and traffic on panel; gradient cursor	Pokaż panele, okienka i chmurki; pokaż czas i ruch sieciowy; gradient kursora
+Keep current settings	Zachowaj bierzące ustawienia
+Show only contact's name and status	Pokaż tylko nazwę kontaktu i status
+Show client icons and extended statuses	Pokaż ikony klientów i zaawansowane statusy
+Show avatars, client icons, status message, extended statuses, contact's resource	Pokaż avatary, ikony klientów, statusy, zaawansowane statusy i zasoby
+Show only messages	Pokaż tylko wiadomości
+Show time, presences (collapsed by default)	Pokaż czas i statusy (domyślnie zwinięte)
+Show time, message icons, usernicks, presences (expanded by default)	Pokaż czas, ikony wiadomości, nicki i statusy (domyślnie rozwinięte)
+As is	Domyślna
+Simple	Prosta
+Medium	Średnia
+Detailed	Szczegółowa
 Contact Helper	Kontakt - pomoc
 Fill Required field(Full name,nickname and birthday)	Wypełnij wymagane pola (nick, urodziny)
 Translate	Przetłumacz
@@ -583,11 +652,13 @@ Scroll Options	Ustawienia rolki
 Scroll Width	Szerokość
 Type of Background	Typ tła
 Background Default	Domyślne tło
-Background Gradient	Gradiont tła
-Background image	Obrazek tła
-Max Avatar Width	Max. Szerokość Avataru
-Max Avatar Height	Мак. Wysokość Avataru
-ClientIcons Left	ikony klientów z lewej
+Background Gradient	Gradient tła
+Background image path	Wybierz własne tło
+Background from FS	Własne tło
+Max Avatar Width	Maks. szerokość avataru
+Max Avatar Height	Маks. wysokość avataru
+ClientIcons Left	Ikonki klientów z lewej strony
+Show messages count	Licznik nowych wiadomości
 After Restart App	Po restarcie aplikacji
 Load skin.png from File	Wczytaj tło z pliku png
 Set Default skin.png	Ustaw domyślne tło png
@@ -595,30 +666,33 @@ Error!Only 16x16 size support!	Błąd! Tylko rozmiar 16x16
 Classic Chat	Klasyczny czat
 Auto Scrolling	AutoPrzewijanie
 Background Phone theme	Tło motywu telefonu
-Auto Open Classic Chat	AutoOtwieranie klasycznego czatu
+Auto Open Classic Chat	Auto otwieranie klasycznego czatu
 Chat Height(max-320)	Wysokość czatu (max-320)
 Scroll speed(msec,10sec-max)	Szybkość przewijania (msec,max-10sec)
 Show messages limit(1000-max)	Pokaż limit wiadomości (max-1000)
 Users search	Znajdź Użytkownika
+Enable history	Włącz zapisywanie historii
 Support	Pomoc Techniczna
 Gradient cursor	Gradient kursora
 Alternating chat colors	Alternatywne kolory konferencji
 Transparency bgnd(argb)	Przezroczystość tła(ARGB)
-Graphics menu bgnd(argb)	Graphics menu bgnd(argb)
-Graphics menu font	Graphics menu font
-Service>	Serwis>
-My Jabber>	Mój Jabber>
+Graphics menu bgnd(argb)	Tło graficznego menu
+Graphics menu font	Czcionka graficznego menu
+My Services	Mój Serwis
 (HIGH TRAFFIC!)	(Duży ruch!)
-Draw Rect Avatar	Ramka Avatara
-AutoSave In FS	AutoZapis Avatarów w FS
-Avatar Folder	Folder Avatarów
-Roster:Load all Avatars from FS	Roster: wczytaj Avatary z FS
-Muc:Load all Avatars from FS	Czat: wczytaj Avatary z FS
+Draw Rect Avatar	Ramka avatara
+AutoSave In FS	Auto zapis avatarów w systemie plików
+Avatar Folder	Ścieżka avatarów
+Roster:Load all Avatars from FS	Roster: wczytaj avatary z systemu plików
+Muc:Load all Avatars from FS	Czat: wczytaj avatary z systemu plików
 Avatars	Аvatary
+Display avatars	Pokazuj avatary
 News	Nowości
 Show Presence Time	Pokaż czas statusu
 Animation of Graphics Menu&Roster	Animowane Menu (zapewnia płynność przewijania)
 Edit colors	Edytuj kolory
+Vertical gradient on bars	Poziomy gradient paneli
+Shadow bar	Cienie paneli
 Transparent	Przezroczystość
 Background of midlet	Menu kontekstowe
 Graphics Menu	Menu graficzne
@@ -636,6 +710,7 @@ Advanced Options	Opcje zaawansowane
 Contacts	Kontakty
 Chat	Okno rozmowy i wiadomości
 Network	Ustawienia sieci
+Appearance	Wygląd
 Interface	Interfejs
 Application	Aplikacja
 Hotkeys	Klawisze skrótów
@@ -648,10 +723,13 @@ Fonts	Czcionki
 Import/Export	Import/Export ustawień
 Notifications&Light Control	Dźwięki i powiadomienia
 Tasks	Zadania
+New task	Nowe zadanie
+Default name	Domyślna nazwa
+Default text	Domyślny tekst
 Avatars	Avatary
 Config	Ustawienia
 Use animated smiles	Animowane emotki
-Nokia Reconnect Hack	Nokia Reconnect Hack
+Nokia Reconnect Hack	Automatyczne wznawianie zerwanych połączeń
 Debug Menu	Konsola Debug
 Please,edit this account to save new password!	Edytuj konto aby zapisać nowe hasło!!
 Account deleted!	Konto usunięte!
@@ -675,7 +753,7 @@ all stanzas	Wszystkie wątki
 Exit from ALL Rooms	Wyjdź ze wszystkich pokoi
 Create Annotation	Dodaj notatkę
 Remove Annotation	Usuń notatkę
-Contact Annotations	Kontakt - notes
+Contact Annotations	Notatki do kontaktów
 Note	Notatka
 Change transport	Zamień transport
 Test Vibration	Testuj wibracje
@@ -683,20 +761,37 @@ Vibration Len	Długość wibracji
 Vibration Repeats	Liczba powtórzeń
 Vibration Repeats Interval	Odstęp między powtórzeniami
 Light control	Podświetlenie
-Enable light control	Włącz podświetlenie
+Enable light control	Włącz kontrole podświetlenia
+Common brightness for all options	Wspólna jasność dla wszystkich opcji
 Idle screen brightness	Jasność po oddaleniu
 Keypress screen brightness	Jasność po naciśnięciu
 Keypress idle timeout	Czas oddalenia: po naciśnięciu(sek.)
 Message screen brightness	Jasność przy pisaniu
 Message idle timeout	Czas oddalenia: po ostatniej wiadomości (sek.) 
+Presence screen brightness	Jasność przy statusach
+Presence idle timeout	Czas oddalenia: po ostatnim statusie (sek.)
+Connect screen brightness	Jasność po połączniu
+Connect idle timeout	Czas oddalenia: po połączeniu (sek.)
+Error screen brightness	Jasność przy błędzie
+Error idle timeout	Czas oddalenia: po ostatnim błędzie (sek.)
+Blink brightness	Jasność przy miganiu
+Blink timeout	Czas oddalenia: po ostatnim miganiu (sek.)
+Account has been removed from server successfully	Konto zostało pomyślnie usunięte z serwera
+Use	Używa
 Metacontacts	Metakontakty
 Use 5 key to create Message	Użyj 5 aby napisać wiadomość
 Use Light to draw panels	Kąt nachylenia światla na panelu
 MainBar Gradient Light #	Gradient panel
 Graphisc Menu Screen Position	Pozycja menu graficznego
-[center]	[środek]
+[default]	[domyślne]
 [Left:     ]	[z lewej:     ]
 [    :Right]	[    :z prawej]
+Visible	Widoczna
+[path is not specified]	[Nie ustawiono ścieżki]
+Conference history	Historia konferencji
+Conference private history	Historia prywatnych rozmów w konferencji
+Presences history	Historia statusów
+Show last messages from history	Pokaż ostatnie wiadomości z historii
 Message Buffer is not empty.Clear it?	Projekt zawiera wiadomości. Usunąć?
 Create Multi Message	Multi-wiadomość
 Sort Type	Sortowanie
@@ -726,5 +821,5 @@ Add server	Dodaj Serwer
 My servers	Moje serwery
 Menu font	Czcionka menu
 Show History	Pokaż historię
-Pubsub events	Status PubSub
+Pubsub events	Zdarzenia
 AppRun count: 	Licznik: 

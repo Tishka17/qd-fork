@@ -1,7 +1,7 @@
 /*
  * Commands.java
  *
- * Created on 3 �������� 2009 �., 23:48
+ * Created on 3.Nov.2009, 23:48
  *
  * To change this template, choose Tools | Template Manager
  * and open the template in the editor.
@@ -68,6 +68,11 @@ public class Commands {
     public static Command cmdFileAccept;
     public static Command cmdFileDecline;
 //#endif
+//#ifdef TRANSLATE
+    public static Command cmdTranslate;
+//#endif
+
+
     public static void initCommands() {
         //TODO: константы вместо чисел
         cmdOk = new Command(SR.get(SR.MS_OK), 0x60);
@@ -115,5 +120,8 @@ public class Commands {
             cmdFileDecline = new Command(SR.get(SR.MS_DECLINE), 0x41);
 //#endif
 
+//#ifdef TRANSLATE
+            cmdTranslate = new Command(SR.get(SR.MS_TRANSLATE), MenuIcons.ICON_GOTO_URL);
+//#endif
     }
 }

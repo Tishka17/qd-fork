@@ -25,7 +25,7 @@
  *
  */
 
-//#ifdef TRANSLATE
+//#ifdef TRANSLAT
 package io;
 
 import client.Config;

@@ -138,6 +138,9 @@ import xmpp.extensions.RosterXListener;
 //#if STATS
 import stats.StatsWindow;
 //#endif
+//#ifdef TRANSLATE
+import xmpp.extensions.IqTranslator;
+//#endif
 
 public final class Roster extends VirtualList
             implements JabberListener, MenuListener, Runnable, LoginListener {
@@ -149,9 +152,9 @@ public final class Roster extends VirtualList
     public final static byte INC_APPEARING=1;
     public final static byte INC_VIEWING=2;
 
-    //#ifdef JUICK.COM
+//#ifdef JUICK.COM
     private final JuickModule juick = JuickModule.instance();
-    //#endif
+//#endif
 //#if ROSTERX
     private final RosterXListener rosterx = new RosterXListener();
 //#endif
@@ -187,7 +190,7 @@ public final class Roster extends VirtualList
 
     private int blState=Integer.MAX_VALUE;
 
-    private BaseMessageEdit msgEditor;
+    public static BaseMessageEdit msgEditor;
     public String rosterVersion=null;
 
     public Roster() { //init
@@ -429,7 +432,7 @@ public final class Roster extends VirtualList
     }
 
     public void setProgress(String pgs,int percent){
-  if (mainbar!=null)
+        if (mainbar!=null)
              mainbar.setElementAt(pgs, 3);
         redraw();
     }
@@ -1322,16 +1325,16 @@ public final class Roster extends VirtualList
 
 //#if CHANGE_TRANSPORT
     public void contactChangeTransport(String srcTransport, String dstTransport){ //<voffk>
-  setQuerySign(true);
+        setQuerySign(true);
         int size = contactList.contacts.size();
         Contact k;
         for(int i=0;i<size;++i){
             k =(Contact)contactList.contacts.elementAt(i);
-      if (k.jid.isTransport()) continue;
+        if (k.jid.isTransport()) continue;
             int grpType=k.getGroupType();
-            if (k.jid.getServer().equals(srcTransport) &&
-                    (grpType==Groups.TYPE_COMMON || grpType==Groups.TYPE_NO_GROUP ||
-                    grpType==Groups.TYPE_VISIBLE || grpType==Groups.TYPE_IGNORE)) {
+            if (k.jid.getServer().equals(srcTransport)
+            && (grpType==Groups.TYPE_COMMON || grpType==Groups.TYPE_NO_GROUP
+            || grpType==Groups.TYPE_VISIBLE || grpType==Groups.TYPE_IGNORE)) {
                 String jid=k.getJid();
                 jid=StringUtils.stringReplace(jid, srcTransport, dstTransport);
                 storeContact(jid, k.getNick(), (!k.group.getName().equals(SR.get(SR.MS_GENERAL)))?(k.group.getName()):"", true); //new contact addition
@@ -1339,16 +1342,16 @@ public final class Roster extends VirtualList
                     Thread.sleep(300);
                 } catch (Exception ex) { }
                 deleteContact(k); //old contact deletion
-      }
-  }
-  setQuerySign(false);
+            }
+        }
+        setQuerySign(false);
     }
 //#endif
 
     public void loginSuccess() {
         theStream.resetBlockListners();
 
-        theStream.addBlockListener(new IqVersionReply());
+        //theStream.addBlockListener(new IqVersionReply()); //wtf?
         theStream.addBlockListener(new IqVersionReply());
         theStream.addBlockListener(new IqPing());
         theStream.addBlockListener(new EntityCaps());
@@ -1392,6 +1395,10 @@ public final class Roster extends VirtualList
 
 //#ifdef CAPTCHA
         theStream.addBlockListener(new Captcha());
+//#endif
+
+//#ifdef TRANSLATE
+        theStream.addBlockListener(new IqTranslator());
 //#endif
 
         playNotify(SOUND_CONNECTED);

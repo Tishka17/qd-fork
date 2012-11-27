@@ -63,6 +63,9 @@ import util.ClipBoard;
 //#endif
 import ui.input.InputTextBox;
 import ui.input.InputTextBoxNotify;
+//#if TRANSLATE
+import xmpp.extensions.IqTranslator;
+//#endif
 
 public final class ContactMessageList extends MessageList implements InputTextBoxNotify {
     Contact contact;
@@ -217,6 +220,12 @@ public final class ContactMessageList extends MessageList implements InputTextBo
                 }
             }
 //#endif
+//#ifdef TRANSLATE
+        if (getItemCount() != 0) {
+            addCommand(Commands.cmdTranslate);
+        }
+//#endif
+
         }
 //#ifdef CLIPBOARD
         if (Config.useClipBoard && !ClipBoard.isEmpty()) {
@@ -386,6 +395,11 @@ public final class ContactMessageList extends MessageList implements InputTextBo
             JuickModule.Subscribe(getMessage(cursor));
         } else if (c == Commands.cmdJuickUnsubscribe) {
             JuickModule.Unsubscribe(getMessage(cursor));
+//#endif
+//#ifdef TRANSLATE
+        } else if (c == Commands.cmdTranslate) { // Mars
+            BombusQD.sd.roster.setQuerySign(true);
+            BombusQD.sd.roster.theStream.send(IqTranslator.query(contact.getJid(), getMessage(cursor).getBody(), false));
 //#endif
         } else {
             super.commandAction(c);

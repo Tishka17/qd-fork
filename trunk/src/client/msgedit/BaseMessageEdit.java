@@ -34,7 +34,7 @@ import client.SmilePicker;
 //#endif
 import conference.AppendNickForm;
 //#ifdef TRANSLATE
-import io.TranslateSelect;
+import xmpp.extensions.IqTranslator;
 //#endif
 import java.util.Vector;
 import javax.microedition.lcdui.Command;
@@ -58,6 +58,8 @@ public abstract class BaseMessageEdit implements CommandListener {
 
     protected boolean multiMessage = false;
     protected boolean composing = true;
+
+    public static boolean waitTrans= false;
 
     protected Vector activeContacts;
 //#ifdef DETRANSLIT
@@ -286,8 +288,12 @@ public abstract class BaseMessageEdit implements CommandListener {
             destroyView();
 //#ifdef TRANSLATE
         } else if (c == cmdTranslate) {
-            new TranslateSelect(to, body).show();
-            body = null;
+	   waitTrans= true;
+//            new TranslateSelect(to, body).show();
+            BombusQD.sd.roster.theStream.send(IqTranslator.queryAndPaste( getInput(), body));
+//            body = null;
+//            setString( null);
+            //destroyView();
 //#endif
         } else {
             if (c == cmdSend) {

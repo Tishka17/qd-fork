@@ -1351,8 +1351,8 @@ public final class Roster extends VirtualList
     public void loginSuccess() {
         theStream.resetBlockListners();
 
-        //theStream.addBlockListener(new IqVersionReply()); //wtf?
-        theStream.addBlockListener(new IqVersionReply());
+        theStream.addBlockListener(new IqVersionReply()); //wtf? //dont delete it
+        theStream.addBlockListener(new IqVersionReply());// reasone - bug in addBlockListener
         theStream.addBlockListener(new IqPing());
         theStream.addBlockListener(new EntityCaps());
 //#if ROSTERX        

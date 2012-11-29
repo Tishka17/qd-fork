@@ -67,6 +67,9 @@ public class ConfigForm extends DefForm {
         addPluginBox(SR.get(SR.MS_APPLICATION), PluginBox.APPLICATION);
         addPluginBox(SR.get(SR.MS_APPEARANCE), PluginBox.APPEARANCE);
         addPluginBox(SR.get(SR.MS_FONTS), PluginBox.FONTS);
+//#ifdef TRANSLATE
+		addPluginBox(SR.get(SR.MS_TRANSLATE), PluginBox.TRANSLATE);
+//#endif
 //#if IMPORT_EXPORT && FILE_IO
         addPluginBox(SR.get(SR.MS_IMPORT_EXPORT), PluginBox.IMPORT_EXPORT);
 //#endif
@@ -184,6 +187,11 @@ public class ConfigForm extends DefForm {
             case PluginBox.NOTIFY:
                 new AlertCustomizeForm().show();
                 return;
+//#ifdef TRANSLATE
+            case PluginBox.TRANSLATE:
+                new TranslateConfigForm().show();
+                return;	
+//#endif
             default:
                 new ModuleConfigForm(box.toString(), box.getType()).show();
                 return;

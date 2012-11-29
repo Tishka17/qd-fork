@@ -49,6 +49,9 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.TimeZone;
 import java.util.Vector;
+//#ifdef TRANSLATE
+import xmpp.extensions.IqTranslator;
+//#endif
 
 /**
  *
@@ -927,6 +930,13 @@ public class Config {
 //#ifdef HISTORY
             historyPath = inputStream.readUTF();
 //#endif
+//#ifdef TRANSLATE		
+            IqTranslator.bot = inputStream.readUTF();
+            IqTranslator.sLang = inputStream.readUTF();
+            IqTranslator.tLang = inputStream.readUTF();
+            IqTranslator.sLangR = inputStream.readUTF();
+            IqTranslator.tLangR = inputStream.readUTF();
+//#endif
 
             inputStream.close();
             inputStream = null;
@@ -967,6 +977,13 @@ public class Config {
 //#endif
 //#ifdef HISTORY
             outputStream.writeUTF(historyPath);
+//#endif
+//#ifdef TRANSLATE		
+            outputStream.writeUTF(IqTranslator.bot);
+            outputStream.writeUTF(IqTranslator.sLang);
+            outputStream.writeUTF(IqTranslator.tLang);
+            outputStream.writeUTF(IqTranslator.sLangR);
+            outputStream.writeUTF(IqTranslator.tLangR);
 //#endif
         } catch (IOException e) {
         }

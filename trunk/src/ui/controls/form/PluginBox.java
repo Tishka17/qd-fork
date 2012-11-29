@@ -50,6 +50,7 @@ public final class PluginBox extends IconTextElement {
     public static final int NETWORK = 14;
     public static final int APPEARANCE = 15;
     public static final int APPLICATION = 16;
+	public static final int TRANSLATE = 17;
 
     private int type;
 

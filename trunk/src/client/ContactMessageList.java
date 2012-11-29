@@ -399,7 +399,9 @@ public final class ContactMessageList extends MessageList implements InputTextBo
 //#ifdef TRANSLATE
         } else if (c == Commands.cmdTranslate) { // Mars
             BombusQD.sd.roster.setQuerySign(true);
-            BombusQD.sd.roster.theStream.send(IqTranslator.query(contact.getJid(), getMessage(cursor).getBody(), false));
+            BombusQD.sd.roster.theStream.send(IqTranslator.query(
+                    (contact.origin ==contact.ORIGIN_GROUPCHAT)?contact.bareJid:contact.getJid(),
+                    getMessage(cursor).getBody(), false));
 //#endif
         } else {
             super.commandAction(c);

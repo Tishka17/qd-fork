@@ -38,48 +38,45 @@ import locale.SR;
 
 public class SoftwareInfo implements JabberBlockListener {
 
-    public SoftwareInfo(){ };
-    public void destroy() {
-    }
+    public SoftwareInfo(){ }
+    public void destroy(){ }
+
     public int blockArrived(JabberDataBlock data) {
+        //midlet.BombusQD.debug.add( ":: SI BA 1", 10);
         if (!(data instanceof Iq)) return BLOCK_REJECTED;
-        String id=/*(String)*/ data.getAttribute("id");
-        if(id!=null)
-        {
-         if (data.getAttribute("type").equals("result")) {
-            if(id.equals("discof")){
+        if (data.getAttribute("type").equals("result")
+          && "discof".equals(data.getAttribute("id"))){
             JabberDataBlock query=data.getChildBlock("query");
             JabberDataBlock identity=query.getChildBlock("identity");
-              Vector childs=query.getChildBlocks();
-               StringBuffer softinfo = new StringBuffer();
-               softinfo.append(SR.get(SR.MS_NAME)).append(": ").append(identity.getAttribute("name")).append('\n');
-               softinfo.append(SR.get(SR.MS_CATEGORY)).append(": ").append(identity.getAttribute("category")).append('\n');
-               softinfo.append(SR.get(SR.MS_TYPE)).append(": ").append(identity.getAttribute("type")).append('\n');
-               int k=0;
-               if (childs!=null) {
-                 for (Enumeration e=childs.elements(); e.hasMoreElements();) {
+            Vector childs=query.getChildBlocks();
+            StringBuffer softinfo = new StringBuffer();
+            softinfo.append(SR.get(SR.MS_NAME)).append(": ").append(identity.getAttribute("name")).append('\n');
+            softinfo.append(SR.get(SR.MS_CATEGORY)).append(": ").append(identity.getAttribute("category")).append('\n');
+            softinfo.append(SR.get(SR.MS_TYPE)).append(": ").append(identity.getAttribute("type")).append('\n');
+            int k=0;
+            if (childs!=null) {
+                for (Enumeration e=childs.elements(); e.hasMoreElements();) {
                     JabberDataBlock i=(JabberDataBlock)e.nextElement();
                     if (i.getTagName().equals("feature")) {
-                        k+=1;
+                        k++;
                         String var=i.getAttribute("var");
                         softinfo.append(k).append(") ").append(var).append("\n");
-                     }
-                  }
+                    }
                 }
-                Msg m=new Msg(Msg.INCOMING, "softinfo", SR.get(SR.MS_FEATURES), softinfo.toString());
-                //m.highlite=true;
-                    m.collapse();
-                StaticData.getInstance().roster.setQuerySign(false);
-                StaticData.getInstance().roster.messageStore(StaticData.getInstance().roster.getContact(data.getAttribute("from"),false),m);
-                return NO_MORE_BLOCKS;
             }
-         }
-       }
+            Msg m=new Msg(Msg.INCOMING, "softinfo", SR.get(SR.MS_FEATURES), softinfo.toString());
+            m.collapse();
+            StaticData.getInstance().roster.setQuerySign(false);
+            StaticData.getInstance().roster.messageStore(StaticData.getInstance().roster.getContact(data.getAttribute("from"),false),m);
+            return NO_MORE_BLOCKS;
+        }
+       //midlet.BombusQD.debug.add( ":: SI BA 8", 10);
        return BLOCK_REJECTED;
-    }
+    }// blockArrived
 
     public static JabberDataBlock querySend(String to) {
         JabberDataBlock result=new Iq(to, Iq.TYPE_GET, "discof");
+        //midlet.BombusQD.debug.add( ":: SI BA 0", 10);
         result.addChildNs("query", "http://jabber.org/protocol/disco#info");
         return result;
     }

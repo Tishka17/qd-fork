@@ -718,8 +718,19 @@ public class SR {
     public final static short MS_KEYMODE = 685; // Key mode
     public final static short MS_COLLAPSE_GROUPS = 686; // Collapse all groups
 
-     private static String[] localeItemsDefault = new String[0];
-    private static String[] localeItems = {
+    // TRANSLATOR // Mars
+    public final static short MS_TRANS_MINIBOT = 687; //Presences history
+    public final static short MS_TRANS_SLANG = 688; // Blogs history
+    public final static short MS_TRANS_TLANG = 689; // Blogs history
+    public final static short MS_TRANS_SLANGR = 690; // Key mode
+    public final static short MS_TRANS_TLANGR = 691; // Collapse all groups
+    public final static short MS_TRANS_SERVICE = 692; // Collapse all groups
+
+
+	/***********************************************************************/
+   	private static String[] localeItemsDefault = new String[0];
+
+   	private static String[] localeItems = {
         "en",  "en",
 
         "online",
@@ -1410,13 +1421,26 @@ public class SR {
        
        "Send Method",
        "Key mode",
-       "Collapse all groups"
+       "Collapse all groups",
+
+       // TRANSLATOR // Mars
+        "Please set FULL minibot jid!",
+        "Source lang in",
+        "Target lang in",
+        "Source lang out",
+        "Target lang out",
+        "Translation service"
+
    };
 
     private SR() { }
 
     public static String get(short id){
         return localeItems[id];
+    }
+
+    public static String get(String text){
+        return text;
     }
 
     public static String getPresence(String presenceName) {

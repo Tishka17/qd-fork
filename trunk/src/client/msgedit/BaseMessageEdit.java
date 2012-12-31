@@ -114,7 +114,7 @@ public abstract class BaseMessageEdit implements CommandListener {
         cmdLastMessage = new Command(SR.get(SR.MS_PREVIOUS), Command.SCREEN, 9);
         cmdSubj = new Command(SR.get(SR.MS_SET_SUBJECT), Command.SCREEN, 10);
 //#ifdef TRANSLATE
-        cmdTranslate = new Command(SR.get(SR.MS_TRANSLATE), Command.SCREEN, 97);
+        cmdTranslate = new Command(SR.get(SR.MS_TRANSLATE) + " " +IqTranslator.sLangR + " -> " +IqTranslator.tLangR, Command.SCREEN, 97);
 //#endif
 //#ifdef ARCHIVE
         cmdPaste = new Command(SR.get(SR.MS_ARCHIVE), Command.SCREEN, 6);

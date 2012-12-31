@@ -231,7 +231,7 @@ public final class Roster extends VirtualList
     }
 
     public void showActionsMenu(Object object) {
-       if (isLoggedIn()) {
+       if (isLoggedIn() && object != null) {
            if (object instanceof Group) {
                int type = ((Group)object).type;
                if (type == Groups.TYPE_TRANSP || 
@@ -1568,6 +1568,7 @@ public final class Roster extends VirtualList
                setQuerySign(false);
                VCard vcard = new VCard(data);
                String jid = id.substring(5);
+               if( from==null) from=jid; // XEP vcard-temp fix
                Contact c = null;
 
                if (c == null) {
@@ -1926,7 +1927,7 @@ public final class Roster extends VirtualList
 //#ifdef CLASSIC_CHAT 
 //#                if (Config.module_classicchat) {
 //#                    b.append(name.trim());
-//#                } else 
+//#                } else
 //#endif
                {
                    b.append("<nick>");
@@ -3308,6 +3309,7 @@ public final class Roster extends VirtualList
             } else {
 //#endif
                 mess.append("Jid: ").append(cntact.getJid()).append('\n');
+                mess.append(SR.get(SR.MS_PRIORITY)).append(": ").append(cntact.priority).append('\n');
                 mess.append(SR.get(SR.MS_SUBSCRIPTION)).append(": ");
 
                 if (cntact.subscr != null) {

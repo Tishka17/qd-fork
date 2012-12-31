@@ -192,13 +192,15 @@ public class AccountForm extends DefForm {
         if (null != nickbox) {
             String value = nickbox.getValue();
             if (0 != value.length()) {
-                String replace = uid;
-                if (replace.indexOf(value) == -1) {
-                    fulljid.setValue(value.concat(replace));
+                //String replace = uid;
+                //if (replace.indexOf(value) == -1) {
+                if (account.getUserName().length() == 0) {  // bugfix 308, 2012-12-06
+                    fulljid.setValue(value.concat(uid));
                 }
             }
         }
     }
+
     private static final int PASSWORD_LEN = 9;
 
     private String generate() {

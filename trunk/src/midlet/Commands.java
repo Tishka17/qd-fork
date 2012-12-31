@@ -12,6 +12,9 @@ package midlet;
 import images.MenuIcons;
 import menu.Command;
 import locale.SR;
+//#ifdef TRANSLATE
+import xmpp.extensions.IqTranslator;
+//#endif
 
 /**
  *
@@ -121,7 +124,7 @@ public class Commands {
 //#endif
 
 //#ifdef TRANSLATE
-            cmdTranslate = new Command(SR.get(SR.MS_TRANSLATE), MenuIcons.ICON_GOTO_URL);
+            cmdTranslate = new Command(SR.get(SR.MS_TRANSLATE) + " " +IqTranslator.sLang + " -> " +IqTranslator.tLang, MenuIcons.ICON_GOTO_URL);
 //#endif
     }
 }

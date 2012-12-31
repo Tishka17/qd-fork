@@ -25,6 +25,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+//#ifdef TRANSLATE
 package xmpp.extensions;
 
 import client.Contact;
@@ -119,3 +120,4 @@ public class IqTranslator implements JabberBlockListener {
         return BLOCK_REJECTED;
     }
 }
+//#endif //TRANSLATE

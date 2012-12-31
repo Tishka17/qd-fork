@@ -401,7 +401,8 @@ public final class ContactMessageList extends MessageList implements InputTextBo
             BombusQD.sd.roster.setQuerySign(true);
             BombusQD.sd.roster.theStream.send(IqTranslator.query(
                     (contact.origin ==contact.ORIGIN_GROUPCHAT)?contact.bareJid:contact.getJid(),
-                    getMessage(cursor).getBody(), false));
+                    util.StringUtils.replaceNickTags(getMessage(cursor).getBody()), false));
+                    //getMessage(cursor).getBody(), false));
 //#endif
         } else {
             super.commandAction(c);

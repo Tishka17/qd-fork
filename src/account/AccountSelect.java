@@ -54,7 +54,8 @@ public class AccountSelect extends VirtualList implements MenuListener
     private final Command cmdLogin;
 //#ifdef ADHOC    
     private final Command cmdRegister;
-    private final Command cmdServ1_reg = new Command("Jabber.ru", 0x86);
+    private final Command cmdServ1_reg = new Command("Jabbon.ru", 0x86);
+    private final Command cmdServ2_reg = new Command("Jabber.ru", 0x86);
     private final Command cmdServ4_reg = new Command("Mytlt.ru", 0x86);
     private final Command cmdServ5_reg = new Command("Jabbim.com", 0x86);
     private final Command cmdServ6_reg = new Command("Other", 0x86);
@@ -142,6 +143,7 @@ public class AccountSelect extends VirtualList implements MenuListener
 //#ifdef ADHOC
         addCommand(cmdRegister);
         addInCommand(2, cmdServ1_reg);
+        addInCommand(2, cmdServ2_reg);
         addInCommand(2, cmdServ4_reg);
         addInCommand(2, cmdServ5_reg);
         addInCommand(2, cmdServ6_reg);

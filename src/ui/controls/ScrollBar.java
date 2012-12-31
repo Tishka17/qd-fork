@@ -94,7 +94,7 @@ public class ScrollBar {
         //this.hasPointerEvents = hasPointerEvents;
 	midlet.BombusQD.cf.scrollWidth=//���� �������� ���� ������ ������� ������ 4,��:
             (midlet.BombusQD.cf.scrollWidth>1)? midlet.BombusQD.cf.scrollWidth:
-                ( (hasPointerEvents)? WIDTH_SCROLL_2: 4 );
+                ( (hasPointerEvents)? WIDTH_SCROLL_2: 3 ); // просили сделать минимум 3
     }
 
     public boolean pointerPressed(int x, int y, VirtualList list) {

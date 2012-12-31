@@ -74,13 +74,13 @@ public class AccountRegister implements JabberListener, Runnable {
             splash.setFailed();
             try {
                 Thread.sleep(DELAY);
-            } catch (InterruptedException ie) {
-            }
-            splash.destroyView();
+            } catch (InterruptedException ie) {}           
+			splash.destroyView();            
         }
     }
 
     public void connectionTerminated(Exception e) {
+    	splash.destroyView();
 //#ifdef DEBUG
 //#         if (e != null) {
 //#             e.printStackTrace();
@@ -89,7 +89,7 @@ public class AccountRegister implements JabberListener, Runnable {
     }
 
     public void beginConversation() {
-        splash.setProgress(SR.get(SR.MS_REGISTERING), 60);
+        splash.setProgress(SR.get(SR.MS_REGISTERING), 40);
         Iq iqreg = new Iq(null, Iq.TYPE_GET, "reginit");
         JabberDataBlock qB = iqreg.addChildNs("query", "jabber:iq:register");
         theStream.send(iqreg);
@@ -99,6 +99,7 @@ public class AccountRegister implements JabberListener, Runnable {
 
     public int blockArrived(JabberDataBlock data) {
         if (data instanceof Iq) {
+            splash.setProgress(SR.get(SR.MS_REGISTERING), 60);
             String type = data.getTypeAttribute();
             String mainbar;
             if ("result".equals(type)) {//done
@@ -116,6 +117,7 @@ public class AccountRegister implements JabberListener, Runnable {
                     };
                     ab.show();
                 } else {//form
+                    splash.setProgress(SR.get(SR.MS_REGISTERING), 80);
                     mainbar = SR.get(SR.MS_REGISTERING);
                     form = new DiscoForm(data, theStream, "register" + System.currentTimeMillis(), "query") {
                         public void cmdCancel() { setParentView(accountselect); theStream.close(); super.cmdCancel(); }
@@ -132,7 +134,7 @@ public class AccountRegister implements JabberListener, Runnable {
                 accountselect.show();
             }
 
-            splash.setProgress(mainbar, 100);
+            splash.setProgress(SR.get(SR.MS_REGISTERING), 100);
             /*try {
              Thread.sleep(DELAY);
              } catch (InterruptedException ie) {}

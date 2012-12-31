@@ -35,7 +35,20 @@ public final class Version {
     public final static String NAME = "BombusQD";
     public final static String BOMBUS_SITE_URL = "http://bombusmod-qd.wen.ru";
 
-    private static String version = "$APP_VERSION$ (r$APP_REVISION$)";
+    private static String version = "$APP_VERSION$ (r$APP_REVISION$) "
+//#ifdef Android
+//#             +"Android"
+//#endif
+//#ifdef Full
+//#             +"Full"
+//#endif
+//#ifdef Lite
+//#             +"Lite"
+//#endif
+//#ifdef Superlite
+//#             +"SuperLite"
+//#endif
+            ;
 
     public static String getVersionString(boolean showLang) {
         StringBuffer buf = new StringBuffer();

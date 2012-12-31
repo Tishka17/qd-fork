@@ -67,9 +67,6 @@ public class ConfigForm extends DefForm {
         addPluginBox(SR.get(SR.MS_APPLICATION), PluginBox.APPLICATION);
         addPluginBox(SR.get(SR.MS_APPEARANCE), PluginBox.APPEARANCE);
         addPluginBox(SR.get(SR.MS_FONTS), PluginBox.FONTS);
-//#ifdef TRANSLATE
-		addPluginBox(SR.get(SR.MS_TRANSLATE), PluginBox.TRANSLATE);
-//#endif
 //#if IMPORT_EXPORT && FILE_IO
         addPluginBox(SR.get(SR.MS_IMPORT_EXPORT), PluginBox.IMPORT_EXPORT);
 //#endif
@@ -86,6 +83,9 @@ public class ConfigForm extends DefForm {
 //#endif
 //#ifdef HISTORY
         addPluginBox(SR.get(SR.MS_HISTORY), PluginBox.HISTORY);
+//#endif
+//#ifdef TRANSLATE
+		addPluginBox(SR.get(SR.MS_TRANSLATE), PluginBox.TRANSLATE);
 //#endif
         if(Config.getInstance().userAppLevel == 1) {
 //#ifdef AUTOTASK

@@ -44,6 +44,9 @@ public class Balloon {
     private static Gradient bg= new Gradient();
 //#endif   
     public static void draw(Graphics g, String text) {
+
+    	if( text ==null) return;
+
         Font f = FontCache.getFont(false, Config.baloonFont);
         
         g.setFont(f);

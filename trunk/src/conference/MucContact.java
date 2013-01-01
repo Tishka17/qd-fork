@@ -103,6 +103,6 @@ import ui.IconTextElement;
             return String.valueOf(nm);
         if (realJid!=null)
             return realJid;
-        return getJid();
+        return null;
     }
 }

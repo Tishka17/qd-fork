@@ -112,7 +112,10 @@ public class SASLAuth implements JabberBlockListener{
                 if (mech.getChildBlockByText("SCRAM-SHA-1")!=null && !account.getPlainAuth()) {
                     auth.setAttribute("mechanism", "SCRAM-SHA-1");
                     scramSHA1 = new SASL_ScramSha1();
-                    auth.setText(util.Strconv.toBase64(scramSHA1.init(account.getBareJid(), account.getPassword())));
+                    auth.setText(util.Strconv.toBase64 (scramSHA1.init(
+                            Strconv.unicodeToUTF(account.getBareJid()),
+                            account.getPassword()
+                    )));
                     stream.send(auth);
                     listener.loginMessage(SR.get(SR.MS_AUTH), 42);
                     return JabberBlockListener.BLOCK_PROCESSED;
@@ -142,8 +145,8 @@ public class SASLAuth implements JabberBlockListener{
                         return JabberBlockListener.NO_MORE_BLOCKS;
                     }
                     auth.setAttribute("mechanism", "PLAIN");
-                    try {
-                        byte []a = account.getBareJid().getBytes("utf-8");
+                    /* try {
+                        byte []a = Strconv.unicodeToUTF(account.getBareJid().getBytes("utf-8");
                         byte []b = account.getUserName().getBytes("utf-8");
                         byte []c = account.getPassword().getBytes("utf-8");
                         final byte[] result = new byte[a.length+1+b.length+1+c.length];
@@ -159,7 +162,15 @@ public class SASLAuth implements JabberBlockListener{
                         System.arraycopy(c, 0, result, idx, c.length);
                         idx += c.length;
                         auth.setText(Strconv.toBase64(result, idx));
-                    } catch (UnsupportedEncodingException e){}
+                    } catch (UnsupportedEncodingException e){} */
+                    String plain =
+                            Strconv.unicodeToUTF(account.getBareJid())
+                            + (char) 0x00
+                            + Strconv.unicodeToUTF(account.getUserName())
+                            + (char) 0x00
+                            + Strconv.unicodeToUTF(account.getPassword());
+                    auth.setText(Strconv.toBase64(plain));
+
                     stream.send(auth);
                     listener.loginMessage(SR.get(SR.MS_AUTH), 42);
                     return JabberBlockListener.BLOCK_PROCESSED;

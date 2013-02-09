@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="org.bombusqd"
       android:installLocation="auto"
-      android:versionCode="581"
-      android:versionName="1.0.581">
+      android:versionCode="586"
+      android:versionName="1.0.586">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
